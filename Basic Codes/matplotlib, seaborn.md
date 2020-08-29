@@ -40,7 +40,7 @@ plt.imshow(image.numpy().reshape(3,3), cmap="Greys")
 ```
 ### fig.savefig()
 ```python
-fig.savefig("D:/☆디지털혁신팀/☆실거래가 분석/☆그래프/means_plot_200803.png", bbox_inches="tight")
+fig.savefig("means_plot_200803.png", bbox_inches="tight")
 ```
 ### fig.tight_layout()
 
@@ -125,8 +125,8 @@ ax = sb.scatterplot(data=df, x="ppa", y="error", hue="id", hue_norm=(20000, 2004
 ### sb.lineplot()
 ```python
 ax = sb.lineplot(x=data.index, y=data["ppa_ratio"], linewidth=3, color="red", label="흥덕구+서원구 아파트 평균")
-ax=sb.lineplot(x=data.index, y=data["84A"], linewidth=2, color="green", label="가경아이파크 4단지 84A")
-ax=sb.lineplot(x=data.index, y=data["84B"], linewidth=2, color="blue", label="가경아이파크 4단지 84B")
+ax = sb.lineplot(x=data.index, y=data["84A"], linewidth=2, color="green", label="가경아이파크 4단지 84A")
+ax = sb.lineplot(x=data.index, y=data["84B"], linewidth=2, color="blue", label="가경아이파크 4단지 84B")
 ```
 ### sb.barplot()
 ```python
@@ -149,7 +149,7 @@ ax = sb.stripplot(x=xx, y=yy, data=results_order, jitter=0.4, edgecolor="gray", 
 ax = sb.pairplot(data_for_corr)
 ```
 ### sb.heatmap()
-* 출처 : [http://seaborn.pydata.org/generated/seaborn.heatmap.html](http://seaborn.pydata.org/generated/seaborn.heatmap.html) 
+* http://seaborn.pydata.org/generated/seaborn.heatmap.html
 ```python
 corr = data.corr(method="spearman")
 cmap = sb.diverging_palette(220, 10, as_cmap=True)
