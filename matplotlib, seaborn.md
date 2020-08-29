@@ -1,29 +1,29 @@
 # matplotlib
-```
+```python
 import matplotlib as mpl
 ```
 ## mpl.font_manager.FontProperties().get_name()
-```
+```python
 path = "C:/Windows/Fonts/malgun.ttf"
 font_name = mpl.font_manager.FontProperties(fname=path).get_name()
 ```
 ## mpl.rc()
-```
+```python
 mpl.rc("font", family=font_name)
 ```
-```
+```python
 mpl.rc("axes", unicode_minus=False)
 ```
 ## matplotlib.pyplot
-```
+```python
 import matplotlib.pyplot as plt
 ```
 ### plt.subplots()
-```
+```python
 fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 12)
 ```
 ### plt.setp()
-```
+```python
 plt.setp(obj=ax1, yticks=ml_mean_gr_ax1["le"], yticklabels=ml_mean_gr_ax1.index)
 ```
 ### fig.colorbar()
