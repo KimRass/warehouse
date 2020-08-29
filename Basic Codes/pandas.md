@@ -51,8 +51,6 @@ data = pd.get_dummies(data, columns=["heating", "company1", "company2", "element
 ratings_df["rated_at"] = pd.to_datetime(ratings_df["rated_at"], unit="s")
 ```
 - timestamp -> 초 단위로 변경
-
-# dataframe
 ## df.groupby()
 ```python
 df.groupby(["Pclass", "Sex"], as_index=False)
@@ -217,8 +215,6 @@ ui.mean(axis=1)
 ```python
 adj_ui = ui.sub(user_bias, axis=0).sub(item_bias, axis=1)
 ```
-
-# series
 ## ser.value_counts()
 ```python
 ratings_df["movie_id"].value_counts()
