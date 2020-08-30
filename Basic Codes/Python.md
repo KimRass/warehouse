@@ -128,12 +128,12 @@ dic.pop(key)
 dic.get(key)
 ```
 - \>\>\> value
+## dic.keys(), dic.values()
+## dic.fromkeys(list or tuple, value)
 ## dictionary comprehension
 ```python
 {idx:char for idx, char in enumerate(char_set)}
 ```
-## dic.keys(), dic.values()
-## dic.fromkeys(list or tuple, value)
 # exec()
 ```python
 for i in range(N):
