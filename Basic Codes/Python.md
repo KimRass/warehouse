@@ -70,11 +70,11 @@ m.sort(key=len)
 ```python
 A = reversed(A)
 ```
-## join()
+## str.join()
 ```python
-"".join(["good", "bad", "worse", "so good"])
+" ".join(["good", "bad", "worse", "so good"])
 ```
-- \>\>\> "goodbadworseso good"
+- str을 사이에 두고 리스트의 모든 원소들을 하나로 합침
 ## map()
 ```python
 x_data = list(map(lambda word : [char2idx.get(char) for char in word], words))
