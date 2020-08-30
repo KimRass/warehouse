@@ -127,6 +127,10 @@ dic.pop(key)
 ```python
 dic.get(key)
 ```
+## dictionary comprehension
+```python
+{idx:char for idx, char in enumerate(char_set)}
+```
 - \>\>\> value
 ## dic.keys(), dic.values()
 ## dic.fromkeys(list or tuple, value)
