@@ -167,8 +167,8 @@ def loss_fn(model, images, labels):
 ```
 * 출처 : [https://hwiyong.tistory.com/335](https://hwiyong.tistory.com/335)
 * 딥러닝에서 쓰이는 logit은 매우 간단합니다. 모델의 출력값이 문제에 맞게 normalize 되었느냐의 여부입니다. 예를 들어, 10개의 이미지를 분류하는 문제에서는 주로 softmax 함수를 사용하는데요. 이때, 모델이 출력값으로 해당 클래스의 범위에서의 확률을 출력한다면, 이를 logit=False라고 표현할 수 있습니다(이건 저만의 표현인 점을 참고해서 읽어주세요). 반대로 모델의 출력값이 sigmoid 또는 linear를 거쳐서 만들어지게 된다면, logit=True라고 표현할 수 있습니다.
-* 결론: 클래스 분류 문제에서 softmax 함수를 거치면 from\_logits = False(default값), 그렇지 않으면 from\_logits = True.
-* 텐서플로우에서는 softmax 함수를 거치지 않고, from\_logits = True를 사용하는게 numerical stable하다고 설명하고 있다.
+* 결론: 클래스 분류 문제에서 softmax 함수를 거치면 from_logits = False(default값), 그렇지 않으면 from_logits = True.
+* 텐서플로우에서는 softmax 함수를 거치지 않고, from_logits = True를 사용하는게 numerical stable하다고 설명하고 있다.
 * training=True : tf.keras.layers.Dropout() 적용
 - 정답 레이블이 one-hot encoding 형태일 경우 사용.
 #### tf.keras.losses.sparse_categorical_crossentropy()
@@ -182,7 +182,7 @@ def loss_fn(model, x, y):
 #### tf.keras.optimizers.Adam()
 
 ```python
-optimizer = tf.keras.optimizers.Adam()
+opt = tf.keras.optimizers.Adam(learning_rate=lr)
 ```
 
 #### tf.keras.optimizers.SGD()
@@ -292,6 +292,9 @@ rnn = tf.keras.layers.SimpleRNN(units=hidden_size, return_sequences=True, return
 outputs, states = rnn(x_data)
 ```
 - tf.keras.layers.SimpleRNN() = tf.keras.layers.SimpleRNNCell() + tf.keras.layers.RNN()
+- 입력 값의 차원 : (batch_size, sequence length, input dimension)
+- outputs의 차원 : (batch_size, sequence length, hidden_size)
+- states의 차원 : (batch size, hidden_size)
 #### tk.keras.layers.Embedding()
 ```python
 one_hot = np.eye(len(char2idx))
@@ -304,6 +307,10 @@ model.add(tf.keras.layers.Embedding(input_dim=input_dim, output_dim=output_dim, 
 - trainable : one-hot vector의 training을 건너뛸지 여부.
 - mask_zero : 0인 값 무시 여부. If mask_zero is set to True, as a consequence, index 0 cannot be used in the vocabulary. so input_dim should equal to size of vocabulary + 1.
 - embeddings_initializer : Initializer for the embeddings matrix
+####tf.keras.layers.TimeDistributed()
+```python
+model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
+```
 ### tf.keras.initializers
 
 #### tf.keras.initializers.RandomNormal()
@@ -382,7 +389,7 @@ model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=1, padding="
 
 ## tf.data.Dataset
 
-### tf.data.Dataset.from_tensor\slices()
+### tf.data.Dataset.from_tensor_slices()
 
 ```python
 train_dataset = tf.data.Dataset.from_tensor_slices((train_x, train_y)).shuffle(len(train_x)).batch(batch_size, drop_remainder=True).prefetch(batch_size)
