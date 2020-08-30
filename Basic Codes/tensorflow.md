@@ -191,7 +191,7 @@ optimizer = tf.keras.optimizers.Adam()
 optimizer = tf.keras.optimizers.SGD(lr=0.01)
 ```
 
-#### optimizer.apply\_gradients()
+#### optimizer.apply_gradients()
 
 ```python
 optimizer.apply_gradients(zip([dW, db], [W, b]))
@@ -298,10 +298,11 @@ one_hot = np.eye(len(char2idx))
 
 model.add(tf.keras.layers.Embedding(input_dim=input_dim, output_dim=output_dim, trainable=False, mask_zero=True, input_length=max_sequence, embeddings_initializer=tf.keras.initializers.Constant(one_hot)))
 ```
-- input dim : 단어의 개수. 입력되는 정수의 개수
-- output_dim : 텍스트의 개수. 출력되는 embedding vector의 크기
+- input dim : 입력되는 단어의 개수.
+- output_dim : 출력되는 embedding vector의 크기
 - input_length : 입력 sequence의 길이
-- mask_zero : 0인 값 무시 여부. If mask_zero is set to True, as a consequence, index 0 cannot be used in the vocabulary (input_dim should equal size of vocabulary + 1).
+- trainable : one-hot vector의 training을 건너뛸지 여부.
+- mask_zero : 0인 값 무시 여부. If mask_zero is set to True, as a consequence, index 0 cannot be used in the vocabulary. so input_dim should equal to size of vocabulary + 1.
 - embeddings_initializer : Initializer for the embeddings matrix
 ### tf.keras.initializers
 
@@ -381,7 +382,7 @@ model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=1, padding="
 
 ## tf.data.Dataset
 
-### tf.data.Dataset.from\_tensor\_slices()
+### tf.data.Dataset.from_tensor\slices()
 
 ```python
 train_dataset = tf.data.Dataset.from_tensor_slices((train_x, train_y)).shuffle(len(train_x)).batch(batch_size, drop_remainder=True).prefetch(batch_size)
