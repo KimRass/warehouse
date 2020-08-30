@@ -312,9 +312,6 @@ model.add(tf.keras.layers.Embedding(input_dim=input_dim, output_dim=output_dim, 
 #### tf.keras.initializers.he_uniform()
 #### tf.keras.initializers.Constant()
 * tf.keras.layers.Activation(tf.keras.activations.relu) 사용 시 선택
-```python
-model.add(tf.keras.layers.Embedding(input_dim=input_dim, output_dim=output_dim, trainable=False, mask_zero=True, input_length=max_sequence, embeddings_initializer=tf.keras.initializers.Constant(one_hot)))
-```
 ### tf.keras.Model, tf.keras.Sequential()
 
 ```python
