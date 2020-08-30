@@ -366,8 +366,8 @@ inputs = tf.keras.Input(shape=(28, 28, 1))
 ```python
 x_data = tf.keras.preprocessing.sequence.pad_sequences(sequences=x_data, maxlen=max_sequence, padding="post", truncating="post", value=0)
 ```
-- padding : "pre" | "post"
-- truncating : "pre" | "post"
+- padding="pre" | "post"
+- truncating="pre" | "post"
 ## tf.nn
 
 ### tf.nn.softmax()
