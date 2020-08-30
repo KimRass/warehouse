@@ -285,7 +285,7 @@ rnn = tf.keras.layers.RNN(cell, return_sequences=True, return_state=True)
 
 outputs, states = rnn(x_data)
 ```
-- return_sequences : default는 False이며 time step의 마지막에서만 아웃풋을 출력. True인 경우 모든 time step에서 아웃풋을 출력.
+- return_sequences : default는 False이며 time step의 마지막에서만 아웃풋을 출력. True인 경우 모든 time step에서 아웃풋을 출력. return_sequences 인자에 따라 마지막 시퀀스에서 한 번만 출력할 수 있고 각 시퀀스에서 출력을 할 수 있습니다. many to many 문제를 풀거나 LSTM 레이어를 여러개로 쌓아올릴 때는 return_sequence=True 옵션을 사용합니다.
 #### tf.keras.layers.SimpleRNN()
 ```python
 rnn = tf.keras.layers.SimpleRNN(units=hidden_size, return_sequences=True, return_state=True)
