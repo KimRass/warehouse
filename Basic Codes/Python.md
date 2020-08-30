@@ -84,6 +84,10 @@ x_data = list(map(lambda word : [char2idx.get(char) for char in word], words))
 msg_tkn = [msg.split() for msg in data["msg"]]
 ```
 ## filter()
+## sum()
+```python
+sum(sents, [])
+```
 # set
 ## set1 & set2
 ## set1 | set2
