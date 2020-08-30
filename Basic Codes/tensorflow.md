@@ -285,6 +285,7 @@ rnn = tf.keras.layers.RNN(cell, return_sequences=True, return_state=True)
 
 outputs, states = rnn(x_data)
 ```
+- return_sequences : default는 False이며 time step의 마지막에서만 아웃풋을 출력. True인 경우 모든 time step에서 아웃풋을 출력.
 #### tf.keras.layers.SimpleRNN()
 ```python
 rnn = tf.keras.layers.SimpleRNN(units=hidden_size, return_sequences=True, return_state=True)
@@ -311,6 +312,7 @@ model.add(tf.keras.layers.Embedding(input_dim=input_dim, output_dim=output_dim, 
 ```python
 model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
 ```
+- TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다. 아래 예제에서는 Dense(unit=1)로 연결을 했고, 이는 RNN Cell의 가중치와 마찬가지로 모든 step step에서 가중치를 공유합니다.
 ### tf.keras.initializers
 
 #### tf.keras.initializers.RandomNormal()
