@@ -7,4 +7,5 @@ import random
 ```python
 names = random.sample(list(set(data.index)), 20)
 ```
-## random.shuffle() #inplace 함수
+## random.shuffle()
+- inplace function
