@@ -19,3 +19,7 @@ checkpoint_dir = os.path.join(cur_dir, ckpt_dir_name, model_dir_name)
 ```python
 if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
 ```
+## os.environ[], os.pathsep
+```python
+os.environ["PATH"] += os.pathsep + "C:\Program Files (x86)/Graphviz2.38/bin/"
+```
