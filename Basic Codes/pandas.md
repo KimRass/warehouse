@@ -19,6 +19,10 @@ raw_data = pd.read_csv("C:/Users/00006363/☆데이터/실거래가_충청북도
 ```
 ## pd.read_excel()
 ## pd.read_pickle()
+## pd.read_sql()
+```python
+pd.read_sql("<<SQL 구문>>", connect)
+```
 ## pd.concat()
 ```python
 data_without = pd.concat([data_without, data_subset], axis=0)
