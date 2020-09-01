@@ -2028,7 +2028,8 @@ import requests
 ```python
 req = requests.get(url)
 ```
-# variance_inflation_factor
+# statsmodels
+## variance_inflation_factor
 ```python
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 ```
