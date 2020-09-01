@@ -1,4 +1,3 @@
-# Basic Codes for Python Libararies
 # sklearn
 ## sklearn.model_selection
 ### train_test_split
