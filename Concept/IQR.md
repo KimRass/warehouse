@@ -1,0 +1,7 @@
+- <img src="/wikis/2670857615939396646/files/2789673091029773387">
+- Q1=lower quartile
+- Q2=median
+- Q3=upper quartile
+- IQR=Q3-Q1
+- upper extreme=Q3+1.5IQR
+- lower extreme=Q1-1.5IQR
