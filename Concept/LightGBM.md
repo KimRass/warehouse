@@ -1,0 +1,3 @@
+- https://lightgbm.readthedocs.io/en/latest/Parameters-Tuning.html
+- https://lightgbm.readthedocs.io/en/latest/
+- https://greeksharifa.github.io/machine_learning/2019/12/09/Light-GBM/
