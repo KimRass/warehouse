@@ -651,6 +651,9 @@ from collections import deque
 
 # cv2
 ```python
+!pip install opencv-python
+```
+```python
 import cv2
 ```
 ## cv2.waitKey()
