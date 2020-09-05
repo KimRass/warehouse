@@ -1174,7 +1174,7 @@ ax = sbrelplot(x="total_bill", y="tip", col="time", hue="day", style="day", kind
 ```
 ### sb.kedplot()
 ```python
-ax = sb.kdeplot(np.array(data["ppa_root"]))
+sb.kdeplot(ax=ax, data=data["ppa_root"])
 ```
 ### sb.stripplot()
 ```python
