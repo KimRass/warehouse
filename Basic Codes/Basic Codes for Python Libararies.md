@@ -1695,6 +1695,10 @@ ui.mean(axis=1)
 ```python
 adj_ui = ui.sub(user_bias, axis=0).sub(item_bias, axis=1)
 ```
+## ser.rename()
+```python
+plays_df.groupby(["user_id"]).size().rename("n_arts")
+```
 ## ser.value_counts()
 ```python
 ratings_df["movie_id"].value_counts()
