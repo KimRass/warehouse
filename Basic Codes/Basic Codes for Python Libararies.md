@@ -1135,7 +1135,7 @@ ax = plt.barh(y=ipark["index"], width=ipark["가경4단지 84.8743A"], height=0.
 ```
 ### ax.hist()
 ```python
-ax.hist(cnt_genre["genre"])
+ax.hist(cnt_genre["genre"], bins=30)
 ```
 ### ax.axhline()
 ```python
