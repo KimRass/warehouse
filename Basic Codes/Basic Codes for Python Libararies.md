@@ -1530,6 +1530,7 @@ data = pd.get_dummies(data, columns=["heating", "company1", "company2", "element
 ratings_df["rated_at"] = pd.to_datetime(ratings_df["rated_at"], unit="s")
 ```
 - timestamp -> 초 단위로 변경
+## df.shape
 ## df.groupby()
 ```python
 df.groupby(["Pclass", "Sex"], as_index=False)
