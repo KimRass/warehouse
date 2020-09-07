@@ -147,7 +147,7 @@ for i in range(N):
 ```python
 A = [eval(f"A{i}") for i in range(N, 0, -1)]
 ```
-
+- string 앞뒤의 " 제거
 # class
 ## instance attribute(instance variables)
 ```python
