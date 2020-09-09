@@ -1566,11 +1566,15 @@ np.linalg.norm(x, axis=1, ord=2)
 - ord=2 : L2 normalization.
 ## np.sqrt()
 ## np.power()
+## np.exp()
+```python
+def sig(x):
+    return 1 / (1 + np.exp(-x))
+```
 ## np.fill_diagonal()
 ```python
 np.fill_diagonal(cos_sim_item, 0)
 ```
-
 # arr
 ## arr.ravel()
 ```python
