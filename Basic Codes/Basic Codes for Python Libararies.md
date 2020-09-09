@@ -143,13 +143,13 @@ A = [eval(f"A{i}") for i in range(N, 0, -1)]
 ```python
 class CLASS:
     def __init__(self):
-        self.ATTRIBUTE=VALUE
+        self.ATTRIBUTE = VALUE
 ```
 * INSTANCE.ATTRIBUTE로 사용
 ## class attriubute(class variables)
 ```python
 class CLASS:
-    ATTRIBUTE=VALUE
+    ATTRIBUTE = VALUE
 ```
 * CLASS.ATTRIBUTE로 사용
 * 모든 INSTANCE가 ATTRIBUTE 값을 공유.
@@ -157,7 +157,7 @@ class CLASS:
 * INSTANCE.ATTRIBUTE로 사용 시 INSTANCE의 namespace에서 ATTRIBUTE를 찾고 없으면 CLASS의 namespace로 이동한 후 다시 ATTRIBUTE를 찾아 그 값을 반환.
 ## \_\_init\_\_
 ```python
-INSTANCE=CLASS() #instance를 initiate 할 때 실행
+INSTANCE = CLASS() #instance를 initiate 할 때 실행
 ```
 ## \_\_init\_\_, \_\_call\_\_
 ```python
@@ -173,7 +173,7 @@ class CLASS:
         ...
         return ...
 ...
-INSTANCE=CLASS(parameter1, parameter2, ...) #__init__문은 instance를 initiate 할 때 실행
+INSTANCE = CLASS(parameter1, parameter2, ...) #__init__문은 instance를 initiate 할 때 실행
 INSTANCE(parameter3, parameter4, ...) #__call__문은 instance를 call 할 때 실행
 INSTANCE.FUNCTION(parameter5, parameter6, ...)
 ```
