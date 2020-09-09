@@ -28,14 +28,6 @@ print("[{0:<20.20f}], [{1:>10.2f}]".format(3.14, 10.925))
 ```python
 print("{:>4d} | {:>7.4f} | {:>7.4f} | {:>9.6f}".format(i + 1, W.numpy(), b.numpy(), loss.numpy()))
 ```
-### f-string
-```python
-name = "Song"
-sex = "male"
-
-f"Hi, I am {name}. I am {sex}."
-```
-- \>\>\> "Hi, I am song. I am male."
 ## isinstance()
 ```python
 if not isinstance(movie, frozenset):
