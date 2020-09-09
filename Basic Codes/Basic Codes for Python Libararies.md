@@ -1417,7 +1417,7 @@ data = pd.DataFrame(list_for_data, columns=["user", "content"])
 ```
 ## pd.read_csv()
 ```python
-raw_data = pd.read_csv("C:/Users/00006363/☆데이터/실거래가_충청북도_2014.csv", thousands=",", encoding="Ansi", skiprows=15)
+raw_data = pd.read_csv("C:/Users/00006363/☆데이터/실거래가_충청북도_2014.csv", thousands=",", encoding="Ansi", float_precision="round_trip", skiprows=15)
 ```
 ## pd.read_excel()
 ## pd.read_pickle()
