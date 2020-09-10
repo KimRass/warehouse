@@ -1672,6 +1672,10 @@ ratings_df["rated_at"] = pd.to_datetime(ratings_df["rated_at"], unit="s")
 ```
 - timestamp -> 초 단위로 변경
 ## df.shape
+## df.quantile()
+```python
+top90per = plays_df[plays_df["plays"]>plays_df["plays"].quantile(0.1)]
+```
 ## df.groupby()
 ```python
 df.groupby(["Pclass", "Sex"], as_index=False)
