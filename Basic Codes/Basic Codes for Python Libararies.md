@@ -3,17 +3,8 @@
 ### var.data.nbytes : 변수에 할당된 메모리 크기 리턴
 ## print()
 ```python
-print('variable', variable, end="") 
+print(... end="") 
 ```
-- 다음 print문이 이어서 출력.
-```python
-print("This is string :", str, "This is number :" , num1, num2)
-```
-- 콤마로 연결 시 띄어쓰기로 연결
-```python
-print("This is string :" + str, "This is number :" , num1 + num2)
-```
-- +로 연결 시 문자끼리는 공백 없이 이어지고 숫자끼리는 합산.
 ### print() + format()
 ```python
 print("{0} and {1}".format("spam", "eggs")
