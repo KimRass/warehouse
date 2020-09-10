@@ -493,6 +493,17 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 ```python
 from sklearn.preprocessing import LabelEncoder
 ```
+## sklearn.decomposition
+### PCA()
+```python
+from sklearn.decomposition import PCA
+```
+```python
+pca = PCA(n_components=2)
+```
+```python
+pca_mat = pca.fit_transform(user_emb_df)
+```
 ### LabelEncoder()
 ```python
 le = LabelEncoder()
@@ -2240,3 +2251,8 @@ cols = [0, 2, 5, 6, 14, 0, 1]
 sparse_matrix = csr_matrix((vals,  (rows,  cols)))
 ```
 #### sparse_mat.todense()
+# annoy
+## AnnoyIndex
+```python
+from annoy import AnnoyIndex
+```
