@@ -2251,6 +2251,22 @@ cols = [0, 2, 5, 6, 14, 0, 1]
 sparse_matrix = csr_matrix((vals,  (rows,  cols)))
 ```
 #### sparse_mat.todense()
+# implicit
+## implicit.bpr
+### BayesianPersonalizedRanking
+```python
+from implicit.bpr import BayesianPersonalizedRanking as BPR
+```
+```python
+model = BPR(factors=60)
+
+model.fit(inputs)
+```
+#### model.user_factors, model.item_factors
+```python
+user_embs = model.user_factors
+item_embs = model.item_factors
+```
 # annoy
 ## AnnoyIndex
 ```python
