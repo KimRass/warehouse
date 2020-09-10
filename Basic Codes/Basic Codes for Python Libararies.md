@@ -383,6 +383,11 @@ df = df.drop_duplicates(["col1"], keep="first")
 ```python
 df1.mul(df2)
 ```
+## df.dot()
+```python
+def cos_sim(x, y):
+    return x.dot(y)/(np.linalg.norm(x, axis=1, ord=2)*np.linalg.norm(y, ord=2))
+```
 ## df.isna()
 ## df.notna()
 ```python
