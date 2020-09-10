@@ -1884,7 +1884,7 @@ import pickle as pk
 ```
 ## pk.dump()
 ```python
-with open("filename.pk", 'wb') as f:
+with open("filename.pk", "wb") as f:
     pk.dump(list, f)
 ```
 ## pk.load()
