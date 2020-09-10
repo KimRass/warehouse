@@ -1557,7 +1557,7 @@ import seaborn as sb
 ```
 ### sb.scatterplot()
 ```python
-ax = sb.scatterplot(data=df, x="ppa", y="error", hue="id", hue_norm=(20000, 20040), palette="RdYlGn", s=70, alpha=0.5)
+sb.scatterplot(ax=ax, data=df, x="ppa", y="error", hue="id", hue_norm=(20000, 20040), palette="RdYlGn", s=70, alpha=0.5)
 ```
 ### sb.lineplot()
 ```python
