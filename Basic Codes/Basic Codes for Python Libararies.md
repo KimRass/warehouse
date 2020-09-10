@@ -460,6 +460,8 @@ raw_data[raw_data["시군구"].str.contains("충청북도")]
 ser.cat.set_categories([2, 3, 1], ordered=True)
 ```
 - 순서 부여
+### ser.cat.codes
+- 새로 0부터 부여된 index 
 # sklearn
 ## sklearn.model_selection
 ### train_test_split
