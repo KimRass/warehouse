@@ -1,4 +1,6 @@
 # Python Built-in Functions
+## var.data
+### var.data.nbytes : 변수에 할당된 메모리 크기 리턴
 ## print()
 ```python
 print('variable', variable, end="") 
