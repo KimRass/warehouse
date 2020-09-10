@@ -246,6 +246,8 @@ pd.pivot_table(df, index="요일", columns="지역", aggfunc=np.mean)
 results["lat"] = pd.Categorical(results["lat"], categories=order)
 results_ordered=results.sort_values(by="lat")
 ```
+- dtype을 category로 변환.
+- ordered=True로 category들 간에 대소 부여.
 - 출처 : [https://kanoki.org/2020/01/28/sort-pandas-dataframe-and-series/](https://kanoki.org/2020/01/28/sort-pandas-dataframe-and-series/)
 ## pd.get_dummies()
 ```python
@@ -309,24 +311,6 @@ data["반기"]=data.apply(lambda x:x["입찰년월"][:4]+" 상반기" if int(x["
 ```python
 data["1001-작업반장]=data["반기"].apply(lambda x:labor.loc[x,"1001-작업반장])
 data["1001-작업반장]=data.apply(lambda x:labor.loc[x["반기"],"1001-작업반장], axis=1)
-```
-## df.str
-### df.str.replace()
-```python
-data["parking"] = data["parking"].str.replace("대", "", regex=False)
-```
-### split()
-```python
-data["buildings"] = data.apply(lambda x : str(x["houses_buildings"]).split("총")[1][:-3], axis=1)
-```
-- .split()는 .split(" ")과 같음
-### df.str.strip()
-```python
-data["fuel"] = data["heating"].apply(lambda x:x.split(",")[1]).str.strip()
-```
-### df.str.contains()
-```python
-raw_data[raw_data["시군구"].str.contains("충청북도")]
 ```
 ## df.rename()
 ```python
@@ -451,7 +435,31 @@ target_ratings["title"] = target_ratings["movie_id"].map(target)
 cumsum = n_rating_item.cumsum()/len(ratings_df)
 ```
 ## ser.min(), ser.max(), ser.mean(), ser.std()
-
+## ser.str
+### ser.str.replace()
+```python
+data["parking"] = data["parking"].str.replace("대", "", regex=False)
+```
+### ser.str.split()
+```python
+data["buildings"] = data.apply(lambda x : str(x["houses_buildings"]).split("총")[1][:-3], axis=1)
+```
+- ser.str.split()는 ser.str.split(" ")과 같음
+### ser.str.strip()
+```python
+data["fuel"] = data["heating"].apply(lambda x:x.split(",")[1]).str.strip()
+```
+### ser.str.contains()
+```python
+raw_data[raw_data["시군구"].str.contains("충청북도")]
+```
+## ser.cat
+### ser.cat.categories
+### ser.cat.set_categories()
+```python
+ser.cat.set_categories([2, 3, 1], ordered=True)
+```
+- 순서 부여
 # sklearn
 ## sklearn.model_selection
 ### train_test_split
