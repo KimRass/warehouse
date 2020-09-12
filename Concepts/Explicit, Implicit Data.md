@@ -20,4 +20,5 @@ Implicit Datasets을 다룰 때 염두해두어야 할 몇 가지 특징이 있�
 
 Implicit-feedback Recommender System의 평가는 적절한 방법을 고민해봐야 한다 : 평점 데이터를 이용하는 경우 예측값과 실제값이 얼마나 다른지를 평가하는 Mean Squared Error 방법을 사용하면 편리합니다. 하지만 시청시간, 클릭수, 조회 기록을 이용하는 경우 정답값을 주기가 어렵습니다. 따라서 implicit model의 경우 item의 availability나 반복되는 feeback 등을 고려해야 합니다. availability란 동시간에 방영되는 두 TV Show의 경우 한쪽만 볼 수 있어서 다른 프로그램을 좋아한다고 해도 Implicit Data가 쌓이지 않는 상황을 말합니다. 반복되는 Feedback은 유저가 한 번 이상 프로그램을 봤을 때 한 번 본 경우와 어떻게 다르게 평가할 것인가에 대한 고려입니다.
 
-### 3. Collaborative Filtering For Implicit Feedback Datasets다음 포스팅에서는 앞서 언급한 Implicit Datasets의 특징을 고려해서 어떻게 추천 모델을 만들고 평가할지에 대한 내용을 정리해보겠습니다. 짧게 정리하자면 Unobserved Data와 Observed Data를 구분하고 높은 Confidence Data에 높은 Loss를 의미하는 Loss Function을 정의하여 Matrix Factorization을 수행합니다. Evaluation은 Recall 지표를 사용하는 것이 타당하다고 생각하여 Expected Percentile Ranking을 사용합니다.
+### 3. Collaborative Filtering For Implicit Feedback Datasets
+- 다음 포스팅에서는 앞서 언급한 Implicit Datasets의 특징을 고려해서 어떻게 추천 모델을 만들고 평가할지에 대한 내용을 정리해보겠습니다. 짧게 정리하자면 Unobserved Data와 Observed Data를 구분하고 높은 Confidence Data에 높은 Loss를 의미하는 Loss Function을 정의하여 Matrix Factorization을 수행합니다. Evaluation은 Recall 지표를 사용하는 것이 타당하다고 생각하여 Expected Percentile Ranking을 사용합니다.
