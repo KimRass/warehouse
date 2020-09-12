@@ -576,6 +576,11 @@ from sklearn.metrics.pairwise import cosine_similarity
 ```
 ### cosine_similarity
 # tensorflow
+```
+conda create --name tf2.0 python=3.7
+pip install tensorflow==2.0
+conda install jupyter
+```
 ```python
 import tensorflow as tf
 ```
