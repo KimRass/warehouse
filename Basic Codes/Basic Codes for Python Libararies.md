@@ -225,6 +225,9 @@ raw_data = pd.read_csv("C:/Users/00006363/☆데이터/실거래가_충청북도
 ```python
 pd.read_sql("<<SQL 구문>>", connect)
 ```
+## df.to_csv()
+## df.to_excel()
+## df.to_pickle()
 ## pd.concat()
 ```python
 data_without = pd.concat([data_without, data_subset], axis=0)
@@ -468,6 +471,9 @@ ser.cat.set_categories([2, 3, 1], ordered=True)
 ### ser.cat.codes
 - 새로 0부터 부여된 index 
 # sklearn
+```python
+!pip install -U scikit-learn
+```
 ## sklearn.model_selection
 ### train_test_split
 ```python
@@ -2281,11 +2287,29 @@ user_embs = model.user_factors
 item_embs = model.item_factors
 ```
 # annoy
-- source : https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
+- https://github.com/spotify/annoy
 ```python
 !pip install "C:\Users\5CG7092POZ\annoy-1.16.3-cp37-cp37m-win_amd64.whl"
 ```
+- source : https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
 ## AnnoyIndex
 ```python
 from annoy import AnnoyIndex
+```
+```python
+n_facts = 61
+tree = AnnoyIndex(n_facts, "dot")
+```
+### tree.add_item()
+```python
+for idx, value in enumerate(art_embs_df.values):
+    tree.add_item(idx, value)
+```
+### tree.build()
+```python
+tree.build(20)
+```
+### tree.get_nns_by_vector()
+```python
+print([art_id2name[art] for art in tree.get_nns_by_vector(user_embs_df.loc[user_id], 10)])
 ```
