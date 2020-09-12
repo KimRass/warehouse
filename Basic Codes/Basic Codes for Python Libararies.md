@@ -2281,6 +2281,10 @@ user_embs = model.user_factors
 item_embs = model.item_factors
 ```
 # annoy
+- source : https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
+```python
+!pip install "C:\Users\5CG7092POZ\annoy-1.16.3-cp37-cp37m-win_amd64.whl"
+```
 ## AnnoyIndex
 ```python
 from annoy import AnnoyIndex
