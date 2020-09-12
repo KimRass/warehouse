@@ -765,23 +765,23 @@ opt = tf.keras.optimizers.Adam(learning_rate=lr)
 #### tf.keras.optimizers.SGD()
 
 ```python
-optimizer = tf.keras.optimizers.SGD(lr=0.01)
+opt = tf.keras.optimizers.SGD(lr=0.01)
 ```
 
 #### optimizer.apply_gradients()
 
 ```python
-optimizer.apply_gradients(zip([dW, db], [W, b]))
+opt.apply_gradients(zip([dW, db], [W, b]))
 ```
 
 ```python
-optimizer.apply_gradients(zip(grads, model.trainable_variables))
+opt.apply_gradients(zip(grads, model.trainable_variables))
 ```
 
 ### tf.keras.metrics
 
 ```python
-tf.keras.metrics.Mean(name = 'test_loss')
+tf.keras.metrics.Mean(name="test_loss")
 ```
 
 ```python
