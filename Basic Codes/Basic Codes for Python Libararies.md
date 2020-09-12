@@ -2262,6 +2262,9 @@ sparse_matrix = csr_matrix((vals,  (rows,  cols)))
 ```
 #### sparse_mat.todense()
 # implicit
+```python
+conda install -c conda-forge implicit
+```
 ## implicit.bpr
 ### BayesianPersonalizedRanking
 ```python
