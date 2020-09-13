@@ -226,7 +226,6 @@ raw_data = pd.read_csv("C:/Users/00006363/☆데이터/실거래가_충청북도
 pd.read_sql("<<SQL 구문>>", connect)
 ```
 ## df.to_csv()
-## df.to_excel()
 ## df.to_pickle()
 ## pd.concat()
 ```python
@@ -2313,3 +2312,5 @@ tree.build(20)
 ```python
 print([art_id2name[art] for art in tree.get_nns_by_vector(user_embs_df.loc[user_id], 10)])
 ```
+# openpyxl
+## df.to_excel()
