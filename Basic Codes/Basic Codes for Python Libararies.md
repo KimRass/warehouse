@@ -406,7 +406,10 @@ Q1 = subset["money"].quantile(0.25)
 ```
 ## df.sample()
 ```python
-data = data.sample(frac=1)
+ratings_df.sample(5)
+```
+```python
+baskets_df.sample(frac=0.05)
 ```
 ## df.mean()
 ```python
