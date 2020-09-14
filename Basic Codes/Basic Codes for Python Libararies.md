@@ -2337,5 +2337,5 @@ from google_drive_downloader import GoogleDriveDownloader as gdd
 ```
 ### gdd.download_file_from_google_drive()
 ```python
-gdd.download_file_from_google_drive(file_id="1iytA1n2z4go3uVCwE__vIKouTKyIDjEq", dest_path="./data/mnist.Zip", unzip=True)
+gdd.download_file_from_google_drive(file_id="1uPjBuhv96mJP9oFi-KNyVzNkSlS7U2xY", dest_path="./movies.csv")
 ```
