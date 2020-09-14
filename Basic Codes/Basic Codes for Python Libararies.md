@@ -1545,9 +1545,13 @@ ax.grid(axis="x", color="White", alpha=0.3, linestyle="--", linewidth=2)
 ```python
 ax.scatter(x=gby["0.5km 내 교육기관 개수"], y=gby["실거래가"], s=70, c=gby["전용면적(m²)"], cmap="RdYlBu", alpha=0.7, edgecolors="black", linewidth=0.5)
 ```
+### ax.bar()
+```python
+ax.bar(x=nby_genre.index, height=nby_genre["movie_id"])
+```
 ### ax.barh()
 ```python
-ax = plt.barh(y=ipark["index"], width=ipark["가경4단지 84.8743A"], height=0.2, alpha=0.5, color="red", label="가경4단지 84.8743A", edgecolor="black", linewidth=1)
+ax.barh(y=ipark["index"], width=ipark["가경4단지 84.8743A"], height=0.2, alpha=0.5, color="red", label="가경4단지 84.8743A", edgecolor="black", linewidth=1)
 ```
 ### ax.hist()
 ```python
