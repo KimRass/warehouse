@@ -2327,3 +2327,15 @@ print([art_id2name[art] for art in tree.get_nns_by_vector(user_embs_df.loc[user_
 ```
 # openpyxl
 ## df.to_excel()
+# google_drive_downloader
+```python
+!pip install googledrivedownloader
+```
+## GoogleDriveDownloader
+```python
+from google_drive_downloader import GoogleDriveDownloader as gdd
+```
+### gdd.download_file_from_google_drive()
+```python
+gdd.download_file_from_google_drive(file_id="1iytA1n2z4go3uVCwE__vIKouTKyIDjEq", dest_path="./data/mnist.Zip", unzip=True)
+```
