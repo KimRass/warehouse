@@ -1700,9 +1700,15 @@ from mlxtend.preprocessing import TransactionEncoder
 ```
 ```python
 te = TransactionEncoder()
-te.fit_transform([{0, 1, 2}, {0, 1, 4}, {1, 8}, {3, 4, 10}, {2, 3}])
+```
+#### te.fit_transform()
+```python
+baskets_te = te.fit_transform(baskets)
 ```
 #### te.columns_
+```python
+baskets_df = pd.DataFrame(baskets_te, index=baskets.index, columns=te.columns_)
+```
 ## mlxtend.frequent_patterns
 ### apriori
 ```python
