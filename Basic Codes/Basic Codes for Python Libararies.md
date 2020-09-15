@@ -437,6 +437,9 @@ n_item = ratings_df["movie_id"].nunique()
 ```python
 target_ratings["title"] = target_ratings["movie_id"].map(target)
 ```
+```python
+all_seen = ratings_df_target_set[ratings_df_target_set.map(lambda x : len(x)==5)].index
+```
 ## ser.astype()
 - "int32", "int63", "float64", "object", "category", 
 ## ser.hist()
