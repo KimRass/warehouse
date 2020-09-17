@@ -1526,9 +1526,14 @@ ax.set_xlim([1, 4])
 ```python
 ax.axis([2, 3, 4, 10])
 ```
-### ax.yaxis.set_tick_position()
+### ax.xaxis, ax.yaxis
+#### ax.xaxis.set_tick_position(), ax.yaxis.set_tick_position()
 ```python
 ax2.yaxis.set_ticks_position("right")
+```
+#### ax.xaxis.set_major_formatter(mpl.ticker.StrMethodFormatter(), ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter()
+```python
+ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter("{x:,.0f}"))
 ```
 ### ax.set_xticks(), ax.set_yticks()
 ```python
