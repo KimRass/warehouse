@@ -1769,10 +1769,10 @@ from nltk.corpus import movie_reviews
 ```python
 sentences = [sent for sent in movie_reviews.sents()]
 ```
+# numpy
 ```python
 import numpy as np
 ```
-# np
 ## np.set_printoptions()
 ```python
 np.set_printoptions(precision=3)
