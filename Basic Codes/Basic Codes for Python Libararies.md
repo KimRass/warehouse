@@ -1872,6 +1872,10 @@ np.linalg.norm(x, axis=1, ord=2)
 def sig(x):
     return 1 / (1 + np.exp(-x))
 ```
+## np.add.outer(), np.multiply.outer()
+```python
+euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))
+```
 ## np.fill_diagonal()
 ```python
 np.fill_diagonal(cos_sim_item, 0)
