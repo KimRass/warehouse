@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>mapboxgl-jupyter viz</title>
+<meta charset='UTF-8' />
+<meta name='viewport'
+      content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+<script type='text/javascript'
+        src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.js'></script>
+<link type='text/css'
+      href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.0.0/mapbox-gl.css' 
+      rel='stylesheet' />
+
+<style type='text/css'>
+    body { margin:0; padding:0; }
+    .map { position: absolute; top:0; bottom:0; width:100%; }
+    .legend {
+        background-color: white;
+        color: #6e6e6e;
+        border-radius: 3px;
+        bottom: 10px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.10);
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        padding: 0;
+        position: absolute;
+        right: 10px;
+        z-index: 1;
+        min-width: 100px;
+    }
+   .legend.horizontal {bottom: 10px; text-align: left;}
+
+    /* legend header */
+    .legend .legend-header { border-radius: 3px 3px 0 0; background: white; }
+    .legend .legend-title {
+        padding: 6px 12px 6px 12px;
+        text-shadow: 0 0 2px white;
+        text-transform: capitalize;
+        text-align: center;
+        font-weight: bold !important;
+        font-size: 14px;
+        font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+        max-width: 160px;
+    }
+    .legend-title {padding: 6px 12px 6px 12px; text-shadow: 0 0 2px #FFF; text-transform: capitalize; text-align: center; max-width: 160px; font-size: 0.9em; font-weight: bold;}
+    .legend.horizontal .legend-title {text-align: left;}
+
+    /* legend items */
+    .legend-content {margin: 6px 12px 6px 12px; overflow: hidden; padding: 0; float: left; list-style: none; font-size: 0.8em;}
+    .legend.vertical .legend-item {white-space: nowrap;}
+    .legend-value {display: inline-block; line-height: 18px; vertical-align: top;}
+    .legend.horizontal ul.legend-content li.legend-item .legend-value,
+    .legend.horizontal ul.legend-content li.legend-item {display: inline-block; float: left; width: 30px; margin-bottom: 0; text-align: center; min-height: 30px;}
+
+    /* legend key styles */
+    .legend-key {display: inline-block; height: 10px;}
+    .legend-key.default, .legend-key.square {border-radius: 0;}
+    .legend-key.circle {border-radius: 50%;}
+    .legend-key.rounded-square {border-radius: 20%;}
+    .legend.vertical .legend-key {width: 10px; margin-right: 5px; margin-left: 1px;}
+    .legend.horizontal .legend-key {width: 30px; margin-right: 0; margin-top: 1px; float: left;}
+    .legend.horizontal .legend-key.square, .legend.horizontal .legend-key.rounded-square, .legend.horizontal .legend-key.circle {margin-left: 10px; width: 10px;}
+    .legend.horizontal .legend-key.line {margin-left: 5px;}
+    .legend.horizontal .legend-key.line, .legend.vertical .legend-key.line {border-radius: 10%; width: 20px; height: 3px; margin-bottom: 2px;}
+
+    /* gradient bar alignment */
+    .gradient-bar {margin: 6px 12px 6px 12px;}
+    .legend.horizontal .gradient-bar {width: 88%; height: 10px;}
+    .legend.vertical .gradient-bar {width: 10px; min-height: 50px; position: absolute; bottom: 4px;}
+
+    /* contiguous vertical bars (discrete) */
+    .legend.vertical.contig .legend-key {height: 15px; width: 10px;}
+    .legend.vertical.contig li.legend-item {height: 15px;}
+    .legend.vertical.contig {padding-bottom: 6px;}
+
+    /* vertical radius legend */
+    .legend.horizontal.legend-variable-radius ul.legend-content li.legend-item .legend-value,
+    .legend.horizontal.legend-variable-radius ul.legend-content li.legend-item {width: 30px; min-height: 20px;}
+
+    /* scale annotation */
+    .mapboxgl-ctrl.mapboxgl-ctrl-scale { border-color: #6e6e6e; 
+                                         background-color: white; 
+                                         color: #131516; }
+</style>
+
+
+<style>
+    .gradient-bar.bordered, .legend-key.bordered { border: solid black 0.2px; }
+</style>
+
+
+</head>
+<body>
+
+<div id='map' class='map'></div>
+
+<script type='text/javascript'>
+
+var legendHeader;
+
+function calcColorLegend(myColorStops, title) {
+    // create legend
+    var legend = document.createElement('div'),
+        legendContainer = document.getElementsByClassName('mapboxgl-ctrl-bottom-right')[0];
+
+    if ('circle' === 'contiguous-bar') {
+        legend.className = 'legend vertical contig';
+    }
+    else {
+        legend.className = 'legend vertical';
+    }
+    legend.id = 'legend-0';
+    document.body.appendChild(legend);
+    // add legend header and content elements
+    var mytitle = document.createElement('div'),
+        legendContent = document.createElement('ul');
+    legendHeader = document.createElement('div');
+    mytitle.textContent = title;
+    mytitle.className = 'legend-title'
+    legendHeader.className = 'legend-header'
+    legendContent.className = 'legend-content'
+    legendHeader.appendChild(mytitle);
+    legend.appendChild(legendHeader);
+    legend.appendChild(legendContent);
+    if (false === true) {
+        var gradientText = 'linear-gradient(to right, ',
+            gradient = document.createElement('div');
+        gradient.className = 'gradient-bar';
+        legend.appendChild(gradient);
+    }
+    // calculate a legend entries on a Mapbox GL Style Spec property function stops array
+    for (p = 0; p < myColorStops.length; p++) {
+        if (!!document.getElementById('legend-color-points-value-' + p)) {
+            // update the legend if it already exists
+            document.getElementById('legend-color-points-value-' + p).textContent = myColorStops[p][0];
+            document.getElementById('legend-color-points-id-' + p).style.backgroundColor = myColorStops[p][1];
+        }
+        else {
+            // create the legend if it doesn't yet exist
+            var item = document.createElement('li');
+            item.className = 'legend-item';
+            var key = document.createElement('span');
+            key.className = 'legend-key circle';
+            key.id = 'legend-color-points-id-' + p;
+            key.style.backgroundColor = myColorStops[p][1];
+            var value = document.createElement('span');
+            value.className = 'legend-value';
+            value.id = 'legend-color-points-value-' + p;
+            item.appendChild(key);
+            item.appendChild(value);
+            legendContent.appendChild(item);
+            
+            data = document.getElementById('legend-color-points-value-' + p)
+            // round number values in legend if precision defined
+            if ((typeof(myColorStops[p][0]) == 'number') && (typeof(null) == 'number')) {
+                data.textContent = myColorStops[p][0].toFixed(null);
+            }
+            else {
+                data.textContent = myColorStops[p][0];
+            }
+            // add color stop to gradient list
+            if (false === true) {
+                if (p < myColorStops.length - 1) {
+                    gradientText = gradientText + myColorStops[p][1] + ', ';
+                }
+                else {
+                    gradientText = gradientText + myColorStops[p][1] + ')';
+                }
+                if ('vertical' === 'vertical') {
+                    gradientText = gradientText.replace('to right', 'to bottom');
+                }
+            }
+        }
+    }
+    if (false === true) {
+        // convert to gradient scale appearance
+        gradient.style.background = gradientText;
+        // hide legend keys generated above
+        var keys = document.getElementsByClassName('legend-key');
+        for (var i=0; i < keys.length; i++) {
+            keys[i].style.visibility = 'hidden';
+        }
+        if ('vertical' === 'vertical') {
+            gradient.style.height = (legendContent.offsetHeight - 6) + 'px';
+        }
+    }
+    // add class for styling bordered legend keys
+    if (true) {
+        var keys = document.getElementsByClassName('legend-key');
+        for (var i=0; i < keys.length; i++) {
+            if (keys[i]) {
+                keys[i].classList.add('bordered');
+            }
+        }
+        var gradientBars = document.getElementsByClassName('gradient-bar');
+        for (var i=0; i < keys.length; i++) {
+            if (gradientBars[i]) {
+                gradientBars[i].classList.add('bordered');
+            }
+        }
+    }
+    // update right-margin for compact Mapbox attribution based on calculated legend width
+    updateAttribMargin(legend);
+    updateLegendMargin(legend);
+}
+
+
+function calcRadiusLegend(myRadiusStops, title, color) {
+
+    // maximum legend item height
+    var maxLegendItemHeight = 2 * myRadiusStops[myRadiusStops.length - 1][1];
+
+    // create legend
+    var legend = document.createElement('div');
+    legend.className = 'legend vertical legend-variable-radius';
+
+    legend.id = 'legend-1';
+    document.body.appendChild(legend);
+
+    // add legend header and content elements
+    var mytitle = document.createElement('div'),
+        legendContent = document.createElement('ul');
+    legendHeader = document.createElement('div');
+    mytitle.textContent = title;
+    mytitle.className = 'legend-title'
+    legendHeader.className = 'legend-header'
+    legendContent.className = 'legend-content'
+    legendHeader.appendChild(mytitle);
+    legend.appendChild(legendHeader);
+    legend.appendChild(legendContent);
+
+    // calculate a legend entries on a Mapbox GL Style Spec property function stops array
+    for (p = 0; p < myRadiusStops.length; p++) {
+        if (!!document.getElementById('legend-radius-points-value-' + p)) {
+            //update the legend if it already exists
+            document.getElementById('legend-radius-points-value-' + p).textContent = myRadiusStops[p][0];
+            document.getElementById('legend-radius-points-id-' + p).style.backgroundColor = color;
+        }
+        else {
+            // create the legend if it doesn't yet exist
+            var item = document.createElement('li');
+            item.className = 'legend-item';
+            item.height = '' + maxLegendItemHeight + 'px';
+
+            var key = document.createElement('span');
+            key.className = 'legend-key circle';
+            key.id = 'legend-radius-points-id-' + p;
+            key.style.backgroundColor = color;   
+
+            key.style.width = '' + myRadiusStops[p][1] * 2 + 'px';
+            key.style.height = '' + myRadiusStops[p][1] * 2 + 'px';
+
+            keyVerticalMargin = (maxLegendItemHeight - myRadiusStops[p][1] * 2) * 0.5;
+            key.style.marginTop = '' + keyVerticalMargin + 'px';
+            key.style.marginBottom = '' + keyVerticalMargin + 'px';
+
+            var value = document.createElement('span');
+            value.className = 'legend-value';
+            value.id = 'legend-radius-points-value-' + p;
+
+            item.appendChild(key);
+            item.appendChild(value);
+            legendContent.appendChild(item);
+            
+            data = document.getElementById('legend-radius-points-value-' + p)
+
+            // round number values in legend if precision defined
+            if ((typeof(myRadiusStops[p][0]) == 'number') && (typeof(null) == 'number')) {
+                data.textContent = myRadiusStops[p][0].toFixed(null);
+            }
+            else {
+                data.textContent = myRadiusStops[p][0];
+            }
+        }
+    }
+
+    // add class for styling bordered legend keys
+    if (true) {
+        var keys = document.getElementsByClassName('legend-key');
+        for (var i=0; i < keys.length; i++) {
+            if (keys[i]) {
+                keys[i].classList.add('bordered');
+            }
+        }
+    }
+
+    // update right-margin for compact Mapbox attribution based on calculated legend width
+    updateAttribMargin(legend);
+    updateLegendMargin(legend);
+
+}
+
+
+function updateAttribMargin(legend) {
+
+    // default margin is based on calculated legend width
+    var attribMargin = legend.offsetWidth + 15;
+    
+    // if horizontal legend layout (multiple legends are stacked vertically)
+    if ('vertical' === 'horizontal') {
+        document.getElementsByClassName('mapboxgl-ctrl-attrib')[0].style.marginRight = (attribMargin).toString() + 'px';
+    }
+    // vertical legend layout means multiple legends are side-by-side
+    else if ('vertical' === 'vertical') {
+        var currentMargin = Number(document.getElementsByClassName('mapboxgl-ctrl-attrib')[0].style.marginRight.replace('px', ''));
+        document.getElementsByClassName('mapboxgl-ctrl-attrib')[0].style.marginRight = (attribMargin + currentMargin).toString() + 'px';
+    }
+}
+
+
+function updateLegendMargin(legend) {
+
+    var verticalLegends = document.getElementsByClassName('legend vertical'),
+        horizontalLegends = document.getElementsByClassName('legend horizontal');
+
+    if (verticalLegends.length > 1) {
+        for (i = 1; i < verticalLegends.length; i++) {
+            verticalLegends[i].style.marginRight = (legend.offsetWidth - 5).toString() + 'px';
+            var legend = verticalLegends[i];
+        }
+    }
+    else if (horizontalLegends.length > 1) {
+        for (i = 1; i < horizontalLegends.length; i++) {
+            horizontalLegends[i].style.marginBottom = (legend.offsetHeight + 15).toString() + 'px';
+            var legend = horizontalLegends[i];
+        }
+    }
+}
+
+
+function generateInterpolateExpression(propertyValue, stops) {
+    var expression;
+    if (propertyValue == 'zoom') {
+        expression = ['interpolate', ['exponential', 1.2], ['zoom']]
+    }
+    else if (propertyValue == 'heatmap-density') {
+        expression = ['interpolate', ['linear'], ['heatmap-density']]
+    }
+    else {
+        expression = ['interpolate', ['linear'], ['get', propertyValue]]
+    }
+
+    for (var i=0; i<stops.length; i++) {
+        expression.push(stops[i][0], stops[i][1])
+    }
+    return expression
+}
+
+
+function generateMatchExpression(propertyValue, stops, defaultValue) {
+    var expression;
+    expression = ['match', ['get', propertyValue]]
+    for (var i=0; i<stops.length; i++) {
+        expression.push(stops[i][0], stops[i][1])
+    }
+    expression.push(defaultValue)
+    
+    return expression
+}
+
+
+function generatePropertyExpression(expressionType, propertyValue, stops, defaultValue) {
+    var expression;
+    if (expressionType == 'match') {
+        expression = generateMatchExpression(propertyValue, stops, defaultValue)
+    }
+    else if (propertyValue == 'identity') {
+        expression = ['get', propertyValue]
+    }
+    else {
+        expression = generateInterpolateExpression(propertyValue, stops)
+    }
+
+    return expression
+}
+
+</script>
+
+<!-- main map creation code, extended by mapboxgl/templates/graduated_circle.html -->
+<script type="text/javascript">
+
+    mapboxgl.accessToken = 'pk.eyJ1Ijoicm14enphbmciLCJhIjoiY2s3N2ZyNGZnMDZucDNmcjE0aDQ3dGhseiJ9.BsOXweuBOnwYDbR4BXNguQ';
+
+    var transformRequest = function(url, resourceType) {
+        const isMapboxRequest = url.slice(8, 22) === 'api.mapbox.com' ||
+          url.slice(10, 26) === 'tiles.mapbox.com';
+      
+        return {
+          url: isMapboxRequest ? url.replace('?', '?pluginName=PythonMapboxgl&') : url
+        }
+    };
+
+    var map = new mapboxgl.Map({
+        container: 'map',
+        attributionControl: false,
+        style: 'mapbox://styles/mapbox/outdoors-v11',
+        center: [127.48, 36.635],
+        zoom: 12,
+        pitch: 0,
+        bearing: 0,
+        scrollZoom: true,
+        touchZoom: true,
+        doubleClickZoom: true,
+        boxZoom: true,
+        preserveDrawingBuffer: true,
+        transformRequest: transformRequest
+    });
+
+    
+    
+        map.addControl(new mapboxgl.AttributionControl({ compact: true }));
+
+    
+
+    
+
+        map.addControl(new mapboxgl.NavigationControl());
+
+    
+
+    
+    
+    
+        
+        
+            
+            calcColorLegend([[22, 'rgb(215,48,39)'], [44, 'rgb(244,109,67)'], [66, 'rgb(253,174,97)'], [88, 'rgb(254,224,144)'], [110, 'rgb(224,243,248)'], [132, 'rgb(171,217,233)'], [154, 'rgb(116,173,209)'], [176, 'rgb(69,117,180)']], "전용면적");
+
+        
+
+        
+
+            calcRadiusLegend([[0, 5.0], [12, 10.45], [24, 15.91], [36, 21.36], [48, 26.82], [60, 32.27], [72, 37.73], [84, 43.18], [96, 48.64], [108, 54.09], [120, 59.55]], "절대값 오차율", "grey");
+        
+        
+
+    
+
+
+
+    
+        
+        
+        
+            map.addControl(new mapboxgl.ScaleControl({ unit: 'metric' }), 'bottom-left');
+        
+        
+
+    
+
+    
+
+    map.on('style.load', function() {
+        
+        
+
+        map.addSource("data", {
+            "type": "geojson",
+            "data": {"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.501282, 36.629902]}, "properties": {"시군구": "충청북도 청주상당구 탑동", "단지명": "108053 LH청주탑동", "전용면적": 39.9, "세대 수": 400.0, "절대값 오차율": 124.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.588048, 36.722544]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 우산리", "단지명": "17224 강우스파빌", "전용면적": 59.92, "세대 수": 160.0, "절대값 오차율": 120.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.472775, 36.625679]}, "properties": {"시군구": "충청북도 청주서원구 모충동", "단지명": "112518 삼덕", "전용면적": 32.52, "세대 수": 84.0, "절대값 오차율": 80.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.478126, 36.629803]}, "properties": {"시군구": "충청북도 청주서원구 사직동", "단지명": "112872 덕희아파트", "전용면적": 22.2, "세대 수": 203.0, "절대값 오차율": 77.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.507709, 36.623088]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 복현리", "단지명": "7001 수정", "전용면적": 59.85, "세대 수": 191.0, "절대값 오차율": 68.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47167, 36.652366]}, "properties": {"시군구": "충청북도 청주흥덕구 운천동", "단지명": "7461 형석", "전용면적": 39.69, "세대 수": 290.0, "절대값 오차율": 64.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.529224, 36.718036]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 은곡리", "단지명": "101279 은곡무지개", "전용면적": 33.57, "세대 수": 713.0, "절대값 오차율": 53.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47038, 36.626028]}, "properties": {"시군구": "충청북도 청주서원구 모충동", "단지명": "102759 일신베네스트", "전용면적": 30.948, "세대 수": 198.0, "절대값 오차율": 51.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.472976, 36.650409]}, "properties": {"시군구": "충청북도 청주흥덕구 운천동", "단지명": "7459 진양", "전용면적": 55.8, "세대 수": 420.0, "절대값 오차율": 51.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.442801, 36.63633]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "105262 덕성", "전용면적": 22.68, "세대 수": 498.0, "절대값 오차율": 50.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.529263, 36.720857]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 내수리", "단지명": "15375 삼일", "전용면적": 26.628, "세대 수": 883.0, "절대값 오차율": 47.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.48765, 36.67108]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "7180 율량부강마을", "전용면적": 29.08, "세대 수": 244.0, "절대값 오차율": 42.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.466565, 36.624786]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "106606 개신한사랑", "전용면적": 26.0, "세대 수": 138.0, "절대값 오차율": 42.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.50948, 36.62476]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "6997 덕성", "전용면적": 58.68, "세대 수": 105.0, "절대값 오차율": 40.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.480335, 36.66648]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "114958 신라(1292)", "전용면적": 26.6, "세대 수": 252.0, "절대값 오차율": 37.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.504206, 36.618433]}, "properties": {"시군구": "충청북도 청주상당구 영운동", "단지명": "12727 태암수정", "전용면적": 42.24, "세대 수": 486.0, "절대값 오차율": 37.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.474627, 36.61973]}, "properties": {"시군구": "충청북도 청주서원구 수곡동", "단지명": "7418 산남주공4단지", "전용면적": 38.64, "세대 수": 1005.0, "절대값 오차율": 34.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.494652, 36.660533]}, "properties": {"시군구": "충청북도 청주청원구 내덕동", "단지명": "100544 영우예인촌", "전용면적": 43.29, "세대 수": 280.0, "절대값 오차율": 34.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.424914, 36.635713]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "11555 벽산", "전용면적": 175.77, "세대 수": 274.0, "절대값 오차율": 32.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.525248, 36.709242]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 은곡리", "단지명": "103374 덕일한마음", "전용면적": 38.61, "세대 수": 910.0, "절대값 오차율": 32.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.497315, 36.62254]}, "properties": {"시군구": "충청북도 청주상당구 영운동", "단지명": "12726 신라송림", "전용면적": 73.17, "세대 수": 393.0, "절대값 오차율": 32.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.510352, 36.620738]}, "properties": {"시군구": "충청북도 청주상당구 영운동", "단지명": "12785 영운한진신세대", "전용면적": 43.24, "세대 수": 272.0, "절대값 오차율": 32.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.425688, 36.639404]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "106972 복대두진하트리움", "전용면적": 84.9314, "세대 수": 356.0, "절대값 오차율": 31.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.453787, 36.738576]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 창리", "단지명": "108414 오창금정2차", "전용면적": 82.49, "세대 수": 34.0, "절대값 오차율": 31.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.369575, 36.65574]}, "properties": {"시군구": "충청북도 청주흥덕구 옥산면 오산리", "단지명": "17228 아트빌", "전용면적": 59.94, "세대 수": 618.0, "절대값 오차율": 30.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.4722, 36.61978]}, "properties": {"시군구": "충청북도 청주서원구 수곡동", "단지명": "13013 세원홍실", "전용면적": 124.95, "세대 수": 224.0, "절대값 오차율": 29.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.433031, 36.640501]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "113572 청주복대두진하트리움2차", "전용면적": 74.7903, "세대 수": 293.0, "절대값 오차율": 29.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.497315, 36.62254]}, "properties": {"시군구": "충청북도 청주상당구 영운동", "단지명": "12726 신라송림", "전용면적": 84.66, "세대 수": 393.0, "절대값 오차율": 29.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.429262, 36.643547]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "104637 두산위브지웰시티2차", "전용면적": 80.499, "세대 수": 1956.0, "절대값 오차율": 28.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.509147, 36.615035]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "7044 청주용암주공1단지", "전용면적": 49.8, "세대 수": 600.0, "절대값 오차율": 28.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.425688, 36.639404]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "106972 복대두진하트리움", "전용면적": 84.9251, "세대 수": 356.0, "절대값 오차율": 28.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.529224, 36.718036]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 은곡리", "단지명": "101279 은곡무지개", "전용면적": 39.78, "세대 수": 713.0, "절대값 오차율": 28.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.474897, 36.616135]}, "properties": {"시군구": "충청북도 청주서원구 수곡동", "단지명": "12824 두진백로", "전용면적": 59.76, "세대 수": 935.0, "절대값 오차율": 27.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.433031, 36.640501]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "113572 청주복대두진하트리움2차", "전용면적": 74.8923, "세대 수": 293.0, "절대값 오차율": 27.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.433421, 36.634645]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "13560 아름다운나날2차", "전용면적": 84.9378, "세대 수": 539.0, "절대값 오차율": 27.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.433421, 36.634645]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "13560 아름다운나날2차", "전용면적": 79.3718, "세대 수": 539.0, "절대값 오차율": 26.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.30753, 36.60469]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 봉산리", "단지명": "25529 삼부청솔", "전용면적": 28.65, "세대 수": 199.0, "절대값 오차율": 26.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.425688, 36.639404]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "106972 복대두진하트리움", "전용면적": 59.8948, "세대 수": 356.0, "절대값 오차율": 26.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.429696, 36.622696]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "26882 가로수마을선광로즈웰", "전용면적": 84.9468, "세대 수": 256.0, "절대값 오차율": 26.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.30753, 36.60469]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 봉산리", "단지명": "25529 삼부청솔", "전용면적": 43.29, "세대 수": 199.0, "절대값 오차율": 26.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.417885, 36.707901]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19047 오창쌍용스윗닷홈예가", "전용면적": 59.945, "세대 수": 622.0, "절대값 오차율": 26.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.353568, 36.618864]}, "properties": {"시군구": "충청북도 청주흥덕구 강내면 탑연리", "단지명": "15368 선광한빛", "전용면적": 59.78, "세대 수": 350.0, "절대값 오차율": 25.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.326052, 36.62812]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 연제리", "단지명": "26318 오송호반베르디움", "전용면적": 84.9636, "세대 수": 634.0, "절대값 오차율": 25.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.48315, 36.65461]}, "properties": {"시군구": "충청북도 청주청원구 우암동", "단지명": "17233 평화(375)", "전용면적": 51.045, "세대 수": 78.0, "절대값 오차율": 25.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.440249, 36.618149]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "18757 청주가경뜨란채7단지", "전용면적": 84.91, "세대 수": 370.0, "절대값 오차율": 25.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.429262, 36.643547]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "104637 두산위브지웰시티2차", "전용면적": 80.135, "세대 수": 1956.0, "절대값 오차율": 24.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.48207, 36.670284]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "26341 남광하우스토리B단지", "전용면적": 84.9194, "세대 수": 478.0, "절대값 오차율": 24.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.488061, 36.612002]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "23894 청주분평뜨란채1단지", "전용면적": 59.45, "세대 수": 982.0, "절대값 오차율": 24.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.437921, 36.633928]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "7345 현대1차", "전용면적": 181.0925, "세대 수": 380.0, "절대값 오차율": 24.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.468196, 36.64617]}, "properties": {"시군구": "충청북도 청주흥덕구 신봉동", "단지명": "13906 삼정백조", "전용면적": 59.94, "세대 수": 564.0, "절대값 오차율": 24.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.474897, 36.616135]}, "properties": {"시군구": "충청북도 청주서원구 수곡동", "단지명": "12824 두진백로", "전용면적": 59.85, "세대 수": 935.0, "절대값 오차율": 23.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.488061, 36.612002]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "23894 청주분평뜨란채1단지", "전용면적": 49.24, "세대 수": 982.0, "절대값 오차율": 22.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.443618, 36.619129]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "26052 가경주공2단지", "전용면적": 49.8, "세대 수": 704.0, "절대값 오차율": 22.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.494767, 36.673781]}, "properties": {"시군구": "충청북도 청주청원구 주중동", "단지명": "103963 대원칸타빌2차", "전용면적": 84.455, "세대 수": 780.0, "절대값 오차율": 22.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.447307, 36.619246]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "12983 청주개신푸르지오", "전용면적": 120.2056, "세대 수": 920.0, "절대값 오차율": 22.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.486724, 36.668529]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "7193 율량현대", "전용면적": 125.59, "세대 수": 764.0, "절대값 오차율": 22.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.465787, 36.632172]}, "properties": {"시군구": "충청북도 청주서원구 사창동", "단지명": "108585 통경목련", "전용면적": 24.48, "세대 수": 48.0, "절대값 오차율": 22.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.501152, 36.600256]}, "properties": {"시군구": "충청북도 청주상당구 방서동", "단지명": "111666 청주센트럴자이", "전용면적": 84.7377, "세대 수": 1500.0, "절대값 오차율": 21.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.423375, 36.705674]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19396 우림필유2차", "전용면적": 84.9812, "세대 수": 1602.0, "절대값 오차율": 21.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.326052, 36.62812]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 연제리", "단지명": "26318 오송호반베르디움", "전용면적": 84.8873, "세대 수": 634.0, "절대값 오차율": 21.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.452713, 36.743122]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 장대리", "단지명": "15382 오창재원", "전용면적": 59.9, "세대 수": 118.0, "절대값 오차율": 21.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.425156, 36.634768]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "11206 세원테마빌", "전용면적": 84.9658, "세대 수": 388.0, "절대값 오차율": 21.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.491728, 36.61017]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "11644 주은프레지던트", "전용면적": 137.504, "세대 수": 620.0, "절대값 오차율": 21.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.322546, 36.632661]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 연제리", "단지명": "26632 오송힐데스하임", "전용면적": 109.5318, "세대 수": 402.0, "절대값 오차율": 21.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.490965, 36.666204]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "122496 원진", "전용면적": 84.99, "세대 수": 16.0, "절대값 오차율": 21.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.436981, 36.710795]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 양청리", "단지명": "108592 롯데캐슬더하이스트", "전용면적": 84.9749, "세대 수": 2500.0, "절대값 오차율": 21.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.463197, 36.647769]}, "properties": {"시군구": "충청북도 청주흥덕구 봉명동", "단지명": "9980 삼정백조", "전용면적": 59.95, "세대 수": 199.0, "절대값 오차율": 21.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47103, 36.61043]}, "properties": {"시군구": "충청북도 청주서원구 산남동", "단지명": "25552 계룡리슈빌", "전용면적": 132.1041, "세대 수": 551.0, "절대값 오차율": 21.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.425156, 36.634768]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "11206 세원테마빌", "전용면적": 74.9884, "세대 수": 388.0, "절대값 오차율": 20.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47103, 36.61043]}, "properties": {"시군구": "충청북도 청주서원구 산남동", "단지명": "25552 계룡리슈빌", "전용면적": 166.9333, "세대 수": 551.0, "절대값 오차율": 20.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.443618, 36.619129]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "26052 가경주공2단지", "전용면적": 59.92, "세대 수": 704.0, "절대값 오차율": 20.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.445295, 36.62231]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "10630 청주개신주공3단지", "전용면적": 84.8, "세대 수": 634.0, "절대값 오차율": 20.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.432364, 36.636929]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "7372 현대2차", "전용면적": 59.88, "세대 수": 1464.0, "절대값 오차율": 20.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.468196, 36.64617]}, "properties": {"시군구": "충청북도 청주흥덕구 신봉동", "단지명": "13906 삼정백조", "전용면적": 84.81, "세대 수": 564.0, "절대값 오차율": 20.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.423375, 36.705674]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19396 우림필유2차", "전용면적": 122.6368, "세대 수": 1602.0, "절대값 오차율": 20.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.432364, 36.636929]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "7372 현대2차", "전용면적": 60.0, "세대 수": 1464.0, "절대값 오차율": 20.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.426696, 36.621699]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "26151 가로수마을한라비발디", "전용면적": 84.962, "세대 수": 416.0, "절대값 오차율": 20.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.445295, 36.62231]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "10630 청주개신주공3단지", "전용면적": 84.75, "세대 수": 634.0, "절대값 오차율": 20.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.480335, 36.66648]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "114958 신라(1292)", "전용면적": 30.6, "세대 수": 252.0, "절대값 오차율": 20.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.463476, 36.613903]}, "properties": {"시군구": "충청북도 청주서원구 산남동", "단지명": "25551 유승한내들", "전용면적": 59.8886, "세대 수": 464.0, "절대값 오차율": 20.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.459868, 36.65208]}, "properties": {"시군구": "충청북도 청주흥덕구 봉명동", "단지명": "12020 봉명아이파크", "전용면적": 106.0896, "세대 수": 1222.0, "절대값 오차율": 20.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.322546, 36.632661]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 연제리", "단지명": "26632 오송힐데스하임", "전용면적": 174.7978, "세대 수": 402.0, "절대값 오차율": 20.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.465004, 36.624247]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "7283 송학삼익맨션", "전용면적": 84.931, "세대 수": 330.0, "절대값 오차율": 20.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47103, 36.61043]}, "properties": {"시군구": "충청북도 청주서원구 산남동", "단지명": "25552 계룡리슈빌", "전용면적": 106.0239, "세대 수": 551.0, "절대값 오차율": 20.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.423375, 36.705674]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19396 우림필유2차", "전용면적": 84.9673, "세대 수": 1602.0, "절대값 오차율": 20.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.53964, 36.709578]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 도원리", "단지명": "15376 우창진주1차", "전용면적": 59.955, "세대 수": 264.0, "절대값 오차율": 20.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.422952, 36.633505]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "7473 삼일", "전용면적": 69.6, "세대 수": 365.0, "절대값 오차율": 19.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.425089, 36.709461]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19052 중앙하이츠빌", "전용면적": 147.8239, "세대 수": 1338.0, "절대값 오차율": 19.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47103, 36.61043]}, "properties": {"시군구": "충청북도 청주서원구 산남동", "단지명": "25552 계룡리슈빌", "전용면적": 105.773, "세대 수": 551.0, "절대값 오차율": 19.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.459868, 36.65208]}, "properties": {"시군구": "충청북도 청주흥덕구 봉명동", "단지명": "12020 봉명아이파크", "전용면적": 74.3252, "세대 수": 1222.0, "절대값 오차율": 19.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.466812, 36.657158]}, "properties": {"시군구": "충청북도 청주흥덕구 신봉동", "단지명": "26213 청주신봉우림필유", "전용면적": 106.6893, "세대 수": 427.0, "절대값 오차율": 19.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.468421, 36.624803]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "7270 두진백로1단지", "전용면적": 84.93, "세대 수": 227.0, "절대값 오차율": 18.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.424383, 36.638008]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "12832 영조아름다운나날1차", "전용면적": 59.293, "세대 수": 952.0, "절대값 오차율": 18.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.42344, 36.62461]}, "properties": {"시군구": "충청북도 청주흥덕구 강서동", "단지명": "15425 덕흥", "전용면적": 59.895, "세대 수": 48.0, "절대값 오차율": 18.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.424383, 36.638008]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "12832 영조아름다운나날1차", "전용면적": 59.3291, "세대 수": 952.0, "절대값 오차율": 18.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.473969, 36.663976]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "7027 사천동아1차", "전용면적": 164.62, "세대 수": 461.0, "절대값 오차율": 18.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.447957, 36.614346]}, "properties": {"시군구": "충청북도 청주서원구 성화동", "단지명": "101838 성화호반베르디움", "전용면적": 84.8572, "세대 수": 840.0, "절대값 오차율": 18.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.510282, 36.612275]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "7040 소라", "전용면적": 59.43, "세대 수": 675.0, "절대값 오차율": 18.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.424583, 36.618634]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "26158 가경e-편한세상", "전용면적": 159.7844, "세대 수": 385.0, "절대값 오차율": 18.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.420798, 36.640325]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "7478 효성1차", "전용면적": 45.32, "세대 수": 894.0, "절대값 오차율": 18.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.501152, 36.600256]}, "properties": {"시군구": "충청북도 청주상당구 방서동", "단지명": "111666 청주센트럴자이", "전용면적": 59.953, "세대 수": 1500.0, "절대값 오차율": 18.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.504009, 36.621289]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "12783 효성2차", "전용면적": 27.27, "세대 수": 253.0, "절대값 오차율": 18.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.486724, 36.668529]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "7193 율량현대", "전용면적": 75.01, "세대 수": 764.0, "절대값 오차율": 18.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.462953, 36.628185]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "15432 한진신세대", "전용면적": 32.0, "세대 수": 336.0, "절대값 오차율": 18.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.501152, 36.600256]}, "properties": {"시군구": "충청북도 청주상당구 방서동", "단지명": "111666 청주센트럴자이", "전용면적": 59.7895, "세대 수": 1500.0, "절대값 오차율": 18.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.451031, 36.738771]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 창리", "단지명": "109399 오창2지구대원칸타빌(2블럭)", "전용면적": 84.9199, "세대 수": 592.0, "절대값 오차율": 17.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.428031, 36.622579]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "26163 가로수마을호반베르디움", "전용면적": 84.9848, "세대 수": 459.0, "절대값 오차율": 17.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.322546, 36.632661]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 연제리", "단지명": "26632 오송힐데스하임", "전용면적": 132.6331, "세대 수": 402.0, "절대값 오차율": 17.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.508865, 36.622426]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "6993 금천뉴타운", "전용면적": 84.9, "세대 수": 783.0, "절대값 오차율": 17.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.423375, 36.705674]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19396 우림필유2차", "전용면적": 59.9101, "세대 수": 1602.0, "절대값 오차율": 17.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.439407, 36.626391]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7254 가경대원", "전용면적": 49.83, "세대 수": 940.0, "절대값 오차율": 17.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.432012, 36.615835]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "119848 청주가경아이파크2단지", "전용면적": 105.37, "세대 수": 664.0, "절대값 오차율": 17.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.473877, 36.652774]}, "properties": {"시군구": "충청북도 청주흥덕구 운천동", "단지명": "7450 무지개", "전용면적": 30.42, "세대 수": 639.0, "절대값 오차율": 17.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.305402, 36.605562]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 정중리", "단지명": "15374 개나리", "전용면적": 84.96, "세대 수": 110.0, "절대값 오차율": 17.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.497734, 36.67346]}, "properties": {"시군구": "충청북도 청주청원구 주성동", "단지명": "102720 대원칸타빌1차", "전용면적": 84.455, "세대 수": 903.0, "절대값 오차율": 17.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.485469, 36.65204]}, "properties": {"시군구": "충청북도 청주청원구 우암동", "단지명": "7164 덕일한마음", "전용면적": 84.79, "세대 수": 345.0, "절대값 오차율": 17.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.508986, 36.626266]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "15388 금천경희", "전용면적": 31.2, "세대 수": 470.0, "절대값 오차율": 17.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.50315, 36.62856]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "7011 금천현대", "전용면적": 62.08, "세대 수": 1032.0, "절대값 오차율": 17.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.436981, 36.710795]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 양청리", "단지명": "108592 롯데캐슬더하이스트", "전용면적": 84.9755, "세대 수": 2500.0, "절대값 오차율": 17.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.426696, 36.621699]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "26151 가로수마을한라비발디", "전용면적": 84.965, "세대 수": 416.0, "절대값 오차율": 17.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.426114, 36.707571]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19050 코아루", "전용면적": 84.9796, "세대 수": 948.0, "절대값 오차율": 17.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.428031, 36.622579]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "26163 가로수마을호반베르디움", "전용면적": 84.9267, "세대 수": 459.0, "절대값 오차율": 17.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.453322, 36.734582]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 주성리", "단지명": "107695 오창대성베르힐", "전용면적": 84.852, "세대 수": 587.0, "절대값 오차율": 17.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.429262, 36.643547]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "104637 두산위브지웰시티2차", "전용면적": 80.002, "세대 수": 1956.0, "절대값 오차율": 16.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.31775, 36.60214]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 서평리", "단지명": "15373 보영2차", "전용면적": 59.94, "세대 수": 92.0, "절대값 오차율": 16.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47785, 36.66604]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "7030 신동아", "전용면적": 72.78, "세대 수": 958.0, "절대값 오차율": 16.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.421483, 36.62955]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "19182 비하계룡리슈빌", "전용면적": 99.7502, "세대 수": 480.0, "절대값 오차율": 16.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.447957, 36.614346]}, "properties": {"시군구": "충청북도 청주서원구 성화동", "단지명": "101838 성화호반베르디움", "전용면적": 84.95, "세대 수": 840.0, "절대값 오차율": 16.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.48956, 36.67071]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "7190 삼정2차", "전용면적": 84.57, "세대 수": 275.0, "절대값 오차율": 16.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.421547, 36.631425]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "103456 청주비하계룡리슈빌2차", "전용면적": 84.9607, "세대 수": 540.0, "절대값 오차율": 16.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.436981, 36.710795]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 양청리", "단지명": "108592 롯데캐슬더하이스트", "전용면적": 84.9241, "세대 수": 2500.0, "절대값 오차율": 16.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47103, 36.61043]}, "properties": {"시군구": "충청북도 청주서원구 산남동", "단지명": "25552 계룡리슈빌", "전용면적": 133.7416, "세대 수": 551.0, "절대값 오차율": 16.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.52534, 36.710631]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 은곡리", "단지명": "101346 천일은곡", "전용면적": 59.739, "세대 수": 494.0, "절대값 오차율": 16.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.50058, 36.671102]}, "properties": {"시군구": "충청북도 청주청원구 주성동", "단지명": "105039 대원칸타빌3차", "전용면적": 84.443, "세대 수": 789.0, "절대값 오차율": 16.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.508102, 36.612312]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "13209 진흥한우리", "전용면적": 84.41, "세대 수": 330.0, "절대값 오차율": 15.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.504709, 36.61145]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "7052 용암현대3차", "전용면적": 83.82, "세대 수": 520.0, "절대값 오차율": 15.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.369575, 36.65574]}, "properties": {"시군구": "충청북도 청주흥덕구 옥산면 오산리", "단지명": "17228 아트빌", "전용면적": 39.96, "세대 수": 618.0, "절대값 오차율": 15.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.508799, 36.629275]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "105393 장자마을7단지부영", "전용면적": 48.3895, "세대 수": 725.0, "절대값 오차율": 15.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.424583, 36.618634]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "26158 가경e-편한세상", "전용면적": 133.5941, "세대 수": 385.0, "절대값 오차율": 15.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.426114, 36.707571]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19050 코아루", "전용면적": 84.9696, "세대 수": 948.0, "절대값 오차율": 15.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.438064, 36.638831]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "23706 주은", "전용면적": 59.6443, "세대 수": 220.0, "절대값 오차율": 15.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.473877, 36.652774]}, "properties": {"시군구": "충청북도 청주흥덕구 운천동", "단지명": "7450 무지개", "전용면적": 84.89, "세대 수": 639.0, "절대값 오차율": 15.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.440412, 36.621908]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7259 진로", "전용면적": 134.88, "세대 수": 320.0, "절대값 오차율": 15.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.50762, 36.62431]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "7007 풍림", "전용면적": 84.62, "세대 수": 327.0, "절대값 오차율": 15.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.501152, 36.600256]}, "properties": {"시군구": "충청북도 청주상당구 방서동", "단지명": "111666 청주센트럴자이", "전용면적": 84.8479, "세대 수": 1500.0, "절대값 오차율": 15.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.445295, 36.62231]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "10630 청주개신주공3단지", "전용면적": 75.99, "세대 수": 634.0, "절대값 오차율": 15.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.529263, 36.720857]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 내수리", "단지명": "15375 삼일", "전용면적": 59.684, "세대 수": 883.0, "절대값 오차율": 15.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.422654, 36.707798]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19045 대원칸타빌", "전용면적": 59.9851, "세대 수": 464.0, "절대값 오차율": 14.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.439407, 36.626391]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7254 가경대원", "전용면적": 59.97, "세대 수": 940.0, "절대값 오차율": 14.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.369868, 36.665462]}, "properties": {"시군구": "충청북도 청주흥덕구 옥산면 오산리", "단지명": "15385 옥산한울2차", "전용면적": 59.82, "세대 수": 212.0, "절대값 오차율": 14.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.437138, 36.629391]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7230 형석1차", "전용면적": 72.61, "세대 수": 600.0, "절대값 오차율": 14.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.426114, 36.707571]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19050 코아루", "전용면적": 127.9279, "세대 수": 948.0, "절대값 오차율": 14.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.451031, 36.738771]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 창리", "단지명": "109399 오창2지구대원칸타빌(2블럭)", "전용면적": 84.9653, "세대 수": 592.0, "절대값 오차율": 14.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.421483, 36.62955]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "19182 비하계룡리슈빌", "전용면적": 161.9117, "세대 수": 480.0, "절대값 오차율": 14.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.424583, 36.618634]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "26158 가경e-편한세상", "전용면적": 133.819, "세대 수": 385.0, "절대값 오차율": 14.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.474897, 36.616135]}, "properties": {"시군구": "충청북도 청주서원구 수곡동", "단지명": "12824 두진백로", "전용면적": 59.4, "세대 수": 935.0, "절대값 오차율": 13.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.447566, 36.737899]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 창리", "단지명": "107656 오창모아미래도와이드파크(3블럭)", "전용면적": 59.9853, "세대 수": 630.0, "절대값 오차율": 13.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.469502, 36.630269]}, "properties": {"시군구": "충청북도 청주서원구 사직동", "단지명": "106825 푸르지오캐슬5단지", "전용면적": 72.28, "세대 수": 548.0, "절대값 오차율": 13.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.447307, 36.619246]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "12983 청주개신푸르지오", "전용면적": 84.7858, "세대 수": 920.0, "절대값 오차율": 13.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.440297, 36.620781]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7249 효성", "전용면적": 117.42, "세대 수": 320.0, "절대값 오차율": 13.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.428031, 36.622579]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "26163 가로수마을호반베르디움", "전용면적": 84.9667, "세대 수": 459.0, "절대값 오차율": 13.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.487421, 36.644488]}, "properties": {"시군구": "충청북도 청주상당구 북문로3가동", "단지명": "102933 북문로한신휴플러스", "전용면적": 133.1831, "세대 수": 286.0, "절대값 오차율": 13.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.333635, 36.622666]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 궁평리", "단지명": "101183 삼진", "전용면적": 59.73, "세대 수": 94.0, "절대값 오차율": 13.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.425089, 36.709461]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19052 중앙하이츠빌", "전용면적": 102.228, "세대 수": 1338.0, "절대값 오차율": 13.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.330037, 36.628927]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 만수리", "단지명": "102183 오송마을휴먼시아2단지", "전용면적": 84.97, "세대 수": 468.0, "절대값 오차율": 13.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.447307, 36.619246]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "12983 청주개신푸르지오", "전용면적": 100.4484, "세대 수": 920.0, "절대값 오차율": 13.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.447566, 36.737899]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 창리", "단지명": "107656 오창모아미래도와이드파크(3블럭)", "전용면적": 59.9846, "세대 수": 630.0, "절대값 오차율": 13.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.525248, 36.709242]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 은곡리", "단지명": "103374 덕일한마음", "전용면적": 45.27, "세대 수": 910.0, "절대값 오차율": 13.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.472937, 36.608457]}, "properties": {"시군구": "충청북도 청주서원구 산남동", "단지명": "26054 부영사랑으로", "전용면적": 59.9364, "세대 수": 985.0, "절대값 오차율": 13.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.508865, 36.622426]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "6993 금천뉴타운", "전용면적": 59.96, "세대 수": 783.0, "절대값 오차율": 13.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.476092, 36.627991]}, "properties": {"시군구": "충청북도 청주서원구 모충동", "단지명": "7303 삼호", "전용면적": 84.945, "세대 수": 254.0, "절대값 오차율": 13.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.439407, 36.626391]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7254 가경대원", "전용면적": 59.94, "세대 수": 940.0, "절대값 오차율": 13.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.511755, 36.628747]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "101184 장자마을8단지부영", "전용면적": 84.9767, "세대 수": 663.0, "절대값 오차율": 13.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.436981, 36.710795]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 양청리", "단지명": "108592 롯데캐슬더하이스트", "전용면적": 84.9604, "세대 수": 2500.0, "절대값 오차율": 13.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.44898, 36.622985]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "25977 청주개신주공1단지", "전용면적": 49.93, "세대 수": 1398.0, "절대값 오차율": 13.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.36881, 36.66005]}, "properties": {"시군구": "충청북도 청주흥덕구 옥산면 오산리", "단지명": "17227 옥산금정1차", "전용면적": 31.05, "세대 수": 225.0, "절대값 오차율": 12.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.476, 36.66507]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "25717 대창1차", "전용면적": 59.472, "세대 수": 356.0, "절대값 오차율": 12.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.466402, 36.624172]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "106605 개신재원", "전용면적": 32.805, "세대 수": 180.0, "절대값 오차율": 12.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.419484, 36.706656]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "17765 오창이안", "전용면적": 59.4414, "세대 수": 818.0, "절대값 오차율": 12.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.326511, 36.62678]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 연제리", "단지명": "101276 오송대원칸타빌", "전용면적": 84.9922, "세대 수": 304.0, "절대값 오차율": 12.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.534889, 36.727205]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 내수리", "단지명": "106602 수정로얄", "전용면적": 59.42, "세대 수": 154.0, "절대값 오차율": 12.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.451031, 36.738771]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 창리", "단지명": "109399 오창2지구대원칸타빌(2블럭)", "전용면적": 75.3375, "세대 수": 592.0, "절대값 오차율": 12.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.436981, 36.710795]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 양청리", "단지명": "108592 롯데캐슬더하이스트", "전용면적": 70.9515, "세대 수": 2500.0, "절대값 오차율": 12.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.423375, 36.705674]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19396 우림필유2차", "전용면적": 166.7705, "세대 수": 1602.0, "절대값 오차율": 12.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.421483, 36.62955]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "19182 비하계룡리슈빌", "전용면적": 133.8688, "세대 수": 480.0, "절대값 오차율": 12.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.422952, 36.633505]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "7473 삼일", "전용면적": 84.85, "세대 수": 365.0, "절대값 오차율": 12.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.472608, 36.661726]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "26510 남광하우스토리B단지", "전용면적": 183.3106, "세대 수": 478.0, "절대값 오차율": 11.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.503927, 36.613132]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "7036 건영", "전용면적": 84.93, "세대 수": 1046.0, "절대값 오차율": 11.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.509409, 36.628322]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "105992 장자마을9단지부영", "전용면적": 48.3895, "세대 수": 456.0, "절대값 오차율": 11.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.497897, 36.6139]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "19682 청주신영강변뜨란채", "전용면적": 59.88, "세대 수": 517.0, "절대값 오차율": 11.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.437921, 36.633928]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "7345 현대1차", "전용면적": 99.33, "세대 수": 380.0, "절대값 오차율": 11.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.439649, 36.619228]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "18756 청주가경뜨란채8단지", "전용면적": 84.94, "세대 수": 321.0, "절대값 오차율": 11.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.420294, 36.641406]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "7482 비하효성2차", "전용면적": 59.86, "세대 수": 478.0, "절대값 오차율": 11.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.511691, 36.635723]}, "properties": {"시군구": "충청북도 청주상당구 용담동", "단지명": "110558 우미린에듀파크2단지", "전용면적": 84.9813, "세대 수": 901.0, "절대값 오차율": 11.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.326882, 36.63045]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 연제리", "단지명": "100391 모아미래도", "전용면적": 84.8683, "세대 수": 400.0, "절대값 오차율": 11.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.488248, 36.664849]}, "properties": {"시군구": "충청북도 청주청원구 내덕동", "단지명": "27823 이랜드해가든", "전용면적": 84.9226, "세대 수": 236.0, "절대값 오차율": 11.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.326882, 36.63045]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 연제리", "단지명": "100391 모아미래도", "전용면적": 84.7627, "세대 수": 400.0, "절대값 오차율": 11.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.447307, 36.619246]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "12983 청주개신푸르지오", "전용면적": 84.775, "세대 수": 920.0, "절대값 오차율": 11.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.509527, 36.636145]}, "properties": {"시군구": "충청북도 청주상당구 용담동", "단지명": "11871 용담가좌마을e-편한세상", "전용면적": 167.5642, "세대 수": 421.0, "절대값 오차율": 11.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.504206, 36.618433]}, "properties": {"시군구": "충청북도 청주상당구 영운동", "단지명": "12727 태암수정", "전용면적": 54.12, "세대 수": 486.0, "절대값 오차율": 11.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.466812, 36.657158]}, "properties": {"시군구": "충청북도 청주흥덕구 신봉동", "단지명": "26213 청주신봉우림필유", "전용면적": 84.9081, "세대 수": 427.0, "절대값 오차율": 11.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.36836, 36.666563]}, "properties": {"시군구": "충청북도 청주흥덕구 옥산면 오산리", "단지명": "15384 옥산한울", "전용면적": 59.82, "세대 수": 119.0, "절대값 오차율": 10.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.509963, 36.627396]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "101185 장자마을10단지부영", "전용면적": 84.9767, "세대 수": 330.0, "절대값 오차율": 10.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.511439, 36.632711]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "101731 장자마을1단지부영", "전용면적": 84.9916, "세대 수": 284.0, "절대값 오차율": 10.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.495502, 36.607365]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "7500 주공5단지", "전용면적": 39.69, "세대 수": 1350.0, "절대값 오차율": 10.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.536232, 36.721629]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 마산리", "단지명": "15377 진흥1차", "전용면적": 59.85, "세대 수": 425.0, "절대값 오차율": 10.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.506748, 36.630024]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "101024 장자마을6단지부영그린타운2차", "전용면적": 84.8612, "세대 수": 320.0, "절대값 오차율": 10.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.472608, 36.661726]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "26510 남광하우스토리B단지", "전용면적": 84.5499, "세대 수": 478.0, "절대값 오차율": 10.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.540154, 36.707886]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 도원리", "단지명": "15379 우창진주3차", "전용면적": 59.9, "세대 수": 295.0, "절대값 오차율": 10.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.436981, 36.710795]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 양청리", "단지명": "108592 롯데캐슬더하이스트", "전용면적": 59.9502, "세대 수": 2500.0, "절대값 오차율": 10.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.419252, 36.709232]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "23633 한라비발디", "전용면적": 59.958, "세대 수": 1529.0, "절대값 오차율": 10.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.425089, 36.709461]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19052 중앙하이츠빌", "전용면적": 59.9271, "세대 수": 1338.0, "절대값 오차율": 10.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.500596, 36.616642]}, "properties": {"시군구": "충청북도 청주상당구 영운동", "단지명": "12728 영운삼일", "전용면적": 59.1, "세대 수": 228.0, "절대값 오차율": 10.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.428207, 36.639595]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "26493 신영지웰홈스", "전용면적": 84.787, "세대 수": 452.0, "절대값 오차율": 10.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.494652, 36.660533]}, "properties": {"시군구": "충청북도 청주청원구 내덕동", "단지명": "100544 영우예인촌", "전용면적": 30.31, "세대 수": 280.0, "절대값 오차율": 10.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47785, 36.66604]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "7030 신동아", "전용면적": 84.81, "세대 수": 958.0, "절대값 오차율": 10.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.475133, 36.665468]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "7028 사천동아2차", "전용면적": 51.32, "세대 수": 398.0, "절대값 오차율": 9.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.50715, 36.61128]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "7042 임광", "전용면적": 101.98, "세대 수": 280.0, "절대값 오차율": 9.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.419252, 36.709232]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "23633 한라비발디", "전용면적": 84.573, "세대 수": 1529.0, "절대값 오차율": 9.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.467368, 36.629935]}, "properties": {"시군구": "충청북도 청주서원구 사직동", "단지명": "106824 푸르지오캐슬4단지", "전용면적": 104.04, "세대 수": 1219.0, "절대값 오차율": 9.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.425089, 36.709461]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19052 중앙하이츠빌", "전용면적": 84.6881, "세대 수": 1338.0, "절대값 오차율": 9.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.487288, 36.609618]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "7511 현대대우", "전용면적": 99.33, "세대 수": 1179.0, "절대값 오차율": 9.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.504709, 36.61145]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "7052 용암현대3차", "전용면적": 99.95, "세대 수": 520.0, "절대값 오차율": 9.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.454385, 36.668232]}, "properties": {"시군구": "충청북도 청주흥덕구 송절동", "단지명": "115388 청주테크노폴리스우방아이유쉘1단지", "전용면적": 84.9725, "세대 수": 427.0, "절대값 오차율": 9.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.425535, 36.619855]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "26051 가로수마을대원칸타빌", "전용면적": 115.5179, "세대 수": 310.0, "절대값 오차율": 9.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.419484, 36.706656]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "17765 오창이안", "전용면적": 119.3059, "세대 수": 818.0, "절대값 오차율": 9.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.490669, 36.609661]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "7513 대원", "전용면적": 59.9456, "세대 수": 731.0, "절대값 오차율": 9.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.41962, 36.639364]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "25027 대주피오레1차", "전용면적": 84.8714, "세대 수": 149.0, "절대값 오차율": 9.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.436981, 36.710795]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 양청리", "단지명": "108592 롯데캐슬더하이스트", "전용면적": 70.9779, "세대 수": 2500.0, "절대값 오차율": 9.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.462565, 36.6325]}, "properties": {"시군구": "충청북도 청주서원구 사창동", "단지명": "24345 대원칸타빌", "전용면적": 115.2141, "세대 수": 810.0, "절대값 오차율": 9.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.492482, 36.667364]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "13005 효성", "전용면적": 59.99, "세대 수": 117.0, "절대값 오차율": 9.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.509527, 36.636145]}, "properties": {"시군구": "충청북도 청주상당구 용담동", "단지명": "11871 용담가좌마을e-편한세상", "전용면적": 139.233, "세대 수": 421.0, "절대값 오차율": 9.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.488248, 36.664849]}, "properties": {"시군구": "충청북도 청주청원구 내덕동", "단지명": "27823 이랜드해가든", "전용면적": 84.9603, "세대 수": 236.0, "절대값 오차율": 9.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.465004, 36.624247]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "7283 송학삼익맨션", "전용면적": 125.03, "세대 수": 330.0, "절대값 오차율": 9.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.495502, 36.607365]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "7500 주공5단지", "전용면적": 59.71, "세대 수": 1350.0, "절대값 오차율": 8.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.467368, 36.629935]}, "properties": {"시군구": "충청북도 청주서원구 사직동", "단지명": "106824 푸르지오캐슬4단지", "전용면적": 139.96, "세대 수": 1219.0, "절대값 오차율": 8.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.486724, 36.668529]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "7193 율량현대", "전용면적": 84.98, "세대 수": 764.0, "절대값 오차율": 8.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.44157, 36.62229]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7225 가경태암수정", "전용면적": 84.895, "세대 수": 450.0, "절대값 오차율": 8.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.425535, 36.619855]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "26051 가로수마을대원칸타빌", "전용면적": 150.2805, "세대 수": 310.0, "절대값 오차율": 8.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.486943, 36.645666]}, "properties": {"시군구": "충청북도 청주청원구 우암동", "단지명": "103997 우암세원", "전용면적": 41.02, "세대 수": 236.0, "절대값 오차율": 8.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.330037, 36.628927]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 만수리", "단지명": "102183 오송마을휴먼시아2단지", "전용면적": 84.91, "세대 수": 468.0, "절대값 오차율": 8.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.50315, 36.62856]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "7011 금천현대", "전용면적": 84.84, "세대 수": 1032.0, "절대값 오차율": 8.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.511691, 36.635723]}, "properties": {"시군구": "충청북도 청주상당구 용담동", "단지명": "110558 우미린에듀파크2단지", "전용면적": 113.9489, "세대 수": 901.0, "절대값 오차율": 8.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.422952, 36.633505]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "7473 삼일", "전용면적": 59.88, "세대 수": 365.0, "절대값 오차율": 8.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.380853, 36.672202]}, "properties": {"시군구": "충청북도 청주흥덕구 옥산면 가락리", "단지명": "109403 흥덕코오롱하늘채", "전용면적": 84.8642, "세대 수": 1206.0, "절대값 오차율": 8.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.45403, 36.61827]}, "properties": {"시군구": "충청북도 청주서원구 성화동", "단지명": "26188 남양휴튼", "전용면적": 119.77, "세대 수": 577.0, "절대값 오차율": 8.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.45403, 36.61827]}, "properties": {"시군구": "충청북도 청주서원구 성화동", "단지명": "26188 남양휴튼", "전용면적": 130.59, "세대 수": 577.0, "절대값 오차율": 8.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.437241, 36.632059]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7234 가경형석2차", "전용면적": 83.25, "세대 수": 370.0, "절대값 오차율": 8.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.420798, 36.640325]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "7478 효성1차", "전용면적": 59.9, "세대 수": 894.0, "절대값 오차율": 8.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.474627, 36.61973]}, "properties": {"시군구": "충청북도 청주서원구 수곡동", "단지명": "7418 산남주공4단지", "전용면적": 49.94, "세대 수": 1005.0, "절대값 오차율": 8.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.497315, 36.62254]}, "properties": {"시군구": "충청북도 청주상당구 영운동", "단지명": "12726 신라송림", "전용면적": 59.935, "세대 수": 393.0, "절대값 오차율": 8.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.423496, 36.62354]}, "properties": {"시군구": "충청북도 청주흥덕구 강서동", "단지명": "15426 청도", "전용면적": 59.88, "세대 수": 207.0, "절대값 오차율": 8.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.473142, 36.611216]}, "properties": {"시군구": "충청북도 청주서원구 산남동", "단지명": "25550 청주현진에버빌", "전용면적": 84.984, "세대 수": 477.0, "절대값 오차율": 8.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.472608, 36.661726]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "26510 남광하우스토리B단지", "전용면적": 124.6255, "세대 수": 478.0, "절대값 오차율": 8.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.380853, 36.672202]}, "properties": {"시군구": "충청북도 청주흥덕구 옥산면 가락리", "단지명": "109403 흥덕코오롱하늘채", "전용면적": 84.9824, "세대 수": 1206.0, "절대값 오차율": 8.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.428469, 36.709971]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19053 우림필유1차", "전용면적": 59.86, "세대 수": 1120.0, "절대값 오차율": 8.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.438667, 36.637464]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "7318 복대대원", "전용면적": 84.97, "세대 수": 812.0, "절대값 오차율": 8.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.328165, 36.629475]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 연제리", "단지명": "100700 오송상록롯데캐슬", "전용면적": 84.949, "세대 수": 671.0, "절대값 오차율": 8.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.459868, 36.65208]}, "properties": {"시군구": "충청북도 청주흥덕구 봉명동", "단지명": "12020 봉명아이파크", "전용면적": 112.5763, "세대 수": 1222.0, "절대값 오차율": 8.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.426114, 36.707571]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19050 코아루", "전용면적": 59.9875, "세대 수": 948.0, "절대값 오차율": 7.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.442628, 36.621585]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7206 동부", "전용면적": 72.64, "세대 수": 455.0, "절대값 오차율": 7.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.440297, 36.620781]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7249 효성", "전용면적": 144.59, "세대 수": 320.0, "절대값 오차율": 7.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.462565, 36.6325]}, "properties": {"시군구": "충청북도 청주서원구 사창동", "단지명": "24345 대원칸타빌", "전용면적": 59.9623, "세대 수": 810.0, "절대값 오차율": 7.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.436981, 36.710795]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 양청리", "단지명": "108592 롯데캐슬더하이스트", "전용면적": 84.9316, "세대 수": 2500.0, "절대값 오차율": 7.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.512986, 36.658416]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "108436 제일풍경채", "전용면적": 84.4281, "세대 수": 422.0, "절대값 오차율": 7.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.436981, 36.710795]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 양청리", "단지명": "108592 롯데캐슬더하이스트", "전용면적": 109.3576, "세대 수": 2500.0, "절대값 오차율": 7.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.512221, 36.609679]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "7038 용암세원한아름", "전용면적": 59.76, "세대 수": 1530.0, "절대값 오차율": 7.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.483004, 36.671171]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "106337 정도드림-빌", "전용면적": 29.92, "세대 수": 499.0, "절대값 오차율": 7.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.41905, 36.640893]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "26494 대주피오레2차", "전용면적": 84.9582, "세대 수": 189.0, "절대값 오차율": 7.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.540443, 36.710032]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 도원리", "단지명": "17225 우창진주2차", "전용면적": 59.73, "세대 수": 298.0, "절대값 오차율": 7.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.455219, 36.667285]}, "properties": {"시군구": "충청북도 청주흥덕구 송절동", "단지명": "115389 청주테크노폴리스우방아이유쉘2단지", "전용면적": 84.9725, "세대 수": 424.0, "절대값 오차율": 7.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.490669, 36.609661]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "7513 대원", "전용면적": 59.7254, "세대 수": 731.0, "절대값 오차율": 7.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.35377, 36.608042]}, "properties": {"시군구": "충청북도 청주흥덕구 강내면 월탄리", "단지명": "15370 강내태암수정", "전용면적": 59.665, "세대 수": 410.0, "절대값 오차율": 7.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.478014, 36.613211]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "26495 분평계룡리슈빌2단지", "전용면적": 98.7871, "세대 수": 150.0, "절대값 오차율": 7.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.435046, 36.632517]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7200 대림가경", "전용면적": 101.775, "세대 수": 386.0, "절대값 오차율": 7.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.504035, 36.622541]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "12729 효성1차", "전용면적": 84.99, "세대 수": 495.0, "절대값 오차율": 7.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.511691, 36.635723]}, "properties": {"시군구": "충청북도 청주상당구 용담동", "단지명": "110558 우미린에듀파크2단지", "전용면적": 72.9398, "세대 수": 901.0, "절대값 오차율": 7.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.511832, 36.611164]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "15401 용암삼일무지개", "전용면적": 59.94, "세대 수": 640.0, "절대값 오차율": 7.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.487288, 36.609618]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "7511 현대대우", "전용면적": 99.88, "세대 수": 1179.0, "절대값 오차율": 7.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.479508, 36.66866]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "7187 삼성", "전용면적": 84.69, "세대 수": 798.0, "절대값 오차율": 7.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.501282, 36.629902]}, "properties": {"시군구": "충청북도 청주상당구 탑동", "단지명": "108053 LH청주탑동", "전용면적": 84.9, "세대 수": 400.0, "절대값 오차율": 7.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.504709, 36.61145]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "7052 용암현대3차", "전용면적": 133.89, "세대 수": 520.0, "절대값 오차율": 7.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.50854, 36.60842]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "7162 효성", "전용면적": 59.22, "세대 수": 486.0, "절대값 오차율": 7.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.467368, 36.629935]}, "properties": {"시군구": "충청북도 청주서원구 사직동", "단지명": "106824 푸르지오캐슬4단지", "전용면적": 84.4, "세대 수": 1219.0, "절대값 오차율": 7.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.436981, 36.710795]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 양청리", "단지명": "108592 롯데캐슬더하이스트", "전용면적": 84.9505, "세대 수": 2500.0, "절대값 오차율": 7.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.508293, 36.633311]}, "properties": {"시군구": "충청북도 청주상당구 용담동", "단지명": "25799 가좌마을용담세영첼시빌", "전용면적": 84.993, "세대 수": 568.0, "절대값 오차율": 7.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.513486, 36.618408]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "100592 중흥마을3단지부영그린타운", "전용면적": 84.8612, "세대 수": 326.0, "절대값 오차율": 7.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.472608, 36.661726]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "26510 남광하우스토리B단지", "전용면적": 102.2269, "세대 수": 478.0, "절대값 오차율": 6.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.45403, 36.61827]}, "properties": {"시군구": "충청북도 청주서원구 성화동", "단지명": "26188 남양휴튼", "전용면적": 158.48, "세대 수": 577.0, "절대값 오차율": 6.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.474627, 36.61973]}, "properties": {"시군구": "충청북도 청주서원구 수곡동", "단지명": "7418 산남주공4단지", "전용면적": 44.94, "세대 수": 1005.0, "절대값 오차율": 6.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.499551, 36.672765]}, "properties": {"시군구": "충청북도 청주청원구 주성동", "단지명": "105322 율량5단지선광로즈웰2차", "전용면적": 84.9746, "세대 수": 417.0, "절대값 오차율": 6.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.449553, 36.620932]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "17209 청주개신뜨란채2단지", "전용면적": 59.42, "세대 수": 980.0, "절대값 오차율": 6.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.508102, 36.612312]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "13209 진흥한우리", "전용면적": 69.03, "세대 수": 330.0, "절대값 오차율": 6.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.440877, 36.624163]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7212 삼일원앙", "전용면적": 59.94, "세대 수": 520.0, "절대값 오차율": 6.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.421547, 36.631425]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "103456 청주비하계룡리슈빌2차", "전용면적": 123.8117, "세대 수": 540.0, "절대값 오차율": 6.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.438667, 36.637464]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "7318 복대대원", "전용면적": 80.32, "세대 수": 812.0, "절대값 오차율": 6.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.453385, 36.738322]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 창리", "단지명": "108607 오창금정", "전용면적": 59.94, "세대 수": 95.0, "절대값 오차율": 6.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.511691, 36.635723]}, "properties": {"시군구": "충청북도 청주상당구 용담동", "단지명": "110558 우미린에듀파크2단지", "전용면적": 84.9854, "세대 수": 901.0, "절대값 오차율": 6.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.508841, 36.610314]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "7160 용암현대", "전용면적": 84.87, "세대 수": 476.0, "절대값 오차율": 6.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.459868, 36.65208]}, "properties": {"시군구": "충청북도 청주흥덕구 봉명동", "단지명": "12020 봉명아이파크", "전용면적": 84.9443, "세대 수": 1222.0, "절대값 오차율": 6.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.466812, 36.657158]}, "properties": {"시군구": "충청북도 청주흥덕구 신봉동", "단지명": "26213 청주신봉우림필유", "전용면적": 132.3215, "세대 수": 427.0, "절대값 오차율": 6.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.428469, 36.709971]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19053 우림필유1차", "전용면적": 120.07, "세대 수": 1120.0, "절대값 오차율": 6.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.509409, 36.628322]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "105992 장자마을9단지부영", "전용면적": 59.2962, "세대 수": 456.0, "절대값 오차율": 6.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47244, 36.61892]}, "properties": {"시군구": "충청북도 청주서원구 수곡동", "단지명": "12786 한마음1차", "전용면적": 59.94, "세대 수": 435.0, "절대값 오차율": 6.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.468421, 36.624803]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "7270 두진백로1단지", "전용면적": 84.27, "세대 수": 227.0, "절대값 오차율": 6.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47785, 36.66604]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "7030 신동아", "전용면적": 72.33, "세대 수": 958.0, "절대값 오차율": 6.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.511691, 36.635723]}, "properties": {"시군구": "충청북도 청주상당구 용담동", "단지명": "110558 우미린에듀파크2단지", "전용면적": 84.9696, "세대 수": 901.0, "절대값 오차율": 5.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.44898, 36.622985]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "25977 청주개신주공1단지", "전용면적": 49.83, "세대 수": 1398.0, "절대값 오차율": 5.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.330037, 36.628927]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 만수리", "단지명": "102183 오송마을휴먼시아2단지", "전용면적": 84.95, "세대 수": 468.0, "절대값 오차율": 5.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.509481, 36.623988]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "105569 금천우미린", "전용면적": 76.0938, "세대 수": 319.0, "절대값 오차율": 5.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.476305, 36.626226]}, "properties": {"시군구": "충청북도 청주서원구 모충동", "단지명": "110869 모충동일센타시아", "전용면적": 65.0612, "세대 수": 240.0, "절대값 오차율": 5.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.469502, 36.630269]}, "properties": {"시군구": "충청북도 청주서원구 사직동", "단지명": "106825 푸르지오캐슬5단지", "전용면적": 123.44, "세대 수": 548.0, "절대값 오차율": 5.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.499551, 36.672765]}, "properties": {"시군구": "충청북도 청주청원구 주성동", "단지명": "105322 율량5단지선광로즈웰2차", "전용면적": 84.9768, "세대 수": 417.0, "절대값 오차율": 5.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.38398, 36.66786]}, "properties": {"시군구": "충청북도 청주흥덕구 옥산면 가락리", "단지명": "15386 화인테크노빌", "전용면적": 59.9335, "세대 수": 288.0, "절대값 오차율": 5.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.503927, 36.613132]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "7036 건영", "전용면적": 99.96, "세대 수": 1046.0, "절대값 오차율": 5.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.443586, 36.614344]}, "properties": {"시군구": "충청북도 청주서원구 죽림동", "단지명": "27617 청주가경주공3단지", "전용면적": 51.74, "세대 수": 704.0, "절대값 오차율": 5.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.463308, 36.609153]}, "properties": {"시군구": "충청북도 청주서원구 산남동", "단지명": "25919 청주산남푸르지오", "전용면적": 84.955, "세대 수": 760.0, "절대값 오차율": 5.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.467368, 36.629935]}, "properties": {"시군구": "충청북도 청주서원구 사직동", "단지명": "106824 푸르지오캐슬4단지", "전용면적": 123.44, "세대 수": 1219.0, "절대값 오차율": 5.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.428469, 36.709971]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19053 우림필유1차", "전용면적": 84.94, "세대 수": 1120.0, "절대값 오차율": 5.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.440596, 36.614979]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "17430 가경푸르지오", "전용면적": 128.4119, "세대 수": 575.0, "절대값 오차율": 5.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.50914, 36.632052]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "10306 장자마을2단지현대", "전용면적": 84.8943, "세대 수": 636.0, "절대값 오차율": 5.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.508241, 36.634401]}, "properties": {"시군구": "충청북도 청주상당구 용담동", "단지명": "13463 가좌마을부영그린타운1차", "전용면적": 84.9916, "세대 수": 380.0, "절대값 오차율": 5.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.510572, 36.615927]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "17234 중흥마을6단지부영", "전용면적": 84.9538, "세대 수": 557.0, "절대값 오차율": 5.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.506255, 36.63378]}, "properties": {"시군구": "충청북도 청주상당구 용담동", "단지명": "100984 가좌마을5단지부영", "전용면적": 84.9916, "세대 수": 437.0, "절대값 오차율": 5.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.510058, 36.631043]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "22417 장자마을3단지부영", "전용면적": 84.9916, "세대 수": 378.0, "절대값 오차율": 5.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.49186, 36.6074]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "7516 주공6단지", "전용면적": 84.34, "세대 수": 1120.0, "절대값 오차율": 5.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.45403, 36.61827]}, "properties": {"시군구": "충청북도 청주서원구 성화동", "단지명": "26188 남양휴튼", "전용면적": 102.48, "세대 수": 577.0, "절대값 오차율": 4.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.509481, 36.623988]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "105569 금천우미린", "전용면적": 84.9712, "세대 수": 319.0, "절대값 오차율": 4.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.514823, 36.619143]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "22416 중흥마을2단지부영", "전용면적": 84.9508, "세대 수": 620.0, "절대값 오차율": 4.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.512221, 36.609679]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "7038 용암세원한아름", "전용면적": 41.85, "세대 수": 1530.0, "절대값 오차율": 4.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.44898, 36.622985]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "25977 청주개신주공1단지", "전용면적": 59.9, "세대 수": 1398.0, "절대값 오차율": 4.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.421547, 36.631425]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "103456 청주비하계룡리슈빌2차", "전용면적": 155.3889, "세대 수": 540.0, "절대값 오차율": 4.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.420294, 36.641406]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "7482 비하효성2차", "전용면적": 45.28, "세대 수": 478.0, "절대값 오차율": 4.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.451451, 36.611839]}, "properties": {"시군구": "충청북도 청주서원구 성화동", "단지명": "103529 청주성화2다안채6단지", "전용면적": 84.96, "세대 수": 533.0, "절대값 오차율": 4.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.499757, 36.61281]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "121969 용암서희스타힐스", "전용면적": 59.9917, "세대 수": 318.0, "절대값 오차율": 4.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.42168, 36.642042]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "11745 송곡그린", "전용면적": 59.85, "세대 수": 162.0, "절대값 오차율": 4.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.440596, 36.614979]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "17430 가경푸르지오", "전용면적": 140.8506, "세대 수": 575.0, "절대값 오차율": 4.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.508865, 36.622426]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "6993 금천뉴타운", "전용면적": 134.64, "세대 수": 783.0, "절대값 오차율": 4.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.497734, 36.67346]}, "properties": {"시군구": "충청북도 청주청원구 주성동", "단지명": "102720 대원칸타빌1차", "전용면적": 84.43, "세대 수": 903.0, "절대값 오차율": 4.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.499757, 36.61281]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "121969 용암서희스타힐스", "전용면적": 59.9924, "세대 수": 318.0, "절대값 오차율": 4.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.491728, 36.61017]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "11644 주은프레지던트", "전용면적": 84.822, "세대 수": 620.0, "절대값 오차율": 4.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.380853, 36.672202]}, "properties": {"시군구": "충청북도 청주흥덕구 옥산면 가락리", "단지명": "109403 흥덕코오롱하늘채", "전용면적": 59.9318, "세대 수": 1206.0, "절대값 오차율": 4.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.511472, 36.616877]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "13516 중흥마을마이빌", "전용면적": 59.4045, "세대 수": 856.0, "절대값 오차율": 4.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.440596, 36.614979]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "17430 가경푸르지오", "전용면적": 103.9731, "세대 수": 575.0, "절대값 오차율": 4.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.476092, 36.627991]}, "properties": {"시군구": "충청북도 청주서원구 모충동", "단지명": "7303 삼호", "전용면적": 78.475, "세대 수": 254.0, "절대값 오차율": 4.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.459868, 36.65208]}, "properties": {"시군구": "충청북도 청주흥덕구 봉명동", "단지명": "12020 봉명아이파크", "전용면적": 84.8894, "세대 수": 1222.0, "절대값 오차율": 4.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.497897, 36.6139]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "19682 청주신영강변뜨란채", "전용면적": 84.78, "세대 수": 517.0, "절대값 오차율": 4.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.505387, 36.661434]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "107120 대원칸타빌4차", "전용면적": 84.887, "세대 수": 614.0, "절대값 오차율": 4.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.512986, 36.658416]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "108436 제일풍경채", "전용면적": 84.7852, "세대 수": 422.0, "절대값 오차율": 4.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.437138, 36.629391]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7230 형석1차", "전용면적": 59.34, "세대 수": 600.0, "절대값 오차율": 4.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.509527, 36.636145]}, "properties": {"시군구": "충청북도 청주상당구 용담동", "단지명": "11871 용담가좌마을e-편한세상", "전용면적": 107.3396, "세대 수": 421.0, "절대값 오차율": 4.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.422654, 36.707798]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "19045 대원칸타빌", "전용면적": 84.9867, "세대 수": 464.0, "절대값 오차율": 4.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.507709, 36.623088]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "7001 수정", "전용면적": 59.85, "세대 수": 191.0, "절대값 오차율": 4.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.462892, 36.612747]}, "properties": {"시군구": "충청북도 청주서원구 산남동", "단지명": "25844 산남퀸덤", "전용면적": 84.9306, "세대 수": 570.0, "절대값 오차율": 4.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.46292, 36.610377]}, "properties": {"시군구": "충청북도 청주서원구 산남동", "단지명": "25917 대원칸타빌1단지", "전용면적": 84.9992, "세대 수": 600.0, "절대값 오차율": 4.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.305402, 36.605562]}, "properties": {"시군구": "충청북도 청주흥덕구 오송읍 정중리", "단지명": "15374 개나리", "전용면적": 59.99, "세대 수": 110.0, "절대값 오차율": 4.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.441352, 36.6233]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7203 덕일한마음", "전용면적": 59.98, "세대 수": 448.0, "절대값 오차율": 4.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.45781, 36.65212]}, "properties": {"시군구": "충청북도 청주흥덕구 봉명동", "단지명": "12057 두진하트리움", "전용면적": 84.81, "세대 수": 204.0, "절대값 오차율": 4.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.48056, 36.655116]}, "properties": {"시군구": "충청북도 청주청원구 우암동", "단지명": "111020 청주우암동삼일브리제하임", "전용면적": 59.9751, "세대 수": 181.0, "절대값 오차율": 4.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.469502, 36.630269]}, "properties": {"시군구": "충청북도 청주서원구 사직동", "단지명": "106825 푸르지오캐슬5단지", "전용면적": 104.04, "세대 수": 548.0, "절대값 오차율": 3.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.433126, 36.632138]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7208 벽산", "전용면적": 95.55, "세대 수": 380.0, "절대값 오차율": 3.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.508799, 36.629275]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "105393 장자마을7단지부영", "전용면적": 59.2962, "세대 수": 725.0, "절대값 오차율": 3.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.509481, 36.623988]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "105569 금천우미린", "전용면적": 84.9786, "세대 수": 319.0, "절대값 오차율": 3.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.35377, 36.608042]}, "properties": {"시군구": "충청북도 청주흥덕구 강내면 월탄리", "단지명": "15370 강내태암수정", "전용면적": 34.71, "세대 수": 410.0, "절대값 오차율": 3.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.50762, 36.62431]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "7007 풍림", "전용면적": 59.46, "세대 수": 327.0, "절대값 오차율": 3.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.501255, 36.597557]}, "properties": {"시군구": "충청북도 청주상당구 방서동", "단지명": "115468 청주하트리움리버파크", "전용면적": 84.8401, "세대 수": 600.0, "절대값 오차율": 3.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.442801, 36.63633]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "105262 덕성", "전용면적": 52.11, "세대 수": 498.0, "절대값 오차율": 3.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.495502, 36.607365]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "7500 주공5단지", "전용면적": 49.77, "세대 수": 1350.0, "절대값 오차율": 3.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.509125, 36.613271]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "7050 용암현대2차", "전용면적": 84.23, "세대 수": 315.0, "절대값 오차율": 3.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47856, 36.6127]}, "properties": {"시군구": "충청북도 청주서원구 분평동", "단지명": "26496 분평계룡리슈빌", "전용면적": 166.7662, "세대 수": 173.0, "절대값 오차율": 3.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.437921, 36.633928]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "7345 현대1차", "전용면적": 84.99, "세대 수": 380.0, "절대값 오차율": 3.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.501255, 36.597557]}, "properties": {"시군구": "충청북도 청주상당구 방서동", "단지명": "115468 청주하트리움리버파크", "전용면적": 84.891, "세대 수": 600.0, "절대값 오차율": 3.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.438667, 36.637464]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "7318 복대대원", "전용면적": 59.89, "세대 수": 812.0, "절대값 오차율": 3.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.507816, 36.630956]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "101023 장자마을5단지부영", "전용면적": 84.9767, "세대 수": 379.0, "절대값 오차율": 3.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.41905, 36.640893]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "26494 대주피오레2차", "전용면적": 84.9707, "세대 수": 189.0, "절대값 오차율": 3.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.506206, 36.62037]}, "properties": {"시군구": "충청북도 청주상당구 영운동", "단지명": "15396 삼진화랑", "전용면적": 59.99, "세대 수": 86.0, "절대값 오차율": 3.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.443586, 36.614344]}, "properties": {"시군구": "충청북도 청주서원구 죽림동", "단지명": "27617 청주가경주공3단지", "전용면적": 59.92, "세대 수": 704.0, "절대값 오차율": 3.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.534953, 36.72759]}, "properties": {"시군구": "충청북도 청주청원구 내수읍 내수리", "단지명": "115812 내수현석원앙", "전용면적": 84.9884, "세대 수": 49.0, "절대값 오차율": 3.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.452462, 36.736378]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 주성리", "단지명": "107657 오창모아미래도와이드시티", "전용면적": 84.9926, "세대 수": 472.0, "절대값 오차율": 3.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.424914, 36.635713]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "11555 벽산", "전용면적": 100.854, "세대 수": 274.0, "절대값 오차율": 3.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.436981, 36.710795]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 양청리", "단지명": "108592 롯데캐슬더하이스트", "전용면적": 59.9377, "세대 수": 2500.0, "절대값 오차율": 3.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.479508, 36.66866]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "7187 삼성", "전용면적": 59.58, "세대 수": 798.0, "절대값 오차율": 3.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.460318, 36.616367]}, "properties": {"시군구": "충청북도 청주서원구 성화동", "단지명": "26806 구룡산휴먼시아3단지", "전용면적": 84.73, "세대 수": 470.0, "절대값 오차율": 3.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.473142, 36.611216]}, "properties": {"시군구": "충청북도 청주서원구 산남동", "단지명": "25550 청주현진에버빌", "전용면적": 84.993, "세대 수": 477.0, "절대값 오차율": 3.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.419484, 36.706656]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "17765 오창이안", "전용면적": 84.8307, "세대 수": 818.0, "절대값 오차율": 3.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.476, 36.66507]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "25717 대창1차", "전용면적": 49.5, "세대 수": 356.0, "절대값 오차율": 3.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.437921, 36.633928]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "7345 현대1차", "전용면적": 134.24, "세대 수": 380.0, "절대값 오차율": 3.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.487421, 36.644488]}, "properties": {"시군구": "충청북도 청주상당구 북문로3가동", "단지명": "102933 북문로한신휴플러스", "전용면적": 84.9904, "세대 수": 286.0, "절대값 오차율": 2.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47128, 36.662973]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "26509 남광하우스토리A단지", "전용면적": 124.6255, "세대 수": 333.0, "절대값 오차율": 2.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.469699, 36.598151]}, "properties": {"시군구": "충청북도 청주서원구 남이면 가마리", "단지명": "109416 청주가마힐데스하임", "전용면적": 84.9476, "세대 수": 988.0, "절대값 오차율": 2.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.469699, 36.598151]}, "properties": {"시군구": "충청북도 청주서원구 남이면 가마리", "단지명": "109416 청주가마힐데스하임", "전용면적": 84.9114, "세대 수": 988.0, "절대값 오차율": 2.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.511472, 36.616877]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "13516 중흥마을마이빌", "전용면적": 59.9187, "세대 수": 856.0, "절대값 오차율": 2.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.424914, 36.635713]}, "properties": {"시군구": "충청북도 청주흥덕구 복대동", "단지명": "11555 벽산", "전용면적": 99.744, "세대 수": 274.0, "절대값 오차율": 2.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.449553, 36.620932]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "17209 청주개신뜨란채2단지", "전용면적": 49.99, "세대 수": 980.0, "절대값 오차율": 2.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.473969, 36.663976]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "7027 사천동아1차", "전용면적": 84.78, "세대 수": 461.0, "절대값 오차율": 2.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.509481, 36.623988]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "105569 금천우미린", "전용면적": 76.0337, "세대 수": 319.0, "절대값 오차율": 2.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.501282, 36.629902]}, "properties": {"시군구": "충청북도 청주상당구 탑동", "단지명": "108053 LH청주탑동", "전용면적": 84.84, "세대 수": 400.0, "절대값 오차율": 2.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.474144, 36.616772]}, "properties": {"시군구": "충청북도 청주서원구 수곡동", "단지명": "7401 산남세원청실", "전용면적": 84.81, "세대 수": 417.0, "절대값 오차율": 2.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.473142, 36.611216]}, "properties": {"시군구": "충청북도 청주서원구 산남동", "단지명": "25550 청주현진에버빌", "전용면적": 84.99, "세대 수": 477.0, "절대값 오차율": 2.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.459868, 36.65208]}, "properties": {"시군구": "충청북도 청주흥덕구 봉명동", "단지명": "12020 봉명아이파크", "전용면적": 84.9107, "세대 수": 1222.0, "절대값 오차율": 2.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.451451, 36.611839]}, "properties": {"시군구": "충청북도 청주서원구 성화동", "단지명": "103529 청주성화2다안채6단지", "전용면적": 84.88, "세대 수": 533.0, "절대값 오차율": 2.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.512986, 36.658416]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "108436 제일풍경채", "전용면적": 71.4011, "세대 수": 422.0, "절대값 오차율": 2.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.474627, 36.61973]}, "properties": {"시군구": "충청북도 청주서원구 수곡동", "단지명": "7418 산남주공4단지", "전용면적": 84.79, "세대 수": 1005.0, "절대값 오차율": 1.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.511472, 36.616877]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "13516 중흥마을마이빌", "전용면적": 59.9019, "세대 수": 856.0, "절대값 오차율": 1.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.508293, 36.633311]}, "properties": {"시군구": "충청북도 청주상당구 용담동", "단지명": "25799 가좌마을용담세영첼시빌", "전용면적": 131.339, "세대 수": 568.0, "절대값 오차율": 1.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.46474, 36.62737]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "25720 태암베스트윙", "전용면적": 84.9048, "세대 수": 118.0, "절대값 오차율": 1.6}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.47128, 36.662973]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "26509 남광하우스토리A단지", "전용면적": 157.3915, "세대 수": 333.0, "절대값 오차율": 1.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.440297, 36.620781]}, "properties": {"시군구": "충청북도 청주흥덕구 가경동", "단지명": "7249 효성", "전용면적": 99.98, "세대 수": 320.0, "절대값 오차율": 1.5}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.44898, 36.622985]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "25977 청주개신주공1단지", "전용면적": 59.94, "세대 수": 1398.0, "절대값 오차율": 1.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.421547, 36.631425]}, "properties": {"시군구": "충청북도 청주흥덕구 비하동", "단지명": "103456 청주비하계룡리슈빌2차", "전용면적": 106.6737, "세대 수": 540.0, "절대값 오차율": 1.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.419252, 36.709232]}, "properties": {"시군구": "충청북도 청주청원구 오창읍 각리", "단지명": "23633 한라비발디", "전용면적": 129.851, "세대 수": 1529.0, "절대값 오차율": 1.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.50315, 36.62856]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "7011 금천현대", "전용면적": 70.22, "세대 수": 1032.0, "절대값 오차율": 1.1}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.497897, 36.6139]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "19682 청주신영강변뜨란채", "전용면적": 51.99, "세대 수": 517.0, "절대값 오차율": 1.0}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.50914, 36.632052]}, "properties": {"시군구": "충청북도 청주상당구 금천동", "단지명": "10306 장자마을2단지현대", "전용면적": 74.9581, "세대 수": 636.0, "절대값 오차율": 0.9}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.484611, 36.671683]}, "properties": {"시군구": "충청북도 청주청원구 율량동", "단지명": "108609 율량대창1차", "전용면적": 59.9, "세대 수": 70.0, "절대값 오차율": 0.8}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.44898, 36.622985]}, "properties": {"시군구": "충청북도 청주서원구 개신동", "단지명": "25977 청주개신주공1단지", "전용면적": 59.78, "세대 수": 1398.0, "절대값 오차율": 0.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.511472, 36.616877]}, "properties": {"시군구": "충청북도 청주상당구 용암동", "단지명": "13516 중흥마을마이빌", "전용면적": 59.3245, "세대 수": 856.0, "절대값 오차율": 0.7}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.473969, 36.663976]}, "properties": {"시군구": "충청북도 청주청원구 사천동", "단지명": "7027 사천동아1차", "전용면적": 134.11, "세대 수": 461.0, "절대값 오차율": 0.4}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.451451, 36.611839]}, "properties": {"시군구": "충청북도 청주서원구 성화동", "단지명": "103529 청주성화2다안채6단지", "전용면적": 84.93, "세대 수": 533.0, "절대값 오차율": 0.3}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.353841, 36.604807]}, "properties": {"시군구": "충청북도 청주흥덕구 강내면 황탄리", "단지명": "15366 서호e타운", "전용면적": 39.15, "세대 수": 277.0, "절대값 오차율": 0.2}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [127.500251, 36.619867]}, "properties": {"시군구": "충청북도 청주상당구 영운동", "단지명": "105114 성화누리안2차", "전용면적": 84.9118, "세대 수": 108.0, "절대값 오차율": 0.0}}]}, //data from dataframe output to geojson
+            "buffer": 0,
+            "maxzoom": 14,
+            "generateId": true
+        });
+
+        map.addLayer({
+            "id": "label",
+            "source": "data",
+            "type": "symbol",
+            "maxzoom": 24,
+            "minzoom": 0,
+            "layout": {
+                
+                "text-size" : generateInterpolateExpression('zoom', [[0, 8],[22, 3* 8]] ),
+                "text-offset": [0,-1]
+            },
+            "paint": {
+                "text-halo-color": "white",
+                "text-halo-width": generatePropertyExpression('interpolate', 'zoom', [[0,1], [18,5* 1]]),
+                "text-color": ["case",
+                    ["boolean", ["feature-state", "hover"], false], 
+                    "black", 
+                    "#131516"]
+            }
+        }, "waterway-label" )
+
+        map.addLayer({
+            "id": "circle",
+            "source": "data",
+            "type": "circle",
+            "maxzoom": 24,
+            "minzoom": 0,
+            "paint": {
+                
+                    "circle-color": ["case",
+                        ["boolean", ["feature-state", "hover"], false], 
+                        "black", 
+                        generatePropertyExpression("interpolate", "전용면적", [[22, 'rgb(215,48,39)'], [44, 'rgb(244,109,67)'], [66, 'rgb(253,174,97)'], [88, 'rgb(254,224,144)'], [110, 'rgb(224,243,248)'], [132, 'rgb(171,217,233)'], [154, 'rgb(116,173,209)'], [176, 'rgb(69,117,180)']], "grey" )],
+                    
+                
+                    "circle-radius" : generatePropertyExpression("interpolate", "절대값 오차율", [[0, 5.0], [12, 10.45], [24, 15.91], [36, 21.36], [48, 26.82], [60, 32.27], [72, 37.73], [84, 43.18], [96, 48.64], [108, 54.09], [120, 59.55]], 7 ),
+                    
+                "circle-stroke-color": ["case",
+                    ["boolean", ["feature-state", "hover"], false], 
+                    "black", 
+                    "black"],
+                "circle-stroke-width": generatePropertyExpression('interpolate', 'zoom', [[0,0.2], [18,5* 0.2]]),
+                "circle-opacity" : 0.5,
+                "circle-stroke-opacity" : 0.5
+            }
+        }, "label");
+        
+        
+
+        // Popups
+        
+            var popupAction = 'mousemove',
+                popupSettings =  {
+                    closeButton: false,
+                    closeOnClick: false
+                };
+        
+
+        // Create a popup
+        var popup = new mapboxgl.Popup(popupSettings);
+
+        
+        
+        var hoveredStateId = 0;
+        
+        // Show the popup on mouseover
+        map.on(popupAction, function(e) {
+            
+            var features = map.queryRenderedFeatures(e.point, {layers: ['circle', 'label'] });
+
+            if (features.length > 0) {
+                map.getCanvas().style.cursor = 'pointer';
+                var f = features[0];
+                newHoveredStateId = f.id;
+                if (newHoveredStateId != hoveredStateId) {
+                    map.removeFeatureState({source: 'data', id: hoveredStateId});
+                    hoveredStateId = newHoveredStateId;
+                }
+                map.setFeatureState({source: 'data', id: hoveredStateId}, { hover: true});
+                let popup_html = '<div><li><b>Location</b>: ' + f.geometry.coordinates[0].toPrecision(6) + 
+                    ', ' + f.geometry.coordinates[1].toPrecision(6) + '</li>';
+
+                for (key in f.properties) {
+                    popup_html += '<li><b> ' + key + '</b>: ' + f.properties[key] + ' </li>'
+                }
+
+                popup_html += '</div>'
+                popup.setLngLat(e.lngLat)
+                    .setHTML(popup_html)
+                    .addTo(map);
+            }
+            else {
+                map.getCanvas().style.cursor = '';
+                popup.remove();
+                map.removeFeatureState({source: 'data', id: hoveredStateId});
+            }
+        });
+
+        
+        
+        // Fly to on click
+        map.on('click', 'circle', function(e) {
+            map.easeTo({
+                center: e.features[0].geometry.coordinates
+            });
+        });
+    });
+    
+
+
+</script>
+
+<!-- add capability to export map or legend to image file -->
+
+    <script src="https://github.com/niklasvh/html2canvas/releases/download/v1.0.0-alpha.12/html2canvas.min.js" charset="utf-8"></script>
+    <style>
+    .mapboxgl-ctrl-icon.screencap-icon {background-image: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB2ZXJzaW9uPSIxLjEi%0D%0AIGlkPSJhdHRyYWN0aW9uLTE1IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdp%0D%0AZHRoPSIxNXB4IiBoZWlnaHQ9IjE1cHgiIHZpZXdCb3g9IjAgMCAxNSAxNSI+CiAgPHBhdGggaWQ9%0D%0AInJlY3Q3MTQzIiBkPSJNNiwyQzUuNDQ2LDIsNS4yNDc4LDIuNTA0NSw1LDNMNC41LDRoLTJDMS42%0D%0ANjksNCwxLDQuNjY5LDEsNS41djVDMSwxMS4zMzEsMS42NjksMTIsMi41LDEyaDEwJiN4QTsmI3g5%0D%0AO2MwLjgzMSwwLDEuNS0wLjY2OSwxLjUtMS41di01QzE0LDQuNjY5LDEzLjMzMSw0LDEyLjUsNGgt%0D%0AMkwxMCwzQzkuNzUsMi41LDkuNTU0LDIsOSwySDZ6IE0yLjUsNUMyLjc3NjEsNSwzLDUuMjIzOSwz%0D%0ALDUuNSYjeEE7JiN4OTtTMi43NzYxLDYsMi41LDZTMiw1Ljc3NjEsMiw1LjVTMi4yMjM5LDUsMi41%0D%0ALDV6IE03LjUsNWMxLjY1NjksMCwzLDEuMzQzMSwzLDNzLTEuMzQzMSwzLTMsM3MtMy0xLjM0MzEt%0D%0AMy0zUzUuODQzMSw1LDcuNSw1eiYjeEE7JiN4OTsgTTcuNSw2LjVDNi42NzE2LDYuNSw2LDcuMTcx%0D%0ANiw2LDhsMCwwYzAsMC44Mjg0LDAuNjcxNiwxLjUsMS41LDEuNWwwLDBDOC4zMjg0LDkuNSw5LDgu%0D%0AODI4NCw5LDhsMCwwQzksNy4xNzE2LDguMzI4NCw2LjUsNy41LDYuNSYjeEE7JiN4OTtMNy41LDYu%0D%0ANXoiLz4KPC9zdmc+'); background-position: center;  background-repeat: no-repeat; cursor: default; background-color: rgba(0,0,0,0.05); }
+    .mapboxgl-ctrl.mapboxgl-ctrl-group.ctrl-group-horizontal { height: 30px; }
+    .mapboxgl-ctrl.mapboxgl-ctrl-group.ctrl-group-horizontal > button { min-width: 30px; width: auto; height: 30px; display: inline-block !important; box-sizing: none; border-top: none; border-left: 1px solid #ddd; border-right: 1px solid #ddd;     vertical-align: top; }
+    .mapboxgl-ctrl.mapboxgl-ctrl-group.ctrl-group-horizontal > button > a { color: #6e6e6e; text-decoration: none; font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif; }
+    .mapboxgl-ctrl.mapboxgl-ctrl-group.ctrl-group-horizontal > button:first-child,
+    .mapboxgl-ctrl.mapboxgl-ctrl-group.ctrl-group-horizontal > button:last-child { border: none; }
+    .mapboxgl-ctrl.mapboxgl-ctrl-group.ctrl-group-horizontal > button:not(:first-child) { padding: 0 4px 0 4px; }
+</style>
+
+<script type="text/javascript">
+
+    var buttonContainer = document.getElementsByClassName('mapboxgl-ctrl-top-left')[0],
+        downloadControl = document.createElement('div');
+    downloadControl.className = 'mapboxgl-ctrl mapboxgl-ctrl-group ctrl-group-horizontal'; 
+    downloadControl.id = 'download-controls';
+    buttonContainer.appendChild(downloadControl);
+
+    document.getElementById('download-controls').innerHTML = `<button class="mapboxgl-ctrl-icon screencap-icon"></button><button><a class="download-button" href="#" title="Download map as .png" id="btn-download-map" download="map.png">Map</a></button><button><a class="download-button" href="#" title="Download legend as .png" id="btn-download-legend" download="legend.png">Legend</a></button>`;
+
+    html2canvas(document.body).then(canvas => {
+        var legendButton = document.getElementById('btn-download-legend');
+        legendButton.addEventListener('click', function (e) {
+            legendButton.href = canvas.toDataURL('image/png');
+        });
+    });
+
+    var mapButton = document.getElementById('btn-download-map');
+    mapButton.addEventListener('click', function (e) {
+        var mapCanvas = map.getCanvas();
+        mapButton.href = mapCanvas.toDataURL('image/png');
+    });
+
+</script>
+
+
+</body>
+</html>
