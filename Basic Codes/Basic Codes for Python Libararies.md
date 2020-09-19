@@ -261,6 +261,17 @@ data = pd.get_dummies(data, columns=["heating", "company1", "company2", "element
 ratings_df["rated_at"] = pd.to_datetime(ratings_df["rated_at"], unit="s")
 ```
 - timestamp -> 초 단위로 변경
+## pd.merge()
+```python
+data = pd.merge(data, start_const, on=["지역구분", "입찰년월"], how="left")
+```
+```python
+pd.merge(df1, df2, left_on="id", right_on="movie_id")
+```
+```python
+floor_data = pd.merge(floor_data, df_conv, left_index=True, right_index=True, how="left")
+```
+- df와 df 또는 df와 ser 간에 사용 가능.
 ## df.shape
 ## df.quantile()
 ```python
@@ -285,17 +296,6 @@ over4.groupby("user_id")["movie_id"].apply(set)
 df_pivoted = df.pivot("col1", "col2", "col3")
 ```
 - 참고자료 : [https://datascienceschool.net/view-notebook/4c2d5ff1caab4b21a708cc662137bc65/](https://datascienceschool.net/view-notebook/4c2d5ff1caab4b21a708cc662137bc65/)
-## df.merge()
-```python
-data = pd.merge(data, start_const, on=["지역구분", "입찰년월"], how="left")
-```
-```python
-pd.merge(df1, df2, left_on="id", right_on="movie_id")
-```
-```python
-floor_data = pd.merge(floor_data, df_conv, left_index=True, right_index=True, how="left")
-```
-- df와 df 또는 df와 ser 간에 사용 가능.
 ## df.stack()
 - 열 인덱스 -> 행 인덱스로 변환
 ## df.unstack()
