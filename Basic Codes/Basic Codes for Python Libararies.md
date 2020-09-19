@@ -2270,6 +2270,7 @@ print("{}초 경과".format(round(time.time())-time_before))
 ```python
 from tqdm.notebook import tqdm
 ```
+## tqdm.pandas()
 # warnings
 ```python
 import warnings
