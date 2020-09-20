@@ -957,7 +957,22 @@ class CreateModel(tf.keras.Model):
         y = self.model(x)
         return y
 ```
-
+#### model.summary()
+#### model.layers
+##### layer.name
+##### layer.output_shape
+##### layer.get_weights()
+###### weight.shape
+```python
+for layer in model.layers[1:]:
+    weight = layer.get_weights()[0]
+    print(f"{layer.name}의 weight shape : {weight.shape}")
+```
+```python
+for layer in model.layers[1:]:
+    bias = layer.get_weights()[1]
+    print(f"{layer.name}의 bias shape : {bias.shape}")
+```
 ### tf.keras.Input()
 
 ```python
