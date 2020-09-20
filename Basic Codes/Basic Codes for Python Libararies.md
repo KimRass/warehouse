@@ -2298,6 +2298,9 @@ import warnings
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 ```
 # scipy
+```python
+import scipy
+```
 ## scipy.sparse
 ### csr_matrix
 ```python
@@ -2311,6 +2314,12 @@ cols = [0, 2, 5, 6, 14, 0, 1]
 sparse_matrix = csr_matrix((vals,  (rows,  cols)))
 ```
 #### sparse_mat.todense()
+## scipy.stats
+### scipy.stats.beta
+#### scipy.stats.beta.pdf()
+```python
+ys = scipy.stats.beta.pdf(xs, a, b)
+```
 # implicit
 ```python
 conda install -c conda-forge implicit
