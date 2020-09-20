@@ -26,7 +26,10 @@ print("{:>4d} | {:>7.4f} | {:>7.4f} | {:>9.6f}".format(i + 1, W.numpy(), b.numpy
 if not isinstance(movie, frozenset):
     movie = frozenset(movie)
 ```
-
+## assert
+```python
+assert model_name in self.model_list, "There is no such a model."
+```
 ## list
 ### list[]
 ### list.index()
