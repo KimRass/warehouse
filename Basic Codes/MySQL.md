@@ -408,3 +408,5 @@ SELECT JASON_OBJECT("이름", name, "키", height) AS "JSON 값"
 FROM usertbl
 WHERE height>=180;
 ```
+# MySQL Command Line Client
+## show databases;
