@@ -12,15 +12,16 @@ sudo apt-get install python3-pip
 ```
 sudo pip3 install jupyter numpy pandas
 ```
-## install cmake
+## install
+### cmake
 ```
 sudo pip3 install cmake
 ```
-## install cython
+### cython
 ```
 sudo pip3 install cython
 ```
-## install n2
+### n2
 ```
 sudo pip3 install n2
 ```
