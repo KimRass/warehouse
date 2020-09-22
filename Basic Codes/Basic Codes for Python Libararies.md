@@ -2177,7 +2177,7 @@ import pymysql
 ```
 ## pymysql.connect()
 ```python
-connect = pymysql.connect(host="movielens.cjkizsqpfbi3.ap-northeast-2.rds.amazonaws.com", db="movielens", user="root", password="rec-sys!")
+connect = pymysql.connect(host="localhost", user="root", password="1453", db="masterdata")
 ```
 # random
 ```python
