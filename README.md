@@ -6,3 +6,6 @@
 
 # Recommendation System
 추천 시스템에 관한 자료를 업로드합니다.
+
+# Concepts
+각종 개념들을 정리합니다.
