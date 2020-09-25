@@ -1968,6 +1968,20 @@ with open("filename.pk", "rb") as f:
     data = pk.load(f)
 ```
 - 한 줄씩 load
+# json
+```python
+import json
+```
+## json.dump()
+```python
+with open(path, "w", encoding="utf-8") as f:
+    json.dump(train_data, f, ensure_ascii=False, indent="\t")
+```
+## json.load()
+```python
+with open(path, "r", encoding="utf-8") as f:
+    train_data = json.load(f)
+```
 # Image
 ```python
 from PIL import Image
