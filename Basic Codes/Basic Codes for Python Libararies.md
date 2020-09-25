@@ -478,7 +478,12 @@ ser.cat.set_categories([2, 3, 1], ordered=True)
 ```
 - 순서 부여
 ### ser.cat.codes
-- 새로 0부터 부여된 index 
+- 새로 0부터 부여된 index
+## ser.items()
+```python
+for k, v in target.items():
+    queries.append(f"{k}-{v}")
+```
 # sklearn
 ```python
 !pip install -U scikit-learn
