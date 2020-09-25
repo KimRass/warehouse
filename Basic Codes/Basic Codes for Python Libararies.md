@@ -2383,3 +2383,17 @@ from google_drive_downloader import GoogleDriveDownloader as gdd
 ```python
 gdd.download_file_from_google_drive(file_id="1uPjBuhv96mJP9oFi-KNyVzNkSlS7U2xY", dest_path="./movies.csv")
 ```
+# datasketch
+## MinHash
+```python
+from datasketch import MinHash
+```
+```python
+mh = MinHash(num_perm=128)
+```
+### mh.update()
+```python
+for value in set_A:
+    mh.update(value.encode("utf-8"))
+```
+### mn.hashvalues
