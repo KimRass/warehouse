@@ -1874,9 +1874,20 @@ data["price_range"]=np.digitize(data["money"], bins)
 ## np.isnan()
 ## np.nanmean()
 ## np.sort()
+## np.reshape()
+```python
+np.reshape(mh_df.values, (1000, 1, 128))
+```
 ## np.expand_dims()
 ```python
-train_data = np.expand_dims(train_data, axis=-1)
+np.expand_dims(mh_df.values, axis=1)
+```
+## np.newaxis
+```python
+mh_df.values[:, np.newaxis, :]
+```
+```python
+mh_df.values[:, None, :]
 ```
 ## np.unique()
 ## np.linalg
@@ -1910,8 +1921,6 @@ arr.ravel(order="F")
 - order="F" : column 기준
 ##  arr.flatten()
 - 복사본 반환
-## arr.reshape()
-- tuple로 차원 지정
 ## arr.T
 ## arr.shape
 # os
