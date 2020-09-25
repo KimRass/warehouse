@@ -1843,6 +1843,8 @@ feature_maps = np.transpose(conv2d, (3, 1, 2, 0))
 ```python
 feature_maps = np.swapaxes(conv2d, 0, 3)
 ```
+## np.maximum(), np.minimum()
+- Element-wise minimum of array elements.
 ## np.random
 ### np.random.seed()
 ```python
@@ -2391,9 +2393,30 @@ from datasketch import MinHash
 ```python
 mh = MinHash(num_perm=128)
 ```
+- MinHash는 각 원소 별로 signature를 구한 후, 각 Signature 중 가장 작은 값을 저장하는 방식입니다. 가장 작은 값을 저장한다 해서 MinHash라고 불립니다.
 ### mh.update()
 ```python
 for value in set_A:
     mh.update(value.encode("utf-8"))
 ```
-### mn.hashvalues
+### mh.hashvalues
+# redis
+## Redis
+```python
+from redis import Redis
+```
+```python
+rd = Redis(host="localhost", port=6379, db=0)
+```
+### rd.set()
+```python
+rd.set("A", 1)
+```
+### rd.delete()
+```python
+rd.delete("A")
+```
+### rd.get()
+```python
+rd.get("A")
+```
