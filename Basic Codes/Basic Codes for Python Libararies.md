@@ -1850,6 +1850,10 @@ feature_maps = np.swapaxes(conv2d, 0, 3)
 ```
 ## np.maximum(), np.minimum()
 - Element-wise minimum of array elements.
+## np.concatenate()
+```python
+intersected_movie_ids = np.concatenate([json.loads(row) for row in rd.mget(queries)], axis=None)
+```
 ## np.random
 ### np.random.seed()
 ```python
@@ -1895,6 +1899,9 @@ mh_df.values[:, np.newaxis, :]
 mh_df.values[:, None, :]
 ```
 ## np.unique()
+```python
+items, counts = np.unique(intersected_movie_ids, return_counts=True)   
+```
 ## np.linalg
 ### np.linalg.norm()
 ```python
