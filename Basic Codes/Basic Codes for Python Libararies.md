@@ -1551,6 +1551,11 @@ ax.set_xlim([1, 4])
 ax.axis([2, 3, 4, 10])
 ```
 ### ax.xaxis, ax.yaxis
+#### ax.xaxis.set_ticks_position(), ax.yaxis.set_ticks_position()
+```python
+ax1.yaxis.set_ticks_position("right")
+```
+### ax.invert_xaxis(), ax.invert_yaxis()
 #### ax.xaxis.set_tick_position(), ax.yaxis.set_tick_position()
 ```python
 ax2.yaxis.set_ticks_position("right")
@@ -1598,7 +1603,8 @@ ax.axhline(y=mean, color="r", linestyle=":", linewidth=2)
 ```
 ### ax.text()
 ```python
-ax1.text(y=row["le"]-0.2, x=row["abs_error"], s=round(row["abs_error"], 1), va="center", fontsize=12)
+for _, row in ml_gby_ax1.iterrows():
+    ax1.text(y=row["le"]-0.18, x=row["abs_error"], s=round(row["abs_error"], 1), va="center", ha="left", fontsize=10)
 ```
 ### plot(kind="pie")
 ```python
