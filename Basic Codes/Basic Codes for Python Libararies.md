@@ -1655,9 +1655,7 @@ ax = sb.pairplot(data_for_corr)
 ### sb.heatmap()
 * http://seaborn.pydata.org/generated/seaborn.heatmap.html
 ```python
-corr = data.corr(method="spearman")
-cmap = sb.diverging_palette(220, 10, as_cmap=True)
-ax = sb.heatmap(corr, annot=True, annot_kws={"size": 10}, fmt=".2f", linewidths=0.2, cmap=cmap, center=0, vmin=-1, vmax=1)
+sb.heatmap(ax=ax, data=gby_occup_genre, annot=True, annot_kws={"size": 10}, fmt=".2f", linewidths=0.2, center=3, cmap="RdBu")
 ```
 # MeCab
 ```python
