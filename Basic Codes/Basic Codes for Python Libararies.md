@@ -454,6 +454,10 @@ target_ratings["title"] = target_ratings["movie_id"].map(target)
 all_seen = ratings_df_target_set[ratings_df_target_set.map(lambda x : len(x)==5)].index
 ```
 ## ser.astype()
+```python
+for cat in cats:
+    data.loc[:, cats] = data.loc[:, cats].astype("category")
+```
 - "int32", "int63", "float64", "object", "category"
 - np.uint8 : 0~255, np.uint16 : 0~65,535, np.uint32 : 0~4,294,967,295
 ## ser.hist()
