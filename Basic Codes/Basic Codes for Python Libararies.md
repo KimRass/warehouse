@@ -364,9 +364,16 @@ train_val = data[~data["name"].isin(names_test)]
 data.query("houses in @list")
 ```
 - 외부 변수 또는 함수 사용 시 앞에 @을 붙임.
+## df.idxmax()
+```python
+data["genre"] = data.loc[:, "unknown":"Western"].idxmax(axis=1)
+```
 ## df.drop()
 ```python
 data = data.drop(["Unnamed: 0", "address1", "address2"], axis=1)
+```
+```python
+data = data.drop(data.loc[:, "unknown":"Western"].columns, axis=1)
 ```
 ## df.duplicated()
 ```python
