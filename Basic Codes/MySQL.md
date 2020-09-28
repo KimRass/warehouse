@@ -1,3 +1,21 @@
+# MySQL
+## set character-set
+```
+[client]
+default-character-set = utf8
+
+[mysqld]
+character-set-client-handshake = FALSE
+init_connect="SET collation_connection = utf8_general_ci"
+init_connect="SET NAMES utf8"
+character-set-server = utf8
+
+[mysql]
+default-character-set = utf8
+
+[mysqldump]
+default-character-set = utf8
+```
 # set path
 ```
 SETX PATH "%PATH%;C:\Program Files\MySQL\MySQL Server 8.0\bin"
