@@ -491,7 +491,11 @@ ser.cat.set_categories([2, 3, 1], ordered=True)
 ```
 - 순서 부여
 ### ser.cat.codes
-- 새로 0부터 부여된 index
+```python
+for cat in cats:
+    data[cat] = data[cat].cat.codes
+```
+- label encoding 시해
 ## ser.items()
 ```python
 for k, v in target.items():
