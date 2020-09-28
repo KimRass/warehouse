@@ -224,10 +224,6 @@ raw_data = pd.read_csv("C:/Users/00006363/☆데이터/실거래가_충청북도
 ```
 ## pd.read_excel()
 ## pd.read_pickle()
-## pd.read_sql()
-```python
-pd.read_sql("<<SQL 구문>>", connect)
-```
 ## df.to_csv()
 ```python
 data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거래가 전처리 완료_200928-3.csv", index=False)
@@ -2236,6 +2232,10 @@ import pymysql
 ## pymysql.connect()
 ```python
 connect = pymysql.connect(host="localhost", user="root", password="1453", db="masterdata")
+```
+### pd.read_sql()
+```python
+pd.read_sql("show tables", connect)
 ```
 # random
 ```python
