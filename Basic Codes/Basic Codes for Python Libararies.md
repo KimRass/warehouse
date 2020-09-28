@@ -495,7 +495,7 @@ ser.cat.set_categories([2, 3, 1], ordered=True)
 for cat in cats:
     data[cat] = data[cat].cat.codes
 ```
-- label encoding 시해
+- label encoding을 시행합니다.
 ## ser.items()
 ```python
 for k, v in target.items():
