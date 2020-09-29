@@ -618,7 +618,10 @@ conda install jupyter
 import tensorflow as tf
 ```
 ## tf.multiply()
-
+## tf.add_n()
+```python
+logits = tf.add_n(inputs) + self.b
+```
 ## tf.square()
 
 * 각 arguments를 제곱하여 ndarray 생성
@@ -868,7 +871,7 @@ def batch_norm()
     return tf.keras.layers.BatchNormalization()
 ```
 
-#### tf,keras.layers.Conv2D()
+#### tf.keras.layers.Conv2D()
 
 ```python
 conv2d = keras.layers.Conv2D(filters=3, kernel_size=2, padding="same", data_format="channels_last", kernel_initializer=weight_init)(image)
