@@ -223,12 +223,10 @@ data = pd.DataFrame(list_for_data, columns=["user", "content"])
 raw_data = pd.read_csv("C:/Users/00006363/☆데이터/실거래가_충청북도_2014.csv", thousands=",", encoding="Ansi", float_precision="round_trip", skiprows=15)
 ```
 ## pd.read_excel()
-## pd.read_pickle()
 ## df.to_csv()
 ```python
 data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거래가 전처리 완료_200928-3.csv", index=False)
 ```
-## df.to_pickle()
 ## pd.concat()
 ```python
 data_without = pd.concat([data_without, data_subset], axis=0)
@@ -420,6 +418,13 @@ ratings_df.sample(5)
 ```python
 baskets_df.sample(frac=0.05)
 ```
+## df.iterrows()
+- indices of row, row를 return합니다.
+## df.iteritems()
+```python
+{k:v for k, v in x_train.iteritems()}
+```
+- column name, column을 return합니다.
 ## df.mean()
 ```python
 ui.mean(axis=1)
