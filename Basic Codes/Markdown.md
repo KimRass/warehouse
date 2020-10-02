@@ -1,15 +1,24 @@
-$$
-f(x;\ α,\ β)=\frac{1}{B(α,\ β)}x^{(α−1)}(1−x)^{(β−1)}
-$$
-- 기댓값 E(x)
-$$
-E(x)=\frac{α}{α+β}
-$$
-- 분산 Var(x) : 확률분포의 폭
-$$
-Var(x)=\frac{αβ}{(α+β)^{2}(α+β+1)}
-$$
-- 최빈값 Mode(x) : 확률분포가 가장 커지는 위치
-$$
-Mode(x)=\frac{α−1}{α+β−2}
-$$
+- source : https://ko.wikipedia.org/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:TeX_%EB%AC%B8%EB%B2%95
+#### sigma
+```
+\sum_{f=1}^k
+```
+#### vector
+```
+\vec{v_i}
+```
+#### dot product
+```
+{\cdot}
+```
+#### hat
+```
+\hat{y}
+```
+#### subscript
+```
+v_{i,f}
+```
+#### alignment
+- $ ... $ : 왼쪽 정렬
+- $$ ... $$ : 가운데 정렬
