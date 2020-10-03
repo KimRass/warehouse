@@ -970,6 +970,10 @@ model.compile(optimizer=tf.keras.optimizers.Adagrad(lr=0.1), loss=tf.keras.losse
 ```python
 hist = model.fit(x=movie_df["nums_want_to_see"].values, y=movie_df["nums_audience"].values, epochs=100, verbose=0)
 ```
+#### model.fit_generator()
+```python
+hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
+```
 ##### hist.history
 #### model.predict()
 ```python
