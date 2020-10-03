@@ -47,6 +47,12 @@ lines terminated by '\n'
 ```
 ### SQL syntax
 #### SELECT
+##### SELECT + WHERE
+```sql
+SELECT *
+FROM transac, matching, base_info, money_value
+WHERE transac.Name = matching.Name AND transac.Area = matching.Area AND matching.Id = base_info.Id AND transac.TransacYM = money_value.TransacYM;
+```
 ##### SELECT + WHERE + BETWEEN
 ```sql
 SELECT name, height
