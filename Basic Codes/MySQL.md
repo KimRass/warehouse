@@ -67,7 +67,7 @@ WHERE height > ANY (SELECT height FROM usertbl WHERE addr="서울");
 SELECT height
 FROM usertbl
 WHERE height = (SELECT MIN(height) FROM usertbl);
-    OR height = (SELECT MAX(height) FROM usertbl);
+OR height = (SELECT MAX(height) FROM usertbl);
 ```
 #### SELECT + GROUP BY
 ```sql
