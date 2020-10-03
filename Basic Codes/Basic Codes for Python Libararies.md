@@ -632,15 +632,6 @@ logits = tf.add_n(inputs) + self.b
 ## tf.square()
 
 * 각 arguments를 제곱하여 ndarray 생성
-
-## tf.reduce\_sum()
-
-* axis=0 \| 1
-
-## tf.reduce\_mean()
-
-* axis=0 \| 1
-
 ## tf.argmax()
 
 * axis=0 \| 1
@@ -729,12 +720,18 @@ layer3 = tf.reshape(layer3, shape=[-1, 2])
 ```
 weight_init = tf.constant_initializer(weight)
 ```
+## tf.math
+### tf.math.reduce_sum(), tf.math.reduce_mean()
+- source : https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
+- axis=None : 모든 elements에 대해 연산합니다.
+- axis=0 : reduces along the 1st dimension. dimension이 1만큼 감소합니다.
+- axis=1 : reduces along the 2nd dimension. dimension이 1만큼 감소합니다.
+- keepdims=True : dimension이 감소하지 않습니다.
+## tf.random
 
-# tf.random
+### tf.random.set\_seed()
 
-## tf.random.set\_seed()
-
-## tf.random.normal()
+### tf.random.normal()
 
 ```python
 x = tf.Variable(tf.random.normal([784, 200], 1, 0.35))
