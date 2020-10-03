@@ -624,42 +624,6 @@ conda install jupyter
 ```python
 import tensorflow as tf
 ```
-## tf.multiply()
-## tf.add_n()
-```python
-logits = tf.add_n(inputs) + self.b
-```
-## tf.square()
-
-* 각 arguments를 제곱하여 ndarray 생성
-## tf.argmax()
-
-* axis=0 \| 1
-
-## assign
-
-```python
-W.assign(W - tf.multiply(lr, dW))
-```
-
-## assign_sub
-
-```python
-W.assign_sub(tf.multiply(lr, dW))
-```
-
-## tf.sign
-
-```python
-tf.sign(tf.reduce_sum(self.w * x) + self.b)
-```
-
-## tf.exp()
-
-## tf.math.log()
-
-## tf.sigmoid()
-
 ## tf.constant()
 
 ```python
@@ -697,11 +661,7 @@ pred = tf.cast(h > 0.5, dtype=tf.float32)
 * 조건이 True면 1, False면 0 반환.
 * 혹은 단순히 Tensor의 자료형 변환.
 
-## tf.equal()
 
-```python
-acc = tf.reduce_mean(tf.cast(tf.equal(pred, labels), dtype=tf.float32))
-```
 
 ## tf.concat()
 
@@ -721,6 +681,32 @@ layer3 = tf.reshape(layer3, shape=[-1, 2])
 weight_init = tf.constant_initializer(weight)
 ```
 ## tf.math
+### tf.math.add(), tf.math.subtract(), tf.math.multiply(), tf.math.divide()
+### tf.math.add_n()
+```python
+logits = tf.math.add_n(inputs) + self.b
+```
+### tf.math.square()
+
+* 각 arguments를 제곱하여 ndarray 생성
+### tf.math.argmax()
+
+* axis=0 \| 1
+### tf.math.sign
+
+```python
+tf.math.sign(tf.math.reduce_sum(self.w * x) + self.b)
+```
+
+### tf.math.exp()
+
+### tf.math.log()
+### tf.math.equal()
+
+```python
+acc = tf.math.reduce_mean(tf.cast(tf.math.equal(pred, labels), dtype=tf.float32))
+```
+### tf.math.sigmoid()
 ### tf.math.reduce_sum(), tf.math.reduce_mean()
 - source : https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
 - axis=None : 모든 elements에 대해 연산합니다.
