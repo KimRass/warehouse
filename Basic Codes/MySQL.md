@@ -45,6 +45,86 @@ into table masterdata.base_info
 fields terminated by ','
 lines terminated by '\n'
 ```
+### SQL syntax
+#### SELECT
+##### SELECT + WHERE + BETWEEN
+```sql
+SELECT name, height
+FROM sqlDB.usertbl
+WHERE height BETWEEN 180 AND 183;
+```
+##### SELECT + WHERE + IN
+```sql
+SELECT name, addr
+FROM usertbl
+WHERE addr IN ("서울", "경기", "충청");
+```
+##### SELECT + WHERE + LIKE
+```sql
+SELECT name, height
+FROM usertbl
+WHERE name LIKE "김%" OR "_종신";
+```
+#### SELECT + WHERE + ANY
+```sql
+SELECT name
+FROM usertbl
+WHERE height > ANY (SELECT height FROM usertbl WHERE addr="서울");
+```
+##### SELECT + WHERE + MIN, MAX
+```sql
+SELECT height
+FROM usertbl
+WHERE height = (SELECT MIN(height) FROM usertbl);
+    OR height = (SELECT MAX(height) FROM usertbl);
+```
+#### SELECT + GROUP BY
+```sql
+SELECT AVG(amount) AS "평균 구매 수량"
+FROM buytbl GROUP BY userid;
+```
+##### SELECT + ORDER BY
+```sql
+SELECT name, mdate
+FROM usertbl
+ORDER BY mdate DESC name ASC;
+```
+###### SELECT + ORDER BY + COUNT, SUM, AVG, MAX, MIN
+```sql
+SELECT userid AS "사용자 ID", SUM(price*amount) AS "총 구매액"
+FROM buytbl
+GROUP BY userid
+ORDER BY SUM(price*amount) DESC;
+```
+##### SELECT + DISTINCT
+```sql
+SELECT DISTINCT addr FROM usertbl;
+```
+##### SELECT + LIMIT
+```sql
+SELECT * FROM usertbl LIMIT 11, 5;
+```
+##### SELECT + WITH ROLLUP
+```sql
+SELECT num, groupname, SUM(price*amount) AS "비용"
+FROM buytbl
+GROUP BY num, groupname
+WITH ROLLUP;
+```
+##### SELECT + HAVING
+```sql
+SELECT userid AS "사용자 ID", SUM(price*amount) AS "총 구매액"
+FROM buytbl
+GROUP BY userid
+HAVING SUM(price*amount) > 100000;
+```
+##### SELECT + LAST_INSERT_ID();
+- AUTO_INCREMENT 사용 시 사용
+##### SELECT + @
+```sql
+SELECT @변수 이름;
+```
+--------------------------------------------------------------------------------------------------------------------------------
 ### export data
 * check off "Dump Stored Procedures and Functions", "Dump Events", "Dump Triggers"
 * check off "Create Dump in a Single Transaction (self-contained file only)", "Export to Self-Contrained File"
@@ -69,87 +149,8 @@ lines terminated by '\n'
 - choose a table -> "Send to SQL Editor" -> "Create Statement"
 ### .txt로 특정 폴더에 저장
 - 명령 프롬프트 -> cd %programdata% -> cd MySQL -> cd MySQL Server 8.0 -> notepad my.ini -> secure-file-priv=C:\temp 추가 -> 재부팅
+-------------------------------------------------------------------------------------------------------------------
 
-### SQL syntax
-#### DML(Data Manipulation Language) : SELECT, INSERT, UPDATE, DELETE
-##### SELECT
-###### SELECT + WHERE BETWEEN
-```sql
-SELECT name, height
-FROM sqlDB.usertbl
-WHERE height BETWEEN 180 AND 183;
-```
-#### SELECT + WHERE IN
-```sql
-SELECT name, addr
-FROM usertbl
-WHERE addr IN ("서울", "경기", "충청");
-```
-#### SELECT +WHERE LIKE
-```sql
-SELECT name, height
-FROM usertbl
-WHERE name LIKE "김%" OR "_종신";
-```
-#### SELECT + WHERE ANY SELECT
-```sql
-SELECT name
-FROM usertbl
-WHERE height > ANY (SELECT height FROM usertbl WHERE addr="서울");
-```
-#### SELECT + WHERE MIN | MAX SELECT
-```sql
-SELECT height
-FROM usertbl
-WHERE height = (SELECT MIN(height) FROM usertbl);
-    OR height = (SELECT MAX(height) FROM usertbl);
-```
-#### SELECT + ORDER BY
-```sql
-SELECT name, mdate
-FROM usertbl
-ORDER BY mdate DESC name ASC;
-```
-#### SELECT + DISTINCT
-```sql
-SELECT DISTINCT addr FROM usertbl;
-```
-#### SELECT + LIMIT
-```sql
-SELECT * FROM usertbl LIMIT 11, 5;
-```
-#### SELECT + GROUP BY
-```sql
-SELECT userid AS "사용자 ID", SUM(price*amount) AS "총 구매액"
-FROM buytbl
-GROUP BY userid
-ORDER BY SUM(price*amount) DESC;
-```
-- COUNT, SUM, AVG, MAX, MIN
-```sql
-SELECT AVG(amount) AS "평균 구매 수량"
-FROM buytbl GROUP BY userid;
-```
-#### SELECT + GROUP BY + WITH ROLLUP
-```sql
-SELECT num, groupname, SUM(price*amount) AS "비용"
-FROM buytbl
-GROUP BY num, groupname
-WITH ROLLUP;
-```
-#### SELECT + HAVING
-```sql
-SELECT userid AS "사용자 ID", SUM(price*amount) AS "총 구매액"
-FROM buytbl
-GROUP BY userid
-HAVING SUM(price*amount) > 100000;
-```
-#### SELECT + LAST_INSERT_ID();
-- AUTO_INCREMENT 사용 시 사용
-#### SELECT + @
-```sql
-SELECT @변수 이름;
-```
 ### INSERT
 #### INSERT INTO
 ```sql
