@@ -406,7 +406,9 @@ retail[retail["CustomerID"].notna()]
 ```python
 data = data.dropna(subset=["id"])
 ```
-## df.dropna(axis=0)
+```python
+df.loc[~df.index.isin(df.dropna().index)]
+```
 ## df.quantile()
 ```python
 Q1 = subset["money"].quantile(0.25)
