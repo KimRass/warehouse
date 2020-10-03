@@ -803,19 +803,12 @@ def loss_fn(model, x, y):
 ```
 - 정답 레이블이 one-hot encoding 형태가 아닐 경우 사용.
 ### tf.keras.optimizers
-
-#### tf.keras.optimizers.Adam()
-
-```python
-opt = tf.keras.optimizers.Adam(learning_rate=lr)
-```
-
 #### tf.keras.optimizers.SGD()
-
 ```python
 opt = tf.keras.optimizers.SGD(lr=0.01)
 ```
-
+#### tf.keras.optimizers.Adam()
+#### tf.keras.optimizers.Adagrad()
 #### optimizer.apply_gradients()
 
 ```python
@@ -827,15 +820,15 @@ opt.apply_gradients(zip(grads, model.trainable_variables))
 ```
 
 ### tf.keras.metrics
-
+#### tf.keras.metrics.RootMeanSquaredError()
+#### tf.keras.metrics.Mean()
 ```python
 tf.keras.metrics.Mean(name="test_loss")
 ```
-
+#### tf.keras.metrics.SparseCategoricalAccuracy()
 ```python
 tf.keras.metrics.SparseCategoricalAccuracy(name="test_accuracy")
 ```
-
 ### tf.keras.layers
 #### tf.keras.layers.Dot()
 ```python
@@ -971,7 +964,7 @@ for layer in model.layers[1:]:
 ```
 #### model.compile()
 ```python
-model.compile(optimizer=tf.keras.optimizers.SGD(lr=0.02), loss=tf.keras.losses.MeanSquaredError())
+model.compile(optimizer=tf.keras.optimizers.Adagrad(lr=0.1), loss=tf.keras.losses.MeanSquaredError(), metrics=[tf.keras.metrics.RootMeanSquaredError()])
 ```
 #### model.fit()
 ```python
