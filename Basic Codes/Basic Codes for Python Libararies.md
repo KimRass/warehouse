@@ -782,7 +782,7 @@ mnist = tf.keras.datasets.mnist
 ```
 
 ### tf.keras.losses
-
+#### tf.keras.losses.MeanSquaredError()
 #### tf.keras.losses.categorical_crossentropy()
 ```python
 def loss_fn(model, images, labels):
@@ -949,46 +949,9 @@ model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
 #### tf.keras.initializers.he_uniform()
 #### tf.keras.initializers.Constant()
 * tf.keras.layers.Activation(tf.keras.activations.relu) 사용 시 선택
-### tf.keras.Model, tf.keras.Sequential()
-
+### tf.keras.Model
 ```python
-class CreateModel(tf.keras.Model):
-    def __init__(self):
-        super().__init__()
-        self.flatten = tf.keras.layers.Flatten(input_shape=(28, 28))
-        self.dense1 = tf.keras.layers.Dense(32, activation = 'relu')
-        self.dense2 = tf.keras.layers.Dense(64, activation = 'relu')
-        self.dense3 = tf.keras.layers.Dense(128, activation = 'relu')
-        self.dense4 = tf.keras.layers.Dense(256, activation = 'relu')
-        self.dense5 = tf.keras.layers.Dense(10, activation = 'softmax')
-
-    def __call__(self, x, training=None, mask=None):
-        x = self.flatten(x)
-        x = self.dense1(x)
-        x = self.dense2(x)
-        x = self.dense3(x)
-        x = self.dense4(x)
-        return self.dense5(x)
-```
-
-```python
-class CreateModel(tf.keras.Model):
-    def __init__(self, label_dim):
-        super(CreateModel, self).__init__()
-
-        self.model = tf.keras.Sequential()
-        self.model.add(flatten()) 
-
-        rand_norm = tf.keras.initializers.RandomNormal()
-        for i in range(2):
-            self.model.add(dense(units=256, rand_norm))
-            self.model.add(sigmoid())
-
-        self.model.add(dense(label_dim, rand_norm))
-
-    def call(self, x, training=None, mask=None):
-        y = self.model(x)
-        return y
+model = tf.keras.Model(inputs=inputs, outputs=logits, name="lr")
 ```
 #### model.summary()
 #### model.layers
@@ -1005,6 +968,19 @@ for layer in model.layers[1:]:
 for layer in model.layers[1:]:
     bias = layer.get_weights()[1]
     print(f"{layer.name}의 bias shape : {bias.shape}")
+```
+#### model.compile()
+```python
+model.compile(optimizer=tf.keras.optimizers.SGD(lr=0.02), loss=tf.keras.losses.MeanSquaredError())
+```
+#### model.fit()
+```python
+hist = model.fit(x=movie_df["nums_want_to_see"].values, y=movie_df["nums_audience"].values, epochs=100, verbose=0)
+```
+##### hist.history
+#### model.predict()
+```python
+preds = model.predict(x.values)
 ```
 ### tf.keras.Input()
 
