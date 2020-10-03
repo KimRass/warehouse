@@ -924,7 +924,7 @@ one_hot = np.eye(len(char2idx))
 
 model.add(tf.keras.layers.Embedding(input_dim=input_dim, output_dim=output_dim, trainable=False, mask_zero=True, input_length=max_sequence, embeddings_initializer=tf.keras.initializers.Constant(one_hot)))
 ```
-- input dim : 입력되는 단어의 개수.
+- input dim : embedding vector를 생성해야하는 값의 갯수. 입력되는 단어의 개수.
 - output_dim : 출력되는 embedding vector의 크기
 - input_length : 입력 sequence의 길이
 - trainable : one-hot vector의 training을 건너뛸지 여부.
