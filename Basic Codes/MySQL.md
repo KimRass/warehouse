@@ -17,22 +17,7 @@ default-character-set = utf8
 [mysqldump]
 default-character-set = utf8
 ```
-# set path
-```
-SETX PATH "%PATH%;C:\Program Files\MySQL\MySQL Server 8.0\bin"
-```
-### load employees.sql
-```
-cd C:\Program Files\MySQL\MySQL Server 8.0\bin\employees
-mysql -u root -p
-source employees.sql;
-```
-### 시스템 변수 확인
-```
-SHOW VARIABLES LIKE "max%";
-```
-### modify max_allowed_packet
-- cd %programdata% -> cd MySQL -> cd MySQL Server 8.0 -> notepad my.ini -> max_allowed_packet 수정 -> 재부팅
+
 ## Workbench
 ### set local_infile
 ```
@@ -131,6 +116,22 @@ HAVING SUM(price*amount) > 100000;
 SELECT @변수 이름;
 ```
 --------------------------------------------------------------------------------------------------------------------------------
+# set path
+```
+SETX PATH "%PATH%;C:\Program Files\MySQL\MySQL Server 8.0\bin"
+```
+### load employees.sql
+```
+cd C:\Program Files\MySQL\MySQL Server 8.0\bin\employees
+mysql -u root -p
+source employees.sql;
+```
+### 시스템 변수 확인
+```
+SHOW VARIABLES LIKE "max%";
+```
+### modify max_allowed_packet
+- cd %programdata% -> cd MySQL -> cd MySQL Server 8.0 -> notepad my.ini -> max_allowed_packet 수정 -> 재부팅
 ### export data
 * check off "Dump Stored Procedures and Functions", "Dump Events", "Dump Triggers"
 * check off "Create Dump in a Single Transaction (self-contained file only)", "Export to Self-Contrained File"
