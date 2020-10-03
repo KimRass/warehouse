@@ -15,9 +15,17 @@
 ```
 \hat{y}
 ```
+#### fraction
+```
+\frac{1}{2}
+```
 #### subscript
 ```
 v_{i,f}
+```
+#### bracket
+```
+\left( ... \right)
 ```
 #### alignment
 - $ ... $ : 왼쪽 정렬
