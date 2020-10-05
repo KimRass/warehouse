@@ -115,6 +115,16 @@ HAVING SUM(price*amount) > 100000;
 ```sql
 SELECT @변수 이름;
 ```
+#### DROP
+##### DROP DATABASE
+```sql
+DROP DATABASE IF EXISTS database;
+```
+##### DROP TABLE   
+```sql
+DROP TABLE tbl;
+```
+- 내용 및 구조 삭제
 --------------------------------------------------------------------------------------------------------------------------------
 # set path
 ```
@@ -235,16 +245,6 @@ SET @@auto_increment_increment=3;
 INSERT INTO testtbl VALUES (NULL, "홍길동", 25);
 ```
 - AUTO_INCREMENT 값부터 3씩 건너뛰어 id 지정
-### DROP
-#### DROP DATABASE + IF EXISTS
-```sql
-DROP DATABASE IF EXISTS database;
-```
-#### DROP TABLE   
-```sql
-DROP TABLE testtbl;
-```
-- table의 내용 및 구조 삭제
 ### TRUNCATE
 ```sql
 TRUNCATE TABLE testtbl;
