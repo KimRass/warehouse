@@ -31,6 +31,19 @@ fields terminated by ','
 lines terminated by '\n'
 ```
 ### SQL syntax
+```
+SELECT host, user, authentication_string FROM mysql.user;
+SELECT host, user FROM mysql.db;
+```
+```
+DELETE FROM mysql.user WHERE user="6363"
+DELETE FROM mysql.db WHERE user="6363"
+FLUSH PRIVILEGES;
+```
+```
+GRANT ALL PRIVILEGES ON masterdata.* TO "6363"@"%";
+FLUSH PRIVILEGES;
+```
 #### CREATE
 ##### CREATE USER
 ```
