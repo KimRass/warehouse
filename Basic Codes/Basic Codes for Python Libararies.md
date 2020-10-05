@@ -535,8 +535,24 @@ vect = CountVectorizer(max_df=500, min_df=5, max_features=500)
 from sklearn.feature_extraction.text import TfidfVectorizer
 ```
 ## sklearn.preprocessing
+### LabelEncoder()
 ```python
 from sklearn.preprocessing import LabelEncoder
+```
+```python
+le = LabelEncoder()
+```
+### StandardScaler()
+```python
+from sklearn.preprocessing import StandardScaler
+```
+```python
+sc = StandardScaler()
+```
+#### sc.fit_trainsform()
+```python
+x = sc.fit_transform(data.drop(["money"], axis=1))
+x = pd.DataFrame(x, columns=data.drop(["money"], axis=1).columns)
 ```
 ## sklearn.decomposition
 ### PCA()
