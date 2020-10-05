@@ -31,24 +31,25 @@ fields terminated by ','
 lines terminated by '\n'
 ```
 ### SQL syntax
-```
+```sql
 SELECT host, user, authentication_string FROM mysql.user;
 SELECT host, user FROM mysql.db;
 ```
-```
+```sql
 DELETE FROM mysql.user WHERE user="6363"
 DELETE FROM mysql.db WHERE user="6363"
 FLUSH PRIVILEGES;
 ```
-```
+```sql
 GRANT ALL PRIVILEGES ON masterdata.* TO "6363"@"%";
 FLUSH PRIVILEGES;
 ```
+- WITH GRANT OPTION : 권한 위임 가능
+```sql
+SHOW GRANTS FOR "6363"@"%";
+```
 #### CREATE
 ##### CREATE USER
-```
-CREATE USER "6363"@localhost IDENTIFIED BY "6363";
-```
 ```
 CREATE USER "6363"@"%" IDENTIFIED BY "6363";
 ```
