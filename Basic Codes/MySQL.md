@@ -36,8 +36,8 @@ SELECT host, user, authentication_string FROM mysql.user;
 SELECT host, user FROM mysql.db;
 ```
 ```sql
-DELETE FROM mysql.user WHERE user="6363"
-DELETE FROM mysql.db WHERE user="6363"
+DELETE FROM mysql.user WHERE user="6363";
+DELETE FROM mysql.db WHERE user="6363";
 FLUSH PRIVILEGES;
 ```
 ```sql
