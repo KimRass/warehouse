@@ -31,6 +31,14 @@ fields terminated by ','
 lines terminated by '\n'
 ```
 ### SQL syntax
+#### CREATE
+##### CREATE USER
+```
+CREATE USER "6363"@localhost IDENTIFIED BY "6363";
+```
+```
+CREATE USER "6363"@"%" IDENTIFIED BY "6363";
+```
 #### SELECT
 ##### SELECT + WHERE
 ```sql
