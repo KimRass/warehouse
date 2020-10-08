@@ -1112,15 +1112,17 @@ driver.implicitly_wait(1)
 ```python
 driver.save_screenshot(screenshot_title)
 ```
-## WebDriverWait(), By, EC
+## WebDriverWait()
+### WebDriverWait().until()
 ```python
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 ```
 ```python
-WebDriverWait(driver, wait_sec).until(EC.presence_of_element_located((By.XPATH,"//\*[@id='detailContents5']/div/div[1]/div[1]/h5")))
+WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, "//\*[@id='detailContents5']/div/div[1]/div[1]/h5")))
 ```
+- By.ID, By.XPATH
 ## ActionChains()
 ```python
 from selenium.webdriver import ActionChains
