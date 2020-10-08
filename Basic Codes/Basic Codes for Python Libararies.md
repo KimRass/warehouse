@@ -913,9 +913,7 @@ outputs, states = rnn(x_data)
 - states의 차원 : (batch size, hidden_size)
 #### tk.keras.layers.Embedding()
 ```python
-one_hot = np.eye(len(char2idx))
-
-model.add(tf.keras.layers.Embedding(input_dim=input_dim, output_dim=output_dim, trainable=False, mask_zero=True, input_length=max_sequence, embeddings_initializer=tf.keras.initializers.Constant(one_hot)))
+tf.keras.layers.Embedding(input_dim=input_dim, output_dim=output_dim, trainable=False, mask_zero=True, input_length=max_sequence, embeddings_initializer=tf.keras.initializers.Constant(one_hot))
 ```
 - input dim : embedding vector를 생성해야하는 값의 갯수. 입력되는 단어의 개수.
 - output_dim : 출력되는 embedding vector의 크기
