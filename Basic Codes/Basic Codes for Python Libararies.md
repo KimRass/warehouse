@@ -237,10 +237,7 @@ data = pd.melt(raw_data, id_vars=["세부직종별"], var_name="입찰년월", v
 ```
 ## pd.pivot_table()
 ```python
-ui = pd.pivot_table(ratings_df_tr, index="user_id", columns="movie_id", values="rating")
-```
-```python
-pd.pivot_table(df, index="요일", columns="지역", aggfunc=np.mean)
+pivot = pd.pivot_table(uses_df[["daytime", "weekday", "cnt"]], index="daytime", columns="weekday", values="cnt", aggfunc=np.sum)
 ```
 - pd.melt()의 반대
 ## pd.Categorical()
