@@ -305,6 +305,10 @@ df_pivoted = df.pivot("col1", "col2", "col3")
 ```python
 groupby.unstack(level=-1, fill_value=None)
 ```
+## df.append()
+```python
+df = df.append({"addr1":addr1, "addr2":addr2, "dist":dist}, ignore_index=True)
+```
 ## df.apply()
 ```python
 data["반기"]=data["입찰년월"].apply(lambda x:x[:4]+" 상반기" if int(x[4:])<7 else x[:4]+" 하반기")
