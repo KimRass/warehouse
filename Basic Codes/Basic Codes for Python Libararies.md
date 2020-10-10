@@ -417,12 +417,15 @@ df.loc[~df.index.isin(df.dropna().index)]
 ```python
 Q1 = subset["money"].quantile(0.25)
 ```
-## df.sample()
+## df.sample(), ser.sample()
 ```python
 ratings_df.sample(5)
 ```
 ```python
 baskets_df.sample(frac=0.05)
+```
+```phthon
+set(n_per_movie_unseen.sample(100, replace=False, weights=n_per_movie).index)
 ```
 ## df.iterrows()
 - indices of row, row를 return합니다.
