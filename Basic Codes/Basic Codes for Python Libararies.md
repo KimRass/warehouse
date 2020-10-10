@@ -432,12 +432,12 @@ baskets_df.sample(frac=0.05)
 set(n_per_movie_unseen.sample(n=100, replace=False, weights=n_per_movie).index)
 ```
 ## df.iterrows()
-- indices of row, row를 return합니다.
+- index of row, row를 차례대로 return합니다.
 ## df.iteritems()
 ```python
 {k:v for k, v in x_train.iteritems()}
 ```
-- column name, column을 return합니다.
+- column name, column을 차례대로 return합니다.
 ## df.mean()
 ```python
 ui.mean(axis=1)
