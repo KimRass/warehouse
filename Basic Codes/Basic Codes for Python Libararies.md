@@ -231,6 +231,9 @@ data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거
 ```python
 data_without = pd.concat([data_without, data_subset], axis=0)
 ```
+```python
+neg_sampling = pd.concat([uses_df]*3)
+```
 ## pd.melt()
 ```python
 data = pd.melt(raw_data, id_vars=["세부직종별"], var_name="입찰년월", value_name="노임단가")
