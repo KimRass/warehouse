@@ -520,12 +520,9 @@ for k, v in target.items():
 !pip install -U scikit-learn
 ```
 ## sklearn.model_selection
-### train_test_split
+### sklearn.model_selection.train_test_split
 ```python
-from sklearn.model_selection import train_test_split
-```
-```python
-train_X, val_X, train_y, val_y=train_test_split(train_val_X, train_val_y, train_size=0.8, shuffle=True, random_state=3)
+train_X, val_X, train_y, val_y = sklearn.model_selection.train_test_split(train_val_X, train_val_y, train_size=0.8, shuffle=True, random_state=3)
 ```
 ## sklearn.feature_extraction.text
 ### CountVectorizer()
