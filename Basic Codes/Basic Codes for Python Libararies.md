@@ -952,11 +952,11 @@ model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
 model = tf.keras.Model(inputs=inputs, outputs=logits, name="lr")
 ```
 #### model.summary()
+#### model.trainable_variables()
 #### model.layers
 ##### layer.name
 ##### layer.output_shape
 ##### layer.get_weights()
-###### weight.shape
 ```python
 for layer in model.layers[1:]:
     weight = layer.get_weights()[0]
