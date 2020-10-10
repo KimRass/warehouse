@@ -1810,6 +1810,10 @@ import numpy as np
 ```python
 np.set_printoptions(precision=3)
 ```
+```python
+np.set_printoptions(edgeitems=3, infstr="inf", linewidth=75, nanstr="nan", precision=8, suppress=False, threshold=1000, formatter=None)
+```
+- go back to the default options
 ## np.arange
 ```python
 np.arange(5, 101, 5)
