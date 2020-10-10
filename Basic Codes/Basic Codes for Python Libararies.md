@@ -384,6 +384,10 @@ df.duplicated(keep="first)
 ```python
 concat.columns = ["n_rating", "cumsum"]
 ```
+### df.columns.drop()
+```python
+uses_df.columns.drop("cnt")
+```
 ### df.columns.droplevel
 ```python
 df.columns=df.columns.droplevel([0, 1])
