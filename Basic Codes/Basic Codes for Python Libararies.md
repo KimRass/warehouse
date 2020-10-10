@@ -928,9 +928,9 @@ model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
 - TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다. 아래 예제에서는 Dense(unit=1)로 연결을 했고, 이는 RNN Cell의 가중치와 마찬가지로 모든 step step에서 가중치를 공유합니다.
 #### tf.keras.layers.Layer
 - custom layer를 만들려면 `tf.keras.layers.Layer` 클래스를 상속하고 다음 메서드를 구현합니다
-    - __init__: 이 층에서 사용되는 하위 층을 정의할 수 있습니다.
+    - __init__: 이 층에서 사용되는 하위 층을 정의할 수 있습니다. instance 생성 시에 호출됩니다.
     - build: 층의 가중치를 만듭니다. add_weight 메서드를 사용해 가중치를 추가합니다.
-    - call: 정방향 패스를 구현합니다.
+    - call: forward feeding 단계에서 호출됩니다. 입력 값을 이용해서 결과를 계산한 후 반환하면 됩니다.
 ### tf.keras.initializers
 
 #### tf.keras.initializers.RandomNormal()
