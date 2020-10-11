@@ -692,7 +692,12 @@ pred = tf.cast(h > 0.5, dtype=tf.float32)
 ```python
 layer3 = tf.concat([layer1, layer2], axis=1)
 ```
-
+- dimension이 추가되지 않습니다.
+## tf.stack()
+```python
+x = tf.stack(x, axis=0)
+```
+- dimension이 +1됩니다.
 ## tf.reshape()
 
 ```python
