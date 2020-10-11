@@ -215,9 +215,13 @@ pd.set_option("display.float_format", "{:.3f}".format)
 ```
 ## pd.DataFrame()
 ```python
-list_for_data = [(re.match(r"(\[)(\w+)(\])", line[0]).group(2), re.findall(r"(\d\] )(.*)$", line[0])[0][1]) for line in raw_data if re.match(r"(\[)(\w+)(\])", line[0])]
-data = pd.DataFrame(list_for_data, columns=["user", "content"])
+gby_genre_occup = pd.DataFrame(rows, columns=["genre", "occup", "mean"])
 ```
+- list로부터 생성합니다.
+```python
+gby_genre = pd.DataFrame({"mean":genre2rating, "n_rating":genre2n_rating}).sort_values(by=["mean"])
+```
+- ser로부터 생성합니다.
 ## pd.read_csv()
 ```python
 raw_data = pd.read_csv("C:/Users/00006363/☆데이터/실거래가_충청북도_2014.csv", thousands=",", encoding="Ansi", float_precision="round_trip", skiprows=15)
