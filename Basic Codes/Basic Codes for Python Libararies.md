@@ -716,6 +716,7 @@ weight_init = tf.constant_initializer(weight)
 logits = tf.math.add_n(x) + self.w0
 ```
 - Adds all input tensors element-wise.
+- inputs : A list of tf.Tensor, each with the same shape and type.
 ### tf.math.square()
 
 * 각 arguments를 제곱하여 ndarray 생성
