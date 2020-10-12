@@ -876,9 +876,6 @@ def dense(label_dim, weight_init) :
 
 * units : 출력 값 차원
 
-#### tf.keras.layers.Activation()
-
-* tf\.keras\.activations\.sigmoid \| tf\.keras\.activations\.relu
 
 #### tf.keras.layers.Dropout()
 
@@ -969,7 +966,12 @@ tf.keras.layers.Concatenate(axis=1)(embs_fm)
 
 #### tf.keras.initializers.he_uniform()
 #### tf.keras.initializers.Constant()
-* tf.keras.layers.Activation(tf.keras.activations.relu) 사용 시 선택
+### tf.keras.activations
+#### tf.keras.activations.sigmoid()
+```python
+outputs = tf.keras.activations.sigmoid(logits)
+```
+#### tf.keras.activations.relu()
 ### tf.keras.Model
 ```python
 model = tf.keras.Model(inputs=inputs, outputs=logits, name="lr")
