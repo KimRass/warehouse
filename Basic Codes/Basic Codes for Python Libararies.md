@@ -697,6 +697,7 @@ pred = tf.cast(h > 0.5, dtype=tf.float32)
 layer3 = tf.concat([layer1, layer2], axis=1)
 ```
 - 지정한 axis의 dimension이 유지됩니다.
+- tf.keras.layers.Concatenate()와 동일합니다.
 ## tf.stack()
 ```python
 x = tf.stack(x, axis=0)
@@ -954,6 +955,7 @@ model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
 ```python
 tf.keras.layers.Concatenate(axis=1)(embs_fm)
 ```
+- tf.concat()와 동일합니다.
 ### tf.keras.initializers
 
 #### tf.keras.initializers.RandomNormal()
