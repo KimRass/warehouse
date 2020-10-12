@@ -1582,8 +1582,9 @@ ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter("{x:,.0f}"))
 ```
 ### ax.set_xticks(), ax.set_yticks()
 ```python
-ax.set_xticks([1, 2])
+ax.set_yticks(np.arange(1, 1.31, 0.05))
 ```
+- 화면에 표시할 눈금을 설정합니다.
 ### ax.tick_params()
 ```python
 ax.tick_params(axis="x", labelsize=20, labelcolor="red", labelrotation=45, grid_linewidth=3)
