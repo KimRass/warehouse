@@ -850,6 +850,11 @@ tf.keras.metrics.Mean(name="test_loss")
 tf.keras.metrics.SparseCategoricalAccuracy(name="test_accuracy")
 ```
 ### tf.keras.layers
+#### tf.keras.layers.Add()
+```python
+logits = tf.keras.layers.Add()([logits_mlr, logits_fm, logits_dfm])
+```
+- It takes as input a list of tensors, all of the same shape, and returns a single tensor (also of the same shape).
 #### tf.keras.layers.Dot()
 ```python
 pos_score = Dot(axes=(1,1))([user_embedding, pos_item_embedding])
