@@ -696,12 +696,13 @@ pred = tf.cast(h > 0.5, dtype=tf.float32)
 ```python
 layer3 = tf.concat([layer1, layer2], axis=1)
 ```
-- dimension이 추가되지 않습니다.
+- 지정한 axis의 dimension이 유지됩니다.
 ## tf.stack()
 ```python
 x = tf.stack(x, axis=0)
 ```
-- dimension이 +1됩니다.
+- 지정한 axis의 dimension이 +1됩니다.
+- 동일한 shape을 가진 tensors에만 적용할 수 있습니다.
 ## tf.reshape()
 
 ```python
@@ -949,6 +950,10 @@ model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
     - __init__: 이 층에서 사용되는 하위 층을 정의할 수 있습니다. instance 생성 시에 호출됩니다.
     - build: 층의 가중치를 만듭니다. add_weight 메서드를 사용해 가중치를 추가합니다.
     - call: forward feeding 단계에서 호출됩니다. 입력 값을 이용해서 결과를 계산한 후 반환하면 됩니다.
+#### tf.keras.layers.Concatenate()
+```python
+tf.keras.layers.Concatenate(axis=1)(embs_fm)
+```
 ### tf.keras.initializers
 
 #### tf.keras.initializers.RandomNormal()
