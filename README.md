@@ -9,3 +9,5 @@
 
 # Concepts
 각종 개념들을 정리합니다.
+
+[![HitCount](http://hits.dwyl.com/KimRass/Programming.svg)](http://hits.dwyl.com/KimRass/Programming)
