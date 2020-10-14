@@ -806,6 +806,10 @@ mnist = tf.keras.datasets.mnist
 
 ### tf.keras.losses
 #### tf.keras.losses.MeanSquaredError()
+#### tf.keras.losses.BinaryCrossentropy()
+```python
+
+```
 #### tf.keras.losses.categorical_crossentropy()
 ```python
 def loss_fn(model, images, labels):
@@ -844,6 +848,7 @@ opt.apply_gradients(zip(grads, model.trainable_variables))
 
 ### tf.keras.metrics
 #### tf.keras.metrics.RootMeanSquaredError()
+#### tf.keras.metrics.BinaryCrossentropy()
 #### tf.keras.metrics.Mean()
 ```python
 tf.keras.metrics.Mean(name="test_loss")
