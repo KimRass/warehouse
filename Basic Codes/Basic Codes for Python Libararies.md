@@ -238,13 +238,21 @@ data_without = pd.concat([data_without, data_subset], axis=0)
 ```python
 neg_sampling = pd.concat([uses_df]*3)
 ```
-## pd.melt()
-```python
-data = pd.melt(raw_data, id_vars=["세부직종별"], var_name="입찰년월", value_name="노임단가")
-```
+
 ## pd.pivot_table()
 ```python
 pivot = pd.pivot_table(uses_df[["daytime", "weekday", "cnt"]], index="daytime", columns="weekday", values="cnt", aggfunc=np.sum)
+```
+## pd.melt()
+
+
+```python
+
+hist = pd.melt(hist, id_vars="Date", var_name="EmpName", value_name="NPost")data = pd.melt(raw_data, id_vars=["세부직종별"], var_name="입찰년월", value_name="노임단가")
+
+```
+
+
 ```
 - pd.melt()의 반대
 ## pd.Categorical()
