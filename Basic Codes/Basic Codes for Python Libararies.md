@@ -248,13 +248,11 @@ pivot = pd.pivot_table(uses_df[["daytime", "weekday", "cnt"]], index="daytime", 
 
 ```python
 
-hist = pd.melt(hist, id_vars="Date", var_name="EmpName", value_name="NPost")data = pd.melt(raw_data, id_vars=["세부직종별"], var_name="입찰년월", value_name="노임단가")
+hist = pd.melt(hist, id_vars="Date", var_name="EmpName", value_name="NPost")
 
 ```
+- pd.pivot_table()의 반대 과정입니다.
 
-
-```
-- pd.melt()의 반대
 ## pd.Categorical()
 ```python
 results["lat"] = pd.Categorical(results["lat"], categories=order)
