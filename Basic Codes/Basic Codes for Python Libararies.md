@@ -248,7 +248,7 @@ pivot = pd.pivot_table(uses_df[["daytime", "weekday", "cnt"]], index="daytime", 
 
 ```python
 
-hist = pd.melt(hist, id_vars="Date", var_name="EmpName", value_name="NPost")
+n_post = pd.melt(n_post, id_vars="Date", var_name="Emp", value_name="NPost", ignore_index=False)
 
 ```
 - pd.pivot_table()의 반대 과정입니다.
