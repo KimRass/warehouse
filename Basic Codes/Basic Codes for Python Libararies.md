@@ -208,11 +208,21 @@ import pandas as pd
 ```
 ## pd.set_option()
 ```python
-pd.set_option('display.max_rows', 500)
-pd.set_option('display.max_columns', 500)
-pd.set_option('display.width', 1000)
+pd.set_option("display.max_rows", 500)
+pd.set_option("display.max_columns", 500)
+```
+- 최대 rows 또는 columns의 수 설정
+```python
+pd.set_option("display.width", 1000)
+
+```
+
 pd.set_option("display.float_format", "{:.3f}".format)
 ```
+```python
+pd.set_option("mode.chained_assignment",  None)
+```
+- SettingWithCopyWarning 무시
 ## pd.DataFrame()
 ```python
 gby_genre_occup = pd.DataFrame(rows, columns=["genre", "occup", "mean"])
