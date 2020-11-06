@@ -1635,6 +1635,10 @@ ax.legend(fontsize=14, loc="best")
 ax.grid(axis="x", color="White", alpha=0.3, linestyle="--", linewidth=2)
 ```
 ### ax.plot()
+```python
+ax.plot(df1.index, df1["mean"], linestyle="dashdot", linewidth=1.5, color="black", label="10년 전(09.08 ~ 10.07) 전국 실거래가")
+```
+- linestyle : "dashdot" | "dashed" | "solid" | "dotted"
 ### ax.scatter()
 ```python
 ax.scatter(x=gby["0.5km 내 교육기관 개수"], y=gby["실거래가"], s=70, c=gby["전용면적(m²)"], cmap="RdYlBu", alpha=0.7, edgecolors="black", linewidth=0.5)
