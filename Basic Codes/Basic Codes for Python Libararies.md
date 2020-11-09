@@ -1463,22 +1463,30 @@ from itertools import combinations
 movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
 ```
 # konlpy
-## Okt()
+## konlpy.tag
 ```python
-from konlpy.tag import Okt
+from konlpy.tag import *
 ```
+### Okt(), Kkma(), Komoran(), Hannanum()
 ```python
 okt = Okt()
 ```
-### okt.add_dictionary
+```python
+kkm = Kkma()
+```
+```python
+kmr = Komoran()
+```
+```python
+hnn = Hannanum()
+```
+#### okt.add_dictionary
 ```python
 okt.add_dictionary(["대금", "지급", "근재", "사배책", "건설", "기계"], "Noun")
 ```
-### okt.morphs()
-```python
-codes_tokenized = [" ".join(okt.morphs(code)) for code in codes]
-items_tokenized = [" ".join(okt.morphs(item)) for item in items]
-```
+#### okt.nouns(), kkm.nouns(), kmr.nouns(), hnn.nouns()
+#### okt.morphs(), kkm.morphs(), kmr.morphs(), hnn.morphs()
+#### okt.pos(), kkm.pos(), kmr.pos(), hnn.pos()
 # mapboxgl
 ## mapboxgl.viz
 ```python
@@ -1710,17 +1718,25 @@ sb.heatmap(ax=ax, data=gby_occup_genre, annot=True, annot_kws={"size": 10}, fmt=
 ```
 # MeCab
 ```python
+!git clone https://github.com/SOMJANG/Mecab-ko-for-Google-Colab.git
+%cd Mecab-ko-for-Google-Colab
+!bash install_mecab-ko_on_colab190912.sh
+```
+- Google Colab에 설치
+```python
 import MeCab
 ```
 ```python
 def pos(text):
     p = re.compile(".+\t[A-Z]+")
     return [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
-
+```
+```python
 def morphs(text):
     p = re.compile(".+\t[A-Z]+")
     return [p.match(line).group().split("\t")[0] for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
-
+```
+```python
 def nouns(text):
     p = re.compile(".+\t[A-Z]+")
     temp = [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
@@ -1729,7 +1745,7 @@ def nouns(text):
         if word[1] in ["NNG", "NNP", "NNB", "NNBC", "NP", "NR"]:
             nouns.append(word[0])
     return nouns
-
+```
 def cln(text):
     return re.sub("[^ㄱ-ㅣ가-힣 ]", "", text)
 
@@ -1841,6 +1857,15 @@ from nltk.tokenize import WordPunctTokenizer
 ```python
 WordPunctTokenizer().tokenize("Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as cheery as cheery goes for a pastry shop.")
 ```
+### TreebankWordTokenizer()
+```python
+from nltk.tokenize import TreebankWordTokenizer
+```
+#### TreebankWordTokenizer().tokenize()
+```python
+TreebankWordTokenizer().tokenize("Starting a home-based restaurant may be an ideal. it doesn't have a food chain or restaurant of their own.")
+```
+- Penn Treebank Tokenization.
 ## nltk.Text()
 ```python
 text = nltk.Text(total_tokens, name="NMSC")
