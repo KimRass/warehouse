@@ -1866,6 +1866,13 @@ from nltk.tokenize import TreebankWordTokenizer
 TreebankWordTokenizer().tokenize("Starting a home-based restaurant may be an ideal. it doesn't have a food chain or restaurant of their own.")
 ```
 - Penn Treebank Tokenization.
+### sent_tokenize()
+```python
+from nltk.tokenize import sent_tokenize
+```
+```python
+sent_tokenize("I am actively looking for Ph.D. students and you are a Ph.D student.")
+```
 ## nltk.Text()
 ```python
 text = nltk.Text(total_tokens, name="NMSC")
@@ -1896,6 +1903,9 @@ from nltk.corpus import movie_reviews
 ```python
 sentences = [sent for sent in movie_reviews.sents()]
 ```
+# kss
+## kss.split_sentences()
+
 # numpy
 ```python
 import numpy as np
