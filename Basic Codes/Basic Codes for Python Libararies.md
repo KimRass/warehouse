@@ -1825,6 +1825,22 @@ asso_rules = association_rules(sups, metric="support", min_threshold=0.01)
 ```python
 import nltk
 ```
+## nltk.tokenize
+### word_tokenize()
+```python
+from nltk.tokenize import word_tokenize
+```
+```python
+word_tokenize("Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as cheery as cheery goes for a pastry shop.")
+```
+### WordPunctTokenizer()
+```python
+from nltk.tokenize import WordPunctTokenizer
+```
+#### WordPunctTokenizer().tokenize()
+```python
+WordPunctTokenizer().tokenize("Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as cheery as cheery goes for a pastry shop.")
+```
 ## nltk.Text()
 ```python
 text = nltk.Text(total_tokens, name="NMSC")
