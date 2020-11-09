@@ -1873,6 +1873,29 @@ from nltk.tokenize import sent_tokenize
 ```python
 sent_tokenize("I am actively looking for Ph.D. students and you are a Ph.D student.")
 ```
+## nltk.stem
+### PorterStemmer()
+```python
+from nltk.stem import PorterStemmer
+```
+```python
+ps = PorterStemmer()
+```
+#### ps.stem()
+```python
+[ps.stem(word) for word in ["formalize", "allowance", "electricical"]]
+```
+### WordNetLemmatizer()
+```python
+from nltk.stem import WordNetLemmatizer
+```
+```python
+wnl = WordNetLemmatizer()
+```
+#### wnl.lemmatize()
+```python
+wnl.lemmatize("watched", "v")
+```
 ## nltk.Text()
 ```python
 text = nltk.Text(total_tokens, name="NMSC")
@@ -1888,17 +1911,12 @@ text.vocab().most_common(10)
 text.plot(50)
 ```
 ## nltk.download()
-```python
-nltk.download("movie_reviews")
-```
-```python
-nltk.download("punkt")
-```
+- "punkt", "wordnet", "movie_reviews"
 ## nltk.corpus
+### movie_reviews
 ```python
 from nltk.corpus import movie_reviews
 ```
-### movie_reviews
 #### movie_reviews.sents()
 ```python
 sentences = [sent for sent in movie_reviews.sents()]
