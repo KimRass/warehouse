@@ -2525,3 +2525,7 @@ rd.delete("A")
 ```python
 rd.get("A")
 ```
+# 
+from google.colab import drive
+
+drive.mount("/content/drive")
