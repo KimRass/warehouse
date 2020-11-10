@@ -67,8 +67,9 @@ x_data = list(map(lambda word : [char2idx.get(char) for char in word], words))
 ```
 ### split()
 ```python
-msg_tkn = [msg.split() for msg in data["msg"]]
+msg_tkn = [msg.split(" ") for msg in data["msg"]]
 ```
+- argument를 기준으로 string 분할
 ### filter()
 ### sum()
 ```python
@@ -1486,7 +1487,9 @@ okt.add_dictionary(["대금", "지급", "근재", "사배책", "건설", "기계
 ```
 #### okt.nouns(), kkm.nouns(), kmr.nouns(), hnn.nouns()
 #### okt.morphs(), kkm.morphs(), kmr.morphs(), hnn.morphs()
+- stem=True | False, norm=True | False
 #### okt.pos(), kkm.pos(), kmr.pos(), hnn.pos()
+- stem=True | False, norm=True | False
 # mapboxgl
 ## mapboxgl.viz
 ```python
@@ -1911,8 +1914,16 @@ text.vocab().most_common(10)
 text.plot(50)
 ```
 ## nltk.download()
-- "punkt", "wordnet", "movie_reviews"
+- "punkt", "wordnet", "stopwords", "movie_reviews"
 ## nltk.corpus
+### stopwords
+```python
+from nltk.corpus import stopwords
+```
+#### stopwords.words()
+```python
+stopwords.words("english")
+```
 ### movie_reviews
 ```python
 from nltk.corpus import movie_reviews
