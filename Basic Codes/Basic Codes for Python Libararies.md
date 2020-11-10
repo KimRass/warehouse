@@ -1,50 +1,40 @@
 # Python Built-in Functions
-## var.data
-### var.data.nbytes : 변수에 할당된 메모리 크기 리턴
 ## print()
 ```python
 print(... end="") 
-```
-### print() + format()
-```python
-print("{0} and {1}".format("spam", "eggs")
-```
-```python
-print("[{0:>4d}], [{1:>20d}]".format(100, 200))
-```
-```python
-print("[{0:<20s}]".format("string"))
-```
-```python
-print("[{0:<20.20f}], [{1:>10.2f}]".format(3.14, 10.925))
-```
-```python
-print("{:>4d} | {:>7.4f} | {:>7.4f} | {:>9.6f}".format(i + 1, W.numpy(), b.numpy(), loss.numpy()))
 ```
 ## isinstance()
 ```python
 if not isinstance(movie, frozenset):
     movie = frozenset(movie)
 ```
+## sum()
+```python
+sum(sentences, [])
+```
+- 두번째 층의 대괄호 제거
 ## assert
 ```python
 assert model_name in self.model_list, "There is no such a model."
 ```
-## list
-### list[]
-### list.index()
+## var
+### var.data
+#### var.data.nbytes : 변수에 할당된 메모리 크기 리턴
+## lst
+### lst[]
+### lst.index()
 ```python
 names.index((17228, '아트빌'))
 ```
-### list.append()
+### lst.append()
 ```python
 feature_to_shuffle.append("area")
 ```
-### list.remove()
+### lst.remove()
 ```python
 features.remove("area")
 ```
-### list.sort()
+### lst.sort()
 ```python
 A.sort(reverse=True)
 ```
@@ -56,20 +46,10 @@ m.sort(key=len)
 ```python
 A = reversed(A)
 ```
-### str.join()
-```python
-" ".join(["good", "bad", "worse", "so good"])
-```
-- str을 사이에 두고 리스트의 모든 원소들을 하나로 합침
 ### map()
 ```python
 x_data = list(map(lambda word : [char2idx.get(char) for char in word], words))
 ```
-### split()
-```python
-msg_tkn = [msg.split(" ") for msg in data["msg"]]
-```
-- argument를 기준으로 string 분할
 ### filter()
 ### sum()
 ```python
@@ -125,6 +105,34 @@ dic.get(key)
 ```python
 {idx:char for idx, char in enumerate(char_set)}
 ```
+## str
+### str.format()
+```python
+print("{0} and {1}".format("spam", "eggs")
+```
+```python
+print("[{0:>4d}], [{1:>20d}]".format(100, 200))
+```
+```python
+print("[{0:<20s}]".format("string"))
+```
+```python
+print("[{0:<20.20f}], [{1:>10.2f}]".format(3.14, 10.925))
+```
+```python
+print("{:>4d} | {:>7.4f} | {:>7.4f} | {:>9.6f}".format(i + 1, W.numpy(), b.numpy(), loss.numpy()))
+```
+### str.join()
+```python
+" ".join(["good", "bad", "worse", "so good"])
+```
+- str을 사이에 두고 리스트의 모든 원소들을 하나로 합침
+### str.split()
+```python
+msg_tkn = [msg.split(" ") for msg in data["msg"]]
+```
+### str.upper(), str.lower()
+- argument를 기준으로 str 분할
 ## exec()
 ```python
 for i in range(N):
@@ -1934,7 +1942,15 @@ sentences = [sent for sent in movie_reviews.sents()]
 ```
 # kss
 ## kss.split_sentences()
-
+# collections
+## Counter()
+```python
+from collections import Counter
+```
+```python
+vocab = Counter(words)
+```
+- lst의 원소별 빈도를 나타내는 dic 반환
 # numpy
 ```python
 import numpy as np
