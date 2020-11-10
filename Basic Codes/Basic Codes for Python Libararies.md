@@ -1,7 +1,7 @@
 # Python Built-in Functions
 ## print()
 ```python
-print(... end="") 
+print(..., end="") 
 ```
 ## isinstance()
 ```python
