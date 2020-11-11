@@ -42,10 +42,6 @@ A.sort(reverse=True)
 m.sort(key=len)
 ```
 - in-place 함수
-### sorted(), reversed()
-```python
-A = reversed(A)
-```
 ### map()
 ```python
 x_data = list(map(lambda word : [char2idx.get(char) for char in word], words))
@@ -101,6 +97,14 @@ dic.get(key)
 - \>\>\> value
 ### dic.keys(), dic.values()
 ### dic.fromkeys(list or tuple, value)
+### sorted()
+
+```python
+
+A = reversed(A)
+
+
+```
 ### dictionary comprehension
 ```python
 {idx:char for idx, char in enumerate(char_set)}
