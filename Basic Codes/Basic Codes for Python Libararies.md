@@ -101,7 +101,7 @@ dic.get(key)
 
 ```python
 
-A = reversed(A)
+vocab_sorted = sorted(vocab.items(), key = lambda x:x[1], reverse=True)
 
 
 ```
