@@ -1627,9 +1627,16 @@ ax.set_xlim([1, 4])
 ax.axis([2, 3, 4, 10])
 ```
 ### ax.xaxis, ax.yaxis
+#### ax.ax.xaxis.set_label_position(), ax.yaxis.set_label_position()
+```python
+ax.xaxis.set_label_position("top")
+```
 #### ax.xaxis.set_ticks_position(), ax.yaxis.set_ticks_position()
 ```python
 ax1.yaxis.set_ticks_position("right")
+```
+```python
+ax.xaxis.set_ticks_position("top")
 ```
 ### ax.invert_xaxis(), ax.invert_yaxis()
 #### ax.xaxis.set_tick_position(), ax.yaxis.set_tick_position()
