@@ -1050,12 +1050,29 @@ preds = model.predict(x.values)
 ```python
 inputs = tf.keras.Input(shape=(28, 28, 1))
 ```
-### tf.keras.preprocessing.sequence.pad_sequences()
+### tf.keras.preprocessing
+#### tf.keras.preprocessing.sequence
+##### tf.keras.preprocessing.sequence.pad_sequences()
 ```python
 x_data = tf.keras.preprocessing.sequence.pad_sequences(sequences=x_data, maxlen=max_sequence, padding="post", truncating="post", value=0)
 ```
 - padding="pre" | "post"
 - truncating="pre" | "post"
+#### tf.keras.preprocessing.text
+##### tf.keras.preprocessing.text.Tokenizer()
+```python
+tkn = tf.keras.preprocessing.text.Tokenizer()
+```
+###### tkn.fit_on_texts()
+```python
+tkn.fit_on_texts(corpus)
+```
+###### tkn.word_index
+###### tkn.word_counts
+###### tkn.texts_to_sequences()
+```python
+tkn.texts_to_sequences(corpus)
+```
 ## tf.nn
 
 ### tf.nn.softmax()
