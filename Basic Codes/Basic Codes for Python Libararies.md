@@ -1063,6 +1063,9 @@ x_data = tf.keras.preprocessing.sequence.pad_sequences(sequences=x_data, maxlen=
 ```python
 tkn = tf.keras.preprocessing.text.Tokenizer()
 ```
+```python
+tkn = tf.keras.preprocessing.text.Tokenizer(num_words=vocab_size+2, oov_token="OOV")
+```
 ###### tkn.fit_on_texts()
 ```python
 tkn.fit_on_texts(corpus)
