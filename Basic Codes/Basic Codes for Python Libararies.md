@@ -1769,29 +1769,30 @@ sb.heatmap(ax=ax, data=gby_occup_genre, annot=True, annot_kws={"size": 10}, fmt=
 !pip install mecab_python-0.996_ko_0.9.2_msvc-cp37-cp37m-win_amd64.whl
 ```
 - Windows에 설치
-- source : https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
+- source : https://cleancode-ws.tistory.com/97, https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
 ```python
 import MeCab
 ```
 ```python
-def pos(text):
-    p = re.compile(".+\t[A-Z]+")
-    return [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
-```
-```python
-def morphs(text):
-    p = re.compile(".+\t[A-Z]+")
-    return [p.match(line).group().split("\t")[0] for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
-```
-```python
-def nouns(text):
-    p = re.compile(".+\t[A-Z]+")
-    temp = [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
-    nouns=[]
-    for word in temp:
-        if word[1] in ["NNG", "NNP", "NNB", "NNBC", "NP", "NR"]:
-            nouns.append(word[0])
-    return nouns
+class Mecab:
+    def pos(self, text):
+        p = re.compile(".+\t[A-Z]+")
+        return [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
+    
+    def morphs(self, text):
+        p = re.compile(".+\t[A-Z]+")
+        return [p.match(line).group().split("\t")[0] for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
+    
+    def nouns(self, text):
+        p = re.compile(".+\t[A-Z]+")
+        temp = [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
+        nouns=[]
+        for word in temp:
+            if word[1] in ["NNG", "NNP", "NNB", "NNBC", "NP", "NR"]:
+                nouns.append(word[0])
+        return nouns
+    
+mc = Mecab()
 ```
 def cln(text):
     return re.sub("[^ㄱ-ㅣ가-힣 ]", "", text)
