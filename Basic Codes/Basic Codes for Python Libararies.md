@@ -1499,29 +1499,30 @@ movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
 ## konlpy.tag
 ```python
 from konlpy.tag import *
-```
-### Okt(), Kkma(), Komoran(), Hannanum()
-```python
+
 okt = Okt()
-```
-```python
 kkm = Kkma()
-```
-```python
 kmr = Komoran()
-```
-```python
 hnn = Hannanum()
-```
-#### okt.add_dictionary
-```python
-okt.add_dictionary(["대금", "지급", "근재", "사배책", "건설", "기계"], "Noun")
 ```
 #### okt.nouns(), kkm.nouns(), kmr.nouns(), hnn.nouns()
 #### okt.morphs(), kkm.morphs(), kmr.morphs(), hnn.morphs()
 - stem=True | False, norm=True | False
 #### okt.pos(), kkm.pos(), kmr.pos(), hnn.pos()
 - stem=True | False, norm=True | False
+# ckonlpy
+```python
+!pip install customized_konlpy
+```
+```python
+from ckonlpy.tag import Twitter
+
+twt = Twitter()
+```
+## twt.add_dictionary()
+```python
+twt.add_dictionary("은경이", "Noun")
+```
 # mapboxgl
 ## mapboxgl.viz
 ```python
