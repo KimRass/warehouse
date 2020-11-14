@@ -804,7 +804,7 @@ movie_df = pd.read_csv(movies_path)
 - 인터넷의 파일을 로컬 컴퓨터의 홈 디렉토리 아래 .keras/datasets 디렉토리로 다운로드.
 #### tf.keras.utils.to_categorical()
 ```python
-train_labels = tf.keras.utils.to_categorical(train_labels, 10)
+tf.keras.utils.to_categorical([2, 5, 1, 6, 3, 7])
 ```
 * one-hot encoding
 
@@ -1068,13 +1068,13 @@ tkn = tf.keras.preprocessing.text.Tokenizer(num_words=vocab_size+2, oov_token="O
 ```
 ###### tkn.fit_on_texts()
 ```python
-tkn.fit_on_texts(corpus)
+tkn.fit_on_texts(["나랑 점심 먹으러 갈래 점심 메뉴는 햄버거 갈래 갈래 햄버거 최고야"])
 ```
 ###### tkn.word_index
 ###### tkn.word_counts
 ###### tkn.texts_to_sequences()
 ```python
-tkn.texts_to_sequences(corpus)
+tkn.texts_to_sequences(["점심 먹으러 갈래 메뉴는 햄버거 최고야"])
 ```
 ## tf.nn
 
