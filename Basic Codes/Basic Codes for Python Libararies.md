@@ -1766,6 +1766,11 @@ sb.heatmap(ax=ax, data=gby_occup_genre, annot=True, annot_kws={"size": 10}, fmt=
 ```
 - Google Colab에 설치
 ```python
+!pip install mecab_python-0.996_ko_0.9.2_msvc-cp37-cp37m-win_amd64.whl
+```
+- Windows에 설치
+- source : https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
+```python
 import MeCab
 ```
 ```python
