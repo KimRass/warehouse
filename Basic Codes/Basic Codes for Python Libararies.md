@@ -2006,6 +2006,19 @@ emoticon_normalize("앜ㅋㅋㅋㅋ이영화존잼쓰ㅠㅠㅠㅠㅠ", num_repea
 ```python
 repeat_normalize("와하하하하하하하하하핫", num_repeats=2)
 ```
+# hanspell
+```python
+!pip install git+https://github.com/ssut/py-hanspell.git
+```
+```python
+import hanspell
+```
+## haspell.spell_checker
+### hanspell.spell_checker.check()
+#### hanspell.spell_checker.check().checked
+```python
+sent_ckd = hanspell.spell_checker.check("맞춤법 틀리면 외 않되? 쓰고싶은대로쓰면돼지").checked
+```
 # collections
 ## Counter()
 ```python
