@@ -91,12 +91,11 @@ dic.update({key1:value1, key2:value2})
 ```python
 dic.pop(key)
 ```
-- \>\>\> value
 ### dic.get()
 ```python
 dic.get(key)
 ```
-- \>\>\> value
+- arg로 입력된 key에 대한 value를 반환합니다.
 ### dic.keys(), dic.values()
 ### dic.fromkeys(list or tuple, value)
 ### sorted()
