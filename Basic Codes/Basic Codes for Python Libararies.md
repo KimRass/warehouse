@@ -2509,11 +2509,10 @@ p = re.compile(".+\t[A-Z]+")
 - \n : newline
 - \r : return
 - [] : [] 안의 문자를 1개 이상 포함하는
-- * : 0개~무한대의 바로 앞의 character
-- + : 1개~무한대의 바로 앞의 character
-- ? : 0개~1개의 바로 앞의 character
-- {m,n} : m개~n개의 바로 앞의 character(생략된 m은 0과 동일, 생략된 n은 무한대와 동일)
-- *?, +?, {m,n}? : non-greedy way
+- \* : 0개~무한대의 바로 앞의 character(non-greedy way)
+- \+ : 1개~무한대의 바로 앞의 character(non-greedy way)
+- \? : 0개~1개의 바로 앞의 character
+- {m,n} : m개~n개의 바로 앞의 character(생략된 m은 0과 동일, 생략된 n은 무한대와 동일)(non-greedy way)
 - {n} : n개의 바로 앞의 character
 - ? : 0개~1개의 바로 앞의 character
 - ^ : 바로 뒤의 문자열로 시작하는
