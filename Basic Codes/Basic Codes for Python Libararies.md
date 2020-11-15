@@ -30,6 +30,8 @@ names.index((17228, '아트빌'))
 ```python
 feature_to_shuffle.append("area")
 ```
+### lst.insert()
+- idx, value 순으로 arg를 입력합니다.
 ### lst.remove()
 ```python
 features.remove("area")
@@ -570,10 +572,15 @@ vect = CountVectorizer(max_df=500, min_df=5, max_features=500)
 ```
 - 토큰의 빈도가 max_df보다 크거나 min_df보다 작은 경우 무시.
 #### vect.fit()
-#### vect.transform() : built DTM
-#### vect.fit_transform() : vect.fit() + vect.transform()
+#### vect.transform()
+- build DTM
+##### vect.transform().toarray()
+#### vect.fit_transform()
+- vect.fit() + vect.transform()
+##### vect.fit_transform().toarray()
 #### vect.vocabulary_
-##### vect.vocabulary_.get() : 특정 word의 index 출력
+##### vect.vocabulary_.get()
+- arg의 index를 출렵합니다.
 ### TfidfVectorizer()
 ```python
 from sklearn.feature_extraction.text import TfidfVectorizer
