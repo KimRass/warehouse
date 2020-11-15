@@ -1991,8 +1991,21 @@ sentences = [sent for sent in movie_reviews.sents()]
 import pykospacing
 ```
 ## pykospacing.spacing()
-
-## spacing
+sent_ks = pykospacing.spacing("오지호는극중두얼굴의사나이성준역을맡았다.성준은국내유일의태백권전승자를가리는결전의날을앞두고20년간동고동락한사형인진수(정의욱분)를찾으러속세로내려온인물이다.")
+```
+# soynlp
+## soynlp.normalizer
+```python
+from soynlp.normalizer import *
+```
+### emoticon_normalize()
+```python
+emoticon_normalize("앜ㅋㅋㅋㅋ이영화존잼쓰ㅠㅠㅠㅠㅠ", num_repeats=2)
+```
+### repeat_normalize()
+```python
+repeat_normalize("와하하하하하하하하하핫", num_repeats=2)
+```
 # collections
 ## Counter()
 ```python
