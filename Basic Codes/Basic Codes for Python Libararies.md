@@ -135,6 +135,7 @@ print("{:>4d} | {:>7.4f} | {:>7.4f} | {:>9.6f}".format(i + 1, W.numpy(), b.numpy
 ```python
 msg_tkn = [msg.split(" ") for msg in data["msg"]]
 ```
+- argument를 기준으로 str을 분할해서 lst를 만듭니다.
 ### str.upper(), str.lower()
 - argument를 기준으로 str 분할
 ## exec()
