@@ -1980,6 +1980,19 @@ sentences = [sent for sent in movie_reviews.sents()]
 ```
 # kss
 ## kss.split_sentences()
+# pykospacing
+```python
+!pip install git+https://github.com/haven-jeon/PyKoSpacing.git --user
+```
+```python
+!pip install keras==2.1.5
+```
+```python
+import pykospacing
+```
+## pykospacing.spacing()
+
+## spacing
 # collections
 ## Counter()
 ```python
