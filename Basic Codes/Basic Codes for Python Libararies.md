@@ -139,6 +139,10 @@ msg_tkn = [msg.split(" ") for msg in data["msg"]]
 - argument를 기준으로 str을 분할해서 lst를 만듭니다.
 ### str.upper(), str.lower()
 - argument를 기준으로 str 분할
+### str.count()
+```python
+"저는 과일이 좋아요".count("과일이")
+```
 ## exec()
 ```python
 for i in range(N):
@@ -1998,6 +2002,7 @@ sentences = [sent for sent in movie_reviews.sents()]
 import pykospacing
 ```
 ## pykospacing.spacing()
+```
 sent_ks = pykospacing.spacing("오지호는극중두얼굴의사나이성준역을맡았다.성준은국내유일의태백권전승자를가리는결전의날을앞두고20년간동고동락한사형인진수(정의욱분)를찾으러속세로내려온인물이다.")
 ```
 # soynlp
