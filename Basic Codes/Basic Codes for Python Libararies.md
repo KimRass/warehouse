@@ -250,6 +250,10 @@ gby_genre_occup = pd.DataFrame(rows, columns=["genre", "occup", "mean"])
 gby_genre = pd.DataFrame({"mean":genre2rating, "n_rating":genre2n_rating}).sort_values(by=["mean"])
 ```
 - ser로부터 생성합니다.
+## pd.Series()
+```python
+idf_ser = pd.Series(idf, index=vocab)
+```
 ## pd.read_csv()
 ```python
 raw_data = pd.read_csv("C:/Users/00006363/☆데이터/실거래가_충청북도_2014.csv", thousands=",", encoding="Ansi", float_precision="round_trip", skiprows=15)
