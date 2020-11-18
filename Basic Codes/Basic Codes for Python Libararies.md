@@ -1245,12 +1245,10 @@ import urllib
 ```python
 xml = urllib.request.urlopen(full_url).read().decode("utf8")
 ```
-
-------------------------------------------------------------------------------------
+# category_encoders
 ```python
 !pip install --upgrade category_encoders
 ```
-# category_encoders
 ```python
 import category_encoders as ce
 ```
