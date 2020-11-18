@@ -917,13 +917,11 @@ def flatten() :
 #### tf.keras.layers.Dense()
 
 ```python
-def dense(label_dim, weight_init) :
-    return tf.keras.layers.Dense(units=label_dim, use_bias=True, kernel_initializer=weight_init)
+tf.keras.layers.Dense(52, activation="relu", input_shape=(13,)
 ```
-
-* units : 출력 값 차원
-
-
+- units: 해당 은닉층에서 활동하는 뉴런의 수(출력 값의 크기)
+- activation: 활성화함수, 해당 은닉층의 가중치와 편향의 연산 결과를 어느 함수에 적합하여 출력할 것인가?
+- input_shape : 입력 벡터의 크기. 여기서 13은 해당 데이터 프레임의 열의 수를 나타낸다. 데이터의 구조(이미지, 영상)에 따라 달라질 수 있다. 첫 번째 은닉층에서만 정의해준다.
 #### tf.keras.layers.Dropout()
 
 ```python
