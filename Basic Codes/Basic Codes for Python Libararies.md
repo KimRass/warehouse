@@ -849,10 +849,9 @@ mnist = tf.keras.datasets.mnist
 
 ### tf.keras.losses
 #### tf.keras.losses.MeanSquaredError()
+- "mse"와 동일합니다.
 #### tf.keras.losses.BinaryCrossentropy()
-```python
-
-```
+- "binary_crossentropy"와 동일합니다.
 #### tf.keras.losses.categorical_crossentropy()
 ```python
 def loss_fn(model, images, labels):
@@ -1016,6 +1015,8 @@ tf.keras.layers.Concatenate(axis=1)(embs_fm)
 #### tf.keras.initializers.he_uniform()
 #### tf.keras.initializers.Constant()
 ### tf.keras.activations
+#### tf.keras.activations.linear()
+- Linear activation function(pass-through)
 #### tf.keras.activations.sigmoid()
 ```python
 outputs = tf.keras.activations.sigmoid(logits)
@@ -1026,7 +1027,7 @@ outputs = tf.keras.activations.sigmoid(logits)
 model = tf.keras.Model(inputs=inputs, outputs=logits, name="lr")
 ```
 #### model.summary()
-#### model.trainable_variables()
+#### model.trainable_variables
 #### model.layers
 ##### layer.name
 ##### layer.output_shape
@@ -1057,6 +1058,10 @@ hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch
 #### model.predict()
 ```python
 preds = model.predict(x.values)
+```
+### tf.keras.Sequential()
+```python
+model = tf.keras.Sequential()
 ```
 ### tf.keras.Input()
 
