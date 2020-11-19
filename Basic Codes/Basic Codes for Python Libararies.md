@@ -24,7 +24,7 @@ assert model_name in self.model_list, "There is no such a model."
 ### lst[]
 ### lst.index()
 ```python
-names.index((17228, '아트빌'))
+names.index((17228, "아트빌"))
 ```
 ### lst.append()
 ```python
