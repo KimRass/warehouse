@@ -1762,7 +1762,10 @@ for _, row in ml_gby_ax1.iterrows():
 ```python
 cnt_genre.sort_values("movie_id", ascending=False)["movie_id"].plot(ax=ax, kind="pie", startangle=90, legend=True)
 ```
-
+### plot(kind="bar")
+```python
+data["label"].value_counts().plot(kind="bar")
+```
 # seaborn
 ```python
 import seaborn as sb
