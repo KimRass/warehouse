@@ -679,16 +679,23 @@ train_acc = np.mean(train_pred == train_y)
     - "l2" : the standard regularizer for linear SVM models.
 - "alpha" : constant that multiplies the regularization term. The higher the value, the stronger the regularization. Also used to compute the learning rate when set to learning_rate is set to ‘optimal’.
 - "max_iter" : The maximum number of passes over the training data (aka epochs).
-## sklearn.datasets.sample_generator
-### make_blobs()
+## sklearn.datasets
+### fetch_20newsgroups()
+```python
+newsdata = fetch_20newsgroups(subset="train")
+```
+- subset="all" | "train" | "test"
+### sklearn.datasets.sample_generator
+#### make_blobs()
 ```python
  from sklearn.datasets.sample_generator improt make_blobs
 ```
-## sklearn.metrics.pairwise
+## sklearn.metrcis
+### sklearn.metrics.pairwise
+#### cosine_similarity
 ```python
 from sklearn.metrics.pairwise import cosine_similarity
 ```
-### cosine_similarity
 # tensorflow
 ```
 conda create --name tf2.0 python=3.7
