@@ -916,10 +916,6 @@ def loss_fn(model, x, y):
 - "rmse"와 동일합니다.
 #### tf.keras.metrics.BinaryCrossentropy()
 - "binary_accuracy"와 동일합니다.
-#### tf.keras.metrics.Mean()
-```python
-tf.keras.metrics.Mean(name="test_loss")
-```
 #### tf.keras.metrics.SparseCategoricalAccuracy()
 - "sparse_categorical_accuracy"와 동일합니다.
 ### tf.keras.layers
