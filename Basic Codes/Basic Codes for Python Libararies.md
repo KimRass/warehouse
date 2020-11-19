@@ -890,7 +890,9 @@ opt.apply_gradients(zip(grads, model.trainable_variables))
 
 ### tf.keras.metrics
 #### tf.keras.metrics.RootMeanSquaredError()
+- "rmse"와 동일합니다.
 #### tf.keras.metrics.BinaryCrossentropy()
+- "binary_accuracy"와 동일합니다.
 #### tf.keras.metrics.Mean()
 ```python
 tf.keras.metrics.Mean(name="test_loss")
