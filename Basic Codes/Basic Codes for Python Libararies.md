@@ -846,37 +846,13 @@ dW, db = tape.gradient(loss, [W, b])
 mnist = tf.keras.datasets.mnist
 (x_train, y_train), (x_test, y_test) = mnist.load_data()
 ```
-
-### tf.keras.losses
-#### tf.keras.losses.MeanSquaredError()
-- "mse"와 동일합니다.
-#### tf.keras.losses.BinaryCrossentropy()
-- "binary_crossentropy"와 동일합니다.
-#### tf.keras.losses.categorical_crossentropy()
-```python
-def loss_fn(model, images, labels):
-    logits = model(images, training=True)
-    loss = tf.reduce_mean(tf.keras.losses.categorical_crossentropy(y_true=labels, y_pred=logits, from_logits=True))
-    return loss
-```
-* 출처 : [https://hwiyong.tistory.com/335](https://hwiyong.tistory.com/335)
-* 딥러닝에서 쓰이는 logit은 매우 간단합니다. 모델의 출력값이 문제에 맞게 normalize 되었느냐의 여부입니다. 예를 들어, 10개의 이미지를 분류하는 문제에서는 주로 softmax 함수를 사용하는데요. 이때, 모델이 출력값으로 해당 클래스의 범위에서의 확률을 출력한다면, 이를 logit=False라고 표현할 수 있습니다(이건 저만의 표현인 점을 참고해서 읽어주세요). 반대로 모델의 출력값이 sigmoid 또는 linear를 거쳐서 만들어지게 된다면, logit=True라고 표현할 수 있습니다.
-* 결론: 클래스 분류 문제에서 softmax 함수를 거치면 from_logits = False(default값), 그렇지 않으면 from_logits = True.
-* 텐서플로우에서는 softmax 함수를 거치지 않고, from_logits = True를 사용하는게 numerical stable하다고 설명하고 있다.
-* training=True : tf.keras.layers.Dropout() 적용
-- 정답 레이블이 one-hot encoding 형태일 경우 사용.
-#### tf.keras.losses.sparse_categorical_crossentropy()
-```python
-def loss_fn(model, x, y):
-    return tf.reduce_mean(tf.keras.losses.sparse_categorical_crossentropy(y_true=y, y_pred=model(x), from_logits=True))
-```
-- 정답 레이블이 one-hot encoding 형태가 아닐 경우 사용.
 ### tf.keras.optimizers
 #### tf.keras.optimizers.SGD()
 ```python
 opt = tf.keras.optimizers.SGD(lr=0.01)
 ```
 #### tf.keras.optimizers.Adam()
+- "adam"과 동일합니다.
 #### tf.keras.optimizers.Adagrad()
 #### optimizer.apply_gradients()
 
@@ -887,7 +863,54 @@ opt.apply_gradients(zip([dW, db], [W, b]))
 ```python
 opt.apply_gradients(zip(grads, model.trainable_variables))
 ```
+### tf.keras.losses
 
+#### tf.keras.losses.MeanSquaredError()
+
+- "mse"와 동일합니다.
+
+#### tf.keras.losses.BinaryCrossentropy()
+
+- "binary_crossentropy"와 동일합니다.
+
+#### tf.keras.losses.categorical_crossentropy()
+
+```python
+
+def loss_fn(model, images, labels):
+
+    logits = model(images, training=True)
+
+    loss = tf.reduce_mean(tf.keras.losses.categorical_crossentropy(y_true=labels, y_pred=logits, from_logits=True))
+
+    return loss
+
+```
+
+* 출처 : [https://hwiyong.tistory.com/335](https://hwiyong.tistory.com/335)
+
+* 딥러닝에서 쓰이는 logit은 매우 간단합니다. 모델의 출력값이 문제에 맞게 normalize 되었느냐의 여부입니다. 예를 들어, 10개의 이미지를 분류하는 문제에서는 주로 softmax 함수를 사용하는데요. 이때, 모델이 출력값으로 해당 클래스의 범위에서의 확률을 출력한다면, 이를 logit=False라고 표현할 수 있습니다(이건 저만의 표현인 점을 참고해서 읽어주세요). 반대로 모델의 출력값이 sigmoid 또는 linear를 거쳐서 만들어지게 된다면, logit=True라고 표현할 수 있습니다.
+
+* 결론: 클래스 분류 문제에서 softmax 함수를 거치면 from_logits = False(default값), 그렇지 않으면 from_logits = True.
+
+* 텐서플로우에서는 softmax 함수를 거치지 않고, from_logits = True를 사용하는게 numerical stable하다고 설명하고 있다.
+
+* training=True : tf.keras.layers.Dropout()를 적용합니다.
+
+- 정답 레이블이 one-hot encoding 형태일 경우 사용합니다.
+
+#### tf.keras.losses.sparse_categorical_crossentropy()
+
+```python
+
+def loss_fn(model, x, y):
+
+    return tf.reduce_mean(tf.keras.losses.sparse_categorical_crossentropy(y_true=y, y_pred=model(x), from_logits=True))
+
+```
+
+
+- 정답 레이블이 one-hot vector가 아닐 경우 사용합니다.
 ### tf.keras.metrics
 #### tf.keras.metrics.RootMeanSquaredError()
 - "rmse"와 동일합니다.
@@ -898,9 +921,7 @@ opt.apply_gradients(zip(grads, model.trainable_variables))
 tf.keras.metrics.Mean(name="test_loss")
 ```
 #### tf.keras.metrics.SparseCategoricalAccuracy()
-```python
-tf.keras.metrics.SparseCategoricalAccuracy(name="test_accuracy")
-```
+- "sparse_categorical_accuracy"와 동일합니다.
 ### tf.keras.layers
 #### tf.keras.layers.Add()
 ```python
@@ -915,8 +936,7 @@ pos_score = Dot(axes=(1,1))([user_embedding, pos_item_embedding])
 #### tf.keras.layers.Flatten()
 
 ```python
-def flatten() :
-    return tf.keras.layers.Flatten()
+model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))
 ```
 
 #### tf.keras.layers.Dense()
