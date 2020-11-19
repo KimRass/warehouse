@@ -922,7 +922,7 @@ def flatten() :
 #### tf.keras.layers.Dense()
 
 ```python
-tf.keras.layers.Dense(52, activation="relu", input_shape=(13,)
+tf.keras.layers.Dense(52, input_shape=(13,), activation="relu")
 ```
 - units: 해당 은닉층에서 활동하는 뉴런의 수(출력 값의 크기)
 - activation: 활성화함수, 해당 은닉층의 가중치와 편향의 연산 결과를 어느 함수에 적합하여 출력할 것인가?
@@ -1023,7 +1023,9 @@ tf.keras.layers.Concatenate(axis=1)(embs_fm)
 ```python
 outputs = tf.keras.activations.sigmoid(logits)
 ```
+- "sigmoid"와 동일합니다.
 #### tf.keras.activations.relu()
+- "relu"와 동일합니다.
 ### tf.keras.Model
 ```python
 model = tf.keras.Model(inputs=inputs, outputs=logits, name="lr")
