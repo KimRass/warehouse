@@ -1131,6 +1131,7 @@ tkn.fit_on_texts(["나랑 점심 먹으러 갈래 점심 메뉴는 햄버거 갈
 ```python
 tkn.texts_to_sequences(["점심 먹으러 갈래 메뉴는 햄버거 최고야"])
 ```
+- `num_words`는 여기에만 적용됩니다.
 ## tf.nn
 
 ### tf.nn.softmax()
