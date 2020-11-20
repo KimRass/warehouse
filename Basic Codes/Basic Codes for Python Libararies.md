@@ -143,16 +143,23 @@ msg_tkn = [msg.split(" ") for msg in data["msg"]]
 ```python
 "저는 과일이 좋아요".count("과일이")
 ```
+## eval()
+
+```python
+
+A = [eval(f"A{i}") for i in range(N, 0, -1)]
+
+```
+
+
+- "를 제거하는 효과입니다. 단일 변수에 사용합니다.
 ## exec()
 ```python
-for i in range(N):
-    exec(f"a{i} = int(input())")
+for data in ["tasks", "comments", "projects", "prj_members", "members"]:
+    exec(f"{data} = pd.read_csv('D:/디지털혁신팀/협업플랫폼 분석/{data}.csv')")
 ```
-## eval()
-```python
-A = [eval(f"A{i}") for i in range(N, 0, -1)]
-```
-- string 앞뒤의 " 제거
+- "를 제거하는 효과입니다. 수식에 사용합니다.
+
 # class
 ## instance attribute(instance variables)
 ```python
