@@ -1085,13 +1085,17 @@ model.compile(optimizer=tf.keras.optimizers.Adagrad(lr=0.1), loss=tf.keras.losse
 - `metrics=["mse"]` | `["binary_accuracy"]` | `["categorical_accuracy"]` | `["sparse_categorical_crossentropy"]`
 #### model.fit()
 ```python
-hist = model.fit(x=movie_df["nums_want_to_see"].values, y=movie_df["nums_audience"].values, epochs=100, verbose=0)
+hist = model.fit(x=x_train, y=y_train, batch_size=128, epochs=5, verbose=1, validation_split=0.1)
 ```
 #### model.fit_generator()
 ```python
 hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
 ```
 ##### hist.history
+#### model.evaluate()
+```python
+score = model.evaluate(x_test, y_test, batch_size=128, verbose=0)
+```
 #### model.predict()
 ```python
 preds = model.predict(x.values)
