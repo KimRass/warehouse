@@ -1123,6 +1123,9 @@ tkn = tf.keras.preprocessing.text.Tokenizer(num_words=vocab_size+2, oov_token="O
 tkn.fit_on_texts(["나랑 점심 먹으러 갈래 점심 메뉴는 햄버거 갈래 갈래 햄버거 최고야"])
 ```
 ###### tkn.word_index
+- word2idx를 만듭니다.
+###### tkn.index_word
+- idx2word를 만듭니다.
 ###### tkn.word_counts
 ###### tkn.texts_to_sequences()
 ```python
