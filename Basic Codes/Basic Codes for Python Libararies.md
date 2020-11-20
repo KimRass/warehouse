@@ -1131,12 +1131,13 @@ tkn.fit_on_texts(["나랑 점심 먹으러 갈래 점심 메뉴는 햄버거 갈
 ```python
 tkn.texts_to_sequences(["점심 먹으러 갈래 메뉴는 햄버거 최고야"])
 ```
-- `num_words`는 여기에만 적용됩니다.
+- `num_words`가 적용됩니다.
 ###### tkn.texts_to_matrix()
 ```python
 tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"], mode="count"))
 ```
 - `mode="count"` | `"binary"` | `"tfidf"` | `"freq"`
+- `num_words`가 적용됩니다.
 ## tf.nn
 
 ### tf.nn.softmax()
