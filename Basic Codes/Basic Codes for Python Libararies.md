@@ -1080,6 +1080,9 @@ for layer in model.layers[1:]:
 ```python
 model.compile(optimizer=tf.keras.optimizers.Adagrad(lr=0.1), loss=tf.keras.losses.MeanSquaredError(), metrics=[tf.keras.metrics.RootMeanSquaredError()])
 ```
+- `optimizer="sgd"` | `"adam"`
+- `loss="mse"` | `"binary_crossentropy"` | `"categorical_crossentropy"` | `"sparse_categorical_crossentropy"`
+- `metrics=["mse"]` | `["binary_accuracy"]` | `["categorical_accuracy"]` | `["sparse_categorical_crossentropy"]`
 #### model.fit()
 ```python
 hist = model.fit(x=movie_df["nums_want_to_see"].values, y=movie_df["nums_audience"].values, epochs=100, verbose=0)
