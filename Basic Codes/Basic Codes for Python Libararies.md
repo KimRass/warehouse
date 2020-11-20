@@ -102,7 +102,7 @@ dic.get(key)
 
 ```python
 
-vocab_sorted = sorted(vocab.items(), key = lambda x:x[1], reverse=True)
+sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True)
 
 
 ```
