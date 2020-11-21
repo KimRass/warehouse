@@ -268,7 +268,7 @@ raw_data = pd.read_csv("C:/Users/00006363/☆데이터/실거래가_충청북도
 ## pd.read_excel()
 ## pd.read_table()
 ```python
-ratings_train = pd.read_table("ratings_train.txt")
+ratings_train = pd.read_table("ratings_train.txt", usecols=["document", "label"])
 ```
 ## df.to_csv()
 ```python
