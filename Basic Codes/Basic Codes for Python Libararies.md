@@ -1297,9 +1297,14 @@ for j in module:
 ```python
 import urllib
 ```
-## urllib.requests.urlopen().read().decode()
+## urllib.requests
+### urllib.requests.urlopen()
 ```python
-xml = urllib.request.urlopen(full_url).read().decode("utf8")
+xml = urllib.request.urlopen(full_url).read().decode("utf-8")
+```
+### urllib.requests.urlretrieve()
+```python
+urllib.request.urlretrieve("https://raw.githubusercontent.com/e9t/nsmc/master/ratings_train.txt", filename="ratings_train.txt")
 ```
 # category_encoders
 ```python
