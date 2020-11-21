@@ -2029,7 +2029,8 @@ wnl.lemmatize("watched", "v")
 text = nltk.Text(total_tokens, name="NMSC")
 ```
 ### text.tokens
-### text.vocab() : returns frequency distribution
+### text.vocab()
+- returns frequency distribution
 #### text.vocab().most_common()
 ```python
 text.vocab().most_common(10)
