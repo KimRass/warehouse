@@ -266,6 +266,10 @@ idf_ser = pd.Series(idf, index=vocab)
 raw_data = pd.read_csv("C:/Users/00006363/☆데이터/실거래가_충청북도_2014.csv", thousands=",", encoding="Ansi", float_precision="round_trip", skiprows=15)
 ```
 ## pd.read_excel()
+## pd.read_table()
+```python
+ratings_train = pd.read_table("ratings_train.txt")
+```
 ## df.to_csv()
 ```python
 data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거래가 전처리 완료_200928-3.csv", index=False)
