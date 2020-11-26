@@ -2780,3 +2780,19 @@ from google.colab import drive
 ```python
 drive.mount("/content/drive")
 ```
+# zipfile
+```python
+import zipfile
+```
+## zipfile.ZipFile()
+```python
+with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
+```
+# lxml
+## etree
+```python
+from lxml import etree
+```
+### etree.parse()
+```python
+    target_text = etree.parse(z.open("ted_en-20160408.xml", "r"))
