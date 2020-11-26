@@ -2795,4 +2795,6 @@ from lxml import etree
 ```
 ### etree.parse()
 ```python
+with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
     target_text = etree.parse(z.open("ted_en-20160408.xml", "r"))
+```
