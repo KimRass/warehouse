@@ -46,6 +46,9 @@ m.sort(key=len)
 - in-place 함수
 ### map()
 ```python
+list(map(len, train_tkn))
+```
+```python
 x_data = list(map(lambda word : [char2idx.get(char) for char in word], words))
 ```
 ### filter()
@@ -1512,12 +1515,18 @@ model.show_topic(1, topn=20)
 ##### model.wv.vecotrs
 ##### model.wv.most_similar()
 ```python
-model.wv.most_similar("good)
+model.wv.most_similar("안성기")
 ```
 ##### model.wv.save_word2vec_format()
 ```python
 model.wv.save_word2vec_format("eng_w2v")
 ```
+# glove
+```python
+!pip install glove_python
+```
+### glove.Corpus
+### glove.Glove
 # graphviz
 ```python
 import graphviz
