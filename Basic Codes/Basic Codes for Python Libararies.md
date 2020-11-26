@@ -1509,6 +1509,7 @@ model.show_topic(1, topn=20)
 ```
 - arguments : topic의 index, 출력할 word 개수
 #### model.wv
+##### model.wv.vecotrs
 ##### model.wv.most_similar()
 ```python
 model.wv.most_similar("good)
