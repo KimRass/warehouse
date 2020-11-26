@@ -1464,14 +1464,41 @@ tfidf = gensim.models.TfidfModel(dtm)[dtm]
 ```python
 model = gensim.models.AuthorTopicModel(corpus=dtm, id2word=id2word, num_topics=n_topics, author2doc=aut2doc, passes=1000)
 ```
+#### gensim.models.AuthorTopicModel.load()
+
+```python
+
+model = gensim.models.AuthorTopicModel.load("kakaotalk model")
+
+```
+
+## gensim.models.ldamodel.Ldamodel()
+
+```python
+
+model = gensim.models.ldamodel.LdaModel(dtm, num_topics=n_topics, id2word=id2word, alpha="auto", eta="auto")
+
+
+```
 ### gensim.models.Word2Vec()
 ```python
-model = gensim.models.Word2Vec(sentences, min_count=5, size=300, sg=1, iter=10, workers=4, ns_exponent=0.75, window=7)
+    model = gensim.models.Word2Vec(result, size=100, window=5, min_count=5, workers=4, sg=0)
 ```
+- `size` : 임베딩 벡터의 차원.
+- `min_count` : 단어 최소 빈도 수(빈도가 적은 단어들은 학습하지 않는다)
+- `workers` : 학습을 위한 프로세스 수  
+- `sg=0` :cBoW
+- `sg=1` : Skip-gram.  
 ### gensim.models.FastText()
 ```python
 model = gensim.models.FastText(sentences, min_count=5, sg=1, size=300, workers=4, min_n=2, max_n=7, alpha=0.05, iter=10, window=7)
 ```
+### gensim.models.KeyedVectors
+### gensim.models.KeyedVectors.load_word2vect_format()
+```python
+model = gensim.models.KeyedVectors.load_word2vec_format("eng_w2v")
+```
+- 모델을 불러옵니다.
 #### model.save()
 ```python
 model.save("kakaotalk model")
@@ -1480,24 +1507,16 @@ model.save("kakaotalk model")
 ```python
 model.show_topic(1, topn=20)
 ```
-#### model.wv.most_similar()
+- arguments : topic의 index, 출력할 word 개수
+#### model.wv
+##### model.wv.most_similar()
 ```python
 model.wv.most_similar("good)
 ```
-#### gensim.models.AuthorTopicModel.load()
+##### model.wv.save_word2vec_format()
 ```python
-model = gensim.models.AuthorTopicModel.load("kakaotalk model")
+model.wv.save_word2vec_format("eng_w2v")
 ```
-## gensim.models.ldamodel.Ldamodel()
-```python
-model = gensim.models.ldamodel.LdaModel(dtm, num_topics=n_topics, id2word=id2word, alpha="auto", eta="auto")
-```
-### model.show_topic()
-```python
-model.show_topic(2, 10)
-```
-- arguments : topic의 index, 출력할 word 개수
-
 # graphviz
 ```python
 import graphviz
