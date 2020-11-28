@@ -1311,6 +1311,14 @@ xml = urllib.request.urlopen(full_url).read().decode("utf-8")
 urllib.request.urlretrieve("https://raw.githubusercontent.com/e9t/nsmc/master/ratings_train.txt", filename="ratings_train.txt")
 ```
 - 해당 URL에 연결된 파일을 다운로드합니다.
+# wget
+```python
+import wget
+```
+## wget.download()
+```python
+wget.download("https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz")
+```
 # category_encoders
 ```python
 !pip install --upgrade category_encoders
