@@ -1120,15 +1120,12 @@ inputs = tf.keras.Input(shape=(28, 28, 1))
 #### tf.keras.preprocessing.sequence
 ##### tf.keras.preprocessing.sequence.pad_sequences()
 ```python
-x_data = tf.keras.preprocessing.sequence.pad_sequences(sequences=x_data, maxlen=max_sequence, padding="post", truncating="post", value=0)
+x_data = tf.keras.preprocessing.sequence.pad_sequences(x_data, maxlen=max_sequence, padding="post", truncating="post", value=0)
 ```
 - padding="pre" | "post"
 - truncating="pre" | "post"
 #### tf.keras.preprocessing.text
 ##### tf.keras.preprocessing.text.Tokenizer()
-```python
-tkn = tf.keras.preprocessing.text.Tokenizer()
-```
 ```python
 tkn = tf.keras.preprocessing.text.Tokenizer(num_words=vocab_size+2, oov_token="OOV")
 ```
@@ -1313,6 +1310,7 @@ xml = urllib.request.urlopen(full_url).read().decode("utf-8")
 ```python
 urllib.request.urlretrieve("https://raw.githubusercontent.com/e9t/nsmc/master/ratings_train.txt", filename="ratings_train.txt")
 ```
+- 해당 URL에 연결된 파일을 다운로드합니다.
 # category_encoders
 ```python
 !pip install --upgrade category_encoders
@@ -1999,12 +1997,13 @@ asso_rules = association_rules(sups, metric="support", min_threshold=0.01)
 import nltk
 ```
 ## nltk.tokenize
-### word_tokenize()
+### nltk.tokenize.word_tokenize()
 ```python
-from nltk.tokenize import word_tokenize
+nltk.tokenize.word_tokenize("Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as cheery as cheery goes for a pastry shop.")
 ```
+### nltk.tokenize.sent_tokenize()
 ```python
-word_tokenize("Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as cheery as cheery goes for a pastry shop.")
+nltk.tokenize.sent_tokenize("I am actively looking for Ph.D. students and you are a Ph.D student.")
 ```
 ### WordPunctTokenizer()
 ```python
@@ -2023,13 +2022,7 @@ from nltk.tokenize import TreebankWordTokenizer
 TreebankWordTokenizer().tokenize("Starting a home-based restaurant may be an ideal. it doesn't have a food chain or restaurant of their own.")
 ```
 - Penn Treebank Tokenization.
-### sent_tokenize()
-```python
-from nltk.tokenize import sent_tokenize
-```
-```python
-sent_tokenize("I am actively looking for Ph.D. students and you are a Ph.D student.")
-```
+
 ## nltk.stem
 ### PorterStemmer()
 ```python
