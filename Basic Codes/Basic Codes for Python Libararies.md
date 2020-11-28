@@ -1507,7 +1507,11 @@ model = gensim.models.FastText(sentences, min_count=5, sg=1, size=300, workers=4
 ```python
 model = gensim.models.KeyedVectors.load_word2vec_format("eng_w2v")
 ```
+```python
+model_google = gensim.models.KeyedVectors.load_word2vec_format("GoogleNews-vectors-negative300.bin.gz", binary=True)  
+```
 - 모델을 불러옵니다.
+#### model.vectors
 #### model.save()
 ```python
 model.save("kakaotalk model")
