@@ -2093,6 +2093,9 @@ sentences = [sent for sent in movie_reviews.sents()]
 ```
 # kss
 ## kss.split_sentences()
+```python
+kss.split_sentences("딥 러닝 자연어 처리가 재미있기는 합니다. 그런데 문제는 영어보다 한국어로 할 때 너무 어려워요. 농담아니에요. 이제 해보면 알걸요?")
+```
 # pykospacing
 ```python
 !pip install git+https://github.com/haven-jeon/PyKoSpacing.git --user
@@ -2124,12 +2127,12 @@ repeat_normalize("와하하하하하하하하하핫", num_repeats=2)
 ```python
 !pip install git+https://github.com/ssut/py-hanspell.git
 ```
+## spell_checker
 ```python
-import hanspell
+from hanspell import spell_checker
 ```
-## haspell.spell_checker
-### hanspell.spell_checker.check()
-#### hanspell.spell_checker.check().checked
+### spell_checker.check()
+#### spell_checker.check().checked
 ```python
 sent_ckd = hanspell.spell_checker.check("맞춤법 틀리면 외 않되? 쓰고싶은대로쓰면돼지").checked
 ```
