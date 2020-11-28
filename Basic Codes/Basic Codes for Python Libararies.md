@@ -473,10 +473,6 @@ data = data.dropna(subset=["id"])
 ```python
 df.loc[~df.index.isin(df.dropna().index)]
 ```
-## df.quantile()
-```python
-Q1 = subset["money"].quantile(0.25)
-```
 ## df.sample(), ser.sample()
 ```python
 ratings_df.sample(5)
@@ -2146,7 +2142,7 @@ from collections import Counter
 word2cnt = Counter(words)
 ```
 - lst의 원소별 빈도를 나타내는 dic을 반환합니다.
-### cnt.most_common()
+### word2cnt.most_common()
 # numpy
 ```python
 import numpy as np
@@ -2208,6 +2204,14 @@ feature_maps = np.swapaxes(conv2d, 0, 3)
 ```
 ## np.maximum(), np.minimum()
 - Element-wise minimum of array elements.
+## np.cumsum()
+```python
+np.cumsum(cnt)
+```
+## np.quantile()
+```python
+np.quantile(cnts, 0.9)
+```
 ## np.concatenate()
 ```python
 intersected_movie_ids = np.concatenate([json.loads(row) for row in rd.mget(queries)], axis=None)
