@@ -2188,7 +2188,7 @@ np.any(arr>0)
 ## np.all()
 ## np.where()
 ```python
-np.where(arr>0, arr, 0)
+np.min(np.where(cumsum >= np.cumsum(cnts)[-1]*ratio))
 ```
 ## np.isin()
 ```python
