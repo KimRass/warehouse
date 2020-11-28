@@ -1024,12 +1024,15 @@ outputs, states = rnn(x_data)
 ```python
 tf.keras.layers.Embedding(input_dim=input_dim, output_dim=output_dim, trainable=False, mask_zero=True, input_length=max_sequence, embeddings_initializer=tf.keras.initializers.Constant(one_hot))
 ```
-- input dim : embedding vector를 생성해야하는 값의 갯수. 입력되는 단어의 개수.
-- output_dim : 출력되는 embedding vector의 크기
-- input_length : 입력 sequence의 길이
-- trainable : one-hot vector의 training을 건너뛸지 여부.
-- mask_zero : 0인 값 무시 여부. If mask_zero is set to True, as a consequence, index 0 cannot be used in the vocabulary. so input_dim should equal to size of vocabulary + 1.
-- embeddings_initializer : Initializer for the embeddings matrix
+```python
+tf.keras.layers.Embedding(input_dim=vocab_size, output_dim300, weights=[emb_matrix], input_length=max_len, trainable=False)
+```
+- `input_dim` : embedding vector를 생성해야하는 값의 갯수. 입력되는 단어의 개수.
+- `output_dim` : 출력되는 embedding vector의 크기
+- `input_length` : 입력 sequence의 길이
+- `trainable` : 학습할지 아니면 초기 가중치 값을 그대로 사용할지 여부를 결정합니다.
+- `mask_zero` : 0인 값 무시 여부. If mask_zero is set to True, as a consequence, index 0 cannot be used in the vocabulary. so input_dim should equal to size of vocabulary + 1.
+- `embeddings_initializer` : Initializer for the embeddings matrix
 #### tf.keras.layers.TimeDistributed()
 ```python
 model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
@@ -2140,9 +2143,10 @@ sent_ckd = hanspell.spell_checker.check("맞춤법 틀리면 외 않되? 쓰고�
 from collections import Counter
 ```
 ```python
-vocab = Counter(words)
+word2cnt = Counter(words)
 ```
-- lst의 원소별 빈도를 나타내는 dic 반환
+- lst의 원소별 빈도를 나타내는 dic을 반환합니다.
+### cnt.most_common()
 # numpy
 ```python
 import numpy as np
