@@ -2664,7 +2664,10 @@ vif["features"] = data_for_corr.columns
 import string
 ```
 ## string.punctuation
-- \>\>\> '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~'
+```python
+for punct in string.punctuation:
+    sw.add(punct)
+```
 # sys
 ```python
 import sys
