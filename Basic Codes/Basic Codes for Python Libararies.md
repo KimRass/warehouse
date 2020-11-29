@@ -1003,14 +1003,24 @@ outputs, states = rnn(x_data)
 - return_sequences : default는 False이며 time step의 마지막에서만 아웃풋을 출력. True인 경우 모든 time step에서 아웃풋을 출력. return_sequences 인자에 따라 마지막 시퀀스에서 한 번만 출력할 수 있고 각 시퀀스에서 출력을 할 수 있습니다. many to many 문제를 풀거나 LSTM 레이어를 여러개로 쌓아올릴 때는 return_sequence=True 옵션을 사용합니다.
 #### tf.keras.layers.SimpleRNN()
 ```python
-outputs, hidden_states = tf.keras.layers.SimpleRNN(units=hidden_size, input_shape=(2, 10), return_sequences=True, return_state=True)(x_date)
+outputs, hidden_states = tf.keras.layers.SimpleRNN(units=hidden_size, input_shape=(timesteps, input_dim), return_sequences=True, return_state=True)(x_date)
 ```
 - `tf.keras.layers.SimpleRNN()` = `tf.keras.layers.SimpleRNNCell()` + `tf.keras.layers.RNN()`
-- `units` : hidden_size를 나타냅니다.
-- `input_shape` : (timesteps, input_dim)
+- `batch_input_shape` : (batch_size, timesteps, input_dim)
 - shape of inputs : (batch_size, timesteps, input_dim)
-- shape of outputs(sequences) : (batch_size, timesteps, hidden_size)
+- shape of outputs : (batch_size, hidden_size)(`return_sequences=False`일 때) / (batch_size, timesteps, hidden_size)(`return_sequences=True`일 때)
 - shape of hidden_states : (batch_size, hidden_size)
+#### tf.keras.layers.LSTM()
+- `tf.keras.layers.SimpleRNN()`과 문법이 동일합니다.
+#### tf.keras.layers.Bidirectional()
+```python
+tf.keras.layers.Bidirectional(tf.keras.layers.SimpleRNN(hidden_size, return_sequences=True), input_shape=(timesteps, input_dim))
+```
+#### tf.keras.layers.GRU()
+```python
+tf.keras.layers.GRU(units=hidden_size, input_shape=(timesteps, input_dim))
+```
+- `tf.keras.layers.SimpleRNN()`과 문법이 동일합니다.
 #### tk.keras.layers.Embedding()
 ```python
 tf.keras.layers.Embedding(input_dim=input_dim, output_dim=output_dim, trainable=False, mask_zero=True, input_length=max_sequence, embeddings_initializer=tf.keras.initializers.Constant(one_hot))
