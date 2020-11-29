@@ -567,6 +567,74 @@ for cat in cats:
 for k, v in target.items():
     queries.append(f"{k}-{v}")
 ```
+## np.linalg
+
+### np.linalg.norm()
+
+```python
+
+np.linalg.norm(x, axis=1, ord=2)
+
+```
+
+- ord=1 : L1 normalization.
+
+- ord=2 : L2 normalization.
+
+## np.sqrt()
+
+## np.power()
+
+## np.exp()
+
+```python
+
+def sig(x):
+
+    return 1 / (1 + np.exp(-x))
+
+```
+
+## np.add.outer(), np.multiply.outer()
+
+```python
+
+euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))
+
+```
+
+## np.fill_diagonal()
+
+```python
+
+np.fill_diagonal(cos_sim_item, 0)
+
+```
+
+# arr
+
+## arr.ravel()
+
+```python
+
+arr.ravel(order="F")
+
+```
+
+- order="C" : row 기준
+
+- order="F" : column 기준
+
+##  arr.flatten()
+
+- 복사본 반환
+
+## arr.T
+
+## arr.shape
+
+
+
 # sklearn
 ```python
 !pip install scikit-learn
@@ -690,11 +758,11 @@ train_acc = np.mean(train_pred == train_y)
 - "alpha" : constant that multiplies the regularization term. The higher the value, the stronger the regularization. Also used to compute the learning rate when set to learning_rate is set to ‘optimal’.
 - "max_iter" : The maximum number of passes over the training data (aka epochs).
 ## sklearn.datasets
-### fetch_20newsgroups()
+### sklearn.datasets.fetch_20newsgroups()
 ```python
-newsdata = fetch_20newsgroups(subset="train")
+newsdata = sklearn.datasets.fetch_20newsgroups(subset="train")
 ```
-- subset="all" | "train" | "test"
+- `subset="all"` | `"train"` | `"test"`
 ### sklearn.datasets.sample_generator
 #### make_blobs()
 ```python
@@ -837,8 +905,8 @@ tf.keras.utils.to_categorical([2, 5, 1, 6, 3, 7])
 
 ### @tf.function
 
-* 자동 그래프 생성
-* 함수 정의문 직전에 사용
+- 자동 그래프 생성
+- 함수 정의문 직전에 사용
 
 ### tf.GradientTape()
 
@@ -853,11 +921,16 @@ dW, db = tape.gradient(loss, [W, b])
 ### tf.keras.datasets
 
 #### tf.keras.datasets.mnist
-
+##### tf.keras.datasets.mnist.load_data()
 ```python
-mnist = tf.keras.datasets.mnist
-(x_train, y_train), (x_test, y_test) = mnist.load_data()
+(X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
 ```
+#### tf.keras.datasets.reuters
+##### tf.keras.datasets.reuters.load_data()
+```python
+(X_train, y_train), (X_test, y_test) = reuters.load_data(num_words=None, test_split=0.2)
+```
+```python
 ### tf.keras.optimizers
 #### tf.keras.optimizers.SGD()
 ```python
@@ -2096,6 +2169,25 @@ from nltk.corpus import movie_reviews
 ```python
 sentences = [sent for sent in movie_reviews.sents()]
 ```
+# khaiii
+## KhaiiiApi
+```python
+from khaiii import KhaiiiApi
+```
+```python
+api = KhaiiiApi()
+```
+### api.analyze()
+#### word.morphs
+##### morph.lex
+##### morph.tag
+```python
+morphs = []
+sentence = "하스스톤 전장이 새로 나왔는데 재밌어요!"
+for word in api.analyze(sentence):
+    for morph in word.morphs:
+        morphs.append((morph.lex, morph.tag))
+```
 # kss
 ## kss.split_sentences()
 ```python
@@ -2151,439 +2243,7 @@ word2cnt = Counter(words)
 ```
 - lst의 원소별 빈도를 나타내는 dic을 반환합니다.
 ### word2cnt.most_common()
-# numpy
-```python
-import numpy as np
-```
-## np.set_printoptions()
-```python
-np.set_printoptions(precision=3)
-```
-```python
-np.set_printoptions(edgeitems=3, infstr="inf", linewidth=75, nanstr="nan", precision=8, suppress=False, threshold=1000, formatter=None)
-```
-- go back to the default options
-## np.arange
-```python
-np.arange(5, 101, 5)
-```
-## np.ones()
-```python
-np.ones((2, 3, 4))
-```
-## np.zeros()
-## np.empty()
-## np.full()
-```python
-np.full((2, 3, 4), 7))
-```
-## np.eye()
-```python
-np.eye(4)
-```
-## np.ones_like(), np.zeros_like()
-```python
-np.ones_like(arr)
-```
-## np.linspace()
-```python
-np.linspace(-5, 5, 100)
-```
-## np.any()
-```python
-np.any(arr>0)
-```
-## np.all()
-## np.where()
-```python
-np.min(np.where(cumsum >= np.cumsum(cnts)[-1]*ratio))
-```
-## np.tanh()
-```python
-temp = np.tanh(np.dot(Wh, h_t) + np.dot(Wx, x_t) + b)
-```
-## np.shape()
-```python
-np.shape(hidden_states)
-```
-## np.isin()
-```python
-data[np.isin(data["houses"], list)]
-```
-## np.transpose()
-## np.swapaxes()
-```python
-feature_maps = np.transpose(conv2d, (3, 1, 2, 0))
-```
-```python
-feature_maps = np.swapaxes(conv2d, 0, 3)
-```
-## np.maximum(), np.minimum()
-- Element-wise minimum of array elements.
-## np.cumsum()
-```python
-np.cumsum(cnt)
-```
-## np.quantile()
-```python
-np.quantile(cnts, 0.9)
-```
-## np.concatenate()
-```python
-intersected_movie_ids = np.concatenate([json.loads(row) for row in rd.mget(queries)], axis=None)
-```
-## np.stack()
-```python
 
-```
-## np.random
-### np.random.seed()
-```python
-np.random.seed(23)
-```
-### np.random.rand()
-```python
-np.random.rand(2, 3, 4)
-```
-- generates samples from the uniform distribution on [0, 1)
-
-### np.random.random()
-```python
-np.random.random((2, 3, 4))
-```
-- generates samples from the uniform distribution on [0, 1)
-
-### np.random.randint()
-```python
-np.random.randint(1, 100, size=(2, 3, 4))
-```
-### np.random.choice()
-```python
-np.random.choice(arr(1d), size=(2, 3, 4), replace=False)
-```
-### np.random.normal()
-```python
-np.random.normal(mean, std, size=(3, 4))
-```
-## np.digitize()
-```python
-bins=range(0, 55000, 5000)
-data["price_range"]=np.digitize(data["money"], bins)
-```
-## np.isnan()
-## np.nanmean()
-## np.sort()
-## np.reshape()
-```python
-np.reshape(mh_df.values, (1000, 1, 128))
-```
-## np.expand_dims()
-```python
-np.expand_dims(mh_df.values, axis=1)
-```
-## np.newaxis
-```python
-mh_df.values[:, np.newaxis, :]
-```
-```python
-mh_df.values[:, None, :]
-```
-## np.unique()
-```python
-items, counts = np.unique(intersected_movie_ids, return_counts=True)   
-```
-## np.linalg
-### np.linalg.norm()
-```python
-np.linalg.norm(x, axis=1, ord=2)
-```
-- ord=1 : L1 normalization.
-- ord=2 : L2 normalization.
-## np.sqrt()
-## np.power()
-## np.exp()
-```python
-def sig(x):
-    return 1 / (1 + np.exp(-x))
-```
-## np.add.outer(), np.multiply.outer()
-```python
-euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))
-```
-## np.fill_diagonal()
-```python
-np.fill_diagonal(cos_sim_item, 0)
-```
-# arr
-## arr.ravel()
-```python
-arr.ravel(order="F")
-```
-- order="C" : row 기준
-- order="F" : column 기준
-##  arr.flatten()
-- 복사본 반환
-## arr.T
-## arr.shape
-# os
-```python
-import os
-```
-## os.getcwd()
-```python
-cur_dir = os.getcwd()
-```
-## os.makedirs()
-```python
-os.makedirs(ckpt_dir, exist_ok=True)
-```
-## os.path
-### os.path.join()
-```python
-checkpoint_dir = os.path.join(cur_dir, ckpt_dir_name, model_dir_name)
-```
-### os.path.exists()
-```python
-if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
-```
-## os.environ[], os.pathsep
-```python
-os.environ["PATH"] += os.pathsep + "C:\Program Files (x86)/Graphviz2.38/bin/"
-```
-# pickle
-```python
-import pickle as pk
-```
-## pk.dump()
-```python
-with open("filename.pk", "wb") as f:
-    pk.dump(list, f)
-```
-## pk.load()
-```python
-with open("filename.pk", "rb") as f:
-    data = pk.load(f)
-```
-- 한 줄씩 load
-# json
-```python
-import json
-```
-## json.dump()
-```python
-with open(path, "w", encoding="utf-8") as f:
-    json.dump(train_data, f, ensure_ascii=False, indent="\t")
-```
-## json.load()
-```python
-with open(path, "r", encoding="utf-8") as f:
-    train_data = json.load(f)
-```
-# Image
-```python
-from PIL import Image
-```
-## Image.open()
-```python
-img = Image.open("20180312000053_0640 (2).jpg")
-```
-### img.size
-### img.save()
-### img.thumbnail()
-```python
-img.thumbnail((64, 64))  
-```
-### img.crop()
-```python
-img_crop = img.crop((100, 100, 150, 150))
-```
-### img.resize()
-```python
-img = img.resize((600, 600))
-```
-### img.convert()
-```python
-img.convert("L")
-```
-- "RGB" | "RGBA" | "CMYK" | "L" | "1"
-### img.paste()
-```python
-img1.paste(img2, (20,20,220,220))
-```
-- img2.size와 동일하게 두 번째 parameter 설정.
-## Image.new()
-```python
-mask = Image.new("RGB", icon.size, (255, 255, 255))
-```
-# platform
-```python
-import platform
-```
-## platform.system()
-```python
-path = "C:/Windows/Fonts/malgun.ttf"
-if platform.system() == "Darwin":
-    mpl.rc("font", family="AppleGothic")
-elif platform.system() == "Windows":
-    font_name = mpl.font_manager.FontProperties(fname=path).get_name()
-    mpl.rc('font', family=font_name)
-```
-- "Darwin", "Windows" 등 OS의 이름 반환.
-# pprint
-## pprint()
-```python
-from pprint import pprint
-```
-# pptx
-## Presentation()
-```python
-from pptx import Presentation
-```
-```python
-prs = Presentation("sample.pptx")
-```
-### prs.slides[].shapes[].text_frame.paragraphs[].text
-```python
-prs.slides[a].shapes[b].text_frame.paragraphs[c].text
-```
-- a : 슬라이드 번호
-- b : 텍스트 상자의 인덱스
-- c : 텍스트 상자 안에서 텍스트의 인덱스
-### prs.slides[].shapes[].text_frame.paragraphs[].font
-#### prs.slides[].shapes[].text_frame.paragraphs[].text.name
-```python
-prs.slides[a].shapes[b].text_frame.paragraphs[c].font.name = "Arial"
-```
-#### prs.slides[].shapes[].text_frame.paragraphs[].text.size
-```python
-prs.slides[a].shapes[b].text_frame.paragraphs[c].font.size = Pt(16)
-```
-### prs.save()
-```python
-prs.save("파일 이름")
-```
-# pygame
-```python
-import pygame
-```
-## gamepad
-### gamepad.blit()
-```python
-def bg(bg, x, y):
-    global gamepad, background
-    gamepad.blit(bg, (x, y))
-```
-```python
-def plane(x, y):
-    global gamepad, aircraft
-    gamepad.blit(aircraft, (x, y)) #"aircraft"를 "(x, y)"에 배치
-```
-## pygame
-### pygame.event.get(), event.type, event.key
-```python
-while not crashed:
-    for event in pygame.event.get():
-        if event.type==pygame.QUIT: #마우스로 창을 닫으면
-            crashed=True #게임 종료
-
-        if event.type==pygame.KEYDOWN: #키보드를 누를 때
-            if event.key==pygame.K_RIGHT:
-                x_change=15
-```
-### pygame.KEYUP, pygame.KEYDOWN
-```python
-if event.type==pygame.KEYUP
-```
-- pygame.KEYUP : 키보드를 누른 후 뗄 때
-- pygame.KEYDOWN : 키보드를 누를 때
-### pygame.init()
-### pygame.quit()
-### pygame.display.set_model()
-```python
-gamepad = pygame.display.set_mode((pad_width, pad_height))
-```
-```python
-import pygame
-
-WHITE=(255, 255, 255)
-pad_width=1536
-pad_height=960
-bg_width=2560
-
-def bg(bg, x, y):
-    global gamepad, background
-    gamepad.blit(bg, (x, y))
-
-def plane(x, y):
-    global gamepad, aircraft
-    gamepad.blit(aircraft, (x, y)) #"aircraft"를 "(x, y)"에 배치
-
-def runGame():
-    global gamepad, aircraft, clock, bg1, bg2
-    
-    x=pad_width*0.01
-    y=pad_height*0.5
-    x_change=0
-    y_change=0
-    
-    bg1_x=0
-    bg2_x=bg_width
-    
-    crashed=False #"True" : 게임 종료,  "False" : 안 종료
-    while not crashed:
-        for event in pygame.event.get():
-            if event.type==pygame.QUIT: #마우스로 창을 닫으면
-                crashed=True #게임 종료
-                
-            if event.type==pygame.KEYDOWN: #키보드를 누를 때
-                if event.key==pygame.K_RIGHT:
-                    x_change=15
-                if event.key==pygame.K_LEFT:
-                    x_change=-15
-                elif event.key==pygame.K_UP:
-                    y_change=-15
-                elif event.key==pygame.K_DOWN:
-                    y_change=15
-            if event.type==pygame.KEYUP: #키보드를 누른 후 뗄 때
-                if event.key==pygame.K_RIGHT or event.key==pygame.K_LEFT:
-                    x_change=0
-                if event.key==pygame.K_UP or event.key==pygame.K_DOWN:
-                    y_change=0
-        x+=x_change
-        y+=y_change
-                    
-        gamepad.fill(WHITE) #"gamepad"를 "WHITE"로 채우고
-        bg1_x-=5
-        bg2_x-=5
-        if bg1_x==-bg_width:
-            bg1_x=bg_width
-        if bg2_x==-bg_width:
-            bg2_x=bg_width
-            
-        bg(bg1, bg1_x, 0)
-        bg(bg2, bg2_x, 0)
-        
-        plane(x, y) #"plane(x, y)" 함수를 실행한 뒤
-        pygame.display.update() #화면 갱신
-        clock.tick(60) #"tick=60"으로 FPS=60 지정
-        
-    pygame.quit() #종료
-    
-def initGame():
-    global gamepad, aircraft, clock, bg1, bg2
-    
-    pygame.init()
-    gamepad=pygame.display.set_mode((pad_width, pad_height)) #화면 크기 지정
-    pygame.display.set_caption("PyFlying") #타이틀 지정
-    aircraft=pygame.image.load("pngguru.com (4).png")
-    bg1=pygame.image.load("background.jpg")
-    bg2=bg1.copy()
-    
-    clock=pygame.time.Clock() #FPS를 지정하기 위한 변수 "clock" 선언
-    runGame()
-    
-initGame()
-```
 # pyLDAvis
 ```python
 import pyLDAvis
@@ -2869,4 +2529,116 @@ from lxml import etree
 ```python
 with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
     target_text = etree.parse(z.open("ted_en-20160408.xml", "r"))
+```
+    
+
+    crashed=False #"True" : 게임 종료,  "False" : 안 종료
+
+    while not crashed:
+
+        for event in pygame.event.get():
+
+            if event.type==pygame.QUIT: #마우스로 창을 닫으면
+
+                crashed=True #게임 종료
+
+                
+
+            if event.type==pygame.KEYDOWN: #키보드를 누를 때
+
+                if event.key==pygame.K_RIGHT:
+
+                    x_change=15
+
+                if event.key==pygame.K_LEFT:
+
+                    x_change=-15
+
+                elif event.key==pygame.K_UP:
+
+                    y_change=-15
+
+                elif event.key==pygame.K_DOWN:
+
+                    y_change=15
+
+            if event.type==pygame.KEYUP: #키보드를 누른 후 뗄 때
+
+                if event.key==pygame.K_RIGHT or event.key==pygame.K_LEFT:
+
+                    x_change=0
+
+                if event.key==pygame.K_UP or event.key==pygame.K_DOWN:
+
+                    y_change=0
+
+        x+=x_change
+
+        y+=y_change
+
+                    
+
+        gamepad.fill(WHITE) #"gamepad"를 "WHITE"로 채우고
+
+        bg1_x-=5
+
+        bg2_x-=5
+
+        if bg1_x==-bg_width:
+
+            bg1_x=bg_width
+
+        if bg2_x==-bg_width:
+
+            bg2_x=bg_width
+
+            
+
+        bg(bg1, bg1_x, 0)
+
+        bg(bg2, bg2_x, 0)
+
+        
+
+        plane(x, y) #"plane(x, y)" 함수를 실행한 뒤
+
+        pygame.display.update() #화면 갱신
+
+        clock.tick(60) #"tick=60"으로 FPS=60 지정
+
+        
+
+    pygame.quit() #종료
+
+    
+
+def initGame():
+
+    global gamepad, aircraft, clock, bg1, bg2
+
+    
+
+    pygame.init()
+
+    gamepad=pygame.display.set_mode((pad_width, pad_height)) #화면 크기 지정
+
+    pygame.display.set_caption("PyFlying") #타이틀 지정
+
+    aircraft=pygame.image.load("pngguru.com (4).png")
+
+    bg1=pygame.image.load("background.jpg")
+
+    bg2=bg1.copy()
+
+    
+
+    clock=pygame.time.Clock() #FPS를 지정하기 위한 변수 "clock" 선언
+
+    runGame()
+
+    
+
+initGame()
+
+
 ```
