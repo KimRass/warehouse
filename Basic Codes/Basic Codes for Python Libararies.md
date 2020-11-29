@@ -732,16 +732,10 @@ img = tf.convert_to_tensor(img)
 ## tf.zeros()
 
 ```python
-W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name = "weight")
+W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
 ```
 
 ## tf.transpose()
-
-## tf.zeros()
-
-```python
-tf.zeros([2, 1])
-```
 
 ## tf.cast()
 
@@ -761,6 +755,7 @@ layer3 = tf.concat([layer1, layer2], axis=1)
 ```
 - 지정한 axis의 dimension이 유지됩니다.
 - tf.keras.layers.Concatenate()와 동일합니다.
+- `np.stack()`와 동일한 문법입니다.
 ## tf.stack()
 ```python
 x = tf.stack(x, axis=0)
@@ -1008,14 +1003,14 @@ outputs, states = rnn(x_data)
 - return_sequences : default는 False이며 time step의 마지막에서만 아웃풋을 출력. True인 경우 모든 time step에서 아웃풋을 출력. return_sequences 인자에 따라 마지막 시퀀스에서 한 번만 출력할 수 있고 각 시퀀스에서 출력을 할 수 있습니다. many to many 문제를 풀거나 LSTM 레이어를 여러개로 쌓아올릴 때는 return_sequence=True 옵션을 사용합니다.
 #### tf.keras.layers.SimpleRNN()
 ```python
-rnn = tf.keras.layers.SimpleRNN(units=hidden_size, return_sequences=True, return_state=True)
-
-outputs, states = rnn(x_data)
+outputs, hidden_states = tf.keras.layers.SimpleRNN(units=hidden_size, input_shape=(2, 10), return_sequences=True, return_state=True)(x_date)
 ```
-- tf.keras.layers.SimpleRNN() = tf.keras.layers.SimpleRNNCell() + tf.keras.layers.RNN()
-- 입력 값의 차원 : (batch_size, sequence length, input dimension)
-- outputs의 차원 : (batch_size, sequence length, hidden_size)
-- states의 차원 : (batch size, hidden_size)
+- `tf.keras.layers.SimpleRNN()` = `tf.keras.layers.SimpleRNNCell()` + `tf.keras.layers.RNN()`
+- `units` : hidden_size를 나타냅니다.
+- `input_shape` : (timesteps, input_dim)
+- shape of inputs : (batch_size, timesteps, input_dim)
+- shape of outputs(sequences) : (batch_size, timesteps, hidden_size)
+- shape of hidden_states : (batch_size, hidden_size)
 #### tk.keras.layers.Embedding()
 ```python
 tf.keras.layers.Embedding(input_dim=input_dim, output_dim=output_dim, trainable=False, mask_zero=True, input_length=max_sequence, embeddings_initializer=tf.keras.initializers.Constant(one_hot))
@@ -2193,6 +2188,14 @@ np.any(arr>0)
 ```python
 np.min(np.where(cumsum >= np.cumsum(cnts)[-1]*ratio))
 ```
+## np.tanh()
+```python
+temp = np.tanh(np.dot(Wh, h_t) + np.dot(Wx, x_t) + b)
+```
+## np.shape()
+```python
+np.shape(hidden_states)
+```
 ## np.isin()
 ```python
 data[np.isin(data["houses"], list)]
@@ -2218,6 +2221,10 @@ np.quantile(cnts, 0.9)
 ## np.concatenate()
 ```python
 intersected_movie_ids = np.concatenate([json.loads(row) for row in rd.mget(queries)], axis=None)
+```
+## np.stack()
+```python
+
 ```
 ## np.random
 ### np.random.seed()
