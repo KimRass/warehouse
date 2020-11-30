@@ -1936,6 +1936,11 @@ ax = sb.lineplot(x=data.index, y=data["84B"], linewidth=2, color="blue", label="
 ```python
 sb.barplot(ax=ax, x=area_df["ft_cut"], y=area_df[0], color="brown", edgecolor="black", orient="v")
 ```
+### sb.countplot()
+```python
+sb.countplot(data=cmts202011, x="dep")
+```
+- df에만 사용 가능합니다.
 ### sb.replot()
 ```python
 ax = sbrelplot(x="total_bill", y="tip", col="time", hue="day", style="day", kind="scatter", data=tips)
