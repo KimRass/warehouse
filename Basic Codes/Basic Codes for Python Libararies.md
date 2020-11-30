@@ -316,7 +316,6 @@ data = pd.get_dummies(data, columns=["heating", "company1", "company2", "element
 ```python
 ratings_df["rated_at"] = pd.to_datetime(ratings_df["rated_at"], unit="s")
 ```
-- timestamp -> 초 단위로 변경
 ## pd.merge()
 ```python
 data = pd.merge(data, start_const, on=["지역구분", "입찰년월"], how="left")
@@ -328,6 +327,10 @@ pd.merge(df1, df2, left_on="id", right_on="movie_id")
 floor_data = pd.merge(floor_data, df_conv, left_index=True, right_index=True, how="left")
 ```
 - df와 df 또는 df와 ser 간에 사용 가능.
+## pd.Grouper()
+```python
+n_tasks_month = tasks.groupby(pd.Grouper(key="task_date", freq="M")).size()
+```
 ## df.shape
 ## df.quantile()
 ```python
