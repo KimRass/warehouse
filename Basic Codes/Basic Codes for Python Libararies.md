@@ -1940,7 +1940,7 @@ sb.barplot(ax=ax, x=area_df["ft_cut"], y=area_df[0], color="brown", edgecolor="b
 ```python
 sb.countplot(data=cmts202011, x="dep")
 ```
-- df에만 사용 가능합니다.
+- DataFrame, array, or list of arrays에 사용 가능합니다.
 ### sb.replot()
 ```python
 ax = sbrelplot(x="total_bill", y="tip", col="time", hue="day", style="day", kind="scatter", data=tips)
