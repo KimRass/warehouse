@@ -1133,7 +1133,7 @@ model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))
 #### tf.keras.layers.Dense()
 
 ```python
-tf.keras.layers.Dense(52, input_shape=(13,), activation="relu")
+tf.keras.layers.Dense(units=52, input_shape=(13,), activation="relu")
 ```
 - units: 해당 은닉층에서 활동하는 뉴런의 수(출력 값의 크기)
 - activation: 활성화함수, 해당 은닉층의 가중치와 편향의 연산 결과를 어느 함수에 적합하여 출력할 것인가?
@@ -1303,6 +1303,18 @@ model = tf.keras.Sequential()
 ```python
 inputs = tf.keras.Input(shape=(28, 28, 1))
 ```
+### tf.keras.callbacks
+#### tf.keras.callbacks.EarlyStopping()
+```python
+es = tf.keras.callbacks.EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=4)
+```
+- `mode` : One of {"auto", "min", "max"}. In min mode, training will stop when the quantity monitored has stopped decreasing; in "max" mode it will stop when the quantity monitored has stopped increasing; in "auto" mode, the direction is automatically inferred from the name of the monitored quantity.
+- `patience` : Number of epochs with no improvement after which training will be stopped.
+#### tf.keras.callbacks.ModelCheckpoint()
+```python
+mc = tf.keras.callbacks.ModelCheckpoint(filepath=filepath, monitor="val_acc", mode="auto", verbose=1, save_best_only=True)
+```
+- `save_best_only` : if `save_best_only=True`, the latest best model according to the quantity monitored will not be overwritten. If `filepath` doesn't contain formatting options like `{epoch}` then `filepath` will be overwritten by each new better model.
 ### tf.keras.preprocessing
 #### tf.keras.preprocessing.sequence
 ##### tf.keras.preprocessing.sequence.pad_sequences()
