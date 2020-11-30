@@ -2645,3 +2645,260 @@ from lxml import etree
 with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
     target_text = etree.parse(z.open("ted_en-20160408.xml", "r"))
 ```
+import os		
+```		
+## os.getcwd()		
+```python		
+cur_dir = os.getcwd()		
+```		
+## os.makedirs()		
+```python		
+os.makedirs(ckpt_dir, exist_ok=True)		
+```		
+## os.path		
+### os.path.join()		
+```python		
+checkpoint_dir = os.path.join(cur_dir, ckpt_dir_name, model_dir_name)		
+```		
+### os.path.exists()		
+```python		
+if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):		
+```		
+## os.environ[], os.pathsep		
+```python		
+os.environ["PATH"] += os.pathsep + "C:\Program Files (x86)/Graphviz2.38/bin/"		
+```		
+# pickle		
+```python		
+import pickle as pk		
+```		
+## pk.dump()		
+```python		
+with open("filename.pk", "wb") as f:		
+    pk.dump(list, f)		
+```		
+## pk.load()		
+```python		
+with open("filename.pk", "rb") as f:		
+    data = pk.load(f)		
+```		
+- 한 줄씩 load		
+# json		
+```python		
+import json		
+```		
+## json.dump()		
+```python		
+with open(path, "w", encoding="utf-8") as f:		
+    json.dump(train_data, f, ensure_ascii=False, indent="\t")		
+```		
+## json.load()		
+```python		
+with open(path, "r", encoding="utf-8") as f:		
+    train_data = json.load(f)		
+```		
+# Image		
+```python		
+from PIL import Image		
+```		
+## Image.open()		
+```python		
+img = Image.open("20180312000053_0640 (2).jpg")		
+```		
+### img.size		
+### img.save()		
+### img.thumbnail()		
+```python		
+img.thumbnail((64, 64))  		
+```		
+### img.crop()		
+```python		
+img_crop = img.crop((100, 100, 150, 150))		
+```		
+### img.resize()		
+```python		
+img = img.resize((600, 600))		
+```		
+### img.convert()		
+```python		
+img.convert("L")		
+```		
+- "RGB" | "RGBA" | "CMYK" | "L" | "1"		
+### img.paste()		
+```python		
+img1.paste(img2, (20,20,220,220))		
+```		
+- img2.size와 동일하게 두 번째 parameter 설정.		
+## Image.new()		
+```python		
+mask = Image.new("RGB", icon.size, (255, 255, 255))		
+```		
+# platform		
+```python		
+import platform		
+```		
+## platform.system()		
+```python		
+path = "C:/Windows/Fonts/malgun.ttf"		
+if platform.system() == "Darwin":		
+    mpl.rc("font", family="AppleGothic")		
+elif platform.system() == "Windows":		
+    font_name = mpl.font_manager.FontProperties(fname=path).get_name()		
+    mpl.rc('font', family=font_name)		
+```		
+- "Darwin", "Windows" 등 OS의 이름 반환.		
+# pprint		
+## pprint()		
+```python		
+from pprint import pprint		
+```		
+# pptx		
+## Presentation()		
+```python		
+from pptx import Presentation		
+```		
+```python		
+prs = Presentation("sample.pptx")		
+```		
+### prs.slides[].shapes[].text_frame.paragraphs[].text		
+```python		
+prs.slides[a].shapes[b].text_frame.paragraphs[c].text		
+```		
+- a : 슬라이드 번호		
+- b : 텍스트 상자의 인덱스		
+- c : 텍스트 상자 안에서 텍스트의 인덱스		
+### prs.slides[].shapes[].text_frame.paragraphs[].font		
+#### prs.slides[].shapes[].text_frame.paragraphs[].text.name		
+```python		
+prs.slides[a].shapes[b].text_frame.paragraphs[c].font.name = "Arial"		
+```		
+#### prs.slides[].shapes[].text_frame.paragraphs[].text.size		
+```python		
+prs.slides[a].shapes[b].text_frame.paragraphs[c].font.size = Pt(16)		
+```		
+### prs.save()		
+```python		
+prs.save("파일 이름")		
+```		
+# pygame		
+```python		
+import pygame		
+```		
+## gamepad		
+### gamepad.blit()		
+```python		
+def bg(bg, x, y):		
+    global gamepad, background		
+    gamepad.blit(bg, (x, y))		
+```		
+```python		
+def plane(x, y):		
+    global gamepad, aircraft		
+    gamepad.blit(aircraft, (x, y)) #"aircraft"를 "(x, y)"에 배치		
+```		
+## pygame		
+### pygame.event.get(), event.type, event.key		
+```python		
+while not crashed:		
+    for event in pygame.event.get():		
+        if event.type==pygame.QUIT: #마우스로 창을 닫으면		
+            crashed=True #게임 종료		
+		
+        if event.type==pygame.KEYDOWN: #키보드를 누를 때		
+            if event.key==pygame.K_RIGHT:		
+                x_change=15		
+```		
+### pygame.KEYUP, pygame.KEYDOWN		
+```python		
+if event.type==pygame.KEYUP		
+```		
+- pygame.KEYUP : 키보드를 누른 후 뗄 때		
+- pygame.KEYDOWN : 키보드를 누를 때		
+### pygame.init()		
+### pygame.quit()		
+### pygame.display.set_model()		
+```python		
+gamepad = pygame.display.set_mode((pad_width, pad_height))		
+```		
+```python		
+import pygame		
+		
+WHITE=(255, 255, 255)		
+pad_width=1536		
+pad_height=960		
+bg_width=2560		
+		
+def bg(bg, x, y):		
+    global gamepad, background		
+    gamepad.blit(bg, (x, y))		
+		
+def plane(x, y):		
+    global gamepad, aircraft		
+    gamepad.blit(aircraft, (x, y)) #"aircraft"를 "(x, y)"에 배치		
+		
+def runGame():		
+    global gamepad, aircraft, clock, bg1, bg2		
+    		
+    x=pad_width*0.01		
+    y=pad_height*0.5		
+    x_change=0		
+    y_change=0		
+    		
+    bg1_x=0		
+    bg2_x=bg_width		
+    		
+    crashed=False #"True" : 게임 종료,  "False" : 안 종료		
+    while not crashed:		
+        for event in pygame.event.get():		
+            if event.type==pygame.QUIT: #마우스로 창을 닫으면		
+                crashed=True #게임 종료		
+                		
+            if event.type==pygame.KEYDOWN: #키보드를 누를 때		
+                if event.key==pygame.K_RIGHT:		
+                    x_change=15		
+                if event.key==pygame.K_LEFT:		
+                    x_change=-15		
+                elif event.key==pygame.K_UP:		
+                    y_change=-15		
+                elif event.key==pygame.K_DOWN:		
+                    y_change=15		
+            if event.type==pygame.KEYUP: #키보드를 누른 후 뗄 때		
+                if event.key==pygame.K_RIGHT or event.key==pygame.K_LEFT:		
+                    x_change=0		
+                if event.key==pygame.K_UP or event.key==pygame.K_DOWN:		
+                    y_change=0		
+        x+=x_change		
+        y+=y_change		
+                    		
+        gamepad.fill(WHITE) #"gamepad"를 "WHITE"로 채우고		
+        bg1_x-=5		
+        bg2_x-=5		
+        if bg1_x==-bg_width:		
+            bg1_x=bg_width		
+        if bg2_x==-bg_width:		
+            bg2_x=bg_width		
+            		
+        bg(bg1, bg1_x, 0)		
+        bg(bg2, bg2_x, 0)		
+        		
+        plane(x, y) #"plane(x, y)" 함수를 실행한 뒤		
+        pygame.display.update() #화면 갱신		
+        clock.tick(60) #"tick=60"으로 FPS=60 지정		
+        		
+    pygame.quit() #종료		
+    		
+def initGame():		
+    global gamepad, aircraft, clock, bg1, bg2		
+    		
+    pygame.init()		
+    gamepad=pygame.display.set_mode((pad_width, pad_height)) #화면 크기 지정		
+    pygame.display.set_caption("PyFlying") #타이틀 지정		
+    aircraft=pygame.image.load("pngguru.com (4).png")		
+    bg1=pygame.image.load("background.jpg")		
+    bg2=bg1.copy()		
+    		
+    clock=pygame.time.Clock() #FPS를 지정하기 위한 변수 "clock" 선언		
+    runGame()		
+    		
+initGame()		
+```
