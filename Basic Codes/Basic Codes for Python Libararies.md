@@ -570,6 +570,74 @@ for cat in cats:
 for k, v in target.items():
     queries.append(f"{k}-{v}")
 ```
+# numpy
+
+```python
+
+import numpy as np
+
+```
+
+## np.set_printoptions()
+
+```python
+
+np.set_printoptions(precision=3)
+
+```
+
+```python
+
+np.set_printoptions(edgeitems=3, infstr="inf", linewidth=75, nanstr="nan", precision=8, suppress=False, threshold=1000, formatter=None)
+
+```
+
+- go back to the default options
+
+## np.arange
+
+```python
+
+np.arange(5, 101, 5)
+
+```
+
+## np.ones()
+
+```python
+
+np.ones((2, 3, 4))
+
+```
+
+## np.zeros()
+
+## np.empty()
+
+## np.full()
+
+```python
+
+np.full((2, 3, 4), 7))
+
+```
+
+## np.eye()
+
+```python
+
+np.eye(4)
+
+```
+
+## np.ones_like(), np.zeros_like()
+
+```python
+
+np.ones_like(arr)
+
+
+```
 ## np.linalg
 
 ### np.linalg.norm()
