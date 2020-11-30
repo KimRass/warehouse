@@ -570,141 +570,180 @@ for cat in cats:
 for k, v in target.items():
     queries.append(f"{k}-{v}")
 ```
-# numpy
-
-```python
-
-import numpy as np
-
-```
-
-## np.set_printoptions()
-
-```python
-
-np.set_printoptions(precision=3)
-
-```
-
-```python
-
-np.set_printoptions(edgeitems=3, infstr="inf", linewidth=75, nanstr="nan", precision=8, suppress=False, threshold=1000, formatter=None)
-
-```
-
-- go back to the default options
-
-## np.arange
-
-```python
-
-np.arange(5, 101, 5)
-
-```
-
-## np.ones()
-
-```python
-
-np.ones((2, 3, 4))
-
-```
-
-## np.zeros()
-
-## np.empty()
-
-## np.full()
-
-```python
-
-np.full((2, 3, 4), 7))
-
-```
-
-## np.eye()
-
-```python
-
-np.eye(4)
-
-```
-
-## np.ones_like(), np.zeros_like()
-
-```python
-
-np.ones_like(arr)
-
-
-```
-## np.linalg
-
-### np.linalg.norm()
-
-```python
-
-np.linalg.norm(x, axis=1, ord=2)
-
-```
-
-- ord=1 : L1 normalization.
-
-- ord=2 : L2 normalization.
-
-## np.sqrt()
-
-## np.power()
-
-## np.exp()
-
-```python
-
-def sig(x):
-
-    return 1 / (1 + np.exp(-x))
-
-```
-
-## np.add.outer(), np.multiply.outer()
-
-```python
-
-euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))
-
-```
-
-## np.fill_diagonal()
-
-```python
-
-np.fill_diagonal(cos_sim_item, 0)
-
-```
-
-# arr
-
-## arr.ravel()
-
-```python
-
-arr.ravel(order="F")
-
-```
-
-- order="C" : row 기준
-
-- order="F" : column 기준
-
-##  arr.flatten()
-
-- 복사본 반환
-
-## arr.T
-
+# numpy		
+```python		
+import numpy as np		
+```		
+## np.set_printoptions()		
+```python		
+np.set_printoptions(precision=3)		
+```		
+```python		
+np.set_printoptions(edgeitems=3, infstr="inf", linewidth=75, nanstr="nan", precision=8, suppress=False, threshold=1000, formatter=None)		
+```		
+- go back to the default options		
+## np.arange		
+```python		
+np.arange(5, 101, 5)		
+```		
+## np.ones()		
+```python		
+np.ones((2, 3, 4))		
+```		
+## np.zeros()		
+## np.empty()		
+## np.full()		
+```python		
+np.full((2, 3, 4), 7))		
+```		
+## np.eye()		
+```python		
+np.eye(4)		
+```		
+## np.ones_like(), np.zeros_like()		
+```python		
+np.ones_like(arr)		
+```		
+## np.linspace()		
+```python		
+np.linspace(-5, 5, 100)		
+```		
+## np.any()		
+```python		
+np.any(arr>0)		
+```		
+## np.all()		
+## np.where()		
+```python		
+np.min(np.where(cumsum >= np.cumsum(cnts)[-1]*ratio))		
+```		
+## np.tanh()		
+```python		
+temp = np.tanh(np.dot(Wh, h_t) + np.dot(Wx, x_t) + b)		
+```		
+## np.shape()		
+```python		
+np.shape(hidden_states)		
+```		
+## np.isin()		
+```python		
+data[np.isin(data["houses"], list)]		
+```		
+## np.transpose()		
+## np.swapaxes()		
+```python		
+feature_maps = np.transpose(conv2d, (3, 1, 2, 0))		
+```		
+```python		
+feature_maps = np.swapaxes(conv2d, 0, 3)		
+```		
+## np.maximum(), np.minimum()		
+- Element-wise minimum of array elements.		
+## np.cumsum()		
+```python		
+np.cumsum(cnt)		
+```		
+## np.quantile()		
+```python		
+np.quantile(cnts, 0.9)		
+```		
+## np.concatenate()		
+```python		
+intersected_movie_ids = np.concatenate([json.loads(row) for row in rd.mget(queries)], axis=None)		
+```		
+## np.stack()		
+```python		
+		
+```		
+## np.random		
+### np.random.seed()		
+```python		
+np.random.seed(23)		
+```		
+### np.random.rand()		
+```python		
+np.random.rand(2, 3, 4)		
+```		
+- generates samples from the uniform distribution on [0, 1)		
+
+### np.random.random()		
+```python		
+np.random.random((2, 3, 4))		
+```		
+- generates samples from the uniform distribution on [0, 1)		
+
+### np.random.randint()		
+```python		
+np.random.randint(1, 100, size=(2, 3, 4))		
+```		
+### np.random.choice()		
+```python		
+np.random.choice(arr(1d), size=(2, 3, 4), replace=False)		
+```		
+### np.random.normal()		
+```python		
+np.random.normal(mean, std, size=(3, 4))		
+```		
+## np.digitize()		
+```python		
+bins=range(0, 55000, 5000)		
+data["price_range"]=np.digitize(data["money"], bins)		
+```		
+## np.isnan()		
+## np.nanmean()		
+## np.sort()		
+## np.reshape()		
+```python		
+np.reshape(mh_df.values, (1000, 1, 128))		
+```		
+## np.expand_dims()		
+```python		
+np.expand_dims(mh_df.values, axis=1)		
+```		
+## np.newaxis		
+```python		
+mh_df.values[:, np.newaxis, :]		
+```		
+```python		
+mh_df.values[:, None, :]		
+```		
+## np.unique()		
+```python		
+items, counts = np.unique(intersected_movie_ids, return_counts=True)   		
+```		
+## np.linalg		
+### np.linalg.norm()		
+```python		
+np.linalg.norm(x, axis=1, ord=2)		
+```		
+- ord=1 : L1 normalization.		
+- ord=2 : L2 normalization.		
+## np.sqrt()		
+## np.power()		
+## np.exp()		
+```python		
+def sig(x):		
+    return 1 / (1 + np.exp(-x))		
+```		
+## np.add.outer(), np.multiply.outer()		
+```python		
+euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))		
+```		
+## np.fill_diagonal()		
+```python		
+np.fill_diagonal(cos_sim_item, 0)		
+```		
+# arr		
+## arr.ravel()		
+```python		
+arr.ravel(order="F")		
+```		
+- order="C" : row 기준		
+- order="F" : column 기준		
+##  arr.flatten()		
+- 복사본 반환		
+## arr.T		
 ## arr.shape
-
-
 
 # sklearn
 ```python
