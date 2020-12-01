@@ -2358,7 +2358,7 @@ from hanspell import spell_checker
 ### spell_checker.check()
 #### spell_checker.check().checked
 ```python
-sent_ckd = hanspell.spell_checker.check("맞춤법 틀리면 외 않되? 쓰고싶은대로쓰면돼지").checked
+sent_ckd = spell_checker.check("맞춤법 틀리면 외 않되? 쓰고싶은대로쓰면돼지").checked
 ```
 # collections
 ## Counter()
