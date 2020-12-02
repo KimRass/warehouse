@@ -17,6 +17,9 @@ sudo pip3 install jupyter numpy pandas
 ```
 sudo pip3 install cmake
 ```
+```
+sudo apt-get install cmake
+```
 ### cython
 ```
 sudo pip3 install cython
