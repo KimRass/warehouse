@@ -29,19 +29,6 @@ sudo pip3 install cython
 sudo pip3 install n2
 ```
 ### khaii
-#### in Google Colab
-```python
-!git clone https://github.com/kakao/khaiii.git
-!pip install cmake
-!mkdir build
-!cd build && cmake /content/khaiii
-!cd /content/build/ && make all
-!cd /content/build/ && make resource
-!cd /content/build && make install
-!cd /content/build && make package_python
-!pip install /content/build/package_python
-```
-#### in Windows 10
 ```
 git clone https://github.com/kakao/khaiii.git
 ```
