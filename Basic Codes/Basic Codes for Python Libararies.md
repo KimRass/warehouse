@@ -596,54 +596,54 @@ np.ones((2, 3, 4))
 ## np.empty()
 ## np.full()
 ```python		
-np.full((2, 3, 4), 7))		
-```		
-## np.eye()		
-```python		
-np.eye(4)		
-```		
-## np.ones_like(), np.zeros_like()		
-```python		
-np.ones_like(arr)		
-```		
-## np.linspace()		
-```python		
-np.linspace(-5, 5, 100)		
-```		
-## np.any()		
-```python		
-np.any(arr>0)		
-```		
-## np.all()		
-## np.where()		
-```python		
-np.min(np.where(cumsum >= np.cumsum(cnts)[-1]*ratio))		
-```		
-## np.tanh()		
-```python		
-temp = np.tanh(np.dot(Wh, h_t) + np.dot(Wx, x_t) + b)		
-```		
-## np.shape()		
-```python		
-np.shape(hidden_states)		
-```		
-## np.isin()		
-```python		
-data[np.isin(data["houses"], list)]		
-```		
-## np.transpose()		
-## np.swapaxes()		
-```python		
-feature_maps = np.transpose(conv2d, (3, 1, 2, 0))		
-```		
-```python		
-feature_maps = np.swapaxes(conv2d, 0, 3)		
-```		
-## np.maximum(), np.minimum()		
-- Element-wise minimum of array elements.		
-## np.cumsum()		
-```python		
-np.cumsum(cnt)		
+np.full((2, 3, 4), 7))
+```
+## np.eye()
+```python
+np.eye(4)
+```
+## np.ones_like(), np.zeros_like()
+```python
+np.ones_like(arr)
+```
+## np.linspace()
+```python
+np.linspace(-5, 5, 100)
+```
+## np.any()
+```python
+np.any(arr>0)
+```
+## np.all()
+## np.where()
+```python
+np.min(np.where(cumsum >= np.cumsum(cnts)[-1]*ratio))
+```
+## np.tanh()
+```python
+temp = np.tanh(np.dot(Wh, h_t) + np.dot(Wx, x_t) + b)
+```
+## np.shape()
+```python
+np.shape(hidden_states)
+```	
+## np.isin()
+```python
+data[np.isin(data["houses"], list)]
+```
+## np.transpose()
+## np.swapaxes()
+```python
+feature_maps = np.transpose(conv2d, (3, 1, 2, 0))
+```
+```python
+feature_maps = np.swapaxes(conv2d, 0, 3)
+```
+## np.maximum(), np.minimum()
+- Element-wise minimum of array elements.
+## np.cumsum()
+```python
+np.cumsum(cnt)
 ```
 ## np.quantile()
 ```python
@@ -659,35 +659,34 @@ intersected_movie_ids = np.concatenate([json.loads(row) for row in rd.mget(queri
 X_train = np.delete(X_train, idx_drop, axis=0)
 ```
 ## np.random
-### np.random.seed()		
-```python		
-np.random.seed(23)		
-```		
-### np.random.rand()		
-```python		
-np.random.rand(2, 3, 4)		
-```		
-- generates samples from the uniform distribution on [0, 1)		
+### np.random.seed()
+```python
+np.random.seed(23)
+```
+### np.random.rand()	
+```python	
+np.random.rand(2, 3, 4)
+```
+- generates samples from the uniform distribution on [0, 1)
 
-### np.random.random()		
-```python		
-np.random.random((2, 3, 4))		
-```		
-- generates samples from the uniform distribution on [0, 1)		
-
-### np.random.randint()		
-```python		
-np.random.randint(1, 100, size=(2, 3, 4))		
-```		
-### np.random.choice()		
-```python		
-np.random.choice(arr(1d), size=(2, 3, 4), replace=False)		
-```		
-### np.random.normal()		
-```python		
-np.random.normal(mean, std, size=(3, 4))		
-```		
-## np.digitize()		
+### np.random.random()
+```python
+np.random.random((2, 3, 4))
+```
+- generates samples from the uniform distribution on [0, 1)
+### np.random.randint()
+```python
+np.random.randint(1, 100, size=(2, 3, 4))	
+```
+### np.random.choice()
+```python
+np.random.choice(arr(1d), size=(2, 3, 4), replace=False)	
+```
+### np.random.normal()
+```python
+np.random.normal(mean, std, size=(3, 4))	
+```
+## np.digitize()
 ```python		
 bins=range(0, 55000, 5000)		
 data["price_range"]=np.digitize(data["money"], bins)		
@@ -1209,17 +1208,11 @@ tf.keras.layers.GRU(units=hidden_size, input_shape=(timesteps, input_dim))
 - `tf.keras.layers.SimpleRNN()`과 문법이 동일합니다.
 #### tk.keras.layers.Embedding()
 ```python
-tf.keras.layers.Embedding(input_dim=input_dim, output_dim=output_dim, trainable=False, mask_zero=True, input_length=max_sequence, embeddings_initializer=tf.keras.initializers.Constant(one_hot))
+tf.keras.layers.Embedding(input_dim=vocab_size+2, output_dim=emb_dim, input_length=max_sequence, trainable=True)
 ```
-```python
-tf.keras.layers.Embedding(input_dim=vocab_size, output_dim300, weights=[emb_matrix], input_length=max_len, trainable=False)
-```
-- `input_dim` : embedding vector를 생성해야하는 값의 갯수. 입력되는 단어의 개수.
-- `output_dim` : 출력되는 embedding vector의 크기
 - `input_length` : 입력 sequence의 길이
 - `trainable` : 학습할지 아니면 초기 가중치 값을 그대로 사용할지 여부를 결정합니다.
-- `mask_zero` : 0인 값 무시 여부. If mask_zero is set to True, as a consequence, index 0 cannot be used in the vocabulary. so input_dim should equal to size of vocabulary + 1.
-- `embeddings_initializer` : Initializer for the embeddings matrix
+- `mask_zero=True` : If mask_zero is set to True, as a consequence, index 0 cannot be used in the vocabulary. so input_dim should equal to size of vocabulary + 1.
 #### tf.keras.layers.TimeDistributed()
 ```python
 model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
