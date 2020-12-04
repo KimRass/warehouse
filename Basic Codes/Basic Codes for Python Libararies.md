@@ -570,29 +570,31 @@ for cat in cats:
 for k, v in target.items():
     queries.append(f"{k}-{v}")
 ```
-# numpy		
-```python		
-import numpy as np		
-```		
-## np.set_printoptions()		
-```python		
-np.set_printoptions(precision=3)		
-```		
-```python		
-np.set_printoptions(edgeitems=3, infstr="inf", linewidth=75, nanstr="nan", precision=8, suppress=False, threshold=1000, formatter=None)		
-```		
+# numpy
+```python
+import numpy as np
+```
+
+## np.set_printoptions()
+```python
+np.set_printoptions(precision=3)
+```
+```python
+np.set_printoptions(edgeitems=3, infstr="inf", linewidth=75, nanstr="nan", precision=8, suppress=False, threshold=1000, formatter=None)
+```
 - go back to the default options		
 ## np.arange		
 ```python		
 np.arange(5, 101, 5)		
-```		
-## np.ones()		
-```python		
-np.ones((2, 3, 4))		
-```		
-## np.zeros()		
-## np.empty()		
-## np.full()		
+```
+
+## np.ones()
+```python
+np.ones((2, 3, 4))
+```
+## np.zeros()
+## np.empty()
+## np.full()
 ```python		
 np.full((2, 3, 4), 7))		
 ```		
@@ -642,20 +644,21 @@ feature_maps = np.swapaxes(conv2d, 0, 3)
 ## np.cumsum()		
 ```python		
 np.cumsum(cnt)		
-```		
-## np.quantile()		
-```python		
-np.quantile(cnts, 0.9)		
-```		
-## np.concatenate()		
-```python		
-intersected_movie_ids = np.concatenate([json.loads(row) for row in rd.mget(queries)], axis=None)		
-```		
-## np.stack()		
-```python		
-		
-```		
-## np.random		
+```
+## np.quantile()
+```python
+np.quantile(cnts, 0.9)
+```
+## np.concatenate()
+```python
+intersected_movie_ids = np.concatenate([json.loads(row) for row in rd.mget(queries)], axis=None)
+```
+## np.stack()
+## np.delete()
+```python
+X_train = np.delete(X_train, idx_drop, axis=0)
+```
+## np.random
 ### np.random.seed()		
 ```python		
 np.random.seed(23)		
@@ -1314,7 +1317,12 @@ es = tf.keras.callbacks.EarlyStopping(monitor="val_loss", mode="auto", verbose=1
 ```python
 mc = tf.keras.callbacks.ModelCheckpoint(filepath=filepath, monitor="val_acc", mode="auto", verbose=1, save_best_only=True)
 ```
-- `save_best_only` : if `save_best_only=True`, the latest best model according to the quantity monitored will not be overwritten. If `filepath` doesn't contain formatting options like `{epoch}` then `filepath` will be overwritten by each new better model.
+- `save_best_only=True` : `monitor` 기준으로 가장 좋은 값으로 모델이 저장됩니다.
+- `save_best_only=False` : 매 epoch마다 모델이 filepath{epoch}으로 저장됩니다.
+- `save_weights_only=True` : 모델의 weights만 저장됩니다.
+- `save_weights_only=False` : 모델 레이어 및 weights 모두 저장됩니다.
+- `verbose=1` : 모델이 저장 될 때 '저장되었습니다' 라고 화면에 표시됩니다.
+- `verbose=0` : 화면에 표시되는 것 없이 그냥 바로 모델이 저장됩니다.
 ### tf.keras.preprocessing
 #### tf.keras.preprocessing.sequence
 ##### tf.keras.preprocessing.sequence.pad_sequences()
