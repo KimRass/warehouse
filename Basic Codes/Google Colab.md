@@ -10,3 +10,14 @@ sys.path.insert(0, my_path)
 ```python
 !pip install --target=$my_path [패키지 이름]
 ```
+```python
+!git clone https://github.com/kakao/khaiii.git
+!pip install cmake
+!mkdir build
+!cd build && cmake /content/khaiii
+!cd /content/build/ && make all
+!cd /content/build/ && make resource
+!cd /content/build && make install
+!cd /content/build && make package_python
+!pip install /content/build/package_python
+```
