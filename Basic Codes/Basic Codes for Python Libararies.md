@@ -36,14 +36,13 @@ feature_to_shuffle.append("area")
 ```python
 features.remove("area")
 ```
-### lst.sort()
+### sorted()
 ```python
-A.sort(reverse=True)
+lens = sorted([len(doc) for doc in train_X])
 ```
-```python
-m.sort(key=len)
+- `reverse=True`로 순서를 뒤집을 수 있습니다.
+- `key=`로 정렬 기준이 될 함수를 지정할 수 있습니다.
 ```
-- in-place 함수
 ### map()
 ```python
 list(map(len, train_tkn))
@@ -69,8 +68,8 @@ sum(sents, [])
 - 항목이 객체에 포함되어 있는지(membership)를 확인할 수 있으며,  항목이 몇개인지는 알아낼 수 있습니다.
 - frozenset은 dictionary의 key가 될 수 있지만 set은 될 수 없음.
 ## dictionary
-### dic[key]
-### dic[key] = value
+### dic\[key]
+### dic\[key] = value
 ```python
 aut2doc = {}
 for user, idx in auts.groups.items():
@@ -105,7 +104,7 @@ dic.get(key)
 
 ```python
 
-sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True)
+word2cnts = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
 
 
 ```
@@ -273,6 +272,9 @@ raw_data = pd.read_csv("C:/Users/00006363/☆데이터/실거래가_충청북도
 ```python
 ratings_train = pd.read_table("ratings_train.txt", usecols=["document", "label"])
 ```
+```python
+raw_data = pd.read_table("steam.txt", names=["label", "review"])
+```
 ## df.to_csv()
 ```python
 data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거래가 전처리 완료_200928-3.csv", index=False)
@@ -374,9 +376,14 @@ data["반기"]=data["입찰년월"].apply(lambda x:x[:4]+" 상반기" if int(x[4
 data["반기"]=data.apply(lambda x:x["입찰년월"][:4]+" 상반기" if int(x["입찰년월"][4:])<7 else x["입찰년월"][:4]+" 하반기", axis=1)
 ```
 ```python
-data["1001-작업반장]=data["반기"].apply(lambda x:labor.loc[x,"1001-작업반장])
-data["1001-작업반장]=data.apply(lambda x:labor.loc[x["반기"],"1001-작업반장], axis=1)
+data["1001-작업반장]=data["반기"].apply(lambda x:labor.loc[x, "1001-작업반장])
+data["1001-작업반장]=data.apply(lambda x:labor.loc[x["반기"], "1001-작업반장], axis=1)
 ```
+## df.progress_apply()
+```python
+data["morphs"] = data["review"].progress_apply(mcb.morphs)
+```
+- `tqdm.pandas()`가 선행되어야합니다.
 ## df.rename()
 ```python
 data = data.rename({"단지명.1":"name", "세대수":"houses_buildings", "저/최고층":"floors"}, axis=1)
@@ -667,13 +674,14 @@ np.random.seed(23)
 ```python	
 np.random.rand(2, 3, 4)
 ```
-- generates samples from the uniform distribution on [0, 1)
+- generates samples from the uniform distribution on \[0, 1)
 
 ### np.random.random()
 ```python
 np.random.random((2, 3, 4))
 ```
-- generates samples from the uniform distribution on [0, 1)
+- generates samples from the uniform distribution on \[0, 1)
+
 ### np.random.randint()
 ```python
 np.random.randint(1, 100, size=(2, 3, 4))	
@@ -688,65 +696,64 @@ np.random.normal(mean, std, size=(3, 4))
 ```
 ## np.digitize()
 ```python		
-bins=range(0, 55000, 5000)		
-data["price_range"]=np.digitize(data["money"], bins)		
-```		
-## np.isnan()		
-## np.nanmean()		
-## np.sort()		
-## np.reshape()		
-```python		
-np.reshape(mh_df.values, (1000, 1, 128))		
-```		
-## np.expand_dims()		
-```python		
-np.expand_dims(mh_df.values, axis=1)		
-```		
-## np.newaxis		
-```python		
-mh_df.values[:, np.newaxis, :]		
-```		
-```python		
-mh_df.values[:, None, :]		
-```		
-## np.unique()		
-```python		
-items, counts = np.unique(intersected_movie_ids, return_counts=True)   		
-```		
-## np.linalg		
-### np.linalg.norm()		
-```python		
-np.linalg.norm(x, axis=1, ord=2)		
-```		
-- ord=1 : L1 normalization.		
-- ord=2 : L2 normalization.		
-## np.sqrt()		
-## np.power()		
-## np.exp()		
-```python		
-def sig(x):		
-    return 1 / (1 + np.exp(-x))		
-```		
-## np.add.outer(), np.multiply.outer()		
-```python		
-euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))		
-```		
-## np.fill_diagonal()		
-```python		
-np.fill_diagonal(cos_sim_item, 0)		
-```		
-# arr		
-## arr.ravel()		
-```python		
-arr.ravel(order="F")		
-```		
-- order="C" : row 기준		
-- order="F" : column 기준		
-##  arr.flatten()		
-- 복사본 반환		
-## arr.T		
+bins=range(0, 55000, 5000)
+data["price_range"]=np.digitize(data["money"], bins)
+```
+## np.isnan()
+## np.nanmean()
+## np.sort()
+## np.reshape()
+```python
+np.reshape(mh_df.values, (1000, 1, 128))
+```
+## np.expand_dims()
+```python
+np.expand_dims(mh_df.values, axis=1)
+```
+## np.newaxis
+```python
+mh_df.values[:, np.newaxis, :]
+```
+```python
+mh_df.values[:, None, :]
+```
+## np.unique()
+```python
+items, counts = np.unique(intersected_movie_ids, return_counts=True)
+```
+## np.linalg
+### np.linalg.norm()
+```python
+np.linalg.norm(x, axis=1, ord=2)
+```
+- ord=1 : L1 normalization.
+- ord=2 : L2 normalization.
+## np.sqrt()
+## np.power()
+## np.exp()
+```python
+def sig(x):
+    return 1 / (1 + np.exp(-x))
+```
+## np.add.outer(), np.multiply.outer()
+```python
+euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))
+```
+## np.fill_diagonal()
+```python
+np.fill_diagonal(cos_sim_item, 0	
+```
+# arr
+## arr.ravel()
+```python
+arr.ravel(order="F")	
+```
+- order="C" : row 기준
+- order="F" : column 기준
+##  arr.flatten()
+- 복사본 반환
+## arr.T
 ## arr.shape
-
 # sklearn
 ```python
 !pip install scikit-learn
@@ -1234,10 +1241,13 @@ outputs, states = rnn(x_data)
 - return_sequences : default는 False이며 time step의 마지막에서만 아웃풋을 출력. True인 경우 모든 time step에서 아웃풋을 출력. return_sequences 인자에 따라 마지막 시퀀스에서 한 번만 출력할 수 있고 각 시퀀스에서 출력을 할 수 있습니다. many to many 문제를 풀거나 LSTM 레이어를 여러개로 쌓아올릴 때는 return_sequence=True 옵션을 사용합니다.
 #### tf.keras.layers.SimpleRNN()
 ```python
-outputs, hidden_states = tf.keras.layers.SimpleRNN(units=hidden_size, input_shape=(timesteps, input_dim), return_sequences=True, return_state=True)(x_date)
+outputs, hidden_states = tf.keras.layers.SimpleRNN(units=hidden_size)(x_data), input_shape=(timesteps, input_dim), return_sequences=True, return_state=True)(x_date)
 ```
 - `tf.keras.layers.SimpleRNN()` = `tf.keras.layers.SimpleRNNCell()` + `tf.keras.layers.RNN()`
-- `batch_input_shape` : (batch_size, timesteps, input_dim)
+- `batch_input_shape=(batch_size, timesteps, input_dim)`
+- `input_shape=(timesteps, input_dim)`
+- `return_sequences=True` | `"False"`
+- `return_state=True` | `"False"`
 - shape of inputs : (batch_size, timesteps, input_dim)
 - shape of outputs : (batch_size, hidden_size)(`return_sequences=False`일 때) / (batch_size, timesteps, hidden_size)(`return_sequences=True`일 때)
 - shape of hidden_states : (batch_size, hidden_size)
@@ -1254,10 +1264,10 @@ tf.keras.layers.GRU(units=hidden_size, input_shape=(timesteps, input_dim))
 - `tf.keras.layers.SimpleRNN()`과 문법이 동일합니다.
 #### tk.keras.layers.Embedding()
 ```python
-tf.keras.layers.Embedding(input_dim=vocab_size+2, output_dim=emb_dim, input_length=max_sequence, trainable=True)
+tf.keras.layers.Embedding(input_dim=vocab_size+2, output_dim=emb_dim)
 ```
-- `input_length` : 입력 sequence의 길이
-- `trainable` : 학습할지 아니면 초기 가중치 값을 그대로 사용할지 여부를 결정합니다.
+- `input_length=max_len` : 입력 sequence의 길이
+- `trainable=False` : 학습할지 아니면 초기 가중치 값을 그대로 사용할지 여부를 결정합니다.
 - `mask_zero=True` : If mask_zero is set to True, as a consequence, index 0 cannot be used in the vocabulary. so input_dim should equal to size of vocabulary + 1.
 #### tf.keras.layers.TimeDistributed()
 ```python
@@ -1316,7 +1326,7 @@ for layer in model.layers[1:]:
 ```python
 model.compile(optimizer=tf.keras.optimizers.Adagrad(lr=0.1), loss=tf.keras.losses.MeanSquaredError(), metrics=[tf.keras.metrics.RootMeanSquaredError()])
 ```
-- `optimizer="sgd"` | `"adam"`
+- `optimizer="sgd"` | `"adam"` | `"rmsprop"`
 - `loss="mse"` | `"binary_crossentropy"` | `"categorical_crossentropy"` | `"sparse_categorical_crossentropy"`
 - `metrics=["mse"]` | `["binary_accuracy"]` | `["categorical_accuracy"]` | `["sparse_categorical_crossentropy"]`
 #### model.fit()
@@ -1366,10 +1376,11 @@ mc = tf.keras.callbacks.ModelCheckpoint(filepath=filepath, monitor="val_acc", mo
 #### tf.keras.preprocessing.sequence
 ##### tf.keras.preprocessing.sequence.pad_sequences()
 ```python
-x_data = tf.keras.preprocessing.sequence.pad_sequences(x_data, maxlen=max_sequence, padding="post", truncating="post", value=0)
+train_X = tf.keras.preprocessing.sequence.pad_sequences(train_X, maxlen=max_len)
 ```
-- padding="pre" | "post"
-- truncating="pre" | "post"
+- `padding="pre" | "post"`
+- `truncating="pre" | "post"`
+- `value=`
 #### tf.keras.preprocessing.text
 ##### tf.keras.preprocessing.text.Tokenizer()
 ```python
@@ -2535,6 +2546,7 @@ print("{}초 경과".format(round(time.time())-time_before))
 from tqdm.notebook import tqdm
 ```
 ## tqdm.pandas()
+- `df.progress_apply()`를 사용하기 위해 필요합니다.
 # warnings
 ```python
 import warnings
