@@ -227,7 +227,7 @@ with open("C:/Users/5CG7092POZ/nsmc-master/ratings_train.txt", "r", encoding="ut
 ```
 ## input()
 ```python
-A = list(map(int, input("A를 차례대로 입력 : ").split()))
+A = list(map(int, in "A를 차례대로 입력 : ").split()))
 ```
 ## ord()
 
@@ -997,7 +997,49 @@ acc = tf.math.reduce_mean(tf.cast(tf.math.equal(pred, labels), dtype=tf.float32)
 ```python
 x = tf.Variable(tf.random.normal([784, 200], 1, 0.35))
 ```
+## tf.nn
 
+
+
+### tf.nn.softmax()
+
+
+
+```python
+
+h = tf.nn.softmax(tf.matmul(train_X, W) + b)
+
+```
+
+
+
+### tf.nn.relu
+
+## tf.data
+### tf.data.Dataset
+#### tf.data.Dataset.from_tensor_slices()
+
+
+
+```python
+
+train_dataset = tf.data.Dataset.from_tensor_slices((train_x, train_y)).shuffle(len(train_x)).batch(batch_size, drop_remainder=True).prefetch(batch_size)
+
+
+
+test_dataset = tf.data.Dataset.from_tensor_slices((test_x, test_y)).shuffle(len(test_x)).batch(len(test_x)).prefetch(len(test_x))
+
+```
+##### tf.data.Dataset.from_tensor_slices().shuffle()
+- 지정한 개수의 데이터를 무작위로 섞어서 출력합니다.
+##### tf.data.Dataset.from_tensor_slices().batch()
+- 지정한 개수의 데이터를 묶어서 출력합니다.
+##### tf.data.Dataset.from_tensor_slices().prefetch()
+- This allows later elements to be prepared while the current element is being processed. This often improves latency and throughput, at the cost of using additional memory to store prefetched elements.
+
+## tf.train
+
+### tf.train.Checkpoint()
 ## tf.keras
 
 ### tf.keras.utils
@@ -1092,7 +1134,7 @@ def loss_fn(model, images, labels):
 
 * 텐서플로우에서는 softmax 함수를 거치지 않고, from_logits = True를 사용하는게 numerical stable하다고 설명하고 있다.
 
-* training=True : tf.keras.layers.Dropout()를 적용합니다.
+* `training=True` : tf.keras.layers.Dropout()를 적용합니다.
 
 - 정답 레이블이 one-hot encoding 형태일 경우 사용합니다.
 
@@ -1127,7 +1169,8 @@ pos_score = Dot(axes=(1,1))([user_embedding, pos_item_embedding])
 ```
 - axes : Integer or tuple of integers, axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
 #### tf.keras.layers.Flatten()
-
+- 입력되는 tensor의 row를 펼쳐서 일렬로 만듭니다.
+- 학습되는 weights는 없고 데이터를 변환하기만 합니다.
 ```python
 model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))
 ```
@@ -1155,22 +1198,25 @@ def dropout(rate):
 def batch_norm()
     return tf.keras.layers.BatchNormalization()
 ```
-
+#### tf.keras.layers.Conv1D()
 #### tf.keras.layers.Conv2D()
-
 ```python
-conv2d = keras.layers.Conv2D(filters=3, kernel_size=2, padding="same", data_format="channels_last", kernel_initializer=weight_init)(image)
+tf.keras.layers.Conv1D(filters=n_filters, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
+```
+```python
+conv2d = keras.layers.Conv2D(filters=n_filters, kernel_size=kernel_size, padding="same", data_format="channels_last")(image)
 ```
 
-* image : (batch, height, width, number of channels)
-* filter : (height, width, number of channels, number of filters)
-* convolution : (batch, height, width, number of filters)
-* image의 number of channels와 filter의 number of filters의 값은 동일
-* fliters : filter 개수.
-* kernal\_size : filter의 사이즈(int, tuple, list 가능).
-* strides : stride(int, tuple, list 가능).
-* padding : "valid" \| "same"
-
+- image : (batch, height of image, width of image, number of channels)
+- kernel : (height of filter, width of filter, number of channels, number of kernels)
+- convolution : (batch, height of convolution, width of convolution, number of kernels)
+- number of channels와 number of kernels는 서로 동일합니다.
+- `kernal_size` : window_size
+- `padding="valid"` : padding을 하지 않아 height of convolution, width of convolution이 height of image. width of image에 비해 각각 감소합니다.
+- `padding="same"` : padding을 하여 height of convolution, width of convolution이 height of image. width of image와 각각 동일하게 유지됩니다.
+#### tf.keras.layers.GlobalMaxPooling1D()
+- Downsamples the input representation by taking the maximum value over the time dimension.
+- shape : (a, b, c) -> (b, c)
 #### tf.keras.layers.MaxPool2D()
 ```python
 pool = keras.layers.MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="channels_last")(image)
@@ -1275,7 +1321,7 @@ model.compile(optimizer=tf.keras.optimizers.Adagrad(lr=0.1), loss=tf.keras.losse
 - `metrics=["mse"]` | `["binary_accuracy"]` | `["categorical_accuracy"]` | `["sparse_categorical_crossentropy"]`
 #### model.fit()
 ```python
-hist = model.fit(x=x_train, y=y_train, batch_size=128, epochs=5, verbose=1, validation_split=0.1)
+hist = model.fit(x=X_train, y=y_train, validation_split=0.2, batch_size=64, epochs=10, verbose=1, callbacks=[es, mc])
 ```
 #### model.fit_generator()
 ```python
@@ -1368,43 +1414,12 @@ tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 
 
 
 - `num_words`가 적용됩니다.
-## tf.nn
-
-### tf.nn.softmax()
-
+### tf.keras.models
+#### tf.keras.models.load_model()
 ```python
-h = tf.nn.softmax(tf.matmul(train_X, W) + b)
+model = tf.keras.models.load_model(model_path)
 ```
 
-### tf.nn.relu
-
-```python
-model.add(tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=1, padding="same", activation=tf.nn.relu, input_shape=(28, 28, 1)))
-```
-
-## tf.data.Dataset
-
-### tf.data.Dataset.from_tensor_slices()
-
-```python
-train_dataset = tf.data.Dataset.from_tensor_slices((train_x, train_y)).shuffle(len(train_x)).batch(batch_size, drop_remainder=True).prefetch(batch_size)
-
-test_dataset = tf.data.Dataset.from_tensor_slices((test_x, test_y)).shuffle(len(test_x)).batch(len(test_x)).prefetch(len(test_x))
-```
-
-* shuffle() : 지정한 개수의 데이터를 무작위로 섞어서 출력.
-* batch() : 지정한 개수의 데이터를 묶어서 출력.
-* prefetch() : This allows later elements to be prepared while the current element is being processed. This often improves latency and throughput, at the cost of using additional memory to store prefetched elements.
-
-## tf.train
-
-### tf.train.Checkpoint()
-
-```python
-ckpt = tf.train.Checkpoint(cnn=model)
-...
-ckpt.save(file_prefix=ckpt_prefix)
-```
 # tensorflow_hub
 ```python
 import tensorflow_hub as hub
