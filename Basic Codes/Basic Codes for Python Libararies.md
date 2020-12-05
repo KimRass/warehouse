@@ -42,7 +42,6 @@ lens = sorted([len(doc) for doc in train_X])
 ```
 - `reverse=True`로 순서를 뒤집을 수 있습니다.
 - `key=`로 정렬 기준이 될 함수를 지정할 수 있습니다.
-```
 ### map()
 ```python
 list(map(len, train_tkn))
@@ -146,14 +145,9 @@ msg_tkn = [msg.split(" ") for msg in data["msg"]]
 "저는 과일이 좋아요".count("과일이")
 ```
 ## eval()
-
 ```python
-
 A = [eval(f"A{i}") for i in range(N, 0, -1)]
-
 ```
-
-
 - "를 제거하는 효과입니다. 단일 변수에 사용합니다.
 ## exec()
 ```python
@@ -161,7 +155,6 @@ for data in ["tasks", "comments", "projects", "prj_members", "members"]:
     exec(f"{data} = pd.read_csv('D:/디지털혁신팀/협업플랫폼 분석/{data}.csv')")
 ```
 - "를 제거하는 효과입니다. 수식에 사용합니다.
-
 # class
 ## instance attribute(instance variables)
 ```python
@@ -196,12 +189,10 @@ class CLASS:
     def FUNCTION(self, parameter5, parameter6, ...)
         ...
         return ...
-...
-INSTANCE = CLASS(parameter1, parameter2, ...) #__init__문은 instance를 initiate 할 때 실행
-INSTANCE(parameter3, parameter4, ...) #__call__문은 instance를 call 할 때 실행
-INSTANCE.FUNCTION(parameter5, parameter6, ...)
 ```
-## method
+- `INSTANCE = CLASS(parameter1, parameter2, ...)` : \_\_init\_\_문은 instance를 initiate할 때 실행
+- `INSTANCE(parameter3, parameter4, ...)` : \_\_call\_\_문은 instance를 call할 때 실행
+- `INSTANCE.FUNCTION(parameter5, parameter6, ...)`
 - method : class 정의문 안에서 정의된 함수
 - method의 첫번째 parameter는 항상 self여야 함
 - method의 첫 번째 parameter는 self지만 호출할 때는 아무것도 전달하지 않는 이유는 첫 번째 parameter인 self에 대한 값은 파이썬이 자동으로 넘겨주기 때문입니다.
@@ -229,7 +220,6 @@ with open("C:/Users/5CG7092POZ/nsmc-master/ratings_train.txt", "r", encoding="ut
 A = list(map(int, in "A를 차례대로 입력 : ").split()))
 ```
 ## ord()
-
 # pandas
 ```python
 import pandas as pd
@@ -748,8 +738,8 @@ np.fill_diagonal(cos_sim_item, 0
 ```python
 arr.ravel(order="F")	
 ```
-- order="C" : row 기준
-- order="F" : column 기준
+- `order="C"` : row 기준
+- `order="F"` : column 기준
 ##  arr.flatten()
 - 복사본 반환
 ## arr.T
@@ -777,14 +767,14 @@ vect = CountVectorizer(max_df=500, min_df=5, max_features=500)
 - 토큰의 빈도가 max_df보다 크거나 min_df보다 작은 경우 무시.
 #### vect.fit()
 #### vect.transform()
-- build DTM
+- builds DTM
 ##### vect.transform().toarray()
 #### vect.fit_transform()
-- vect.fit() + vect.transform()
+- `vect.fit()` + `vect.transform()`
 ##### vect.fit_transform().toarray()
 #### vect.vocabulary_
 ##### vect.vocabulary_.get()
-- arg의 index를 출렵합니다.
+- arg의 idx를 출력합니다.
 ### TfidfVectorizer()
 ```python
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -847,10 +837,10 @@ from sklearn.svm import SVC
 ```python
 SVC(kernel="linear")
 ```
-- kernel="linear"
-- kernel="poly" : gamma, coef0, degree
-- kernel="rbf" : gamma
-- kernel="sigmoid" : gomma, coef0
+- `kernel="linear"`
+- `kernel="poly"` : gamma, coef0, degree
+- `kernel="rbf"` : gamma
+- `kernel="sigmoid"` : gomma, coef0
 ## sklearn.naive_bayes
 ```python
 from sklearn.naive_bayes import MultinomialNB
@@ -867,14 +857,14 @@ model.fit(train_x, train_y)
 train_pred = model.pred(train_x)
 train_acc = np.mean(train_pred == train_y)
 ```
-- loss : The loss function to be used.
-    - "hinge" : gives a linear SVM.
-    - "log" : gives logistic regression.
-    - "perceptron" : the linear loss used by the perceptron algorithm.
-- penalty : regularization term.
-    - "l1"
-    - "l2" : the standard regularizer for linear SVM models.
-- "alpha" : constant that multiplies the regularization term. The higher the value, the stronger the regularization. Also used to compute the learning rate when set to learning_rate is set to ‘optimal’.
+- `loss` : The loss function to be used.
+    - `loss="hinge" : gives a linear SVM.
+    - `loss="log"` : gives logistic regression.
+    - `loss="perceptron"` : the linear loss used by the perceptron algorithm.
+- `penalty` : regularization term.
+    - `penalty="l1"`
+    - `penalty="l2"` : the standard regularizer for linear SVM models.
+- `"alpha"` : constant that multiplies the regularization term. The higher the value, the stronger the regularization. Also used to compute the learning rate when set to learning_rate is set to ‘optimal’.
 - "max_iter" : The maximum number of passes over the training data (aka epochs).
 ## sklearn.datasets
 ### sklearn.datasets.fetch_20newsgroups()
@@ -1364,7 +1354,7 @@ es = tf.keras.callbacks.EarlyStopping(monitor="val_loss", mode="auto", verbose=1
 - `patience` : Number of epochs with no improvement after which training will be stopped.
 #### tf.keras.callbacks.ModelCheckpoint()
 ```python
-mc = tf.keras.callbacks.ModelCheckpoint(filepath=filepath, monitor="val_acc", mode="auto", verbose=1, save_best_only=True)
+mc = tf.keras.callbacks.ModelCheckpoint(filepath=model_path, monitor="val_binary_accuracy", mode="auto", verbose=1, save_best_only=True)
 ```
 - `save_best_only=True` : `monitor` 기준으로 가장 좋은 값으로 모델이 저장됩니다.
 - `save_best_only=False` : 매 epoch마다 모델이 filepath{epoch}으로 저장됩니다.
