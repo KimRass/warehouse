@@ -100,12 +100,8 @@ dic.get(key)
 ### dic.keys(), dic.values()
 ### dic.fromkeys(list or tuple, value)
 ### sorted()
-
 ```python
-
 word2cnts = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
-
-
 ```
 ### dictionary comprehension
 ```python
@@ -571,7 +567,6 @@ for k, v in target.items():
 ```python
 import numpy as np
 ```
-
 ## np.set_printoptions()
 ```python
 np.set_printoptions(precision=3)
@@ -580,7 +575,11 @@ np.set_printoptions(precision=3)
 np.set_printoptions(edgeitems=3, infstr="inf", linewidth=75, nanstr="nan", precision=8, suppress=False, threshold=1000, formatter=None)
 ```
 - go back to the default options		
-## np.arange		
+## np.load()
+```python
+intent_train = np.load("train_text.npy").tolist()
+```
+## np.arange()		
 ```python		
 np.arange(5, 101, 5)		
 ```
@@ -810,17 +809,30 @@ pca = PCA(n_components=2)
 ```python
 pca_mat = pca.fit_transform(user_emb_df)
 ```
-### LabelEncoder()
+## sklearn.preprocessing
+### sklearn.preprocessing.LabelEncoder()
 ```python
 le = LabelEncoder()
+```
+#### le.fit()
+```python
 le.fit(data["name_addr"])
+```
+#### le.trainsform()
+```ptyhon
 data["id"] = le.transform(data["name_addr"])
 ```
+#### le.fit_trainsform()
+#### le.inverse_trainsform()
+#### le.classes_
+```python
+label2idx = dict(zip(le.classes_, set(label_train)))
+```
 ## sklearn.pipeline
+### Pipeline()
 ```python
 from sklearn.pipeline import Pipeline
 ```
-### Pipeline
 ```python
 model = Pipeline([("vect", CountVectorizer()), ("model", SVC(kernel="poly", degree=8))])
 ```
@@ -830,10 +842,10 @@ model = Pipeline([("vect", CountVectorizer()), ("model", SVC(kernel="poly", degr
 from sklearn.linear_model import SGDClassifier
 ```
 ## sklearn.svm
+### SVC()
 ```python
 from sklearn.svm import SVC
 ```
-### SVC()
 ```python
 SVC(kernel="linear")
 ```
@@ -1370,57 +1382,57 @@ train_X = tf.keras.preprocessing.sequence.pad_sequences(train_X, maxlen=max_len)
 ```
 - `padding="pre" | "post"`
 - `truncating="pre" | "post"`
-- `value=`
+- `value=` : padding에 사용할 value를 지정합니다.
 #### tf.keras.preprocessing.text
 ##### tf.keras.preprocessing.text.Tokenizer()
 ```python
 tkn = tf.keras.preprocessing.text.Tokenizer(num_words=vocab_size+2, oov_token="OOV")
 ```
 ###### tkn.fit_on_texts()
-
 ```python
-
 tkn.fit_on_texts(["나랑 점심 먹으러 갈래 점심 메뉴는 햄버거 갈래 갈래 햄버거 최고야"])
-
 ```
-
 ###### tkn.word_index
-
-- word2idx를 만듭니다.
-
-###### tkn.index_word
-
-- idx2word를 만듭니다.
-
-###### tkn.word_counts
-
-###### tkn.texts_to_sequences()
-
 ```python
-
-tkn.texts_to_sequences(["점심 먹으러 갈래 메뉴는 햄버거 최고야"])
-
+word2idx = tkn.word_index
 ```
-
-- `num_words`가 적용됩니다.
-
-###### tkn.texts_to_matrix()
-
+###### tkn.index_word
+###### tkn.word_counts
 ```python
+word2cnts = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
 
+cnts = list(word2cnts.values())
+ratio = 0.99
+for vocab_size, value in enumerate(np.cumsum(cnts)/np.sum(cnts)):
+    if value >= ratio:
+        break
+
+print(f"{vocab_size:,}개의 단어로 전체 data의 {ratio:.0%}를 표현할 수 있습니다.")
+print(f"{len(word2idx):,}개의 단어 중 {vocab_size/len(word2idx):.1%}에 해당합니다.")
+```
+###### tkn.texts_to_sequences()
+```python
+train_X = tkn.texts_to_sequences(train_X)
+test_X = tkn.texts_to_sequences(test_X)
+
+lens = sorted([len(doc) for doc in train_X])
+for idx, max_len in enumerate(lens):
+    if idx/len(lens) >= ratio:
+        break
+print(f"길이가 {max_len} 이하인 리뷰가 전체의 {ratio:.0%}를 차지합니다.")
+```
+- `num_words`가 적용됩니다.
+###### tkn.texts_to_matrix()
+```python
 tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"], mode="count"))
-
 ```
 - `mode="count"` | `"binary"` | `"tfidf"` | `"freq"`
-
-
 - `num_words`가 적용됩니다.
 ### tf.keras.models
 #### tf.keras.models.load_model()
 ```python
 model = tf.keras.models.load_model(model_path)
 ```
-
 # tensorflow_hub
 ```python
 import tensorflow_hub as hub
@@ -2093,9 +2105,13 @@ sb.barplot(ax=ax, x=area_df["ft_cut"], y=area_df[0], color="brown", edgecolor="b
 ```
 ### sb.countplot()
 ```python
-sb.countplot(data=cmts202011, x="dep")
+sb.countplot(ax=ax, data=cmts202011, x="dep")
 ```
-- DataFrame, array, or list of arrays에 사용 가능합니다.
+- DataFrame
+```python
+sb.countplot(ax=ax, x=label_train)
+```
+- array, or list of arrays
 ### sb.replot()
 ```python
 ax = sbrelplot(x="total_bill", y="tip", col="time", hue="day", style="day", kind="scatter", data=tips)
