@@ -67,13 +67,10 @@ sum(sents, [])
 - 항목이 객체에 포함되어 있는지(membership)를 확인할 수 있으며,  항목이 몇개인지는 알아낼 수 있습니다.
 - frozenset은 dictionary의 key가 될 수 있지만 set은 될 수 없음.
 ## dictionary
-### dic\[key]
-### dic\[key] = value
-```python
-aut2doc = {}
-for user, idx in auts.groups.items():
-    aut2doc[user] = list(idx)
-```
+### dic\[]
+- key를 입력받아 value를 반환합니다.
+### dic.get()
+- `dic[]`과 동일합니다.
 ### dic.items()
 ```python
 for key, value in dic.items():
@@ -92,11 +89,6 @@ dic.update({key1:value1, key2:value2})
 ```python
 dic.pop(key)
 ```
-### dic.get()
-```python
-dic.get(key)
-```
-- arg로 입력된 key에 대한 value를 반환합니다.
 ### dic.keys(), dic.values()
 ### dic.fromkeys(list or tuple, value)
 ### sorted()
@@ -1210,7 +1202,7 @@ def batch_norm()
 #### tf.keras.layers.Conv1D()
 #### tf.keras.layers.Conv2D()
 ```python
-tf.keras.layers.Conv1D(filters=n_filters, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
+tf.keras.layers.Conv1D(filters=n_kernels, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
 ```
 ```python
 conv2d = keras.layers.Conv2D(filters=n_filters, kernel_size=kernel_size, padding="same", data_format="channels_last")(image)
@@ -1269,8 +1261,9 @@ tf.keras.layers.GRU(units=hidden_size, input_shape=(timesteps, input_dim))
 tf.keras.layers.Embedding(input_dim=vocab_size+2, output_dim=emb_dim)
 ```
 - `input_length=max_len` : 입력 sequence의 길이
+- `mask_zero=True` : If mask_zero is set to True, as a consequence, index 0 cannot be used in the vocabulary. so input_dim should equal to size of vocabulary + 1
+- `weights=[emb_mat]`
 - `trainable=False` : 학습할지 아니면 초기 가중치 값을 그대로 사용할지 여부를 결정합니다.
-- `mask_zero=True` : If mask_zero is set to True, as a consequence, index 0 cannot be used in the vocabulary. so input_dim should equal to size of vocabulary + 1.
 #### tf.keras.layers.TimeDistributed()
 ```python
 model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
@@ -2697,8 +2690,9 @@ drive.mount("/content/drive")
 import zipfile
 ```
 ## zipfile.ZipFile()
+### zipfile.ZipFile().extractall()
 ```python
-with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
+zipfile.ZipFile("glove.6B.zip").extractall()
 ```
 # lxml
 ## etree
