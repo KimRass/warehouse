@@ -394,6 +394,7 @@ df.set_index("Country", inplace=True)
 ```python
 cumsum.reset_index(drop=True)
 ```
+- `name=`
 ## df.loc()
 ```python
 data.loc[data["buildings"]==5, ["age", "ratio2"]]
@@ -883,9 +884,10 @@ newsdata = sklearn.datasets.fetch_20newsgroups(subset="train")
 ```
 ## sklearn.metrcis
 ### sklearn.metrics.pairwise
-#### cosine_similarity
+#### sklearn.metrics.pairwise.cosine_similarity
+### sklearn.metrics.classification_report()
 ```python
-from sklearn.metrics.pairwise import cosine_similarity
+print(sklearn.metrics.classification_report(y_pred, y_test))
 ```
 # tensorflow
 ```
@@ -924,8 +926,8 @@ W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
 pred = tf.cast(h > 0.5, dtype=tf.float32)
 ```
 
-* 조건이 True면 1, False면 0 반환.
-* 혹은 단순히 Tensor의 자료형 변환.
+- 조건이 True면 1, False면 0 반환.
+- 혹은 단순히 Tensor의 자료형 변환.
 
 
 
@@ -966,8 +968,7 @@ logits = tf.math.add_n(x) + self.w0
 
 * 각 arguments를 제곱하여 ndarray 생성
 ### tf.math.argmax()
-
-* axis=0 \| 1
+- `axis=0` | `1`
 ### tf.math.sign
 
 ```python
@@ -985,10 +986,10 @@ acc = tf.math.reduce_mean(tf.cast(tf.math.equal(pred, labels), dtype=tf.float32)
 ### tf.math.sigmoid()
 ### tf.math.reduce_sum(), tf.math.reduce_mean()
 - source : https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
-- axis=None : 모든 elements에 대해 연산합니다.
-- axis=0 : reduces along the 1st dimension. dimension이 1만큼 감소합니다.
-- axis=1 : reduces along the 2nd dimension. dimension이 1만큼 감소합니다.
-- keepdims=True : dimension이 감소하지 않습니다.
+- `axis=None` : 모든 elements에 대해 연산합니다.
+- `axis=0` : reduces along the 1st dimension. dimension이 1만큼 감소합니다.
+- `axis=1` : reduces along the 2nd dimension. dimension이 1만큼 감소합니다.
+- `keepdims=True` : dimension이 감소하지 않습니다.
 ## tf.random
 
 ### tf.random.set\_seed()
@@ -1328,6 +1329,8 @@ model.compile(optimizer=tf.keras.optimizers.Adagrad(lr=0.1), loss=tf.keras.losse
 ```python
 hist = model.fit(x=X_train, y=y_train, validation_split=0.2, batch_size=64, epochs=10, verbose=1, callbacks=[es, mc])
 ```
+- `validation_data=(X_val, y_val)`
+- `shuffle=True`
 #### model.fit_generator()
 ```python
 hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
@@ -1938,8 +1941,8 @@ import matplotlib as mpl
 ```
 ## mpl.font_manager.FontProperties().get_name()
 ```python
-path = "C:/Windows/Fonts/malgun.ttf"
-font_name = mpl.font_manager.FontProperties(fname=path).get_name()
+fpath = "C:/Windows/Fonts/malgun.ttf"
+font_name = mpl.font_manager.FontProperties(fname=fpath).get_name()
 ```
 ## mpl.rc()
 ```python
@@ -2041,6 +2044,7 @@ ax.tick_params(axis="x", labelsize=20, labelcolor="red", labelrotation=45, grid_
 ```python
 ax.legend(fontsize=14, loc="best")
 ```
+- `loc="best"` | `"upper right"` ...
 ### ax.grid()
 ```python
 ax.grid(axis="x", color="White", alpha=0.3, linestyle="--", linewidth=2)
