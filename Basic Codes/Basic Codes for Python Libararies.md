@@ -1168,7 +1168,7 @@ logits = tf.keras.layers.Add()([logits_mlr, logits_fm, logits_dfm])
 ```python
 pos_score = Dot(axes=(1,1))([user_embedding, pos_item_embedding])
 ```
-- axes : Integer or tuple of integers, axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
+- `axes` : Integer or tuple of integers, axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
 #### tf.keras.layers.Flatten()
 - 입력되는 tensor의 row를 펼쳐서 일렬로 만듭니다.
 - 학습되는 weights는 없고 데이터를 변환하기만 합니다.
@@ -1998,12 +1998,17 @@ ax.set_xlabel("xAxis", size=15)
 ```python
 ax.set_xlim([1, 4])
 ```
+### ax.axes
+#### ax.
 ### ax.axis()
 ```python
 ax.axis([2, 3, 4, 10])
 ```
-### ax.xaxis, ax.yaxis
-#### ax.ax.xaxis.set_label_position(), ax.yaxis.set_label_position()
+#### ax.xaxis.set_visible(), ax.yaxis.set_visible()
+```python
+ax1.xaxis.set_visible(False)
+```
+#### ax.xaxis.set_label_position(), ax.yaxis.set_label_position()
 ```python
 ax.xaxis.set_label_position("top")
 ```
@@ -2014,7 +2019,6 @@ ax1.yaxis.set_ticks_position("right")
 ```python
 ax.xaxis.set_ticks_position("top")
 ```
-### ax.invert_xaxis(), ax.invert_yaxis()
 #### ax.xaxis.set_tick_position(), ax.yaxis.set_tick_position()
 ```python
 ax2.yaxis.set_ticks_position("right")
@@ -2023,6 +2027,7 @@ ax2.yaxis.set_ticks_position("right")
 ```python
 ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter("{x:,.0f}"))
 ```
+### ax.invert_xaxis(), ax.invert_yaxis()
 ### ax.set_xticks(), ax.set_yticks()
 ```python
 ax.set_yticks(np.arange(1, 1.31, 0.05))
