@@ -21,3 +21,19 @@ sys.path.insert(0, my_path)
 !cd /content/build && make package_python
 !pip install /content/build/package_python
 ```
+```python
+# colab에서 그래프를 그릴 때 한글이 깨지지 않도록 해주는 코드
+# 코드 실행 > Colab 상단의 런타임 > 런타임 다시 시작 > 코드 재실행
+# 이후에는 matplotlib으로 그리는 그래프에서 한글이 깨지지 않습니다.
+import matplotlib.pyplot as plt
+import matplotlib as mpl
+
+%config InlineBackend.figure_format = "retina"
+
+!apt -qq -y install fonts-nanum
+
+fpath = "/usr/share/fonts/truetype/nanum/NanumBarunGothic.ttf"
+font = mpl.font_manager.FontProperties(fname=fpath, size=9)
+plt.rc("font", family="NanumBarunGothic") 
+mpl.font_manager._rebuild()
+```
