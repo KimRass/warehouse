@@ -54,12 +54,16 @@ x_data = list(map(lambda word : [char2idx.get(char) for char in word], words))
 ```python
 sum(sents, [])
 ```
+### list comprehension
+```python
+
+```
 ## set
 ### set1 & set2
 ### set1 | set2
 ### set.add()
 ### set.update()
-- list.append()와 동일.
+- lst.append()와 동일.
 ## frozenset()
 - 구성 요소들이 순서대로 들어 있지 않아 인덱스를 사용한 연산을 할 수 없고
 - 유일한 항목 1개만 들어가 있습니다.
@@ -738,13 +742,10 @@ arr.ravel(order="F")
 ## arr.shape
 # sklearn
 ```python
-!pip install scikit-learn
+from sklearn import *
 ```
 ## sklearn.model_selection
-### train_test_split
-```python
-from sklearn.model_selection import train_test_split
-```
+### sklearn.model_selection.train_test_split
 ```python
 train_X, val_X, train_y, val_y = sklearn.model_selection.train_test_split(train_val_X, train_val_y, train_size=0.8, shuffle=True, random_state=3)
 ```
@@ -1240,9 +1241,6 @@ outputs, hidden_states = tf.keras.layers.SimpleRNN(units=hidden_size)(x_data), i
 ```
 - `tf.keras.layers.SimpleRNN()` = `tf.keras.layers.SimpleRNNCell()` + `tf.keras.layers.RNN()`
 - `batch_input_shape=(batch_size, timesteps, input_dim)`
-- `input_shape=(timesteps, input_dim)`
-- `return_sequences=True` | `"False"`
-- `return_state=True` | `"False"`
 - shape of inputs : (batch_size, timesteps, input_dim)
 - shape of outputs : (batch_size, hidden_size)(`return_sequences=False`일 때) / (batch_size, timesteps, hidden_size)(`return_sequences=True`일 때)
 - shape of hidden_states : (batch_size, hidden_size)
@@ -2349,6 +2347,11 @@ from nltk.corpus import movie_reviews
 #### movie_reviews.sents()
 ```python
 sentences = [sent for sent in movie_reviews.sents()]
+```
+### nltk.corpus.treebank
+#### nltk.corpus.treebank.tagged_sents()
+```python
+tagged_sents = nltk.corpus.treebank.tagged_sents()
 ```
 # khaiii
 ## KhaiiiApi
