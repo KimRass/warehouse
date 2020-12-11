@@ -969,15 +969,15 @@ logits = tf.math.add_n(x) + self.w0
 
 * 각 arguments를 제곱하여 ndarray 생성
 ### tf.math.argmax()
-- `axis=0` | `1`
+```python
+y_pred = tf.math.argmax(model.predict(X_test), axis=1)
+```
 ### tf.math.sign
 
 ```python
 tf.math.sign(tf.math.reduce_sum(self.w * x) + self.b)
 ```
-
 ### tf.math.exp()
-
 ### tf.math.log()
 ### tf.math.equal()
 
