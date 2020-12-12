@@ -1379,6 +1379,9 @@ mc = tf.keras.callbacks.ModelCheckpoint(filepath=model_path, monitor="val_binary
 ```python
 train_X = tf.keras.preprocessing.sequence.pad_sequences(train_X, maxlen=max_len)
 ```
+```python
+X_char = [tf.keras.preprocessing.sequence.pad_sequences([[char2idx[char] if char in chars else 1 for char in word] for word in sent]) for sent in corpus]
+```
 - `padding="pre" | "post"`
 - `truncating="pre" | "post"`
 - `value=` : padding에 사용할 value를 지정합니다.
