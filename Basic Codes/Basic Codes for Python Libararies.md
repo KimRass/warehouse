@@ -21,7 +21,6 @@ assert model_name in self.model_list, "There is no such a model."
 ### var.data
 #### var.data.nbytes : 변수에 할당된 메모리 크기 리턴
 ## lst
-### lst[]
 ### lst.index()
 ```python
 names.index((17228, "아트빌"))
@@ -56,7 +55,7 @@ sum(sents, [])
 ```
 ### list comprehension
 ```python
-
+chars = set([char for word in words for char in word])
 ```
 ## set
 ### set1 & set2
@@ -324,6 +323,7 @@ top90per = plays_df[plays_df["plays"]>plays_df["plays"].quantile(0.1)]
 ```python
 df.groupby(["Pclass", "Sex"], as_index=False)
 ```
+- iterable한 tuple((group, 해당 group의 DataFrame))을 반환합니다.
 ### df.groupby().groups
 ### df.groupby().mean()
 ### df.groupby().size()
@@ -466,6 +466,11 @@ data = data.dropna(subset=["id"])
 ```python
 df.loc[~df.index.isin(df.dropna().index)]
 ```
+## df.fillna()
+```python
+data = data.fillna(method="ffill")
+```
+- `method="ffill"` : propagate last valid observation forward to next valid backfill
 ## df.sample(), ser.sample()
 ```python
 ratings_df.sample(5)
@@ -1380,8 +1385,9 @@ train_X = tf.keras.preprocessing.sequence.pad_sequences(train_X, maxlen=max_len)
 #### tf.keras.preprocessing.text
 ##### tf.keras.preprocessing.text.Tokenizer()
 ```python
-tkn = tf.keras.preprocessing.text.Tokenizer(num_words=vocab_size+2, oov_token="OOV")
+tkn = tf.keras.preprocessing.text.Tokenizer(num_words=vocab_size+2, oov_token="UNK", lower=True)
 ```
+- `lower=False` : 대문자를 유지합니다.
 ###### tkn.fit_on_texts()
 ```python
 tkn.fit_on_texts(["나랑 점심 먹으러 갈래 점심 메뉴는 햄버거 갈래 갈래 햄버거 최고야"])
