@@ -1914,24 +1914,36 @@ spp.load("imdb.model")
 ```
 ### spp.GetPieceSize()
 - 단어 집합의 크기를 확인합니다.
-### spp.encode_as_pieces()
-```python
-spp.encode_as_pieces("A very, very, very slow-moving, aimless movie about a distressed, drifting young man.")
-```
-- 문장을 입력하면 서브 워드 시퀀스로 변환합니다.
 ### spp.encode_as_ids()
-- encode_as_ids : 문장을 입력하면 정수 시퀀스로 변환합니다.
-### spp.idToPiece()
-- 정수로부터 맵핑되는 서브 워드로 변환합니다.
-### spp.PieceToId()
-- 서브워드로부터 맵핑되는 정수로 변환합니다.
+- 원래 문장 -> index
+### spp.encode_as_pieces()
+- 원래 문장 -> subword
+### spp.IdToPiece()
+```python
+spp.IdToPiece(4)
+```
+- index -> subword
 ### spp.DecodeIds()
-- 정수 시퀀스로부터 문장으로 변환합니다.
+```python
+sp.DecodeIds([54, 200, 821, 85])
+```
+- index -> 원래 문장
+### spp.PieceToId()
+```python
+spp.PieceToId("영화")
+```
+- subword -> index
 ### spp.DecodePieces()
-- 서브워드 시퀀스로부터 문장으로 변환합니다.
+```python
+sp.DecodePieces(["▁진짜", "▁최고의", "▁영화입니다", "▁ᄏᄏ"])
+```
+- subword -> 원래 문장
 ### spp.encode()
-- 문장으로부터 인자값에 따라서 정수 시퀀스 또는 서브워드 시퀀스로 변환 가능합니다.
-
+- `out_type=str` : `spp.encode_as_pieces()`와 동일합니다.
+- `out_type=int` : `spp.encode_as_ids()`와 동일합니다.
+- `enable_sampling=True` : drop-out을 적용합니다.
+- `alpha=0.1` : 해당 확률로 drop-out을 적용합니다.
+- `nbest_size=-1`
 
 
 # mapboxgl
