@@ -1891,7 +1891,7 @@ import sentencepiece as sp
 ## sp.SentencePieceTrainer
 ### sp.SentencePieceTrainer.Train()
 ```python
-sp.SentencePieceTrainer.Train("--input=review.txt --model_prefix=imdb --vocab_size=1000")
+sp.SentencePieceTrainer.Train("--input=naver_review.txt --model_prefix=naver --vocab_size=5000 --model_type=bpe")
 ```
 - `input` : 학습시킬 파일
 - `model_prefix` : 만들어질 모델 이름
@@ -1903,6 +1903,7 @@ sp.SentencePieceTrainer.Train("--input=review.txt --model_prefix=imdb --vocab_si
 - `bos_id`, `bos_piece`: begin of sentence token id, 값
 - `eos_id`, `eos_piece`: end of sequence token id, 값
 - `user_defined_symbols`: 사용자 정의 토큰
+- `.model`, `.vocab` 파일 두개가 생성 됩니다.
 ## sp.SentencePieceProcessor()
 ```python
 spp = sp.SentencePieceProcessor()
@@ -1911,6 +1912,25 @@ spp = sp.SentencePieceProcessor()
 ```python
 spp.load("imdb.model")
 ```
+### spp.GetPieceSize()
+- 단어 집합의 크기를 확인합니다.
+### spp.encode_as_pieces()
+```python
+spp.encode_as_pieces("A very, very, very slow-moving, aimless movie about a distressed, drifting young man.")
+```
+- 문장을 입력하면 서브 워드 시퀀스로 변환합니다.
+### spp.encode_as_ids()
+- encode_as_ids : 문장을 입력하면 정수 시퀀스로 변환합니다.
+### spp.idToPiece()
+- 정수로부터 맵핑되는 서브 워드로 변환합니다.
+### spp.PieceToId()
+- 서브워드로부터 맵핑되는 정수로 변환합니다.
+### spp.DecodeIds()
+- 정수 시퀀스로부터 문장으로 변환합니다.
+### spp.DecodePieces()
+- 서브워드 시퀀스로부터 문장으로 변환합니다.
+### spp.encode()
+- 문장으로부터 인자값에 따라서 정수 시퀀스 또는 서브워드 시퀀스로 변환 가능합니다.
 
 
 
@@ -2545,7 +2565,6 @@ re.sub(r"\w+@\w+.\w+", "email address", "test@gmail.com and test2@gmail.com", co
 p = re.compile(".+\t[A-Z]+")
 ```
 - 이후 p.search(), p.match() 등의 형태로 사용.
-
 ## regular expressions
 - . : newline을 제외한 어떤 character
 - \w, [a-zA-Z0-9_]: 어떤 알파벳 소문자 또는 알파벳 대문자 또는 숫자 또는 공백
@@ -2619,7 +2638,8 @@ import time
 ## time.time()
 ```python
 time_before=round(time.time())
-...
+```
+```python
 print("{}초 경과".format(round(time.time())-time_before))
 ```
 
@@ -3062,5 +3082,5 @@ import csv
 ```
 ## csv.QUOTE_NONE
 ```python
-tokens = pd.read_csv("imdb.vocab", sep="\t", header=None, quoting=csv.QUOTE_NONE)
+subws = pd.read_csv("imdb.vocab", sep="\t", header=None, quoting=csv.QUOTE_NONE)
 ```
