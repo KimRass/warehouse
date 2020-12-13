@@ -201,7 +201,7 @@ class MyModel(tf.keras.Model):
     def __init__(self):
         super().__init__()
 ```
-# open()
+## open()
 ```python
 with open("C:/Users/5CG7092POZ/nsmc-master/ratings_train.txt", "r", encoding="utf-8") as f:
     train_docs = [line.split("\t") for line in f.read().splitlines()][1:]
@@ -211,6 +211,9 @@ with open("C:/Users/5CG7092POZ/nsmc-master/ratings_train.txt", "r", encoding="ut
 A = list(map(int, in "A를 차례대로 입력 : ").split()))
 ```
 ## ord()
+
+
+
 # pandas
 ```python
 import pandas as pd
@@ -565,6 +568,9 @@ for cat in cats:
 for k, v in target.items():
     queries.append(f"{k}-{v}")
 ```
+
+
+
 # numpy
 ```python
 import numpy as np
@@ -585,7 +591,6 @@ intent_train = np.load("train_text.npy").tolist()
 ```python		
 np.arange(5, 101, 5)		
 ```
-
 ## np.ones()
 ```python
 np.ones((2, 3, 4))
@@ -745,6 +750,9 @@ arr.ravel(order="F")
 - 복사본 반환
 ## arr.T
 ## arr.shape
+
+
+
 # sklearn
 ```python
 from sklearn import *
@@ -895,6 +903,9 @@ newsdata = sklearn.datasets.fetch_20newsgroups(subset="train")
 ```python
 print(sklearn.metrics.classification_report(y_pred, y_test))
 ```
+
+
+
 # tensorflow
 ```
 conda create --name tf2.0 python=3.7
@@ -905,40 +916,26 @@ conda install jupyter
 import tensorflow as tf
 ```
 ## tf.constant()
-
 ```python
 image = tf.constant([[[[1], [2], [3]], [[4], [5], [6]], [[7], [8], [9]]]], dtype=tf.float32)
 ```
-
 ## tf.convert\_to\_tensor()
-
 ```python
 img = tf.convert_to_tensor(img)
 ```
-
 ## tf.Variable()
-
 ## tf.zeros()
-
 ```python
 W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
 ```
-
 ## tf.transpose()
-
 ## tf.cast()
-
 ```python
 pred = tf.cast(h > 0.5, dtype=tf.float32)
 ```
-
 - 조건이 True면 1, False면 0 반환.
 - 혹은 단순히 Tensor의 자료형 변환.
-
-
-
 ## tf.concat()
-
 ```python
 layer3 = tf.concat([layer1, layer2], axis=1)
 ```
@@ -956,9 +953,7 @@ x = tf.stack(x, axis=0)
 ```python
 layer3 = tf.reshape(layer3, shape=[-1, 2])
 ```
-
 ## tf.constant\_initializer()
-
 ```
 weight_init = tf.constant_initializer(weight)
 ```
@@ -971,21 +966,18 @@ logits = tf.math.add_n(x) + self.w0
 - Adds all input tensors element-wise.
 - inputs : A list of tf.Tensor, each with the same shape and type.
 ### tf.math.square()
-
 * 각 arguments를 제곱하여 ndarray 생성
 ### tf.math.argmax()
 ```python
 y_pred = tf.math.argmax(model.predict(X_test), axis=1)
 ```
 ### tf.math.sign
-
 ```python
 tf.math.sign(tf.math.reduce_sum(self.w * x) + self.b)
 ```
 ### tf.math.exp()
 ### tf.math.log()
 ### tf.math.equal()
-
 ```python
 acc = tf.math.reduce_mean(tf.cast(tf.math.equal(pred, labels), dtype=tf.float32))
 ```
@@ -997,46 +989,23 @@ acc = tf.math.reduce_mean(tf.cast(tf.math.equal(pred, labels), dtype=tf.float32)
 - `axis=1` : reduces along the 2nd dimension. dimension이 1만큼 감소합니다.
 - `keepdims=True` : dimension이 감소하지 않습니다.
 ## tf.random
-
 ### tf.random.set\_seed()
-
 ### tf.random.normal()
-
 ```python
 x = tf.Variable(tf.random.normal([784, 200], 1, 0.35))
 ```
 ## tf.nn
-
-
-
 ### tf.nn.softmax()
-
-
-
 ```python
-
 h = tf.nn.softmax(tf.matmul(train_X, W) + b)
-
 ```
-
-
-
 ### tf.nn.relu
-
 ## tf.data
 ### tf.data.Dataset
 #### tf.data.Dataset.from_tensor_slices()
-
-
-
 ```python
-
 train_dataset = tf.data.Dataset.from_tensor_slices((train_x, train_y)).shuffle(len(train_x)).batch(batch_size, drop_remainder=True).prefetch(batch_size)
-
-
-
 test_dataset = tf.data.Dataset.from_tensor_slices((test_x, test_y)).shuffle(len(test_x)).batch(len(test_x)).prefetch(len(test_x))
-
 ```
 ##### tf.data.Dataset.from_tensor_slices().shuffle()
 - 지정한 개수의 데이터를 무작위로 섞어서 출력합니다.
@@ -1044,18 +1013,15 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_x, test_y)).shuffle(len(
 - 지정한 개수의 데이터를 묶어서 출력합니다.
 ##### tf.data.Dataset.from_tensor_slices().prefetch()
 - This allows later elements to be prepared while the current element is being processed. This often improves latency and throughput, at the cost of using additional memory to store prefetched elements.
-
 ## tf.train
-
 ### tf.train.Checkpoint()
 ## tf.keras
-
 ### tf.keras.utils
 #### tf.keras.utils.get_file()
 ```python
 base_url = "https://pai-datasets.s3.ap-northeast-2.amazonaws.com/recommender_systems/movielens/datasets/"
+movies_path = tf.keras.utils.get_file(fname="movies.csv", origin=os.path.join(base_url, "movies.csv"))
 
-movies_path = tf.keras.utils.get_file("movies.csv", os.path.join(base_url, "movies.csv"))
 movie_df = pd.read_csv(movies_path)
 ```
 - 인터넷의 파일을 로컬 컴퓨터의 홈 디렉토리 아래 .keras/datasets 디렉토리로 다운로드.
@@ -1063,15 +1029,11 @@ movie_df = pd.read_csv(movies_path)
 ```python
 tf.keras.utils.to_categorical([2, 5, 1, 6, 3, 7])
 ```
-* one-hot encoding
-
+- one-hot encoding
 ### @tf.function
-
 - 자동 그래프 생성
 - 함수 정의문 직전에 사용
-
 ### tf.GradientTape()
-
 ```python
 with tf.GradientTape() as tape:
     hyp = W * X + b
@@ -1079,7 +1041,6 @@ with tf.GradientTape() as tape:
 
 dW, db = tape.gradient(loss, [W, b])
 ```
-
 ### tf.keras.datasets
 
 #### tf.keras.datasets.mnist
@@ -1092,7 +1053,6 @@ dW, db = tape.gradient(loss, [W, b])
 ```python
 (X_train, y_train), (X_test, y_test) = reuters.load_data(num_words=None, test_split=0.2)
 ```
-```python
 ### tf.keras.optimizers
 #### tf.keras.optimizers.SGD()
 ```python
@@ -1102,26 +1062,18 @@ opt = tf.keras.optimizers.SGD(lr=0.01)
 - "adam"과 동일합니다.
 #### tf.keras.optimizers.Adagrad()
 #### optimizer.apply_gradients()
-
 ```python
 opt.apply_gradients(zip([dW, db], [W, b]))
 ```
-
 ```python
 opt.apply_gradients(zip(grads, model.trainable_variables))
 ```
 ### tf.keras.losses
-
 #### tf.keras.losses.MeanSquaredError()
-
 - "mse"와 동일합니다.
-
 #### tf.keras.losses.BinaryCrossentropy()
-
 - "binary_crossentropy"와 동일합니다.
-
 #### tf.keras.losses.categorical_crossentropy()
-
 ```python
 
 def loss_fn(model, images, labels):
@@ -1133,30 +1085,17 @@ def loss_fn(model, images, labels):
     return loss
 
 ```
-
 * 출처 : [https://hwiyong.tistory.com/335](https://hwiyong.tistory.com/335)
-
 * 딥러닝에서 쓰이는 logit은 매우 간단합니다. 모델의 출력값이 문제에 맞게 normalize 되었느냐의 여부입니다. 예를 들어, 10개의 이미지를 분류하는 문제에서는 주로 softmax 함수를 사용하는데요. 이때, 모델이 출력값으로 해당 클래스의 범위에서의 확률을 출력한다면, 이를 logit=False라고 표현할 수 있습니다(이건 저만의 표현인 점을 참고해서 읽어주세요). 반대로 모델의 출력값이 sigmoid 또는 linear를 거쳐서 만들어지게 된다면, logit=True라고 표현할 수 있습니다.
-
 * 결론: 클래스 분류 문제에서 softmax 함수를 거치면 from_logits = False(default값), 그렇지 않으면 from_logits = True.
-
 * 텐서플로우에서는 softmax 함수를 거치지 않고, from_logits = True를 사용하는게 numerical stable하다고 설명하고 있다.
-
 * `training=True` : tf.keras.layers.Dropout()를 적용합니다.
-
 - 정답 레이블이 one-hot encoding 형태일 경우 사용합니다.
-
 #### tf.keras.losses.sparse_categorical_crossentropy()
-
 ```python
-
 def loss_fn(model, x, y):
-
     return tf.reduce_mean(tf.keras.losses.sparse_categorical_crossentropy(y_true=y, y_pred=model(x), from_logits=True))
-
 ```
-
-
 - 정답 레이블이 one-hot vector가 아닐 경우 사용합니다.
 ### tf.keras.metrics
 #### tf.keras.metrics.RootMeanSquaredError()
@@ -1182,9 +1121,7 @@ pos_score = Dot(axes=(1,1))([user_embedding, pos_item_embedding])
 ```python
 model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))
 ```
-
 #### tf.keras.layers.Dense()
-
 ```python
 tf.keras.layers.Dense(units=52, input_shape=(13,), activation="relu")
 ```
@@ -1192,16 +1129,12 @@ tf.keras.layers.Dense(units=52, input_shape=(13,), activation="relu")
 - activation: 활성화함수, 해당 은닉층의 가중치와 편향의 연산 결과를 어느 함수에 적합하여 출력할 것인가?
 - input_shape : 입력 벡터의 크기. 여기서 13은 해당 데이터 프레임의 열의 수를 나타낸다. 데이터의 구조(이미지, 영상)에 따라 달라질 수 있다. 첫 번째 은닉층에서만 정의해준다.
 #### tf.keras.layers.Dropout()
-
 ```python
 def dropout(rate):
     return tf.keras.layers.Dropout(rate)
 ```
-
 * rate : dropout을 적용할 perceptron의 비율
-
 #### tf.keras.layers.BatchNormalization()
-
 ```python
 def batch_norm()
     return tf.keras.layers.BatchNormalization()
@@ -1436,6 +1369,9 @@ tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 
 ```python
 model = tf.keras.models.load_model(model_path)
 ```
+
+
+
 # tensorflow_hub
 ```python
 import tensorflow_hub as hub
@@ -1448,6 +1384,31 @@ elmo = hub.Module("https://tfhub.dev/google/elmo/3", trainable=True)
 ```python
 embeddings = elmo(["the cat is on the mat", "dogs are in the fog"], signature="default", as_dict=True)["elmo"]
 ```
+
+
+
+# tensorflow_datasets
+```python
+import tensorflow_datasets as tfds
+```
+## tfds.deprecated
+### tfds.deprecated.text
+#### tfds.deprecated.text.SubwordTextEncoder
+##### tfds.deprecated.text.SubwordTextEncoder.build_from_corpus()
+```python
+tkn = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(train_data["document"], target_vocab_size=2**13)
+```
+###### tkn.subwords
+###### tkn.encode()
+```python
+tkn.encode(train_data["document"][20])
+```
+###### tkn.decode()
+```python
+tkn.decode(tkn.encode(sample))
+```
+
+
 
 # bs4
 ## BeautifulSoup
@@ -1470,6 +1431,9 @@ for item in soup.find_all("item"):
         except:
             continue
 ```
+
+
+
 # selenium
 ## webdriver
 ```python
@@ -1547,20 +1511,38 @@ for j in module:
     actions.perform()
 ```
 ### actions.click(), actions.double_click()
+
+
+
 # urllib
 ```python
 import urllib
 ```
-## urllib.requests
-### urllib.requests.urlopen()
+## urllib.request
+### urllib.request.urlopen()
 ```python
 xml = urllib.request.urlopen(full_url).read().decode("utf-8")
 ```
-### urllib.requests.urlretrieve()
+### urllib.request.urlretrieve()
 ```python
 urllib.request.urlretrieve("https://raw.githubusercontent.com/e9t/nsmc/master/ratings_train.txt", filename="ratings_train.txt")
 ```
 - 해당 URL에 연결된 파일을 다운로드합니다.
+
+
+
+# requests
+```python
+import requests
+```
+## requests.get()
+```python
+req = requests.get("https://github.com/euphoris/datasets/raw/master/imdb.zip")
+```
+### req.content
+
+
+
 # wget
 ```python
 import wget
@@ -1569,6 +1551,9 @@ import wget
 ```python
 wget.download("https://s3.amazonaws.com/dl4j-distribution/GoogleNews-vectors-negative300.bin.gz")
 ```
+
+
+
 # category_encoders
 ```python
 !pip install --upgrade category_encoders
@@ -1584,11 +1569,15 @@ encoder.fit(data["company1"], data["money"]);
 data["company1_label"] = encoder.transform(data["company1"]).round(0)
 ```
 
+
+
 # collections
 ## deque
 ```python
 from collections import deque
 ```
+
+
 
 # cv2
 ```python
@@ -1662,6 +1651,8 @@ compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 ```
 - KMeans를 적용. k=2,  10번 반복한다.
 
+
+
 # datetime
 ```python
 import datetime
@@ -1681,6 +1672,7 @@ datetime.datetime.now()
 datetime.datetime.now().timestamp()
 ```
 - 1970년 1월 1일 0시 0분 0초로부터 몇 초가 지났는지 출력.
+
 
 
 # gensim
@@ -1781,12 +1773,18 @@ model.wv.most_similar("안성기")
 ```python
 model.wv.save_word2vec_format("eng_w2v")
 ```
+
+
+
 # glove
 ```python
 !pip install glove_python
 ```
 ### glove.Corpus
 ### glove.Glove
+
+
+
 # graphviz
 ```python
 import graphviz
@@ -1802,6 +1800,9 @@ def plot_tree(model, filename, rankdir="UT"):
     with open(full_filename, "wb") as f:
         f.write(data)
 ```
+
+
+
 # gym
 ```python
 import gym
@@ -1831,6 +1832,9 @@ for _ in range(1000):
     action = env.action_space.sample()
     observ, reward, done, info = env.step(action)
 ```
+
+
+
 # io
 ## BytesIO
 ```python
@@ -1842,24 +1846,9 @@ req = requests.get(url)
 b = BytesIO(req.content)
 img = np.asarray(Image.open(b))
 ```
-# IPython
-## IPython.display
-### set_matplotlib_formats
-```python
-from IPython.display import set_matplotlib_formats
-```
-```python
-set_matplotlib_formats("retina")
-```
-- font를 선명하게 표시
-# itertools
-## combinations()
-```python
-from itertools import combinations
-```
-```python
-movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
-```
+
+
+
 # konlpy
 ## konlpy.tag
 ```python
@@ -1872,9 +1861,14 @@ hnn = Hannanum()
 ```
 #### okt.nouns(), kkm.nouns(), kmr.nouns(), hnn.nouns()
 #### okt.morphs(), kkm.morphs(), kmr.morphs(), hnn.morphs()
-- stem=True | False, norm=True | False
+- `stem=True`
+- `norm=True`
 #### okt.pos(), kkm.pos(), kmr.pos(), hnn.pos()
-- stem=True | False, norm=True | False
+- `stem=True`
+- `norm=True`
+
+
+
 # ckonlpy
 ```python
 !pip install customized_konlpy
@@ -1888,6 +1882,38 @@ twt = Twitter()
 ```python
 twt.add_dictionary("은경이", "Noun")
 ```
+
+
+# sentencepiece
+```python
+import sentencepiece as sp
+```
+## sp.SentencePieceTrainer
+### sp.SentencePieceTrainer.Train()
+```python
+sp.SentencePieceTrainer.Train("--input=review.txt --model_prefix=imdb --vocab_size=1000")
+```
+- `input` : 학습시킬 파일
+- `model_prefix` : 만들어질 모델 이름
+- `vocab_size` : 단어 집합의 크기
+- `model_type` : 사용할 모델 (unigram(default), bpe, char, word)
+- `max_sentence_length`: 문장의 최대 길이
+- `pad_id`, `pad_piece`: pad token id, 값
+- `unk_id`, `unk_piece`: unknown token id, 값
+- `bos_id`, `bos_piece`: begin of sentence token id, 값
+- `eos_id`, `eos_piece`: end of sequence token id, 값
+- `user_defined_symbols`: 사용자 정의 토큰
+## sp.SentencePieceProcessor()
+```python
+spp = sp.SentencePieceProcessor()
+```
+### spp.load()
+```python
+spp.load("imdb.model")
+```
+
+
+
 # mapboxgl
 ## mapboxgl.viz
 ```python
@@ -1942,6 +1968,8 @@ viz.color_stops = create_color_stops([0, 10, 20, 30, 40, 50], colors="RdYlBu")
 viz.radius_property = "errorl"
 viz.radius_stops = create_radius_stops([0, 1, 2], 4, 7)
 ```
+
+
 # matplotlib
 ```python
 import matplotlib as mpl
@@ -2094,6 +2122,9 @@ cnt_genre.sort_values("movie_id", ascending=False)["movie_id"].plot(ax=ax, kind=
 ```python
 data["label"].value_counts().plot(kind="bar")
 ```
+
+
+
 # seaborn
 ```python
 import seaborn as sb
@@ -2142,6 +2173,9 @@ ax = sb.pairplot(data_for_corr)
 ```python
 sb.heatmap(ax=ax, data=gby_occup_genre, annot=True, annot_kws={"size": 10}, fmt=".2f", linewidths=0.2, center=3, cmap="RdBu")
 ```
+
+
+
 # MeCab
 ```python
 !git clone https://github.com/SOMJANG/Mecab-ko-for-Google-Colab.git
@@ -2178,6 +2212,9 @@ class Mecab:
     
 mc = Mecab()
 ```
+
+
+
 # wordcloud
 ## WordCloud
 ```python
@@ -2212,6 +2249,8 @@ img_colors.default_color=[0.6, 0.6, 0.6]
 ```python
 from wordcloud import STOPWORDS
 ```
+
+
 
 # mlxtend
 ```python
@@ -2248,6 +2287,9 @@ from mlxtend.frequent_patterns import association_rules
 ```python
 asso_rules = association_rules(sups, metric="support", min_threshold=0.01)
 ```
+
+
+
 # nltk
 ```python
 import nltk
@@ -2278,7 +2320,6 @@ from nltk.tokenize import TreebankWordTokenizer
 TreebankWordTokenizer().tokenize("Starting a home-based restaurant may be an ideal. it doesn't have a food chain or restaurant of their own.")
 ```
 - Penn Treebank Tokenization.
-
 ## nltk.stem
 ### PorterStemmer()
 ```python
@@ -2341,6 +2382,9 @@ sentences = [sent for sent in movie_reviews.sents()]
 ```python
 tagged_sents = nltk.corpus.treebank.tagged_sents()
 ```
+
+
+
 # khaiii
 ## KhaiiiApi
 ```python
@@ -2360,11 +2404,17 @@ for word in api.analyze(sentence):
     for morph in word.morphs:
         morphs.append((morph.lex, morph.tag))
 ```
+
+
+
 # kss
 ## kss.split_sentences()
 ```python
 kss.split_sentences("딥 러닝 자연어 처리가 재미있기는 합니다. 그런데 문제는 영어보다 한국어로 할 때 너무 어려워요. 농담아니에요. 이제 해보면 알걸요?")
 ```
+
+
+
 # pykospacing
 ```python
 !pip install git+https://github.com/haven-jeon/PyKoSpacing.git --user
@@ -2379,6 +2429,9 @@ import pykospacing
 ```
 sent_ks = pykospacing.spacing("오지호는극중두얼굴의사나이성준역을맡았다.성준은국내유일의태백권전승자를가리는결전의날을앞두고20년간동고동락한사형인진수(정의욱분)를찾으러속세로내려온인물이다.")
 ```
+
+
+
 # soynlp
 ## soynlp.normalizer
 ```python
@@ -2392,6 +2445,9 @@ emoticon_normalize("앜ㅋㅋㅋㅋ이영화존잼쓰ㅠㅠㅠㅠㅠ", num_repea
 ```python
 repeat_normalize("와하하하하하하하하하핫", num_repeats=2)
 ```
+
+
+
 # hanspell
 ```python
 !pip install git+https://github.com/ssut/py-hanspell.git
@@ -2416,6 +2472,8 @@ word2cnt = Counter(words)
 - lst의 원소별 빈도를 나타내는 dic을 반환합니다.
 ### word2cnt.most_common()
 
+
+
 # pyLDAvis
 ```python
 import pyLDAvis
@@ -2430,6 +2488,9 @@ import pyLDAvis.gensim
 ```python
 pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
 ```
+
+
+
 # pymysql
 ```python
 import pymysql
@@ -2442,6 +2503,9 @@ connect = pymysql.connect(host="localhost", user="root", password="1453", db="ma
 ```python
 pd.read_sql("show tables", connect)
 ```
+
+
+
 # random
 ```python
 import random
@@ -2453,6 +2517,9 @@ names = random.sample(list(set(data.index)), 20)
 ```
 ## random.shuffle()
 - inplace function
+
+
+
 # re
 ```python
  import re
@@ -2498,6 +2565,9 @@ p = re.compile(".+\t[A-Z]+")
 - {n} : n개의 바로 앞의 character
 - ^ : 바로 뒤의 문자열로 시작하는
 - $ : 바로 앞의 문자열로 끝나는
+
+
+
 # requests
 ```python
 import requests
@@ -2506,6 +2576,9 @@ import requests
 ```python
 req = requests.get(url)
 ```
+
+
+
 # statsmodels
 ## variance_inflation_factor
 ```python
@@ -2516,6 +2589,9 @@ vif = pd.DataFrame()
 vif["VIF Factor"] = [variance_inflation_factor(data_for_corr.values, i) for i in range(data_for_corr.shape[1])]
 vif["features"] = data_for_corr.columns
 ```
+
+
+
 # string
 ```python
 import string
@@ -2525,11 +2601,17 @@ import string
 for punct in string.punctuation:
     sw.add(punct)
 ```
+
+
+
 # sys
 ```python
 import sys
 ```
 ## sys.maxsize()
+
+
+
 # time
 ```python
 import time
@@ -2540,12 +2622,18 @@ time_before=round(time.time())
 ...
 print("{}초 경과".format(round(time.time())-time_before))
 ```
+
+
+
 # tqdm
 ```python
 from tqdm.notebook import tqdm
 ```
 ## tqdm.pandas()
 - `df.progress_apply()`를 사용하기 위해 필요합니다.
+
+
+
 # warnings
 ```python
 import warnings
@@ -2554,6 +2642,9 @@ import warnings
 ```python
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 ```
+
+
+
 # scipy
 ```python
 import scipy
@@ -2571,6 +2662,9 @@ cols = [0, 2, 5, 6, 14, 0, 1]
 sparse_matrix = csr_matrix((vals,  (rows,  cols)))
 ```
 #### sparse_mat.todense()
+
+
+
 ## stats
 ```python
 from scipy import stats
@@ -2580,6 +2674,9 @@ from scipy import stats
 ```python
 ys = stats.beta.pdf(xs, a, b)
 ```
+
+
+
 # implicit
 ```python
 conda install -c conda-forge implicit
@@ -2599,6 +2696,9 @@ model.fit(inputs)
 user_embs = model.user_factors
 item_embs = model.item_factors
 ```
+
+
+
 # annoy
 - https://github.com/spotify/annoy
 ```python
@@ -2626,6 +2726,9 @@ tree.build(20)
 ```python
 print([art_id2name[art] for art in tree.get_nns_by_vector(user_embs_df.loc[user_id], 10)])
 ```
+
+
+
 # openpyxl
 ## df.to_excel()
 # google_drive_downloader
@@ -2640,6 +2743,9 @@ from google_drive_downloader import GoogleDriveDownloader as gdd
 ```python
 gdd.download_file_from_google_drive(file_id="1uPjBuhv96mJP9oFi-KNyVzNkSlS7U2xY", dest_path="./movies.csv")
 ```
+
+
+
 # datasketch
 ## MinHash
 ```python
@@ -2655,6 +2761,9 @@ for value in set_A:
     mh.update(value.encode("utf-8"))
 ```
 ### mh.hashvalues
+
+
+
 # redis
 ## Redis
 ```python
@@ -2675,6 +2784,9 @@ rd.delete("A")
 ```python
 rd.get("A")
 ```
+
+
+
 # google
 ## google.colab
 ### drive
@@ -2685,6 +2797,9 @@ from google.colab import drive
 ```python
 drive.mount("/content/drive")
 ```
+
+
+
 # zipfile
 ```python
 import zipfile
@@ -2694,6 +2809,9 @@ import zipfile
 ```python
 zipfile.ZipFile("glove.6B.zip").extractall()
 ```
+
+
+
 # lxml
 ## etree
 ```python
@@ -2704,6 +2822,10 @@ from lxml import etree
 with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
     target_text = etree.parse(z.open("ted_en-20160408.xml", "r"))
 ```
+
+
+# os
+```python
 import os
 ```
 ## os.getcwd()
@@ -2717,8 +2839,9 @@ os.makedirs(ckpt_dir, exist_ok=True)
 ## os.path
 ### os.path.join()	
 ```python
-checkpoint_dir = os.path.join(cur_dir, ckpt_dir_name, model_dir_name)
+os.path.join("C:\Tmp", "a", "b")
 ```
+\>\>\> "C:\Tmp\a\b"
 ### os.path.exists()
 ```python
 if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
@@ -2727,21 +2850,33 @@ if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
 ```python
 os.environ["PATH"] += os.pathsep + "C:\Program Files (x86)/Graphviz2.38/bin/"
 ```
+## os.path.dirname()
+```python
+os.path.dirname("C:/Python35/Scripts/pip.exe")
+```
+\>\>\> "C:/Python35/Scripts"
+- 경로 중 디렉토리명만 얻습니다.
+
+
+
 # pickle
 ```python
 import pickle as pk
 ```
 ## pk.dump()
 ```python
-with open("filename.pk", "wb") as f:
+with open("filename.pkl", "wb") as f:
     pk.dump(list, f)
 ```
 ## pk.load()
 ```python
-with open("filename.pk", "rb") as f:
+with open("filename.pkl", "rb") as f:
     data = pk.load(f)
 ```
 - 한 줄씩 load
+
+
+
 # json
 ```python
 import json
@@ -2756,6 +2891,9 @@ with open(path, "w", encoding="utf-8") as f:
 with open(path, "r", encoding="utf-8") as f:
     train_data = json.load(f)
 ```
+
+
+
 # Image
 ```python
 from PIL import Image
@@ -2792,6 +2930,33 @@ img1.paste(img2, (20,20,220,220))
 ```python
 mask = Image.new("RGB", icon.size, (255, 255, 255))
 ```
+
+
+
+# IPython
+## IPython.display
+### set_matplotlib_formats
+```python
+from IPython.display import set_matplotlib_formats
+```
+```python
+set_matplotlib_formats("retina")
+```
+- font를 선명하게 표시
+
+
+
+# itertools
+## combinations()
+```python
+from itertools import combinations
+```
+```python
+movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
+```
+
+
+
 # platform
 ```python
 import platform
@@ -2805,12 +2970,18 @@ elif platform.system() == "Windows":
     font_name = mpl.font_manager.FontProperties(fname=path).get_name()
     mpl.rc('font', family=font_name)
 ```
-- "Darwin", "Windows" 등 OS의 이름 반환.
+- "Darwin", "Windows" 등 OS의 이름 반환합니다.
+
+
+
 # pprint	
 ## pprint()
 ```python
 from pprint import pprint
 ```
+
+
+
 # pptx
 ## Presentation()
 ```python
@@ -2839,6 +3010,9 @@ prs.slides[a].shapes[b].text_frame.paragraphs[c].font.size = Pt(16)
 ```python
 prs.save("파일 이름")
 ```
+
+
+
 # pygame
 ```python
 import pygame
@@ -2878,4 +3052,15 @@ if event.type==pygame.KEYUP
 ### pygame.display.set_model()
 ```python
 gamepad = pygame.display.set_mode((pad_width, pad_height))
+```
+
+
+
+# csv
+```python
+import csv
+```
+## csv.QUOTE_NONE
+```python
+tokens = pd.read_csv("imdb.vocab", sep="\t", header=None, quoting=csv.QUOTE_NONE)
 ```
