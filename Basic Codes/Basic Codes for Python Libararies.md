@@ -61,8 +61,10 @@ chars = set([char for word in words for char in word])
 ### set1 & set2
 ### set1 | set2
 ### set.add()
+- 1개의 element만 추가할 수 있습니다.
 ### set.update()
-- lst.append()와 동일.
+- lst.append()와 동일합니다.
+- 여러 개의 element를 추가할 수 있습니다.
 ## frozenset()
 - 구성 요소들이 순서대로 들어 있지 않아 인덱스를 사용한 연산을 할 수 없고
 - 유일한 항목 1개만 들어가 있습니다.
@@ -249,8 +251,11 @@ idf_ser = pd.Series(idf, index=vocab)
 ```
 ## pd.read_csv()
 ```python
-raw_data = pd.read_csv("C:/Users/00006363/☆데이터/실거래가_충청북도_2014.csv", thousands=",", encoding="Ansi", float_precision="round_trip", skiprows=15)
+data = pd.read_csv("fra.txt", names=["src", "tar", "CC"], sep="\t")
 ```
+- `thousands=","`
+- `float_precision="round_trip"`
+- `skiprows='
 ## pd.read_excel()
 ## pd.read_table()
 ```python
@@ -1528,6 +1533,18 @@ xml = urllib.request.urlopen(full_url).read().decode("utf-8")
 urllib.request.urlretrieve("https://raw.githubusercontent.com/e9t/nsmc/master/ratings_train.txt", filename="ratings_train.txt")
 ```
 - 해당 URL에 연결된 파일을 다운로드합니다.
+
+
+
+# urllib3
+```python
+import urllib3
+```
+## urllib3.PoolManager()
+### urllib3.PoolManager().request()
+```python
+urllib3.PoolManager().request("GET", url, preload_content=False)
+```
 
 
 
@@ -2839,7 +2856,7 @@ import zipfile
 ## zipfile.ZipFile()
 ### zipfile.ZipFile().extractall()
 ```python
-zipfile.ZipFile("glove.6B.zip").extractall()
+zipfile.ZipFile("glove.6B.zip").extractall(cur_dir)
 ```
 
 
@@ -3095,4 +3112,19 @@ import csv
 ## csv.QUOTE_NONE
 ```python
 subws = pd.read_csv("imdb.vocab", sep="\t", header=None, quoting=csv.QUOTE_NONE)
+```
+
+
+
+# shutil
+```python
+import shutil
+```
+## shutil.copyfile()
+```python
+shutil.copyfile("./test1/test1.txt", "./test2.txt")
+```
+## shutil.copyfileobj()
+```python
+shutil.copyfileobj(urllib3.PoolManager().request("GET", url, preload_content=False), open(file_dir, "wb"))
 ```
