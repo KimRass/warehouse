@@ -1261,6 +1261,7 @@ model.compile(optimizer=tf.keras.optimizers.Adagrad(lr=0.1), loss=tf.keras.losse
 - `optimizer="sgd"` | `"adam"` | `"rmsprop"`
 - `loss="mse"` | `"binary_crossentropy"` | `"categorical_crossentropy"` | `"sparse_categorical_crossentropy"`
 - `metrics=["mse"]` | `["binary_accuracy"]` | `["categorical_accuracy"]` | `["sparse_categorical_crossentropy"]`
+- `metrics=`는 생략할 수 있습니다.
 #### model.fit()
 ```python
 hist = model.fit(x=X_train, y=y_train, validation_split=0.2, batch_size=64, epochs=10, verbose=1, callbacks=[es, mc])
