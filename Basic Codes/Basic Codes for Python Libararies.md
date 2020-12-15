@@ -1168,27 +1168,22 @@ conv2d = keras.layers.Conv2D(filters=n_filters, kernel_size=kernel_size, padding
 pool = keras.layers.MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="channels_last")(image)
 ```
 #### tf.keras.layers.SimpleRNNCell()
-```python
-cell = tf.keras.layers.SimpleRNNCell(units=hidden_size)
-```
 #### tf.keras.layers.RNN()
-```python
-rnn = tf.keras.layers.RNN(cell, return_sequences=True, return_state=True)
-
-outputs, states = rnn(x_data)
-```
-- return_sequences : default는 False이며 time step의 마지막에서만 아웃풋을 출력. True인 경우 모든 time step에서 아웃풋을 출력. return_sequences 인자에 따라 마지막 시퀀스에서 한 번만 출력할 수 있고 각 시퀀스에서 출력을 할 수 있습니다. many to many 문제를 풀거나 LSTM 레이어를 여러개로 쌓아올릴 때는 return_sequence=True 옵션을 사용합니다.
 #### tf.keras.layers.SimpleRNN()
 ```python
 outputs, hidden_states = tf.keras.layers.SimpleRNN(units=hidden_size)(x_data), input_shape=(timesteps, input_dim), return_sequences=True, return_state=True)(x_date)
 ```
 - `tf.keras.layers.SimpleRNN()` = `tf.keras.layers.SimpleRNNCell()` + `tf.keras.layers.RNN()`
 - `batch_input_shape=(batch_size, timesteps, input_dim)`
-- shape of inputs : (batch_size, timesteps, input_dim)
-- shape of outputs : (batch_size, hidden_size)(`return_sequences=False`일 때) / (batch_size, timesteps, hidden_size)(`return_sequences=True`일 때)
-- shape of hidden_states : (batch_size, hidden_size)
+- `return_sequences=False` : (default)time step의 마지막에서만 아웃풋을 출력합니다.(shape of output : (batch_size, hidden_size))
+- `return_sequences=True` : 모든 time step에서 아웃풋을 출력합니다. many to many 문제를 풀거나 LSTM 레이어를 여러개로 쌓아올릴 때는 이 옵션을 사용합니다.(shape of output : (batch_size, timesteps, hidden_size))
+- `return_state=True` : hidden state를 출력합니다.(shape of hidden state : (batch_size, hidden_size))
 #### tf.keras.layers.LSTM()
+```python
+_, hidden_state, cell_state = tf.keras.layers.LSTM(units=256, return_state=True)(inputs_enc)
+```
 - `tf.keras.layers.SimpleRNN()`과 문법이 동일합니다.
+- `return_state=True` : hidden state와 cell state를 출력합니다.
 #### tf.keras.layers.Bidirectional()
 ```python
 tf.keras.layers.Bidirectional(tf.keras.layers.SimpleRNN(hidden_size, return_sequences=True), input_shape=(timesteps, input_dim))
