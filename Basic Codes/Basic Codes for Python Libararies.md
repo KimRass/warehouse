@@ -481,14 +481,12 @@ data = data.fillna(method="ffill")
 - `method="ffill"` : propagate last valid observation forward to next valid backfill
 ## df.sample(), ser.sample()
 ```python
-ratings_df.sample(5)
-```
-```python
 baskets_df.sample(frac=0.05)
 ```
 ```phthon
 set(n_per_movie_unseen.sample(n=100, replace=False, weights=n_per_movie).index)
 ```
+- `random_state=777`
 ## df.iterrows()
 - index of row, row를 차례대로 return합니다.
 ## df.iteritems()
