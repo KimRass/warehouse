@@ -912,11 +912,6 @@ print(sklearn.metrics.classification_report(y_pred, y_test))
 
 
 # tensorflow
-```
-conda create --name tf2.0 python=3.7
-pip install tensorflow==2.0
-conda install jupyter
-```
 ```python
 import tensorflow as tf
 ```
