@@ -1332,7 +1332,7 @@ word2idx = tkn.word_index
 word2cnts = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
 
 cnts = list(word2cnts.values())
-ratio = 0.99
+
 for vocab_size, value in enumerate(np.cumsum(cnts)/np.sum(cnts)):
     if value >= ratio:
         break
@@ -1346,10 +1346,12 @@ train_X = tkn.texts_to_sequences(train_X)
 test_X = tkn.texts_to_sequences(test_X)
 
 lens = sorted([len(doc) for doc in train_X])
+ratio = 0.99
 for idx, max_len in enumerate(lens):
     if idx/len(lens) >= ratio:
         break
-print(f"길이가 {max_len} 이하인 리뷰가 전체의 {ratio:.0%}를 차지합니다.")
+print(f"가장 긴 문장의 길이는 {np.max(lens)}입니다.")
+print(f"길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
 ```
 - `num_words`가 적용됩니다.
 ###### tkn.texts_to_matrix()
