@@ -2250,7 +2250,7 @@ class Mecab:
                 nouns.append(word[0])
         return nouns
     
-mc = Mecab()
+mcb = Mecab()
 ```
 
 
