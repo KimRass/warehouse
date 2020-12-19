@@ -1154,10 +1154,10 @@ conv2d = keras.layers.Conv2D(filters=n_filters, kernel_size=kernel_size, padding
 - `kernal_size` : window_size
 - `padding="valid"` : padding을 하지 않아 height of convolution, width of convolution이 height of image. width of image에 비해 각각 감소합니다.
 - `padding="same"` : padding을 하여 height of convolution, width of convolution이 height of image. width of image와 각각 동일하게 유지됩니다.
-#### tf.keras.layers.GlobalMaxPooling1D()
+#### tf.keras.layers.GlobalMaxPool1D()
 - Downsamples the input representation by taking the maximum value over the time dimension.
 - shape : (a, b, c) -> (b, c)
-#### tf.keras.layers.MaxPooling1D()
+#### tf.keras.layers.MaxPool1D()
 #### tf.keras.layers.MaxPool2D()
 ```python
 pool = keras.layers.MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="channels_last")(image)
