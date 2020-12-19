@@ -1138,10 +1138,11 @@ def batch_norm()
     return tf.keras.layers.BatchNormalization()
 ```
 #### tf.keras.layers.Conv1D()
-#### tf.keras.layers.Conv2D()
 ```python
 tf.keras.layers.Conv1D(filters=n_kernels, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
 ```
+#### tf.keras.layers.Conv2D()
+
 ```python
 conv2d = keras.layers.Conv2D(filters=n_filters, kernel_size=kernel_size, padding="same", data_format="channels_last")(image)
 ```
@@ -1156,6 +1157,7 @@ conv2d = keras.layers.Conv2D(filters=n_filters, kernel_size=kernel_size, padding
 #### tf.keras.layers.GlobalMaxPooling1D()
 - Downsamples the input representation by taking the maximum value over the time dimension.
 - shape : (a, b, c) -> (b, c)
+#### tf.keras.layers.MaxPooling1D()
 #### tf.keras.layers.MaxPool2D()
 ```python
 pool = keras.layers.MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="channels_last")(image)
@@ -1233,6 +1235,7 @@ model = tf.keras.Model(inputs=inputs, outputs=logits, name="lr")
 ```
 #### model.summary()
 #### model.trainable_variables
+#### model.save()
 #### model.layers
 ##### layer.name
 ##### layer.output_shape
@@ -1354,6 +1357,7 @@ print(f"가장 긴 문장의 길이는 {np.max(lens)}입니다.")
 print(f"길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
 ```
 - `num_words`가 적용됩니다.
+###### tkn.sequences_to_texts()
 ###### tkn.texts_to_matrix()
 ```python
 tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"], mode="count"))
@@ -1443,15 +1447,15 @@ driver = webdriver.Chrome("chromedriver.exe")
 driver.get("https://www.google.co.kr/maps/")
 ```
 ### driver.find_element_by_css_selector(), driver.find_element_by_tag_name(), driver.find_element_by_class_name(), driver.find_element_by_id(), driver.find_element_by_xpath(),
-#### driver.find_element_by_*().text
+#### driver.find_element_by_\*().text
 ```python
 df.loc[index, "배정초"]=driver.find_element_by_xpath("//\*[@id='detailContents5']/div/div[1]/div[1]/h5").text
 ```
-#### driver.find_element_by_*().get_attribute()
+#### driver.find_element_by_\*().get_attribute()
 ```python
 driver.find_element_by_xpath("//*[@id='detailTab" +str(j) + "']").get_attribute("text")
 ```
-#### driver.find_element_by_*().click()
+#### driver.find_element_by_\*().click()
 #### driver.find_element_by_\*().clear()
 ```python
 driver.find_element_by_xpath('//*[@id="searchboxinput"]').clear()
@@ -1793,6 +1797,18 @@ model.wv.save_word2vec_format("eng_w2v")
 
 
 
+# seqeval
+## seqeval.metrics
+### precision_score
+### recall_score
+### f1_score
+### classification_report
+```python
+from seqeval.metrics import classification_report
+```
+
+
+
 # graphviz
 ```python
 import graphviz
@@ -2119,7 +2135,7 @@ ax.tick_params(axis="x", labelsize=20, labelcolor="red", labelrotation=45, grid_
 ```python
 ax.legend(fontsize=14, loc="best")
 ```
-- `loc="best"` | `"upper right"` ...
+- `loc`="best" | "upper right" ...
 ### ax.grid()
 ```python
 ax.grid(axis="x", color="White", alpha=0.3, linestyle="--", linewidth=2)
@@ -2422,6 +2438,26 @@ sentences = [sent for sent in movie_reviews.sents()]
 ```python
 tagged_sents = nltk.corpus.treebank.tagged_sents()
 ```
+## nltk.translate
+### nltk.translate.bleu_score
+#### nltk.translate.bleu_score.sentence_bleu()
+```python
+ref = [["this", "is", "a", "test"], ["this", "is" "test"]]
+cand = ["this", "is", "a", "test"]
+score = nltk.translate.bleu_score.sentence_bleu(ref, cand)
+```
+- `weights`=(1/2, 1/2, 0, 0)
+#### nltk.translate.bleu_score.corpus_bleu()
+```python
+refs = [[["this", "is", "a", "test"], ["this", "is" "test"]]]
+cands = [["this", "is", "a", "test"]]
+score = nltk.translate.bleu_score.corpus_bleu(refs, cands)
+```
+- `weights`=(1/2, 1/2, 0, 0)
+## nltk.ngrams()
+```python
+nltk.ngrams("I am a boy", 3)
+```
 
 
 
@@ -2510,7 +2546,12 @@ from collections import Counter
 word2cnt = Counter(words)
 ```
 - lst의 원소별 빈도를 나타내는 dic을 반환합니다.
-### word2cnt.most_common()
+### Counter[key]
+### Counter().values()
+```python
+sum(Counter(nltk.ngrams(cand.split(), 2)).values())
+```
+### Counter().most_common()
 
 
 
@@ -2874,7 +2915,7 @@ cur_dir = os.getcwd()
 ```
 ## os.makedirs()
 ```python
-os.makedirs(ckpt_dir, exist_ok=True)	
+os.makedirs(ckpt_dir, exist_ok=True)
 ```
 ## os.path
 ### os.path.join()	
