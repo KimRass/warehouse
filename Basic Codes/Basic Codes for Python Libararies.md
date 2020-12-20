@@ -98,7 +98,7 @@ dic.pop(key)
 ### dic.fromkeys(list or tuple, value)
 ### sorted()
 ```python
-word2cnts = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
+word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
 ```
 ### dictionary comprehension
 ```python
@@ -662,6 +662,7 @@ intersected_movie_ids = np.concatenate([json.loads(row) for row in rd.mget(queri
 ## np.stack()
 ## np.delete()
 ```python
+idx_drop = [idx for idx, doc in enumerate(X_train) if len(doc) == 0]
 X_train = np.delete(X_train, idx_drop, axis=0)
 ```
 ## np.random
@@ -1332,9 +1333,9 @@ word2idx = tkn.word_index
 ###### tkn.index_word
 ###### tkn.word_counts
 ```python
-word2cnts = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
+word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
 
-cnts = list(word2cnts.values())
+cnts = list(word2cnt.values())
 
 for vocab_size, value in enumerate(np.cumsum(cnts)/np.sum(cnts)):
     if value >= ratio:
