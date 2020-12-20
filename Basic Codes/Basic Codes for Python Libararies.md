@@ -914,6 +914,12 @@ print(sklearn.metrics.classification_report(y_pred, y_test))
 ```python
 import tensorflow as tf
 ```
+## tensor.shape
+```python
+lstm, for_h_state, for_c_state, back_h_state, back_c_state = tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(units=64, dropout=0.5, return_sequences=True, return_state=True))(z)
+
+print(lstm.shape, for_h_state.shape, back_h_state.shape)
+```
 ## tf.constant()
 ```python
 image = tf.constant([[[[1], [2], [3]], [[4], [5], [6]], [[7], [8], [9]]]], dtype=tf.float32)
@@ -1237,19 +1243,17 @@ model = tf.keras.Model(inputs=inputs, outputs=logits, name="lr")
 #### model.summary()
 #### model.trainable_variables
 #### model.save()
+#### model.input
 #### model.layers
+```python
+for layer in model.layers[1:]:
+```
 ##### layer.name
 ##### layer.output_shape
 ##### layer.get_weights()
 ```python
-for layer in model.layers[1:]:
-    weight = layer.get_weights()[0]
-    print(f"{layer.name}의 weight shape : {weight.shape}")
-```
-```python
-for layer in model.layers[1:]:
-    bias = layer.get_weights()[1]
-    print(f"{layer.name}의 bias shape : {bias.shape}")
+weight = layer.get_weights()[0]
+bias = layer.get_weights()[1]
 ```
 #### model.compile()
 ```python
@@ -1283,7 +1287,6 @@ preds = model.predict(x.values)
 model = tf.keras.Sequential()
 ```
 ### tf.keras.Input()
-
 ```python
 inputs = tf.keras.Input(shape=(28, 28, 1))
 ```
