@@ -1329,12 +1329,12 @@ tkn = tf.keras.preprocessing.text.Tokenizer(num_words=vocab_size+2, oov_token="U
 ```python
 tkn.fit_on_texts(["나랑 점심 먹으러 갈래 점심 메뉴는 햄버거 갈래 갈래 햄버거 최고야"])
 ```
-###### tkn.word_index
+##### tkn.word_index
 ```python
 word2idx = tkn.word_index
 ```
-###### tkn.index_word
-###### tkn.word_counts
+##### tkn.index_word
+##### tkn.word_counts
 ```python
 word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
 
@@ -1347,7 +1347,7 @@ for vocab_size, value in enumerate(np.cumsum(cnts)/np.sum(cnts)):
 print(f"{vocab_size:,}개의 단어로 전체 data의 {ratio:.0%}를 표현할 수 있습니다.")
 print(f"{len(word2idx):,}개의 단어 중 {vocab_size/len(word2idx):.1%}에 해당합니다.")
 ```
-###### tkn.texts_to_sequences()
+##### tkn.texts_to_sequences()
 ```python
 train_X = tkn.texts_to_sequences(train_X)
 test_X = tkn.texts_to_sequences(test_X)
@@ -1361,8 +1361,8 @@ print(f"가장 긴 문장의 길이는 {np.max(lens)}입니다.")
 print(f"길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
 ```
 - `num_words`가 적용됩니다.
-###### tkn.sequences_to_texts()
-###### tkn.texts_to_matrix()
+##### tkn.sequences_to_texts()
+##### tkn.texts_to_matrix()
 ```python
 tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"], mode="count"))
 ```
@@ -1402,12 +1402,12 @@ import tensorflow_datasets as tfds
 ```python
 tkn = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(train_data["document"], target_vocab_size=2**13)
 ```
-###### tkn.subwords
-###### tkn.encode()
+##### tkn.subwords
+##### tkn.encode()
 ```python
 tkn.encode(train_data["document"][20])
 ```
-###### tkn.decode()
+##### tkn.decode()
 ```python
 tkn.decode(tkn.encode(sample))
 ```
@@ -1419,13 +1419,12 @@ tkn.decode(tkn.encode(sample))
 ```python
 from bs4 import BeautifulSoup as bs
 ```
-### bs()
 ```python
 soup = bs(xml,"lxml")
 ```
-#### soup.find_all()
-##### soup.find_all().find()
-###### soup.find_all().find().get_text()
+### soup.find_all()
+#### soup.find_all().find()
+#### soup.find_all().find().get_text()
 ```python
 features = ["bjdcode", "codeaptnm", "codehallnm", "codemgrnm", "codesalenm", "dorojuso", "hocnt", "kaptacompany", "kaptaddr", "kaptbcompany",  "kaptcode", "kaptdongcnt", "kaptfax", "kaptmarea", "kaptmarea",  "kaptmparea_136", "kaptmparea_135", "kaptmparea_85", "kaptmparea_60",  "kapttarea", "kapttel", "kapturl", "kaptusedate", "kaptdacnt", "privarea"]
 for item in soup.find_all("item"):
