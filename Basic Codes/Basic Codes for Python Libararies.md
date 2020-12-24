@@ -378,6 +378,10 @@ data["morphs"] = data["review"].progress_apply(mcb.morphs)
 ```python
 data = data.rename({"단지명.1":"name", "세대수":"houses_buildings", "저/최고층":"floors"}, axis=1)
 ```
+## df.reindex()
+```python
+pivot = pivot.reindex(dep_order)
+```
 ## df.insert()
 ```python
 data.insert(3, "age2", data["age"]*2)
