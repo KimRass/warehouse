@@ -1127,6 +1127,7 @@ pos_score = Dot(axes=(1,1))([user_embedding, pos_item_embedding])
 #### tf.keras.layers.Flatten()
 - 입력되는 tensor의 row를 펼쳐서 일렬로 만듭니다.
 - 학습되는 weights는 없고 데이터를 변환하기만 합니다.
+- dimension이 1인 shape의 element를 삭제합니다.
 ```python
 model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))
 ```
@@ -1211,7 +1212,8 @@ tf.keras.layers.Embedding(input_dim=vocab_size+2, output_dim=emb_dim)
 ```python
 model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
 ```
-- TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다. 아래 예제에서는 Dense(unit=1)로 연결을 했고, 이는 RNN Cell의 가중치와 마찬가지로 모든 step step에서 가중치를 공유합니다.
+- TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다.
+- In keras - while building a sequential model - usually the second dimension (one after sample dimension) - is related to a time dimension. This means that if for example, your data is 5-dim with (sample, time, width, length, channel) you could apply a convolutional layer using TimeDistributed (which is applicable to 4-dim with (sample, width, length, channel)) along a time dimension (applying the same layer to each time slice) in order to obtain 5-d output.
 #### tf.keras.layers.Layer
 - custom layer를 만들려면 `tf.keras.layers.Layer` 클래스를 상속하고 다음 메서드를 구현합니다
     - __init__: 이 층에서 사용되는 하위 층을 정의할 수 있습니다. instance 생성 시에 호출됩니다.
@@ -2908,7 +2910,7 @@ from lxml import etree
 ### etree.parse()
 ```python
 with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
-    target_text = etree.parse(z.open("ted_en-20160408.xml", "r"))
+	target_text = etree.parse(z.open("ted_en-20160408.xml", "r"))
 ```
 
 
@@ -2954,12 +2956,12 @@ import pickle as pk
 ## pk.dump()
 ```python
 with open("filename.pkl", "wb") as f:
-    pk.dump(list, f)
+	pk.dump(list, f)
 ```
 ## pk.load()
 ```python
 with open("filename.pkl", "rb") as f:
-    data = pk.load(f)
+	data = pk.load(f)
 ```
 - 한 줄씩 load
 
@@ -2974,10 +2976,18 @@ import json
 with open(path, "w", encoding="utf-8") as f:
     json.dump(train_data, f, ensure_ascii=False, indent="\t")
 ```
+```python
+with open(f"{model_path}_hist", "w") as f:
+	json.dump(hist.history, f)
+```
 ## json.load()
 ```python
 with open(path, "r", encoding="utf-8") as f:
     train_data = json.load(f)
+```
+```python
+with open(f"{model_path}_hist", "r") as f:
+	hist.history = json.load(f)
 ```
 
 
