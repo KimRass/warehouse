@@ -199,9 +199,31 @@ class CLASS:
 ## super()
 - 출처 : https://rednooby.tistory.com/56?category=633023
 ```python
-class MyModel(tf.keras.Model):
-    def __init__(self):
+class Bahdanau(tf.keras.Model):
+    def __init__(self, units):
         super().__init__()
+        self.W1 = tf.keras.layers.Dense(units, use_bias=False)
+        self.W2 = tf.keras.layers.Dense(units, use_bias=False)
+        self.W3 = tf.keras.layers.Dense(1)
+        
+        # key와 value는 같습니다.
+    def call(self, query, keys):
+        # query.shape : (batch_size, h_size) --> (batch_size, 1, h_size)
+        query = tf.expand_dims(query, axis=1)
+
+        # att_scores.shape : (batch_size, max_len, 1)
+        # we get 1 at the last axis because we are applying score to self.V
+        # the shape of the tensor before applying self.W3 : (batch_size, max_len, units)
+        att_scores = self.W3(tf.nn.tanh(self.W1(query) + self.W2(keys)))
+
+        # att_weights.shape : (batch_size, max_len, 1)
+        att_weights = tf.nn.softmax(att_scores, axis=1)
+
+        # context_vector.shape : (batch_size, h_size)
+        context_vector = att_weights*keys
+        context_vector = tf.reduce_sum(context_vector, axis=1)
+
+        return context_vector, att_weights
 ```
 ## open()
 ```python
@@ -255,7 +277,7 @@ data = pd.read_csv("fra.txt", names=["src", "tar", "CC"], sep="\t")
 ```
 - `thousands=","`
 - `float_precision="round_trip"`
-- `skiprows='
+- `skiprows`
 ## pd.read_excel()
 ## pd.read_table()
 ```python
@@ -1114,6 +1136,9 @@ def loss_fn(model, x, y):
 #### tf.keras.metrics.SparseCategoricalAccuracy()
 - "sparse_categorical_accuracy"와 동일합니다.
 ### tf.keras.layers
+```python
+from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, Bidirectional, TimeDistributed, Flatten
+```
 #### tf.keras.layers.Add()
 ```python
 logits = tf.keras.layers.Add()([logits_mlr, logits_fm, logits_dfm])
@@ -2895,6 +2920,11 @@ drive.mount("/content/drive")
 import zipfile
 ```
 ## zipfile.ZipFile()
+```python
+with zipfile.ZipFile("spa-eng.zip", "r") as f:
+    file = f.open("spa-eng/spa.txt")
+    data = pd.read_csv(file, names=["eng", "spa"], sep="\t")
+```
 ### zipfile.ZipFile().extractall()
 ```python
 zipfile.ZipFile("glove.6B.zip").extractall(cur_dir)
