@@ -939,6 +939,9 @@ print(sklearn.metrics.classification_report(y_pred, y_test))
 # tensorflow
 ```python
 import tensorflow as tf
+from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, Bidirectional, TimeDistributed, Flatten
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.keras import Model
 ```
 ## tensor.shape
 ```python
@@ -1136,9 +1139,6 @@ def loss_fn(model, x, y):
 #### tf.keras.metrics.SparseCategoricalAccuracy()
 - "sparse_categorical_accuracy"와 동일합니다.
 ### tf.keras.layers
-```python
-from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, Bidirectional, TimeDistributed, Flatten
-```
 #### tf.keras.layers.Add()
 ```python
 logits = tf.keras.layers.Add()([logits_mlr, logits_fm, logits_dfm])
@@ -2606,6 +2606,46 @@ pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
 
 
 
+# transformers
+```python
+!pip install --target=$my_path transformers==3.5.0
+```
+## BertModel
+```python
+from transformers import BertModel
+```
+### BertModel.from_pretrained()
+```python
+model = BertModel.from_pretrained("monologg/kobert")
+```
+
+
+
+# tokenization_kobert
+```python
+urllib.request.urlretrieve("https://raw.githubusercontent.com/monologg/KoBERT-NER/master/tokenization_kobert.py", filename="tokenization_kobert.py")
+```
+## KoBertTokenizer
+```python
+from tokenization_kobert import KoBertTokenizer
+```
+- KoBertTokenizer 파일 안에 from transformers import PreTrainedTokenizer가 이미 되어있습니다.
+### KoBertTokenizer.from_pretrained()
+```python
+tokenizer = KoBertTokenizer.from_pretrained("monologg/kobert")
+```
+#### tokenier.tokenize()
+```python
+tokenizer.tokenize("보는내내 그대로 들어맞는 예측 카리스마 없는 악역")
+```
+#### tokenizer.encode()
+```python
+tokenizer.encode("보는내내 그대로 들어맞는 예측 카리스마 없는 악역")
+```
+- `max_length`
+- `padding="max_length"`
+
+
 # pymysql
 ```python
 import pymysql
@@ -3219,4 +3259,12 @@ shutil.copyfile("./test1/test1.txt", "./test2.txt")
 ## shutil.copyfileobj()
 ```python
 shutil.copyfileobj(urllib3.PoolManager().request("GET", url, preload_content=False), open(file_dir, "wb"))
+```
+
+
+
+# logging
+## logging.basicConfig()
+```python
+logging.basicConfig(level=logging.ERROR)
 ```
