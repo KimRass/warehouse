@@ -2073,6 +2073,7 @@ font_name = mpl.font_manager.FontProperties(fname=fpath).get_name()
 ```python
 mpl.rc("font", family=font_name)
 ```
+- `family="NanumBarunGothic"`
 ```python
 mpl.rc("axes", unicode_minus=False)
 ```
