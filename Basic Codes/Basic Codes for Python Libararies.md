@@ -944,7 +944,7 @@ print(sklearn.metrics.classification_report(y_pred, y_test))
 # tensorflow
 ```python
 import tensorflow as tf
-from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, Bidirectional, TimeDistributed, Flatten
+from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, Bidirectional, TimeDistributed, Flatten, Dropout
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras import Model
 ```
@@ -2632,9 +2632,22 @@ pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
 ```python
 from transformers import BertModel
 ```
+```python
+model = BertModel.from_pretrained("monologg/kobert")
+```
+## TFBertModel
+```python
+from transformers import TFBertModel
+```
+```python
+model = TFBertModel.from_pretrained("monologg/kobert", from_pt=True)
+```
 ### BertModel.from_pretrained()
 ```python
 model = BertModel.from_pretrained("monologg/kobert")
+```
+```python
+tokenizer = KoBertTokenizer.from_pretrained("monologg/kobert")
 ```
 
 
