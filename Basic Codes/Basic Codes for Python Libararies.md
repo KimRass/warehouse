@@ -344,6 +344,11 @@ floor_data = pd.merge(floor_data, df_conv, left_index=True, right_index=True, ho
 ```python
 n_tasks_month = tasks.groupby(pd.Grouper(key="task_date", freq="M")).size()
 ```
+## pd.MultiIndex
+### pd.MultiIndex.from_tuples()
+```python
+order = pd.MultiIndex.from_tuples((hq, dep) for dep, hq in dep2hq.items())
+```
 ## df.shape
 ## df.quantile()
 ```python
