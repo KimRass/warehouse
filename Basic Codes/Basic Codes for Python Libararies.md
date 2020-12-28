@@ -1407,6 +1407,18 @@ model = tf.keras.models.load_model(model_path)
 
 
 
+# tensorflow_addons
+```python
+import tensorflow_addons as tfa
+```
+## tfa.optimizers
+### tfa.optimizers.RectifiedAdam()
+```python
+opt = tfa.optimizers.RectifiedAdam(lr=5.0e-5, total_steps = 2344*4, warmup_proportion=0.1, min_lr=1e-5, epsilon=1e-08, clipnorm=1.0)
+```
+
+
+
 # tensorflow_hub
 ```python
 import tensorflow_hub as hub
