@@ -8,6 +8,10 @@ print(..., end="")
 if not isinstance(movie, frozenset):
     movie = frozenset(movie)
 ```
+## type()
+```python
+type(test_X[0][0])
+```
 ## sum()
 ```python
 sum(sentences, [])
@@ -34,6 +38,10 @@ feature_to_shuffle.append("area")
 ### lst.remove()
 ```python
 features.remove("area")
+```
+### lst.count()
+```python
+[2, 4012, 3394, 3, 1, 1].count(1)
 ```
 ### sorted()
 ```python
@@ -1301,10 +1309,9 @@ model.compile(optimizer=tf.keras.optimizers.Adagrad(lr=0.1), loss=tf.keras.losse
 - `metrics=`는 생략할 수 있습니다.
 #### model.fit()
 ```python
-hist = model.fit(x=X_train, y=y_train, validation_split=0.2, batch_size=64, epochs=10, verbose=1, callbacks=[es, mc])
+hist = model.fit(x=X_train, y=y_train, validation_split=0.2, batch_size=64, epochs=10, verbose=1, shuffle=True, callbacks=[es, mc])
 ```
-- `validation_data=(X_val, y_val)`
-- `shuffle=True`
+- `validation_data`=(X_val, y_val)
 #### model.fit_generator()
 ```python
 hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
@@ -1327,15 +1334,15 @@ model = tf.keras.Sequential()
 inputs = tf.keras.Input(shape=(28, 28, 1))
 ```
 ### tf.keras.callbacks
-#### tf.keras.callbacks.EarlyStopping()
+#### EarlyStopping()
 ```python
-es = tf.keras.callbacks.EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=4)
+es = EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=4)
 ```
 - `mode` : One of {"auto", "min", "max"}. In min mode, training will stop when the quantity monitored has stopped decreasing; in "max" mode it will stop when the quantity monitored has stopped increasing; in "auto" mode, the direction is automatically inferred from the name of the monitored quantity.
 - `patience` : Number of epochs with no improvement after which training will be stopped.
-#### tf.keras.callbacks.ModelCheckpoint()
+#### ModelCheckpoint()
 ```python
-mc = tf.keras.callbacks.ModelCheckpoint(filepath=model_path, monitor="val_binary_accuracy", mode="auto", verbose=1, save_best_only=True)
+mc = ModelCheckpoint(filepath=model_path, monitor="val_binary_accuracy", mode="auto", verbose=1, save_best_only=True)
 ```
 - `save_best_only=True` : `monitor` 기준으로 가장 좋은 값으로 모델이 저장됩니다.
 - `save_best_only=False` : 매 epoch마다 모델이 filepath{epoch}으로 저장됩니다.
