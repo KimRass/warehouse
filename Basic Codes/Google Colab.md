@@ -44,3 +44,12 @@ function ClickConnect(){
 }
 setInterval(ClickConnect, 60 * 1000)
 ```
+```python
+!sudo apt-get install -y fonts-nanum
+!sudo fc-cache -fv
+!rm ~/.cache/matplotlib -r
+```
+```python
+plt.rc("font", family="NanumBarunGothic") 
+```
+- 한글 폰트 사용
