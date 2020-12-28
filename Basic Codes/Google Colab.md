@@ -1,11 +1,11 @@
 ```python
-import os, sys
-from google.colab import drive
-drive.mount("/content/drive")
-my_path = "/content/notebooks"
-# Colab Notebooks 안에 my_env 폴더에 패키지 저장
-os.symlink("/content/drive/My Drive/Colab Notebooks/my_env", my_path)
-sys.path.insert(0, my_path)
+try:
+    drive.mount("/content/drive", force_remount=True)
+    my_path = "/content/notebooks"
+    os.symlink("/content/drive/MyDrive/ColabNotebooks/my_env", my_path)
+    sys.path.insert(0, my_path)
+except:
+    pass
 ```
 ```python
 !pip install --target=$my_path [패키지 이름]
@@ -22,20 +22,16 @@ sys.path.insert(0, my_path)
 !pip install /content/build/package_python
 ```
 ```python
-# colab에서 그래프를 그릴 때 한글이 깨지지 않도록 해주는 코드
-# 코드 실행 > Colab 상단의 런타임 > 런타임 다시 시작 > 코드 재실행
-# 이후에는 matplotlib으로 그리는 그래프에서 한글이 깨지지 않습니다.
-import matplotlib.pyplot as plt
 import matplotlib as mpl
+import matplotlib.pyplot as plt
 
 %config InlineBackend.figure_format = "retina"
-
 !apt -qq -y install fonts-nanum
-
 fpath = "/usr/share/fonts/truetype/nanum/NanumBarunGothic.ttf"
 font = mpl.font_manager.FontProperties(fname=fpath, size=9)
 plt.rc("font", family="NanumBarunGothic") 
 mpl.font_manager._rebuild()
+mpl.rcParams["axes.unicode_minus"] = False
 ```
 ```
 function ClickConnect(){
@@ -44,12 +40,3 @@ function ClickConnect(){
 }
 setInterval(ClickConnect, 60 * 1000)
 ```
-```python
-!sudo apt-get install -y fonts-nanum
-!sudo fc-cache -fv
-!rm ~/.cache/matplotlib -r
-```
-```python
-plt.rc("font", family="NanumBarunGothic") 
-```
-- 한글 폰트 사용
