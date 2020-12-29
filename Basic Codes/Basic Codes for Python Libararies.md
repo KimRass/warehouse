@@ -3079,6 +3079,12 @@ cur_dir = os.getcwd()
 ```python
 os.makedirs(ckpt_dir, exist_ok=True)
 ```
+## os.chdir()
+## os.environ
+## os.pathsep
+```python
+os.environ["PATH"] += os.pathsep + "C:\Program Files (x86)/Graphviz2.38/bin/"
+```
 ## os.path
 ### os.path.join()	
 ```python
@@ -3088,10 +3094,6 @@ os.path.join("C:\Tmp", "a", "b")
 ### os.path.exists()
 ```python
 if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
-```
-## os.environ[], os.pathsep
-```python
-os.environ["PATH"] += os.pathsep + "C:\Program Files (x86)/Graphviz2.38/bin/"
 ```
 ## os.path.dirname()
 ```python
