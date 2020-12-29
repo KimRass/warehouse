@@ -2291,6 +2291,47 @@ sb.heatmap(ax=ax, data=gby_occup_genre, annot=True, annot_kws={"size": 10}, fmt=
 
 
 
+# networkx
+```python
+improt networks as nx
+```
+## nx.Graph()
+```python
+g = nx.Graph()
+```
+## nx.DiGraph()
+## nx.circular_layout()
+```python
+pos = nx.circular_layout(g)
+```
+## nx.draw_networks_nodex()
+```python
+nx.draw_networkx_nodes(g, pos, node_size=2000)
+```
+## nx.draw_networkx_edges()
+```python
+nx.draw_networkx_edges(g, pos, width=weights)
+```
+## nx.draw_networkx_labels()
+```python
+nx.draw_networkx_labels(g, pos, font_family=font_name, font_size=11)
+```
+### g.add_nodes_from()
+```python
+g.add_nodes_from(set(df.index.get_level_values(0)))
+```
+### g.add_edge()
+```python
+for _, row in df.iterrows():
+    g.add_edge(row.name[0], row.name[1], weight=row["cowork"]/200)
+```
+### g.edges()
+```python
+weights = [cnt["weight"] for (_, _, cnt) in g.edges(data=True)]
+```
+
+
+
 # MeCab
 ```python
 !git clone https://github.com/SOMJANG/Mecab-ko-for-Google-Colab.git
