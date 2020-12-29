@@ -2696,9 +2696,6 @@ model = TFBertModel.from_pretrained("monologg/kobert", from_pt=True)
 ```python
 model = BertModel.from_pretrained("monologg/kobert")
 ```
-```python
-tokenizer = KoBertTokenizer.from_pretrained("monologg/kobert")
-```
 
 
 
@@ -2725,6 +2722,12 @@ tokenizer.encode("보는내내 그대로 들어맞는 예측 카리스마 없는
 ```
 - `max_length`
 - `padding="max_length"`
+#### tokenizer.convert_tokens_to_ids()
+```python
+tokenizer.convert_tokens_to_ids("[CLS]")
+```
+- 없는 token : 0, "[PAD]" : 1, "[CLS]" : 2, "[SEP]" : 3
+
 
 
 # pymysql
