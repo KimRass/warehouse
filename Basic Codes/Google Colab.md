@@ -10,7 +10,7 @@ try:
     sys.path.insert(0, my_path)
 except:
     pass
-%cd /content/notebooks
+os.chdir(my_path)
 ```
 # Package 영구 설치
 ```python
