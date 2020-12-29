@@ -2316,6 +2316,10 @@ nx.draw_networkx_edges(g, pos, width=weights)
 ```python
 nx.draw_networkx_labels(g, pos, font_family=font_name, font_size=11)
 ```
+## nx.draw_shell()
+```python
+nx.draw_shell(g, with_labels=False)
+```
 ### g.add_nodes_from()
 ```python
 g.add_nodes_from(set(df.index.get_level_values(0)))
