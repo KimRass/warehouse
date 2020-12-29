@@ -35,6 +35,7 @@ import matplotlib.pyplot as plt
 
 %config InlineBackend.figure_format = "retina"
 !apt -qq -y install fonts-nanum
+fpath = "/usr/share/fonts/truetype/nanum/NanumBarunGothic.ttf"
 fpath = "/NanumBarunGothic.ttf"
 font = mpl.font_manager.FontProperties(fname=fpath, size=9)
 plt.rc("font", family="NanumBarunGothic") 
