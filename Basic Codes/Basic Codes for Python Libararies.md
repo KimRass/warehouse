@@ -590,7 +590,7 @@ data["fuel"] = data["heating"].apply(lambda x:x.split(",")[1]).str.strip()
 ```
 ### ser.str.contains()
 ```python
-raw_data[raw_data["시군구"].str.contains("충청북도")]
+train[train["token"].str.contains(".", regex=False)]
 ```
 ## ser.cat
 ### ser.cat.categories
@@ -1397,9 +1397,7 @@ test_X = tkn.texts_to_sequences(test_X)
 
 lens = sorted([len(doc) for doc in train_X])
 ratio = 0.99
-for idx, max_len in enumerate(lens):
-    if idx/len(lens) >= ratio:
-        break
+max_len = int(np.quantile(lens, ratio))
 print(f"가장 긴 문장의 길이는 {np.max(lens)}입니다.")
 print(f"길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
 ```
@@ -2865,9 +2863,18 @@ print("{}초 경과".format(round(time.time())-time_before))
 
 
 # tqdm
+## tqdm.notebook
+### tqdm
 ```python
 from tqdm.notebook import tqdm
 ```
+- for Jupyter Notebook
+## tqdm.auto
+### tqdm
+```python
+from tqdm.auto import tqdm
+```
+- for Google Colab
 ## tqdm.pandas()
 - `df.progress_apply()`를 사용하기 위해 필요합니다.
 
