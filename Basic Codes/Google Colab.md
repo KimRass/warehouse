@@ -68,5 +68,5 @@ tf.tpu.experimental.initialize_tpu_system(resolver)
 strategy = tf.distribute.experimental.TPUStrategy(resolver)
 with strategy.scope():
     model = create_model()
-    his = model.fit()
+    hist = model.fit()
 ```
