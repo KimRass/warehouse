@@ -9,7 +9,7 @@ def set_css():
   '''))
 get_ipython().events.register("pre_run_cell", set_css)
 from google.colab import drive
-    drive.mount("/content/drive", force_remount=True)
+drive.mount("/content/drive", force_remount=True)
 import os
 import sys
 try:
