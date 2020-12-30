@@ -2700,9 +2700,12 @@ model = TFBertModel.from_pretrained("monologg/kobert", from_pt=True,
                                     num_labels=len(tag2idx), output_attentions=False,
                                     output_hidden_states = False)
 ```
-#### model()
 ```python
 bert_outputs = model([token_inputs, mask_inputs])
+```
+#### model.save()
+```python
+model.save("kobert_navermoviereview.h5", save_format="tf")
 ```
 ### BertModel.from_pretrained()
 ```python
