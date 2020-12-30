@@ -801,9 +801,9 @@ arr.ravel(order="F")
 from sklearn import *
 ```
 ## sklearn.model_selection
-### sklearn.model_selection.train_test_split
+### train_test_split
 ```python
-train_X, val_X, train_y, val_y = sklearn.model_selection.train_test_split(train_val_X, train_val_y, train_size=0.8, shuffle=True, random_state=3)
+train_X, val_X, train_y, val_y = train_test_split(train_val_X, train_val_y, train_size=0.8, shuffle=True, random_state=3)
 ```
 ## sklearn.feature_extraction.text
 ### CountVectorizer()
@@ -952,9 +952,10 @@ print(sklearn.metrics.classification_report(y_pred, y_test))
 # tensorflow
 ```python
 import tensorflow as tf
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, Bidirectional, TimeDistributed, Flatten, Dropout
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-from tensorflow.keras import Model
+from tensorflow.keras import Input, Model, Sequential
 ```
 ## tensor.shape
 ```python
@@ -1063,6 +1064,18 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_x, test_y)).shuffle(len(
 ## tf.train
 ### tf.train.Checkpoint()
 ## tf.keras
+### Sequential()
+```python
+model = Sequential()
+```
+### Input()
+```python
+input_tokens = Input(shape=(max_len,), name="input_tokens", dtype=tf.int32)
+```
+### Model
+```python
+model = Model(inputs=inputs, outputs=logits, name="lr")
+```
 ### tf.keras.utils
 #### tf.keras.utils.get_file()
 ```python
@@ -1132,11 +1145,9 @@ def loss_fn(model, images, labels):
     return loss
 
 ```
-* 출처 : [https://hwiyong.tistory.com/335](https://hwiyong.tistory.com/335)
-* 딥러닝에서 쓰이는 logit은 매우 간단합니다. 모델의 출력값이 문제에 맞게 normalize 되었느냐의 여부입니다. 예를 들어, 10개의 이미지를 분류하는 문제에서는 주로 softmax 함수를 사용하는데요. 이때, 모델이 출력값으로 해당 클래스의 범위에서의 확률을 출력한다면, 이를 logit=False라고 표현할 수 있습니다(이건 저만의 표현인 점을 참고해서 읽어주세요). 반대로 모델의 출력값이 sigmoid 또는 linear를 거쳐서 만들어지게 된다면, logit=True라고 표현할 수 있습니다.
-* 결론: 클래스 분류 문제에서 softmax 함수를 거치면 from_logits = False(default값), 그렇지 않으면 from_logits = True.
-* 텐서플로우에서는 softmax 함수를 거치지 않고, from_logits = True를 사용하는게 numerical stable하다고 설명하고 있다.
-* `training=True` : tf.keras.layers.Dropout()를 적용합니다.
+- 출처 : [https://hwiyong.tistory.com/335](https://hwiyong.tistory.com/335)
+- 딥러닝에서 쓰이는 logit은 매우 간단합니다. 모델의 출력값이 문제에 맞게 normalize 되었느냐의 여부입니다. 예를 들어, 10개의 이미지를 분류하는 문제에서는 주로 softmax 함수를 사용하는데요. 이때, 모델이 출력값으로 해당 클래스의 범위에서의 확률을 출력한다면, 이를 logit=False라고 표현할 수 있습니다(이건 저만의 표현인 점을 참고해서 읽어주세요). 반대로 모델의 출력값이 sigmoid 또는 linear를 거쳐서 만들어지게 된다면, logit=True라고 표현할 수 있습니다.
+- 클래스 분류 문제에서 softmax 함수를 거치면 `from_logits=False`(default값), 그렇지 않으면 `from_logits=True`(numerically stable)
 - 정답 레이블이 one-hot encoding 형태일 경우 사용합니다.
 #### tf.keras.losses.sparse_categorical_crossentropy()
 ```python
@@ -1280,10 +1291,6 @@ outputs = tf.keras.activations.sigmoid(logits)
 - "sigmoid"와 동일합니다.
 #### tf.keras.activations.relu()
 - "relu"와 동일합니다.
-### tf.keras.Model
-```python
-model = tf.keras.Model(inputs=inputs, outputs=logits, name="lr")
-```
 #### model.summary()
 #### model.trainable_variables
 #### model.save()
@@ -1325,14 +1332,6 @@ score = model.evaluate(x_test, y_test, batch_size=128, verbose=0)
 ```python
 preds = model.predict(x.values)
 ```
-### tf.keras.Sequential()
-```python
-model = tf.keras.Sequential()
-```
-### tf.keras.Input()
-```python
-inputs = tf.keras.Input(shape=(28, 28, 1))
-```
 ### tf.keras.callbacks
 #### EarlyStopping()
 ```python
@@ -1352,12 +1351,17 @@ mc = ModelCheckpoint(filepath=model_path, monitor="val_binary_accuracy", mode="a
 - `verbose=0` : 화면에 표시되는 것 없이 그냥 바로 모델이 저장됩니다.
 ### tf.keras.preprocessing
 #### tf.keras.preprocessing.sequence
-##### tf.keras.preprocessing.sequence.pad_sequences()
+##### pad_sequences()
 ```python
-train_X = tf.keras.preprocessing.sequence.pad_sequences(train_X, maxlen=max_len)
+train_X = pad_sequences(train_X, maxlen=max_len)
 ```
 ```python
-X_char = [tf.keras.preprocessing.sequence.pad_sequences([[char2idx[char] if char in chars else 1 for char in word] for word in sent]) for sent in corpus]
+X_char = [pad_sequences([[char2idx[char] if char in chars else 1 for char in word] for word in sent]) for sent in corpus]
+```
+```python
+train_X = pad_sequences([tokenizer.convert_tokens_to_ids(tokens) for tokens in tokens_lists], 
+                        maxlen=max_len, value=tokenizer.convert_tokens_to_ids("[PAD]"),
+                        truncating="post", padding="post")
 ```
 - `padding="pre" | "post"`
 - `truncating="pre" | "post"`
@@ -2689,8 +2693,15 @@ model = BertModel.from_pretrained("monologg/kobert")
 ```python
 from transformers import TFBertModel
 ```
+### TFBertModel.from_pretrained()
 ```python
-model = TFBertModel.from_pretrained("monologg/kobert", from_pt=True)
+model = TFBertModel.from_pretrained("monologg/kobert", from_pt=True,
+                                    num_labels=len(tag2idx), output_attentions=False,
+                                    output_hidden_states = False)
+```
+#### model()
+```python
+bert_outputs = model([token_inputs, mask_inputs])
 ```
 ### BertModel.from_pretrained()
 ```python
@@ -2726,7 +2737,7 @@ tokenizer.encode("보는내내 그대로 들어맞는 예측 카리스마 없는
 ```python
 tokenizer.convert_tokens_to_ids("[CLS]")
 ```
-- 없는 token : 0, "[PAD]" : 1, "[CLS]" : 2, "[SEP]" : 3
+- unknown token : 0, "[PAD]" : 1, "[CLS]" : 2, "[SEP]" : 3
 
 
 
