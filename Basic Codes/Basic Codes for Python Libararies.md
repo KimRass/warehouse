@@ -692,7 +692,11 @@ np.cumsum(cnt)
 ```
 ## np.quantile()
 ```python
-np.quantile(cnts, 0.9)
+lens = sorted([len(doc) for doc in train_X])
+ratio = 0.99
+max_len = int(np.quantile(lens, ratio))
+print(f"가장 긴 문장의 길이는 {np.max(lens)}입니다.")
+print(f"길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
 ```
 ## np.concatenate()
 ```python
@@ -1397,13 +1401,6 @@ print(f"{len(word2idx):,}개의 단어 중 {vocab_size/len(word2idx):.1%}에 해
 ##### tkn.texts_to_sequences()
 ```python
 train_X = tkn.texts_to_sequences(train_X)
-test_X = tkn.texts_to_sequences(test_X)
-
-lens = sorted([len(doc) for doc in train_X])
-ratio = 0.99
-max_len = int(np.quantile(lens, ratio))
-print(f"가장 긴 문장의 길이는 {np.max(lens)}입니다.")
-print(f"길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
 ```
 - `num_words`가 적용됩니다.
 ##### tkn.sequences_to_texts()
@@ -2546,20 +2543,24 @@ tagged_sents = nltk.corpus.treebank.tagged_sents()
 ```
 ## nltk.translate
 ### nltk.translate.bleu_score
-#### nltk.translate.bleu_score.sentence_bleu()
+```python
+from nltk.translate.bleu_score import sentence_bleu, corpus_bleu, SmoothingFunction
+```
+#### sentence_bleu()
 ```python
 ref = [["this", "is", "a", "test"], ["this", "is" "test"]]
 cand = ["this", "is", "a", "test"]
 score = nltk.translate.bleu_score.sentence_bleu(ref, cand)
 ```
 - `weights`=(1/2, 1/2, 0, 0)
-#### nltk.translate.bleu_score.corpus_bleu()
+#### corpus_bleu()
 ```python
 refs = [[["this", "is", "a", "test"], ["this", "is" "test"]]]
 cands = [["this", "is", "a", "test"]]
 score = nltk.translate.bleu_score.corpus_bleu(refs, cands)
 ```
 - `weights`=(1/2, 1/2, 0, 0)
+#### SmoothingFunction()
 ## nltk.ngrams()
 ```python
 nltk.ngrams("I am a boy", 3)
