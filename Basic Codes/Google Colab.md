@@ -64,3 +64,9 @@ resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu="grpc://" + os.
 tf.config.experimental_connect_to_cluster(resolver)
 tf.tpu.experimental.initialize_tpu_system(resolver)
 ```
+```python
+strategy = tf.distribute.experimental.TPUStrategy(resolver)
+with strategy.scope():
+    model = create_model()
+    his = model.fit()
+```
