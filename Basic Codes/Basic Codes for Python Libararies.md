@@ -318,6 +318,10 @@ pivot = pd.pivot_table(uses_df[["daytime", "weekday", "cnt"]], index="daytime", 
 n_post = pd.melt(n_post, id_vars="Date", var_name="Emp", value_name="NPost", ignore_index=False)
 
 ```
+```python
+data = pd.melt(data, id_vars=basic_cols + money_cols, value_name="date")
+data = pd.melt(data, id_vars=basic_cols + ["date"], var_name="classification", value_name="money")
+```
 - pd.pivot_table()의 반대 과정입니다.
 
 ## pd.Categorical()
