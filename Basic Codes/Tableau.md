@@ -14,4 +14,7 @@ or [피벗 필드명] = "휴가"
 then [피벗 필드 값]
 end
 ```
-## ZN(SUM([종가])) - LOOKUP(ZN(SUM([종가])), -1)
+## zn
+```
+ZN(SUM([종가])) - LOOKUP(ZN(SUM([종가])), -1)
+```
