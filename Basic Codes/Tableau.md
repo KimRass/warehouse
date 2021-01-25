@@ -18,3 +18,7 @@ end
 ```
 ZN(SUM([종가])) - LOOKUP(ZN(SUM([종가])), -1)
 ```
+## datediff
+```
+DATEDIFF('quarter', [고객별 최초 구매일], [고객별 최초 재구매일 ])
+```
