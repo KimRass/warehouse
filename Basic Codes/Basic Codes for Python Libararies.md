@@ -287,6 +287,9 @@ data = pd.read_csv("fra.txt", names=["src", "tar", "CC"], sep="\t")
 - `float_precision="round_trip"`
 - `skiprows`
 ## pd.read_excel()
+```python
+data = pd.read_excel("계약일보_속초2차.xlsx", names=["코드", "현장명", "평형", "동", "호수", "성명", "분양구분", "분양가", "계약금1차 일자", "계약금1차", "계약금2차 일자", "계약금2차", "1회 일자", "1회", "2회 일자", "2회", "3회 일자", "3회", "4회 일자", "4회", "5회 일자", "5회", "6회 일자", "6회", "7회 일자", "7회", "8회 일자", "8회", "잔금 일자", "잔금"])
+```
 ## pd.read_table()
 ```python
 ratings_train = pd.read_table("ratings_train.txt", usecols=["document", "label"])
