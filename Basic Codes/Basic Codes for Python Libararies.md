@@ -1483,6 +1483,7 @@ from bs4 import BeautifulSoup as bs
 ```python
 soup = bs(xml,"lxml")
 ```
+### 
 ### soup.find_all()
 #### soup.find_all().find()
 #### soup.find_all().find().get_text()
