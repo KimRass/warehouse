@@ -2884,6 +2884,11 @@ time_before=round(time.time())
 ```python
 print("{}초 경과".format(round(time.time())-time_before))
 ```
+## time.localtime()
+## time.strftime()
+```python
+time.strftime("%Y%m%d", time.localtime(time.time()))
+```
 
 
 
