@@ -3401,3 +3401,7 @@ sheet["H8"] = "=SUM(H6:H7)"
 content = ["민수", "준공분", "거제2차", "15.06", "18.05", "1279"]
 sheet.append(content)
 wb.save("test.xlsx")
+
+
+
+# 
