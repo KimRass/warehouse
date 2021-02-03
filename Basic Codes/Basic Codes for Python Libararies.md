@@ -3404,4 +3404,8 @@ wb.save("test.xlsx")
 
 
 
-# 
+## datetime.timedelta
+```python
+for i in range(delta.days + 1):
+    day = start + timedelta(days=i)
+```
