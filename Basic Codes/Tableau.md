@@ -22,3 +22,9 @@ ZN(SUM([종가])) - LOOKUP(ZN(SUM([종가])), -1)
 ```
 DATEDIFF('quarter', [고객별 최초 구매일], [고객별 최초 재구매일 ])
 ```
+# dateutil
+## relativedelta
+from dateutil import relativedelta
+```
+(start + relativedelta.relativedelta(months=1)).replace(day=1) - timedelta(days=1)
+```
