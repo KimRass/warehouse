@@ -3410,3 +3410,6 @@ wb.save("test.xlsx")
 for i in range(delta.days + 1):
     day = start + timedelta(days=i)
 ```
+
+datetime.today()
+datetime.today().strftime("%Y-%m-%d")
