@@ -155,6 +155,9 @@ A = [eval(f"A{i}") for i in range(N, 0, -1)]
 for data in ["tasks", "comments", "projects", "prj_members", "members"]:
     exec(f"{data} = pd.read_csv('D:/디지털혁신팀/협업플랫폼 분석/{data}.csv')")
 ```
+```python
+exec(f"{table} = pd.DataFrame(result)")
+```
 - "를 제거하는 효과입니다. 수식에 사용합니다.
 # class
 ## instance attribute(instance variables)
