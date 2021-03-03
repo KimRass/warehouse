@@ -3414,3 +3414,16 @@ for i in range(delta.days + 1):
 
 datetime.today()
 datetime.today().strftime("%Y-%m-%d")
+
+import traceback
+import psycopg2
+from psycopg2.extras import RealDictCursor
+
+try:
+    conn = psycopg2.connect(host="postgresql-production1.cluster-ro-cxb5zwyq1mu5.ap-northeast-2.rds.amazonaws.com", dbname="hdc", user="postgres", password="dtRW2aj14KYl7aQl8oZd")
+    cur = conn.cursor(cursor_factory=RealDictCursor)
+except Exception:
+    print("Fail to connect DB")
+
+query = 'SELECT * FROM "APT_CONTENTS_CATEGORY"'
+cur.execute(query)
