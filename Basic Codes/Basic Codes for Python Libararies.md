@@ -3407,9 +3407,20 @@ sheet.append(content)
 wb.save("test.xlsx")
 
 
-from datetime import datetime
-from datetime import timedelta
+# datetime
+## datetime.datetime
 ## datetime.timedelta
+
+
+## datetime.timedelt
+## datetime.timedelta## datetime.timedelt
+
+## datetime.timedelta## datetime.timedelt
+## datetime.timedelta## datetime.timedelt
+
+## datetime.timedelta## datetime.timedelt
+## datetime.timedelta## datetime.timedelt
+
 ```python
 for i in range(delta.days + 1):
     day = start + timedelta(days=i)
