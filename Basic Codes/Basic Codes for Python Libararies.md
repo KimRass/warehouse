@@ -3407,56 +3407,60 @@ sheet.append(content)
 wb.save("test.xlsx")
 
 
+
 # datetime
 ## datetime.datetime
 ## datetime.timedelta
 
-
-## datetime.timedelt
-## datetime.timedelta## datetime.timedelt
-
-## datetime.timedelta## datetime.timedelt
-## datetime.timedelta## datetime.timedelt
-
-## datetime.timedelta## datetime.timedelt
-## datetime.timedelta## datetime.timedelt
-
 ```python
-for i in range(delta.days + 1):
-    day = start + timedelta(days=i)
+day = start + datetime.timedelta(days=1)
+```
+## datetime.today()
+## strftime()
+```python
+strftime("%Y-%m-%d")
 ```
 
-# datetime.today()
-# datetime.today().strftime("%Y-%m-%d")
+
+
+# traceback
+## traceback.format_exec()
 ```python
-import traceback
-import psycopg2
+try:            
+    cur.execute(query)            
+    result = cur.fetchall()        
+except Exception as e:            
+    msg = traceback.format_exc()            
+    msg += "\n\n Query: \n" + query            
+    print(msg)  
+```
+
+
+
+# psycopg2
+## psycopg2.connect()
+```python
+conn = psycopg2.connect(host="postgresql-production1.cluster-ro-cxb5zwyq1mu5.ap-northeast-2.rds.amazonaws.com", dbname="hdc", user="postgres", password="dtRW2aj14KYl7aQl8oZd")
+```
+### conn.cursor()
+```python
+cur = conn.cursor(cursor_factory=RealDictCursor)
+```
+#### cur.excute()
+```python
+cur.excute(query)
+```
+#### cur.fetchall()
+```python
+result = cur.fetchall() 
+```
+#### cur.close()
+## psycopg2.extras
+### RealDictCursor
+```python
 from psycopg2.extras import RealDictCursor
 ```
 
-```python
-try:
-    conn = psycopg2.connect(host="postgresql-production1.cluster-ro-cxb5zwyq1mu5.ap-northeast-2.rds.amazonaws.com", dbname="hdc", user="postgres", password="dtRW2aj14KYl7aQl8oZd")
-    cur = conn.cursor(cursor_factory=RealDictCursor)
-except Exception:
-    print("Fail to connect DB")
-
-for table in ["mbr_mst"]:
-    pass
-    query = f"SELECT mbr_id, mbr_sex, regist_dt, mbr_st, mbr_birth, mbr_familly_ty, mbr_delete_date, tenant_cert_dt FROM hdc_mbr.{table}"
-    try:            
-        cur.execute(query)            
-        result = cur.fetchall()        
-    except Exception as e:            
-        msg = traceback.format_exc()            
-        msg += "\n\n Query: \n" + query            
-        print(msg)            
-        cur.close()
-    cur.close()
-
-    exec(f"{table} = pd.DataFrame(result)")
-    exec(f"{table}.to_csv('{table}.csv', encoding='euc-kr')")
-```
 ```python
 jupyter notebook --NotebookApp.iopub_data_rate_limit=1.0e10
 ```
