@@ -2,11 +2,11 @@
 ```python
 from IPython.display import HTML, display
 def set_css():
-  display(HTML('''
+  display(HTML("""
   <style>
     pre {white-space: pre-wrap;}
   </style>
-  '''))
+  """))
 get_ipython().events.register("pre_run_cell", set_css)
 from google.colab import drive
 drive.mount("/content/drive", force_remount=True)
