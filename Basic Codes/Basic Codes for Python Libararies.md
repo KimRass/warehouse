@@ -1434,6 +1434,16 @@ train_ds = tf.keras.preprocessing.image_dataset_from_directory(data_dir, validat
 ```python
 train_ds.class_names
 ```
+##### ds.take()
+```python
+plt.figure(figsize=(10, 10))
+for images, labels in train_ds.take(1):
+    for i in range(9):
+        ax = plt.subplot(3, 3, i + 1)
+        ax.imshow(images[i].numpy().astype("uint8"))
+        ax.set_title(cls_names[labels[i]])
+        ax.axis("off")
+```
 ### tf.keras.models
 #### tf.keras.models.load_model()
 ```python
@@ -2136,133 +2146,6 @@ mpl.rc("font", family=font_name)
 ```python
 mpl.rc("axes", unicode_minus=False)
 ```
-## matplotlib.pyplot
-```python
-import matplotlib.pyplot as plt
-```
-### plt.subplots()
-```python
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 12)
-```
-### plt.setp()
-```python
-plt.setp(obj=ax1, yticks=ml_mean_gr_ax1["le"], yticklabels=ml_mean_gr_ax1.index)
-```
-### fig.colorbar()
-```python
-cbar = fig.colorbar(ax=ax, mappable=scatter)
-```
-### plt.style.use()
-```python
-plt.style.use("dark_background")
-```
-### plt.imshow()
-```python
-plt.imshow(image.numpy().reshape(3,3), cmap="Greys")
-```
-### fig.savefig()
-```python
-fig.savefig("means_plot_200803.png", bbox_inches="tight")
-```
-### fig.tight_layout()
-
-### cbar.set_label()
-```python
-cbar.set_label(label="전용면적(m²)", size=15)
-```
-### ax.set()
-```python
-ax.set(title="Example", xlabel="xAxis", ylabel="yAxis", xlim=[0, 1], ylim=[-0.5, 2.5], xticks=data.index, yticks=[1, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3])
-```
-### ax.set_title()
-```python
-ax.set_title("Example", size=20)
-```
-### ax.set_xlabel(), ax.set_ylabel()
-```python
-ax.set_xlabel("xAxis", size=15)
-```
-### ax.set_xlim(), ax.set_ylim()
-```python
-ax.set_xlim([1, 4])
-```
-### ax.axes
-### ax.axis()
-```python
-ax.axis([2, 3, 4, 10])
-```
-#### ax.xaxis.set_visible(), ax.yaxis.set_visible()
-```python
-ax1.xaxis.set_visible(False)
-```
-#### ax.xaxis.set_label_position(), ax.yaxis.set_label_position()
-```python
-ax.xaxis.set_label_position("top")
-```
-#### ax.xaxis.set_ticks_position(), ax.yaxis.set_ticks_position()
-```python
-ax1.yaxis.set_ticks_position("right")
-```
-```python
-ax.xaxis.set_ticks_position("top")
-```
-#### ax.xaxis.set_tick_position(), ax.yaxis.set_tick_position()
-```python
-ax2.yaxis.set_ticks_position("right")
-```
-#### ax.xaxis.set_major_formatter(mpl.ticker.StrMethodFormatter(), ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter()
-```python
-ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter("{x:,.0f}"))
-```
-### ax.invert_xaxis(), ax.invert_yaxis()
-### ax.set_xticks(), ax.set_yticks()
-```python
-ax.set_yticks(np.arange(1, 1.31, 0.05))
-```
-- 화면에 표시할 눈금을 설정합니다.
-### ax.tick_params()
-```python
-ax.tick_params(axis="x", labelsize=20, labelcolor="red", labelrotation=45, grid_linewidth=3)
-```
-### ax.legend()
-```python
-ax.legend(fontsize=14, loc="best")
-```
-- `loc`="best" | "upper right" ...
-### ax.grid()
-```python
-ax.grid(axis="x", color="White", alpha=0.3, linestyle="--", linewidth=2)
-```
-### ax.plot()
-```python
-ax.plot(df1.index, df1["mean"], linestyle="dashdot", linewidth=1.5, color="black", label="10년 전(09.08 ~ 10.07) 전국 실거래가")
-```
-- linestyle : "dashdot" | "dashed" | "solid" | "dotted"
-### ax.scatter()
-```python
-ax.scatter(gby["0.5km 내 교육기관 개수"], gby["실거래가"], s=70, c=gby["전용면적(m²)"], cmap="RdYlBu", alpha=0.7, edgecolors="black", linewidth=0.5)
-```
-### ax.bar()
-```python
-ax.bar(x=nby_genre.index, height=nby_genre["movie_id"])
-```
-### ax.barh()
-```python
-ax.barh(y=ipark["index"], width=ipark["가경4단지 84.8743A"], height=0.2, alpha=0.5, color="red", label="가경4단지 84.8743A", edgecolor="black", linewidth=1)
-```
-### ax.hist()
-```python
-ax.hist(cnt_genre["genre"], bins=30)
-```
-### ax.axhline()
-```python
-ax.axhline(y=mean, color="r", linestyle=":", linewidth=2)
-```
-### ax.text()
-```python
-for _, row in ml_gby_ax1.iterrows():
-    ax1.text(y=row["le"]-0.18, x=row["abs_error"], s=round(row["abs_error"], 1), va="center", ha="left", fontsize=10)
-```
 ### plot(kind="pie")
 ```python
 cnt_genre.sort_values("movie_id", ascending=False)["movie_id"].plot(ax=ax, kind="pie", startangle=90, legend=True)
@@ -2270,6 +2153,138 @@ cnt_genre.sort_values("movie_id", ascending=False)["movie_id"].plot(ax=ax, kind=
 ### plot(kind="bar")
 ```python
 data["label"].value_counts().plot(kind="bar")
+```
+### cbar.set_label()
+```python
+cbar.set_label(label="전용면적(m²)", size=15)
+```
+## matplotlib.pyplot
+```python
+import matplotlib.pyplot as plt
+```
+### plt.setp()
+```python
+plt.setp(obj=ax1, yticks=ml_mean_gr_ax1["le"], yticklabels=ml_mean_gr_ax1.index)
+```
+### plt.style.use()
+```python
+plt.style.use("dark_background")
+```
+### plt.subplots()
+```python
+fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 12)
+```
+#### fig.colorbar()
+```python
+cbar = fig.colorbar(ax=ax, mappable=scatter)
+```
+#### fig.savefig()
+```python
+fig.savefig("means_plot_200803.png", bbox_inches="tight")
+```
+#### fig.tight_layout()
+#### ax.imshow()
+```python
+ax.imshow(image.numpy().reshape(3,3), cmap="Greys")
+```
+```python
+ax.imshow(images[i].numpy().astype("uint8"))
+```
+#### ax.set()
+```python
+ax.set(title="Example", xlabel="xAxis", ylabel="yAxis", xlim=[0, 1], ylim=[-0.5, 2.5], xticks=data.index, yticks=[1, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3])
+```
+#### ax.set_title()
+```python
+ax.set_title("Example", size=20)
+```
+#### ax.set_xlabel(), ax.set_ylabel()
+```python
+ax.set_xlabel("xAxis", size=15)
+```
+#### ax.set_xlim(), ax.set_ylim()
+```python
+ax.set_xlim([1, 4])
+```
+#### ax.axes
+#### ax.axis()
+```python
+ax.axis([2, 3, 4, 10])
+```
+```phthon
+ax.axis("off")
+```
+##### ax.xaxis.set_visible(), ax.yaxis.set_visible()
+```python
+ax1.xaxis.set_visible(False)
+```
+##### ax.xaxis.set_label_position(), ax.yaxis.set_label_position()
+```python
+ax.xaxis.set_label_position("top")
+```
+##### ax.xaxis.set_ticks_position(), ax.yaxis.set_ticks_position()
+```python
+ax1.yaxis.set_ticks_position("right")
+```
+```python
+ax.xaxis.set_ticks_position("top")
+```
+##### ax.xaxis.set_tick_position(), ax.yaxis.set_tick_position()
+```python
+ax2.yaxis.set_ticks_position("right")
+```
+#### ax.xaxis.set_major_formatter(mpl.ticker.StrMethodFormatter(), ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter()
+```python
+ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter("{x:,.0f}"))
+```
+#### ax.invert_xaxis(), ax.invert_yaxis()
+#### ax.set_xticks(), ax.set_yticks()
+```python
+ax.set_yticks(np.arange(1, 1.31, 0.05))
+```
+- 화면에 표시할 눈금을 설정합니다.
+#### ax.tick_params()
+```python
+ax.tick_params(axis="x", labelsize=20, labelcolor="red", labelrotation=45, grid_linewidth=3)
+```
+#### ax.legend()
+```python
+ax.legend(fontsize=14, loc="best")
+```
+- `loc`="best" | "upper right" ...
+#### ax.grid()
+```python
+ax.grid(axis="x", color="White", alpha=0.3, linestyle="--", linewidth=2)
+```
+#### ax.plot()
+```python
+ax.plot(df1.index, df1["mean"], linestyle="dashdot", linewidth=1.5, color="black", label="10년 전(09.08 ~ 10.07) 전국 실거래가")
+```
+- linestyle : "dashdot" | "dashed" | "solid" | "dotted"
+#### ax.scatter()
+```python
+ax.scatter(gby["0.5km 내 교육기관 개수"], gby["실거래가"], s=70, c=gby["전용면적(m²)"], cmap="RdYlBu", alpha=0.7, edgecolors="black", linewidth=0.5)
+```
+#### ax.bar()
+```python
+ax.bar(x=nby_genre.index, height=nby_genre["movie_id"])
+```
+#### ax.barh()
+```python
+ax.barh(y=ipark["index"], width=ipark["가경4단지 84.8743A"], height=0.2, alpha=0.5, color="red", label="가경4단지 84.8743A", edgecolor="black", linewidth=1)
+```
+#### ax.hist()
+```python
+ax.hist(cnt_genre["genre"], bins=30)
+```
+#### ax.axhline()
+```python
+ax.axhline(y=mean, color="r", linestyle=":", linewidth=2)
+```
+#### ax.text()
+```python
+for _, row in ml_gby_ax1.iterrows():
+    ax1.text(y=row["le"]-0.18, x=row["abs_error"], s=round(row["abs_error"], 1), va="center", ha="left", fontsize=10)
 ```
 
 
