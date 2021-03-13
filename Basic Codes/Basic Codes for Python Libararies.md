@@ -969,8 +969,10 @@ print(sklearn.metrics.classification_report(y_pred, y_test))
 # tensorflow
 ```python
 import tensorflow as tf
+from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, Bidirectional, TimeDistributed, Flatten, Dropout
+from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras import Input, Model, Sequential
 ```
@@ -1120,7 +1122,6 @@ with tf.GradientTape() as tape:
 dW, db = tape.gradient(loss, [W, b])
 ```
 ### tf.keras.datasets
-
 #### tf.keras.datasets.mnist
 ##### tf.keras.datasets.mnist.load_data()
 ```python
@@ -1181,6 +1182,12 @@ def loss_fn(model, x, y):
 #### tf.keras.metrics.SparseCategoricalAccuracy()
 - "sparse_categorical_accuracy"와 동일합니다.
 ### tf.keras.layers
+#### tf.keras.layers.experimental
+##### tf.keras.layers.experimental.preprocessing
+###### Rescaling
+```python
+model.add(Rescaling(1/255, input_shape=(img_height, img_width, 3)))
+```
 #### tf.keras.layers.Add()
 ```python
 logits = tf.keras.layers.Add()([logits_mlr, logits_fm, logits_dfm])
@@ -1368,6 +1375,31 @@ mc = ModelCheckpoint(filepath=model_path, monitor="val_binary_accuracy", mode="a
 - `verbose=1` : 모델이 저장 될 때 '저장되었습니다' 라고 화면에 표시됩니다.
 - `verbose=0` : 화면에 표시되는 것 없이 그냥 바로 모델이 저장됩니다.
 ### tf.keras.preprocessing
+#### image_dataset_from_directory()
+```python
+train_ds = image_dataset_from_directory(data_dir, validation_split=0.2, subset="training",
+                                        image_size=(img_height, img_width), seed=1, batch_size=batch_size)
+```
+```python
+for image_batch, labels_batch in train_ds:
+    print(image_batch.shape)
+    print(labels_batch.shape)
+    break
+```
+##### ds.class_names
+```python
+train_ds.class_names
+```
+##### ds.take()
+```python
+plt.figure(figsize=(10, 10))
+for images, labels in train_ds.take(1):
+    for i in range(9):
+        ax = plt.subplot(3, 3, i + 1)
+        ax.imshow(images[i].numpy().astype("uint8"))
+        ax.set_title(cls_names[labels[i]])
+        ax.axis("off")
+```
 #### tf.keras.preprocessing.sequence
 ##### pad_sequences()
 ```python
@@ -1424,26 +1456,6 @@ tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 
 ```
 - `mode="count"` | `"binary"` | `"tfidf"` | `"freq"`
 - `num_words`가 적용됩니다.
-#### tf.keras.preprocessing.image_dataset_from_directory()
-```python
-train_ds = tf.keras.preprocessing.image_dataset_from_directory(data_dir, validation_split=0.2, subset="training",
-                                                               image_size=(img_height, img_width), seed=1,
-                                                               batch_size=batch_size)
-```
-##### ds.class_names
-```python
-train_ds.class_names
-```
-##### ds.take()
-```python
-plt.figure(figsize=(10, 10))
-for images, labels in train_ds.take(1):
-    for i in range(9):
-        ax = plt.subplot(3, 3, i + 1)
-        ax.imshow(images[i].numpy().astype("uint8"))
-        ax.set_title(cls_names[labels[i]])
-        ax.axis("off")
-```
 ### tf.keras.models
 #### tf.keras.models.load_model()
 ```python
