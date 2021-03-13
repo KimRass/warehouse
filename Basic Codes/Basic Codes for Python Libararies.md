@@ -1430,6 +1430,10 @@ train_ds = tf.keras.preprocessing.image_dataset_from_directory(data_dir, validat
                                                                image_size=(img_height, img_width), seed=1,
                                                                batch_size=batch_size)
 ```
+##### ds.class_names
+```python
+train_ds.class_names
+```
 ### tf.keras.models
 #### tf.keras.models.load_model()
 ```python
@@ -2183,7 +2187,6 @@ ax.set_xlabel("xAxis", size=15)
 ax.set_xlim([1, 4])
 ```
 ### ax.axes
-#### ax.
 ### ax.axis()
 ```python
 ax.axis([2, 3, 4, 10])
