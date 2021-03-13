@@ -971,7 +971,8 @@ print(sklearn.metrics.classification_report(y_pred, y_test))
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, Bidirectional, TimeDistributed, Flatten, Dropout
+from tensorflow.keras.preprocessing.image import load_img, img_to_array
+from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, Bidirectional, TimeDistributed, Flatten, Dropout, Conv2D, MaxPooling2D
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras import Input, Model, Sequential
@@ -1154,15 +1155,10 @@ opt.apply_gradients(zip(grads, model.trainable_variables))
 - "binary_crossentropy"와 동일합니다.
 #### tf.keras.losses.categorical_crossentropy()
 ```python
-
 def loss_fn(model, images, labels):
-
     logits = model(images, training=True)
-
     loss = tf.reduce_mean(tf.keras.losses.categorical_crossentropy(y_true=labels, y_pred=logits, from_logits=True))
-
     return loss
-
 ```
 - 출처 : [https://hwiyong.tistory.com/335](https://hwiyong.tistory.com/335)
 - 딥러닝에서 쓰이는 logit은 매우 간단합니다. 모델의 출력값이 문제에 맞게 normalize 되었느냐의 여부입니다. 예를 들어, 10개의 이미지를 분류하는 문제에서는 주로 softmax 함수를 사용하는데요. 이때, 모델이 출력값으로 해당 클래스의 범위에서의 확률을 출력한다면, 이를 logit=False라고 표현할 수 있습니다(이건 저만의 표현인 점을 참고해서 읽어주세요). 반대로 모델의 출력값이 sigmoid 또는 linear를 거쳐서 만들어지게 된다면, logit=True라고 표현할 수 있습니다.
@@ -1382,7 +1378,25 @@ mc = ModelCheckpoint(filepath=model_path, monitor="val_binary_accuracy", mode="a
 - `verbose=1` : 모델이 저장 될 때 '저장되었습니다' 라고 화면에 표시됩니다.
 - `verbose=0` : 화면에 표시되는 것 없이 그냥 바로 모델이 저장됩니다.
 ### tf.keras.preprocessing
+#### tf.keras.preprocessing.image
+##### load_img()
+```python
+from tensorflow.keras.preprocessing.image import load_img
+```
+```python
+img = load_img(fpath, target_size=(img_height, img_width))
+```
+##### img_to_array()
+```python
+from tensorflow.keras.preprocessing.image import img_to_array
+```
+```python
+img_array = img_to_array(img)
+```
 #### image_dataset_from_directory()
+```python
+from tf.keras.preprocessing import image_dataset_from_directory
+```
 ```python
 train_ds = image_dataset_from_directory(data_dir, validation_split=0.2, subset="training",
                                         image_size=(img_height, img_width), seed=1, batch_size=batch_size)
