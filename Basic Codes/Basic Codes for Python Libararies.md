@@ -1343,12 +1343,19 @@ model.compile(optimizer=tf.keras.optimizers.Adagrad(lr=0.1), loss=tf.keras.losse
 ```python
 hist = model.fit(x=X_train, y=y_train, validation_split=0.2, batch_size=64, epochs=10, verbose=1, shuffle=True, callbacks=[es, mc])
 ```
+```python
+hist = model.fit(train_ds, validation_data=val_ds, epochs=epochs)
+```
 - `validation_data`=(X_val, y_val)
 #### model.fit_generator()
 ```python
 hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
 ```
 ##### hist.history
+```python
+hist.history["accuracy"]
+```
+- `"accuracy"`, `"val_accuracy"`, `"loss"`, `"val_loss"`
 #### model.evaluate()
 ```python
 score = model.evaluate(x_test, y_test, batch_size=128, verbose=0)
@@ -2181,6 +2188,11 @@ plt.setp(obj=ax1, yticks=ml_mean_gr_ax1["le"], yticklabels=ml_mean_gr_ax1.index)
 ### plt.style.use()
 ```python
 plt.style.use("dark_background")
+```
+### plst.subplot()
+```python
+for i in range(9):
+	ax = plt.subplot(3, 3, i + 1)
 ```
 ### plt.subplots()
 ```python
