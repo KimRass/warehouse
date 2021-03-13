@@ -1101,7 +1101,8 @@ movies_path = tf.keras.utils.get_file(fname="movies.csv", origin=os.path.join(ba
 
 movie_df = pd.read_csv(movies_path)
 ```
-- 인터넷의 파일을 로컬 컴퓨터의 홈 디렉토리 아래 .keras/datasets 디렉토리로 다운로드.
+- 인터넷의 파일을 로컬 컴퓨터의 홈 디렉토리 아래 `.keras/datasets` 디렉토리로 다운로드합니다.
+- `untar=True`
 #### tf.keras.utils.to_categorical()
 ```python
 tf.keras.utils.to_categorical([2, 5, 1, 6, 3, 7])
@@ -1423,6 +1424,12 @@ tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 
 ```
 - `mode="count"` | `"binary"` | `"tfidf"` | `"freq"`
 - `num_words`가 적용됩니다.
+#### tf.keras.preprocessing.image_dataset_from_directory()
+```python
+train_ds = tf.keras.preprocessing.image_dataset_from_directory(data_dir, validation_split=0.2, subset="training",
+                                                               image_size=(img_height, img_width), seed=1,
+                                                               batch_size=batch_size)
+```
 ### tf.keras.models
 #### tf.keras.models.load_model()
 ```python
@@ -1610,6 +1617,17 @@ import urllib3
 ### urllib3.PoolManager().request()
 ```python
 urllib3.PoolManager().request("GET", url, preload_content=False)
+```
+
+
+
+# pathlib
+```python
+import pathlib
+```
+## pathlib.Path()
+```python
+data_dir = pathlib.Path(data_dir)
 ```
 
 
@@ -2803,6 +2821,9 @@ re.search(r"(\w+)@(.+)", "test@gmail.com").group(0) #test@gmail.com
 re.search(r"(\w+)@(.+)", "test@gmail.com").group(1) #test
 re.search(r"(\w+)@(.+)", "test@gmail.com").group(2) #gmail.com
 ```
+```python
+views["apt_name"] = views["pageTitle"].apply(lambda x:re.search(r"(.*)\|(.*)\|(.*)", x).group(2) if "|" in x else x)
+```
 ## re.sub()
 ```python
 re.sub(r"\w+@\w+.\w+", "email address", "test@gmail.com and test2@gmail.com", count=1)
@@ -3398,22 +3419,43 @@ shutil.copyfileobj(urllib3.PoolManager().request("GET", url, preload_content=Fal
 ```python
 logging.basicConfig(level=logging.ERROR)
 ```
-# 
-import openpyxl
 
+
+
+# openpyxl
+```python
+import openpyxl
+```
+## openpyxl.Workbook()
+```python
 wb = openpyxl.Workbook()
+```
+### wb.active
+```python
 sheet = wb.active
-sheet["H8"] = "=SUM(H6:H7)"
+```
+### wb.save()
+```python
+wb.save("test.xlsx")
+```
+#### sheet.append()
+```python
 content = ["민수", "준공분", "거제2차", "15.06", "18.05", "1279"]
 sheet.append(content)
-wb.save("test.xlsx")
+```
+#### sheet[]
+```python
+sheet["H8"] = "=SUM(H6:H7)"
+```
 
 
 
 # datetime
+```python
+impoirt datetime
+```
 ## datetime.datetime
 ## datetime.timedelta
-
 ```python
 day = start + datetime.timedelta(days=1)
 ```
@@ -3422,10 +3464,21 @@ day = start + datetime.timedelta(days=1)
 ```python
 strftime("%Y-%m-%d")
 ```
+- `%Y` : 4자리 연도 숫자 
+- `%m` : 2자리 월 숫자
+- `%d` : 2자리 일 숫자
+- `%H` : 24시간 형식 2자리 시간 숫자
+- `%M` : 2자리 분 숫자
+- `%S` : 2자리 초 숫자
+- `%A` : 요일 문자열(영어)
+- `%B` : 월 문자열(영어)
 
 
 
 # traceback
+```python
+import traceback
+```
 ## traceback.format_exec()
 ```python
 try:            
@@ -3462,19 +3515,6 @@ result = cur.fetchall()
 ```python
 from psycopg2.extras import RealDictCursor
 ```
-
 ```python
 jupyter notebook --NotebookApp.iopub_data_rate_limit=1.0e10
 ```
-```python
-views["apt_name"] = views["pageTitle"].apply(lambda x:re.search(r"(.*)\|(.*)\|(.*)", x).group(2) if "|" in x else x)
-```
-- %Y : 앞의 빈자리를 0으로 채우는 4자리 연도 숫자- 
-- %m : 앞의 빈자리를 0으로 채우는 2자리 월 숫자
-- %d : 앞의 빈자리를 0으로 채우는 2자리 일 숫자
-- %H : 앞의 빈자리를 0으로 채우는 24시간 형식 2자리 시간 숫자
-- %M : 앞의 빈자리를 0으로 채우는 2자리 분 숫자
-- %S : 앞의 빈자리를 0으로 채우는 2자리 초 숫자
-- %A : 영어로 된 요일 문자열
-- %B : 영어로 된 월 문자열
-
