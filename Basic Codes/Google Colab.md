@@ -8,6 +8,9 @@ def set_css():
   </style>
   """))
 get_ipython().events.register("pre_run_cell", set_css)
+
+plt.style.use("dark_background")
+
 from google.colab import drive
 drive.mount("/content/drive", force_remount=True)
 import os
