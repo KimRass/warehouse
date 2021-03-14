@@ -1197,7 +1197,6 @@ pos_score = Dot(axes=(1,1))([user_embedding, pos_item_embedding])
 #### tf.keras.layers.Flatten()
 - 입력되는 tensor의 row를 펼쳐서 일렬로 만듭니다.
 - 학습되는 weights는 없고 데이터를 변환하기만 합니다.
-- dimension이 1인 shape의 element를 삭제합니다.
 ```python
 model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))
 ```
