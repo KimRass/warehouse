@@ -3573,21 +3573,33 @@ from psycopg2.extras import RealDictCursor
 ```python
 jupyter notebook --NotebookApp.iopub_data_rate_limit=1.0e10
 ```
+# ImageDataGenerator
 ```python
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 ```
 ```python
-train_datagen = ImageDataGenerator(rescale = 1./255,
-                                   shear_range = 0.2,
-                                   zoom_range = 0.2,
-                                   horizontal_flip = True)
+gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, = 0.2, horizontal_flip=True)
 ```
-## datagen.flow()
+- `rescale` : 
+- `shear_range` : 
+- `horizontal_flip`
+- `vertical_flip`
+- `rotation_range`
+- `width_shift_range`
+- `height_shift_range`
+## gen.flow()
 ```python
 hist = model.fit_generator(train_datagen.flow(train_images,train_labels, batch_size = 32), 
                     validation_data = validation_datagen.flow(validation_images, validation_labels, batch_size = 32),
                     epochs = 10)
 ```
+## gen.flow_from_directory()
+```python
+gen = ImageDataGenerator()
+datagen_tr = gen.flow_from_directory(directory="./dogsandcats", target_size=(224, 224))
+```
+- `batch_size=batch_size`
+- `class_mode` : `"binary"`
 ## cifar10
 ```python
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
@@ -3616,3 +3628,11 @@ data_aug.add(RandomZoom(0.1))
 log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 ```
+## VGG16()
+```python
+from tensorflow.keras.applications import VGG16
+```
+```python
+vgg = VGG16(input_shape=(224, 224, 3), include_top=False, weights="imagenet")
+```
+- `trainable=False`
