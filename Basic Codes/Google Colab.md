@@ -1,20 +1,10 @@
 # 초기 셋팅
 ```python
-from IPython.display import HTML, display
-def set_css():
-  display(HTML("""
-  <style>
-    pre {white-space: pre-wrap;}
-  </style>
-  """))
-get_ipython().events.register("pre_run_cell", set_css)
-
-plt.style.use("dark_background")
-
 from google.colab import drive
-drive.mount("/content/drive", force_remount=True)
 import os
 import sys
+
+drive.mount("/content/drive", force_remount=True)
 try:
     my_path = "/content/notebooks"
     os.symlink("/content/drive/MyDrive/ColabNotebooks/my_env", my_path)
@@ -22,6 +12,26 @@ try:
 except:
     pass
 os.chdir(my_path)
+
+from IPython.display import HTML, display
+
+def set_css():
+
+  display(HTML("""
+
+  <style>
+
+    pre {white-space: pre-wrap;}
+
+  </style>
+
+  """))
+
+get_ipython().events.register("pre_run_cell", set_css)
+
+
+
+plt.style.use("dark_background")
 ```
 # Package 영구 설치
 ```python
