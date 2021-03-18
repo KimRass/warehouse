@@ -3588,3 +3588,12 @@ hist = model.fit_generator(train_datagen.flow(train_images,train_labels, batch_s
                     validation_data = validation_datagen.flow(validation_images, validation_labels, batch_size = 32),
                     epochs = 10)
 ```
+## cifar10
+```python
+(x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+```
+## 
+```python
+%load_ext tensorboard
+%tensorboard --logdir logs/fit
+```
