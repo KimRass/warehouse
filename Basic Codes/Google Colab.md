@@ -1,8 +1,10 @@
 # 초기 셋팅
 ```python
 from google.colab import drive
+
 import os
 import sys
+from IPython.display import HTML, display
 
 drive.mount("/content/drive", force_remount=True)
 try:
@@ -13,23 +15,13 @@ except:
     pass
 os.chdir(my_path)
 
-from IPython.display import HTML, display
-
 def set_css():
-
   display(HTML("""
-
   <style>
-
     pre {white-space: pre-wrap;}
-
   </style>
-
   """))
-
 get_ipython().events.register("pre_run_cell", set_css)
-
-
 
 plt.style.use("dark_background")
 ```
