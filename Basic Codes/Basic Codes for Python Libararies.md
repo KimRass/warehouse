@@ -3573,3 +3573,18 @@ from psycopg2.extras import RealDictCursor
 ```python
 jupyter notebook --NotebookApp.iopub_data_rate_limit=1.0e10
 ```
+```python
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+```
+```python
+train_datagen = ImageDataGenerator(rescale = 1./255,
+                                   shear_range = 0.2,
+                                   zoom_range = 0.2,
+                                   horizontal_flip = True)
+```
+## datagen.flow()
+```python
+hist = model.fit_generator(train_datagen.flow(train_images,train_labels, batch_size = 32), 
+                    validation_data = validation_datagen.flow(validation_images, validation_labels, batch_size = 32),
+                    epochs = 10)
+```
