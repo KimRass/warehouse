@@ -3612,3 +3612,7 @@ data_aug.add(RandomRotation(0.1))
 ```python
 data_aug.add(RandomZoom(0.1))
 ```
+```python
+log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+```
