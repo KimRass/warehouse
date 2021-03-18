@@ -25,31 +25,7 @@ get_ipython().events.register("pre_run_cell", set_css)
 
 plt.style.use("dark_background")
 ```
-# Package 영구 설치from google.colab import drive
-
-import matplotlib.pyplot as plt
-import os
-import sys
-from IPython.display import HTML, display
-
-drive.mount("/content/drive", force_remount=True)
-try:
-    my_path = "/content/notebooks"
-    os.symlink("/content/drive/MyDrive/ColabNotebooks/my_env", my_path)
-    sys.path.insert(0, my_path)
-except:
-    pass
-os.chdir(my_path)
-
-def set_css():
-  display(HTML("""
-  <style>
-    pre {white-space: pre-wrap;}
-  </style>
-  """))
-get_ipython().events.register("pre_run_cell", set_css)
-
-plt.style.use("dark_background")
+# Package 영구 설치
 ```python
 !pip install --target=$my_path [패키지 이름]
 ```
