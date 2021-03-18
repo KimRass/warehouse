@@ -3597,3 +3597,18 @@ hist = model.fit_generator(train_datagen.flow(train_images,train_labels, batch_s
 %load_ext tensorboard
 %tensorboard --logdir logs/fit
 ```
+```python
+from tensorflow.keras.layers.experimental.preprocessing import RandomFlip, RandomRotation, RandomZoom
+```
+### RAndomFlip
+```python
+data_aug.add(RandomFlip("horizontal", input_shape=(img_height, img_width, 3)))
+```
+### RandomRotationm
+```python
+data_aug.add(RandomRotation(0.1))
+```
+### RandomZoom()
+```python
+data_aug.add(RandomZoom(0.1))
+```
