@@ -1,4 +1,11 @@
 # Python Built-in Functions
+## input()
+```python
+input("숫자 입력  : ")
+```
+```python
+list(map(int, input("숫자 입력  : ").split()))
+```
 ## print()
 ```python
 print(..., end="") 
