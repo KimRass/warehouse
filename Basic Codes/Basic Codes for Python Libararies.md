@@ -807,6 +807,10 @@ euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))
 np.fill_diagonal(cos_sim_item, 0	
 ```
 # arr
+## arr.astype()
+```python
+x_train = x_train.astype("float32")
+```
 ## arr.ravel()
 ```python
 arr.ravel(order="F")	
@@ -978,7 +982,7 @@ print(sklearn.metrics.classification_report(y_pred, y_test))
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.preprocessing.image import load_img, img_to_array
+from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
 from tensorflow.keras.layers import Input, LSTM, Embedding, Dense, Concatenate, Bidirectional, TimeDistributed, Flatten, Dropout, Conv2D, MaxPooling2D
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
@@ -1140,6 +1144,11 @@ dW, db = tape.gradient(loss, [W, b])
 ```python
 (X_train, y_train), (X_test, y_test) = reuters.load_data(num_words=None, test_split=0.2)
 ```
+#### tf.keras.datasets.cifar10
+##### tf.keras.datasets.cifar10.load_data()
+```python
+(x_tr, y_tr), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+```
 ### tf.keras.optimizers
 #### tf.keras.optimizers.SGD()
 ```python
@@ -1191,6 +1200,34 @@ def loss_fn(model, x, y):
 ```python
 model.add(Rescaling(1/255, input_shape=(img_height, img_width, 3)))
 ```
+```python
+from tensorflow.keras.layers.experimental.preprocessing import RandomFlip, RandomRotation, RandomZoom
+```
+### RAndomFlip
+```python
+data_aug.add(RandomFlip("horizontal", input_shape=(img_height, img_width, 3)))
+```
+### RandomRotationm
+```python
+data_aug.add(RandomRotation(0.1))
+```
+### RandomZoom()
+```python
+data_aug.add(RandomZoom(0.1))
+```
+```python
+log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+```
+## VGG16()
+```python
+from tensorflow.keras.applications import VGG16
+```
+```python
+vgg = VGG16(input_shape=(224, 224, 3), include_top=False, weights="imagenet")
+```
+
+- `trainable=False`
 #### tf.keras.layers.Add()
 ```python
 logits = tf.keras.layers.Add()([logits_mlr, logits_fm, logits_dfm])
@@ -1225,16 +1262,15 @@ def dropout(rate):
 def batch_norm()
     return tf.keras.layers.BatchNormalization()
 ```
-#### tf.keras.layers.Conv1D()
+#### Conv1D()
 ```python
 tf.keras.layers.Conv1D(filters=n_kernels, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
 ```
-#### tf.keras.layers.Conv2D()
+#### Conv2D()
 
 ```python
-conv2d = keras.layers.Conv2D(filters=n_filters, kernel_size=kernel_size, padding="same", data_format="channels_last")(image)
+conv2d = keras.layers.Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padding="same")(image)
 ```
-
 - image : (batch, height of image, width of image, number of channels)
 - kernel : (height of filter, width of filter, number of channels, number of kernels)
 - convolution : (batch, height of convolution, width of convolution, number of kernels)
@@ -1242,13 +1278,21 @@ conv2d = keras.layers.Conv2D(filters=n_filters, kernel_size=kernel_size, padding
 - `kernal_size` : window_size
 - `padding="valid"` : padding을 하지 않아 height of convolution, width of convolution이 height of image. width of image에 비해 각각 감소합니다.
 - `padding="same"` : padding을 하여 height of convolution, width of convolution이 height of image. width of image와 각각 동일하게 유지됩니다.
-#### tf.keras.layers.GlobalMaxPool1D()
+- `data_format="channels_last"`
+- `input_shape`
+- `activation="tanh"`
+#### GlobalMaxPool1D()
+#### GlobalMaxPool2D()
 - Downsamples the input representation by taking the maximum value over the time dimension.
 - shape : (a, b, c) -> (b, c)
-#### tf.keras.layers.MaxPool1D()
-#### tf.keras.layers.MaxPool2D()
+#### MaxPool1D()
+#### MaxPool2D()
 ```python
-pool = keras.layers.MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="channels_last")(image)
+pool = MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="channels_last")(image)
+```
+#### AveragePooling2D()
+```python
+model.add(AveragePooling2D(pool_size=(2, 2), strides=(2, 2), padding="valid")
 ```
 #### tf.keras.layers.SimpleRNNCell()
 #### tf.keras.layers.RNN()
@@ -1427,6 +1471,33 @@ for images, labels in train_ds.take(1):
         ax.set_title(cls_names[labels[i]])
         ax.axis("off")
 ```
+##### ImageDataGenerator
+```python
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+```
+```python
+gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, = 0.2, horizontal_flip=True)
+```
+- `rescale` : 
+- `shear_range` : 
+- `horizontal_flip`
+- `vertical_flip`
+- `rotation_range`
+- `width_shift_range`
+- `height_shift_range`
+## gen.flow()
+```python
+hist = model.fit_generator(train_datagen.flow(train_images,train_labels, batch_size = 32), 
+                    validation_data = validation_datagen.flow(validation_images, validation_labels, batch_size = 32),
+                    epochs = 10)
+```
+## gen.flow_from_directory()
+```python
+gen = ImageDataGenerator()
+datagen_tr = gen.flow_from_directory(directory="./dogsandcats", target_size=(224, 224))
+```
+- `batch_size=batch_size`
+- `class_mode` : `"binary"`
 #### tf.keras.preprocessing.sequence
 ##### pad_sequences()
 ```python
@@ -3580,66 +3651,11 @@ from psycopg2.extras import RealDictCursor
 ```python
 jupyter notebook --NotebookApp.iopub_data_rate_limit=1.0e10
 ```
-# ImageDataGenerator
-```python
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-```
-```python
-gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, = 0.2, horizontal_flip=True)
-```
-- `rescale` : 
-- `shear_range` : 
-- `horizontal_flip`
-- `vertical_flip`
-- `rotation_range`
-- `width_shift_range`
-- `height_shift_range`
-## gen.flow()
-```python
-hist = model.fit_generator(train_datagen.flow(train_images,train_labels, batch_size = 32), 
-                    validation_data = validation_datagen.flow(validation_images, validation_labels, batch_size = 32),
-                    epochs = 10)
-```
-## gen.flow_from_directory()
-```python
-gen = ImageDataGenerator()
-datagen_tr = gen.flow_from_directory(directory="./dogsandcats", target_size=(224, 224))
-```
-- `batch_size=batch_size`
-- `class_mode` : `"binary"`
-## cifar10
-```python
-(x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-```
+
 ## 
 ```python
 %load_ext tensorboard
 %tensorboard --logdir logs/fit
 ```
-```python
-from tensorflow.keras.layers.experimental.preprocessing import RandomFlip, RandomRotation, RandomZoom
-```
-### RAndomFlip
-```python
-data_aug.add(RandomFlip("horizontal", input_shape=(img_height, img_width, 3)))
-```
-### RandomRotationm
-```python
-data_aug.add(RandomRotation(0.1))
-```
-### RandomZoom()
-```python
-data_aug.add(RandomZoom(0.1))
-```
-```python
-log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-```
-## VGG16()
-```python
-from tensorflow.keras.applications import VGG16
-```
-```python
-vgg = VGG16(input_shape=(224, 224, 3), include_top=False, weights="imagenet")
-```
-- `trainable=False`
+
+
