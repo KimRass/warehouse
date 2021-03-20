@@ -1219,15 +1219,6 @@ data_aug.add(RandomZoom(0.1))
 log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 ```
-## VGG16()
-```python
-from tensorflow.keras.applications import VGG16
-```
-```python
-vgg = VGG16(input_shape=(224, 224, 3), include_top=False, weights="imagenet")
-```
-
-- `trainable=False`
 #### tf.keras.layers.Add()
 ```python
 logits = tf.keras.layers.Add()([logits_mlr, logits_fm, logits_dfm])
@@ -1266,8 +1257,8 @@ def batch_norm()
 ```python
 tf.keras.layers.Conv1D(filters=n_kernels, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
 ```
+- `strides` : basically equals to 1
 #### Conv2D()
-
 ```python
 conv2d = keras.layers.Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padding="same")(image)
 ```
@@ -1279,17 +1270,22 @@ conv2d = keras.layers.Conv2D(filters=n_filters, kernel_size=kernel_size, strides
 - `padding="valid"` : padding을 하지 않아 height of convolution, width of convolution이 height of image. width of image에 비해 각각 감소합니다.
 - `padding="same"` : padding을 하여 height of convolution, width of convolution이 height of image. width of image와 각각 동일하게 유지됩니다.
 - `data_format="channels_last"`
-- `input_shape`
+- `input_shape` : 처음에만 설정해 주면 됩니다.
 - `activation="tanh"`
 #### GlobalMaxPool1D()
+- same as `GlobalMaxPooling1D()`
 #### GlobalMaxPool2D()
+- same as `GlobalMaxPooling2D()`
 - Downsamples the input representation by taking the maximum value over the time dimension.
 - shape : (a, b, c) -> (b, c)
 #### MaxPool1D()
+- same as `MaxPooling1D()`
+- `strides` : basically equals to 2
 #### MaxPool2D()
 ```python
 pool = MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="channels_last")(image)
 ```
+- same as `MaxPooling2D()`
 #### AveragePooling2D()
 ```python
 model.add(AveragePooling2D(pool_size=(2, 2), strides=(2, 2), padding="valid")
@@ -1558,6 +1554,15 @@ tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 
 #### tf.keras.models.load_model()
 ```python
 model = tf.keras.models.load_model(model_path)
+```
+### tf.keras.applications
+#### tf.keras.applications.VGG16()
+```python
+vgg = tf.keras.applications.VGG16(input_shape=(224, 224, 3), include_top=False, weights="imagenet")
+```
+##### vgg.trainable
+```python
+vgg.trainable=Flase
 ```
 
 
