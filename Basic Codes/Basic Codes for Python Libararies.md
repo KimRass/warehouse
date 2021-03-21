@@ -1249,10 +1249,7 @@ def dropout(rate):
 ```
 * rate : dropout을 적용할 perceptron의 비율
 #### tf.keras.layers.BatchNormalization()
-```python
-def batch_norm()
-    return tf.keras.layers.BatchNormalization()
-```
+- usually used before activation function layers.
 #### Conv1D()
 ```python
 tf.keras.layers.Conv1D(filters=n_kernels, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
