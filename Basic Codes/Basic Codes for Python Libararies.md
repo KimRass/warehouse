@@ -979,7 +979,7 @@ print(sklearn.metrics.classification_report(y_pred, y_test))
 
 # tensorflow
 ```python
-mport tensorflow as tf
+import tensorflow as tf
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
