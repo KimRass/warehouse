@@ -1374,10 +1374,10 @@ bias = layer.get_weights()[1]
 ```python
 model.compile(optimizer=tf.keras.optimizers.Adagrad(lr=0.1), loss=tf.keras.losses.MeanSquaredError(), metrics=[tf.keras.metrics.RootMeanSquaredError()])
 ```
-- `optimizer="sgd"` | `"adam"` | `"rmsprop"`
-- `loss="mse"` | `"binary_crossentropy"` | `"categorical_crossentropy"` | `"sparse_categorical_crossentropy"`
-- `metrics=["mse"]` | `["binary_accuracy"]` | `["categorical_accuracy"]` | `["sparse_categorical_crossentropy"]`
-- `metrics=`는 생략할 수 있습니다.
+- `optimizer` : `"sgd"` | `"adam"` | `"rmsprop"`
+- `loss` : `"mse"` | `"binary_crossentropy"` | `"categorical_crossentropy"` | `"sparse_categorical_crossentropy"`
+- `metrics` : `["mse"]` | `["binary_accuracy"]` | `["categorical_accuracy"]` | `["sparse_categorical_crossentropy"]`
+- `metrics`는 생략할 수 있습니다.
 #### model.fit()
 ```python
 hist = model.fit(x=X_train, y=y_train, validation_split=0.2, batch_size=64, epochs=10, verbose=1, shuffle=True, callbacks=[es, mc])
@@ -1469,7 +1469,7 @@ for images, labels in train_ds.take(1):
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 ```
 ```python
-gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, = 0.2, horizontal_flip=True)
+gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True)
 ```
 - `rescale` : 
 - `shear_range` : 
@@ -1478,13 +1478,16 @@ gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, = 0.2, horizontal_flip=
 - `rotation_range`
 - `width_shift_range`
 - `height_shift_range`
-## gen.flow()
+###### genfit
 ```python
-hist = model.fit_generator(train_datagen.flow(train_images,train_labels, batch_size = 32), 
-                    validation_data = validation_datagen.flow(validation_images, validation_labels, batch_size = 32),
-                    epochs = 10)
+gen.fit(x_tr)
 ```
-## gen.flow_from_directory()
+###### gen.flow()
+```python
+hist = model.fit(gen.flow(x_tr, y_tr, batch_size=32), validation_data=gen.flow(x_val, y_val, batch_size=32),
+                 epochs=10)
+```
+###### gen.flow_from_directory()
 ```python
 gen = ImageDataGenerator()
 datagen_tr = gen.flow_from_directory(directory="./dogsandcats", target_size=(224, 224))
