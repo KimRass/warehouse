@@ -829,6 +829,9 @@ arr.ravel(order="F")
 from sklearn import *
 ```
 ## sklearn.model_selection
+```python
+from sklearn.model_selection import train_test_split
+```
 ### train_test_split
 ```python
 train_X, val_X, train_y, val_y = train_test_split(train_val_X, train_val_y, train_size=0.8, shuffle=True, random_state=3)
@@ -983,7 +986,7 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
-from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Concatenate, Add, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePoolin1D, GlobalAveeragePooling2D
+from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Concatenate, Add, Dot, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePoolin1D, GlobalAveeragePooling2D
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras import Input, Model, Sequential
@@ -1194,70 +1197,50 @@ def loss_fn(model, x, y):
 #### tf.keras.metrics.SparseCategoricalAccuracy()
 - "sparse_categorical_accuracy"와 동일합니다.
 ### tf.keras.layers
-#### tf.keras.layers.experimental
-##### tf.keras.layers.experimental.preprocessing
-###### Rescaling
+#### Add()
 ```python
-model.add(Rescaling(1/255, input_shape=(img_height, img_width, 3)))
-```
-```python
-from tensorflow.keras.layers.experimental.preprocessing import RandomFlip, RandomRotation, RandomZoom
-```
-### RAndomFlip
-```python
-data_aug.add(RandomFlip("horizontal", input_shape=(img_height, img_width, 3)))
-```
-### RandomRotationm
-```python
-data_aug.add(RandomRotation(0.1))
-```
-### RandomZoom()
-```python
-data_aug.add(RandomZoom(0.1))
-```
-```python
-log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-```
-#### tf.keras.layers.Add()
-```python
-logits = tf.keras.layers.Add()([logits_mlr, logits_fm, logits_dfm])
+logits = Add()([logits_mlr, logits_fm, logits_dfm])
 ```
 - It takes as input a list of tensors, all of the same shape, and returns a single tensor (also of the same shape).
-#### tf.keras.layers.Dot()
+#### Dot()
 ```python
 pos_score = Dot(axes=(1,1))([user_embedding, pos_item_embedding])
 ```
 - `axes` : Integer or tuple of integers, axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
-#### tf.keras.layers.Flatten()
+#### Concatenate()
+```python
+Concatenate(axis=1)(embs_fm)
+```
+- tf.concat()와 동일합니다.
+#### Activation()
+```python
+x = Activation("relu")(x)
+```
+#### Flatten()
 - 입력되는 tensor의 row를 펼쳐서 일렬로 만듭니다.
 - 학습되는 weights는 없고 데이터를 변환하기만 합니다.
 ```python
-model.add(tf.keras.layers.Flatten(input_shape=(28, 28)))
+model.add(Flatten(input_shape=(28, 28)))
 ```
-#### tf.keras.layers.Dense()
+#### Dense()
 ```python
-tf.keras.layers.Dense(units=52, input_shape=(13,), activation="relu")
+Dense(units=52, input_shape=(13,), activation="relu")
 ```
 - units: 해당 은닉층에서 활동하는 뉴런의 수(출력 값의 크기)
 - activation: 활성화함수, 해당 은닉층의 가중치와 편향의 연산 결과를 어느 함수에 적합하여 출력할 것인가?
 - input_shape : 입력 벡터의 크기. 여기서 13은 해당 데이터 프레임의 열의 수를 나타낸다. 데이터의 구조(이미지, 영상)에 따라 달라질 수 있다. 첫 번째 은닉층에서만 정의해준다.
-#### tf.keras.layers.Dropout()
-```python
-def dropout(rate):
-    return tf.keras.layers.Dropout(rate)
-```
+#### Dropout()
 * rate : dropout을 적용할 perceptron의 비율
-#### tf.keras.layers.BatchNormalization()
+#### BatchNormalization()
 - usually used before activation function layers.
 #### Conv1D()
 ```python
-tf.keras.layers.Conv1D(filters=n_kernels, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
+Conv1D(filters=n_kernels, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
 ```
 - `strides` : basically equals to 1
 #### Conv2D()
 ```python
-conv2d = keras.layers.Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padding="same")(image)
+conv2d = Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padding="same")(image)
 ```
 - image : (batch, height of image, width of image, number of channels)
 - kernel : (height of filter, width of filter, number of channels, number of kernels)
@@ -1266,9 +1249,9 @@ conv2d = keras.layers.Conv2D(filters=n_filters, kernel_size=kernel_size, strides
 - `kernal_size` : window_size
 - `padding="valid"` : padding을 하지 않아 height of convolution, width of convolution이 height of image. width of image에 비해 각각 감소합니다.
 - `padding="same"` : padding을 하여 height of convolution, width of convolution이 height of image. width of image와 각각 동일하게 유지됩니다.
-- `data_format="channels_last"`
+- `data_format` : `"channels_last"`
 - `input_shape` : 처음에만 설정해 주면 됩니다.
-- `activation="tanh"`
+- `activation` : `"tanh"`
 #### GlobalMaxPool1D()
 - same as `GlobalMaxPooling1D()`
 #### GlobalMaxPool2D()
@@ -1287,43 +1270,43 @@ pool = MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="chan
 ```python
 model.add(AveragePooling2D(pool_size=(2, 2), strides=(2, 2), padding="valid")
 ```
-#### tf.keras.layers.SimpleRNNCell()
-#### tf.keras.layers.RNN()
-#### tf.keras.layers.SimpleRNN()
+#### SimpleRNNCell()
+#### RNN()
+#### SimpleRNN()
 ```python
-outputs, hidden_states = tf.keras.layers.SimpleRNN(units=hidden_size)(x_data), input_shape=(timesteps, input_dim), return_sequences=True, return_state=True)(x_date)
+outputs, hidden_states = SimpleRNN(units=hidden_size)(x_data), input_shape=(timesteps, input_dim), return_sequences=True, return_state=True)(x_date)
 ```
-- `tf.keras.layers.SimpleRNN()` = `tf.keras.layers.SimpleRNNCell()` + `tf.keras.layers.RNN()`
+- `SimpleRNN()` = `SimpleRNNCell()` + `RNN()`
 - `batch_input_shape=(batch_size, timesteps, input_dim)`
 - `return_sequences=False` : (default)time step의 마지막에서만 아웃풋을 출력합니다.(shape of output : (batch_size, hidden_size))
 - `return_sequences=True` : 모든 time step에서 아웃풋을 출력합니다. many to many 문제를 풀거나 LSTM 레이어를 여러개로 쌓아올릴 때는 이 옵션을 사용합니다.(shape of output : (batch_size, timesteps, hidden_size))
 - `return_state=True` : hidden state를 출력합니다.(shape of hidden state : (batch_size, hidden_size))
-#### tf.keras.layers.LSTM()
+#### LSTM()
 ```python
-_, hidden_state, cell_state = tf.keras.layers.LSTM(units=256, return_state=True)(inputs_enc)
+_, hidden_state, cell_state = LSTM(units=256, return_state=True)(inputs_enc)
 ```
 - `tf.keras.layers.SimpleRNN()`과 문법이 동일합니다.
 - `return_state=True` : hidden state와 cell state를 출력합니다.
-#### tf.keras.layers.Bidirectional()
+#### Bidirectional()
 ```python
-tf.keras.layers.Bidirectional(tf.keras.layers.SimpleRNN(hidden_size, return_sequences=True), input_shape=(timesteps, input_dim))
+Bidirectional(tf.keras.layers.SimpleRNN(hidden_size, return_sequences=True), input_shape=(timesteps, input_dim))
 ```
-#### tf.keras.layers.GRU()
+#### GRU()
 ```python
-tf.keras.layers.GRU(units=hidden_size, input_shape=(timesteps, input_dim))
+GRU(units=hidden_size, input_shape=(timesteps, input_dim))
 ```
-- `tf.keras.layers.SimpleRNN()`과 문법이 동일합니다.
-#### tk.keras.layers.Embedding()
+- `SimpleRNN()`과 문법이 동일합니다.
+#### Embedding()
 ```python
-tf.keras.layers.Embedding(input_dim=vocab_size+2, output_dim=emb_dim)
+Embedding(input_dim=vocab_size+2, output_dim=emb_dim)
 ```
 - `input_length=max_len` : 입력 sequence의 길이
 - `mask_zero=True` : If mask_zero is set to True, as a consequence, index 0 cannot be used in the vocabulary. so input_dim should equal to size of vocabulary + 1
 - `weights=[emb_mat]`
 - `trainable=False` : 학습할지 아니면 초기 가중치 값을 그대로 사용할지 여부를 결정합니다.
-#### tf.keras.layers.TimeDistributed()
+#### TimeDistributed()
 ```python
-model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
+model.add(TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
 ```
 - TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다.
 - In keras - while building a sequential model - usually the second dimension (one after sample dimension) - is related to a time dimension. This means that if for example, your data is 5-dim with (sample, time, width, length, channel) you could apply a convolutional layer using TimeDistributed (which is applicable to 4-dim with (sample, width, length, channel)) along a time dimension (applying the same layer to each time slice) in order to obtain 5-d output.
@@ -1332,17 +1315,34 @@ model.add(tf.keras.layers.TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
     - __init__: 이 층에서 사용되는 하위 층을 정의할 수 있습니다. instance 생성 시에 호출됩니다.
     - build: 층의 가중치를 만듭니다. add_weight 메서드를 사용해 가중치를 추가합니다.
     - call: forward feeding 단계에서 호출됩니다. 입력 값을 이용해서 결과를 계산한 후 반환하면 됩니다.
-#### tf.keras.layers.Concatenate()
+#### tf.keras.layers.experimental
+##### tf.keras.layers.experimental.preprocessing
+###### Rescaling
 ```python
-tf.keras.layers.Concatenate(axis=1)(embs_fm)
+model.add(Rescaling(1/255, input_shape=(img_height, img_width, 3)))
 ```
-- tf.concat()와 동일합니다.
+```python
+from tensorflow.keras.layers.experimental.preprocessing import RandomFlip, RandomRotation, RandomZoom
+```
+###### RAndomFlip
+```python
+data_aug.add(RandomFlip("horizontal", input_shape=(img_height, img_width, 3)))
+```
+###### RandomRotationm
+```python
+data_aug.add(RandomRotation(0.1))
+```
+###### RandomZoom()
+```python
+data_aug.add(RandomZoom(0.1))
+```
+```python
+log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+```
 ### tf.keras.initializers
-
 #### tf.keras.initializers.RandomNormal()
-
 #### tf.keras.initializers.glorot_uniform()
-
 #### tf.keras.initializers.he_uniform()
 #### tf.keras.initializers.Constant()
 ### tf.keras.activations
