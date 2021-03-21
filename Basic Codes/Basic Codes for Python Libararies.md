@@ -983,7 +983,7 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
-from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Concatenate, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D
+from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Concatenate, Add, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePoolin1D, GlobalAveeragePooling2D
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras import Input, Model, Sequential
