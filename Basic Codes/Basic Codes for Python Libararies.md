@@ -986,7 +986,7 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
-from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Concatenate, Add, Dot, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePoolin1D, GlobalAveeragePooling2D
+from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Concatenate, Add, Dot, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras import Input, Model, Sequential
@@ -1372,12 +1372,11 @@ bias = layer.get_weights()[1]
 ```
 #### model.compile()
 ```python
-model.compile(optimizer=tf.keras.optimizers.Adagrad(lr=0.1), loss=tf.keras.losses.MeanSquaredError(), metrics=[tf.keras.metrics.RootMeanSquaredError()])
+model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", loss_weights=[0.3, 0.3, 1], metrics=["accuracy"]) 
 ```
 - `optimizer` : `"sgd"` | `"adam"` | `"rmsprop"`
 - `loss` : `"mse"` | `"binary_crossentropy"` | `"categorical_crossentropy"` | `"sparse_categorical_crossentropy"`
-- `metrics` : `["mse"]` | `["binary_accuracy"]` | `["categorical_accuracy"]` | `["sparse_categorical_crossentropy"]`
-- `metrics`는 생략할 수 있습니다.
+- `metrics` : `["mse"]` | `["binary_accuracy"]` | `["categorical_accuracy"]` | `["sparse_categorical_crossentropy"]` | `["acc"]`
 #### model.fit()
 ```python
 hist = model.fit(x=X_train, y=y_train, validation_split=0.2, batch_size=64, epochs=10, verbose=1, shuffle=True, callbacks=[es, mc])
