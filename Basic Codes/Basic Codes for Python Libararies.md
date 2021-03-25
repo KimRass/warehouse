@@ -3661,16 +3661,16 @@ jupyter notebook --NotebookApp.iopub_data_rate_limit=1.0e10
 %load_ext tensorboard
 %tensorboard --logdir logs/fit
 ```
-(
+- (a, b, c, d) -> (a, d)
 # flow_from_directory()
 - flow_from_directory() 함수의 주요인자는 다음과 같습니다.
 
-첫번재 인자 : 이미지 경로를 지정합니다.
-target_size : 패치 이미지 크기를 지정합니다. 폴더에 있는 원본 이미지 크기가 다르더라도 target_size에 지정된 크기로 자동 조절됩니다.
+target_size : The dimensions to which all images found will be resized.
 batch_size : 배치 크기를 지정합니다.
-class_mode : 분류 방식에 대해서 지정합니다.categorical : 2D one-hot 부호화된 라벨이 반환됩니다.
-binary : 1D 이진 라벨이 반환됩니다.
-sparse : 1D 정수 라벨이 반환됩니다.
+class_mode :  `"binary"`|`"categorical"`|`"sparse"`|`"input"`|None
+binary : for binary classification
+categorical : for multi-class classification(OHE)
+sparse : for multi-class classification(no OHE)
 None : 라벨이 반환되지 않습니다.
 - 다중 클래스 문제이므로 class_mode는 ‘categorical’로 지정하였습니다. 그리고 제네레이터는 훈련용과 검증용으로 두 개를 만들었습니다.
 - `shuffle`
@@ -3686,13 +3686,19 @@ rescale: rescaling factor. Defaults to None. If None or 0, no rescaling is appli
 - 
 
 rotation_range
-width_shift_range
+width_shift_range : 
+
+float: fraction of total width, if < 1, or pixels if >= 1. 
+- https://m.blog.naver.com/PostView.nhn?blogId=isu112600&logNo=221582003889&proxyReferer=https:%2F%2Fwww.google.com%2F
+1-D array-like: random elements from the array.
+int: integer number of pixels from interval (-width_shift_range, +width_shift_range)
 height_shift_range
-brightness_range
+brightness_range : Tuple or list of two floats. Range for picking a brightness shift value from.
 zoom_range
 horizontal_flip
 vertical_flip
 preprocessing_function
+- zoom_range : Float or [lower, upper]. Range for random zoom. If a float, [lower, upper] = [1-zoom_range, 1+zoom_range]
 - transformation은 이미지에 변화를 주어서 학습 데이터를 많게 해서 성능을 높이기 위해 하는 것이기 때문에 train set만 해주고, test set에는 해 줄 필요가 없다. 그러나 주의할 것은 Rescale은 train, test 모두 해 주어야 한다.
 # gen.fit()
 - Only required if featurewise_center or featurewise_std_normalization or zca_whitening are set to True.
