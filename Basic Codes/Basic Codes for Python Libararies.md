@@ -3662,3 +3662,37 @@ jupyter notebook --NotebookApp.iopub_data_rate_limit=1.0e10
 %tensorboard --logdir logs/fit
 ```
 (
+# flow_from_directory()
+- flow_from_directory() 함수의 주요인자는 다음과 같습니다.
+
+첫번재 인자 : 이미지 경로를 지정합니다.
+target_size : 패치 이미지 크기를 지정합니다. 폴더에 있는 원본 이미지 크기가 다르더라도 target_size에 지정된 크기로 자동 조절됩니다.
+batch_size : 배치 크기를 지정합니다.
+class_mode : 분류 방식에 대해서 지정합니다.categorical : 2D one-hot 부호화된 라벨이 반환됩니다.
+binary : 1D 이진 라벨이 반환됩니다.
+sparse : 1D 정수 라벨이 반환됩니다.
+None : 라벨이 반환되지 않습니다.
+- 다중 클래스 문제이므로 class_mode는 ‘categorical’로 지정하였습니다. 그리고 제네레이터는 훈련용과 검증용으로 두 개를 만들었습니다.
+- `shuffle`
+- `subset` : Subset of data ("training" or "validation") if validation_split is set in ImageDataGenerator. `"training"`|`"validation"`
+# ImageDataGenerator
+- `validation_split`
+- 
+
+shear_range: Float. Shear Intensity (Shear angle in counter-clockwise direction as radians)
+zoom_range: Float or [lower, upper]. Range for random zoom. If a float,
+horizontal_flip: Boolean. Randomly flip inputs horizontally.
+rescale: rescaling factor. Defaults to None. If None or 0, no rescaling is applied, otherwise we multiply the data by the value provided (before applying any other transformation).
+- 
+
+rotation_range
+width_shift_range
+height_shift_range
+brightness_range
+zoom_range
+horizontal_flip
+vertical_flip
+preprocessing_function
+- transformation은 이미지에 변화를 주어서 학습 데이터를 많게 해서 성능을 높이기 위해 하는 것이기 때문에 train set만 해주고, test set에는 해 줄 필요가 없다. 그러나 주의할 것은 Rescale은 train, test 모두 해 주어야 한다.
+# gen.fit()
+- Only required if featurewise_center or featurewise_std_normalization or zca_whitening are set to True.
