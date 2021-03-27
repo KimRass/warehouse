@@ -1804,14 +1804,6 @@ data["company1_label"] = encoder.transform(data["company1"]).round(0)
 
 
 
-# collections
-## deque
-```python
-from collections import deque
-```
-
-
-
 # cv2
 ```python
 !pip install opencv-python
@@ -2832,6 +2824,24 @@ word2cnt = Counter(words)
 sum(Counter(nltk.ngrams(cand.split(), 2)).values())
 ```
 ### Counter().most_common()
+## deque()
+```python
+from collections import deque
+```
+
+
+
+# functools
+## reduce()
+```python
+from functools import reduce
+```
+```python
+reduce(lambda acc, cur: acc + cur["age"], users, 0)
+```
+```python
+reduce(lambda acc, cur: acc + [cur["mail"]], users, [])
+```
 
 
 
