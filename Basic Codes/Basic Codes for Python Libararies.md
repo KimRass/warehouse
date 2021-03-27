@@ -152,6 +152,10 @@ msg_tkn = [msg.split(" ") for msg in data["msg"]]
 ```python
 "저는 과일이 좋아요".count("과일이")
 ```
+### str.find()
+- returns the first index of the argument.
+### str.startswith()
+- returns whether `str` starts with the argument.
 ## eval()
 ```python
 A = [eval(f"A{i}") for i in range(N, 0, -1)]
