@@ -3716,3 +3716,19 @@ preprocessing_function
 - transformation은 이미지에 변화를 주어서 학습 데이터를 많게 해서 성능을 높이기 위해 하는 것이기 때문에 train set만 해주고, test set에는 해 줄 필요가 없다. 그러나 주의할 것은 Rescale은 train, test 모두 해 주어야 한다.
 # gen.fit()
 - Only required if featurewise_center or featurewise_std_normalization or zca_whitening are set to True.
+
+## deque()
+```python
+dq = deque("abc")
+```
+### dq[]
+```python
+dq[2] = "d"
+```
+### dq.append()
+### dq.appenleft()
+### dq.pop()
+### dq.popleft()
+### dq.extend()
+### dq.extendleft()
+### dq.remove()
