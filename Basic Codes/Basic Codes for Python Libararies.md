@@ -3736,3 +3736,7 @@ dq[2] = "d"
 
 
 # selectivesearch
+## selectivesearch.selective_search()
+```python
+_, regions = selectivesearch.selective_search(img_rgb, scale=100, min_size=2000)
+```
