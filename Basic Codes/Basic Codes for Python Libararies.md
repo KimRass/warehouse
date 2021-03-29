@@ -3740,3 +3740,8 @@ dq[2] = "d"
 ```python
 _, regions = selectivesearch.selective_search(img_rgb, scale=100, min_size=2000)
 ```
+```python
+img_recs = cv2.rectangle(img=img_rgb_copy, pt1=(rect[0], rect[1]),
+                                 pt2=(rect[0]+rect[2], rect[1]+rect[3]),
+                                 color=green_rgb, thickness=2)
+```
