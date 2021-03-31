@@ -3745,3 +3745,18 @@ img_recs = cv2.rectangle(img=img_rgb_copy, pt1=(rect[0], rect[1]),
                                  pt2=(rect[0]+rect[2], rect[1]+rect[3]),
                                  color=green_rgb, thickness=2)
 ```
+
+
+
+# glob
+## glob.glob()
+```python
+path = "./DATA/전체"
+filenames = glob.glob(path + "/*.csv")
+```
+```python
+dfs = []
+for filename in filenames:
+    dfs.append(pd.read_csv(filename))
+data = pd.concat(dfs, ignore_index=True)
+```
