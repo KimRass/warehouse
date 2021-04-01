@@ -325,7 +325,12 @@ data_without = pd.concat([data_without, data_subset], axis=0)
 ```python
 neg_sampling = pd.concat([uses_df]*3)
 ```
-
+```python
+dfs = []
+for filename in filenames:
+    dfs.append(pd.read_csv(filename))
+data = pd.concat(dfs, ignore_index=True)
+```
 ## pd.pivot_table()
 ```python
 pivot = pd.pivot_table(uses_df[["daytime", "weekday", "cnt"]], index="daytime", columns="weekday", values="cnt", aggfunc=np.sum)
@@ -1258,6 +1263,7 @@ conv2d = Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padd
 - `activation` : `"tanh"`
 #### GlobalMaxPool1D()
 - same as `GlobalMaxPooling1D()`
+- shape change : (a, b, c, d) -> (a, d).
 #### GlobalMaxPool2D()
 - same as `GlobalMaxPooling2D()`
 - Downsamples the input representation by taking the maximum value over the time dimension.
@@ -1474,17 +1480,25 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 ```python
 gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True)
 ```
-- `rescale` : 
-- `shear_range` : 
+# ImageDataGenerator
+- `validation_split`
+- `shear_range` : float. Shear Intensity (Shear angle in counter-clockwise direction as radians)
+- `zoom_range` : Float or [lower, upper]. Range for random zoom. If a float, [lower, upper] = [1-zoom_range, 1+zoom_range]
+- `horizontal_flip` : Boolean. Randomly flip inputs horizontally.
+- `rescale` : rescaling factor. Defaults to None. If None or 0, no rescaling is applied, otherwise we multiply the data by the value provided (before applying any other transformation).
+- `rotation_range`
+- `width_shift_range` : float: fraction of total width if < 1 or pixels if >= 1. 1-D array-like : random elements from the array. int : pixels from interval (-`width_shift_range`, `width_shift_range`)
+- `height_shift_range`
+- `brightness_range` : Tuple or list of two floats. Range for picking a brightness shift value from.
+- `zoom_range`
 - `horizontal_flip`
 - `vertical_flip`
-- `rotation_range`
-- `width_shift_range`
-- `height_shift_range`
-###### genfit
+- transformation은 이미지에 변화를 주어서 학습 데이터를 많게 해서 성능을 높이기 위해 하는 것이기 때문에 train set만 해주고, test set에는 해 줄 필요가 없다. 그러나 주의할 것은 Rescale은 train, test 모두 해 주어야 한다.
+- 참고 자료 : https://m.blog.naver.com/PostView.nhn?blogId=isu112600&logNo=221582003889&proxyReferer=https:%2F%2Fwww.google.com%2F
 ```python
 gen.fit(x_tr)
 ```
+- Only required if `featurewise_center` or `featurewise_std_normalization` or `zca_whitening` are set to True.
 ###### gen.flow()
 ```python
 hist = model.fit(gen.flow(x_tr, y_tr, batch_size=32), validation_data=gen.flow(x_val, y_val, batch_size=32),
@@ -1496,7 +1510,15 @@ gen = ImageDataGenerator()
 datagen_tr = gen.flow_from_directory(directory="./dogsandcats", target_size=(224, 224))
 ```
 - `batch_size=batch_size`
-- `class_mode` : `"binary"`
+- `target_size` : the dimensions to which all images found will be resized.
+- `class_mode` : `"binary"`|`"categorical"`|`"sparse"`|`"input"`|`None`
+- `class_mode="binary"` : for binary classification.
+- `class_mode="categorical"` : for multi-class classification(OHE).
+- `class_mode="sparse"` : for multi-class classification(no OHE).
+- `class_mode="input"`
+- `class_mode=None` : returns no label.
+- `subset` : subset of data if `validation_split` is set in ImageDataGenerator(). `"training"`|`"validation"`
+- `shuffle`
 #### tf.keras.preprocessing.sequence
 ##### pad_sequences()
 ```python
@@ -1875,6 +1897,19 @@ flags = cv2.KMEANS_RANDOM_CENTERS
 compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 ```
 - KMeans를 적용. k=2,  10번 반복한다.
+
+
+
+# selectivesearch
+## selectivesearch.selective_search()
+```python
+_, regions = selectivesearch.selective_search(img_rgb, scale=100, min_size=2000)
+```
+```python
+img_recs = cv2.rectangle(img=img_rgb_copy, pt1=(rect[0], rect[1]),
+                                 pt2=(rect[0]+rect[2], rect[1]+rect[3]),
+                                 color=green_rgb, thickness=2)
+```
 
 
 
@@ -2828,6 +2863,20 @@ sum(Counter(nltk.ngrams(cand.split(), 2)).values())
 ```python
 from collections import deque
 ```
+```python
+dq = deque("abc")
+```
+### dq[]
+```python
+dq[2] = "d"
+```
+### dq.append()
+### dq.appenleft()
+### dq.pop()
+### dq.popleft()
+### dq.extend()
+### dq.extendleft()
+### dq.remove()
 
 
 
@@ -3321,6 +3370,15 @@ os.path.dirname("C:/Python35/Scripts/pip.exe")
 
 
 
+# glob
+## glob.glob()
+```python
+path = "./DATA/전체"
+filenames = glob.glob(path + "/*.csv")
+```
+
+
+
 # pickle
 ```python
 import pickle as pk
@@ -3668,95 +3726,4 @@ from psycopg2.extras import RealDictCursor
 ```
 ```python
 jupyter notebook --NotebookApp.iopub_data_rate_limit=1.0e10
-```
-
-## 
-```python
-%load_ext tensorboard
-%tensorboard --logdir logs/fit
-```
-- (a, b, c, d) -> (a, d)
-# flow_from_directory()
-- flow_from_directory() 함수의 주요인자는 다음과 같습니다.
-
-target_size : The dimensions to which all images found will be resized.
-batch_size : 배치 크기를 지정합니다.
-class_mode :  `"binary"`|`"categorical"`|`"sparse"`|`"input"`|None
-binary : for binary classification
-categorical : for multi-class classification(OHE)
-sparse : for multi-class classification(no OHE)
-None : 라벨이 반환되지 않습니다.
-- 다중 클래스 문제이므로 class_mode는 ‘categorical’로 지정하였습니다. 그리고 제네레이터는 훈련용과 검증용으로 두 개를 만들었습니다.
-- `shuffle`
-- `subset` : Subset of data ("training" or "validation") if validation_split is set in ImageDataGenerator. `"training"`|`"validation"`
-# ImageDataGenerator
-- `validation_split`
-- 
-
-shear_range: Float. Shear Intensity (Shear angle in counter-clockwise direction as radians)
-zoom_range: Float or [lower, upper]. Range for random zoom. If a float,
-horizontal_flip: Boolean. Randomly flip inputs horizontally.
-rescale: rescaling factor. Defaults to None. If None or 0, no rescaling is applied, otherwise we multiply the data by the value provided (before applying any other transformation).
-- 
-
-rotation_range
-width_shift_range : 
-
-float: fraction of total width, if < 1, or pixels if >= 1. 
-- https://m.blog.naver.com/PostView.nhn?blogId=isu112600&logNo=221582003889&proxyReferer=https:%2F%2Fwww.google.com%2F
-1-D array-like: random elements from the array.
-int: integer number of pixels from interval (-width_shift_range, +width_shift_range)
-height_shift_range
-brightness_range : Tuple or list of two floats. Range for picking a brightness shift value from.
-zoom_range
-horizontal_flip
-vertical_flip
-preprocessing_function
-- zoom_range : Float or [lower, upper]. Range for random zoom. If a float, [lower, upper] = [1-zoom_range, 1+zoom_range]
-- transformation은 이미지에 변화를 주어서 학습 데이터를 많게 해서 성능을 높이기 위해 하는 것이기 때문에 train set만 해주고, test set에는 해 줄 필요가 없다. 그러나 주의할 것은 Rescale은 train, test 모두 해 주어야 한다.
-# gen.fit()
-- Only required if featurewise_center or featurewise_std_normalization or zca_whitening are set to True.
-
-## deque()
-```python
-dq = deque("abc")
-```
-### dq[]
-```python
-dq[2] = "d"
-```
-### dq.append()
-### dq.appenleft()
-### dq.pop()
-### dq.popleft()
-### dq.extend()
-### dq.extendleft()
-### dq.remove()
-
-
-
-# selectivesearch
-## selectivesearch.selective_search()
-```python
-_, regions = selectivesearch.selective_search(img_rgb, scale=100, min_size=2000)
-```
-```python
-img_recs = cv2.rectangle(img=img_rgb_copy, pt1=(rect[0], rect[1]),
-                                 pt2=(rect[0]+rect[2], rect[1]+rect[3]),
-                                 color=green_rgb, thickness=2)
-```
-
-
-
-# glob
-## glob.glob()
-```python
-path = "./DATA/전체"
-filenames = glob.glob(path + "/*.csv")
-```
-```python
-dfs = []
-for filename in filenames:
-    dfs.append(pd.read_csv(filename))
-data = pd.concat(dfs, ignore_index=True)
 ```
