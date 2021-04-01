@@ -8,7 +8,7 @@ list(map(int, input("숫자 입력  : ").split()))
 ```
 ## print()
 ```python
-print(..., end="") 
+print(..., end="")
 ```
 ## isinstance()
 ```python
@@ -3726,4 +3726,16 @@ from psycopg2.extras import RealDictCursor
 ```
 ```python
 jupyter notebook --NotebookApp.iopub_data_rate_limit=1.0e10
+```
+
+
+
+# bisect
+## bisect_left(), bisect_right()
+```python
+from bisect import bisect_left, bisect_right
+```
+```python
+def count_by_range(a, left, right):
+    return bisect_right(a, right) - bisect_left(a, left)
 ```
