@@ -136,6 +136,10 @@ print("[{0:<20.20f}], [{1:>10.2f}]".format(3.14, 10.925))
 ```python
 print("{:>4d} | {:>7.4f} | {:>7.4f} | {:>9.6f}".format(i + 1, W.numpy(), b.numpy(), loss.numpy()))
 ```
+### str.zfill()
+```python
+hr = pd.read_excel(f"./FINAL/HR/사원명단_{target_year}{str(target_month).zfill(2)}.xlsx")
+```
 ### str.join()
 ```python
 " ".join(["good", "bad", "worse", "so good"])
