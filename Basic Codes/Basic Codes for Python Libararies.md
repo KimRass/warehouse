@@ -145,7 +145,8 @@ hr = pd.read_excel(f"./FINAL/HR/사원명단_{target_year}{str(target_month).zfi
 ```python
 msg_tkn = [msg.split(" ") for msg in data["msg"]]
 ```
-- argument를 기준으로 str을 분할해서 lst를 만듭니다.
+- makes a list by splitting the string using the argument as a criteria.
+### str.strip()
 ### str.upper(), str.lower()
 - argument를 기준으로 str 분할
 ### str.count()
@@ -670,7 +671,7 @@ np.ones((2, 3, 4))
 ## np.empty()
 ## np.full()
 ```python		
-np.full((2, 3, 4), 7))
+np.full(shape=(2, 3, 4), fill_value=7))
 ```
 ## np.eye()
 ```python
@@ -1864,8 +1865,9 @@ cv2.destroyAllWindows()
 ## cv2.rectangle()
 ```python
 for i, rect in enumerate(rects_selected):
-    cv2.rectangle(img, (rect[0], rect[1]), (rect[0]+rect[2], rect[1]+rect[3]), (0, 0, 255), 2)
+    cv2.rectangle(img=img, pt1=(rect[0], rect[1]), pt2=(rect[0]+rect[2], rect[1]+rect[3]), color=(0, 0, 255), thickness=2)
 ```
+- `pt1`, `pt2` : (x coordinate, y coordinate)
 ## cv2.circle()
 ```python
 for i, rect in enumerate(rects_selected):
@@ -1873,13 +1875,13 @@ for i, rect in enumerate(rects_selected):
 ```
 ## cv2.puttext()
 ```python
-for i, rect in enumerate(rects_selected):
-    cv2.putText(img, str(i+1), (rect[0]-5, rect[1]-5), fontFace=0, fontScale=0.6, color=(0, 0, 255), thickness=2)
+cv2.putText(img=img, text=label, org=(x1, y1-4), fonFace=cv2.FONT_HERSHEY_COMPLEX_SMALL, fontScale=font_scale, color=text_colors, thickness=bbox_thick, lineType=cv2.LINE_AA)
 ```
 ## cv2.resize()
 ```python
 img_resized = cv2.resize(img, dsize=(640, 480), interpolation=cv2.INTER_AREA)
 ```
+- `dsize` : (new_width, new_height)
 ## cv2.cvtColor()
 ```python
 img_gray = cv2.cvtColor(img_resized, cv2.COLOR_BGR2GRAY)
@@ -3753,3 +3755,18 @@ from bisect import bisect_left, bisect_right
 def count_by_range(a, left, right):
     return bisect_right(a, right) - bisect_left(a, left)
 ```
+
+
+
+# google
+## google.colab
+### google.colab.patches
+#### cv2_imshow()
+```python
+from google.colab.patches import cv2_imshow
+```
+
+
+
+# colorsys
+## colorsys.hsv_to_rgb()
