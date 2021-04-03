@@ -224,9 +224,9 @@ class CLASS:
 class Bahdanau(tf.keras.Model):
     def __init__(self, units):
         super().__init__()
-        self.W1 = tf.keras.layers.Dense(units, use_bias=False)
-        self.W2 = tf.keras.layers.Dense(units, use_bias=False)
-        self.W3 = tf.keras.layers.Dense(1)
+        self.W1 = Dense(units, use_bias=False)
+        self.W2 = Dense(units, use_bias=False)
+        self.W3 = Dense(1)
         
         # key와 value는 같습니다.
     def call(self, query, keys):
@@ -995,14 +995,14 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
-from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Concatenate, Add, Dot, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D
+from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras import Input, Model, Sequential
 ```
 ## tensor.shape
 ```python
-lstm, for_h_state, for_c_state, back_h_state, back_c_state = tf.keras.layers.Bidirectional(tf.keras.layers.LSTM(units=64, dropout=0.5, return_sequences=True, return_state=True))(z)
+lstm, for_h_state, for_c_state, back_h_state, back_c_state = Bidirectional(LSTM(units=64, dropout=0.5, return_sequences=True, return_state=True))(z)
 
 print(lstm.shape, for_h_state.shape, back_h_state.shape)
 ```
@@ -1213,9 +1213,23 @@ logits = Add()([logits_mlr, logits_fm, logits_dfm])
 - It takes as input a list of tensors, all of the same shape, and returns a single tensor (also of the same shape).
 #### Dot()
 ```python
-pos_score = Dot(axes=(1,1))([user_embedding, pos_item_embedding])
+pos_score = Dot(axes=(1, 1))([user_embedding, pos_item_embedding])
 ```
 - `axes` : Integer or tuple of integers, axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
+#### Multiply()
+```python
+def se_block(x, c, r):
+	z = GlobalAveragePooling2D()(x)
+	z = Dense(units=c//r, activation="relu")(z)
+	z = Dense(units=c, activation="sigmoid")(z)
+	z = Reshape(target_shape=(1, 1, c))(z)
+	z = Multiply()([x, z])
+	return z
+```
+#### Reshape()
+```python
+z = Reshape(target_shape=(1, 1, ch))(z)
+```
 #### Concatenate()
 ```python
 Concatenate(axis=1)(embs_fm)
