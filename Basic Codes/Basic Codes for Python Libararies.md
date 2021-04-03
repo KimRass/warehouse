@@ -121,10 +121,8 @@ word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True)
 {idx:char for idx, char in enumerate(char_set)}
 ```
 ## str
+### str.isalpha()
 ### str.format()
-```python
-print("{0} and {1}".format("spam", "eggs")
-```
 ```python
 print("[{0:>4d}], [{1:>20d}]".format(100, 200))
 ```
@@ -133,9 +131,6 @@ print("[{0:<20s}]".format("string"))
 ```
 ```python
 print("[{0:<20.20f}], [{1:>10.2f}]".format(3.14, 10.925))
-```
-```python
-print("{:>4d} | {:>7.4f} | {:>7.4f} | {:>9.6f}".format(i + 1, W.numpy(), b.numpy(), loss.numpy()))
 ```
 ### str.zfill()
 ```python
