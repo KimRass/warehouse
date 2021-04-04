@@ -665,7 +665,7 @@ np.arange(5, 101, 5)
 ```
 ## np.ones()
 ```python
-np.ones((2, 3, 4))
+np.ones(shape=(2, 3, 4))
 ```
 ## np.zeros()
 ## np.empty()
@@ -706,6 +706,7 @@ np.shape(hidden_states)
 ```python
 data[np.isin(data["houses"], list)]
 ```
+## np.argmax()
 ## np.transpose()
 ## np.swapaxes()
 ```python
@@ -788,8 +789,9 @@ np.expand_dims(mh_df.values, axis=1)
 mh_df.values[:, np.newaxis, :]
 ```
 ```python
-mh_df.values[:, None, :]
+iou = calculate_iou(best_bbox[None, :4], bboxes_cls[:, :4])
 ```
+- same as `None`
 ## np.unique()
 ```python
 items, counts = np.unique(intersected_movie_ids, return_counts=True)
