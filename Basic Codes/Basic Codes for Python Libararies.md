@@ -647,6 +647,20 @@ for k, v in target.items():
 ```python
 import numpy as np
 ```
+## arr.astype()
+```python
+x_train = x_train.astype("float32")
+```
+## arr.ravel()
+```python
+arr.ravel(order="F")	
+```
+- `order="C"` : row 기준
+- `order="F"` : column 기준
+##  arr.flatten()
+- 복사본 반환
+## arr.T
+## arr.shape
 ## np.set_printoptions()
 ```python
 np.set_printoptions(precision=3)
@@ -818,21 +832,6 @@ euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))
 ```python
 np.fill_diagonal(cos_sim_item, 0	
 ```
-# arr
-## arr.astype()
-```python
-x_train = x_train.astype("float32")
-```
-## arr.ravel()
-```python
-arr.ravel(order="F")	
-```
-- `order="C"` : row 기준
-- `order="F"` : column 기준
-##  arr.flatten()
-- 복사본 반환
-## arr.T
-## arr.shape
 
 
 
@@ -1874,6 +1873,11 @@ for i, rect in enumerate(rects_selected):
 ```python
 for i, rect in enumerate(rects_selected):
     cv2.circle(img, (rect[0]+1, rect[1]-12), 12, (0, 0, 255), 2))
+```
+## cv2.getTextSize()
+```python
+(text_width, text_height), baseline = cv2.getTextSize(text=label, fontFace=cv2.FONT_HERSHEY_COMPLEX_SMALL,
+                                                                  fontScale=font_scale, thickness=bbox_thick)
 ```
 ## cv2.puttext()
 ```python
