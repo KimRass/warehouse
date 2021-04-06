@@ -1272,8 +1272,8 @@ conv2d = Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padd
 - convolution : (batch, height of convolution, width of convolution, number of kernels)
 - number of channels와 number of kernels는 서로 동일합니다.
 - `kernal_size` : window_size
-- `padding="valid"` : padding을 하지 않아 height of convolution, width of convolution이 height of image. width of image에 비해 각각 감소합니다.
-- `padding="same"` : padding을 하여 height of convolution, width of convolution이 height of image. width of image와 각각 동일하게 유지됩니다.
+- `padding="valid"` : No padding. There can be a loss of information. The size of the output image is smaller than the size of the input image.
+- `padding="same"` : Normally, padding is set to "same" while training the model.
 - `data_format` : `"channels_last"`
 - `input_shape` : 처음에만 설정해 주면 됩니다.
 - `activation` : `"tanh"`
