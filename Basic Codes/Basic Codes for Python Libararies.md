@@ -997,7 +997,7 @@ import tensorflow as tf
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
-from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D
+from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras import Input, Model, Sequential
@@ -1277,13 +1277,7 @@ conv2d = Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padd
 - `data_format` : `"channels_last"`
 - `input_shape` : 처음에만 설정해 주면 됩니다.
 - `activation` : `"tanh"`
-#### GlobalMaxPool1D()
-- same as `GlobalMaxPooling1D()`
-- shape change : (a, b, c, d) -> (a, d).
-#### GlobalMaxPool2D()
-- same as `GlobalMaxPooling2D()`
-- Downsamples the input representation by taking the maximum value over the time dimension.
-- shape : (a, b, c) -> (b, c)
+- MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D
 #### MaxPool1D()
 - same as `MaxPooling1D()`
 - `strides` : basically equals to 2
@@ -1292,10 +1286,26 @@ conv2d = Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padd
 pool = MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="channels_last")(image)
 ```
 - same as `MaxPooling2D()`
+#### GlobalMaxPool1D()
+- same as `GlobalMaxPooling1D()`
+- shape change : (a, b, c, d) -> (a, d).
+#### GlobalMaxPool2D()
+- same as `GlobalMaxPooling2D()`
+- Downsamples the input representation by taking the maximum value over the time dimension.
+- shape : (a, b, c) -> (b, c)
+#### AveragePooling1D()
 #### AveragePooling2D()
 ```python
 model.add(AveragePooling2D(pool_size=(2, 2), strides=(2, 2), padding="valid")
 ```
+#### GlobalAveragePooling1D()
+#### GlobalAveragePooling2D()
+#### ZeroPadding2D
+- z = ZeroPadding2D(padding=((1, 0), (1, 0)))(x)
+- `padding`:
+	- Int: the same symmetric padding is applied to height and width.
+	- Tuple of 2 ints: interpreted as two different symmetric padding values for height and width: `(symmetric_height_pad, symmetric_width_pad)`.
+	- Tuple of 2 tuples of 2 ints: interpreted as `((top_pad, bottom_pad), (left_pad, right_pad))`.
 #### SimpleRNNCell()
 #### RNN()
 #### SimpleRNN()
