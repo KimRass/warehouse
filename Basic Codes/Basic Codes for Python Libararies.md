@@ -673,6 +673,10 @@ np.set_printoptions(edgeitems=3, infstr="inf", linewidth=75, nanstr="nan", preci
 ```python
 intent_train = np.load("train_text.npy").tolist()
 ```
+## np.logical_and(), np.logical_or()
+```python
+mask = np.logical_or((pred_bbox[:, 0] > pred_bbox[:, 2]), (pred_bbox[:, 1] > pred_bbox[:, 3]))
+```
 ## np.arange()		
 ```python		
 np.arange(5, 101, 5)		
