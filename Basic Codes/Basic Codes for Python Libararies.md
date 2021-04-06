@@ -1882,7 +1882,6 @@ cv2.destroyAllWindows()
 for i, rect in enumerate(rects_selected):
     cv2.rectangle(img=img, pt1=(rect[0], rect[1]), pt2=(rect[0]+rect[2], rect[1]+rect[3]), color=(0, 0, 255), thickness=2)
 ```
-- `pt1`, `pt2` : (x coordinate, y coordinate)
 ## cv2.circle()
 ```python
 for i, rect in enumerate(rects_selected):
@@ -1932,7 +1931,6 @@ flags = cv2.KMEANS_RANDOM_CENTERS
 ```python
 compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 ```
-- KMeans를 적용. k=2,  10번 반복한다.
 
 
 
@@ -1981,9 +1979,8 @@ import gensim
 id2word = gensim.corpora.Dictionary(docs_tkn)
 ```
 #### id2word.id2token
-- dict(id2word)와 dict(id2word.id2token)은 서로 동일.
+- `dict(id2word)` is same as `dict(id2word.id2token)`
 #### id2word.token2id
-- dict(id2word.token2id)는 key와 value가 서로 반대.
 #### id2word.doc2bow()
 ```python
 dtm = [id2word.doc2bow(doc) for doc in docs_tkn]
@@ -2012,22 +2009,14 @@ tfidf = gensim.models.TfidfModel(dtm)[dtm]
 model = gensim.models.AuthorTopicModel(corpus=dtm, id2word=id2word, num_topics=n_topics, author2doc=aut2doc, passes=1000)
 ```
 #### gensim.models.AuthorTopicModel.load()
-
 ```python
-
 model = gensim.models.AuthorTopicModel.load("kakaotalk model")
-
 ```
-
 ## gensim.models.ldamodel.Ldamodel()
-
 ```python
-
 model = gensim.models.ldamodel.LdaModel(dtm, num_topics=n_topics, id2word=id2word, alpha="auto", eta="auto")
-
-
 ```
-### gensim.models.Word2Vec()
+## gensim.models.Word2Vec()
 ```python
     model = gensim.models.Word2Vec(result, size=100, window=5, min_count=5, workers=4, sg=0)
 ```
@@ -2048,7 +2037,7 @@ model = gensim.models.KeyedVectors.load_word2vec_format("eng_w2v")
 ```python
 model_google = gensim.models.KeyedVectors.load_word2vec_format("GoogleNews-vectors-negative300.bin.gz", binary=True)  
 ```
-- 모델을 불러옵니다.
+- Loads a model.
 #### model.vectors
 #### model.save()
 ```python
@@ -2058,7 +2047,7 @@ model.save("kakaotalk model")
 ```python
 model.show_topic(1, topn=20)
 ```
-- arguments : topic의 index, 출력할 word 개수
+- Arguments : (the index of the topic, number of words to print)
 #### model.wv
 ##### model.wv.vecotrs
 ##### model.wv.most_similar()
@@ -2247,10 +2236,10 @@ sp.DecodePieces(["▁진짜", "▁최고의", "▁영화입니다", "▁ᄏᄏ"]
 ```
 - subword -> 원래 문장
 ### spp.encode()
-- `out_type=str` : `spp.encode_as_pieces()`와 동일합니다.
-- `out_type=int` : `spp.encode_as_ids()`와 동일합니다.
-- `enable_sampling=True` : drop-out을 적용합니다.
-- `alpha=0.1` : 해당 확률로 drop-out을 적용합니다.
+- `out_type=str`: `spp.encode_as_pieces()`와 동일합니다.
+- `out_type=int`: `spp.encode_as_ids()`와 동일합니다.
+- `enable_sampling=True`: drop-out을 적용합니다.
+- `alpha=0.1`: 해당 확률로 drop-out을 적용합니다.
 - `nbest_size=-1`
 
 
