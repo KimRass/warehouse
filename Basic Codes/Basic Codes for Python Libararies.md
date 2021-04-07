@@ -3788,3 +3788,8 @@ tf.range(3, 18, 3)
 y = tf.tile(y, multiples=[1, output_size])
 ```
 ```
+xvalue=np.linspace(0,10,11)
+
+yvalue=np.linspace(0,10,11)
+
+x, y=np.meshgrid(xvalue, yvalue)
