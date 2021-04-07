@@ -3779,3 +3779,12 @@ from google.colab.patches import cv2_imshow
 
 # colorsys
 ## colorsys.hsv_to_rgb()
+# tf.range()
+```python
+tf.range(3, 18, 3)
+```
+# tf.tile()
+```python
+y = tf.tile(y, multiples=[1, output_size])
+```
+```
