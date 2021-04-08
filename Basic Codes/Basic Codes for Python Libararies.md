@@ -836,6 +836,8 @@ euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))
 ```python
 np.fill_diagonal(cos_sim_item, 0	
 ```
+## np.fromfile()
+- `count`: Number of items to read. `-1` means all items (i.e., the complete file).
 
 
 
@@ -1364,7 +1366,7 @@ model.add(Rescaling(1/255, input_shape=(img_height, img_width, 3)))
 ```python
 from tensorflow.keras.layers.experimental.preprocessing import RandomFlip, RandomRotation, RandomZoom
 ```
-###### RAndomFlip
+###### RandomFlip
 ```python
 data_aug.add(RandomFlip("horizontal", input_shape=(img_height, img_width, 3)))
 ```
@@ -1403,7 +1405,12 @@ outputs = tf.keras.activations.sigmoid(logits)
 ```python
 for layer in model.layers[1:]:
 ```
+#### model.get_layer()
+```python
+model.get_layer("conv2d_22")
+```
 ##### layer.name
+##### layers.output
 ##### layer.output_shape
 ##### layer.get_weights()
 ```python
