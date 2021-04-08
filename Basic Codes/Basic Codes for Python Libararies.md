@@ -724,6 +724,11 @@ np.shape(hidden_states)
 ```python
 data[np.isin(data["houses"], list)]
 ```
+## np.product()
+```python
+conv_shape = (filters, in_dim, kernel_size, kernel_size)
+conv_weights = np.fromfile(f, dtype=np.float32, count=np.product(conv_shape))
+```
 ## np.argmax()
 ## np.transpose()
 ## np.swapaxes()
