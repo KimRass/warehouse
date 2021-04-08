@@ -677,6 +677,10 @@ intent_train = np.load("train_text.npy").tolist()
 ```python
 mask = np.logical_or((pred_bbox[:, 0] > pred_bbox[:, 2]), (pred_bbox[:, 1] > pred_bbox[:, 3]))
 ```
+## np.array_equal()
+```python
+np.array_equal(arr1, arr2)
+```
 ## np.arange()		
 ```python		
 np.arange(5, 101, 5)		
