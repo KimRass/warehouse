@@ -794,9 +794,12 @@ data["price_range"]=np.digitize(data["money"], bins)
 ## np.isnan()
 ## np.nanmean()
 ## np.sort()
-## np.reshape()
+## np.reshape(), arr.reshape()
 ```python
-np.reshape(mh_df.values, (1000, 1, 128))
+bn_weights = np.reshape(bn_weights, newshape=(4, filters))[[1, 0, 2, 3]]
+```
+```python
+bn_weights = bn_weights.reshape((4, filters))[[1, 0, 2, 3]]
 ```
 ## np.expand_dims()
 ```python
