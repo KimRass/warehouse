@@ -3041,6 +3041,8 @@ pd.read_sql("show tables", connect)
 import random
 ```
 ## random.seed()
+## random.random()
+- Returns a random number in [0, 1).
 ## random.sample()
 ```python
 names = random.sample(list(set(data.index)), 20)
