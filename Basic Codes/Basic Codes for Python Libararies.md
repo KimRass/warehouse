@@ -147,6 +147,7 @@ msg_tkn = [msg.split(" ") for msg in data["msg"]]
 ```
 - makes a list by splitting the string using the argument as a criteria.
 ### str.strip()
+- Removes the begining or the end whitespaces(`" "`|`"\n"`|`"\t"`)
 ### str.upper(), str.lower()
 - argument를 기준으로 str 분할
 ### str.count()
@@ -3048,7 +3049,7 @@ import random
 names = random.sample(list(set(data.index)), 20)
 ```
 ## random.shuffle()
-- inplace function
+- In-place function
 
 
 
