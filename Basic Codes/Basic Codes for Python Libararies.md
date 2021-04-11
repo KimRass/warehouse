@@ -64,6 +64,7 @@ list(map(len, train_tkn))
 ```python
 x_data = list(map(lambda word : [char2idx.get(char) for char in word], words))
 ```
+- Iterator.
 ### filter()
 ### sum()
 ```python
@@ -213,7 +214,13 @@ class CLASS:
 - method : class 정의문 안에서 정의된 함수
 - method의 첫번째 parameter는 항상 self여야 함
 - method의 첫 번째 parameter는 self지만 호출할 때는 아무것도 전달하지 않는 이유는 첫 번째 parameter인 self에 대한 값은 파이썬이 자동으로 넘겨주기 때문입니다.
-
+## \_\_iter\_\_()
+```python
+def __iter__(self):
+	return self
+```
+## \_\_next\_\_()
+## StopIteration
 ### class variables
 - class 정의문 안에서 정의된 variables
 ### instance variables
@@ -743,8 +750,12 @@ feature_maps = np.transpose(conv2d, (3, 1, 2, 0))
 ```python
 feature_maps = np.swapaxes(conv2d, 0, 3)
 ```
+## np.max(), np.min()
+```python
+np.max(axis=-1)
+```
 ## np.maximum(), np.minimum()
-- Element-wise minimum of array elements.
+- Element-wise minimum(maximum) of array elements.
 ## np.cumsum()
 ```python
 np.cumsum(cnt)
