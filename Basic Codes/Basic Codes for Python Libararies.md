@@ -689,9 +689,9 @@ mask = np.logical_or((pred_bbox[:, 0] > pred_bbox[:, 2]), (pred_bbox[:, 1] > pre
 ```python
 np.array_equal(arr1, arr2)
 ```
-## np.arange()		
-```python		
-np.arange(5, 101, 5)		
+## np.arange()
+```python	
+np.arange(5, 101, 5)
 ```
 ## np.ones()
 ```python
@@ -714,6 +714,12 @@ np.ones_like(arr)
 ## np.linspace()
 ```python
 np.linspace(-5, 5, 100)
+```
+## np.meshgrid()
+```python
+xs = np.linspace(0, output_size-1, output_size)
+ys = np.linspace(0, output_size-1, output_size)
+x, y = np.meshgrid(xs, ys)
 ```
 ## np.any()
 ```python
@@ -1071,10 +1077,23 @@ x = tf.stack(x, axis=0)
 ```
 - 지정한 axis의 dimension이 +1됩니다.
 - 동일한 shape을 가진 tensors에만 적용할 수 있습니다.
+## tf.shape()
+```python
+batch_size = tf.shape(conv_output)[0]
+```
 ## tf.reshape()
 
 ```python
-layer3 = tf.reshape(layer3, shape=[-1, 2])
+conv_output = tf.reshape(conv_output, shape=(batch_size, output_size, output_size, 3,
+                                                 5 + n_clss))
+```
+## tf.range()
+```python
+tf.range(3, 18, 3)
+```
+# tf.tile()
+```python
+y = tf.tile(y, multiples=[1, output_size])
 ```
 ## tf.constant\_initializer()
 ```
@@ -3812,17 +3831,3 @@ from google.colab.patches import cv2_imshow
 
 # colorsys
 ## colorsys.hsv_to_rgb()
-# tf.range()
-```python
-tf.range(3, 18, 3)
-```
-# tf.tile()
-```python
-y = tf.tile(y, multiples=[1, output_size])
-```
-```
-xvalue=np.linspace(0,10,11)
-
-yvalue=np.linspace(0,10,11)
-
-x, y=np.meshgrid(xvalue, yvalue)
