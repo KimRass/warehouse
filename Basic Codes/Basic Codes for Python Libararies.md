@@ -3831,3 +3831,4 @@ from google.colab.patches import cv2_imshow
 
 # colorsys
 ## colorsys.hsv_to_rgb()
+# layer.input_shape
