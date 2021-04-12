@@ -1,4 +1,6 @@
 # Python Built-in Functions
+## TypeError
+## StopIteration
 ## input()
 ```python
 input("숫자 입력  : ")
