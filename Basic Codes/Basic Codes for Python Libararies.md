@@ -1457,6 +1457,7 @@ model.get_layer("conv2d_22")
 ```
 ##### layer.name
 ##### layers.output
+##### layer.input_shape
 ##### layer.output_shape
 ##### layer.get_weights()
 ```python
@@ -3834,4 +3835,8 @@ from google.colab.patches import cv2_imshow
 
 # colorsys
 ## colorsys.hsv_to_rgb()
-# layer.input_shape
+```python
+hsv_tuples = [(idx/n_clss, 1, 1) for idx in idx2cls.keys()]
+colors = list(map(lambda x: colorsys.hsv_to_rgb(*x), hsv_tuples))
+colors = list(map(lambda x: (int(x[0]*255), int(x[1]*255), int(x[2]*255)), colors))
+```
