@@ -669,6 +669,10 @@ arr.ravel(order="F")
 - 복사본 반환
 ## arr.T
 ## arr.shape
+## arr.transpose(), np.transpose()
+```python
+conv_weights = np.fromfile(f, dtype=np.float32, count=np.prod(conv_shape)).reshape(conv_shape).transpose((2, 3, 1, 0))
+```
 ## np.set_printoptions()
 ```python
 np.set_printoptions(precision=3)
@@ -750,7 +754,6 @@ conv_weights = np.fromfile(f, dtype=np.float32, count=np.product(conv_shape))
 - `axis`
 - Return the product of array elements over a given axis.
 ## np.argmax()
-## np.transpose()
 ## np.swapaxes()
 ```python
 feature_maps = np.transpose(conv2d, (3, 1, 2, 0))
