@@ -742,11 +742,13 @@ np.shape(hidden_states)
 ```python
 data[np.isin(data["houses"], list)]
 ```
-## np.product()
+## np.prod()
 ```python
 conv_shape = (filters, in_dim, kernel_size, kernel_size)
 conv_weights = np.fromfile(f, dtype=np.float32, count=np.product(conv_shape))
 ```
+- `axis`
+- Return the product of array elements over a given axis.
 ## np.argmax()
 ## np.transpose()
 ## np.swapaxes()
@@ -794,13 +796,11 @@ np.random.seed(23)
 np.random.rand(2, 3, 4)
 ```
 - generates samples from the uniform distribution on \[0, 1)
-
 ### np.random.random()
 ```python
 np.random.random((2, 3, 4))
 ```
 - generates samples from the uniform distribution on \[0, 1)
-
 ### np.random.randint()
 ```python
 np.random.randint(1, 100, size=(2, 3, 4))	
