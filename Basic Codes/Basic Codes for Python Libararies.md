@@ -706,8 +706,8 @@ np.ones(shape=(2, 3, 4))
 ## np.zeros()
 ## np.empty()
 ## np.full()
-```python		
-np.full(shape=(2, 3, 4), fill_value=7))
+```python
+img_paded = np.full(shape=(tar_height, tar_width, 3), fill_value=128.)
 ```
 ## np.eye()
 ```python
@@ -1049,6 +1049,7 @@ lstm, for_h_state, for_c_state, back_h_state, back_c_state = Bidirectional(LSTM(
 
 print(lstm.shape, for_h_state.shape, back_h_state.shape)
 ```
+## tf.identity()
 ## tf.constant()
 ```python
 image = tf.constant([[[[1], [2], [3]], [[4], [5], [6]], [[7], [8], [9]]]], dtype=tf.float32)
@@ -1087,7 +1088,6 @@ x = tf.stack(x, axis=0)
 batch_size = tf.shape(conv_output)[0]
 ```
 ## tf.reshape()
-
 ```python
 conv_output = tf.reshape(conv_output, shape=(batch_size, output_size, output_size, 3,
                                                  5 + n_clss))
