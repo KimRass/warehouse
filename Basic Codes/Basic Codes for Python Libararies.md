@@ -1965,6 +1965,10 @@ img_gray = cv2.cvtColor(img_resized, cv2.COLOR_BGR2GRAY)
 ```python
 img = cv2.imread("300.jpg")
 ```
+## cv2.imwrite()
+```python
+cv2.imwrite("/content/drive/My Drive/Computer Vision/fire hydrants.png", ori_img)
+```
 ## cv2.imshow()
 ```python
 cv2.imshow("img_resized", img_resized)
