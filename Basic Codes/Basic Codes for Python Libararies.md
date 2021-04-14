@@ -1,3 +1,5 @@
+## np.inf
+
 ## tf.keras.backend.clear_session()
 ```python
 tf.keras.backend.clear_session()
