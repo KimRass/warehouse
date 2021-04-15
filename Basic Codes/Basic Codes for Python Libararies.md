@@ -1573,7 +1573,6 @@ from tensorflow.keras.preprocessing.image import ImageDataGenerator
 ```python
 gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True)
 ```
-# ImageDataGenerator
 - `validation_split`
 - `shear_range` : float. Shear Intensity (Shear angle in counter-clockwise direction as radians)
 - `zoom_range` : Float or [lower, upper]. Range for random zoom. If a float, [lower, upper] = [1-zoom_range, 1+zoom_range]
