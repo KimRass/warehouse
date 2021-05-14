@@ -3675,15 +3675,35 @@ gamepad = pygame.display.set_mode((pad_width, pad_height))
 
 
 
-# 
+# openpyxl 
+```python
 import openpyxl
-
+```
+## openpyxl.Workbook()
+```python
 wb = openpyxl.Workbook()
-sheet = wb.active
-sheet["H8"] = "=SUM(H6:H7)"
+```
+## openpyxl.load_workbook()
+```python
+wb = openpyxl.load_workbook("D:/디지털혁신팀/태블로/HR분석/FINAL/★직급별인원(5년)_본사현장(5년)-태블로적용.xlsx")
+```
+### wb[]
+### wb.active
+```python
+ws = wb.active
+```
+#### ws[]
+#### ws.insert_rows(), ws.insert_cols(), ws.delete_rows(), ws.delete_cols()
+#### ws.append()
+```python
 content = ["민수", "준공분", "거제2차", "15.06", "18.05", "1279"]
-sheet.append(content)
+ws.append(content)
+```
+### wb.sheetnames
+### wb.save()
+```python
 wb.save("test.xlsx")
+```
 
 
 
