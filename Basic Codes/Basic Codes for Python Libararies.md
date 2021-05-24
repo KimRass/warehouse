@@ -3877,3 +3877,10 @@ hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"
 ```python
 for idx, value in hq2cnt.items():
 ```
+
+
+
+# pytorch
+```python
+conda install pytorch cpuonly -c pytorch
+```
