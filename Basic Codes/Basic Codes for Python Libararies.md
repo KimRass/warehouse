@@ -655,6 +655,7 @@ for k, v in target.items():
 ```python
 import numpy as np
 ```
+## arr.size
 ## arr.astype()
 ```python
 x_train = x_train.astype("float32")
@@ -3186,6 +3187,10 @@ for punct in string.punctuation:
 import sys
 ```
 ## sys.maxsize()
+## sys.path
+```python
+sys.path.append("c:/users/82104/anaconda3/envs/tf2.3/lib/site-packages")
+```
 
 
 
@@ -3884,3 +3889,14 @@ for idx, value in hq2cnt.items():
 ```python
 conda install pytorch cpuonly -c pytorch
 ```
+
+# gym
+```python
+import gym
+```
+# env.observation_space
+# env.action_space
+# env.step
+# env.reset()
+# env.s
+# env.\_render()
