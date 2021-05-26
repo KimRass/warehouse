@@ -3900,3 +3900,6 @@ import gym
 # env.reset()
 # env.s
 # env.\_render()
+```python
+np.random.randint(0, 4)
+```
