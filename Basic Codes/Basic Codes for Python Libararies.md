@@ -3894,12 +3894,15 @@ conda install pytorch cpuonly -c pytorch
 ```python
 import gym
 ```
-# env.observation_space
-# env.action_space
-# env.step
-# env.reset()
-# env.s
-# env.\_render()
+## gym.envs
+### gym.envs.toy_text
+#### gym.envs.toy_text.discrete
+### env.observation_space
+### env.action_space
+### env.step
+### env.reset()
+### env.s
+### env.\_render()
 ```python
 np.random.randint(0, 4)
 ```
