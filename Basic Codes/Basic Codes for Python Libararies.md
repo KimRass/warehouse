@@ -3894,15 +3894,23 @@ conda install pytorch cpuonly -c pytorch
 ```python
 import gym
 ```
+## gym.make()
+```
+env = gym.make("Taxi-v3")
+```
 ## gym.envs
 ### gym.envs.toy_text
 #### gym.envs.toy_text.discrete
+### env.reset()
 ### env.observation_space
 ### env.action_space
-### env.step
-### env.reset()
-### env.s
-### env.\_render()
+#### env.action_space.sample()
+### env.step()
+```python
+next_state, rew, done, info = env.step(act)
+```
+### env.render()
+
 ```python
 np.random.randint(0, 4)
 ```
