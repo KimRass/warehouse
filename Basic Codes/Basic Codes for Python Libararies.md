@@ -808,6 +808,9 @@ np.random.random((2, 3, 4))
 - generates samples from the uniform distribution on \[0, 1)
 ### np.random.randint()
 ```python
+np.random.randint(0, 4)
+```
+```python
 np.random.randint(1, 100, size=(2, 3, 4))	
 ```
 ### np.random.choice()
@@ -2167,30 +2170,21 @@ def plot_tree(model, filename, rankdir="UT"):
 import gym
 ```
 ## gym.make()
-```python
-env = gym.make("Taxi-v1")
 ```
+env = gym.make("Taxi-v3")
+```
+## gym.envs
+### gym.envs.toy_text
+#### gym.envs.toy_text.discrete
 ### env.reset()
-```python
-observ = env.reset()
-```
-### env.render()
-### env.action_space.sample()
-```python
-action = env.action_space.sample()
-```
+### env.observation_space
+### env.action_space
+#### env.action_space.sample()
 ### env.step()
 ```python
-observ, reward, done, info = env.step(action)
+next_state, rew, done, info = env.step(act)
 ```
-```python
-env = gym.make("Taxi-v1")
-observ = env.reset()
-for _ in range(1000):
-    env.render()
-    action = env.action_space.sample()
-    observ, reward, done, info = env.step(action)
-```
+### env.render()
 
 
 
@@ -3888,29 +3882,4 @@ for idx, value in hq2cnt.items():
 # pytorch
 ```python
 conda install pytorch cpuonly -c pytorch
-```
-
-# gym
-```python
-import gym
-```
-## gym.make()
-```
-env = gym.make("Taxi-v3")
-```
-## gym.envs
-### gym.envs.toy_text
-#### gym.envs.toy_text.discrete
-### env.reset()
-### env.observation_space
-### env.action_space
-#### env.action_space.sample()
-### env.step()
-```python
-next_state, rew, done, info = env.step(act)
-```
-### env.render()
-
-```python
-np.random.randint(0, 4)
 ```
