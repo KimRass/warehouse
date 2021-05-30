@@ -1,49 +1,41 @@
 - source : https://ko.wikipedia.org/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:TeX_%EB%AC%B8%EB%B2%95
-#### \sum_{}^{}
-```
-G_{t} = \sum_{\tau=1}^\infty r^{\tau-1}R_{t}
-```
-#### \vec{}
-```
-\vec{v_i}
-```
-#### {\cdot}
-#### \hat{}
-#### fraction
-```
-\frac{1}{2}
-```
-#### \left, \right
-```
-\left( \frac{1}{2} \right)
-```
-#### \begin, \end
+
+# Number of Prameters = 0
+## {\cdot}
+## \infty
+## \in
+## \le, \ge
+## \forall
+## \leftrightarrow
+
+
+
+# Number of Prameters = 1
+## \vec{}
+## \hat{}
+## \left, \right
+## \big, \bigg, \Big, \Bigg
+## \begin{} \end{}
+### \begin{array} \end{array}
 ```
 \pi^{*}(a|s)=\left\{
 \begin{array}{c l}	
-    1, & if\ a = \underset{{a \in A}}{\operatorname{argmax}}Q^{*}(s, a)\\
+    1, & if\ a = \underset{a \in A}{\operatorname{argmax}}Q^{*}(s, a)\\
     0, & otherwise
 \end{array}\right.
 ```
-#### \infty
-#### \overset{\underset{\mathrm{def}}{}}{=}
-#### \in
+### \begin{align} \end{align}
+
+
+
+# Number of Prameters = 2
+## \sum_{}^{}
+## \frac{}{}
 ```
-\pi' \ge \pi \leftrightarrow V_{\pi'}(s) \ge V_{\pi}(s), \forall s \in S
+\frac{1}{2}
 ```
-#### \le, \ge
-### \forall
+## \overset{\underset{\mathrm{def}}{}}{=}
+## \underset{}{\operatorname{}}
 ```
-\pi' \ge \pi \leftrightarrow V_{\pi'}(s) \ge V_{\pi}(s), \forall s \in S
+\underset{a \in A}{\operatorname{argmax}}
 ```
-### \leftrightarrow
-```
-\pi' \ge \pi \leftrightarrow V_{\pi'}(s) \ge V_{\pi}(s), \forall s \in S
-```
-### large
-```
-\big \bigg \Big \Bigg
-```
-#### alignment
-- $ ... $ : 왼쪽 정렬
-- $$ ... $$ : 가운데 정렬
