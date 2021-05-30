@@ -6,7 +6,7 @@
 ## \in
 ## \le, \ge
 ## \forall
-## \leftrightarrow
+## \leftarrow, \rightarrow, \leftrightarrow
 
 
 
