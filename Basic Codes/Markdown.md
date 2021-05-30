@@ -1,54 +1,44 @@
 - source : https://ko.wikipedia.org/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:TeX_%EB%AC%B8%EB%B2%95
-#### sigma
+#### \sum_{}^{}
 ```
 G_{t} = \sum_{\tau=1}^\infty r^{\tau-1}R_{t}
 ```
-#### vector
+#### \vec{}
 ```
 \vec{v_i}
 ```
-#### dot product
-```
-{\cdot}
-```
-#### hat
-```
-\hat{y}
-```
+#### {\cdot}
+#### \hat{}
 #### fraction
 ```
 \frac{1}{2}
 ```
-#### bracket
+#### \left, \right
 ```
-\left( ... \right)
+\left( \frac{1}{2} \right)
 ```
-#### infinity
+#### \begin, \end
 ```
-\infty
+\pi^{*}(a|s)=\left\{
+\begin{array}{c l}	
+    1, & if\ a = \underset{{a \in A}}{\operatorname{argmax}}Q^{*}(s, a)\\
+    0, & otherwise
+\end{array}\right.
 ```
-#### definition
+#### \infty
+#### \overset{\underset{\mathrm{def}}{}}{=}
+#### \in
 ```
-\overset{\underset{\mathrm{def}}{}}{=}
+\pi' \ge \pi \leftrightarrow V_{\pi'}(s) \ge V_{\pi}(s), \forall s \in S
 ```
-#### subset
+#### \le, \ge
+### \forall
 ```
-\in
+\pi' \ge \pi \leftrightarrow V_{\pi'}(s) \ge V_{\pi}(s), \forall s \in S
 ```
-#### inequality sign
+### \leftrightarrow
 ```
-\le
-```
-```
-\ge
-```
-### for all
-```
-\forall
-```
-### arrow
-```
-\leftrightarrow
+\pi' \ge \pi \leftrightarrow V_{\pi'}(s) \ge V_{\pi}(s), \forall s \in S
 ```
 ### large
 ```
