@@ -781,6 +781,12 @@ max_len = int(np.quantile(lens, ratio))
 print(f"가장 긴 문장의 길이는 {np.max(lens)}입니다.")
 print(f"길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
 ```
+## np.einsum()
+```python
+def get_p_pi(self, policy):
+	p_pi = np.einsum("ik, kij -> ij", policy, self.P)
+	return p_pi
+```
 ## np.concatenate()
 ```python
 intersected_movie_ids = np.concatenate([json.loads(row) for row in rd.mget(queries)], axis=None)
