@@ -27,6 +27,33 @@ G_{t} = \sum_{\tau=1}^\infty r^{\tau-1}R_{t}
 ```
 \infty
 ```
+#### definition
+```
+\overset{\underset{\mathrm{def}}{}}{=}
+```
+#### subset
+```
+\in
+```
+#### inequality sign
+```
+\le
+```
+```
+\ge
+```
+### for all
+```
+\forall
+```
+### arrow
+```
+\leftrightarrow
+```
+### large
+```
+\big \bigg \Big \Bigg
+```
 #### alignment
 - $ ... $ : 왼쪽 정렬
 - $$ ... $$ : 가운데 정렬
