@@ -853,7 +853,7 @@ mh_df.values[:, np.newaxis, :]
 ```python
 iou = calculate_iou(best_bbox[None, :4], bboxes_cls[:, :4])
 ```
-- same as `None`
+- Same as `None`
 ## np.unique()
 ```python
 items, counts = np.unique(intersected_movie_ids, return_counts=True)
@@ -863,8 +863,8 @@ items, counts = np.unique(intersected_movie_ids, return_counts=True)
 ```python
 np.linalg.norm(x, axis=1, ord=2)
 ```
-- ord=1 : L1 normalization.
-- ord=2 : L2 normalization.
+- `ord=1`: L1 normalization.
+- `ord=2`: L2 normalization.
 ## np.sqrt()
 ## np.power()
 ## np.exp()
@@ -2182,6 +2182,12 @@ env = gym.make("Taxi-v3")
 ## gym.envs
 ### gym.envs.toy_text
 #### gym.envs.toy_text.discrete
+### env.nS
+### env.nA
+### env.P_tensor
+- Return state transition matrix.
+### env.R_tensor
+- Return reward.
 ### env.reset()
 ### env.observation_space
 ### env.action_space
