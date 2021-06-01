@@ -7,6 +7,7 @@
 ## \le, \ge
 ## \forall
 ## \leftarrow, \rightarrow, \leftrightarrow
+## \sim
 
 
 
