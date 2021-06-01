@@ -674,6 +674,7 @@ arr.ravel(order="F")
 ```python
 conv_weights = np.fromfile(f, dtype=np.float32, count=np.prod(conv_shape)).reshape(conv_shape).transpose((2, 3, 1, 0))
 ```
+## np.isnan()
 ## np.inf
 ## np.set_printoptions()
 ```python
