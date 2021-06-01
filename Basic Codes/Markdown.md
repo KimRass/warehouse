@@ -25,6 +25,12 @@
 \end{array}\right.
 ```
 ### \begin{align} \end{align}
+```
+\begin{align}
+V_{t+1}^{\pi}(s) &= \sum_{a \in A} \pi(a|s) \left( R_{s}^{a} + \gamma \sum_{s' \in S} P_{ss'}^{\pi}V_{t}^{\pi}(s') \right)\\
+&= R_{s}^{\pi} + \gamma \sum_{s' \in S} P_{ss'}^{\pi}V_{t}^{\pi}(s')
+\end{align}
+```
 
 
 
