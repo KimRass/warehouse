@@ -100,7 +100,7 @@ FROM buytbl GROUP BY userid;
 ```sql
 SELECT name, mdate
 FROM usertbl
-ORDER BY mdate DESC name ASC;
+ORDER BY mdate DESC, name ASC;
 ```
 ###### SELECT + ORDER BY + COUNT, SUM, AVG, MAX, MIN
 ```sql
@@ -471,3 +471,46 @@ WHERE height>=180;
 ```
 # MySQL Command Line Client
 ## show databases;
+--------------------------------------------------
+## SELECT
+## FROM
+## WHERE
+## IN
+```sql
+SELECT name, addr
+FROM usertbl
+WHERE addr IN ("서울", "경기", "충청");
+```
+## BETWEEN
+```sql
+SELECT name, height
+FROM sqlDB.usertbl
+WHERE height BETWEEN 180 AND 183;
+```
+## LIKE
+```sql
+SELECT name, height
+FROM usertbl
+WHERE name LIKE "김%" OR "_종신";
+```
+## ORDER BY
+### ASC, DESC
+```sql
+SELECT animal_id, name, datetime
+FROM animal_ins
+ORDER BY name ASC, datetime DESC;
+```
+## LIMIT
+```sql
+SELECT name
+FROM animal_ins
+ORDER BY datetime
+LIMIT 1;
+```
+## COUNT
+### DISTINCT
+```sql
+SELECT COUNT(DISTINCT name)
+FROM animal_ins;
+```
+## GROUP BY
