@@ -514,3 +514,29 @@ SELECT COUNT(DISTINCT name)
 FROM animal_ins;
 ```
 ## GROUP BY
+### HAVING
+- HOUR()는 일반조건이므로 (COUNT()와 달리) HAIVNG과 함께 쓸 수 없다.
+```sql
+SELECT animal_type, COUNT(animal_id)
+FROM animal_ins
+GROUP BY animal_type
+HAVING animal_type in ("Cat", "Dog")
+ORDER BY animal_type;
+```
+
+## HOUR
+```sql
+
+SELECT HOUR(datetime) HOUR, COUNT(*)
+
+FROM animal_outs
+
+GROUP BY HOUR(datetime)
+
+HAVING HOUR BETWEEN 9 AND 19
+
+ORDER BY HOUR;
+
+```
+### AS
+## MIN, MAX
