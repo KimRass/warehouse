@@ -17,7 +17,6 @@ default-character-set = utf8
 [mysqldump]
 default-character-set = utf8
 ```
-
 ## Workbench
 ### set local_infile
 ```
@@ -30,123 +29,6 @@ into table masterdata.base_info
 fields terminated by ','
 lines terminated by '\n'
 ```
-### SQL syntax
-```sql
-SELECT host, user, authentication_string FROM mysql.user;
-SELECT host, user FROM mysql.db;
-```
-```sql
-DELETE FROM mysql.user WHERE user="6363";
-DELETE FROM mysql.db WHERE user="6363";
-FLUSH PRIVILEGES;
-```
-```sql
-GRANT ALL PRIVILEGES ON masterdata.* TO "6363"@"%";
-FLUSH PRIVILEGES;
-```
-- WITH GRANT OPTION : 권한 위임 가능
-```sql
-SHOW GRANTS FOR "6363"@"%";
-```
-#### CREATE
-##### CREATE USER
-```
-CREATE USER "6363"@"%" IDENTIFIED BY "6363";
-```
-#### SELECT
-##### SELECT + WHERE
-```sql
-SELECT *
-FROM transac, matching, base_info, money_value
-WHERE transac.Name = matching.Name AND transac.Area = matching.Area AND matching.Id = base_info.Id AND transac.TransacYM = money_value.TransacYM;
-```
-##### SELECT + WHERE + BETWEEN
-```sql
-SELECT name, height
-FROM sqlDB.usertbl
-WHERE height BETWEEN 180 AND 183;
-```
-##### SELECT + WHERE + IN
-```sql
-SELECT name, addr
-FROM usertbl
-WHERE addr IN ("서울", "경기", "충청");
-```
-##### SELECT + WHERE + LIKE
-```sql
-SELECT name, height
-FROM usertbl
-WHERE name LIKE "김%" OR "_종신";
-```
-#### SELECT + WHERE + ANY
-```sql
-SELECT name
-FROM usertbl
-WHERE height > ANY (SELECT height FROM usertbl WHERE addr="서울");
-```
-##### SELECT + WHERE + MIN, MAX
-```sql
-SELECT height
-FROM usertbl
-WHERE height = (SELECT MIN(height) FROM usertbl);
-OR height = (SELECT MAX(height) FROM usertbl);
-```
-#### SELECT + GROUP BY
-```sql
-SELECT AVG(amount) AS "평균 구매 수량"
-FROM buytbl GROUP BY userid;
-```
-##### SELECT + ORDER BY
-```sql
-SELECT name, mdate
-FROM usertbl
-ORDER BY mdate DESC, name ASC;
-```
-###### SELECT + ORDER BY + COUNT, SUM, AVG, MAX, MIN
-```sql
-SELECT userid AS "사용자 ID", SUM(price*amount) AS "총 구매액"
-FROM buytbl
-GROUP BY userid
-ORDER BY SUM(price*amount) DESC;
-```
-##### SELECT + DISTINCT
-```sql
-SELECT DISTINCT addr FROM usertbl;
-```
-##### SELECT + LIMIT
-```sql
-SELECT * FROM usertbl LIMIT 11, 5;
-```
-##### SELECT + WITH ROLLUP
-```sql
-SELECT num, groupname, SUM(price*amount) AS "비용"
-FROM buytbl
-GROUP BY num, groupname
-WITH ROLLUP;
-```
-##### SELECT + HAVING
-```sql
-SELECT userid AS "사용자 ID", SUM(price*amount) AS "총 구매액"
-FROM buytbl
-GROUP BY userid
-HAVING SUM(price*amount) > 100000;
-```
-##### SELECT + LAST_INSERT_ID();
-- AUTO_INCREMENT 사용 시 사용
-##### SELECT + @
-```sql
-SELECT @변수 이름;
-```
-#### DROP
-##### DROP DATABASE
-```sql
-DROP DATABASE IF EXISTS database;
-```
-##### DROP TABLE   
-```sql
-DROP TABLE tbl;
-```
-- 내용 및 구조 삭제
 --------------------------------------------------------------------------------------------------------------------------------
 # set path
 ```
@@ -189,7 +71,54 @@ SHOW VARIABLES LIKE "max%";
 ### .txt로 특정 폴더에 저장
 - 명령 프롬프트 -> cd %programdata% -> cd MySQL -> cd MySQL Server 8.0 -> notepad my.ini -> secure-file-priv=C:\temp 추가 -> 재부팅
 -------------------------------------------------------------------------------------------------------------------
-
+## FLUSH PRIVILEGES
+```sql
+DELETE FROM mysql.user WHERE user="6363";
+DELETE FROM mysql.db WHERE user="6363";
+FLUSH PRIVILEGES;
+```
+```sql
+GRANT ALL PRIVILEGES ON masterdata.* TO "6363"@"%";
+FLUSH PRIVILEGES;
+```
+- WITH GRANT OPTION : 권한 위임 가능
+```sql
+SHOW GRANTS FOR "6363"@"%";
+```
+#### CREATE
+##### CREATE USER
+```
+CREATE USER "6363"@"%" IDENTIFIED BY "6363";
+```
+#### SELECT + WHERE + ANY
+```sql
+SELECT name
+FROM usertbl
+WHERE height > ANY (SELECT height FROM usertbl WHERE addr="서울");
+```
+##### SELECT + WITH ROLLUP
+```sql
+SELECT num, groupname, SUM(price*amount) AS "비용"
+FROM buytbl
+GROUP BY num, groupname
+WITH ROLLUP;
+```
+##### SELECT + LAST_INSERT_ID();
+- AUTO_INCREMENT 사용 시 사용
+##### SELECT + @
+```sql
+SELECT @변수 이름;
+```
+#### DROP
+##### DROP DATABASE
+```sql
+DROP DATABASE IF EXISTS database;
+```
+##### DROP TABLE   
+```sql
+DROP TABLE tbl;
+```
+- 내용 및 구조 삭제
 ### INSERT
 #### INSERT INTO
 ```sql
@@ -479,6 +408,13 @@ WHERE height>=180;
 ## SELECT
 ## FROM
 ## WHERE
+### IN
+```sql
+SELECT name, addr
+FROM usertbl
+WHERE addr IN ("서울", "경기", "충청");
+```
+### BETWEEN
 ### LIKE
 ```sql
 SELECT animal_ins.animal_id, animal_ins.animal_type, animal_ins.name
@@ -491,13 +427,6 @@ AND (animal_outs.sex_upon_outcome LIKE "Spayed%"
 OR animal_outs.sex_upon_outcome LIKE "Neutered%")
 ORDER BY animal_ins.animal_id;
 ```
-## IN
-```sql
-SELECT name, addr
-FROM usertbl
-WHERE addr IN ("서울", "경기", "충청");
-```
-## BETWEEN
 ### AND
 ```sql
 SELECT name, height
@@ -582,4 +511,28 @@ ON animal_ins.animal_id = animal_outs.animal_id
 WHERE animal_outs.datetime IS NULL
 ORDER BY animal_ins.datetime ASC
 LIMIT 3;
+```
+## UPPER()
+```sql
+SELECT animal_id, name
+FROM animal_ins
+WHERE animal_type = "Dog"
+AND UPPER(name) LIKE "%EL%"
+ORDER BY name;
+```
+## CASE WHEN THEN ELSE END
+```sql
+SELECT animal_id, name,
+CASE WHEN (sex_upon_intake LIKE "%Neutered%"
+OR sex_upon_intake LIKE "%Spayed%")
+THEN "O"
+ELSE "X" END AS "중성화 여부"
+FROM animal_ins
+ORDER BY animal_id;
+```
+## DATE_FORMAT()
+```sql
+SELECT animal_id, name, DATE_FORMAT(datetime, "%Y-%m-%d")
+FROM animal_ins
+ORDER BY animal_id;
 ```
