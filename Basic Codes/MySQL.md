@@ -472,9 +472,25 @@ WHERE height>=180;
 # MySQL Command Line Client
 ## show databases;
 --------------------------------------------------
+# ORDER
+- ORDER BY > LIMIT
+- GROUP BY > HAVING
+- WHERE > GROUP BY
 ## SELECT
 ## FROM
 ## WHERE
+### LIKE
+```sql
+SELECT animal_ins.animal_id, animal_ins.animal_type, animal_ins.name
+FROM animal_ins
+INNER JOIN animal_outs
+ON animal_ins.animal_id = animal_outs.animal_id
+# WHERE animal_ins.sex_upon_intake != animal_outs.sex_upon_outcome
+WHERE animal_ins.sex_upon_intake LIKE "Intact%"
+AND (animal_outs.sex_upon_outcome LIKE "Spayed%"
+OR animal_outs.sex_upon_outcome LIKE "Neutered%")
+ORDER BY animal_ins.animal_id;
+```
 ## IN
 ```sql
 SELECT name, addr
@@ -524,20 +540,13 @@ GROUP BY animal_type
 HAVING animal_type in ("Cat", "Dog")
 ORDER BY animal_type;
 ```
-
 ## HOUR()
 ```sql
-
 SELECT HOUR(datetime) HOUR, COUNT(*)
-
 FROM animal_outs
-
 GROUP BY HOUR(datetime)
-
 HAVING HOUR BETWEEN 9 AND 19
-
 ORDER BY HOUR;
-
 ```
 ### AS
 ## MIN(), MAX()
@@ -566,10 +575,11 @@ WHERE animal_ins.datetime > animal_outs.datetime
 ORDER BY animal_ins.datetime;
 ```
 ```sql
-SELECT animal_outs.animal_id, animal_outs.name
-FROM animal_outs
-LEFT OUTER JOIN animal_ins
+SELECT animal_ins.name, animal_ins.datetime
+FROM animal_ins
+LEFT OUTER JOIN animal_outs
 ON animal_ins.animal_id = animal_outs.animal_id
-WHERE animal_ins.animal_id IS NULL
-ORDER BY animal_id;
+WHERE animal_outs.datetime IS NULL
+ORDER BY animal_ins.datetime ASC
+LIMIT 3;
 ```
