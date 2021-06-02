@@ -555,8 +555,16 @@ sex_upon_intake
 FROM animal_ins
 ORDER BY animal_id
 ```
-## LEFT OUTER JOIN
+## INNER JOIN, LEFT OUTER JOIN
 ### ON
+```sql
+SELECT animal_ins.animal_id, animal_ins.name
+FROM animal_ins
+INNER JOIN animal_outs
+ON animal_ins.animal_id = animal_outs.animal_id
+WHERE animal_ins.datetime > animal_outs.datetime
+ORDER BY animal_ins.datetime;
+```
 ```sql
 SELECT animal_outs.animal_id, animal_outs.name
 FROM animal_outs
