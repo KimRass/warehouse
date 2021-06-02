@@ -482,6 +482,7 @@ FROM usertbl
 WHERE addr IN ("서울", "경기", "충청");
 ```
 ## BETWEEN
+### AND
 ```sql
 SELECT name, height
 FROM sqlDB.usertbl
@@ -507,7 +508,7 @@ FROM animal_ins
 ORDER BY datetime
 LIMIT 1;
 ```
-## COUNT
+## COUNT()
 ### DISTINCT
 ```sql
 SELECT COUNT(DISTINCT name)
@@ -524,7 +525,7 @@ HAVING animal_type in ("Cat", "Dog")
 ORDER BY animal_type;
 ```
 
-## HOUR
+## HOUR()
 ```sql
 
 SELECT HOUR(datetime) HOUR, COUNT(*)
@@ -539,4 +540,28 @@ ORDER BY HOUR;
 
 ```
 ### AS
-## MIN, MAX
+## MIN(), MAX()
+## IS NULL, IS NOT NULL
+```sql
+SELECT animal_id
+FROM animal_ins
+WHERE name IS NULL;
+```
+## IFNULL()
+```sql
+SELECT animal_type,
+IFNULL(name, "No name"),
+sex_upon_intake
+FROM animal_ins
+ORDER BY animal_id
+```
+## LEFT OUTER JOIN
+### ON
+```sql
+SELECT animal_outs.animal_id, animal_outs.name
+FROM animal_outs
+LEFT OUTER JOIN animal_ins
+ON animal_ins.animal_id = animal_outs.animal_id
+WHERE animal_ins.animal_id IS NULL
+ORDER BY animal_id;
+```
