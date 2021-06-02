@@ -90,12 +90,6 @@ SHOW GRANTS FOR "6363"@"%";
 ```
 CREATE USER "6363"@"%" IDENTIFIED BY "6363";
 ```
-#### SELECT + WHERE + ANY
-```sql
-SELECT name
-FROM usertbl
-WHERE height > ANY (SELECT height FROM usertbl WHERE addr="서울");
-```
 ##### SELECT + WITH ROLLUP
 ```sql
 SELECT num, groupname, SUM(price*amount) AS "비용"
@@ -153,7 +147,6 @@ SET price=price*1.5;
 DELETE FROM sqldb WHERE fname="김";
 ```
 - 연산 부하가 큼
-## DDL(Data Definition Language) : CREATE, ALTER, DROP, TRUNCATE, RENAME
 ### CREATE
 #### CREATE SHCEMA | DATABASE
 ```sql
@@ -201,9 +194,6 @@ INSERT INTO testtbl VALUES (NULL, "홍길동", 25);
 TRUNCATE TABLE testtbl;
 ```
 - table의 내용만 삭제
-## DCL(Data Control Language) : GRANT, REVOKE
-## TCL(Transaction Control Language) : COMMIT, ROLLBACK, SAVEPOINT
-## 기타
 ### SHOW
 ```sql
 SHOW DATABASES;
@@ -286,52 +276,6 @@ SELECT IFNULL(value1, value2);
 SELECT NULLIF(value1, value2);
 ```
 - returns value2 if value1=value2 and returns value1 if value1!=value2
-### CASE
-```sql
-SELECT CASE 10
-    WHEN 1 THEN "일"
-    WHEN 5 THEN "오"
-    WHEN 10 THEN "십"
-    ELSE "모름"
-END;
-```
-### CONCAT_WS
-```sql
-SELECT CONCAT_WS("/", "2020", "01", "12");
-```
-### FORMAT
-```sql
-SELECT FORMAT(123456.123456, 4);
-```
-- 출력할 소수점 이하 자릿수 지정. 
-## 문자열 관련 함수
-#### INSERT
-```sql
-SELECT INSERT("abcdefghi", 3, 2, "####");
-```
-#### LEFT, RIGHT
-```sql
-SELECT LEFT("abcdefghi", 3);
-```
-#### LCASE, UCASE(LOWER, UPPER)
-```sql
-SELECT LCASE("abcdEFGHI");
-```
-#### LPAD, RPAD
-```sql
-SELECT LPAD("이것이", 5, "##")
-```
-#### LTRIM, RTRIM
-```sql
-SELECT LTRIM("    좌측공백제거");
-```
-#### TRIM
-```sql
-SELECT TRIM("   좌우측공백삭제   ";
-SELECT TRIM(BOTH "ㅋ" FROM "ㅋㅋㅋ좌우측문자삭제ㅋㅋㅋ");
-SELECT TRIM(LEADING "ㅋ" FROM "ㅋㅋㅋ좌측문자삭제ㅋㅋㅋ");
-SELECT TRIM(TRAILING "ㅋ" FROM "ㅋㅋㅋ우측문자삭제ㅋㅋㅋ");
-```
 #### REPEAT
 ```sql
 SELECT REPEAT("문자반복", 3);
@@ -353,21 +297,6 @@ SELECT SUBSTRING("대한민국만세", 3, 2);
 SELECT SUBSTRING_INDEX("cafe.naver.com", ".", 2); #cafe.naver
 SELECT SUBSTRING_INDEX("cafe.naver.com", ".", -2); #naver.com
 ```
-## 숫자 관련 함수
-#### ABS : 절대값
-#### CEILING : 올림
-#### FLOOR : 버림
-#### ROUND : 반올림
-#### CONV : 진수 변환
-#### DEGREES : 육십분법으로 변환
-#### RADIANS : 호도법으로 변환
-#### MOD, % : 나머지
-#### POW : 거듭제곱
-#### SQRT : 제곱근
-#### RAND : 0 이상 1 미만의 수 반환
-#### SIGN : 양수, 0, 음수 판별
-#### TRUNCATE : 소수점 이하 자리수 지정
-## 날짜, 시간 관련 함수
 #### ADDDATE, SUBDATE, ADDTIME, SUBTIME
 ```sql
 ADDDATE("2020-01-01", INTERVAL 31 DAY);
@@ -414,7 +343,12 @@ SELECT name, addr
 FROM usertbl
 WHERE addr IN ("서울", "경기", "충청");
 ```
-### BETWEEN
+### BETWEEN AND
+```sql
+SELECT name, height
+FROM sqlDB.usertbl
+WHERE height BETWEEN 180 AND 183;
+```
 ### LIKE
 ```sql
 SELECT animal_ins.animal_id, animal_ins.animal_type, animal_ins.name
@@ -427,11 +361,11 @@ AND (animal_outs.sex_upon_outcome LIKE "Spayed%"
 OR animal_outs.sex_upon_outcome LIKE "Neutered%")
 ORDER BY animal_ins.animal_id;
 ```
-### AND
+### ANY()
 ```sql
-SELECT name, height
-FROM sqlDB.usertbl
-WHERE height BETWEEN 180 AND 183;
+SELECT name
+FROM usertbl
+WHERE height > ANY (SELECT height FROM usertbl WHERE addr="서울");
 ```
 ## LIKE
 ```sql
@@ -471,9 +405,9 @@ ORDER BY animal_type;
 ```
 ## HOUR()
 ```sql
-SELECT HOUR(datetime) HOUR, COUNT(*)
+SELECT HOUR(datetime) AS HOUR, COUNT(*)
 FROM animal_outs
-GROUP BY HOUR(datetime)
+GROUP BY HOUR
 HAVING HOUR BETWEEN 9 AND 19
 ORDER BY HOUR;
 ```
@@ -536,3 +470,53 @@ SELECT animal_id, name, DATE_FORMAT(datetime, "%Y-%m-%d")
 FROM animal_ins
 ORDER BY animal_id;
 ```
+## CONCAT_WS()
+```sql
+SELECT CONCAT_WS("/", "2020", "01", "12");
+```
+## FORMAT()
+```sql
+SELECT FORMAT(123456.123456, 4);
+```
+- 출력할 소수점 이하 자릿수 지정. 
+## INSERT()
+```sql
+SELECT INSERT("abcdefghi", 3, 2, "####");
+```
+## LEFT(), RIGHT()
+```sql
+SELECT LEFT("abcdefghi", 3);
+```
+## LCASE(), UCASE()
+```sql
+SELECT LCASE("abcdEFGHI");
+```
+### LPAD(), RPAD()
+```sql
+SELECT LPAD("이것이", 5, "##")
+```
+## LTRIM(), RTRIM()
+```sql
+SELECT LTRIM("    좌측공백제거");
+```
+## TRIM()
+### BOTH, LEADING, TRAILING
+```sql
+SELECT TRIM("   좌우측공백삭제   ";
+SELECT TRIM(BOTH "ㅋ" FROM "ㅋㅋㅋ좌우측문자삭제ㅋㅋㅋ");
+SELECT TRIM(LEADING "ㅋ" FROM "ㅋㅋㅋ좌측문자삭제ㅋㅋㅋ");
+SELECT TRIM(TRAILING "ㅋ" FROM "ㅋㅋㅋ우측문자삭제ㅋㅋㅋ");
+```
+## ABS : 절대값
+## CEILING : 올림
+## FLOOR : 버림
+## ROUND : 반올림
+## CONV : 진수 변환
+## DEGREES : 육십분법으로 변환
+## RADIANS : 호도법으로 변환
+## MOD, % : 나머지
+## POW : 거듭제곱
+## SQRT : 제곱근
+## RAND : 0 이상 1 미만의 수 반환
+## SIGN : 양수, 0, 음수 판별
+## TRUNCATE : 소수점 이하 자리수 지정
