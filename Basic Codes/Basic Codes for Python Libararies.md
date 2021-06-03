@@ -815,14 +815,13 @@ np.random.random((2, 3, 4))
 - generates samples from the uniform distribution on \[0, 1)
 ### np.random.randint()
 ```python
-np.random.randint(0, 4)
-```
-```python
 np.random.randint(1, 100, size=(2, 3, 4))	
 ```
 ### np.random.choice()
+- Generates a random sample from a given 1-D array.
+- If an ndarray, a random sample is generated from its elements. If an int, the random sample is generated as if a were np.arange(a).
 ```python
-np.random.choice(arr(1d), size=(2, 3, 4), replace=False)	
+np.random.choice(5, size=(2, 3, 4))
 ```
 ### np.random.normal()
 ```python
