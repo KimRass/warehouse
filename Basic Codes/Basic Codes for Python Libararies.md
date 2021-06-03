@@ -435,12 +435,7 @@ df = df.append({"addr1":addr1, "addr2":addr2, "dist":dist}, ignore_index=True)
 ```
 ## df.apply()
 ```python
-data["반기"]=data["입찰년월"].apply(lambda x:x[:4]+" 상반기" if int(x[4:])<7 else x[:4]+" 하반기")
-data["반기"]=data.apply(lambda x:x["입찰년월"][:4]+" 상반기" if int(x["입찰년월"][4:])<7 else x["입찰년월"][:4]+" 하반기", axis=1)
-```
-```python
-data["1001-작업반장]=data["반기"].apply(lambda x:labor.loc[x, "1001-작업반장])
-data["1001-작업반장]=data.apply(lambda x:labor.loc[x["반기"], "1001-작업반장], axis=1)
+hr["코스트센터 분류"] = hr.apply(lambda x:"지사" if ("사업소" in x["조직명"]) or ("베트남지사" in x["조직명"]) else ("본사" if re.search("^\d", x["코스트센터"]) else "현장"), axis=1)
 ```
 ## df.progress_apply()
 ```python
