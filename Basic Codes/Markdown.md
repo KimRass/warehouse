@@ -8,6 +8,7 @@
 ## \forall
 ## \leftarrow, \rightarrow, \leftrightarrow
 ## \sim
+## \overset{\underset{\mathrm{def}}{}}{=}
 
 
 
@@ -41,7 +42,6 @@ V_{t+1}^{\pi}(s) &= \sum_{a \in A} \pi(a|s) \left( R_{s}^{a} + \gamma \sum_{s' \
 ```
 \frac{1}{2}
 ```
-## \overset{\underset{\mathrm{def}}{}}{=}
 ## \underset{}{\operatorname{}}
 ```
 \underset{a \in A}{\operatorname{argmax}}
