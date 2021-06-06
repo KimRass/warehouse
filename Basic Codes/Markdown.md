@@ -33,6 +33,17 @@ V_{t+1}^{\pi}(s) &= \sum_{a \in A} \pi(a|s) \left( R_{s}^{a} + \gamma \sum_{s' \
 &= R_{s}^{\pi} + \gamma \sum_{s' \in S} P_{ss'}^{\pi}V_{t}^{\pi}(s')
 \end{align}
 ```
+```
+$$\pi(a|s) =
+\left\{
+\begin{align}
+&\frac{\epsilon}{|A|} + 1 - \epsilon
+&&if\ a = \underset{a \in A}{\operatorname{argmax}}Q^{\pi}(s, a)\\
+&\frac{\epsilon}{|A|}
+&&otherwise
+\end{align}
+\right.$$
+```
 
 
 
