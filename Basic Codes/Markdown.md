@@ -11,8 +11,9 @@
 ## \overset{\underset{\mathrm{def}}{}}{=}
 
 
-
 # Number of Prameters = 1
+## \mathbb{}
+### \mathbb{E}
 ## \vec{}
 ## \hat{}
 ## \left, \right
@@ -49,6 +50,7 @@ $$\pi(a|s) =
 
 # Number of Prameters = 2
 ## \sum_{}^{}
+## \prod_{}^{}
 ## \frac{}{}
 ```
 \frac{1}{2}
