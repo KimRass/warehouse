@@ -1769,10 +1769,13 @@ torch.randn(4, 4).view(-1, 8)
 ### Tensor.grad
 - 미분할 Tensor에 대해 `requires=False`이거나 미분될 Tensor에 대해 `Tensor.backward()`가 선언되지 않으면 `None`을 반환합니다.
 ## torch.optim
-### torch.optim.SGD()
+### torch.optim.SGD(), torch.optim.Adam()
 ```python
 opt = torch.optim.SGD(params=linear.parameters(), lr=0.01)
 ```
+#### opt.zero_grad()
+- Sets the gradients of all optimized Tensors to zero.
+#### opt.step()
 ## torch.nn
 ```python
 import torch.nn as nn
@@ -1796,6 +1799,7 @@ for param in linear.parameters():
 ```python
 loss = nn.MSELoss()(ys_hat, ys)
 ```
+### loss.backward()
 
 
 
@@ -2587,6 +2591,13 @@ ax.axhline(y=mean, color="r", linestyle=":", linewidth=2)
 ```python
 for _, row in ml_gby_ax1.iterrows():
     ax1.text(y=row["le"]-0.18, x=row["abs_error"], s=round(row["abs_error"], 1), va="center", ha="left", fontsize=10)
+```
+#### ax.fill_between()
+```python
+ax.fill_between(x=range(sgd_loss_mean.shape[0]),
+                y1=sgd_loss_mean + sgd_loss_std,
+                y2=sgd_loss_mean - sgd_loss_std,
+                alpha=0.3)
 ```
 
 
