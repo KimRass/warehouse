@@ -4,11 +4,13 @@
 ## {\cdot}
 ## \infty
 ## \in
+## \ne
 ## \le, \ge
 ## \forall
 ## \leftarrow, \rightarrow, \leftrightarrow
 ## \sim
 ## \overset{\underset{\mathrm{def}}{}}{=}
+
 
 
 # Number of Prameters = 1
@@ -29,12 +31,6 @@
 ```
 ### \begin{align} \end{align}
 ```
-\begin{align}
-V_{t+1}^{\pi}(s) &= \sum_{a \in A} \pi(a|s) \left( R_{s}^{a} + \gamma \sum_{s' \in S} P_{ss'}^{\pi}V_{t}^{\pi}(s') \right)\\
-&= R_{s}^{\pi} + \gamma \sum_{s' \in S} P_{ss'}^{\pi}V_{t}^{\pi}(s')
-\end{align}
-```
-```
 $$\pi(a|s) =
 \left\{
 \begin{align}
@@ -44,6 +40,15 @@ $$\pi(a|s) =
 &&otherwise
 \end{align}
 \right.$$
+```
+```
+$$\begin{align}
+\mathbb{E}_{x \sim P}[f(x)]
+&= \sum_{x \in X}p(x)f(x)\\
+&= \sum_{x \in X}q(x)\frac{p(x)}{q(x)}f(x)\\
+&= \mathbb{E}_{x \sim Q}\left[\frac{p(x)}{q(x)}f(x)\right]
+\end{align}$$
+$$\prod_{k=t}^{T-1}\frac{\pi(A_{k}|S_{k})}{\mu(A_{k}|S_{k})}$$
 ```
 
 
