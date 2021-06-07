@@ -575,6 +575,10 @@ ui.mean(axis=1)
 ```python
 adj_ui = ui.sub(user_bias, axis=0).sub(item_bias, axis=1)
 ```
+# ser.items()
+```python
+for idx, value in hq2cnt.items():
+```
 ## ser.rename()
 ```python
 plays_df.groupby(["user_id"]).size().rename("n_arts")
@@ -1734,6 +1738,67 @@ tkn.decode(tkn.encode(sample))
 
 
 
+# torch
+```python
+conda install pytorch cpuonly -c pytorch
+```
+```python
+import torch
+```
+## torch.tensor()
+## torch.empty()
+## torch.ones()
+```python
+w = torch.ones(size=(1,), requires_grad=True)
+```
+- Returns a tensor filled with the scalar value `1`, with the shape defined by the variable argument `size`
+- `requires_grad`(`True` | `False`)
+## torch.ones_like()
+- Returns a tensor filled with the scalar value 1, with the same size as `input`.
+- (`input`)(Tensor)
+### Tensor.data
+### Tensor.shape
+### Tensor.size()
+### Tensor.view()
+```python
+torch.randn(4, 4).view(-1, 8)
+```
+- Returns a new tensor with the same data as the `self` tensor but of a different `shape`.
+### Tensor.float()
+### Tensor.backward()
+### Tensor.grad
+- 미분할 Tensor에 대해 `requires=False`이거나 미분될 Tensor에 대해 `Tensor.backward()`가 선언되지 않으면 `None`을 반환합니다.
+## torch.optim
+### torch.optim.SGD()
+```python
+opt = torch.optim.SGD(params=linear.parameters(), lr=0.01)
+```
+## torch.nn
+```python
+import torch.nn as nn
+```
+### nn.Linear()
+```python
+linear = nn.Linear(in_features=10, out_features=1)
+```
+- `in_features`: size of each input sample.
+- `out_features`: size of each output sample.
+### linear.parameters()
+```python
+for param in linear.parameters():
+    print(param)
+    print(param.shape)
+    print('\n')
+```
+### linear.weight, linear.bias
+#### linear.weight.data, linear.bias.data
+## nn.MSELoss()
+```python
+loss = nn.MSELoss()(ys_hat, ys)
+```
+
+
+
 # bs4
 ## BeautifulSoup
 ```python
@@ -1742,7 +1807,6 @@ from bs4 import BeautifulSoup as bs
 ```python
 soup = bs(xml,"lxml")
 ```
-### 
 ### soup.find_all()
 #### soup.find_all().find()
 #### soup.find_all().find().get_text()
@@ -3878,15 +3942,4 @@ appo["end"] = appo["end"].dt.normalize()
 ```
 ```python
 hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"]) | ("촉탁" in x["하위그룹"]) | ("파견" in x["하위그룹"]) | (x["재직여부"]=="퇴직") else ("본부인원에서만 제외" if ("PM" in x["조직명"]) | ("신규준비" in x["직무"]) | (x["직무"]=="휴직") | (x["직무"]=="비상계획") | (x["직무"]=="축구협") | (x["직무"]=="비서") | ("조직명" in x["조직명"]) | (x["직무"]=="미화") else "포함"), axis=1)
-```
-# ser.items()
-```python
-for idx, value in hq2cnt.items():
-```
-
-
-
-# pytorch
-```python
-conda install pytorch cpuonly -c pytorch
 ```
