@@ -125,7 +125,6 @@ word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True)
 {idx:char for idx, char in enumerate(char_set)}
 ```
 ## str
-### str.isalpha()
 ### str.format()
 ```python
 print("[{0:>4d}], [{1:>20d}]".format(100, 200))
@@ -153,6 +152,8 @@ msg_tkn = [msg.split(" ") for msg in data["msg"]]
 ### str.strip()
 - Removes the begining or the end whitespaces(`" "`, `"\n"`, `"\t"`)
 ### str.upper(), str.lower()
+### str.isupper(), str.islower()
+### str.isalpha()
 ### str.count()
 ```python
 "저는 과일이 좋아요".count("과일이")
@@ -268,6 +269,8 @@ with open("C:/Users/5CG7092POZ/nsmc-master/ratings_train.txt", "r", encoding="ut
 A = list(map(int, in "A를 차례대로 입력 : ").split()))
 ```
 ## ord()
+## chr()
+- `ord()`와 반대입니다.
 
 
 
