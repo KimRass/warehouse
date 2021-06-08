@@ -1800,6 +1800,8 @@ for param in linear.parameters():
 loss = nn.MSELoss()(ys_hat, ys)
 ```
 ### loss.backward()
+## nn.Module
+## nn.ModuleList()
 
 
 
