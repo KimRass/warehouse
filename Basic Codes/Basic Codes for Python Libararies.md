@@ -3038,7 +3038,7 @@ dq = deque("abc")
 dq[2] = "d"
 ```
 ### dq.append()
-### dq.appenleft()
+### dq.appendleft()
 ### dq.pop()
 ### dq.popleft()
 ### dq.extend()
