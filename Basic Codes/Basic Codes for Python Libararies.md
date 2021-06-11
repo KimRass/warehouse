@@ -77,6 +77,9 @@ sum(sents, [])
 ```python
 chars = set([char for word in words for char in word])
 ```
+```python
+idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
+```
 ## set
 ### set1 & set2
 ### set1 | set2
