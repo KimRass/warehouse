@@ -28,3 +28,6 @@ from dateutil import relativedelta
 ```
 (start + relativedelta.relativedelta(months=1)).replace(day=1) - timedelta(days=1)
 ```
+```
+DATEADD("month", 1, DATEADD("day", -1, DATE(STR([Year Month]) + "01")))
+```
