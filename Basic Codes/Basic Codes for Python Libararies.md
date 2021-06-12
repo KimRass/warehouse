@@ -3201,6 +3201,10 @@ names = random.sample(list(set(data.index)), 20)
 ## re.match()
 - re.search()와 유사하나 주어진 문자열의 맨 처음과 대응할 때만 object를 반환.
 ## re.findall()
+```python
+re.findall(r"\d+[SDT][*#]*", "1S*2T*3S")
+```
+- \>\>\> ['1S*', '2T*', '3S']
 - re.search()와 유사하나 대응하는 모든 문자열을 list로 반환.
 ### re.search().group(), re.match().group()
 ```python
