@@ -161,6 +161,7 @@ msg_tkn = [msg.split(" ") for msg in data["msg"]]
 ### str.upper(), str.lower()
 ### str.isupper(), str.islower()
 ### str.isalpha()
+### str.isdigit()
 ### str.count()
 ```python
 "저는 과일이 좋아요".count("과일이")
