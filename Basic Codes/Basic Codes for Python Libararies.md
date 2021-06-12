@@ -282,6 +282,17 @@ A = list(map(int, in "A를 차례대로 입력 : ").split()))
 
 
 
+# math
+```python
+import math
+```
+## math.exp()
+## math.log()
+## math.log2()
+## math.log10()
+
+
+
 # pandas
 ```python
 import pandas as pd
