@@ -60,6 +60,10 @@ lens = sorted([len(doc) for doc in train_X])
 ```
 - `reverse=True`로 순서를 뒤집을 수 있습니다.
 - `key=`로 정렬 기준이 될 함수를 지정할 수 있습니다.
+### reversed()
+```python
+list(reversed([int(i) for i in str(n)]))
+```
 ### map()
 ```python
 list(map(len, train_tkn))
@@ -2096,17 +2100,27 @@ import datetime
 ```python
 datetime.datetime(2018, 5, 19)
 ```
-- \>\>\> datetime.datetime(2018, 5, 19, 0, 0)
 ### datetime.datetime.now()
 ```python
 datetime.datetime.now()
 ```
-- \>\>\> datetime.datetime(2020, 8, 18, 21, 44, 20, 835233)
 ## timestamp()
 ```python
 datetime.datetime.now().timestamp()
 ```
-- 1970년 1월 1일 0시 0분 0초로부터 몇 초가 지났는지 출력.
+- 1970년 1월 1일 0시 0분 0초로부터 경과한 시간을 초 단위로 반환합니다.
+
+
+
+# dateutil
+## dateutil.relativedelta
+### relativedelta
+```python
+from dateutil.relativedelta import relativedelta
+```
+```python
+data["년-월"] = data["년-월"].apply(lambda x:x + relativedelta(months=1) - datetime.timedelta(days=1))
+```
 
 
 
@@ -3960,8 +3974,4 @@ appo["end"] = appo["end"].dt.normalize()
 ```
 ```python
 hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"]) | ("촉탁" in x["하위그룹"]) | ("파견" in x["하위그룹"]) | (x["재직여부"]=="퇴직") else ("본부인원에서만 제외" if ("PM" in x["조직명"]) | ("신규준비" in x["직무"]) | (x["직무"]=="휴직") | (x["직무"]=="비상계획") | (x["직무"]=="축구협") | (x["직무"]=="비서") | ("조직명" in x["조직명"]) | (x["직무"]=="미화") else "포함"), axis=1)
-```
-```python
-from dateutil.relativedelta import relativedelta
-data["년-월"] = data["년-월"].apply(lambda x:x + relativedelta(months=1) - datetime.timedelta(days=1))
 ```
