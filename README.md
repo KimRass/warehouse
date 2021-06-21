@@ -1,5 +1,14 @@
-# Basic Codes
-파이썬의 라이브러리별로 기본적인 코드와 간단한 사용법을 정리합니다.
+## Basic Codes
+Syntax를 정리한 자료입니다.
+### Anaconda
+### Git
+### Python
+### SQL
+### LaTeX
+### Tableau
+### HTML/CSS
+### Google Colab
+Python, SQL, HTML/CSS, 파이썬의 라이브러리별로 기본적인 코드와 간단한 사용법을 정리합니다.
 
 # Codes
 복잡한 코드를 저장합니다.
