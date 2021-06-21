@@ -3062,6 +3062,7 @@ from collections import deque
 ```python
 dq = deque("abc")
 ```
+- `maxlen`
 ### dq[]
 ```python
 dq[2] = "d"
