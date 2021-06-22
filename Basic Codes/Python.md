@@ -3189,6 +3189,17 @@ pd.read_sql("show tables", connect)
 
 
 
+# pymssql
+```python
+import pymssql
+```
+## pymssql.connect()
+```python
+conn = pymssql.connect(server="125.60.68.233", database="eiparkclub", user="myhomie", password="homie2021!@#", charset="utf8")
+```
+
+
+
 # random
 ```python
 import random

@@ -286,6 +286,11 @@ WHERE height>=180;
 ## SELECT
 ## FROM
 ## WHERE
+### COLUMN_NAME
+```sql
+SELECT COLUMN_NAME
+FROM INFORMATION_SCHEMA.COLUMNS;
+```
 ### IN
 ```sql
 SELECT name, addr
