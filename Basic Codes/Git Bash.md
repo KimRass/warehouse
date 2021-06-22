@@ -1,32 +1,30 @@
-# initialize
+# git
+## git init
+## git config
 ```bash
-$ git init
+git config --global user.email "rmx1000@yonsei.ac.kr"
+git config --global user.name "KimRass"
 ```
-# add origin
+### git config user.email
+### git config user.name
+## git remote add origin
 ```bash
-$ git remote add origin <<repository address>>
+git remote add origin https://github.com/KimRass/Programming.git
 ```
-# eliminate origin
-```bash
-$ git remote rm origin
-```
-# check status
-```bash
-$ git status
-```
-# pull
+## git status
+## git pull
 ```bash
 $ git pull origin master
 ```
-# push
+## git add
 ```bash
 $ git add .
 ```
+## git commit
 ```bash
-($ git config --global user.email "<<email address>>")
-($ git config --global user.name "<<user name>>")
-$ git commit -m "<<message>>"
+$ git commit -m "<message>"
 ```
+## git push
 ```bash
-$ git push origin master
+$ git push -u origin master
 ```
