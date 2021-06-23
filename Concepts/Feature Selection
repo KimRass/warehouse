@@ -1,8 +1,0 @@
-- 출처 : https://towardsdatascience.com/the-5-feature-selection-algorithms-every-data-scientist-need-to-know-3a6b566efd2
-## filter-based method
-### Pearson correlation
-### chi-squared
-## wrapper based method
-### recursive feature elimination
-## embedded method
-### Lasso: SelectFromModel

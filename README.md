@@ -1,9 +1,13 @@
 ## Algorithms
 - 알고리즘 문제 풀이 자료입니다.
-- Sources: Baekjoon, Programmers
+- Sources: 이코테, Baekjoon, Programmers
 
 ## Concepts
 - 각종 개념들을 정리한 자료입니다.
+- Missing Value, Outlier, Distance Feature, Time Feature, Categorical Variable, Data Augmentation, Data Imbalance, Implicit/Explicit Data, Feature Engineering, Feature Importance, Spase/Dense Representation, R-Squared
+- Decision Tree Algorithm, Random Forest, XGBoost
+- Activation Function, Back Propogation, Cross Validation, , Evaluation Metrics, , Gradient Descent, Linearity of Models, Logistic Regression
+- Latent Dirichlet Allocation, TF-IDF
 
 ## Basic Codes
 - Syntax를 정리한 자료입니다.
