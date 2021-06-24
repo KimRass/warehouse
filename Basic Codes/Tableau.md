@@ -60,6 +60,17 @@ AND {FIXED [사업지], [분양구분], [분양종류]:[현재 미분양]} > 0)
 ## WINDOW_AVG
 ## INDEX
 ## RANK
+## SCRIPT_STR
 ```
 RANK(SUM([Size]))
+``````
+RIGHT(
+SCRIPT_STR(
+"import urllib
+from bs4 import BeautifulSoup as bs
+url = f'http://www.opinet.co.kr/api/avgLastWeek.do?prodcd=B027&code=F916210128&out=xml'
+xml = urllib.request.urlopen(url).read().decode('utf8')
+soup = bs(xml, 'lxml')
+return soup.find('sta_dt').get_text()",
+ATTR([댓글생성자id])), 6)
 ```
