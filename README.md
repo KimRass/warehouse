@@ -4,9 +4,9 @@
 
 ## Concepts
 - 각종 개념들을 정리한 자료입니다.
-- Missing Value, Outlier, Distance Feature, Time Feature, Categorical Variable, Data Augmentation, Data Imbalance, Implicit/Explicit Data, Feature Engineering, Feature Importance, Spase/Dense Representation, R-Squared
+- Missing Value, Outlier, Distance Feature, Time Feature, Categorical Variable, Data Augmentation, Data Imbalance, Implicit/Explicit Data, Feature Engineering, Feature Importance, Sparse/Dense Representation, R-Squared
 - Decision Tree Algorithm, Random Forest, XGBoost
-- Activation Function, Back Propogation, Cross Validation, , Evaluation Metrics, , Gradient Descent, Linearity of Models, Logistic Regression
+- Activation Function, Back Propogation, Cross Validation, Evaluation Metrics, Gradient Descent, Linearity of Models, Logistic Regression
 - Latent Dirichlet Allocation, TF-IDF
 
 ## Basic Codes
@@ -46,5 +46,3 @@
 - State Value Function, State-Action Value Function, State Transition Matrix, Policy, Reward, Return
 - Importance Sampling
 - Markov Decision Process, Policy Evaluation, Policy Improvement, Value Iteration, Monte Carlo Method, Temporal Differtence Method, SARSA
-
-[![HitCount](http://hits.dwyl.com/KimRass/Programming.svg)](http://hits.dwyl.com/KimRass/Programming)
