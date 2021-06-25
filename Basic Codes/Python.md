@@ -290,6 +290,9 @@ import math
 ## math.log()
 ## math.log2()
 ## math.log10()
+## math.factorial()
+## math.floor()
+## math.ceil()
 
 
 
