@@ -2111,10 +2111,15 @@ img_recs = cv2.rectangle(img=img_rgb_copy, pt1=(rect[0], rect[1]),
 ```python
 import datetime
 ```
-## datetime.datetime
+## datetime.datetime()
 ```python
 datetime.datetime(2018, 5, 19)
 ```
+### total_seconds()
+```python
+(t2 - t1).total_seconds()
+```
+## datetime.datetime
 ### datetime.datetime.now()
 ```python
 datetime.datetime.now()
@@ -2124,6 +2129,11 @@ datetime.datetime.now()
 datetime.datetime.now().timestamp()
 ```
 - 1970년 1월 1일 0시 0분 0초로부터 경과한 시간을 초 단위로 반환합니다.
+## datetime.datetime.strftime()
+## datetime.datetime.strptime()
+```python
+t2 = datetime.datetime.strptime("12:14", "%H:%M")
+```
 
 
 
