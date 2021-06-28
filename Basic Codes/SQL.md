@@ -1,25 +1,3 @@
-# MySQL
-## Command Line Client
-### set character-set
-```
-[client]
-default-character-set = utf8
-
-[mysqld]
-character-set-client-handshake = FALSE
-init_connect="SET collation_connection = utf8_general_ci"
-init_connect="SET NAMES utf8"
-character-set-server = utf8
-
-[mysql]
-default-character-set = utf8
-
-[mysqldump]
-default-character-set = utf8
-```
-## Workbench
-### set local_infile
-```
 ## FLUSH PRIVILEGES
 ```sql
 DELETE FROM mysql.user WHERE user="6363";
@@ -180,12 +158,6 @@ USE database;
 - DATE : "YYYY-MM-DD" 형식
 - TIME : "HH:MM:SS" 형식
 - DATETIME : "YYYY-MM-DD HH:MM:SS" 형식
-### SET
-```sql
-SET @nameis="가수 이름 =>";
-
-SELECT @nameis, name FROM usertbl WHERE height>180;
-```
 ### PREPARE
 #### PREPARE + EXECUTE + USING
 ```sql
@@ -283,6 +255,20 @@ WHERE height>=180;
 - ORDER BY > LIMIT
 - GROUP BY > HAVING
 - WHERE > GROUP BY
+## SET
+```sql
+SET @hour := -1;
+
+SELECT (@hour := @hour + 1) as "hour",
+(SELECT COUNT(*) FROM animal_outs WHERE @hour = HOUR(datetime)) as "count"
+FROM animal_outs
+WHERE @hour < 23;
+```
+```sql
+SET @nameis="가수 이름 =>";
+
+SELECT @nameis, name FROM usertbl WHERE height>180;
+```
 ## SELECT
 ## FROM
 ## WHERE
