@@ -302,8 +302,10 @@ import pandas as pd
 ```
 ## pd.set_option()
 ```python
-pd.set_option("display.max_rows", 500)
-pd.set_option("display.max_columns", 500)
+pd.set_option("display.max_rows", None)
+```
+```python
+pd.set_option("display.max_columns", None)
 ```
 - 최대 rows 또는 columns의 수 설정
 ```python
