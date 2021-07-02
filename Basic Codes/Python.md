@@ -3246,6 +3246,27 @@ names = random.sample(list(set(data.index)), 20)
 ```python
  import re
 ```
+- The meta-characters which do not match themselves because they have special meanings are: ".", "^", "$", "*", "+", "?", "{", "}", "[", "]", "(", ")", "\", "|".
+- `.`: Match any single character except newline.
+- `\n`: Newline
+- `\r`: Return
+- `\t`: Tab
+- `\f`: Form
+- `\w`, `[a-zA-Z0-9_]`: Match any single "word" character: a letter or digit or underbar. 
+- `\W`, `[^a-zA-Z0-9_]`: Match any single non-word character.
+- `\s`, `[ \n\r\t\f]`: Match any single whitespace character(space, newline, return, tab, form).
+- `\S`: Match any single non-whitespace character.
+- `[ㄱ-ㅣ가-힣]`: 어떤 한글
+- `\d`, `[0-9]`: Match any single decimal digit.
+- `\D`, `[^0-9]`: Match any single non-decimal digit.
+- `\*`: 0개 이상의 바로 앞의 character(non-greedy way)
+- `\+`: 1개 이상의 바로 앞의 character(non-greedy way)
+- `\?`: 1개 이하의 바로 앞의 character
+- `{m, n}`: m개~n개의 바로 앞의 character(생략된 m은 0과 동일, 생략된 n은 무한대와 동일)(non-greedy way)
+- `{n}`: n개의 바로 앞의 character
+- `^`: Match the start of the string.
+- `$`: Match the end of the string.
+
 ## re.search()
 ## re.match()
 - re.search()와 유사하나 주어진 문자열의 맨 처음과 대응할 때만 object를 반환.
@@ -3274,26 +3295,6 @@ re.sub(r"\w+@\w+.\w+", "email address", "test@gmail.com and test2@gmail.com", co
 p = re.compile(".+\t[A-Z]+")
 ```
 - 이후 p.search(), p.match() 등의 형태로 사용.
-## regular expressions
-- . : newline을 제외한 어떤 character
-- \w, [a-zA-Z0-9_]: 어떤 알파벳 소문자 또는 알파벳 대문자 또는 숫자 또는 공백
-- \W, [^a-zA-Z0-9_] : 어떤 알파벳 소문자 또는 알파벳 대문자 또는 숫자 또는 공백이 아닌
-- [ㄱ-ㅣ가-힣] : 어떤 한글
-- \d, [0-9] : 어떤 숫자
-- \D, [^0-9] : 어떤 숫자가 아닌
-- \s : 공백
-- \S : 공백이 아닌 어떤 character
-- \t : tab
-- \n : newline
-- \r : return
-- [] : [] 안의 문자를 1개 이상 포함하는
-- \* : 0개 이상의 바로 앞의 character(non-greedy way)
-- \+ : 1개 이상의 바로 앞의 character(non-greedy way)
-- \? : 1개 이하의 바로 앞의 character
-- {m,n} : m개~n개의 바로 앞의 character(생략된 m은 0과 동일, 생략된 n은 무한대와 동일)(non-greedy way)
-- {n} : n개의 바로 앞의 character
-- ^ : 바로 뒤의 문자열로 시작하는
-- $ : 바로 앞의 문자열로 끝나는
 
 
 
