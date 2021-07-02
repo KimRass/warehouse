@@ -1,6 +1,10 @@
-# Python Built-in Functions
+# Python
 ## TypeError
 ## StopIteration
+## TypeError: unhashable type: ‘set’
+- The unhashable objects are not allowed in set or dictionary key. The dictionary or set hashes the object and uses the hash value as a primary reference to the key.
+## TypeError: 'set' object is not subscriptable
+## bin(), oct(), hex()
 ## hash()
 ## input()
 ```python
@@ -35,7 +39,9 @@ assert model_name in self.model_list, "There is no such a model."
 ## var
 ### var.data
 #### var.data.nbytes : 변수에 할당된 메모리 크기 리턴
-## lst
+## List
+- Mutable.
+- Unhashable.
 ### lst.index()
 ```python
 names.index((17228, "아트빌"))
@@ -71,7 +77,6 @@ list(map(len, train_tkn))
 ```python
 x_data = list(map(lambda word : [char2idx.get(char) for char in word], words))
 ```
-- Iterator.
 ### filter()
 ### sum()
 ```python
@@ -84,7 +89,10 @@ chars = set([char for word in words for char in word])
 ```python
 idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 ```
-## set
+## Set
+- Mutable.
+- Unhashable.
+- No order.
 ### set1 & set2
 ### set1 | set2
 ### set.add()
@@ -98,7 +106,9 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 - set 객체는 구성 항목들을 변경할 수 있지만 frozenset 객체는 변경할 수 없는 특성을 지니고 있어, set에서는 사용할 수 있는 메소드들 add, clear, discard, pop, remove, update 등은 사용할 수 없습니다. 
 - 항목이 객체에 포함되어 있는지(membership)를 확인할 수 있으며,  항목이 몇개인지는 알아낼 수 있습니다.
 - frozenset은 dictionary의 key가 될 수 있지만 set은 될 수 없음.
-## dictionary
+## Dictionary
+- Mutable.
+- Unhashable.
 ### dic\[]
 - key를 입력받아 value를 반환합니다.
 ### dic.get()
@@ -132,6 +142,7 @@ word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True)
 {idx:char for idx, char in enumerate(char_set)}
 ```
 ## str
+- Immutable.
 ### str.format()
 ```python
 print("[{0:>4d}], [{1:>20d}]".format(100, 200))

@@ -1,5 +1,5 @@
 # Date
-## DATEDIFF
+## DATEDIFF()
 ```
 DATEDIFF("quarter", [고객별 최초 구매일], [고객별 최초 재구매일 ])
 ```
@@ -21,7 +21,7 @@ ELSEIF [검색할 변수] = "팀명"
 THEN [팀명]
 END
 ```
-## ZN
+## ZN()
 ```
 SUM(IF (DATEDIFF("year", [계약금1차일자], [기준 날짜]) == 0
 AND [계약금1차일자] <= [기준 날짜])
@@ -33,7 +33,17 @@ AND [계약여부] == "N")
 THEN [_]
 END))
 ```
-## COUNTD
+## COUNT()
+```
+COUNT(IF [계약금1차일자] <= [기준 날짜]
+THEN [계약여부]
+END)
+- COUNT(IF ([계약금1차일자] <= [기준 날짜]
+AND [계약여부] = "N")
+THEN [계약여부]
+END)
+```
+## COUNTD()
 ```
 COUNTD(
 IF [분양 완료?] = "분양 진행"
@@ -65,9 +75,9 @@ END)}
 
 # Table Calculation
 ## WINDOW_AVG
-## INDEX
-## RANK
-## SCRIPT_STR
+## INDEX()
+## RANK()
+## SCRIPT_STR()
 ```
 RANK(SUM([Size]))
 ``````
