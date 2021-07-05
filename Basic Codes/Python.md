@@ -50,6 +50,7 @@ names.index((17228, "아트빌"))
 ```python
 feature_to_shuffle.append("area")
 ```
+### lst.extend()
 ### lst.insert()
 - idx, value 순으로 arg를 입력합니다.
 ### lst.remove()
