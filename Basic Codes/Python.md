@@ -303,6 +303,7 @@ import math
 ## math.log2()
 ## math.log10()
 ## math.factorial()
+## math.comb()
 ## math.floor()
 ## math.ceil()
 
