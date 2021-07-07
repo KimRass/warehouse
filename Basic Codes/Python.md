@@ -97,10 +97,10 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 ### set1 & set2
 ### set1 | set2
 ### set.add()
-- 1개의 element만 추가할 수 있습니다.
 ### set.update()
-- lst.append()와 동일합니다.
-- 여러 개의 element를 추가할 수 있습니다.
+```python
+effect.update([i for i in range(apt - w, apt + w + 1) if i >= 1 and i <= n])
+```
 ## frozenset()
 - 구성 요소들이 순서대로 들어 있지 않아 인덱스를 사용한 연산을 할 수 없고
 - 유일한 항목 1개만 들어가 있습니다.
