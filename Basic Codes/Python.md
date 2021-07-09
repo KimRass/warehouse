@@ -3719,9 +3719,9 @@ set_matplotlib_formats("retina")
 
 
 # itertools
-## combinations()
+## combinations(), permutations()
 ```python
-from itertools import combinations
+from itertools import combinations, permutations
 ```
 ```python
 movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
