@@ -119,12 +119,12 @@ effect.update([i for i in range(apt - w, apt + w + 1) if i >= 1 and i <= n])
 for key, value in dic.items():
     print(key, value)
 ```
-### dic.setdefault() : 추가
+### dic.setdefault()
 ```python
 dic.setdefault(key)
 dic.setfefault(key, value)
 ```
-### dic.update() : 추가 또는 수정
+### dic.update()
 ```python
 dic.update({key1:value1, key2:value2})
 ```
@@ -3268,16 +3268,13 @@ names = random.sample(list(set(data.index)), 20)
 - `{n}`: n개의 바로 앞의 character
 - `^`: Match the start of the string.
 - `$`: Match the end of the string.
-
 ## re.search()
 ## re.match()
 - re.search()와 유사하나 주어진 문자열의 맨 처음과 대응할 때만 object를 반환.
 ## re.findall()
 ```python
-re.findall(r"\d+[SDT][*#]*", "1S*2T*3S")
+re.findall(rf"[ ][a-z]{{{n_wc}}}{chars}[ ]", words)
 ```
-- \>\>\> ['1S*', '2T*', '3S']
-- re.search()와 유사하나 대응하는 모든 문자열을 list로 반환.
 ### re.search().group(), re.match().group()
 ```python
 re.search(r"(\w+)@(.+)", "test@gmail.com").group(0) #test@gmail.com
