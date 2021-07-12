@@ -332,14 +332,15 @@ pd.set_option("mode.chained_assignment",  None)
 ```
 - SettingWithCopyWarning 무시
 ## pd.DataFrame()
+- Generate from a List.
 ```python
-gby_genre_occup = pd.DataFrame(rows, columns=["genre", "occup", "mean"])
+all_users = pd.DataFrame(all_users, columns=["본부", "팀", "이름"])
 ```
-- list로부터 생성합니다.
+- Generate from a List.
 ```python
 gby_genre = pd.DataFrame({"mean":genre2rating, "n_rating":genre2n_rating}).sort_values(by=["mean"])
 ```
-- ser로부터 생성합니다.
+- Generate from a Series.
 ## pd.Series()
 ```python
 idf_ser = pd.Series(idf, index=vocab)
@@ -3477,8 +3478,6 @@ print([art_id2name[art] for art in tree.get_nns_by_vector(user_embs_df.loc[user_
 
 
 
-# openpyxl
-## df.to_excel()
 # google_drive_downloader
 ```python
 !pip install googledrivedownloader
