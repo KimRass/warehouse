@@ -128,7 +128,7 @@ dic.setfefault(key, value)
 ```python
 dic.update({key1:value1, key2:value2})
 ```
-### dic.pop() : 삭제
+### dic.pop()
 ```python
 dic.pop(key)
 ```
@@ -4031,7 +4031,7 @@ hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"
 
 
 
-# heqpq
+# heapq
 ```python
 import heqpq as hq
 ```
@@ -4039,12 +4039,20 @@ import heqpq as hq
 ```python
 hq.heappush(hp, 1)
 ```
+```python
+hq.heappush(hp, (dists[start], start))
+```
 ## hq.heappop()
 ```python
-hq.heappop()
+hq.heappop(hp)
 ```
 ## hq.heapify()
 ```python
 hq.heapify(scoville)
 ```
+- Transform a list into a heap in linear time.
 - In-place function.
+## hq.nlargest()
+```python
+hp = hq.nlargest(len(hp), hp)[1:]
+```
