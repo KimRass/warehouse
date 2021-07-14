@@ -4056,3 +4056,54 @@ hq.heapify(scoville)
 ```python
 hp = hq.nlargest(len(hp), hp)[1:]
 ```
+
+
+
+# tableauserverclient
+```python
+import tableauserverclient as TSC
+```
+## TSC.PersonalAccessTokenAuth()
+```python
+tableau_auth = TSC.PersonalAccessTokenAuth("admin_TOKEN", token)
+```
+## TSC.Server()
+```python
+server = TSC.Server("http://218.153.56.75/", use_server_version=True)
+```
+### server.auth
+#### server.auth.sign_in()
+```python
+with server.auth.sign_in(tableau_auth):
+```
+#### server.auth.sign_out()
+### server.projects
+#### server.projects.get()
+### server.groups
+#### server.groups.get()
+```python
+all_groups, pagination_item = server.groups.get(req_options=req_opts)
+```
+#### server.groups.populate_users()
+```python
+group_user = list()
+with server.auth.sign_in(tableau_auth):
+    groups, pagination_item = server.groups.get(req_options=req_opts)
+    for group in groups[1:]:
+        pagination_item = server.groups.populate_users(group, req_options=req_opts)
+        group_user.extend([(group.name,) + empls[user.name] + (user.site_role,) if user.name in empls.keys() else (group.name, None, None, None, user.name, user.site_role) for user in group.users])
+```
+#### server.groups.create()
+### server.users
+#### server.users.add()
+#### servers.users.update()
+#### server.users.remove()
+### server.workbooks
+## TSC.GroupItem()
+## TSC.UserItem
+### TSC.UserItem.Roles
+## TSC.RequestOptions()
+```python
+req_opts = TSC.RequestOptions(pagesize=1000)
+```
+#### TSC.UserItem.Roles.Viewer,
