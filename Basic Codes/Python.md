@@ -3270,12 +3270,9 @@ names = random.sample(list(set(data.index)), 20)
 - `^`: Match the start of the string.
 - `$`: Match the end of the string.
 ## re.search()
+- Scan through string looking for the first location where the regular expression pattern produces a match, and return a corresponding match object. Return None if no position in the string matches the pattern; note that this is different from finding a zero-length match at some point in the string.
 ## re.match()
-- re.search()와 유사하나 주어진 문자열의 맨 처음과 대응할 때만 object를 반환.
-## re.findall()
-```python
-re.findall(rf"[ ][a-z]{{{n_wc}}}{chars}[ ]", words)
-```
+- If zero or more characters at the beginning of string match the regular expression pattern, return a corresponding match object. Return None if the string does not match the pattern; note that this is different from a zero-length match.
 ### re.search().group(), re.match().group()
 ```python
 re.search(r"(\w+)@(.+)", "test@gmail.com").group(0) #test@gmail.com
@@ -3285,6 +3282,13 @@ re.search(r"(\w+)@(.+)", "test@gmail.com").group(2) #gmail.com
 ```python
 views["apt_name"] = views["pageTitle"].apply(lambda x:re.search(r"(.*)\|(.*)\|(.*)", x).group(2) if "|" in x else x)
 ```
+## re.findall()
+```python
+re.findall(rf"[ ][a-z]{{{n_wc}}}{chars}[ ]", words)
+```
+- Return all non-overlapping matches of pattern in string, as a list of strings. The string is scanned left-to-right, and matches are returned in the order found. If one or more groups are present in the pattern, return a list of groups; this will be a list of tuples if the pattern has more than one group. Empty matches are included in the result.
+## re.split()
+- `maxsplit`
 ## re.sub()
 ```python
 re.sub(r"\w+@\w+.\w+", "email address", "test@gmail.com and test2@gmail.com", count=1)
