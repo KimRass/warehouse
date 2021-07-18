@@ -4,6 +4,8 @@
 ## TypeError: unhashable type: ‘set’
 - The unhashable objects are not allowed in set or dictionary key. The dictionary or set hashes the object and uses the hash value as a primary reference to the key.
 ## TypeError: 'set' object is not subscriptable
+## TypeError: sequence index must be integer, not 'slice'
+- This error raises because `collections.deque` cannot be sliced.
 ## bin(), oct(), hex()
 ## hash()
 ## input()
