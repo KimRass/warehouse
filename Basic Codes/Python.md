@@ -7,6 +7,11 @@
 ## TypeError: sequence index must be integer, not 'slice'
 - This error raises because `collections.deque` cannot be sliced.
 ## bin(), oct(), hex()
+- &: AND
+- |: OR
+- ^: XOR
+- ~
+- \<\<, \>\>:
 ## hash()
 ## input()
 ```python
