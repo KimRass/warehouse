@@ -3299,7 +3299,7 @@ re.findall(rf"[ ][a-z]{{{n_wc}}}{chars}[ ]", words)
 - `maxsplit`
 ## re.sub()
 ```python
-re.sub(r"\w+@\w+.\w+", "email address", "test@gmail.com and test2@gmail.com", count=1)
+expr = re.sub(rf"[0-9]+[{s}][0-9]+", str(eval(calc)), expr, count=1)
 ```
 - count=0 : 전체 치환
 ## re.compile()
