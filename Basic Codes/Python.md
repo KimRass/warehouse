@@ -4118,4 +4118,50 @@ with server.auth.sign_in(tableau_auth):
 ```python
 req_opts = TSC.RequestOptions(pagesize=1000)
 ```
-#### TSC.UserItem.Roles.Viewer,
+#### TSC.UserItem.Roles.Creator, TSC.UserItem.Roles.Explorer, TSC.UserItem.Roles.ExplorerCanPublish, TSC.UserItem.Roles.ServerAdministrator, TSC.UserItem.Roles.SiteAdministratorCreator, TSC.UserItem.Roles.Unlicensed,
+TSC.UserItem.Roles.ReadOnly, TSC.UserItem.Roles.Viewer
+
+
+
+# xgboost
+```python
+import xgboost as xgb
+```
+## xgb.DMatrix()
+```python
+dtrain = xgb.DMatrix(data=train_X, label=train_y, missing=-1, nthread=-1)
+dtest = xgb.DMatrix(data=test_X, label=test_y, missing=-1, nthread=-1)
+```
+## xgb.train()
+```python
+params={"eta":0.02, "max_depth":6, "min_child_weight":5, "gamma":1, "subsample":0.5, "colsample_bytree":1, "reg_alpha":0.1, "n_jobs":6}
+watchlist = [(dtrain, "train"), (dtest,"val")]
+num=12
+def objective(pred, dtrain):
+    observed = dtrain.get_label()
+    grad = np.power(pred - observed, num - 1)
+    hess = np.power(pred - observed, num - 2)
+    return grad, hess
+def metric(pred, dtrain):
+    observed = dtrain.get_label()
+    return "error", (pred - observed)/(len(observed), 1/num)
+model = xgb.train(params=params, evals=watchlist, dtrain=dtrain, num_boost_round=1000, early_stopping_rounds=10, obj=objective, feval=metric)
+```
+## xgb.XGBRegressor()
+```python
+model = xgb.XGBRegressor(booster="gbtree", max_delta_step=0, importance_type="gain", missing=-1, n_jobs=5, reg_lambda=1, scale_pos_weight=1, seed=None, base_score=0.5, verbosity=1, warning="ignore", silent=0)
+model.eta=0.01
+model.n_estimators=1000
+model.max_depth=6
+model.min_child_weight=5
+model.gamma=1
+model.subsample=0.5
+model.colsample_bytree=1
+model.reg_alpha=0.1
+model.objective = custom_se
+model.n_jobs=5
+```
+### model.fit()
+```python
+model.fit(train_X, train_y, eval_set=[(train_X, train_y), (val_X, val_y)], early_stopping_rounds=50, verbose=True)
+```
