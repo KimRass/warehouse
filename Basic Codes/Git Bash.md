@@ -9,7 +9,7 @@ git config --global user.name "KimRass"
 ### git config user.name
 ## git remote add origin
 ```bash
-git remote add origin https://github.com/KimRass/Programming.git
+git remote add origin "https://github.com/KimRass/Programming.git"
 ```
 ## git status
 ## git pull
