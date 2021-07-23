@@ -48,7 +48,10 @@ git push -f origin master
 git clone "git@github.com:KimRass/Work.git"
 ```
 ## git reflog
-## git reset hard
+## git reset
+```bash
+git reset HEAD~1
+```
 # ssh-keygen
 # cat ~/.ssh/id_rsa.pub
 # ssh -T git@github.com
