@@ -49,22 +49,22 @@ assert model_name in self.model_list, "There is no such a model."
 ## List
 - Mutable.
 - Unhashable.
-### lst.index()
+### ls.index()
 ```python
 names.index((17228, "아트빌"))
 ```
-### lst.append()
+### ls.append()
 ```python
 feature_to_shuffle.append("area")
 ```
-### lst.extend()
-### lst.insert()
+### ls.extend()
+### ls.insert()
 - idx, value 순으로 arg를 입력합니다.
-### lst.remove()
+### ls.remove()
 ```python
 features.remove("area")
 ```
-### lst.count()
+### ls.count()
 ```python
 [2, 4012, 3394, 3, 1, 1].count(1)
 ```
@@ -90,7 +90,7 @@ x_data = list(map(lambda word : [char2idx.get(char) for char in word], words))
 ```python
 sum(sents, [])
 ```
-### list comprehension
+### List Comprehension
 ```python
 chars = set([char for word in words for char in word])
 ```
