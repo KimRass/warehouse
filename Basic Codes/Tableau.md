@@ -3,7 +3,7 @@
 ```
 DATEDIFF("quarter", [고객별 최초 구매일], [고객별 최초 재구매일 ])
 ```
-## DATEADD
+## DATEADD()
 ```
 DATEADD("month", 1, DATEADD("day", -1, DATE(STR([Year Month]) + "01")))
 ```
@@ -54,8 +54,8 @@ END)
 
 
 # Aggregate
-## AVG
-## FIXED
+## AVG()
+## {FIXED:}
 ```
 ([기준 날짜] >= [분양일])
 AND ([기준 날짜] <= [완공예정])
@@ -70,16 +70,48 @@ THEN 1
 ELSE NULL
 END)}
 ```
+```
+IF {COUNT([Orders])}
+== {FIXED [Region]:COUNT([Orders])}
+THEN [State]
+ELSE [Region]
+END
+```
+- Compute an aggregate using only the specified dimensions.
+- Context Filters -> {FIXED:} -> Dimensition Filters(Actions, Groups)
+- Reference: https://www.youtube.com/watch?v=P-yj-Jzkq_c&list=PLyipEw5AFv5QvjCCYw_ODFTSKVXhkDiQW&index=3
 
 
 
 # Table Calculation
-## WINDOW_AVG
+- Dimensition Filters(Actions, Groups) -> Table Calculations -> Table Calculation Filters(FIRST(), LAST())
+## FIRST(), LAST()
+```
+LAST() <= 23
+```
+- Return the number of rows from the current row to the first(last) row in the partition.
+- Reference: https://www.youtube.com/watch?v=k41o1m9xsR8&list=PLyipEw5AFv5QvjCCYw_ODFTSKVXhkDiQW&index=4&t=47s
 ## INDEX()
+- Return the index of the current row in the partition.
+## SIZE()
+- Return the number of rows in the partition.
+## WINDOW_AVG(), WINDOW_COUNT(), WINDOW_MAX(), WINDOW_MIN(), WINDOW_SUM()
+```
+(SUM([Sales]) - WINDOW_MIN(SUM([Sales])))/(WINDOW_MAX(SUM([Sales])) - WINDOW_MIN(SUM([Sales])))
+```
+- Reference: https://www.youtube.com/watch?v=8YMWH_ozstE&t=610s
 ## RANK()
-## SCRIPT_STR()
 ```
 RANK(SUM([Size]))
+```
+## TOTAL()
+## LOOKUP()
+```
+LOOKUP(ATTR([Customer Name]), 0)
+```
+- Return the value of the given expression in a target row, specified as a relative offset from the current row.
+- Reference: https://www.youtube.com/watch?v=IRZAbkrkj60&list=PLyipEw5AFv5QvjCCYw_ODFTSKVXhkDiQW&index=4&t=22s
+## SCRIPT_STR()
 ``````
 RIGHT(
 SCRIPT_STR(
