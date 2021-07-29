@@ -84,6 +84,19 @@ END
 - Compute an aggregate using only the specified dimensions.
 - Context Filters -> {FIXED:} -> Dimensition Filters(Actions, Groups)
 - Reference: https://www.youtube.com/watch?v=P-yj-Jzkq_c&list=PLyipEw5AFv5QvjCCYw_ODFTSKVXhkDiQW&index=3
+- {FIXED:} -> Dimension Filters(Actions, Groups) -> {INCLUDE:}, {EXCLUDE:}
+## {INCLUDE:}
+```
+{INCLUDE [City]:AVG([Sales])}
+```
+- Compute an aggregate using the specified dimensions and the view dimensions.
+- Reference: https://www.youtube.com/watch?v=JW3iIdyT_hM&list=PLyipEw5AFv5RVvw9X4a-Q-LQxbBqsU9Z1&index=4
+## {EXCLUDE:}
+```
+{EXCLUDE [Sub-Category]:AVG([Sales])}
+```
+- Compute and aggregate excluding the specified dimensions if present in the view.
+- Reference: https://www.youtube.com/watch?v=RWIhdRiQ3Ic&list=PLyipEw5AFv5RVvw9X4a-Q-LQxbBqsU9Z1&index=3
 
 
 
@@ -115,8 +128,21 @@ LOOKUP(ATTR([Customer Name]), 0)
 ```
 - Return the value of the given expression in a target row, specified as a relative offset from the current row.
 - Reference: https://www.youtube.com/watch?v=IRZAbkrkj60&list=PLyipEw5AFv5QvjCCYw_ODFTSKVXhkDiQW&index=4&t=22s
-## SCRIPT_STR()
-``````
+## RUNNING_COUNT(), RUNNING_SUM()
+```
+RUNNING_SUM(
+COUNT(
+IF [Pivot Field Names] == "가입일"
+THEN [Pivot Field Values]
+END))
+- RUNNING_SUM(
+COUNT(
+IF [Pivot Field Names] == "탈퇴일"
+THEN [Pivot Field Values]
+END))
+```
+## SCRIPT_BOOL(), SCRIPT_INT(), SCRIPT_REAL(), SCRIPT_STR()
+```
 RIGHT(
 SCRIPT_STR(
 "import urllib
