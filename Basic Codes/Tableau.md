@@ -7,17 +7,21 @@ DATEDIFF("quarter", [고객별 최초 구매일], [고객별 최초 재구매일
 ```
 DATEADD("month", 1, DATEADD("day", -1, DATE(STR([Year Month]) + "01")))
 ```
+## DATETRUNC()
+```
+DATETRUNC("week", [Order Date])
+```
 
 
 
 # Logical
 ## IF, ELSEIF, ELSE, THEN, END
 ```
-IF [검색할 변수] = "처리결과"
+IF [검색할 변수] == "처리결과"
 THEN [처리결과]
-ELSEIF [검색할 변수] = "본부"
+ELSEIF [검색할 변수] == "본부"
 THEN [본부]
-ELSEIF [검색할 변수] = "팀명"
+ELSEIF [검색할 변수] == "팀명"
 THEN [팀명]
 END
 ```
@@ -46,7 +50,7 @@ END)
 ## COUNTD()
 ```
 COUNTD(
-IF [분양 완료?] = "분양 진행"
+IF [분양 완료?] == "분양 진행"
 THEN [현장명]
 END)
 ```

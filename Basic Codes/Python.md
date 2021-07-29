@@ -598,7 +598,7 @@ df.loc[~df.index.isin(df.dropna().index)]
 ```python
 data = data.fillna(method="ffill")
 ```
-- `method="ffill"` : propagate last valid observation forward to next valid backfill
+- `method="ffill"`: Propagate last valid observation forward to next valid backfill.
 ## df.sample(), ser.sample()
 ```python
 baskets_df.sample(frac=0.05)
