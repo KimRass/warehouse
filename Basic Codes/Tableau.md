@@ -141,6 +141,9 @@ IF [Pivot Field Names] == "탈퇴일"
 THEN [Pivot Field Values]
 END))
 ```
+```
+RUNNING_SUM(COUNTD([Customer ID]))
+```
 ## SCRIPT_BOOL(), SCRIPT_INT(), SCRIPT_REAL(), SCRIPT_STR()
 ```
 RIGHT(
