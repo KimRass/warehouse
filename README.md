@@ -1,3 +1,5 @@
+## SQL
+
 ## Algorithms
 - 알고리즘 문제 풀이 자료입니다.
 - Sources: 이코테, Baekjoon, Programmers
@@ -15,6 +17,8 @@
 
 ## Codes
 - 기타 Codes를 정리한 자료입니다.
+
+## Tableau
 
 ## Recommendation System
 - 안창배님의 "고객데이터와 딥러닝을 활용한 추천 시스템 구현" 강의 내용을 바탕으로 정리한 자료입니다.
