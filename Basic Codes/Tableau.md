@@ -156,3 +156,53 @@ soup = bs(xml, 'lxml')
 return soup.find('sta_dt').get_text()",
 ATTR([댓글생성자id])), 6)
 ```
+
+
+
+# ETC
+## Custom Number Format
+```
+"+"#;"-"#
+```
+```
+(+#.#%);(-#.#%)
+```
+```
+(###,###,###)
+```
+- `Default Properties` -> `Number Format...` -> `Custom`
+- `Format` -> `Numbers:` -> `Custom`
+- Reference: https://www.youtube.com/watch?v=QhRjOF3M60k
+## Histogram
+- `Create` -> `Bins...`
+- Reference: https://www.youtube.com/watch?v=C1uAQBIPYk4
+## Hilight Table
+- `Use Separate Legends` <-> `Combine Legends`
+- Reference: https://www.youtube.com/watch?v=YXYaDq3qtsw
+## Nested Sorting
+- `Create` -> `Combined Field`
+- Reference: https://www.youtube.com/watch?v=sEUttHntepU
+## Copy Format
+- `Copy Formatting` -> `Paste Formatting`
+
+
+
+# Shortcut Keys
+## Ctrl + W
+- Swap Rows and Columns.
+## Ctrl + M
+- New Worksheet.
+## Alt + Shift + Backspace
+- Clear Worksheet.
+## Ctrl + F
+- Search.
+## Alt + A -> C
+- `Create Calculate Field...`
+## Ctrl + Tab, Ctrl + PgDn
+- Move to next Worksheet, Dashboard, or Story.
+## Ctrl + Shift + Tab, Ctrl + PgUp
+- Move to previous Worksheet Dashboard, or Story.
+## Ctrl + B, Ctrl + Shift + B
+- Zoom Out or Zoom In respectively.
+## Alt + Shift + (C, X, F, T)
+- Move Fileds to Columns, Rows, Filters or Text respectively.

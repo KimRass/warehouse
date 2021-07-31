@@ -3,7 +3,7 @@
 ```
 conda create --name tf2.3 python=3.7
 ```
-- Creates virtual environment.
+- Create virtual environment.
 # conda install
 ```
 conda install jupyter
@@ -12,4 +12,8 @@ conda install jupyter
 ## pip install
 ```
 pip install jupyter_contrib_nbextensions && jupyter contrib nbextension install
+```
+# python
+```
+python -m pip install --user --upgrade pip
 ```

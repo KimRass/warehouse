@@ -324,11 +324,9 @@ import pandas as pd
 ## pd.set_option()
 ```python
 pd.set_option("display.max_rows", None)
-```
-```python
 pd.set_option("display.max_columns", None)
 ```
-- 최대 rows 또는 columns의 수 설정
+- Set maximum number of rows(columns).
 ```python
 pd.set_option("display.width", 1000)
 ```
@@ -3322,7 +3320,9 @@ req = requests.get(url)
 
 
 # statsmodels
-## variance_inflation_factor
+## statsmodels.stats
+### statsmodels.stats.outliers_influence
+#### variance_inflation_factor()
 ```python
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 ```
