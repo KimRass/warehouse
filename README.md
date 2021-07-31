@@ -46,3 +46,6 @@
 - State Value Function, State-Action Value Function, State Transition Matrix, Policy, Reward, Return
 - Importance Sampling
 - Markov Decision Process, Policy Evaluation, Policy Improvement, Value Iteration, Monte Carlo Method, Temporal Differtence Method, SARSA
+
+## Time Series
+- 김경원님의 "파이썬을 활용한 시계열 데이터 분석 A to Z" 강의 내용을 바탕으로 정리한 자료입니다.
