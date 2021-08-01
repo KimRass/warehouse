@@ -633,7 +633,7 @@ set(n_per_movie_unseen.sample(n=100, replace=False, weights=n_per_movie).index)
 ```python
 {k:v for k, v in x_train.iteritems()}
 ```
-- Iterates over the DataFrame columns, returning a tuple with the column name and the content as a Series.
+- Iterate over the DataFrame columns, returning a tuple with the column name and the content as a Series.
 ## ser.iteritems(), ser.items()
 ```python
 for i, value in raw_data["quarter2"].items():
