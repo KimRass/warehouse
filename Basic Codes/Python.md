@@ -403,7 +403,10 @@ data = pd.melt(data, id_vars=basic_cols + money_cols, value_name="date")
 data = pd.melt(data, id_vars=basic_cols + ["date"], var_name="classification", value_name="money")
 ```
 - pd.pivot_table()의 반대 과정입니다.
-
+## pd.cut()
+```python
+raw_all["temp_group"] = pd.cut(raw_all["temp"], 10)
+```
 ## pd.Categorical()
 ```python
 results["lat"] = pd.Categorical(results["lat"], categories=order)
@@ -416,10 +419,19 @@ results_ordered=results.sort_values(by="lat")
 ```python
 data = pd.get_dummies(data, columns=["heating", "company1", "company2", "elementary", "built_month", "trade_month"], drop_first=False, dummy_na=True)
 ```
-* 결측값이 있는 경우 "drop\_first", "dummy\_na" 중 하나만 True로 설정해야 함
+- `prefix`: String to append DataFrame column names. Pass a list with length equal to the number of columns when calling get_dummies on a DataFrame.
+- `dop_first`: Whether to get k-1 dummies out of k categorical levels by removing the first level.
+- `dummy_na`: Add a column to indicate NaNs, if False NaNs are ignored.
+- 결측값이 있는 경우 `drop_first`, `dummy_na` 중 하나만 True로 설정해야 함
 ## pd.to_datetime()
 ```python
 ratings_df["rated_at"] = pd.to_datetime(ratings_df["rated_at"], unit="s")
+```
+### pd.to_datetime().dt
+####  pd.to_datetime().dt.hour, pd.to_datetime().dt.day,  pd.to_datetime().dt.week,  pd.to_datetime().dt.dayofweek, pd.to_datetime().dt.month, pd.to_datetime().dt.quarter, pd.to_datetime().dt.year
+#### pd.to_datetime().dt.normalize()
+```python
+appo["end"] = appo["end"].dt.normalize()
 ```
 ## pd.merge()
 ```python
@@ -441,7 +453,13 @@ n_tasks_month = tasks.groupby(pd.Grouper(key="task_date", freq="M")).size()
 ```python
 order = pd.MultiIndex.from_tuples((hq, dep) for dep, hq in dep2hq.items())
 ```
+## df.info()
+## df.describe()
+```python
+raw_data.describe(include="all").T
+```
 ## df.shape
+## df.ndim
 ## df.quantile()
 ```python
 top90per = plays_df[plays_df["plays"]>plays_df["plays"].quantile(0.1)]
@@ -483,6 +501,9 @@ df = df.append({"addr1":addr1, "addr2":addr2, "dist":dist}, ignore_index=True)
 ```python
 hr["코스트센터 분류"] = hr.apply(lambda x:"지사" if ("사업소" in x["조직명"]) or ("베트남지사" in x["조직명"]) else ("본사" if re.search("^\d", x["코스트센터"]) else "현장"), axis=1)
 ```
+```python
+hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"]) | ("촉탁" in x["하위그룹"]) | ("파견" in x["하위그룹"]) | (x["재직여부"]=="퇴직") else ("본부인원에서만 제외" if ("PM" in x["조직명"]) | ("신규준비" in x["직무"]) | (x["직무"]=="휴직") | (x["직무"]=="비상계획") | (x["직무"]=="축구협") | (x["직무"]=="비서") | ("조직명" in x["조직명"]) | (x["직무"]=="미화") else "포함"), axis=1)
+```
 ## df.progress_apply()
 ```python
 data["morphs"] = data["review"].progress_apply(mcb.morphs)
@@ -517,9 +538,9 @@ df.index.name = None
 ## df.sort_index()
 ## df.set_index()
 ```python
-data=data.set_index(["id", "name"])
-df.set_index("Country", inplace=True)
+data = data.set_index(["id", "name"])
 ```
+- `inplace=True`
 ## df.reset_index()
 ```python
 cumsum.reset_index(drop=True)
@@ -563,6 +584,7 @@ concat.columns = ["n_rating", "cumsum"]
 ```python
 uses_df.columns.drop("cnt")
 ```
+- Make new Index with passed list of labels deleted.
 ### df.columns.droplevel
 ```python
 df.columns=df.columns.droplevel([0, 1])
@@ -606,12 +628,34 @@ set(n_per_movie_unseen.sample(n=100, replace=False, weights=n_per_movie).index)
 ```
 - `random_state=777`
 ## df.iterrows()
-- index of row, row를 차례대로 return합니다.
-## df.iteritems()
+- Iterate over DataFrame rows as (index, Series) pairs.
+## df.iteritems(), df.items()
 ```python
 {k:v for k, v in x_train.iteritems()}
 ```
-- column name, column을 차례대로 return합니다.
+- Iterates over the DataFrame columns, returning a tuple with the column name and the content as a Series.
+## ser.iteritems(), ser.items()
+```python
+for i, value in raw_data["quarter2"].items():
+    print(i, value)
+```
+- Iterate over (index, value) tuples.
+## df()
+```python
+raw_data = raw_data.asfreq("H", method="ffill")
+```
+- `freq="D"`, `freq="W"`
+- `method="ffill"`: Forawd fill.
+- `method="bfill"`: Backward fill.
+## df.rolling()
+```python
+raw_all[["count"]].rolling(window=24, center=False).mean()
+```
+## df.diff(), ser.diff()
+## df.shift()
+```python
+raw_data["count_lag1"] = raw_data["count"].shift(1)
+```
 ## df.mean()
 ```python
 ui.mean(axis=1)
@@ -620,10 +664,6 @@ ui.mean(axis=1)
 ## df.add(), df.sub(). df.mul(), df.div(), df.pow()
 ```python
 adj_ui = ui.sub(user_bias, axis=0).sub(item_bias, axis=1)
-```
-# ser.items()
-```python
-for idx, value in hq2cnt.items():
 ```
 ## ser.rename()
 ```python
@@ -719,7 +759,6 @@ arr.ravel(order="F")
 ```python
 conv_weights = np.fromfile(f, dtype=np.float32, count=np.prod(conv_shape)).reshape(conv_shape).transpose((2, 3, 1, 0))
 ```
-## np.isnan()
 ## np.inf
 ## np.set_printoptions()
 ```python
@@ -2515,14 +2554,17 @@ mpl.rc("font", family=font_name)
 ```python
 mpl.rc("axes", unicode_minus=False)
 ```
-### plot(kind="pie")
+### df.plot(), ser.plot()
 ```python
 cnt_genre.sort_values("movie_id", ascending=False)["movie_id"].plot(ax=ax, kind="pie", startangle=90, legend=True)
 ```
-### plot(kind="bar")
 ```python
 data["label"].value_counts().plot(kind="bar")
 ```
+```python
+raw_all[["count"]].rolling(24).mean().plot(kind="line", figsize=(20,6), linewidth=3, fontsize=20, xlim=("2012-01-01", "2012-06-01"), ylim=(0,  1000))
+```
+- `kind="pie"`, `kind="bar"`, `kind="line"`
 ### cbar.set_label()
 ```python
 cbar.set_label(label="전용면적(m²)", size=15)
@@ -3320,8 +3362,11 @@ req = requests.get(url)
 
 
 # statsmodels
-## statsmodels.stats
-### statsmodels.stats.outliers_influence
+```python
+import statsmodels as sm
+```
+## sm.stats
+### sm.stats.outliers_influence
 #### variance_inflation_factor()
 ```python
 from statsmodels.stats.outliers_influence import variance_inflation_factor
@@ -3331,6 +3376,19 @@ vif = pd.DataFrame()
 vif["VIF Factor"] = [variance_inflation_factor(data_for_corr.values, i) for i in range(data_for_corr.shape[1])]
 vif["features"] = data_for_corr.columns
 ```
+## sm.api
+### sm.api.tsa
+#### sm.api.tsa.seasonal_decompose()
+```python
+sm.api.tsa.seasonal_decompose(raw_all["count"], model="additive").plot()
+```
+- `model="additive"`
+- `model="multiplicative"`
+##### sm.api.tsa.seasonal_decompose().observed
+##### sm.api.tsa.seasonal_decompose().trend
+##### sm.api.tsa.seasonal_decompose().seasonal
+##### sm.api.tsa.seasonal_decompose().resid
+- When `model="additive"`, `sm.api.tsa.seasonal_decompose().observed` is same as `sm.api.tsa.seasonal_decompose().trend + sm.api.tsa.seasonal_decompose().seasonal + sm.api.tsa.seasonal_decompose().resid`
 
 
 
@@ -4033,12 +4091,6 @@ from google.colab.patches import cv2_imshow
 hsv_tuples = [(idx/n_clss, 1, 1) for idx in idx2cls.keys()]
 colors = list(map(lambda x: colorsys.hsv_to_rgb(*x), hsv_tuples))
 colors = list(map(lambda x: (int(x[0]*255), int(x[1]*255), int(x[2]*255)), colors))
-```
-```python
-appo["end"] = appo["end"].dt.normalize()
-```
-```python
-hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"]) | ("촉탁" in x["하위그룹"]) | ("파견" in x["하위그룹"]) | (x["재직여부"]=="퇴직") else ("본부인원에서만 제외" if ("PM" in x["조직명"]) | ("신규준비" in x["직무"]) | (x["직무"]=="휴직") | (x["직무"]=="비상계획") | (x["직무"]=="축구협") | (x["직무"]=="비서") | ("조직명" in x["조직명"]) | (x["직무"]=="미화") else "포함"), axis=1)
 ```
 
 
