@@ -376,6 +376,10 @@ data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거
 ```
 - '
 - `index=False`
+## pd.crosstab()
+```python
+pd.crosstab(index=data["count"], columns=data["weather"], margins=True)
+```
 ## pd.concat()
 ```python
 data_without = pd.concat([data_without, data_subset], axis=0)
@@ -414,7 +418,7 @@ results_ordered=results.sort_values(by="lat")
 ```
 - dtype을 category로 변환.
 - ordered=True로 category들 간에 대소 부여.
-- 출처 : [https://kanoki.org/2020/01/28/sort-pandas-dataframe-and-series/](https://kanoki.org/2020/01/28/sort-pandas-dataframe-and-series/)
+- Reference: https://kanoki.org/2020/01/28/sort-pandas-dataframe-and-series/
 ## pd.get_dummies()
 ```python
 data = pd.get_dummies(data, columns=["heating", "company1", "company2", "elementary", "built_month", "trade_month"], drop_first=False, dummy_na=True)
@@ -453,11 +457,23 @@ n_tasks_month = tasks.groupby(pd.Grouper(key="task_date", freq="M")).size()
 ```python
 order = pd.MultiIndex.from_tuples((hq, dep) for dep, hq in dep2hq.items())
 ```
+## pd.plotting
+### pd.plotting.scatter_matrix()
+```python
+pd.plotting.scatter_matrix(data, figsize=(18, 18), diagonal="kde")
+```
 ## df.info()
 ## df.describe()
 ```python
 raw_data.describe(include="all").T
 ```
+## df.corr()
+### df.corr().style
+#### df.corr().style.background_gradient()
+##### df.corr().style.background_gradient().set_precision(), df.corr().style.background_gradient().set_properties()
+```python
+data.corr().style.background_gradient(cmap="Blues").set_precision(1).set_properties(**{"font-size":"9pt"})
+``` 
 ## df.shape
 ## df.ndim
 ## df.quantile()
@@ -2678,9 +2694,12 @@ ax.grid(axis="x", color="White", alpha=0.3, linestyle="--", linewidth=2)
 ax.plot(df1.index, df1["mean"], linestyle="dashdot", linewidth=1.5, color="black", label="10년 전(09.08 ~ 10.07) 전국 실거래가")
 ```
 - linestyle : "dashdot" | "dashed" | "solid" | "dotted"
-#### ax.scatter()
+#### ax.scatter(), df.plot.scatter()
 ```python
 ax.scatter(gby["0.5km 내 교육기관 개수"], gby["실거래가"], s=70, c=gby["전용면적(m²)"], cmap="RdYlBu", alpha=0.7, edgecolors="black", linewidth=0.5)
+```
+```python
+data[data.workingday == 0].plot.scatter(y="count", x="hour", c="temp", grid=False, figsize=(12, 5), cmap="Blues")
 ```
 #### ax.bar()
 ```python
@@ -2690,9 +2709,16 @@ ax.bar(x=nby_genre.index, height=nby_genre["movie_id"])
 ```python
 ax.barh(y=ipark["index"], width=ipark["가경4단지 84.8743A"], height=0.2, alpha=0.5, color="red", label="가경4단지 84.8743A", edgecolor="black", linewidth=1)
 ```
-#### ax.hist()
+#### ax.hist(), df.hist()
 ```python
 ax.hist(cnt_genre["genre"], bins=30)
+```
+```python
+raw_data.hist(bins=20, grid=True, figsize=(16,12))
+```
+#### boxplot()
+```python
+raw_data.boxplot(column="count", by="season", grid=False, figsize=(12,5))
 ```
 #### ax.axhline()
 ```python
@@ -2742,7 +2768,7 @@ sb.countplot(ax=ax, x=label_train)
 - array, or list of arrays
 ### sb.replot()
 ```python
-ax = sbrelplot(x="total_bill", y="tip", col="time", hue="day", style="day", kind="scatter", data=tips)
+ax = sb.replot(x="total_bill", y="tip", col="time", hue="day", style="day", kind="scatter", data=tips)
 ```
 ### sb.kedplot()
 ```python
@@ -3248,7 +3274,7 @@ tokenizer.encode("보는내내 그대로 들어맞는 예측 카리스마 없는
 ```python
 tokenizer.convert_tokens_to_ids("[CLS]")
 ```
-- unknown token : 0, "[PAD]" : 1, "[CLS]" : 2, "[SEP]" : 3
+- Unknown Token: 0, "[PAD]" : 1, "[CLS]" : 2, "[SEP]" : 3
 
 
 
@@ -3364,10 +3390,10 @@ req = requests.get(url)
 
 # statsmodels
 ```python
-import statsmodels as sm
+import statsmodels.api as sm
 ```
-## sm.stats
-### sm.stats.outliers_influence
+## statsmodels.stats
+### statsmodels.stats.outliers_influence
 #### variance_inflation_factor()
 ```python
 from statsmodels.stats.outliers_influence import variance_inflation_factor
@@ -3377,19 +3403,26 @@ vif = pd.DataFrame()
 vif["VIF Factor"] = [variance_inflation_factor(data_for_corr.values, i) for i in range(data_for_corr.shape[1])]
 vif["features"] = data_for_corr.columns
 ```
-## sm.api
-### sm.api.tsa
-#### sm.api.tsa.seasonal_decompose()
+## sm
+### sm.tsa
+#### sm.tsa.seasonal_decompose()
 ```python
-sm.api.tsa.seasonal_decompose(raw_all["count"], model="additive").plot()
+sm.tsa.seasonal_decompose(raw_all["count"], model="additive").plot()
 ```
 - `model="additive"`
 - `model="multiplicative"`
-##### sm.api.tsa.seasonal_decompose().observed
-##### sm.api.tsa.seasonal_decompose().trend
-##### sm.api.tsa.seasonal_decompose().seasonal
-##### sm.api.tsa.seasonal_decompose().resid
-- When `model="additive"`, `sm.api.tsa.seasonal_decompose().observed` is same as `sm.api.tsa.seasonal_decompose().trend + sm.api.tsa.seasonal_decompose().seasonal + sm.api.tsa.seasonal_decompose().resid`
+##### sm.tsa.seasonal_decompose().observed
+##### sm.tsa.seasonal_decompose().trend
+##### sm.tsa.seasonal_decompose().seasonal
+##### sm.tsa.seasonal_decompose().resid
+- When `model="additive"`, `sm.tsa.seasonal_decompose().observed` is same as `sm.tsa.seasonal_decompose().trend + sm.tsa.seasonal_decompose().seasonal + sm.tsa.seasonal_decompose().resid`
+### sm.OLS()
+#### sm.OLS().fit()
+```python
+sm.OLS(y_tr, x_tr).fit()
+```
+##### sm.OLS().fit().summary()
+##### sm.OLS().fit().predict()
 
 
 
