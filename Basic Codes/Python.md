@@ -531,7 +531,7 @@ df.nlargest(3, ["population", "GDP"], keep="all")
 ```
 - keep="first" | "last" | "all"
 ## df.index
-## df.index.names
+### df.index.names
 ```python
 df.index.name = None
 ```
@@ -543,9 +543,10 @@ data = data.set_index(["id", "name"])
 - `inplace=True`
 ## df.reset_index()
 ```python
-cumsum.reset_index(drop=True)
+cumsum.reset_index()
 ```
-- `name=`
+- `drop=True`: Reset the index to the default integer index. Default False.
+- `level`: Only remove the given levels from the index. Removes all levels by default.
 ## df.loc()
 ```python
 data.loc[data["buildings"]==5, ["age", "ratio2"]]
@@ -555,7 +556,7 @@ data.loc[[7200, "대림가경"], ["houses", "lowest"]]
 ```python
 train_val = data[~data["name"].isin(names_test)]
 ```
-- dictionary와 함께 사용 시 key만 가져옴
+- Dictionary와 함께 사용 시 key만 가져옴
 ## df.query()
 ```python
 data.query("houses in @list")

@@ -270,6 +270,24 @@ SET @nameis="가수 이름 =>";
 SELECT @nameis, name FROM usertbl WHERE height>180;
 ```
 ## SELECT
+### CASE
+```sql
+SELECT
+CASE hdc_mbr.mbr_mst.mbr_sys_ty
+WHEN 'C000004001' THEN '입주예정자'
+WHEN 'C000004003' THEN '입주자(대표)'
+WHEN 'C000004004' THEN '입주자(세대원)'
+END AS mbr_sys_ty
+```
+### CONCAT
+```sql
+SELECT
+CONCAT(CASE hdc_mbr.mbr_mst.mbr_sex \
+WHEN '0' THEN '남자' \
+WHEN '1' THEN '여자' \
+END, '/', hdc_mbr.mbr_mst.mbr_birth)
+```
+SELECT
 ## FROM
 ## WHERE
 ### COLUMN_NAME
@@ -385,19 +403,6 @@ ON animal_ins.animal_id = animal_outs.animal_id
 WHERE animal_outs.datetime IS NULL
 ORDER BY animal_ins.datetime ASC
 LIMIT 3;
-```
-```sql
-SELECT hdc_mbr.mbr_mst.mbr_id, hdc_mbr.mbr_mst.mbr_sys_ty, hdc_mbr.mbr_mst.mbr_sex, hdc_mbr.mbr_mst.mbr_birth, hdc_mbr.mbr_mst.regist_dt, hdc_mbr.mbr_mst.mbr_delete_date, hdc_mbr.mbr_mst.mbr_st,\
-    hdc_apt.apt_unit_mbr.mbr_id,\
-    hdc_apt.apt_unit_info.dng_no, hdc_apt.apt_unit_info.ho_no,\
-    hdc_apt.apt_mst.apt_name\
-    FROM hdc_mbr.mbr_mst\
-    LEFT OUTER JOIN hdc_apt.apt_unit_mbr\
-    LEFT OUTER JOIN hdc_apt.apt_unit_info\
-    LEFT OUTER JOIN hdc_apt.apt_mst\
-    ON hdc_apt.apt_unit_info.apt_id = hdc_apt.apt_mst.apt_id\
-    ON hdc_apt.apt_unit_mbr.unit_id = hdc_apt.apt_unit_info.unit_id\
-    ON hdc_mbr.mbr_mst.mbr_id = hdc_apt.apt_unit_mbr.mbr_id
 ```
 ## UPPER()
 ```sql
