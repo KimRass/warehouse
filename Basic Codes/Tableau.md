@@ -15,6 +15,15 @@ DATETRUNC("week", [Order Date])
 
 
 # Logical
+## CASE, WHEN, THEN, END
+```
+CASE [Sort Criteria Selection]
+WHEN "Sales" THEN SUM([Sales])
+WHEN "Profit" THEN SUM([Profit])
+WHEN "Profit Ratio" THEN [Profit Ratio]
+WHEN "Discount" THEN AVG([Discount])
+END
+```
 ## IF, ELSEIF, ELSE, THEN, END
 ```
 IF [검색할 변수] == "처리결과"
@@ -115,6 +124,9 @@ LAST() <= 23
 ## WINDOW_AVG(), WINDOW_COUNT(), WINDOW_MAX(), WINDOW_MIN(), WINDOW_SUM()
 ```
 (SUM([Sales]) - WINDOW_MIN(SUM([Sales])))/(WINDOW_MAX(SUM([Sales])) - WINDOW_MIN(SUM([Sales])))
+```
+```
+WINDOW_AVG(SUM([Sales]), -[Window Selection], 0)
 ```
 - Reference: https://www.youtube.com/watch?v=8YMWH_ozstE&t=610s
 ## RANK()
