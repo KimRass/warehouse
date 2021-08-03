@@ -142,6 +142,9 @@ LOOKUP(ATTR([Customer Name]), 0)
 - Reference: https://www.youtube.com/watch?v=IRZAbkrkj60&list=PLyipEw5AFv5QvjCCYw_ODFTSKVXhkDiQW&index=4&t=22s
 ## RUNNING_COUNT(), RUNNING_SUM()
 ```
+RUNNING_SUM(COUNTD([Product Name]))/TOTAL(COUNTD([Product Name]))
+```
+```
 RUNNING_SUM(
 COUNT(
 IF [Pivot Field Names] == "가입일"
@@ -152,9 +155,6 @@ COUNT(
 IF [Pivot Field Names] == "탈퇴일"
 THEN [Pivot Field Values]
 END))
-```
-```
-RUNNING_SUM(COUNTD([Customer ID]))
 ```
 ## SCRIPT_BOOL(), SCRIPT_INT(), SCRIPT_REAL(), SCRIPT_STR()
 ```
