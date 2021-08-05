@@ -1,5 +1,5 @@
 # Order of Operations
-- Context Filters -> {FIXED:} -> Dimensition Filters(Actions, Groups) -> {INCLUDE:}, {EXCLUDE:} -> Table Calculations -> Table Calculation Filters(FIRST(), LAST()) -> Manually Hidden Marks
+- Context Filters -> {FIXED:} -> Dimensition Filters(Actions, Groups) -> {INCLUDE:}, {EXCLUDE:} -> Blending -> Table Calculations -> Table Calculation Filters(FIRST(), LAST()) -> Manually Hidden Marks
 # Date
 ## DATEDIFF()
 ```
@@ -69,6 +69,8 @@ END)
 
 
 # Aggregate
+## ATTR()
+- Return the value of the given expression if only have a single value for all rows in the group, otherwise display `*`. NULL is ignored.
 ## AVG()
 ## {FIXED:}
 ```
@@ -170,6 +172,12 @@ ATTR([댓글생성자id])), 6)
 
 
 
+# Spatial
+## DISTANCE()
+## MAKEPOINT()
+
+
+
 # ETC
 ## Custom Number Format
 ```
@@ -209,6 +217,12 @@ ATTR([댓글생성자id])), 6)
 - Search.
 ## Alt + A -> C
 - `Create Calculate Field...`
+## Alt + I
+- `Filters`
+## Alt + D -> R
+- `Edit Blend Relationships...`
+## Alt + F -> A
+- `Save As...`
 ## Ctrl + Tab, Ctrl + PgDn
 - Move to next Worksheet, Dashboard, or Story.
 ## Ctrl + Shift + Tab, Ctrl + PgUp
@@ -217,3 +231,5 @@ ATTR([댓글생성자id])), 6)
 - Zoom Out or Zoom In respectively.
 ## Alt + Shift + (C, X, F, T)
 - Move Fileds to Columns, Rows, Filters or Text respectively.
+## Ctrl + H
+- Presentation Mode.
