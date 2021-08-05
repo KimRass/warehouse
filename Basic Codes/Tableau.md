@@ -1,3 +1,5 @@
+# Order of Operations
+- Context Filters -> {FIXED:} -> Dimensition Filters(Actions, Groups) -> {INCLUDE:}, {EXCLUDE:} -> Table Calculations -> Table Calculation Filters(FIRST(), LAST()) -> Manually Hidden Marks
 # Date
 ## DATEDIFF()
 ```
@@ -91,9 +93,7 @@ ELSE [Region]
 END
 ```
 - Compute an aggregate using only the specified dimensions.
-- Context Filters -> {FIXED:} -> Dimensition Filters(Actions, Groups)
 - Reference: https://www.youtube.com/watch?v=P-yj-Jzkq_c&list=PLyipEw5AFv5QvjCCYw_ODFTSKVXhkDiQW&index=3
-- {FIXED:} -> Dimension Filters(Actions, Groups) -> {INCLUDE:}, {EXCLUDE:}
 ## {INCLUDE:}
 ```
 {INCLUDE [City]:AVG([Sales])}
@@ -110,7 +110,6 @@ END
 
 
 # Table Calculation
-- Dimensition Filters(Actions, Groups) -> Table Calculations -> Table Calculation Filters(FIRST(), LAST())
 ## FIRST(), LAST()
 ```
 LAST() <= 23
