@@ -3324,7 +3324,7 @@ names = random.sample(list(set(data.index)), 20)
 ```python
  import re
 ```
-- The meta-characters which do not match themselves because they have special meanings are: ".", "^", "$", "*", "+", "?", "{", "}", "[", "]", "(", ")", "\", "|".
+- The meta-characters which do not match themselves because they have special meanings are: `.`, `^`, `$`, `*`, `+`, `?`, `{`, `}`, `[`, `]`, `(`, `)`, `\`, `|`.
 - `.`: Match any single character except newline.
 - `\n`: Newline
 - `\r`: Return

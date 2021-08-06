@@ -30,16 +30,6 @@ WITH ROLLUP;
 ```sql
 SELECT @변수 이름;
 ```
-#### DROP
-##### DROP DATABASE
-```sql
-DROP DATABASE IF EXISTS database;
-```
-##### DROP TABLE   
-```sql
-DROP TABLE tbl;
-```
-- 내용 및 구조 삭제
 ### INSERT
 #### INSERT INTO
 ```sql
@@ -56,38 +46,6 @@ INSERT INTO testtbl(age, id) VALUES (25, NULL);
 INSERT INTO testtbl1;
 SELECT emp_no, first_name, last_name
 FROM testtbl2;
-```
-### UPDATE
-#### UPDATE + SET
-```sql
-UPDATE usertbl
-SET lname="홍"
-WHERE fname"길동";
-```
-```sql
-UPDATE buytbl
-SET price=price*1.5;
-```
-### DELETE
-#### DELETE FROM
-```sql
-DELETE FROM sqldb WHERE fname="김";
-```
-- 연산 부하가 큼
-### CREATE
-#### CREATE SHCEMA | DATABASE
-```sql
-CREATE SCHEMA sqldb;
-CREATE DATABASE sqldb; /* 위 코드와 동일 */
-```
-#### CREATE TABLE
-```sql
-CREATE TABLE sqldb.usertbl
-(id AUTO_INCREMENT PRIMARY KEY,
-name VARCHAR(10) NOT NULL,
-birthyear INT NOT NULL,
-addr CHAR(2) NOT NULL,
-mdate DATE);
 ```
 #### CREATE TABLE + SELECT : copy table
 ```sql
@@ -116,11 +74,6 @@ SET @@auto_increment_increment=3;
 INSERT INTO testtbl VALUES (NULL, "홍길동", 25);
 ```
 - AUTO_INCREMENT 값부터 3씩 건너뛰어 id 지정
-### TRUNCATE
-```sql
-TRUNCATE TABLE testtbl;
-```
-- table의 내용만 삭제
 ### SHOW
 ```sql
 SHOW DATABASES;
@@ -269,8 +222,9 @@ SET @nameis="가수 이름 =>";
 
 SELECT @nameis, name FROM usertbl WHERE height>180;
 ```
-## SELECT
-### CASE
+------------------------------------------------------------------------------
+## SELECT FROM
+### CASE WHEN END
 ```sql
 SELECT
 CASE hdc_mbr.mbr_mst.mbr_sys_ty
@@ -287,9 +241,7 @@ WHEN '0' THEN '남자' \
 WHEN '1' THEN '여자' \
 END, '/', hdc_mbr.mbr_mst.mbr_birth)
 ```
-SELECT
-## FROM
-## WHERE
+### WHERE
 ### COLUMN_NAME
 ```sql
 SELECT COLUMN_NAME
@@ -478,3 +430,40 @@ SELECT TRIM(TRAILING "ㅋ" FROM "ㅋㅋㅋ우측문자삭제ㅋㅋㅋ");
 ## RAND : 0 이상 1 미만의 수 반환
 ## SIGN : 양수, 0, 음수 판별
 ## TRUNCATE : 소수점 이하 자리수 지정
+## INSERT INTO
+### VALUES
+```sql
+INSERT INTO customers 
+(customername, address, city, postalcode, country)
+VALUES ("Hekkan Burger", "Gateveien 15", "Sandnes", "4306", "Norway");
+```
+- If you are adding values for all the columns of the table, you do not need to specify the column names in the SQL query.
+## UPDATE
+### SET
+```sql
+UPDATE customers
+SET city == "Oslo", country == "Norway"
+WHERE customerid = 32;
+```
+## DELETE FROM
+```sql
+DELETE FROM sqldb
+WHERE fname == "김";
+```
+## CREATE DATABASE
+## DROP DATABASE
+```sql
+DROP DATABASE IF EXISTS database;
+```
+## CREATE TABLE
+```sql
+CREATE TABLE sqldb.usertbl
+(id AUTO_INCREMENT PRIMARY KEY,
+name VARCHAR(10) NOT NULL,
+birthyear INT NOT NULL,
+addr CHAR(2) NOT NULL,
+mdate DATE);
+```
+## DROP TABLE
+## TRUNCATE TABLE
+- Delete the data inside a table, but not the table itself.
