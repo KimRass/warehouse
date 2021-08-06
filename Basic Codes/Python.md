@@ -432,7 +432,7 @@ data = pd.get_dummies(data, columns=["heating", "company1", "company2", "element
 ratings_df["rated_at"] = pd.to_datetime(ratings_df["rated_at"], unit="s")
 ```
 ### pd.to_datetime().dt
-####  pd.to_datetime().dt.hour, pd.to_datetime().dt.day,  pd.to_datetime().dt.week,  pd.to_datetime().dt.dayofweek, pd.to_datetime().dt.month, pd.to_datetime().dt.quarter, pd.to_datetime().dt.year
+#### pd.to_datetime().dt.hour, pd.to_datetime().dt.day,  pd.to_datetime().dt.week,  pd.to_datetime().dt.dayofweek, pd.to_datetime().dt.month, pd.to_datetime().dt.quarter, pd.to_datetime().dt.year
 #### pd.to_datetime().dt.normalize()
 ```python
 appo["end"] = appo["end"].dt.normalize()
@@ -640,7 +640,7 @@ data = data.fillna(method="ffill")
 ```python
 baskets_df.sample(frac=0.05)
 ```
-```phthon
+```python
 set(n_per_movie_unseen.sample(n=100, replace=False, weights=n_per_movie).index)
 ```
 - `random_state=777`
@@ -2644,7 +2644,7 @@ ax.set_xlim([1, 4])
 ```python
 ax.axis([2, 3, 4, 10])
 ```
-```phthon
+```python
 ax.axis("off")
 ```
 ##### ax.xaxis.set_visible(), ax.yaxis.set_visible()
