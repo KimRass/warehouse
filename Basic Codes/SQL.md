@@ -236,10 +236,10 @@ END AS mbr_sys_ty
 ### CONCAT
 ```sql
 SELECT
-CONCAT(CASE hdc_mbr.mbr_mst.mbr_sex \
-WHEN '0' THEN '남자' \
-WHEN '1' THEN '여자' \
-END, '/', hdc_mbr.mbr_mst.mbr_birth)
+CONCAT(CASE hdc_mbr.mbr_mst.mbr_sex
+WHEN "0" THEN "남자"
+WHEN "`" THEN "여자"
+END, "/", hdc_mbr.mbr_mst.mbr_birth)
 ```
 ### WHERE
 ### COLUMN_NAME
@@ -265,7 +265,6 @@ SELECT animal_ins.animal_id, animal_ins.animal_type, animal_ins.name
 FROM animal_ins
 INNER JOIN animal_outs
 ON animal_ins.animal_id = animal_outs.animal_id
-# WHERE animal_ins.sex_upon_intake != animal_outs.sex_upon_outcome
 WHERE animal_ins.sex_upon_intake LIKE "Intact%"
 AND (animal_outs.sex_upon_outcome LIKE "Spayed%"
 OR animal_outs.sex_upon_outcome LIKE "Neutered%")
@@ -340,12 +339,16 @@ ORDER BY animal_id
 ## INNER JOIN, LEFT OUTER JOIN
 ### ON
 ```sql
-SELECT animal_ins.animal_id, animal_ins.name
-FROM animal_ins
-INNER JOIN animal_outs
-ON animal_ins.animal_id = animal_outs.animal_id
-WHERE animal_ins.datetime > animal_outs.datetime
-ORDER BY animal_ins.datetime;
+SELECT
+	animal_ins.animal_id, animal_ins.name
+FROM
+	animal_ins
+	INNER JOIN animal_outs
+	ON animal_ins.animal_id = animal_outs.animal_id
+WHERE
+	animal_ins.datetime > animal_outs.datetime
+ORDER BY
+	animal_ins.datetime;
 ```
 ```sql
 SELECT animal_ins.name, animal_ins.datetime
@@ -366,11 +369,13 @@ ORDER BY name;
 ```
 ## CASE WHEN THEN ELSE END
 ```sql
-SELECT animal_id, name,
+SELECT animal_id,
+name,
 CASE WHEN (sex_upon_intake LIKE "%Neutered%"
 OR sex_upon_intake LIKE "%Spayed%")
 THEN "O"
-ELSE "X" END AS "중성화 여부"
+ELSE "X"
+END AS "중성화 여부"
 FROM animal_ins
 ORDER BY animal_id;
 ```
@@ -417,6 +422,10 @@ SELECT TRIM(BOTH "ㅋ" FROM "ㅋㅋㅋ좌우측문자삭제ㅋㅋㅋ");
 SELECT TRIM(LEADING "ㅋ" FROM "ㅋㅋㅋ좌측문자삭제ㅋㅋㅋ");
 SELECT TRIM(TRAILING "ㅋ" FROM "ㅋㅋㅋ우측문자삭제ㅋㅋㅋ");
 ```
+## TO_CHAR()
+```sql
+TO_CHAR(mbrmst.mbr_leaving_expected_date, "YYYY/MM/DD") AS mbr_leaving_expected_dt
+```
 ## ABS : 절대값
 ## CEILING : 올림
 ## FLOOR : 버림
@@ -442,13 +451,13 @@ VALUES ("Hekkan Burger", "Gateveien 15", "Sandnes", "4306", "Norway");
 ### SET
 ```sql
 UPDATE customers
-SET city == "Oslo", country == "Norway"
+SET city = "Oslo", country = "Norway"
 WHERE customerid = 32;
 ```
 ## DELETE FROM
 ```sql
 DELETE FROM sqldb
-WHERE fname == "김";
+WHERE fname = "김";
 ```
 ## CREATE DATABASE
 ## DROP DATABASE
@@ -467,3 +476,17 @@ mdate DATE);
 ## DROP TABLE
 ## TRUNCATE TABLE
 - Delete the data inside a table, but not the table itself.
+## PRIMARY KEY
+- The `PRIMARY KEY` constraint uniquely identifies each record in a table. Primary keys must contain UNIQUE values, and cannot contain NULL values. A table can have only ONE primary key; and in the table, this primary key can consist of single or multiple columns (fields).
+## FOREIGN KEY
+- The `FOREIGN KEY` constraint is used to prevent actions that would destroy links between tables. A `FOREIGN KEY` is a field (or collection of fields) in one table, that refers to the `PRIMARY KEY` in another table. The table with the foreign key is called the child table, and the table with the primary key is called the referenced or parent table.
+- The `FOREIGN KEY` constraint prevents invalid data from being inserted into the foreign key column, because it has to be one of the values contained in the parent table.
+### REFERENCES
+```sql
+CREATE TABLE orders
+(orderid INT NOT NULL,
+ordernumber INT NOT NULL,
+personid INT,
+PRIMARY KEY (orderid),
+FOREIGN KEY (personid) REFERENCES persons(personid));
+```
