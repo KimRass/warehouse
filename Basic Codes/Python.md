@@ -2312,7 +2312,7 @@ model.show_topic(1, topn=20)
 ```python
 model.wv.most_similar("안성기")
 ```
-##### model.wv.save_word2vec_format()
+##### model.wv.Save_word2vec_format()
 ```python
 model.wv.save_word2vec_format("eng_w2v")
 ```
@@ -2558,7 +2558,9 @@ viz.radius_stops = create_radius_stops([0, 1, 2], 4, 7)
 ```python
 import matplotlib as mpl
 ```
-## mpl.font_manager.FontProperties().get_name()
+## mpl.font_manager
+### mpl.font_manager.FontProperties()
+#### mpl.font_manager.FontProperties().get_name()
 ```python
 fpath = "C:/Windows/Fonts/malgun.ttf"
 font_name = mpl.font_manager.FontProperties(fname=fpath).get_name()
@@ -2571,21 +2573,6 @@ mpl.rc("font", family=font_name)
 ```python
 mpl.rc("axes", unicode_minus=False)
 ```
-### df.plot(), ser.plot()
-```python
-cnt_genre.sort_values("movie_id", ascending=False)["movie_id"].plot(ax=ax, kind="pie", startangle=90, legend=True)
-```
-```python
-data["label"].value_counts().plot(kind="bar")
-```
-```python
-raw_all[["count"]].rolling(24).mean().plot(kind="line", figsize=(20,6), linewidth=3, fontsize=20, xlim=("2012-01-01", "2012-06-01"), ylim=(0,  1000))
-```
-- `kind="pie"`, `kind="bar"`, `kind="line"`
-### cbar.set_label()
-```python
-cbar.set_label(label="전용면적(m²)", size=15)
-```
 ## matplotlib.pyplot
 ```python
 import matplotlib.pyplot as plt
@@ -2595,10 +2582,8 @@ import matplotlib.pyplot as plt
 plt.setp(obj=ax1, yticks=ml_mean_gr_ax1["le"], yticklabels=ml_mean_gr_ax1.index)
 ```
 ### plt.style.use()
-```python
-plt.style.use("dark_background")
-```
-### plst.subplot()
+- `"default"`, `"dark_background"`
+### plt.subplot()
 ```python
 for i in range(9):
 	ax = plt.subplot(3, 3, i + 1)
@@ -2611,7 +2596,11 @@ fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 12)
 ```python
 cbar = fig.colorbar(ax=ax, mappable=scatter)
 ```
-#### fig.savefig()
+##### cbar.set_label()
+```python
+cbar.set_label(label="전용면적(m²)", size=15)
+```
+#### plt.savefig(), fig.savefig()
 ```python
 fig.savefig("means_plot_200803.png", bbox_inches="tight")
 ```
@@ -2620,13 +2609,14 @@ fig.savefig("means_plot_200803.png", bbox_inches="tight")
 ```python
 ax.imshow(image.numpy().reshape(3,3), cmap="Greys")
 ```
-```python
-ax.imshow(images[i].numpy().astype("uint8"))
-```
 #### ax.set()
 ```python
 ax.set(title="Example", xlabel="xAxis", ylabel="yAxis", xlim=[0, 1], ylim=[-0.5, 2.5], xticks=data.index, yticks=[1, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3])
 ```
+- `title`
+- `xlabel`, `ylabel`
+- `xlim`, `ylim`
+- `xticks`, `yticks`
 #### ax.set_title()
 ```python
 ax.set_title("Example", size=20)
@@ -2639,6 +2629,7 @@ ax.set_xlabel("xAxis", size=15)
 ```python
 ax.set_xlim([1, 4])
 ```
+#### ax.set_xticks(), ax.set_yticks()
 #### ax.axes
 #### ax.axis()
 ```python
@@ -2659,41 +2650,42 @@ ax.xaxis.set_label_position("top")
 ```python
 ax1.yaxis.set_ticks_position("right")
 ```
-```python
-ax.xaxis.set_ticks_position("top")
-```
-##### ax.xaxis.set_tick_position(), ax.yaxis.set_tick_position()
-```python
-ax2.yaxis.set_ticks_position("right")
-```
-#### ax.xaxis.set_major_formatter(mpl.ticker.StrMethodFormatter(), ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter()
+- `"top"`, `"bottom"`, `"left"`, `"right"`
+##### ax.xaxis.set_major_formatter(), ax.yaxis.set_major_formatter()
 ```python
 ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter("{x:,.0f}"))
 ```
 #### ax.invert_xaxis(), ax.invert_yaxis()
+#### ax.tick_params()
+```python
+ax.tick_params(axis="x", labelsize=20, labelcolor="red", labelrotation=45, grid_linewidth=3)
+```
 #### ax.set_xticks(), ax.set_yticks()
 ```python
 ax.set_yticks(np.arange(1, 1.31, 0.05))
 ```
 - 화면에 표시할 눈금을 설정합니다.
-#### ax.tick_params()
-```python
-ax.tick_params(axis="x", labelsize=20, labelcolor="red", labelrotation=45, grid_linewidth=3)
-```
 #### ax.legend()
 ```python
 ax.legend(fontsize=14, loc="best")
 ```
-- `loc`="best" | "upper right" ...
+- `loc`: `"best"`|`"upper right"`
 #### ax.grid()
 ```python
 ax.grid(axis="x", color="White", alpha=0.3, linestyle="--", linewidth=2)
 ```
-#### ax.plot()
+#### ax.plot(), df.plot.line(), ser.plot.line()
 ```python
 ax.plot(df1.index, df1["mean"], linestyle="dashdot", linewidth=1.5, color="black", label="10년 전(09.08 ~ 10.07) 전국 실거래가")
 ```
-- linestyle : "dashdot" | "dashed" | "solid" | "dotted"
+```python
+raw_all[["count"]].rolling(24).mean().plot.line(figsize=(20,6), linewidth=3, fontsize=20, xlim=("2012-01-01", "2012-06-01"), ylim=(0,  1000))
+```
+- `linestyle`: `"dashdot"`|`"dashed"`|`"solid"`|`"dotted"`
+### df.plot.pie(), ser.plot.pie()
+```python
+cnt_genre.sort_values("movie_id", ascending=False)["movie_id"].plot.pie(ax=ax, startangle=90, legend=True)
+```
 #### ax.scatter(), df.plot.scatter()
 ```python
 ax.scatter(gby["0.5km 내 교육기관 개수"], gby["실거래가"], s=70, c=gby["전용면적(m²)"], cmap="RdYlBu", alpha=0.7, edgecolors="black", linewidth=0.5)
@@ -2701,26 +2693,29 @@ ax.scatter(gby["0.5km 내 교육기관 개수"], gby["실거래가"], s=70, c=gb
 ```python
 data[data.workingday == 0].plot.scatter(y="count", x="hour", c="temp", grid=False, figsize=(12, 5), cmap="Blues")
 ```
-#### ax.bar()
+#### ax.bar(), df.plot.bar(), ser.plot.bar()
 ```python
 ax.bar(x=nby_genre.index, height=nby_genre["movie_id"])
 ```
-#### ax.barh()
+```python
+data["label"].value_counts().plot.bar()
+```
+#### ax.barh(), df.plot.barh(), ser.plot.barh()
 ```python
 ax.barh(y=ipark["index"], width=ipark["가경4단지 84.8743A"], height=0.2, alpha=0.5, color="red", label="가경4단지 84.8743A", edgecolor="black", linewidth=1)
 ```
-#### ax.hist(), df.hist()
+#### ax.hist(), df.hist(), ser.hist()
 ```python
 ax.hist(cnt_genre["genre"], bins=30)
 ```
 ```python
 raw_data.hist(bins=20, grid=True, figsize=(16,12))
 ```
-#### boxplot()
+#### ax.boxplot(), df.boxplot(), ser.boxplot()
 ```python
 raw_data.boxplot(column="count", by="season", grid=False, figsize=(12,5))
 ```
-#### ax.axhline()
+#### ax.axhline(), ax.axvline()
 ```python
 ax.axhline(y=mean, color="r", linestyle=":", linewidth=2)
 ```
@@ -2731,10 +2726,7 @@ for _, row in ml_gby_ax1.iterrows():
 ```
 #### ax.fill_between()
 ```python
-ax.fill_between(x=range(sgd_loss_mean.shape[0]),
-                y1=sgd_loss_mean + sgd_loss_std,
-                y2=sgd_loss_mean - sgd_loss_std,
-                alpha=0.3)
+ax.fill_between(x=range(sgd_loss_mean.shape[0]), y1=sgd_loss_mean + sgd_loss_std, y2=sgd_loss_mean - sgd_loss_std, alpha=0.3)
 ```
 
 

@@ -1,5 +1,20 @@
 # Order of Operations
 - Context Filters -> {FIXED:} -> Dimensition Filters(Actions, Groups) -> {INCLUDE:}, {EXCLUDE:} -> Blending -> Table Calculations -> Table Calculation Filters(FIRST(), LAST()) -> Manually Hidden Marks
+
+
+
+# Number
+
+
+
+# String
+## LEFT()
+```
+LEFT("█████",Round([사용하실 측정값]*5,0))
+```
+
+
+
 # Date
 ## DATEDIFF()
 ```
@@ -229,7 +244,7 @@ ATTR([댓글생성자id])), 6)
 - Move to previous Worksheet Dashboard, or Story.
 ## Ctrl + B, Ctrl + Shift + B
 - Zoom Out or Zoom In respectively.
-## Alt + Shift + (C, X, F, T)
+## Alt + Shift + (C, X, F, or T)
 - Move Fileds to Columns, Rows, Filters or Text respectively.
 ## Ctrl + H
 - Presentation Mode.
