@@ -462,6 +462,10 @@ order = pd.MultiIndex.from_tuples((hq, dep) for dep, hq in dep2hq.items())
 ```python
 pd.plotting.scatter_matrix(data, figsize=(18, 18), diagonal="kde")
 ```
+### pd.plotting.lag_plot()
+```python
+fig = pd.plotting.lag_plot(ax=axes[0], series=resid_tr["resid"].iloc[1:], lag=1)
+```
 ## df.info()
 ## df.describe()
 ```python
@@ -2579,7 +2583,7 @@ import matplotlib.pyplot as plt
 ```
 ### plt.setp()
 ```python
-plt.setp(obj=ax1, yticks=ml_mean_gr_ax1["le"], yticklabels=ml_mean_gr_ax1.index)
+plt.setp(obj=ax, yticks=ml_mean_gr_ax["le"], yticklabels=ml_mean_gr_ax.index)
 ```
 ### plt.style.use()
 - `"default"`, `"dark_background"`
@@ -2590,7 +2594,7 @@ for i in range(9):
 ```
 ### plt.subplots()
 ```python
-fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(16, 12)
+fig, axes = plt.subplots(2, 1, figsize=(16, 12))
 ```
 #### fig.colorbar()
 ```python
@@ -2640,7 +2644,7 @@ ax.axis("off")
 ```
 ##### ax.xaxis.set_visible(), ax.yaxis.set_visible()
 ```python
-ax1.xaxis.set_visible(False)
+ax.xaxis.set_visible(False)
 ```
 ##### ax.xaxis.set_label_position(), ax.yaxis.set_label_position()
 ```python
@@ -2648,7 +2652,7 @@ ax.xaxis.set_label_position("top")
 ```
 ##### ax.xaxis.set_ticks_position(), ax.yaxis.set_ticks_position()
 ```python
-ax1.yaxis.set_ticks_position("right")
+ax.yaxis.set_ticks_position("right")
 ```
 - `"top"`, `"bottom"`, `"left"`, `"right"`
 ##### ax.xaxis.set_major_formatter(), ax.yaxis.set_major_formatter()
@@ -2721,8 +2725,8 @@ ax.axhline(y=mean, color="r", linestyle=":", linewidth=2)
 ```
 #### ax.text()
 ```python
-for _, row in ml_gby_ax1.iterrows():
-    ax1.text(y=row["le"]-0.18, x=row["abs_error"], s=round(row["abs_error"], 1), va="center", ha="left", fontsize=10)
+for _, row in ml_gby_ax.iterrows():
+    ax.text(y=row["le"]-0.18, x=row["abs_error"], s=round(row["abs_error"], 1), va="center", ha="left", fontsize=10)
 ```
 #### ax.fill_between()
 ```python
@@ -2735,6 +2739,9 @@ ax.fill_between(x=range(sgd_loss_mean.shape[0]), y1=sgd_loss_mean + sgd_loss_std
 ```python
 import seaborn as sb
 ```
+### sb.set()
+### sb.lmplot()
+### sb.distplot()
 ### sb.scatterplot()
 ```python
 sb.scatterplot(ax=ax, data=df, x="ppa", y="error", hue="id", hue_norm=(20000, 20040), palette="RdYlGn", s=70, alpha=0.5)
@@ -2742,8 +2749,6 @@ sb.scatterplot(ax=ax, data=df, x="ppa", y="error", hue="id", hue_norm=(20000, 20
 ### sb.lineplot()
 ```python
 ax = sb.lineplot(x=data.index, y=data["ppa_ratio"], linewidth=3, color="red", label="흥덕구+서원구 아파트 평균")
-ax = sb.lineplot(x=data.index, y=data["84A"], linewidth=2, color="green", label="가경아이파크 4단지 84A")
-ax = sb.lineplot(x=data.index, y=data["84B"], linewidth=2, color="blue", label="가경아이파크 4단지 84B")
 ```
 ### sb.barplot()
 ```python
@@ -2757,7 +2762,7 @@ sb.countplot(ax=ax, data=cmts202011, x="dep")
 ```python
 sb.countplot(ax=ax, x=label_train)
 ```
-- array, or list of arrays
+- `x`: Array, or List of arrays
 ### sb.replot()
 ```python
 ax = sb.replot(x="total_bill", y="tip", col="time", hue="day", style="day", kind="scatter", data=tips)
@@ -2775,7 +2780,7 @@ ax = sb.stripplot(x=xx, y=yy, data=results_order, jitter=0.4, edgecolor="gray", 
 ax = sb.pairplot(data_for_corr)
 ```
 ### sb.heatmap()
-* http://seaborn.pydata.org/generated/seaborn.heatmap.html
+- Reference: http://seaborn.pydata.org/generated/seaborn.heatmap.html
 ```python
 sb.heatmap(ax=ax, data=gby_occup_genre, annot=True, annot_kws={"size": 10}, fmt=".2f", linewidths=0.2, center=3, cmap="RdBu")
 ```
@@ -3381,9 +3386,6 @@ req = requests.get(url)
 
 
 # statsmodels
-```python
-import statsmodels.api as sm
-```
 ## statsmodels.stats
 ### statsmodels.stats.outliers_influence
 #### variance_inflation_factor()
@@ -3395,7 +3397,10 @@ vif = pd.DataFrame()
 vif["VIF Factor"] = [variance_inflation_factor(data_for_corr.values, i) for i in range(data_for_corr.shape[1])]
 vif["features"] = data_for_corr.columns
 ```
-## sm
+## statsmodels.api
+```python
+import statsmodels.api as sm
+```
 ### sm.tsa
 #### sm.tsa.seasonal_decompose()
 ```python
@@ -3415,6 +3420,12 @@ sm.OLS(y_tr, x_tr).fit()
 ```
 ##### sm.OLS().fit().summary()
 ##### sm.OLS().fit().predict()
+### sm.graphics
+#### sm.graphics.tsa
+##### sm.graphics.tsa.plot_acf(), sm.graphics.sta.plot_pacf()
+```python
+fig = sm.graphics.tsa.plot_acf(ax=axes[0], x=resid_tr["resid"].iloc[1:], lags=100, use_vlines=True)
+```
 
 
 
