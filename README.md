@@ -53,6 +53,7 @@
 
 ## Time Series
 - 김경원님의 "파이썬을 활용한 시계열 데이터 분석 A to Z" 강의 내용을 바탕으로 정리한 자료입니다.
-- Concepts: Statistics(Correlation, Casuality, Mutually Exclusive, Population, Sample, Population Scale Test, Sample Scale Test, Parameter, Sampling Error, Null Hypothesis, Alternative Hypothesis, Test Statistics, Confidence Interval, Significance Level, Confidence Level, p-value, Central Limit Theorem, Multicollinearity, Variance Inflation Factor, R-squared), Time Series(Cross Sectional, Panel, Seasonality, Frequency, Trend, Cycle, Residual, Lagged Variables, Residual Diagnostics, Stationarity, Normality, Autocorrelation, Homoscedasticity, Autocorrelation Function)
+- Correlation, Casuality, Mutually Exclusive, Population, Sample, Population Scale Test, Sample Scale Test, Parameter, Sampling Error, Null Hypothesis, Alternative Hypothesis, Test Statistics, Confidence Interval, Significance Level, Confidence Level, p-value, Central Limit Theorem, Multicollinearity, Variance Inflation Factor, R-squared
+- Cross Sectional, Panel, Seasonality, Frequency, Trend, Cycle, Residual, Lagged Variables, Residual Diagnostics, Stationarity, Normality, Autocorrelation, Homoscedasticity, Autocorrelation Function
 - Libraries: `pandas`, `matplotlib`, `seaborn`, `statsmodels`, `sklearn`
 - Datasets: `Bike Sharing Demand Dataset`
