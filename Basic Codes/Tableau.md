@@ -218,6 +218,8 @@ ATTR([댓글생성자id])), 6)
 - Reference: https://www.youtube.com/watch?v=sEUttHntepU
 ## Copy Format
 - `Copy Formatting` -> `Paste Formatting`
+## Match Mark Color
+- `Mark Cards` -> `Label` -> `Font` -> `Match Mark Color`
 
 
 

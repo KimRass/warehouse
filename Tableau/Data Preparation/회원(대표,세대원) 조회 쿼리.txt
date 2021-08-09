@@ -7,6 +7,8 @@ SELECT A.*
              , AUI.HO_NO
              , AUI.SEP_NO
              , CONCAT(MBRMST.MBR_NAME,'(',MBRMST.LOGIN_ID, ')') AS MBR_NAME
+             , MBRMST.MBR_SEX
+             , MBRMST.MBR_BIRTH
              , MBRMST.MBR_NICKNAME
              , MBRMST.MBR_PHONE
              , MBRMST.MBR_SYS_TY
@@ -44,6 +46,8 @@ SELECT A.*
              , AUI.HO_NO
              , AUI.SEP_NO
              , CONCAT(MBRMST.MBR_NAME,'(',MBRMST.LOGIN_ID, ')') AS MBR_NAME
+             , MBRMST.MBR_SEX
+             , MBRMST.MBR_BIRTH
              , MBRMST.MBR_NICKNAME
              , MBRMST.MBR_PHONE
              , MBRMST.MBR_SYS_TY
