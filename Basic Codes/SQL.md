@@ -497,3 +497,5 @@ personid INT,
 PRIMARY KEY (orderid),
 FOREIGN KEY (personid) REFERENCES persons(personid));
 ```
+## UNION, UNION ALL
+- `UNION` selects only distinct values by default. To allow duplicate values, use `UNION ALL`

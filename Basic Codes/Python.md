@@ -2740,8 +2740,24 @@ ax.fill_between(x=range(sgd_loss_mean.shape[0]), y1=sgd_loss_mean + sgd_loss_std
 import seaborn as sb
 ```
 ### sb.set()
+- `palette`: `"muted"`
+- `color_codes`: If `True` and `palette` is a seaborn palette, remap the shorthand color codes (e.g. `"b"`, `"g"`, `"r"`, etc.) to the colors from this palette.
+- `font_scale`: (float)
 ### sb.lmplot()
+```python
+sb.lmplot(data=resid_tr.iloc[1:], x="idx", y="resid", fit_reg=True, line_kws={"color": "red"}, size=5.2, aspect=2, ci=99, sharey=True)
+```
+- `data`: (DataFrame)
+- `fit_reg`: (bool)If `True`, estimate and plot a regression model relating the x and y variables.
+- `ci`: (int in [0, 100] or None, optional) Size of the confidence interval for the regression estimate. This will be drawn using translucent bands around the regression line. The confidence interval is estimated using a bootstrap; for large datasets, it may be advisable to avoid that computation by setting this parameter to None.
+- `aspect`: Aspect ratio of each facet, so that aspect\*height gives the width of each facet in inches.
 ### sb.distplot()
+```python
+fig, axes = plt.subplots(1, 1, figsize=(7, 5))
+fig = sb.distplot(ax=axes, a=resid_tr["resid"].iloc[1:], norm_hist=True, fit=stats.norm)
+```
+- `a`: (Series, 1d-array, or list)
+- `norm_hist`: (bool, optional) If `True`, the histogram height shows a density rather than a count. This is implied if a KDE or fitted density is plotted.
 ### sb.scatterplot()
 ```python
 sb.scatterplot(ax=ax, data=df, x="ppa", y="error", hue="id", hue_norm=(20000, 20040), palette="RdYlGn", s=70, alpha=0.5)
@@ -3413,6 +3429,11 @@ sm.tsa.seasonal_decompose(raw_all["count"], model="additive").plot()
 ##### sm.tsa.seasonal_decompose().seasonal
 ##### sm.tsa.seasonal_decompose().resid
 - When `model="additive"`, `sm.tsa.seasonal_decompose().observed` is same as `sm.tsa.seasonal_decompose().trend + sm.tsa.seasonal_decompose().seasonal + sm.tsa.seasonal_decompose().resid`
+#### sm.tsa.stattools
+##### sm.tsa.stattools.adfuller()
+```python
+sm.tsa.stattools.adfuller(resid_tr["resid"])
+```
 ### sm.OLS()
 #### sm.OLS().fit()
 ```python
@@ -3425,6 +3446,12 @@ sm.OLS(y_tr, x_tr).fit()
 ##### sm.graphics.tsa.plot_acf(), sm.graphics.sta.plot_pacf()
 ```python
 fig = sm.graphics.tsa.plot_acf(ax=axes[0], x=resid_tr["resid"].iloc[1:], lags=100, use_vlines=True)
+```
+### sm.stats
+#### sm.stats.diagnostic
+##### sm.stats.diagnostic.acorr_ljungbox()
+```python
+Autocorrelation = pd.DataFrame(sm.stats.diagnostic.acorr_ljungbox(resid_tr["resid"], lags=[1, 5, 10, 50]), index=["Test Statistic", "p-value"], columns=["Autocorr(lag1)", "Autocorr(lag5)", "Autocorr(lag10)", "Autocorr(lag50)"])
 ```
 
 
@@ -3518,18 +3545,21 @@ cols = [0, 2, 5, 6, 14, 0, 1]
 sparse_matrix = csr_matrix((vals,  (rows,  cols)))
 ```
 #### sparse_mat.todense()
-
-
-
 ## stats
 ```python
 from scipy import stats
 ```
+### stats.norm
 ### stats.beta
 #### stats.beta.pdf()
 ```python
 ys = stats.beta.pdf(xs, a, b)
 ```
+### stats.shapiro()
+```python
+Normality = pd.DataFrame([stats.shapiro(resid_tr["resid"])], index=["Normality"], columns=["Test Statistic", "p-value"]).T
+```
+- Return test statistic and p-value.
 
 
 

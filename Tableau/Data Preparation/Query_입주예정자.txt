@@ -1,0 +1,32 @@
+SELECT
+    A.mbr_id,
+    G.apt_name,
+    H.dng_no,
+    H.ho_no,
+    B.crd_name AS mbr_sys_ty_name,
+    C.crd_name AS mbr_st_name,
+    CASE A.mbr_sex
+    WHEN '0' THEN '남자'
+    WHEN '1' THEN '여자' END,
+    A.mbr_birth,
+    A.regist_dt AS mbr_reg_dt,
+    A.mbr_delete_date AS mbr_del_dt
+FROM
+    hdc_mbr.mbr_mst AS A
+    LEFT JOIN hdc_sys.sys_code AS B
+        ON A.mbr_sys_ty = B.crd
+    LEFT JOIN hdc_sys.sys_code AS C
+        ON A.mbr_st = C.crd
+    INNER JOIN hdc_mbr.mbr_cert AS E
+        ON A.mbr_id = E.mbr_id
+    INNER JOIN hdc_mbr.mbr_apt_cert_his AS F
+        ON E.mbr_acert_id = F.apt_cert_id
+    INNER JOIN hdc_apt.apt_mst AS G
+        ON F.apt_id = G.apt_id
+    INNER JOIN hdc_apt.apt_unit_info AS H
+        ON F.apt_unit_id = H.unit_id
+WHERE
+    A.mbr_admin_yn = 'N'
+    AND	A.mbr_sys_ty = 'C000004001'
+ORDER BY
+    A.regist_dt DESC;
