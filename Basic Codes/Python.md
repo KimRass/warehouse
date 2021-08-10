@@ -374,7 +374,6 @@ raw_data = pd.read_table("steam.txt", names=["label", "review"])
 ```python
 data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거래가 전처리 완료_200928-3.csv")
 ```
-- '
 - `index=False`
 ## pd.crosstab()
 ```python
@@ -385,14 +384,13 @@ pd.crosstab(index=data["count"], columns=data["weather"], margins=True)
 data_without = pd.concat([data_without, data_subset], axis=0)
 ```
 ```python
-neg_sampling = pd.concat([uses_df]*3)
-```
-```python
 dfs = []
 for filename in filenames:
     dfs.append(pd.read_csv(filename))
-data = pd.concat(dfs, ignore_index=True)
+data = pd.concat(dfs, ignore_index=True, axis=0)
 ```
+- `join`: (`"inner"`, `"outer"`, default `"outer"`)
+- `ignore_index`: If `True`, do not use the index values along the concatenation axis. The resulting axis will be labeled `0`, …, `n - 1`.
 ## pd.pivot_table()
 ```python
 pivot = pd.pivot_table(uses_df[["daytime", "weekday", "cnt"]], index="daytime", columns="weekday", values="cnt", aggfunc=np.sum)
@@ -2748,7 +2746,7 @@ import seaborn as sb
 sb.lmplot(data=resid_tr.iloc[1:], x="idx", y="resid", fit_reg=True, line_kws={"color": "red"}, size=5.2, aspect=2, ci=99, sharey=True)
 ```
 - `data`: (DataFrame)
-- `fit_reg`: (bool)If `True`, estimate and plot a regression model relating the x and y variables.
+- `fit_reg`: (bool) If `True`, estimate and plot a regression model relating the x and y variables.
 - `ci`: (int in [0, 100] or None, optional) Size of the confidence interval for the regression estimate. This will be drawn using translucent bands around the regression line. The confidence interval is estimated using a bootstrap; for large datasets, it may be advisable to avoid that computation by setting this parameter to None.
 - `aspect`: Aspect ratio of each facet, so that aspect\*height gives the width of each facet in inches.
 ### sb.distplot()
@@ -3453,6 +3451,11 @@ fig = sm.graphics.tsa.plot_acf(ax=axes[0], x=resid_tr["resid"].iloc[1:], lags=10
 ```python
 Autocorrelation = pd.DataFrame(sm.stats.diagnostic.acorr_ljungbox(resid_tr["resid"], lags=[1, 5, 10, 50]), index=["Test Statistic", "p-value"], columns=["Autocorr(lag1)", "Autocorr(lag5)", "Autocorr(lag10)", "Autocorr(lag50)"])
 ```
+##### sm.stats.diagnostic.het_goldfeldquandt()
+```python
+Heteroscedasticity = pd.DataFrame([sm.stats.diagnostic.het_goldfeldquandt(y=resid_tr["resid"], x=x_tr.values, alternative="two-sided")], index=["Heteroscedasticity"], columns=["Test Statistic", "p-value", "Alternative"]).T
+```
+- `alternative`: Specity the alternative for the p-value calculation.
 
 
 
