@@ -56,4 +56,4 @@
 - Datasets: Bike Sharing Demand Dataset
 - Libraries: `pandas`, `matplotlib`, `seaborn`, `statsmodels`, `sklearn`
 - Correlation, Casuality, Mutually Exclusive, Population, Sample, Population Scale Test, Sample Scale Test, Parameter, Sampling Error, Null Hypothesis, Alternative Hypothesis, Test Statistics, Confidence Interval, Significance Level, Confidence Level, p-value, Central Limit Theorem, Multicollinearity, Variance Inflation Factor, R-squared
-- Cross Sectional, Panel, Seasonality, Frequency, Trend, Cycle, Residual, Lagged Variables, Residual Diagnostics, Stationarity, Normality, Autocorrelation, Homoscedasticity, Autocorrelation Function
+- Cross Sectional, Panel, Seasonality, Frequency, Trend, Cycle, Residual, Lagged Variables, Residual Diagnostics, Stationarity, Normality, Autocorrelation, Homoscedasticity, Augmented Dickey-Fuller(ADF) Test, Kwiatkowski Phillips Schmidt Shin(KPSS) Test, Shapiro-Wilk Test, Ljung-Box Test, Durbin-Watson Statistic, Goldfeld-Quandt Test
