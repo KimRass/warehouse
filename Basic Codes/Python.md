@@ -367,8 +367,11 @@ data = pd.read_excel("계약일보_속초2차.xlsx", names=["코드", "현장명
 ```python
 ratings_train = pd.read_table("ratings_train.txt", usecols=["document", "label"])
 ```
+- `names`: List of column names to use.
+- `usecols`
+### pd.read_sql()
 ```python
-raw_data = pd.read_table("steam.txt", names=["label", "review"])
+mall = pd.read_sql(query, conn)
 ```
 ## df.to_csv()
 ```python
@@ -688,7 +691,7 @@ adj_ui = ui.sub(user_bias, axis=0).sub(item_bias, axis=1)
 ```python
 plays_df.groupby(["user_id"]).size().rename("n_arts")
 ```
-## ser.value_counts()
+## df.value_counts(), ser.value_counts()
 ```python
 ratings_df["movie_id"].value_counts()
 ```
@@ -803,6 +806,9 @@ np.array_equal(arr1, arr2)
 ```python	
 np.arange(5, 101, 5)
 ```
+- `start`: Start of interval. The interval includes this value. The default start value is 0.
+- `stop`: End of interval. The interval does not include this value, except in some cases where step is not an integer and floating point round-off affects the length of out.
+- `step`
 ## np.ones()
 ```python
 np.ones(shape=(2, 3, 4))
@@ -3296,10 +3302,6 @@ import pymysql
 ## pymysql.connect()
 ```python
 connect = pymysql.connect(host="localhost", user="root", password="1453", db="masterdata")
-```
-### pd.read_sql()
-```python
-pd.read_sql("show tables", connect)
 ```
 
 

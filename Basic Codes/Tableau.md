@@ -250,3 +250,5 @@ ATTR([댓글생성자id])), 6)
 - Move Fileds to Columns, Rows, Filters or Text respectively.
 ## Ctrl + H
 - Presentation Mode.
+## Alt + D -> X
+- `Refresh All Extracts...`
