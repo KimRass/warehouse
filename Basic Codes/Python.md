@@ -378,6 +378,12 @@ mall = pd.read_sql(query, conn)
 data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거래가 전처리 완료_200928-3.csv")
 ```
 - `index=False`
+## df.to_excel()
+- `sheet_name`: (str, default "Sheet1")
+- `na_rep`: (str, default "") Missing data reprsentation.
+- `float_format`
+- `header`: If a list of string is given it is assumed to be aliases for the column names.
+- `merge_cells`
 ## pd.crosstab()
 ```python
 pd.crosstab(index=data["count"], columns=data["weather"], margins=True)
@@ -467,18 +473,24 @@ pd.plotting.scatter_matrix(data, figsize=(18, 18), diagonal="kde")
 ```python
 fig = pd.plotting.lag_plot(ax=axes[0], series=resid_tr["resid"].iloc[1:], lag=1)
 ```
+## df.style
+### df.style.set_precision()
+### df.style.set_properties()
+- `"font_size"`
+### df.style.bar()
+- `color`
+### df.style.background_gradient()
+```python
+data.corr().style.background_gradient(cmap="Blues").set_precision(1).set_properties(**{"font-size":"9pt"})
+```
+- `cmap`
 ## df.info()
 ## df.describe()
 ```python
 raw_data.describe(include="all").T
 ```
+- Show number of samples, mean, standard deviation, minimum, Q1(lower quartile), Q2(median), Q3(upper quantile), maximum of each independent variable.
 ## df.corr()
-### df.corr().style
-#### df.corr().style.background_gradient()
-##### df.corr().style.background_gradient().set_precision(), df.corr().style.background_gradient().set_properties()
-```python
-data.corr().style.background_gradient(cmap="Blues").set_precision(1).set_properties(**{"font-size":"9pt"})
-``` 
 ## df.shape
 ## df.ndim
 ## df.quantile()
@@ -974,6 +986,9 @@ np.linalg.norm(x, axis=1, ord=2)
 ```
 - `ord=1`: L1 normalization.
 - `ord=2`: L2 normalization.
+### np.linalg.solve()
+### np.linalg.cond()
+### np.linalg.hilbert()
 ## np.sqrt()
 ## np.power()
 ## np.exp()
@@ -1037,18 +1052,14 @@ from sklearn.preprocessing import LabelEncoder
 ```python
 le = LabelEncoder()
 ```
-### StandardScaler()
+### StandardScaler(), MinMaxScaler(), RobustScaler(), Normalizer()
 ```python
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, Normalizer
 ```
 ```python
 sc = StandardScaler()
 ```
-#### sc.fit_trainsform()
-```python
-x = sc.fit_transform(data.drop(["money"], axis=1))
-x = pd.DataFrame(x, columns=data.drop(["money"], axis=1).columns)
-```
+#### sc.fit(), sc.transform(), sc.fit_transform()
 ## sklearn.decomposition
 ### PCA()
 ```python
@@ -1065,16 +1076,8 @@ pca_mat = pca.fit_transform(user_emb_df)
 ```python
 le = LabelEncoder()
 ```
-#### le.fit()
-```python
-le.fit(data["name_addr"])
-```
-#### le.trainsform()
-```ptyhon
-data["id"] = le.transform(data["name_addr"])
-```
-#### le.fit_trainsform()
-#### le.inverse_trainsform()
+#### le.fit(), le.transform(), le.fit_transform()
+#### le.inverse_transform()
 #### le.classes_
 ```python
 label2idx = dict(zip(le.classes_, set(label_train)))
@@ -2687,9 +2690,14 @@ ax.grid(axis="x", color="White", alpha=0.3, linestyle="--", linewidth=2)
 ax.plot(df1.index, df1["mean"], linestyle="dashdot", linewidth=1.5, color="black", label="10년 전(09.08 ~ 10.07) 전국 실거래가")
 ```
 ```python
-raw_all[["count"]].rolling(24).mean().plot.line(figsize=(20,6), linewidth=3, fontsize=20, xlim=("2012-01-01", "2012-06-01"), ylim=(0,  1000))
+fig = raw_all[["count"]].rolling(24).mean().plot.line(ax=axes, linewidth=3, fontsize=20, xlim=("2012-01-01", "2012-06-01"), ylim=(0,  1000))
 ```
 - `linestyle`: `"dashdot"`|`"dashed"`|`"solid"`|`"dotted"`
+- `linewidth`
+- `color`
+- `label`
+- `fontsize`
+- `xlim`, `ylim`
 ### df.plot.pie(), ser.plot.pie()
 ```python
 cnt_genre.sort_values("movie_id", ascending=False)["movie_id"].plot.pie(ax=ax, startangle=90, legend=True)
@@ -3410,8 +3418,8 @@ from statsmodels.stats.outliers_influence import variance_inflation_factor
 ```
 ```python
 vif = pd.DataFrame()
-vif["VIF Factor"] = [variance_inflation_factor(data_for_corr.values, i) for i in range(data_for_corr.shape[1])]
-vif["features"] = data_for_corr.columns
+vif["vif"] = [variance_inflation_factor(x_tr.values, i) for i in range(x_tr.shape[1])]
+vif["feat"] = x_tr.columns
 ```
 ## statsmodels.api
 ```python
@@ -3440,6 +3448,23 @@ sm.tsa.stattools.adfuller(resid_tr["resid"])
 sm.OLS(y_tr, x_tr).fit()
 ```
 ##### sm.OLS().fit().summary()
+- `coef`: The measurement of how change in the independent variable affects the dependent variable. Negative sign means inverse relationship. As one rises, the other falls.
+- `R-squared`, `Adj. R-squared`
+- `P>|t|`: p-value. Measurement of how likely the dependent variable is measured through the model by chance. That is, there is a (p-value) chance that the independent variable has no effect on the dependent variable, and the results are produced by chance. Proper model analysis will compare the p-value to a previously established threshold with which we can apply significance to our coefficient. A common threshold is 0.05.
+- `Durbin-Watson`: Durbin-Watson statistic.
+- `Skew`: Skewness.
+- `Kurtosis`: Kurtosis.
+- `Cond. No.`: Condition number of independent variables.
+##### sm.OLS().fit().rsquared_adj
+- Return `Adj. R-squared` of the independent variables.
+##### sm.OLS().fit().fvalue
+##### sm.OLS().fit().f_pvalue
+##### sm.OLS().fit().aic
+##### sm.OLS().fit().bic
+##### sm.OLS().fit().params
+- Return `coef`s of the independent variables.
+##### sm.OLS().fit().pvalues
+- Return `P>|t|`s of the independent variables.
 ##### sm.OLS().fit().predict()
 ### sm.graphics
 #### sm.graphics.tsa
