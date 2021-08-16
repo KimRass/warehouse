@@ -1,4 +1,11 @@
 # Python
+## Modules Auto Reload
+```python
+%reload_ext autoreload
+%autoreload 1
+%aimport module
+```
+- Reload all modules imported with %aimport every time before executing the Python code typed.
 ## TypeError
 ## StopIteration
 ## TypeError: unhashable type: ‘set’
@@ -15,15 +22,9 @@
 ## hash()
 ## input()
 ```python
-input("숫자 입력  : ")
-```
-```python
 list(map(int, input("숫자 입력  : ").split()))
 ```
 ## print()
-```python
-print(..., end="")
-```
 - `sep="\n"`
 ## isinstance()
 ```python
@@ -338,15 +339,9 @@ pd.set_option("mode.chained_assignment",  None)
 ```
 - SettingWithCopyWarning 무시
 ## pd.DataFrame()
-- Generate from a List.
-```python
-all_users = pd.DataFrame(all_users, columns=["본부", "팀", "이름"])
-```
-- Generate from a List.
-```python
-gby_genre = pd.DataFrame({"mean":genre2rating, "n_rating":genre2n_rating}).sort_values(by=["mean"])
-```
-- Generate from a Series.
+- `data`: (Array, List, List of Tuples, Dictionary of List)
+- `index`
+- `columns`
 ## pd.Series()
 ```python
 idf_ser = pd.Series(idf, index=vocab)
@@ -1091,12 +1086,8 @@ from sklearn.pipeline import Pipeline
 model = Pipeline([("vect", CountVectorizer()), ("model", SVC(kernel="poly", degree=8))])
 ```
 - 파이프라인으로 결합된 모형은 원래의 모형이 가지는 fit, predict 메서드를 가지며 각 메서드가 호출되면 그에 따른 적절한 메서드를 파이프라인의 각 객체에 대해서 호출한다. 예를 들어 파이프라인에 대해 fit 메서드를 호출하면 전처리 객체에는 fit_transform이 내부적으로 호출되고 분류 모형에서는 fit 메서드가 호출된다. 파이프라인에 대해 predict 메서드를 호출하면 전처리 객체에는 transform이 내부적으로 호출되고 분류 모형에서는 predict 메서드가 호출된다.
-## sklearn.linear_model
-```python
-from sklearn.linear_model import SGDClassifier
-```
 ## sklearn.svm
-### SVC()
+### SVC(), SVR()
 ```python
 from sklearn.svm import SVC
 ```
@@ -1104,9 +1095,9 @@ from sklearn.svm import SVC
 SVC(kernel="linear")
 ```
 - `kernel="linear"`
-- `kernel="poly"` : gamma, coef0, degree
-- `kernel="rbf"` : gamma
-- `kernel="sigmoid"` : gomma, coef0
+- `kernel="poly"`: gamma, coef0, degree
+- `kernel="rbf"`: gamma
+- `kernel="sigmoid"`: gomma, coef0
 ## sklearn.naive_bayes
 ```python
 from sklearn.naive_bayes import MultinomialNB
@@ -1115,6 +1106,11 @@ from sklearn.naive_bayes import MultinomialNB
 ```python
 from sklearn.linear_model import SGDClassifier
 ```
+### Ridge(), Lasso(), ElasticNet()
+```python
+fit = Ridge(alpha=alpha, fit_intercept=True, normalize=True, random_state=123).fit(x, y)
+```
+#### fit.intercept_, fit.coef_
 ### SGDClassifier
 ```python
 model = SGDClassifier(loss="perceptron", penalty="l2", alpha=1e-4, random_state=42, max_iter=100)
@@ -1130,8 +1126,18 @@ train_acc = np.mean(train_pred == train_y)
 - `penalty` : regularization term.
     - `penalty="l1"`
     - `penalty="l2"` : the standard regularizer for linear SVM models.
-- `"alpha"` : constant that multiplies the regularization term. The higher the value, the stronger the regularization. Also used to compute the learning rate when set to learning_rate is set to ‘optimal’.
-- "max_iter" : The maximum number of passes over the training data (aka epochs).
+- `alpha`: constant that multiplies the regularization term. The higher the value, the stronger the regularization. Also used to compute the learning rate when set to learning_rate is set to ‘optimal’.
+- max_iter` : The maximum number of passes over the training data (aka epochs).
+## sklearn.ensemble
+### RandomForestRegressor(), GradientBoostingRegressor(), AdaBoostRegressor()
+```python
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor
+```
+## sklearn.tree
+### DecisionTreeRegressor()
+```python
+from sklearn.tree import DecisionTreeRegressor
+```
 ## sklearn.datasets
 ### sklearn.datasets.fetch_20newsgroups()
 ```python
@@ -4310,6 +4316,7 @@ model.reg_alpha=0.1
 model.objective = custom_se
 model.n_jobs=5
 ```
+- `n_estimators`
 ### model.fit()
 ```python
 model.fit(train_X, train_y, eval_set=[(train_X, train_y), (val_X, val_y)], early_stopping_rounds=50, verbose=True)
