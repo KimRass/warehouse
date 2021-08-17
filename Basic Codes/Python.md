@@ -24,6 +24,7 @@
 ```python
 list(map(int, input("숫자 입력  : ").split()))
 ```
+## display()
 ## print()
 - `sep="\n"`
 ## isinstance()
@@ -439,6 +440,11 @@ ratings_df["rated_at"] = pd.to_datetime(ratings_df["rated_at"], unit="s")
 ```python
 appo["end"] = appo["end"].dt.normalize()
 ```
+## pd.date_range()
+```python
+raw.time = pd.date_range(start="1974-01-01", periods=len(raw), freq="M")
+```
+- Return a fixed frequency DatetimeIndex.
 ## pd.merge()
 ```python
 data = pd.merge(data, start_const, on=["지역구분", "입찰년월"], how="left")
@@ -570,10 +576,7 @@ data = data.set_index(["id", "name"])
 ```
 - `inplace=True`
 ## df.reset_index()
-```python
-cumsum.reset_index()
-```
-- `drop=True`: Reset the index to the default integer index. Default False.
+- `drop`: (bool, default False) Reset the index to the default integer index.
 - `level`: Only remove the given levels from the index. Removes all levels by default.
 ## df.loc()
 ```python
@@ -718,7 +721,7 @@ all_seen = ratings_df_target_set[ratings_df_target_set.map(lambda x : len(x)==5)
 ```python
 data.loc[:, cats] = data.loc[:, cats].astype("category")
 ```
-- "int32", "int63", "float64", "object", "category"
+- `"int32"`, `"int63"`, `"float64"`, `"object"`, `"category"`
 - np.uint8 : 0~255, np.uint16 : 0~65,535, np.uint32 : 0~4,294,967,295
 ## ser.hist()
 ## ser.cumsum()
@@ -2210,24 +2213,18 @@ import datetime
 ```python
 datetime.datetime(2018, 5, 19)
 ```
-### total_seconds()
-```python
-(t2 - t1).total_seconds()
-```
-## datetime.datetime
+- Require three parameters in sequence to create a date; year, month, day
 ### datetime.datetime.now()
-```python
-datetime.datetime.now()
-```
-## timestamp()
-```python
-datetime.datetime.now().timestamp()
-```
+### timestamp()
 - 1970년 1월 1일 0시 0분 0초로부터 경과한 시간을 초 단위로 반환합니다.
 ## datetime.datetime.strftime()
-## datetime.datetime.strptime()
 ```python
 t2 = datetime.datetime.strptime("12:14", "%H:%M")
+```
+## datetime.timedelta()
+### datetime.timedelta.total_seconds()
+```python
+(t2 - t1).total_seconds()
 ```
 
 
@@ -2240,6 +2237,25 @@ from dateutil.relativedelta import relativedelta
 ```
 ```python
 data["년-월"] = data["년-월"].apply(lambda x:x + relativedelta(months=1) - datetime.timedelta(days=1))
+```
+
+
+
+# time
+```python
+import time
+```
+## time.time()
+```python
+time_before=round(time.time())
+```
+```python
+print("{}초 경과".format(round(time.time())-time_before))
+```
+## time.localtime()
+## time.strftime()
+```python
+time.strftime("%Y%m%d", time.localtime(time.time()))
 ```
 
 
@@ -3478,6 +3494,7 @@ sm.OLS(y_tr, x_tr).fit()
 ```python
 fig = sm.graphics.tsa.plot_acf(ax=axes[0], x=resid_tr["resid"].iloc[1:], lags=100, use_vlines=True)
 ```
+- `title`
 ### sm.stats
 #### sm.stats.diagnostic
 ##### sm.stats.diagnostic.acorr_ljungbox()
@@ -3512,25 +3529,6 @@ import sys
 ## sys.path
 ```python
 sys.path.append("c:/users/82104/anaconda3/envs/tf2.3/lib/site-packages")
-```
-
-
-
-# time
-```python
-import time
-```
-## time.time()
-```python
-time_before=round(time.time())
-```
-```python
-print("{}초 경과".format(round(time.time())-time_before))
-```
-## time.localtime()
-## time.strftime()
-```python
-time.strftime("%Y%m%d", time.localtime(time.time()))
 ```
 
 
