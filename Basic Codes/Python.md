@@ -504,12 +504,11 @@ df.groupby(["Pclass", "Sex"], as_index=False)
 ```
 - iterable한 tuple((group, 해당 group의 DataFrame))을 반환합니다.
 ### df.groupby().groups
-### df.groupby().mean()
+### df.groupby().mean(), df.groupby().count()
+- Return DataFrame.
 ### df.groupby().size()
-- 형태 : ser
-### df.groupby().count()
-- 형태 : df
-### df.groupby()[].apply(set)
+- Return Series.
+## df.groupby().apply(set)
 ```python
 over4.groupby("user_id")["movie_id"].apply(set)
 ```
@@ -517,7 +516,6 @@ over4.groupby("user_id")["movie_id"].apply(set)
 ```python
 df_pivoted = df.pivot("col1", "col2", "col3")
 ```
-- 참고자료 : [https://datascienceschool.net/view-notebook/4c2d5ff1caab4b21a708cc662137bc65/](https://datascienceschool.net/view-notebook/4c2d5ff1caab4b21a708cc662137bc65/)
 ## df.stack()
 - 열 인덱스 -> 행 인덱스로 변환
 ## df.unstack()
