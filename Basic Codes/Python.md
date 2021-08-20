@@ -14,11 +14,19 @@
 ## TypeError: sequence index must be integer, not 'slice'
 - This error raises because `collections.deque` cannot be sliced.
 ## bin(), oct(), hex()
-- &: AND
-- |: OR
-- ^: XOR
-- ~
-- \<\<, \>\>:
+- `&`: AND
+- `|`: OR
+- `^`: XOR
+- `~`
+- `<<`, `>>`
+## open()
+```python
+f = open("D:/Github/Work/Tableau/datamart_password.txt", "r")
+```
+### f.readline(), f.readlines()
+```python
+password = f.readline()
+```
 ## hash()
 ## input()
 ```python
@@ -830,6 +838,10 @@ img_paded = np.full(shape=(tar_height, tar_width, 3), fill_value=128.)
 ## np.eye()
 ```python
 np.eye(4)
+```
+## np.log()
+```python
+np.log(data)
 ```
 ## np.ones_like(), np.zeros_like()
 ```python
@@ -2623,6 +2635,7 @@ for i in range(9):
 ```python
 fig, axes = plt.subplots(2, 1, figsize=(16, 12))
 ```
+### plt.show()
 #### fig.colorbar()
 ```python
 cbar = fig.colorbar(ax=ax, mappable=scatter)
@@ -2648,10 +2661,8 @@ ax.set(title="Example", xlabel="xAxis", ylabel="yAxis", xlim=[0, 1], ylim=[-0.5,
 - `xlabel`, `ylabel`
 - `xlim`, `ylim`
 - `xticks`, `yticks`
-#### ax.set_title()
-```python
-ax.set_title("Example", size=20)
-```
+#### ax.set_title(), plt.title()
+- `size`: (float)
 #### ax.set_xlabel(), ax.set_ylabel()
 ```python
 ax.set_xlabel("xAxis", size=15)
@@ -2700,24 +2711,24 @@ ax.set_yticks(np.arange(1, 1.31, 0.05))
 ```python
 ax.legend(fontsize=14, loc="best")
 ```
-- `loc`: `"best"`|`"upper right"`
+- `loc`: (`"best"`, `"upper right"`)
 #### ax.grid()
 ```python
 ax.grid(axis="x", color="White", alpha=0.3, linestyle="--", linewidth=2)
 ```
 #### ax.plot(), df.plot.line(), ser.plot.line()
 ```python
-ax.plot(df1.index, df1["mean"], linestyle="dashdot", linewidth=1.5, color="black", label="10년 전(09.08 ~ 10.07) 전국 실거래가")
+fig = raw_all[["count"]].rolling(24).mean().plot.line(ax=axes, lw=3, fontsize=20, xlim=("2012-01-01", "2012-06-01"), ylim=(0,  1000))
 ```
-```python
-fig = raw_all[["count"]].rolling(24).mean().plot.line(ax=axes, linewidth=3, fontsize=20, xlim=("2012-01-01", "2012-06-01"), ylim=(0,  1000))
-```
-- `linestyle`: `"dashdot"`|`"dashed"`|`"solid"`|`"dotted"`
-- `linewidth`
-- `color`
+- `ls`: (`"-"`, `"--"`, `"-."`, `":"`)
+- `lw`
+- `c`: color
 - `label`
 - `fontsize`
+- `title`
+- `legend`: (bool)
 - `xlim`, `ylim`
+- Reference: https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D
 ### df.plot.pie(), ser.plot.pie()
 ```python
 cnt_genre.sort_values("movie_id", ascending=False)["movie_id"].plot.pie(ax=ax, startangle=90, legend=True)
@@ -2753,8 +2764,9 @@ raw_data.boxplot(column="count", by="season", grid=False, figsize=(12,5))
 ```
 #### ax.axhline(), ax.axvline()
 ```python
-ax.axhline(y=mean, color="r", linestyle=":", linewidth=2)
+fig = ax.axhline(y=mean, color="r", ls=":", lw=2)
 ```
+- Return `Line2D`
 #### ax.text()
 ```python
 for _, row in ml_gby_ax.iterrows():
@@ -3342,6 +3354,10 @@ import pymssql
 ```python
 conn = pymssql.connect(server="125.60.68.233", database="eiparkclub", user="myhomie", password="homie2021!@#", charset="utf8")
 ```
+### conn.cursor()
+```python
+cur = conn.cursor()
+```
 
 
 
@@ -3444,6 +3460,10 @@ vif["feat"] = x_tr.columns
 ## statsmodels.api
 ```python
 import statsmodels.api as sm
+```
+### sm.qqplot()
+```python
+fig = sm.qqplot(ax=axes[0], data=data["value"], fit=True, line="45")
 ```
 ### sm.tsa
 #### sm.tsa.seasonal_decompose()
@@ -3592,6 +3612,14 @@ ys = stats.beta.pdf(xs, a, b)
 Normality = pd.DataFrame([stats.shapiro(resid_tr["resid"])], index=["Normality"], columns=["Test Statistic", "p-value"]).T
 ```
 - Return test statistic and p-value.
+### stats.boxcox_normalplot()
+```python
+x, y = stats.boxcox_normplot(data["value"], la=-3, lb=3)
+```
+### stats.boxcox()
+```python
+y_trans, l_opt = stats.boxcox(data["value"])
+```
 
 
 
