@@ -240,6 +240,8 @@ ATTR([댓글생성자id])), 6)
 - `Edit Blend Relationships...`
 ## Alt + F -> A
 - `Save As...`
+## Alt + S -> W
+- `Publish Workbook...`
 ## Ctrl + Tab, Ctrl + PgDn
 - Move to next Worksheet, Dashboard, or Story.
 ## Ctrl + Shift + Tab, Ctrl + PgUp
