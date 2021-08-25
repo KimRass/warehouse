@@ -12,6 +12,10 @@
 ```
 LEFT("█████",Round([사용하실 측정값]*5,0))
 ```
+## CONTAINS()
+```
+CONTAINS([mbr_id], "MBR")
+```
 
 
 

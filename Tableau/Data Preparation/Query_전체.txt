@@ -1,0 +1,142 @@
+select V.*
+from (
+   select V1.*
+   from (
+      SELECT A.*
+      FROM (
+              SELECT MBRMST.MBR_ID
+                  , MBRMST.LOGIN_ID
+                   , APTMST.APT_NAME
+                   , AUI.DNG_NO
+                   , AUI.HO_NO
+                   , AUI.SEP_NO
+                   , CONCAT(MBRMST.MBR_NAME,'(',MBRMST.LOGIN_ID, ')') AS MBR_NAME
+                   , MBRMST.MBR_SEX
+                   , MBRMST.MBR_BIRTH
+                   , MBRMST.MBR_NICKNAME
+                   , MBRMST.MBR_PHONE
+                   , MBRMST.MBR_SYS_TY
+                   , C1.CRD_NAME AS MBR_SYS_TY_NAME
+                   , MBRMST.MBR_ST
+                   , C2.CRD_NAME AS MBR_ST_NAME
+                   , MBRMST.REGIST_DT
+                   , HMMD.MBR_LAST_ACCESS_DT
+                   , MBRCERT.MBR_ACERT_ID
+                   , APTMST.APT_ID
+                   , C3.CRD_GROUP AS LOC1
+                   , APTMST.APT_ADDR_CODE
+                   , MBRMST.MBR_MEMO
+                   , TO_CHAR(MBRMST.MBR_LEAVING_EXPECTED_DATE, 'YYYY/MM/DD') AS MBR_LEAVING_EXPECTED_DATE 
+                   , AUI.UNIT_ID
+                   , MBRMST.MBR_ADMIN_YN
+                   , MBRMST.MBR_FAMILLY_TY
+                   , CASE WHEN MBRMST.MBR_DELETE_DATE IS NULL THEN ''
+                          WHEN MBRMST.MBR_DELETE_DATE IS NOT NULL THEN TO_CHAR(MBRMST.MBR_DELETE_DATE,'YYYY/MM/DD')
+                      END MBR_DELETE_DATE 
+                FROM HDC_MBR.MBR_MST MBRMST
+          LEFT JOIN HDC_MBR.MBR_DEVICE HMMD ON MBRMST.MBR_ID = HMMD.MBR_ID
+           LEFT JOIN HDC_SYS.SYS_CODE C1 ON MBRMST.MBR_SYS_TY = C1.CRD
+           LEFT JOIN HDC_SYS.SYS_CODE C2 ON MBRMST.MBR_ST = C2.CRD
+         INNER JOIN HDC_MBR.MBR_CERT MBRCERT ON MBRMST.MBR_ID = MBRCERT.MBR_ID
+         INNER JOIN HDC_MBR.MBR_APT_CERT_HIS ACH ON MBRCERT.MBR_ACERT_ID = ACH.APT_CERT_ID
+         INNER JOIN HDC_APT.APT_MST APTMST ON ACH.APT_ID = APTMST.APT_ID
+          INNER JOIN HDC_APT.APT_UNIT_INFO AUI ON ACH.APT_UNIT_ID = AUI.UNIT_ID
+          LEFT JOIN HDC_SYS.SYS_CODE C3 ON APTMST.APT_ADDR_CODE = C3.CRD
+           UNION
+              SELECT MBRMST.MBR_ID
+                   , MBRMST.LOGIN_ID
+                   , APTMST.APT_NAME
+                   , AUI.DNG_NO
+                   , AUI.HO_NO
+                   , AUI.SEP_NO
+                   , CONCAT(MBRMST.MBR_NAME,'(',MBRMST.LOGIN_ID, ')') AS MBR_NAME
+                   , MBRMST.MBR_SEX
+                   , MBRMST.MBR_BIRTH
+                   , MBRMST.MBR_NICKNAME
+                   , MBRMST.MBR_PHONE
+                   , MBRMST.MBR_SYS_TY
+                   , C1.CRD_NAME AS MBR_SYS_TY_NAME
+                   , MBRMST.MBR_ST
+                   , C2.CRD_NAME AS MBR_ST_NAME
+                   , MBRMST.REGIST_DT
+                   , HMMD.MBR_LAST_ACCESS_DT
+                   , MBRCERT.MBR_ACERT_ID
+                   , APTMST.APT_ID
+                   , C3.CRD_GROUP AS LOC1
+                   , APTMST.APT_ADDR_CODE
+                   , MBRMST.MBR_MEMO
+                   , TO_CHAR(MBRMST.MBR_LEAVING_EXPECTED_DATE, 'YYYY/MM/DD') AS MBR_LEAVING_EXPECTED_DATE 
+                   , AUI.UNIT_ID
+                   , MBRMST.MBR_ADMIN_YN
+                   , MBRMST.MBR_FAMILLY_TY
+                   , CASE WHEN MBRMST.MBR_DELETE_DATE IS NULL THEN ''
+                          WHEN MBRMST.MBR_DELETE_DATE IS NOT NULL THEN TO_CHAR(MBRMST.MBR_DELETE_DATE,'YYYY/MM/DD')
+                      END MBR_DELETE_DATE
+                FROM HDC_MBR.MBR_MST MBRMST
+           LEFT JOIN HDC_MBR.MBR_DEVICE HMMD ON MBRMST.MBR_ID = HMMD.MBR_ID
+           LEFT JOIN HDC_SYS.SYS_CODE C1 ON MBRMST.MBR_SYS_TY = C1.CRD
+           LEFT JOIN HDC_SYS.SYS_CODE C2 ON MBRMST.MBR_ST = C2.CRD
+         INNER JOIN HDC_MBR.MBR_GROUP_MBR MGM ON MBRMST.MBR_ID = MGM.MBR_ID AND MGM.GROUP_MBR_INVITE_ST != 'C000002009'
+          INNER JOIN HDC_MBR.MBR_GROUP MG ON MGM.GRP_ID = MG.GRP_ID
+           LEFT JOIN HDC_MBR.MBR_CERT MBRCERT ON MG.GRP_OWNER = MBRCERT.MBR_ID
+           LEFT JOIN HDC_MBR.MBR_APT_CERT_HIS ACH ON MBRCERT.MBR_ACERT_ID = ACH.APT_CERT_ID
+           LEFT JOIN HDC_APT.APT_MST APTMST ON ACH.APT_ID = APTMST.APT_ID
+           LEFT JOIN HDC_APT.APT_UNIT_INFO AUI ON ACH.APT_UNIT_ID = AUI.UNIT_ID
+          LEFT JOIN HDC_SYS.SYS_CODE C3 ON APTMST.APT_ADDR_CODE = C3.CRD
+          ) A
+         WHERE 1=1
+         AND A.MBR_ADMIN_YN = 'N'
+         AND   A.MBR_SYS_TY IN ('C000004003','C000004004')
+          ORDER BY A.REGIST_DT desc
+   ) V1
+   
+   union
+   
+   select V2.*
+   from (
+      SELECT A.*
+      FROM (
+              SELECT MBRMST.MBR_ID
+                  , MBRMST.LOGIN_ID
+                   , APTMST.APT_NAME
+                   , AUI.DNG_NO
+                   , AUI.HO_NO
+                   , AUI.SEP_NO
+                   , CONCAT(MBRMST.MBR_NAME,'(',MBRMST.LOGIN_ID, ')') AS MBR_NAME
+                   , MBRMST.MBR_SEX
+                   , MBRMST.MBR_BIRTH
+                   , MBRMST.MBR_NICKNAME
+                   , MBRMST.MBR_PHONE
+                   , MBRMST.MBR_SYS_TY
+                   , C1.CRD_NAME AS MBR_SYS_TY_NAME
+                   , MBRMST.MBR_ST
+                   , C2.CRD_NAME AS MBR_ST_NAME
+                   , MBRMST.REGIST_DT
+                   , HMMD.MBR_LAST_ACCESS_DT
+                   , MBRCERT.MBR_ACERT_ID
+                   , APTMST.APT_ID
+                   , C3.CRD_GROUP AS LOC1
+                   , APTMST.APT_ADDR_CODE
+                   , MBRMST.MBR_MEMO
+                   , TO_CHAR(MBRMST.MBR_LEAVING_EXPECTED_DATE, 'YYYY/MM/DD') AS MBR_LEAVING_EXPECTED_DATE 
+                   , AUI.UNIT_ID
+                   , MBRMST.MBR_ADMIN_YN
+                   , MBRMST.MBR_FAMILLY_TY
+                   , CASE WHEN MBRMST.MBR_DELETE_DATE IS NULL THEN ''
+                          WHEN MBRMST.MBR_DELETE_DATE IS NOT NULL THEN TO_CHAR(MBRMST.MBR_DELETE_DATE,'YYYY/MM/DD')
+                      END MBR_DELETE_DATE 
+                FROM HDC_MBR.MBR_MST MBRMST
+          LEFT JOIN HDC_MBR.MBR_DEVICE HMMD ON MBRMST.MBR_ID = HMMD.MBR_ID
+           LEFT JOIN HDC_SYS.SYS_CODE C1 ON MBRMST.MBR_SYS_TY = C1.CRD
+           LEFT JOIN HDC_SYS.SYS_CODE C2 ON MBRMST.MBR_ST = C2.CRD
+         INNER JOIN HDC_MBR.MBR_CERT MBRCERT ON MBRMST.MBR_ID = MBRCERT.MBR_ID
+         INNER JOIN HDC_MBR.MBR_APT_CERT_HIS ACH ON MBRCERT.MBR_ACERT_ID = ACH.APT_CERT_ID
+         INNER JOIN HDC_APT.APT_MST APTMST ON ACH.APT_ID = APTMST.APT_ID
+          INNER JOIN HDC_APT.APT_UNIT_INFO AUI ON ACH.APT_UNIT_ID = AUI.UNIT_ID
+          LEFT JOIN HDC_SYS.SYS_CODE C3 ON APTMST.APT_ADDR_CODE = C3.CRD) A
+         WHERE 1=1
+         AND A.MBR_ADMIN_YN = 'N'
+         AND   A.MBR_SYS_TY = 'C000004001'
+          ORDER BY A.REGIST_DT desc
+   ) V2
+) V;
