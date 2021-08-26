@@ -1,18 +1,23 @@
-# Python
-## Modules Auto Reload
+## Auto Reload Modules
 ```python
 %reload_ext autoreload
 %autoreload 1
 %aimport module
 ```
 - Reload all modules imported with %aimport every time before executing the Python code typed.
-## TypeError
-## StopIteration
-## TypeError: unhashable type: ‘set’
+
+
+
+# Error Messages
+## `TypeError: unhashable type: ‘set’`
 - The unhashable objects are not allowed in set or dictionary key. The dictionary or set hashes the object and uses the hash value as a primary reference to the key.
-## TypeError: 'set' object is not subscriptable
-## TypeError: sequence index must be integer, not 'slice'
+## `TypeError: 'set' object is not subscriptable`
+## `TypeError: sequence index must be integer, not 'slice'`
 - This error raises because `collections.deque` cannot be sliced.
+
+
+
+# Python
 ## bin(), oct(), hex()
 - `&`: AND
 - `|`: OR
@@ -53,28 +58,28 @@ sum(sentences, [])
 ```python
 assert model_name in self.model_list, "There is no such a model."
 ```
-## var
-### var.data
-#### var.data.nbytes : 변수에 할당된 메모리 크기 리턴
+## Variable.data
+#### Variable.data.nbytes
+- 변수에 할당된 메모리 크기 리턴
 ## List
 - Mutable.
 - Unhashable.
-### ls.index()
+### List.index()
 ```python
 names.index((17228, "아트빌"))
 ```
-### ls.append()
+### List.append()
 ```python
 feature_to_shuffle.append("area")
 ```
-### ls.extend()
-### ls.insert()
+### List.extend()
+### List.insert()
 - idx, value 순으로 arg를 입력합니다.
-### ls.remove()
+### List.remove()
 ```python
 features.remove("area")
 ```
-### ls.count()
+### List.count()
 ```python
 [2, 4012, 3394, 3, 1, 1].count(1)
 ```
@@ -111,14 +116,14 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 - Mutable.
 - Unhashable.
 - No order.
-### set1 & set2
-### set1 | set2
-### set.add()
-### set.update()
+### &, |
+- Union, Intersection respectively.
+### Set.add()
+### Set.update()
 ```python
 effect.update([i for i in range(apt - w, apt + w + 1) if i >= 1 and i <= n])
 ```
-## frozenset()
+## Frozenset
 - 구성 요소들이 순서대로 들어 있지 않아 인덱스를 사용한 연산을 할 수 없고
 - 유일한 항목 1개만 들어가 있습니다.
 - set 객체는 구성 항목들을 변경할 수 있지만 frozenset 객체는 변경할 수 없는 특성을 지니고 있어, set에서는 사용할 수 있는 메소드들 add, clear, discard, pop, remove, update 등은 사용할 수 없습니다. 
@@ -127,41 +132,36 @@ effect.update([i for i in range(apt - w, apt + w + 1) if i >= 1 and i <= n])
 ## Dictionary
 - Mutable.
 - Unhashable.
-### dic\[]
+### Dictionary\[]
 - key를 입력받아 value를 반환합니다.
-### dic.get()
-- `dic[]`과 동일합니다.
-### dic.items()
+### Dictionary[], Dictionary.get()
+### Dictionary.items()
 ```python
 for key, value in dic.items():
     print(key, value)
 ```
-### dic.setdefault()
-```python
-dic.setdefault(key)
-dic.setfefault(key, value)
-```
-### dic.update()
+### Dictionary.setdefault()
+### Dictionary.update()
 ```python
 dic.update({key1:value1, key2:value2})
 ```
-### dic.pop()
+### Dictionary.pop()
 ```python
 dic.pop(key)
 ```
-### dic.keys(), dic.values()
-### dic.fromkeys(list or tuple, value)
+### Dictionary.keys(), Dictionary.values()
+### Dictionary.fromkeys(list or tuple, value)
 ### sorted()
 ```python
 word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
 ```
-### dictionary comprehension
+### Dictionary Comprehension
 ```python
 {idx:char for idx, char in enumerate(char_set)}
 ```
-## str
+## String
 - Immutable.
-### str.format()
+### String.format()
 ```python
 print("[{0:>4d}], [{1:>20d}]".format(100, 200))
 ```
@@ -171,34 +171,34 @@ print("[{0:<20s}]".format("string"))
 ```python
 print("[{0:<20.20f}], [{1:>10.2f}]".format(3.14, 10.925))
 ```
-### str.zfill()
+### String.zfill()
 ```python
 hr = pd.read_excel(f"./FINAL/HR/사원명단_{target_year}{str(target_month).zfill(2)}.xlsx")
 ```
-### str.join()
+### String.join()
 ```python
 " ".join(["good", "bad", "worse", "so good"])
 ```
-- str을 사이에 두고 리스트의 모든 원소들을 하나로 합침
-### str.split()
+- String을 사이에 두고 리스트의 모든 원소들을 하나로 합침
+### String.split()
 ```python
 msg_tkn = [msg.split(" ") for msg in data["msg"]]
 ```
 - makes a list by splitting the string using the argument as a criteria.
-### str.strip()
+### String.strip()
 - Removes the begining or the end whitespaces(`" "`, `"\n"`, `"\t"`)
-### str.upper(), str.lower()
-### str.isupper(), str.islower()
-### str.isalpha()
-### str.isdigit()
-### str.count()
+### String.upper(), String.lower()
+### String.isupper(), String.islower()
+### String.isalpha()
+### String.isdigit()
+### String.count()
 ```python
 "저는 과일이 좋아요".count("과일이")
 ```
-### str.find()
+### String.find()
 - Return the first index of the argument.
-### str.startswith(), str.endswith()
-- Return whether `str` starts with the argument.
+### String.startswith(), String.endswith()
+- Return `True` if a string starts with the specified prefix. If not, it returns `False`
 ## eval()
 ```python
 A = [eval(f"A{i}") for i in range(N, 0, -1)]
@@ -377,12 +377,12 @@ ratings_train = pd.read_table("ratings_train.txt", usecols=["document", "label"]
 ```python
 mall = pd.read_sql(query, conn)
 ```
-## df.to_csv()
+## DataFrame.to_csv()
 ```python
 data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거래가 전처리 완료_200928-3.csv")
 ```
 - `index=False`
-## df.to_excel()
+## DataFrame.to_excel()
 - `sheet_name`: (str, default "Sheet1")
 - `na_rep`: (str, default "") Missing data reprsentation.
 - `float_format`
@@ -463,7 +463,7 @@ pd.merge(df1, df2, left_on="id", right_on="movie_id")
 ```python
 floor_data = pd.merge(floor_data, df_conv, left_index=True, right_index=True, how="left")
 ```
-- df와 df 또는 df와 ser 간에 사용 가능.
+- DataFrame과 DataFrame 또는 DataFrame과 Series 간에 사용 가능.
 ## pd.Grouper()
 ```python
 n_tasks_month = tasks.groupby(pd.Grouper(key="task_date", freq="M")).size()
@@ -482,182 +482,182 @@ pd.plotting.scatter_matrix(data, figsize=(18, 18), diagonal="kde")
 ```python
 fig = pd.plotting.lag_plot(ax=axes[0], series=resid_tr["resid"].iloc[1:], lag=1)
 ```
-## df.style
-### df.style.set_precision()
-### df.style.set_properties()
+## DataFrame.style
+### DataFrame.style.set_precision()
+### DataFrame.style.set_properties()
 - `"font_size"`
-### df.style.bar()
+### DataFrame.style.bar()
 - `color`
-### df.style.background_gradient()
+### DataFrame.style.background_gradient()
 ```python
 data.corr().style.background_gradient(cmap="Blues").set_precision(1).set_properties(**{"font-size":"9pt"})
 ```
 - `cmap`
-## df.info()
-## df.describe()
+## DataFrame.info()
+## DataFrame.describe()
 ```python
 raw_data.describe(include="all").T
 ```
 - Show number of samples, mean, standard deviation, minimum, Q1(lower quartile), Q2(median), Q3(upper quantile), maximum of each independent variable.
-## df.corr()
-## df.shape
-## df.ndim
-## df.quantile()
+## DataFrame.corr()
+## DataFrame.shape
+## DataFrame.ndim
+## DataFrame.quantile()
 ```python
 top90per = plays_df[plays_df["plays"]>plays_df["plays"].quantile(0.1)]
 ```
-## df.groupby()
+## DataFrame.groupby()
 ```python
 df.groupby(["Pclass", "Sex"], as_index=False)
 ```
 - iterable한 tuple((group, 해당 group의 DataFrame))을 반환합니다.
-### df.groupby().groups
-### df.groupby().mean(), df.groupby().count()
+### DataFrame.groupby().groups
+### DataFrame.groupby().mean(), DataFrame.groupby().count()
 - Return DataFrame.
-### df.groupby().size()
+### DataFrame.groupby().size()
 - Return Series.
-## df.groupby().apply(set)
+## DataFrame.groupby().apply(set)
 ```python
 over4.groupby("user_id")["movie_id"].apply(set)
 ```
-## df.pivot()
+## DataFrame.pivot()
 ```python
 df_pivoted = df.pivot("col1", "col2", "col3")
 ```
-## df.stack()
+## DataFrame.stack()
 - 열 인덱스 -> 행 인덱스로 변환
-## df.unstack()
+## DataFrame.unstack()
 - 행 인덱스 -> 열 인덱스로 변환
 - pd.pivot_table()과 동일
 - level에는 index의 계층이 정수로 들어감
 ```python
 groupby.unstack(level=-1, fill_value=None)
 ```
-## df.append()
+## DataFrame.append()
 ```python
 df = df.append({"addr1":addr1, "addr2":addr2, "dist":dist}, ignore_index=True)
 ```
-## df.apply()
+## DataFrame.apply()
 ```python
 hr["코스트센터 분류"] = hr.apply(lambda x:"지사" if ("사업소" in x["조직명"]) or ("베트남지사" in x["조직명"]) else ("본사" if re.search("^\d", x["코스트센터"]) else "현장"), axis=1)
 ```
 ```python
 hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"]) | ("촉탁" in x["하위그룹"]) | ("파견" in x["하위그룹"]) | (x["재직여부"]=="퇴직") else ("본부인원에서만 제외" if ("PM" in x["조직명"]) | ("신규준비" in x["직무"]) | (x["직무"]=="휴직") | (x["직무"]=="비상계획") | (x["직무"]=="축구협") | (x["직무"]=="비서") | ("조직명" in x["조직명"]) | (x["직무"]=="미화") else "포함"), axis=1)
 ```
-## df.progress_apply()
+## DataFrame.progress_apply()
 ```python
 data["morphs"] = data["review"].progress_apply(mcb.morphs)
 ```
 - `tqdm.pandas()`가 선행되어야합니다.
-## df.rename()
+## DataFrame.rename()
 ```python
 data = data.rename({"단지명.1":"name", "세대수":"houses_buildings", "저/최고층":"floors"}, axis=1)
 ```
-## df.reindex()
+## DataFrame.reindex()
 ```python
 pivot = pivot.reindex(dep_order)
 ```
-## df.insert()
+## DataFrame.insert()
 ```python
 data.insert(3, "age2", data["age"]*2)
 ```
-## df.sort_values()
+## DataFrame.sort_values()
 ```python
 results_groupby_ordered = results_groupby.sort_values(by=["error"], ascending=True, na_position="first", axis=0)
 ```
-## df.nlargest(), df.nsmallest()
+## DataFrame.nlargest(), DataFrame.nsmallest()
 ```python
 df.nlargest(3, ["population", "GDP"], keep="all")
 ```
 - keep="first" | "last" | "all"
-## df.index
-### df.index.names
+## DataFrame.index
+### DataFrame.index.names
 ```python
 df.index.name = None
 ```
-## df.sort_index()
-## df.set_index()
+## DataFrame.sort_index()
+## DataFrame.set_index()
 ```python
 data = data.set_index(["id", "name"])
 ```
 - `inplace=True`
-## df.reset_index()
+## DataFrame.reset_index()
 - `drop`: (bool, default False) Reset the index to the default integer index.
 - `level`: Only remove the given levels from the index. Removes all levels by default.
-## df.loc()
+## DataFrame.loc()
 ```python
 data.loc[data["buildings"]==5, ["age", "ratio2"]]
 data.loc[[7200, "대림가경"], ["houses", "lowest"]]
 ```
-## df.isin()
+## DataFrame.isin()
 ```python
 train_val = data[~data["name"].isin(names_test)]
 ```
 - Dictionary와 함께 사용 시 key만 가져옴
-## df.query()
+## DataFrame.query()
 ```python
 data.query("houses in @list")
 ```
 - 외부 변수 또는 함수 사용 시 앞에 @을 붙임.
-## df.idxmax()
+## DataFrame.idxmax()
 ```python
 data["genre"] = data.loc[:, "unknown":"Western"].idxmax(axis=1)
 ```
-## df.drop()
+## DataFrame.drop()
 ```python
 data = data.drop(["Unnamed: 0", "address1", "address2"], axis=1)
 ```
 ```python
 data = data.drop(data.loc[:, "unknown":"Western"].columns, axis=1)
 ```
-## df.duplicated()
+## DataFrame.duplicated()
 ```python
 df.duplicated(keep="first)
 ```
-## df.columns
+## DataFrame.columns
 ```python
 concat.columns = ["n_rating", "cumsum"]
 ```
-### df.columns.drop()
+### DataFrame.columns.drop()
 ```python
 uses_df.columns.drop("cnt")
 ```
 - Make new Index with passed list of labels deleted.
-### df.columns.droplevel
+### DataFrame.columns.droplevel
 ```python
-df.columns=df.columns.droplevel([0, 1])
+df.columns = df.columns.droplevel([0, 1])
 ```
-## df.drop_duplicates()
+## DataFrame.drop_duplicates()
 ```python
 df = df.drop_duplicates(["col1"], keep="first")
 ```
-## df.mul()
+## DataFrame.mul()
 ```python
 df1.mul(df2)
 ```
-## df.dot()
+## DataFrame.dot()
 ```python
 def cos_sim(x, y):
     return x.dot(y)/(np.linalg.norm(x, axis=1, ord=2)*np.linalg.norm(y, ord=2))
 ```
-## df.isna()
-## df.notna()
+## DataFrame.isna()
+## DataFrame.notna()
 ```python
 retail[retail["CustomerID"].notna()]
 ```
-## df.dropna()
+## DataFrame.dropna()
 ```python
 data = data.dropna(subset=["id"])
 ```
 ```python
 df.loc[~df.index.isin(df.dropna().index)]
 ```
-## df.fillna()
+## DataFrame.fillna()
 ```python
 data = data.fillna(method="ffill")
 ```
 - `method="ffill"`: Propagate last valid observation forward to next valid backfill.
-## df.sample(), ser.sample()
+## DataFrame.sample(), Series.sample()
 ```python
 baskets_df.sample(frac=0.05)
 ```
@@ -665,108 +665,108 @@ baskets_df.sample(frac=0.05)
 set(n_per_movie_unseen.sample(n=100, replace=False, weights=n_per_movie).index)
 ```
 - `random_state=777`
-## df.iterrows()
+## DataFrame.iterrows()
 - Iterate over DataFrame rows as (index, Series) pairs.
-## df.iteritems(), df.items()
+## DataFrame.iteritems(), DataFrame.items()
 ```python
 {k:v for k, v in x_train.iteritems()}
 ```
 - Iterate over the DataFrame columns, returning a tuple with the column name and the content as a Series.
-## ser.iteritems(), ser.items()
+## Series.iteritems(), Series.items()
 ```python
 for i, value in raw_data["quarter2"].items():
     print(i, value)
 ```
 - Iterate over (index, value) tuples.
-## df()
+## DataFrame.asfreq()
 ```python
 raw_data = raw_data.asfreq("H", method="ffill")
 ```
 - `freq="D"`, `freq="W"`
 - `method="ffill"`: Forawd fill.
 - `method="bfill"`: Backward fill.
-## df.rolling()
+## DataFrame.rolling()
 ```python
 raw_all[["count"]].rolling(window=24, center=False).mean()
 ```
-## df.diff(), ser.diff()
-## df.shift()
+## DataFrame.diff(), Series.diff()
+## DataFrame.shift()
 ```python
 raw_data["count_lag1"] = raw_data["count"].shift(1)
 ```
-## df.mean()
+## DataFrame.mean()
 ```python
 ui.mean(axis=1)
 ```
-## df.mean().mean()
-## df.add(), df.sub(). df.mul(), df.div(), df.pow()
+## DataFrame.mean().mean()
+## DataFrame.add(), DataFrame.sub(). DataFrame.mul(), DataFrame.div(), DataFrame.pow()
 ```python
 adj_ui = ui.sub(user_bias, axis=0).sub(item_bias, axis=1)
 ```
-## ser.rename()
+## Series.rename()
 ```python
 plays_df.groupby(["user_id"]).size().rename("n_arts")
 ```
-## df.value_counts(), ser.value_counts()
+## DataFrame.value_counts(), Series.value_counts()
 ```python
 ratings_df["movie_id"].value_counts()
 ```
-## ser.nunique()
+## Series.nunique()
 ```python
 n_item = ratings_df["movie_id"].nunique()
 ```
-## ser.isnull()
-## ser.map()
+## Series.isnull()
+## Series.map()
 ```python
 target_ratings["title"] = target_ratings["movie_id"].map(target)
 ```
 ```python
 all_seen = ratings_df_target_set[ratings_df_target_set.map(lambda x : len(x)==5)].index
 ```
-## ser.astype()
+## Series.astype()
 ```python
 data.loc[:, cats] = data.loc[:, cats].astype("category")
 ```
 - `"int32"`, `"int63"`, `"float64"`, `"object"`, `"category"`
 - np.uint8 : 0~255, np.uint16 : 0~65,535, np.uint32 : 0~4,294,967,295
-## ser.hist()
-## ser.cumsum()
+## Series.hist()
+## Series.cumsum()
 ```python
 cumsum = n_rating_item.cumsum()/len(ratings_df)
 ```
-## ser.min(), ser.max(), ser.mean(), ser.std()
-## ser.str
-### ser.str.replace()
+## Series.min(), Series.max(), Series.mean(), Series.std()
+## Series.str
+### Series.str.replace()
 ```python
 data["parking"] = data["parking"].str.replace("대", "", regex=False)
 ```
-### ser.str.split()
+### Series.str.split()
 ```python
 data["buildings"] = data.apply(lambda x : str(x["houses_buildings"]).split("총")[1][:-3], axis=1)
 ```
-- ser.str.split()는 ser.str.split(" ")과 같음
-### ser.str.strip()
+- `pat`: When omitted, it is same as `" "`.
+### Series.str.strip()
 ```python
 data["fuel"] = data["heating"].apply(lambda x:x.split(",")[1]).str.strip()
 ```
-### ser.str.contains()
+### Series.str.contains()
 ```python
 train[train["token"].str.contains(".", regex=False)]
 ```
-## ser.cat
-### ser.cat.categories
-### ser.cat.set_categories()
+## Series.cat
+### Series.cat.categories
+### Series.cat.set_categories()
 ```python
 ser.cat.set_categories([2, 3, 1], ordered=True)
 ```
 - 순서 부여
-### ser.cat.codes
+### Series.cat.codes
 ```python
 for cat in cats:
     data[cat] = data[cat].cat.codes
 ```
 - label encoding을 시행합니다.
-## ser.items()
+## Series.items()
 ```python
 for k, v in target.items():
     queries.append(f"{k}-{v}")
@@ -778,22 +778,22 @@ for k, v in target.items():
 ```python
 import numpy as np
 ```
-## arr.size
-## arr.astype()
+## Array.size
+## Array.astype()
 ```python
 x_train = x_train.astype("float32")
 ```
-## arr.ravel()
+## Array.ravel()
 ```python
 arr.ravel(order="F")	
 ```
 - `order="C"` : row 기준
 - `order="F"` : column 기준
-##  arr.flatten()
+##  Array.flatten()
 - 복사본 반환
-## arr.T
-## arr.shape
-## arr.transpose(), np.transpose()
+## Array.T
+## Array.shape
+## Array.transpose(), np.transpose()
 ```python
 conv_weights = np.fromfile(f, dtype=np.float32, count=np.prod(conv_shape)).reshape(conv_shape).transpose((2, 3, 1, 0))
 ```
@@ -825,11 +825,10 @@ np.arange(5, 101, 5)
 - `start`: Start of interval. The interval includes this value. The default start value is 0.
 - `stop`: End of interval. The interval does not include this value, except in some cases where step is not an integer and floating point round-off affects the length of out.
 - `step`
-## np.ones()
+## np.zeros(), np.ones()
 ```python
 np.ones(shape=(2, 3, 4))
 ```
-## np.zeros()
 ## np.empty()
 ## np.full()
 ```python
@@ -844,9 +843,7 @@ np.eye(4)
 np.log(data)
 ```
 ## np.ones_like(), np.zeros_like()
-```python
-np.ones_like(arr)
-```
+- `a`: (Array-like)
 ## np.linspace()
 ```python
 np.linspace(-5, 5, 100)
@@ -884,7 +881,7 @@ conv_shape = (filters, in_dim, kernel_size, kernel_size)
 conv_weights = np.fromfile(f, dtype=np.float32, count=np.product(conv_shape))
 ```
 - `axis`
-- Return the product of array elements over a given axis.
+- Return the product of Array elements over a given axis.
 ## np.argmax()
 ## np.swapaxes()
 ```python
@@ -898,7 +895,7 @@ feature_maps = np.swapaxes(conv2d, 0, 3)
 np.max(axis=-1)
 ```
 ## np.maximum(), np.minimum()
-- Element-wise minimum(maximum) of array elements.
+- Element-wise minimum(maximum) of Array elements.
 ## np.cumsum()
 ```python
 np.cumsum(cnt)
@@ -932,16 +929,12 @@ X_train = np.delete(X_train, idx_drop, axis=0)
 ```python
 np.random.seed(23)
 ```
-### np.random.rand()	
-```python	
-np.random.rand(2, 3, 4)
-```
-- generates samples from the uniform distribution on \[0, 1)
 ### np.random.random()
 ```python
 np.random.random((2, 3, 4))
 ```
-- generates samples from the uniform distribution on \[0, 1)
+- Create an Array of the given shape and populate it with random samples from a uniform distribution over \[0, 1).
+- Similar with `np.random.rand()`
 ### np.random.randint()
 ```python
 np.random.randint(1, 100, size=(2, 3, 4))	
@@ -964,7 +957,7 @@ data["price_range"]=np.digitize(data["money"], bins)
 ## np.isnan()
 ## np.nanmean()
 ## np.sort()
-## np.reshape(), arr.reshape()
+## np.reshape(), Array.reshape()
 ```python
 bn_weights = np.reshape(bn_weights, newshape=(4, filters))[[1, 0, 2, 3]]
 ```
@@ -975,14 +968,10 @@ bn_weights = bn_weights.reshape((4, filters))[[1, 0, 2, 3]]
 ```python
 np.expand_dims(mh_df.values, axis=1)
 ```
-## np.newaxis
-```python
-mh_df.values[:, np.newaxis, :]
-```
+## np.newaxis, `None`
 ```python
 iou = calculate_iou(best_bbox[None, :4], bboxes_cls[:, :4])
 ```
-- Same as `None`
 ## np.unique()
 ```python
 items, counts = np.unique(intersected_movie_ids, return_counts=True)
@@ -1213,12 +1202,11 @@ pred = tf.cast(h > 0.5, dtype=tf.float32)
 ```
 - 조건이 True면 1, False면 0 반환.
 - 혹은 단순히 Tensor의 자료형 변환.
-## tf.concat()
+## tf.concat(), tf.keras.layers.Concatenate()
 ```python
 layer3 = tf.concat([layer1, layer2], axis=1)
 ```
 - 지정한 axis의 dimension이 유지됩니다.
-- Same as `tf.keras.layers.Concatenate()`
 - `np.stack()`와 동일한 문법입니다.
 ## tf.stack()
 ```python
@@ -1264,7 +1252,7 @@ logits = tf.math.add_n(x) + self.w0
 - Adds all input tensors element-wise.
 - inputs : A list of tf.Tensor, each with the same shape and type.
 ### tf.math.square()
-* 각 arguments를 제곱하여 ndarray 생성
+- Compute square of x element-wise.
 ### tf.math.argmax()
 ```python
 y_pred = tf.math.argmax(model.predict(X_test), axis=1)
@@ -1464,32 +1452,28 @@ Conv1D(filters=n_kernels, kernel_size=kernel_size, padding="same", activation="r
 ```python
 conv2d = Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padding="same")(image)
 ```
-- image : (batch, height of image, width of image, number of channels)
-- kernel : (height of filter, width of filter, number of channels, number of kernels)
-- convolution : (batch, height of convolution, width of convolution, number of kernels)
+- `image`: (batch, height of image, width of image, number of channels)
+- `kernel`: (height of filter, width of filter, number of channels, number of kernels)
+- `convolution`: (batch, height of convolution, width of convolution, number of kernels)
 - number of channels와 number of kernels는 서로 동일합니다.
-- `kernal_size` : window_size
-- `padding="valid"` : No padding. There can be a loss of information. The size of the output image is smaller than the size of the input image.
-- `padding="same"` : Normally, padding is set to "same" while training the model.
-- `data_format` : `"channels_last"`
-- `input_shape` : 처음에만 설정해 주면 됩니다.
-- `activation` : `"tanh"`
+- `kernal_size`: window_size
+- `padding="valid"`: No padding. There can be a loss of information. The size of the output image is smaller than the size of the input image.
+- `padding="same"`: Normally, padding is set to same while training the model.
+- `data_format`: (`"channels_last"`)
+- `input_shape`: 처음에만 설정해 주면 됩니다.
+- `activation`: (`"tanh"`)
 - MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D
-#### MaxPool1D()
-- same as `MaxPooling1D()`
+#### MaxPool1D(), MaxPooling1D()
 - `strides` : basically equals to 2
-#### MaxPool2D()
+#### MaxPool2D(), MaxPooling2D()
 ```python
 pool = MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="channels_last")(image)
 ```
-- same as `MaxPooling2D()`
-#### GlobalMaxPool1D()
-- same as `GlobalMaxPooling1D()`
-- shape change : (a, b, c, d) -> (a, d).
-#### GlobalMaxPool2D()
-- same as `GlobalMaxPooling2D()`
+#### GlobalMaxPool1D(), GlobalMaxPooling1D()
+- Shape changes from (a, b, c, d) to (a, d).
+#### GlobalMaxPool2D(), GlobalMaxPooling2D()
 - Downsamples the input representation by taking the maximum value over the time dimension.
-- shape : (a, b, c) -> (b, c)
+- Shape changes from (a, b, c) to (b, c).
 #### AveragePooling1D()
 #### AveragePooling2D()
 ```python
@@ -1715,9 +1699,9 @@ gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizon
 - `horizontal_flip` : Boolean. Randomly flip inputs horizontally.
 - `rescale` : rescaling factor. Defaults to None. If None or 0, no rescaling is applied, otherwise we multiply the data by the value provided (before applying any other transformation).
 - `rotation_range`
-- `width_shift_range` : float: fraction of total width if < 1 or pixels if >= 1. 1-D array-like : random elements from the array. int : pixels from interval (-`width_shift_range`, `width_shift_range`)
+- `width_shift_range`: (Float) Fraction of total width if < 1 or pixels if >= 1. (1-D Array-like) Random elements from the Array. (Int) Pixels from interval (-`width_shift_range`, `width_shift_range`)
 - `height_shift_range`
-- `brightness_range` : Tuple or list of two floats. Range for picking a brightness shift value from.
+- `brightness_range` : Tuple or List of two Floats. Range for picking a brightness shift value from.
 - `zoom_range`
 - `horizontal_flip`
 - `vertical_flip`
@@ -2581,7 +2565,7 @@ with open("D:/☆디지털혁신팀/☆실거래가 분석/☆그래프/1km_stor
 ```python
 from mapboxgl.utils import df_to_geojson, create_color_stops, create_radius_stops
 ```
-### df.to_geojson()
+### DataFrame.to_geojson()
 ```python
 geo_data = df_to_geojson(df=df, lat="lat", lon="lon")
 ```
@@ -2716,7 +2700,7 @@ ax.legend(fontsize=14, loc="best")
 ```python
 ax.grid(axis="x", color="White", alpha=0.3, linestyle="--", linewidth=2)
 ```
-#### ax.plot(), df.plot.line(), ser.plot.line()
+#### ax.plot(), DataFrame.plot.line(), Series.plot.line()
 ```python
 fig = raw_all[["count"]].rolling(24).mean().plot.line(ax=axes, lw=3, fontsize=20, xlim=("2012-01-01", "2012-06-01"), ylim=(0,  1000))
 ```
@@ -2729,36 +2713,36 @@ fig = raw_all[["count"]].rolling(24).mean().plot.line(ax=axes, lw=3, fontsize=20
 - `legend`: (bool)
 - `xlim`, `ylim`
 - Reference: https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D
-### df.plot.pie(), ser.plot.pie()
+### DataFrame.plot.pie(), Series.plot.pie()
 ```python
 cnt_genre.sort_values("movie_id", ascending=False)["movie_id"].plot.pie(ax=ax, startangle=90, legend=True)
 ```
-#### ax.scatter(), df.plot.scatter()
+#### ax.scatter(), DataFrame.plot.scatter()
 ```python
 ax.scatter(gby["0.5km 내 교육기관 개수"], gby["실거래가"], s=70, c=gby["전용면적(m²)"], cmap="RdYlBu", alpha=0.7, edgecolors="black", linewidth=0.5)
 ```
 ```python
 data[data.workingday == 0].plot.scatter(y="count", x="hour", c="temp", grid=False, figsize=(12, 5), cmap="Blues")
 ```
-#### ax.bar(), df.plot.bar(), ser.plot.bar()
+#### ax.bar(), DataFrame.plot.bar(), Series.plot.bar()
 ```python
 ax.bar(x=nby_genre.index, height=nby_genre["movie_id"])
 ```
 ```python
 data["label"].value_counts().plot.bar()
 ```
-#### ax.barh(), df.plot.barh(), ser.plot.barh()
+#### ax.barh(), DataFrame.plot.barh(), Series.plot.barh()
 ```python
 ax.barh(y=ipark["index"], width=ipark["가경4단지 84.8743A"], height=0.2, alpha=0.5, color="red", label="가경4단지 84.8743A", edgecolor="black", linewidth=1)
 ```
-#### ax.hist(), df.hist(), ser.hist()
+#### ax.hist(), DataFrame.hist(), Series.hist()
 ```python
 ax.hist(cnt_genre["genre"], bins=30)
 ```
 ```python
 raw_data.hist(bins=20, grid=True, figsize=(16,12))
 ```
-#### ax.boxplot(), df.boxplot(), ser.boxplot()
+#### ax.boxplot(), DataFrame.boxplot(), Series.boxplot()
 ```python
 raw_data.boxplot(column="count", by="season", grid=False, figsize=(12,5))
 ```
@@ -2800,7 +2784,7 @@ sb.lmplot(data=resid_tr.iloc[1:], x="idx", y="resid", fit_reg=True, line_kws={"c
 fig, axes = plt.subplots(1, 1, figsize=(7, 5))
 fig = sb.distplot(ax=axes, a=resid_tr["resid"].iloc[1:], norm_hist=True, fit=stats.norm)
 ```
-- `a`: (Series, 1d-array, or list)
+- `a`: (Series, 1d-Array, or List)
 - `norm_hist`: (bool, optional) If `True`, the histogram height shows a density rather than a count. This is implied if a KDE or fitted density is plotted.
 ### sb.scatterplot()
 ```python
@@ -2822,7 +2806,7 @@ sb.countplot(ax=ax, data=cmts202011, x="dep")
 ```python
 sb.countplot(ax=ax, x=label_train)
 ```
-- `x`: Array, or List of arrays
+- `x`: (Array, List of Arrays)
 ### sb.replot()
 ```python
 ax = sb.replot(x="total_bill", y="tip", col="time", hue="day", style="day", kind="scatter", data=tips)
@@ -3565,7 +3549,7 @@ from tqdm.auto import tqdm
 ```
 - for Google Colab
 ## tqdm.pandas()
-- `df.progress_apply()`를 사용하기 위해 필요합니다.
+- `DataFrame.progress_apply()`를 사용하기 위해 필요합니다.
 
 
 
