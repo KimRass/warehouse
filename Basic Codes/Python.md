@@ -87,8 +87,8 @@ features.remove("area")
 ```python
 lens = sorted([len(doc) for doc in train_X])
 ```
-- `reverse=True`로 순서를 뒤집을 수 있습니다.
-- `key=`로 정렬 기준이 될 함수를 지정할 수 있습니다.
+- `reverse`: (Bool)
+- `key`: Define a function to sort by.
 ### reversed()
 ```python
 list(reversed([int(i) for i in str(n)]))
@@ -198,7 +198,7 @@ msg_tkn = [msg.split(" ") for msg in data["msg"]]
 ### String.find()
 - Return the first index of the argument.
 ### String.startswith(), String.endswith()
-- Return `True` if a string starts with the specified prefix. If not, it returns `False`
+- Return `True` if a string starts with the specified prefix. If not, return `False`
 ## eval()
 ```python
 A = [eval(f"A{i}") for i in range(N, 0, -1)]
@@ -346,7 +346,7 @@ pd.set_option("display.float_format", "{:.3f}".format)
 ```python
 pd.set_option("mode.chained_assignment",  None)
 ```
-- SettingWithCopyWarning 무시
+- Ignore `SettingWithCopyWarning`
 ## pd.DataFrame()
 - `data`: (Array, List, List of Tuples, Dictionary of List)
 - `index`
@@ -381,10 +381,10 @@ mall = pd.read_sql(query, conn)
 ```python
 data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거래가 전처리 완료_200928-3.csv")
 ```
-- `index=False`
+- `index`: (Bool)
 ## DataFrame.to_excel()
-- `sheet_name`: (str, default "Sheet1")
-- `na_rep`: (str, default "") Missing data reprsentation.
+- `sheet_name`: (String, default "Sheet1")
+- `na_rep`: (String, default "") Missing data reprsentation.
 - `float_format`
 - `header`: If a list of string is given it is assumed to be aliases for the column names.
 - `merge_cells`
@@ -428,7 +428,7 @@ results["lat"] = pd.Categorical(results["lat"], categories=order)
 results_ordered=results.sort_values(by="lat")
 ```
 - dtype을 category로 변환.
-- ordered=True로 category들 간에 대소 부여.
+- `ordered`: (Bool, deafult `False`): category들 간에 대소 부여.
 - Reference: https://kanoki.org/2020/01/28/sort-pandas-dataframe-and-series/
 ## pd.get_dummies()
 ```python
@@ -463,7 +463,7 @@ pd.merge(df1, df2, left_on="id", right_on="movie_id")
 ```python
 floor_data = pd.merge(floor_data, df_conv, left_index=True, right_index=True, how="left")
 ```
-- DataFrame과 DataFrame 또는 DataFrame과 Series 간에 사용 가능.
+- Used between DataFrames or between a DataFrame and a Series.
 ## pd.Grouper()
 ```python
 n_tasks_month = tasks.groupby(pd.Grouper(key="task_date", freq="M")).size()
@@ -510,7 +510,7 @@ top90per = plays_df[plays_df["plays"]>plays_df["plays"].quantile(0.1)]
 ```python
 df.groupby(["Pclass", "Sex"], as_index=False)
 ```
-- iterable한 tuple((group, 해당 group의 DataFrame))을 반환합니다.
+- Return an iterable Tuple in the form of (a group, a DataFrame in the group).
 ### DataFrame.groupby().groups
 ### DataFrame.groupby().mean(), DataFrame.groupby().count()
 - Return DataFrame.
@@ -529,7 +529,7 @@ df_pivoted = df.pivot("col1", "col2", "col3")
 ## DataFrame.unstack()
 - 행 인덱스 -> 열 인덱스로 변환
 - pd.pivot_table()과 동일
-- level에는 index의 계층이 정수로 들어감
+- `level`: index의 계층이 정수로 들어감
 ```python
 groupby.unstack(level=-1, fill_value=None)
 ```
@@ -569,18 +569,15 @@ results_groupby_ordered = results_groupby.sort_values(by=["error"], ascending=Tr
 ```python
 df.nlargest(3, ["population", "GDP"], keep="all")
 ```
-- keep="first" | "last" | "all"
+- `keep`: (`"first"`, `"last"`, `"all"`)
 ## DataFrame.index
-### DataFrame.index.names
-```python
-df.index.name = None
-```
+### DataFrame.index.name, DataFrame.index.names
 ## DataFrame.sort_index()
 ## DataFrame.set_index()
 ```python
 data = data.set_index(["id", "name"])
 ```
-- `inplace=True`
+- `inplace`: (Bool, default `False`)
 ## DataFrame.reset_index()
 - `drop`: (bool, default False) Reset the index to the default integer index.
 - `level`: Only remove the given levels from the index. Removes all levels by default.
@@ -593,7 +590,7 @@ data.loc[[7200, "대림가경"], ["houses", "lowest"]]
 ```python
 train_val = data[~data["name"].isin(names_test)]
 ```
-- Dictionary와 함께 사용 시 key만 가져옴
+- `values`: (List, Dictionary)
 ## DataFrame.query()
 ```python
 data.query("houses in @list")
@@ -664,7 +661,7 @@ baskets_df.sample(frac=0.05)
 ```python
 set(n_per_movie_unseen.sample(n=100, replace=False, weights=n_per_movie).index)
 ```
-- `random_state=777`
+- `random_state`: (Int)
 ## DataFrame.iterrows()
 - Iterate over DataFrame rows as (index, Series) pairs.
 ## DataFrame.iteritems(), DataFrame.items()
@@ -682,7 +679,7 @@ for i, value in raw_data["quarter2"].items():
 ```python
 raw_data = raw_data.asfreq("H", method="ffill")
 ```
-- `freq="D"`, `freq="W"`
+- `freq`: (`"D"`, "W"`)
 - `method="ffill"`: Forawd fill.
 - `method="bfill"`: Backward fill.
 ## DataFrame.rolling()
@@ -727,8 +724,8 @@ all_seen = ratings_df_target_set[ratings_df_target_set.map(lambda x : len(x)==5)
 ```python
 data.loc[:, cats] = data.loc[:, cats].astype("category")
 ```
-- `"int32"`, `"int63"`, `"float64"`, `"object"`, `"category"`
-- np.uint8 : 0~255, np.uint16 : 0~65,535, np.uint32 : 0~4,294,967,295
+- `dtype`: (`"int32"`, `"int63"`, `"float64"`, `"object"`, `"category"`, `"string"`)
+- `errors`: (`"raise"`, `"ignore"`, default `"raise"`)
 ## Series.hist()
 ## Series.cumsum()
 ```python
@@ -744,7 +741,7 @@ data["parking"] = data["parking"].str.replace("대", "", regex=False)
 ```python
 data["buildings"] = data.apply(lambda x : str(x["houses_buildings"]).split("총")[1][:-3], axis=1)
 ```
-- `pat`: When omitted, it is same as `" "`.
+- `pat`: Same as `" "` When omitted.
 ### Series.str.strip()
 ```python
 data["fuel"] = data["heating"].apply(lambda x:x.split(",")[1]).str.strip()
@@ -805,7 +802,7 @@ np.set_printoptions(precision=3)
 ```python
 np.set_printoptions(edgeitems=3, infstr="inf", linewidth=75, nanstr="nan", precision=8, suppress=False, threshold=1000, formatter=None)
 ```
-- go back to the default options		
+- Go back to the default options.
 ## np.load()
 ```python
 intent_train = np.load("train_text.npy").tolist()
@@ -880,8 +877,8 @@ data[np.isin(data["houses"], list)]
 conv_shape = (filters, in_dim, kernel_size, kernel_size)
 conv_weights = np.fromfile(f, dtype=np.float32, count=np.product(conv_shape))
 ```
-- `axis`
 - Return the product of Array elements over a given axis.
+- `axis`
 ## np.argmax()
 ## np.swapaxes()
 ```python
@@ -1026,17 +1023,17 @@ from sklearn.feature_extraction.text import CountVectorizer
 ```python
 vect = CountVectorizer(max_df=500, min_df=5, max_features=500)
 ```
-- 토큰의 빈도가 max_df보다 크거나 min_df보다 작은 경우 무시.
+- Ignore if frequency of the token is greater than `max_df` or lower than `min_df`.
 #### vect.fit()
 #### vect.transform()
-- builds DTM
+- Build document term maxtrix.
 ##### vect.transform().toarray()
 #### vect.fit_transform()
 - `vect.fit()` + `vect.transform()`
 ##### vect.fit_transform().toarray()
 #### vect.vocabulary_
 ##### vect.vocabulary_.get()
-- arg의 idx를 출력합니다.
+- Return the index of the argument.
 ### TfidfVectorizer()
 ```python
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -1121,15 +1118,15 @@ model.fit(train_x, train_y)
 train_pred = model.pred(train_x)
 train_acc = np.mean(train_pred == train_y)
 ```
-- `loss` : The loss function to be used.
-    - `loss="hinge" : gives a linear SVM.
-    - `loss="log"` : gives logistic regression.
-    - `loss="perceptron"` : the linear loss used by the perceptron algorithm.
-- `penalty` : regularization term.
+- `loss`: The loss function to be used.
+    - `loss="hinge": Give a linear SVM.
+    - `loss="log"`: Give logistic regression.
+    - `loss="perceptron"`: The linear loss used by the perceptron algorithm.
+- `penalty`: Regularization term.
     - `penalty="l1"`
-    - `penalty="l2"` : the standard regularizer for linear SVM models.
-- `alpha`: constant that multiplies the regularization term. The higher the value, the stronger the regularization. Also used to compute the learning rate when set to learning_rate is set to ‘optimal’.
-- max_iter` : The maximum number of passes over the training data (aka epochs).
+    - `penalty="l2"`: The standard regularizer for linear SVM models.
+- `alpha`: Constant that multiplies the regularization term. The higher the value, the stronger the regularization. Also used to compute the learning rate when set to learning_rate is set to ‘optimal’.
+- max_iter`: The maximum number of passes over the training data (aka epochs).
 ## sklearn.ensemble
 ### RandomForestRegressor(), GradientBoostingRegressor(), AdaBoostRegressor()
 ```python
@@ -1145,7 +1142,7 @@ from sklearn.tree import DecisionTreeRegressor
 ```python
 newsdata = sklearn.datasets.fetch_20newsgroups(subset="train")
 ```
-- `subset="all"` | `"train"` | `"test"`
+- `subset`: (`"all"`, `"train"`, `"test"`)
 ### sklearn.datasets.sample_generator
 #### make_blobs()
 ```python
