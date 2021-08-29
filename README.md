@@ -30,7 +30,7 @@
 ## Natural Language Preprocessing
 - 유원준님의 "딥 러닝을 이용한 자연어 처리 입문"(https://wikidocs.net/book/2155) 강의 내용을 바탕으로 정리한 자료입니다.
 - Dataset: Steam Review, NLP Challenge, fra-eng, IMDb, Annotated Corpus for NER, Chatbot Data for Korean, Natural Language Understanding benchmark, NSMC, TED
-- Libraries: `pandas`, `nltk`, `konlpy`, `MeCab`, `kss`, `hansapell`, `soynlp`, `tensorflow`
+- Libraries: `pandas`, `nltk`, `konlpy`, `MeCab`, `kss`, `hansapell`, `soynlp`, `tensorflow`, `transformers`
 - Count-Based Word Repesentation(Bag of Words, TF-IDF), Word Embedding(Word2vec, FastText, Glove, Skip-Gram with Negative Sampling), BLUE Score
 - Sentiment Analysis, Intent Classification, Named Entity Recognition, Chatbot, Nueral Machine Translation
 - 1D CNN, RNN, Bi-LSTM, CRF, seq2seq, Bahdanau Attention, BERT

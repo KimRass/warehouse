@@ -1,3 +1,5 @@
+Written by KimRass
+
 - ![image.png](/files/3008821901398452965)
 - ![image.png](/files/3011488520092691369)
 - Feature Extraction -> Classification
