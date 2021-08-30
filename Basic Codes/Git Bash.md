@@ -42,7 +42,7 @@ git push origin master
 git push -f origin master
 ```
 ## git stash
-## git stash pop
+### git stash pop
 ## git clone
 ```bash
 git clone "git@github.com:KimRass/Work.git"
