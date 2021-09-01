@@ -234,18 +234,10 @@ ATTR([댓글생성자id])), 6)
 - New Worksheet.
 ## Alt + Shift + Backspace
 - Clear Worksheet.
-## Ctrl + F
-- Search.
-## Alt + A -> C
-- `Create Calculate Field...`
 ## Alt + I
 - `Filters`
-## Alt + D -> R
-- `Edit Blend Relationships...`
-## Alt + F -> A
-- `Save As...`
-## Alt + S -> W
-- `Publish Workbook...`
+## Ctrl + F
+- Search.
 ## Ctrl + Tab, Ctrl + PgDn
 - Move to next Worksheet, Dashboard, or Story.
 ## Ctrl + Shift + Tab, Ctrl + PgUp
@@ -256,5 +248,19 @@ ATTR([댓글생성자id])), 6)
 - Move Fileds to Columns, Rows, Filters or Text respectively.
 ## Ctrl + H
 - Presentation Mode.
+## Alt + A -> C
+- `Create Calculate Field...`
+## ALt + A -> O -> G(T)
+- `Show Row(Column) Grand Totals`
+## Alt + F -> A
+- `Save As...`
+## Alt + D -> R
+- `Edit Blend Relationships...`
 ## Alt + D -> X
 - `Refresh All Extracts...`
+## Alt + B -> C
+- `Copy Image`
+## Alt + B -> X
+- `Export Image...`
+## Alt + S -> W
+- `Publish Workbook...`
