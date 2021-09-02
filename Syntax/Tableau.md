@@ -197,7 +197,7 @@ ATTR([댓글생성자id])), 6)
 
 
 
-# ETC
+# Functions
 ## Custom Number Format
 ```
 "+"#;"-"#
@@ -214,7 +214,7 @@ ATTR([댓글생성자id])), 6)
 ## Histogram
 - `Create` -> `Bins...`
 - Reference: https://www.youtube.com/watch?v=C1uAQBIPYk4
-## Hilight Table
+## Highlight Table
 - `Use Separate Legends` <-> `Combine Legends`
 - Reference: https://www.youtube.com/watch?v=YXYaDq3qtsw
 ## Nested Sorting

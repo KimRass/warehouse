@@ -11,9 +11,8 @@
 - Activation Function, Back Propogation, Cross Validation, Evaluation Metrics, Gradient Descent, Linearity of Models, Logistic Regression
 - Latent Dirichlet Allocation, TF-IDF
 
-## Basic Codes
-- Syntax를 정리한 자료입니다.
-- Python, SQL, HTML/CSS, Google Colab, Tableau, Anaconda, Git, LaTeX 
+## Syntax
+- Python, SQL, HTML & CSS, Google Colab, Tableau, Anaconda, Git Bash, LaTeX, Ubuntu
 
 ## Codes
 - 기타 Codes를 정리한 자료입니다.

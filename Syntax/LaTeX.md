@@ -1,6 +1,6 @@
-- source : https://ko.wikipedia.org/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:TeX_%EB%AC%B8%EB%B2%95
+- References: https://ko.wikipedia.org/wiki/%EC%9C%84%ED%82%A4%EB%B0%B1%EA%B3%BC:TeX_%EB%AC%B8%EB%B2%95
 
-# Number of Prameters = 0
+# Number of Prameters: 0
 ## {\cdot}
 ## \infty
 ## \in
@@ -13,7 +13,7 @@
 
 
 
-# Number of Prameters = 1
+# Number of Prameters: 1
 ## \mathbb{}
 ### \mathbb{E}
 ## \vec{}
@@ -53,7 +53,7 @@ $$\prod_{k=t}^{T-1}\frac{\pi(A_{k}|S_{k})}{\mu(A_{k}|S_{k})}$$
 
 
 
-# Number of Prameters = 2
+# Number of Prameters: 2
 ## \sum_{}^{}
 ## \prod_{}^{}
 ## \frac{}{}
