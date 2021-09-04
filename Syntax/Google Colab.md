@@ -48,7 +48,8 @@ mpl.rcParams["axes.unicode_minus"] = False
 # Prevent Google Colab from Disconnecting.
 ```
 function ClickConnect(){
-    console.log("코랩 연결 끊김 방지");     document.querySelector("colab-toolbar-button#connect").click()}
+    console.log("코랩 연결 끊김 방지");
+	document.querySelector("colab-toolbar-button#connect").click()}
 setInterval(ClickConnect, 60*1000)
 ```
 
