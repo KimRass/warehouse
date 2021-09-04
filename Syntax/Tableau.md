@@ -1,3 +1,7 @@
+- Written by KimRass
+
+
+
 # Order of Operations
 - Context Filters -> {FIXED:} -> Dimensition Filters(Actions, Groups) -> {INCLUDE:}, {EXCLUDE:} -> Blending -> Table Calculations -> Table Calculation Filters(FIRST(), LAST()) -> Manually Hidden Marks
 

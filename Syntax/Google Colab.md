@@ -1,4 +1,4 @@
-# 초기 셋팅
+# Fundamental Settings
 ```python
 from google.colab import drive
 import matplotlib.pyplot as plt
@@ -25,23 +25,10 @@ get_ipython().events.register("pre_run_cell", set_css)
 
 plt.style.use("dark_background")
 ```
-# Package 영구 설치
-```python
-!pip install --target=$my_path [패키지 이름]
-```
-# Install khaiii
-```python
-!git clone https://github.com/kakao/khaiii.git
-!pip install cmake
-!mkdir build
-!cd build && cmake /content/khaiii
-!cd /content/build/ && make all
-!cd /content/build/ && make resource
-!cd /content/build && make install
-!cd /content/build && make package_python
-!pip install /content/build/package_python
-```
-# 한글 출력
+
+
+
+# Display Hangeul
 ```python
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -55,15 +42,26 @@ plt.rc("font", family="NanumBarunGothic")
 mpl.font_manager._rebuild()
 mpl.rcParams["axes.unicode_minus"] = False
 ```
-# 연결 끊김 방지
+
+
+
+# Prevent Google Colab from Disconnecting.
 ```
 function ClickConnect(){
-    console.log("코랩 연결 끊김 방지"); 
-    document.querySelector("colab-toolbar-button#connect").click() 
-}
-setInterval(ClickConnect, 60 * 1000)
+    console.log("코랩 연결 끊김 방지");     document.querySelector("colab-toolbar-button#connect").click()}
+setInterval(ClickConnect, 60*1000)
 ```
-# TPU
+
+
+
+# Permanently Install Packages
+```python
+!pip install --target=$my_path [패키지 이름]
+```
+
+
+
+# Use TPU
 ```python
 resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu="grpc://" + os.environ["COLAB_TPU_ADDR"])
 tf.config.experimental_connect_to_cluster(resolver)
@@ -74,4 +72,19 @@ strategy = tf.distribute.experimental.TPUStrategy(resolver)
 with strategy.scope():
     model = create_model()
     hist = model.fit()
+```
+
+
+
+# Install `khaiii`
+```python
+!git clone https://github.com/kakao/khaiii.git
+!pip install cmake
+!mkdir build
+!cd build && cmake /content/khaiii
+!cd /content/build/ && make all
+!cd /content/build/ && make resource
+!cd /content/build && make install
+!cd /content/build && make package_python
+!pip install /content/build/package_python
 ```
