@@ -101,31 +101,6 @@ END //
 ```sql
 USE database;
 ```
-### PREPARE
-#### PREPARE + EXECUTE + USING
-```sql
-SET @var1=3;
-
-PREPARE query1
-FROM "SELECT name, height FROM usertbl ORDER BY height LIMI ?;
-
-EXECUTE query1 USING @var1;
-```
-### CAST(CONVERT)
-```sql
-SELECT COUNT(mobile) AS "핸드폰을 사용하는 사람의 수" FROM usertbl;
-```
-```sql
-SELECT CAST(COUNT(mobile) AS SIGNED INTEGER) AS "핸드폰을 사용하는 사람의 수" FROM usertbl;
-```
-```sql
-SELECT CONVERT(COUNT(mobile), SIGNED INTEGER) AS "핸드폰을 사용하는 사람의 수" FROM usertbl;
-```
-#### CAST + CONCAT
-```sql
-SELECT CONCAT(CAST(price AS CHAR(10)), " X ", CAST(amount AS CHAR(4)), " = ") AS "단가 X 수량", price*amount AS "구매액"
-FROM buytbl;
-```
 ### IF
 ```sql
 SELECT
@@ -301,9 +276,13 @@ WHERE name LIKE "김%" OR "_종신";
 ## ORDER BY
 ### ASC, DESC
 ```sql
-SELECT animal_id, name, datetime
-FROM animal_ins
-ORDER BY name ASC, datetime DESC;
+SELECT
+	animal_id, name, datetime
+FROM
+	animal_ins
+ORDER BY
+	name ASC,
+	datetime DESC;
 ```
 ## LIMIT
 ```sql
@@ -437,14 +416,8 @@ SELECT FORMAT(123456.123456, 4);
 ```sql
 SELECT INSERT("abcdefghi", 3, 2, "####");
 ```
-## LEFT(), RIGHT()
-```sql
-SELECT LEFT("abcdefghi", 3);
-```
-## LCASE(), UCASE()
-```sql
-SELECT LCASE("abcdEFGHI");
-```
+## LEFT(), RIGHT(), SUBSTRING()
+## LOWER(), UPPER(), INITCAP()
 ### LPAD(), RPAD()
 ```sql
 SELECT LPAD("이것이", 5, "##")
@@ -527,6 +500,34 @@ FOREIGN KEY (personid) REFERENCES persons(personid));
 ## UNION, UNION ALL
 - `UNION` selects only distinct values by default. To allow duplicate values, use `UNION ALL`
 ## CAST AS
+```sql
+SELECT
+    name + "(" + LEFT(occupation, 1) + ")"
+FROM
+    occupations
+ORDER BY
+    name;
+SELECT
+    "There are a total of " + CAST(COUNT(occupation) AS CHAR) + " " + LOWER(occupation) + "s."
+FROM
+    occupations
+GROUP BY
+    occupation
+ORDER BY
+    COUNT(occupation),
+    LOWER(occupation);
 ```
-CAST(_상품ID AS VARCHAR(6)) AS prod_id
+## UNPIVOT
+```sql
+SELECT
+	반정보,
+	과목,
+	점수
+FROM
+	dbo.성적
+	UNPIVOT (
+		점수
+		FOR 과목
+		IN (국어, 수학, 영어))
+	AS UNPVT
 ```
