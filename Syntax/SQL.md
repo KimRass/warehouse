@@ -128,7 +128,8 @@ FROM buytbl;
 ```
 ### IF
 ```sql
-SELECT IF (100>200, "참이다", "거짓이다");
+SELECT
+	IF (100>200, "참이다", "거짓이다");
 ```
 ### IFNULL
 ```sql
@@ -238,6 +239,7 @@ SELECT @nameis, name FROM usertbl WHERE height>180;
 
 
 ## SELECT FROM
+### IF ELSE 
 ### CASE WHEN END
 ```sql
 SELECT
@@ -387,15 +389,34 @@ ORDER BY name;
 ```
 ## CASE WHEN THEN ELSE END
 ```sql
-SELECT animal_id,
-name,
-CASE WHEN (sex_upon_intake LIKE "%Neutered%"
-OR sex_upon_intake LIKE "%Spayed%")
-THEN "O"
-ELSE "X"
-END AS "중성화 여부"
-FROM animal_ins
-ORDER BY animal_id;
+SELECT
+	animal_id,
+	name,
+	CASE
+	WHEN (sex_upon_intake LIKE "%Neutered%"
+		OR sex_upon_intake LIKE "%Spayed%")
+	THEN "O"
+	ELSE "X"
+	END AS "중성화 여부"
+FROM
+	animal_ins
+ORDER BY
+	animal_id;
+```
+```sql
+SELECT
+    n,
+    CASE
+    WHEN p IS NULL
+    THEN " Root"
+    WHEN n IN (SELECT DISTINCT p FROM bst)
+    THEN " Inner"
+    ELSE " Leaf"
+    END
+FROM
+    bst
+ORDER BY
+    n;
 ```
 ## DATE_FORMAT()
 ```sql
