@@ -4,8 +4,8 @@
 - `VARCHAR(size)`: A variable length string.
 ## Numeric
 - `BOOL`: Zero is considered as false, nonzero values are considered as true.
-- `INT(size)`: A medium integer. Signed range is from -2147483648 to 2147483647. Unsigned range is from 0 to 4294967295. The `size` parameter specifies the maximum display width (which is 255).
-- `DOUBLE(size, n)`: A normal-size floating point number. The total number of digits is specified in `size`. The number of digits after the decimal point is specified in the `d` parameter.
+- `INT`
+- `FLOAT(n)`
 ## Data and Time
 - `DATE`: A date. Format: `YYYY-MM-DD`.
 - `TIME`: A time. Format: `hh:mm:ss`.
@@ -166,29 +166,6 @@ SELECT FORMAT(123456.123456, 4);
 ```sql
 SELECT INSERT("abcdefghi", 3, 2, "####");
 ```
-## LEFT(), RIGHT(), SUBSTRING()
-```sql
-SELECT DISTINCT city
-FROM station
-WHERE RIGHT(city, 1) IN ("a", "e", "i", "o", "u");
-```
-## LOWER(), UPPER(), INITCAP()
-### LPAD(), RPAD()
-```sql
-SELECT LPAD("이것이", 5, "##")
-```
-## LTRIM(), RTRIM()
-```sql
-SELECT LTRIM("    좌측공백제거");
-```
-## TRIM()
-### BOTH, LEADING, TRAILING
-```sql
-SELECT TRIM("   좌우측공백삭제   ";
-SELECT TRIM(BOTH "ㅋ" FROM "ㅋㅋㅋ좌우측문자삭제ㅋㅋㅋ");
-SELECT TRIM(LEADING "ㅋ" FROM "ㅋㅋㅋ좌측문자삭제ㅋㅋㅋ");
-SELECT TRIM(TRAILING "ㅋ" FROM "ㅋㅋㅋ우측문자삭제ㅋㅋㅋ");
-```
 ## TO_CHAR()
 ```sql
 TO_CHAR(mbrmst.mbr_leaving_expected_date, "YYYY/MM/DD") AS mbr_leaving_expected_dt
@@ -242,6 +219,44 @@ SELECT TOP 1 months*salary, COUNT(employee_id)
 FROM employee
 GROUP BY months*salary
 ORDER BY months*salary DESC;
+```
+
+
+
+# Numeric Functions
+## CEILING(), FLOOR()
+## MIN(), MAX(), AVG(), SUM()
+
+
+
+# String Functions
+## REPLACE()
+```sql
+SELECT CAST(CEILING(AVG(CAST(salary AS FLOAT)) - AVG(CAST(REPLACE(CAST(salary AS FLOAT), "0", "") AS FLOAT))) AS INT)
+FROM employees;
+```
+## LEFT(), RIGHT(), SUBSTRING()
+```sql
+SELECT DISTINCT city
+FROM station
+WHERE RIGHT(city, 1) IN ("a", "e", "i", "o", "u");
+```
+## LOWER(), UPPER(), INITCAP()
+## LPAD(), RPAD()
+```sql
+SELECT LPAD("이것이", 5, "##")
+```
+## LTRIM(), RTRIM()
+```sql
+SELECT LTRIM("    좌측공백제거");
+```
+## TRIM()
+### BOTH, LEADING, TRAILING
+```sql
+SELECT TRIM("   좌우측공백삭제   ";
+SELECT TRIM(BOTH "ㅋ" FROM "ㅋㅋㅋ좌우측문자삭제ㅋㅋㅋ");
+SELECT TRIM(LEADING "ㅋ" FROM "ㅋㅋㅋ좌측문자삭제ㅋㅋㅋ");
+SELECT TRIM(TRAILING "ㅋ" FROM "ㅋㅋㅋ우측문자삭제ㅋㅋㅋ");
 ```
 
 
