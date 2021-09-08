@@ -335,20 +335,19 @@ import math
 ```python
 import pandas as pd
 ```
-## pd.set_option()
+## pd.options
+### pd.options.display
+#### pd.options.display.max_rows, pd.options.display.max_columns, pd.options.display.width, pd.options.display.float_format
+### pd.options.mode
+#### pd.options.mode.chained_assignment
 ```python
-pd.set_option("display.max_rows", None)
-pd.set_option("display.max_columns", None)
-```
-- Set maximum number of rows(columns).
-```python
-pd.set_option("display.width", 1000)
+pd.options.display.max_columns = None
 ```
 ```python
 pd.set_option("display.float_format", "{:.3f}".format)
 ```
 ```python
-pd.set_option("mode.chained_assignment",  None)
+pd.options.mode.chained_assignment = None
 ```
 - Ignore `SettingWithCopyWarning`
 ## pd.DataFrame()
