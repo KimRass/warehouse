@@ -1,12 +1,3 @@
-# Concept
-## PRIMARY KEY
-- The `PRIMARY KEY` constraint uniquely identifies each record in a table. Primary keys must contain UNIQUE values, and cannot contain NULL values. A table can have only ONE primary key; and in the table, this primary key can consist of single or multiple columns (fields).
-## FOREIGN KEY
-- The `FOREIGN KEY` constraint is used to prevent actions that would destroy links between tables. A `FOREIGN KEY` is a field (or collection of fields) in one table, that refers to the `PRIMARY KEY` in another table. The table with the foreign key is called the child table, and the table with the primary key is called the referenced or parent table.
-- The `FOREIGN KEY` constraint prevents invalid data from being inserted into the foreign key column, because it has to be one of the values contained in the parent table.
-
-
-
 # Data Types
 ## String
 - `CHAR(size)`: A fixed length string.
@@ -90,7 +81,7 @@ FROM
 ORDER BY
     n;
 ```
-# INNER JOIN ON, LEFT OUTER JOIN ON
+# INNER JOIN ON, LEFT OUTER JOIN ON, RIGHT OUTER JOIN
 ```sql
 SELECT
 	animal_ins.animal_id, animal_ins.name
@@ -242,4 +233,20 @@ SELECT TOP 1 months*salary, COUNT(employee_id)
 FROM employee
 GROUP BY months*salary
 ORDER BY months*salary DESC;
+```
+
+
+
+# Subquery
+```sql
+SELECT hacker_id, name
+FROM (
+    SELECT su.hacker_id, ha.name,
+        CASE WHEN su.score = di.score THEN 1 ELSE 0 END AS is_full_score
+    FROM submissions AS su LEFT OUTER JOIN challenges AS ch ON su.challenge_id = ch.challenge_id
+        LEFT OUTER JOIN difficulty AS di ON ch.difficulty_level = di.difficulty_level
+        LEFT OUTER JOIN hackers AS ha ON su.hacker_id = ha.hacker_id) AS A
+GROUP BY hacker_id, name
+HAVING SUM(is_full_score) > 1
+ORDER BY SUM(is_full_score) DESC, hacker_id ASC;
 ```
