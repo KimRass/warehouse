@@ -56,6 +56,7 @@ WHERE city LIKE "%a" OR city LIke "%e" OR city LIKE "%i" OR city LIKE "%o" OR ci
 - `_` represents one, single character.
 # GROUP BY HAVING
 - `GROUP BY`를 통해 만들어진 Groups에만 조건을 적용.
+- 집계 대상 Column을 제외한 모든 Column에 대해 `GROUP BY` 적용해야 함.
 ```sql
 SELECT animal_type, COUNT(animal_id)
 FROM animal_ins
