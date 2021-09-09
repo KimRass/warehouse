@@ -20,6 +20,12 @@
 
 
 
+# Error Messages
+## Column <<COLUMN1>> is invalid in the ORDER BY clause because it is not contained in either an aggregate function or the GROUP BY clause.
+
+
+
+
 # INFORMATION_SCHEMA
 ## TABLES
 ```sql
@@ -191,6 +197,21 @@ SELECT TRIM(BOTH "ㅋ" FROM "ㅋㅋㅋ좌우측문자삭제ㅋㅋㅋ");
 SELECT TRIM(LEADING "ㅋ" FROM "ㅋㅋㅋ좌측문자삭제ㅋㅋㅋ");
 SELECT TRIM(TRAILING "ㅋ" FROM "ㅋㅋㅋ우측문자삭제ㅋㅋㅋ");
 ```
+## CONCAT()
+```sql
+SELECT
+CONCAT(CASE hdc_mbr.mbr_mst.mbr_sex
+WHEN "0" THEN "남자"
+WHEN "`" THEN "여자"
+END, "/", hdc_mbr.mbr_mst.mbr_birth)
+```
+## CONCAT_WS()
+```sql
+SELECT CONCAT_WS("/", "2020", "01", "12");
+```
+
+
+
 # Date Functions
 ## HOUR()
 ```sql
@@ -207,17 +228,9 @@ SELECT animal_id, name, DATE_FORMAT(datetime, "%Y-%m-%d")
 FROM animal_ins
 ORDER BY animal_id;
 ```
-## CONCAT()
+## DATEDIFF()
 ```sql
-SELECT
-CONCAT(CASE hdc_mbr.mbr_mst.mbr_sex
-WHEN "0" THEN "남자"
-WHEN "`" THEN "여자"
-END, "/", hdc_mbr.mbr_mst.mbr_birth)
-```
-## CONCAT_WS()
-```sql
-SELECT CONCAT_WS("/", "2020", "01", "12");
+DATEDIFF(DAY, A.start_date, MIN(B.end_date))
 ```
 
 
@@ -235,3 +248,4 @@ GROUP BY hacker_id, name
 HAVING SUM(is_full_score) > 1
 ORDER BY SUM(is_full_score) DESC, hacker_id ASC;
 ```
+- Subquery로 생성한 Table은 항상 `AS`로 이름을 지정해줘야 합니다.
