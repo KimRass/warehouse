@@ -268,3 +268,5 @@ ATTR([댓글생성자id])), 6)
 - `Export Image...`
 ## Alt + S -> W
 - `Publish Workbook...`
+## Alt + O -> D or W
+- `Dashboard...` or `Workbook...`
