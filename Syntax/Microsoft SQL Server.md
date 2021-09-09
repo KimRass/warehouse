@@ -54,22 +54,7 @@ WHERE city LIKE "%a" OR city LIke "%e" OR city LIKE "%i" OR city LIKE "%o" OR ci
 ```
 - `%` represents zero, one, or multiple characters.
 - `_` represents one, single character.
-# GROUP BY HAVING
-- `GROUP BY`를 통해 만들어진 Groups에만 조건을 적용.
-- 집계 대상 Column을 제외한 모든 Column에 대해 `GROUP BY` 적용해야 함.
-```sql
-SELECT animal_type, COUNT(animal_id)
-FROM animal_ins
-GROUP BY animal_type
-HAVING animal_type in ("Cat", "Dog")
-ORDER BY animal_type;
-```
 ## IS NULL, IS NOT NULL
-```sql
-SELECT animal_id
-FROM animal_ins
-WHERE name IS NULL;
-```
 ## CASE WHEN THEN ELSE END
 - Search for conditions sequentially.
 ```sql
@@ -91,49 +76,6 @@ FROM
 ORDER BY
     n;
 ```
-# INNER JOIN ON, LEFT OUTER JOIN ON, RIGHT OUTER JOIN
-```sql
-SELECT
-	animal_ins.animal_id, animal_ins.name
-FROM
-	animal_ins
-	INNER JOIN animal_outs
-	ON animal_ins.animal_id = animal_outs.animal_id
-WHERE
-	animal_ins.datetime > animal_outs.datetime
-ORDER BY
-	animal_ins.datetime;
-```
-```sql
-SELECT
-	animal_ins.name,
-	animal_ins.datetime
-FROM
-	animal_ins
-	LEFT OUTER JOIN animal_outs	ON animal_ins.animal_id = animal_outs.animal_id
-WHERE
-	animal_outs.datetime IS NULL
-ORDER BY
-	animal_ins.datetime ASC
-LIMIT 3;
-```
-## CONCAT()
-```sql
-SELECT
-CONCAT(CASE hdc_mbr.mbr_mst.mbr_sex
-WHEN "0" THEN "남자"
-WHEN "`" THEN "여자"
-END, "/", hdc_mbr.mbr_mst.mbr_birth)
-```
-## HOUR()
-```sql
-SELECT HOUR(datetime) AS HOUR, COUNT(*)
-FROM animal_outs
-GROUP BY HOUR
-HAVING HOUR BETWEEN 9 AND 19
-ORDER BY HOUR;
-```
-- HOUR()는 일반조건이므로 (COUNT()와 달리) HAIVNG과 함께 쓸 수 없다.
 # ANY()
 ```sql
 SELECT name
@@ -148,21 +90,6 @@ sex_upon_intake
 FROM animal_ins
 ORDER BY animal_id
 ```
-## DATE_FORMAT()
-```sql
-SELECT animal_id, name, DATE_FORMAT(datetime, "%Y-%m-%d")
-FROM animal_ins
-ORDER BY animal_id;
-```
-## CONCAT_WS()
-```sql
-SELECT CONCAT_WS("/", "2020", "01", "12");
-```
-## FORMAT()
-```sql
-SELECT FORMAT(123456.123456, 4);
-```
-- 출력할 소수점 이하 자릿수 지정. 
 ## INSERT()
 ```sql
 SELECT INSERT("abcdefghi", 3, 2, "####");
@@ -227,6 +154,11 @@ ORDER BY months*salary DESC;
 # Numeric Functions
 ## CEILING(), FLOOR()
 ## MIN(), MAX(), AVG(), SUM()
+## FORMAT()
+```sql
+SELECT FORMAT(123456.123456, 4);
+```
+- 출력할 소수점 이하 자릿수 지정. 
 
 
 
@@ -258,6 +190,34 @@ SELECT TRIM("   좌우측공백삭제   ";
 SELECT TRIM(BOTH "ㅋ" FROM "ㅋㅋㅋ좌우측문자삭제ㅋㅋㅋ");
 SELECT TRIM(LEADING "ㅋ" FROM "ㅋㅋㅋ좌측문자삭제ㅋㅋㅋ");
 SELECT TRIM(TRAILING "ㅋ" FROM "ㅋㅋㅋ우측문자삭제ㅋㅋㅋ");
+```
+# Date Functions
+## HOUR()
+```sql
+SELECT HOUR(datetime) AS HOUR, COUNT(*)
+FROM animal_outs
+GROUP BY HOUR
+HAVING HOUR BETWEEN 9 AND 19
+ORDER BY HOUR;
+```
+- HOUR()는 일반조건이므로 (COUNT()와 달리) HAIVNG과 함께 쓸 수 없다.
+## DATE_FORMAT()
+```sql
+SELECT animal_id, name, DATE_FORMAT(datetime, "%Y-%m-%d")
+FROM animal_ins
+ORDER BY animal_id;
+```
+## CONCAT()
+```sql
+SELECT
+CONCAT(CASE hdc_mbr.mbr_mst.mbr_sex
+WHEN "0" THEN "남자"
+WHEN "`" THEN "여자"
+END, "/", hdc_mbr.mbr_mst.mbr_birth)
+```
+## CONCAT_WS()
+```sql
+SELECT CONCAT_WS("/", "2020", "01", "12");
 ```
 
 
