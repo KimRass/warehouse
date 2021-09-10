@@ -1,3 +1,7 @@
+Written by `KimRass`
+
+
+
 - Source: https://www.hackerrank.com/challenges/symmetric-pairs/problem?isFullScreen=true
 ```sql
 SELECT x, y

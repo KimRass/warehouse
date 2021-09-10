@@ -1,3 +1,7 @@
+Written by `KimRass`
+
+
+
 - Source: https://sqlzoo.net/wiki/SELECT_within_SELECT_Tutorial
 # 1
 ```sql

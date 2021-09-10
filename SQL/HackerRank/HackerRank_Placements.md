@@ -1,3 +1,7 @@
+Written by `KimRass`
+
+
+
 - Source: https://www.hackerrank.com/challenges/placements/problem?isFullScreen=true
 ```sql
 SELECT st.name

@@ -1,3 +1,7 @@
+Written by `KimRass`
+
+
+
 - Source: https://www.hackerrank.com/challenges/the-report/problem?isFullScreen=true
 ```sql
 SELECT (CASE WHEN gr.grade >= 8 THEN st.name ELSE NULL END), gr.grade, st.marks

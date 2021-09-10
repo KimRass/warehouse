@@ -1,3 +1,7 @@
+Written by `KimRass`
+
+
+
 - Source: https://www.hackerrank.com/challenges/harry-potter-and-wands/problem?isFullScreen=true&h_r=next-challenge&h_v=zen
 ```sql
 SELECT id, age, coins, power

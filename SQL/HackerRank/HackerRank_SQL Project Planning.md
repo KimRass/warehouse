@@ -1,3 +1,7 @@
+Written by `KimRass`
+
+
+
 - Source: https://www.hackerrank.com/challenges/sql-projects/problem?isFullScreen=true
 ```sql
 SELECT A.start_date, MIN(B.end_date)

@@ -1,3 +1,7 @@
+Written by `KimRass`
+
+
+
 - Source: https://www.hackerrank.com/challenges/challenges/problem?isFullScreen=true
 ```sql
 SELECT ch.hacker_id, ha.name, COUNT(ch.challenge_id)

@@ -1,3 +1,7 @@
+Written by `KimRass`
+
+
+
 - Source: https://www.hackerrank.com/challenges/asian-population/problem?isFullScreen=true
 ```sql
 SELECT SUM(ci.population)

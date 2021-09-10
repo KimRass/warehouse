@@ -1,3 +1,7 @@
+Written by `KimRass`
+
+
+
 - Source: https://sqlzoo.net/wiki/More_JOIN_operations
 # 6
 ```sql

@@ -1,3 +1,7 @@
+Written by `KimRass`
+
+
+
 - Source: https://www.hackerrank.com/challenges/contest-leaderboard/problem?isFullScreen=true
 ```sql
 SELECT hacker_id, name, SUM(score)

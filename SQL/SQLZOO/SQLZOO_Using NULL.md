@@ -1,3 +1,7 @@
+Written by `KimRass`
+
+
+
 - Source: https://sqlzoo.net/wiki/Using_Null
 # 1
 ```sql
