@@ -40,62 +40,6 @@ FROM INFORMATION_SCHEMA.COLUMNS;
 
 
 
-# IN
-```sql
-SELECT name, addr
-FROM usertbl
-WHERE addr IN ("서울", "경기", "충청");
-```
-# BETWEEN AND
-```sql
-SELECT name, height
-FROM sqlDB.usertbl
-WHERE height BETWEEN 180 AND 183;
-```
-# LIKE
-```sql
-SELECT DISTINCT city
-FROM station
-WHERE city LIKE "%a" OR city LIke "%e" OR city LIKE "%i" OR city LIKE "%o" OR city LIKE "%u";
-```
-- `%` represents zero, one, or multiple characters.
-- `_` represents one, single character.
-## IS NULL, IS NOT NULL
-## CASE WHEN THEN ELSE END
-- Search for conditions sequentially.
-```sql
-SELECT CASE WHEN (a >= b + c OR b >= c + a OR c >= a + b) THEN "Not A Triangle" WHEN (a = b AND b = c) THEN "Equilateral" WHEN (a = b OR b = c OR c = a) THEN "Isosceles" ELSE "Scalene" END
-FROM triangles;
-```
-```sql
-SELECT
-    n,
-    CASE
-    WHEN p IS NULL
-    THEN " Root"
-    WHEN n IN (SELECT DISTINCT p FROM bst)
-    THEN " Inner"
-    ELSE " Leaf"
-    END
-FROM
-    bst
-ORDER BY
-    n;
-```
-# ANY()
-```sql
-SELECT name
-FROM usertbl
-WHERE height > ANY (SELECT height FROM usertbl WHERE addr="서울");
-```
-## IFNULL()
-```sql
-SELECT animal_type,
-IFNULL(name, "No name"),
-sex_upon_intake
-FROM animal_ins
-ORDER BY animal_id
-```
 ## INSERT()
 ```sql
 SELECT INSERT("abcdefghi", 3, 2, "####");
@@ -156,6 +100,40 @@ ORDER BY months*salary DESC;
 ```
 
 
+# Logical Functions
+## COALESCE()
+```sql
+COALESCE(mobile, '07986 444 2266')
+```
+## IS NULL, IS NOT NULL
+## CASE WHEN THEN ELSE END
+- Search for conditions sequentially.
+```sql
+SELECT CASE WHEN (a >= b + c OR b >= c + a OR c >= a + b) THEN "Not A Triangle" WHEN (a = b AND b = c) THEN "Equilateral" WHEN (a = b OR b = c OR c = a) THEN "Isosceles" ELSE "Scalene" END
+FROM triangles;
+```
+# ANY()
+```sql
+SELECT name
+FROM usertbl
+WHERE height > ANY (SELECT height FROM usertbl WHERE addr="서울");
+```
+## IFNULL()
+```sql
+SELECT animal_type,
+IFNULL(name, "No name"),
+sex_upon_intake
+FROM animal_ins
+ORDER BY animal_id
+```
+## IN
+```sql
+SELECT name, addr
+FROM usertbl
+WHERE addr IN ("서울", "경기", "충청");
+```
+
+
 
 # Numeric Functions
 ## CEILING(), FLOOR()
@@ -165,6 +143,12 @@ ORDER BY months*salary DESC;
 SELECT FORMAT(123456.123456, 4);
 ```
 - 출력할 소수점 이하 자릿수 지정. 
+# BETWEEN AND
+```sql
+SELECT name, height
+FROM sqlDB.usertbl
+WHERE height BETWEEN 180 AND 183;
+```
 
 
 
@@ -209,6 +193,14 @@ END, "/", hdc_mbr.mbr_mst.mbr_birth)
 ```sql
 SELECT CONCAT_WS("/", "2020", "01", "12");
 ```
+## LIKE
+```sql
+SELECT DISTINCT city
+FROM station
+WHERE city LIKE "%a" OR city LIke "%e" OR city LIKE "%i" OR city LIKE "%o" OR city LIKE "%u";
+```
+- `%` represents zero, one, or multiple characters.
+- `_` represents one, single character.
 
 
 
