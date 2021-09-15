@@ -3319,28 +3319,41 @@ tokenizer.convert_tokens_to_ids("[CLS]")
 
 
 
-# pymysql
-```python
-import pymysql
-```
-## pymysql.connect()
-```python
-connect = pymysql.connect(host="localhost", user="root", password="1453", db="masterdata")
-```
-
-
-
-# pymssql
-```python
-import pymssql
-```
-## pymssql.connect()
+# pymssql, pymysql, psycopg2
+## pymssql.connect(), pymysql.connect(), psycopg2.connect()
 ```python
 conn = pymssql.connect(server="125.60.68.233", database="eiparkclub", user="myhomie", password="homie2021!@#", charset="utf8")
 ```
 ### conn.cursor()
 ```python
 cur = conn.cursor()
+```
+#### cur.excute()
+```python
+cur.excute(query)
+```
+#### cur.fetchall()
+```python
+result = cur.fetchall() 
+```
+#### cur.close()
+#### cur.description
+```python
+salary = pd.DataFrame(result, columns=[col[0] for col in cur.description])
+```
+
+
+
+# psycopg2
+## psycopg2.extras
+### RealDictCursor
+```python
+from psycopg2.extras import RealDictCursor
+```
+## psycopg2.connect()
+### conn.cursor()
+```python
+cur = conn.cursor(cursor_factory=RealDictCursor)
 ```
 
 
@@ -4161,35 +4174,6 @@ except Exception as e:
     msg = traceback.format_exc()            
     msg += "\n\n Query: \n" + query            
     print(msg)  
-```
-
-
-
-# psycopg2
-## psycopg2.connect()
-```python
-conn = psycopg2.connect(host="postgresql-production1.cluster-ro-cxb5zwyq1mu5.ap-northeast-2.rds.amazonaws.com", dbname="hdc", user="postgres", password="dtRW2aj14KYl7aQl8oZd")
-```
-### conn.cursor()
-```python
-cur = conn.cursor(cursor_factory=RealDictCursor)
-```
-#### cur.excute()
-```python
-cur.excute(query)
-```
-#### cur.fetchall()
-```python
-result = cur.fetchall() 
-```
-#### cur.close()
-## psycopg2.extras
-### RealDictCursor
-```python
-from psycopg2.extras import RealDictCursor
-```
-```python
-jupyter notebook --NotebookApp.iopub_data_rate_limit=1.0e10
 ```
 
 
