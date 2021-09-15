@@ -216,9 +216,7 @@ ORDER BY HOUR;
 - HOUR()는 일반조건이므로 (COUNT()와 달리) HAIVNG과 함께 쓸 수 없다.
 ## DATE_FORMAT()
 ```sql
-SELECT animal_id, name, DATE_FORMAT(datetime, "%Y-%m-%d")
-FROM animal_ins
-ORDER BY animal_id;
+DATE_FORMAT(datetime, "%Y-%m-%d")
 ```
 ## DATEDIFF()
 ```sql
