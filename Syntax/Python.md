@@ -4025,18 +4025,38 @@ wb = openpyxl.load_workbook("D:/디지털혁신팀/태블로/HR분석/FINAL/★�
 ```python
 ws = wb.active
 ```
+### wb.worksheets
+```python
+ws = wb.worksheets[0]
+```
+### wb.sheetnames
+### wb.create_sheet()
+```python
+wb.create_sheet("Index_sheet")
+```
 #### ws[]
+#### ws.values()
+```python
+df = pd.DataFrame(ws.values)
+```
 #### ws.insert_rows(), ws.insert_cols(), ws.delete_rows(), ws.delete_cols()
 #### ws.append()
 ```python
 content = ["민수", "준공분", "거제2차", "15.06", "18.05", "1279"]
 ws.append(content)
 ```
+#### ws.merge_cells(), ws.unmerge_cells()
+```python
+ws.merge_cells("A2:D2")
+```
 ### wb.sheetnames
 ### wb.save()
 ```python
 wb.save("test.xlsx")
 ```
+from openpyxl.worksheet.formula import ArrayFormula
+f = ArrayFormula("E2:E11", "=SUM(C2:C11*D2:D11)")
+
 
 
 
