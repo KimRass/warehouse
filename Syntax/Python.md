@@ -13,11 +13,15 @@ Written by KimRass
 
 
 # Error Messages
-## `TypeError: unhashable type: ‘set’`
+## TypeError: unhashable type: '<<Data Type>>'
 - The unhashable objects are not allowed in set or dictionary key. The dictionary or set hashes the object and uses the hash value as a primary reference to the key.
-## `TypeError: 'set' object is not subscriptable`
-## `TypeError: sequence index must be integer, not 'slice'`
+## TypeError: '<<Data Type>>' object is not subscriptable
+- "Subscriptable" means that the object contain, or can contain, other objects.
+## TypeError: sequence index must be integer, not 'slice'
 - This error raises because `collections.deque` cannot be sliced.
+## TypeError: '<<Data Type>>' object is not iterable
+## NameError: name '<<Variable>>' is not defined
+## ZeroDivisionError: division by zero
 
 
 
@@ -43,7 +47,8 @@ list(map(int, input("숫자 입력  : ").split()))
 ```
 ## display()
 ## print()
-- `sep="\n"`
+- `end`: (default "\n")
+- `sep`: (default " ") Determine the value to join elements with.
 ## isinstance()
 ```python
 if not isinstance(movie, frozenset):
@@ -4333,3 +4338,9 @@ model.n_jobs=5
 ```python
 model.fit(train_X, train_y, eval_set=[(train_X, train_y), (val_X, val_y)], early_stopping_rounds=50, verbose=True)
 ```
+
+
+
+# copy
+## copy.copy()
+## copy.deepcopy()
