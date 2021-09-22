@@ -23,6 +23,9 @@ Written by KimRass
 ## NameError: name '<<Variable>>' is not defined
 ## ZeroDivisionError: division by zero
 ## SyntaxError
+## UnboundLocalError: local variable '<<Variable>>' referenced before assignment
+## ValueError: invalid literal for int() with base 10: <<String>>
+## ValueError: '<<Variable>>' is not in list
 
 
 
@@ -191,10 +194,8 @@ hr = pd.read_excel(f"./FINAL/HR/사원명단_{target_year}{str(target_month).zfi
 ```
 - String을 사이에 두고 리스트의 모든 원소들을 하나로 합침
 ### String.split()
-```python
-msg_tkn = [msg.split(" ") for msg in data["msg"]]
-```
-- makes a list by splitting the string using the argument as a criteria.
+- Split a string into a list where each word is a list item.
+- `maxsplit`: How many splits to do.
 ### String.strip()
 - Removes the begining or the end whitespaces(`" "`, `"\n"`, `"\t"`)
 ### String.upper(), String.lower()

@@ -49,3 +49,8 @@ class Trie():
             next_nodes = list()
         return words
 ```
+
+
+
+# Divide and Conquer
+- Divide -> Conquer -> Combine
