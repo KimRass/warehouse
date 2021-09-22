@@ -22,6 +22,7 @@ Written by KimRass
 ## TypeError: '<<Data Type>>' object is not iterable
 ## NameError: name '<<Variable>>' is not defined
 ## ZeroDivisionError: division by zero
+## SyntaxError
 
 
 
@@ -94,9 +95,9 @@ features.remove("area")
 ```
 ### sorted()
 ```python
-lens = sorted([len(doc) for doc in train_X])
+sorted(confs, key=lambda x:(x[0], x[1]))
 ```
-- `reverse`: (Bool)
+- `reverse`: (Bool, default `False`)
 - `key`: Define a function to sort by.
 ### reversed()
 ```python
@@ -159,7 +160,7 @@ dic.update({key1:value1, key2:value2})
 dic.pop(key)
 ```
 ### Dictionary.keys(), Dictionary.values()
-### Dictionary.fromkeys(list or tuple, value)
+### Dictionary.fromkeys()
 ### sorted()
 ```python
 word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
