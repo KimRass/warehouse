@@ -54,16 +54,35 @@ class Trie():
 ```
 ## Stack
 - LIFO(Last-In-First-Out)
-- `List.append()`, `List.pop()`
+```python
+List.append()
+List.pop()
+```
 ## Queue
 - LILO(Last-In-Last-Out)
 - 데이터가 들어오는 위치는 가장 뒤(Rear 또는 Back이라고 한다.)에 있고, 데이터가 나가는 위치는 가장 앞(Front라고 한다.)
-- `List.append()`, `List.pop(0)`
+- `List.pop(0)` 사용 시 첫 번째 element를 pop한 후 나머지 elements의 Index를 1칸씩 당기는 과정에서 O(n)의 계산량이 발생한다.(Source: https://www.acmicpc.net/board/view/47845)
+```python
+from collections import deque
+deque().append()
+deque().popleft()
+```
 ### Priority Queue
 ## Deque(Double Ended Queue)
 ```python
 from collections import deque
+deque().append()
+deque().appendleft()
+deque().pop()
+deque()popleft()
 ```
+## Heap
+```python
+import heqpq as hq
+hq.heappush(<<Heap Object>>, <<Element>>)
+hq.heqppop(<<Heap Object>>)
+```
+
 
 
 # Divide and Conquer

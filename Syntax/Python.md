@@ -13,20 +13,31 @@ Written by KimRass
 
 
 # Error Messages
-## TypeError: unhashable type: '<<Data Type>>'
+## TypeError
+### TypeError: unhashable type: '<<Data Type>>'
 - The unhashable objects are not allowed in set or dictionary key. The dictionary or set hashes the object and uses the hash value as a primary reference to the key.
-## TypeError: '<<Data Type>>' object is not subscriptable
+### TypeError: '<<Data Type>>' object is not subscriptable
 - "Subscriptable" means that the object contain, or can contain, other objects.
-## TypeError: sequence index must be integer, not 'slice'
+### TypeError: sequence index must be integer, not 'slice'
 - This error raises because `collections.deque` cannot be sliced.
-## TypeError: '<<Data Type>>' object is not iterable
-## NameError: name '<<Variable>>' is not defined
-## ZeroDivisionError: division by zero
+### TypeError: '<<Data Type>>' object is not iterable
+### TypeError: <<Function Name>> takes exactly <<Number of needed arguments>> argument (<<Number of input arguments>> given)
+### TypeError: sequence item 0: expected str instance, int found
+## NameError
+### NameError: name '<<Variable>>' is not defined
+## ZeroDivisionError
+### ZeroDivisionError: division by zero
 ## SyntaxError
-## UnboundLocalError: local variable '<<Variable>>' referenced before assignment
-## ValueError: invalid literal for int() with base 10: <<String>>
-## ValueError: '<<Variable>>' is not in list
-## TypeError: sequence item 0: expected str instance, int found
+### SyntaxError: invalid syntax
+## UnboundLocalError
+### UnboundLocalError: local variable '<<Variable>>' referenced before assignment
+## ValueError
+### ValueError: invalid literal for int() with base 10: <<String>>
+### ValueError: '<<Variable>>' is not in list
+## IndexError
+### IndexError: list index out of range
+## ImportError
+### ImportError: cannot import name '<<Functions Name>>' from '<<Package Name>>'
 
 
 
@@ -3471,6 +3482,12 @@ import sys
 ```python
 sys.path.append("c:/users/82104/anaconda3/envs/tf2.3/lib/site-packages")
 ```
+## sys.stdin
+### sys.stdin.readline()
+```python
+cmd = sys.stdin.readline().rstrip()
+```
+## sys.setrecursionlimit()
 
 
 
