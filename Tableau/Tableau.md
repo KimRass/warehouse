@@ -270,3 +270,11 @@ ATTR([댓글생성자id])), 6)
 - `Publish Workbook...`
 ## Alt + O -> D or W
 - `Dashboard...` or `Workbook...`
+
+
+
+# `Publish Workbook to Tableau Server`
+## `More Options`
+### `Show sheets as tabs`
+### `Show selections`
+### `Include external files`
