@@ -71,7 +71,7 @@ from collections import deque
 deque().append()
 deque().appendleft()
 deque().pop()
-deque()popleft()
+deque().popleft()
 ```
 ## Heap
 ```python
@@ -89,8 +89,15 @@ hq.heqppop(<<Heap Object>>)
 # Sorting
 # Back Tracking
 # Dynamic Programming
+## 0-1 Knapsack Problem
+- Source: https://gsmesie692.tistory.com/113
+- P\[i, w\] 란 i개의 보석이 있고 배낭의 무게 한도가 w일 때 최적의 이익을 의미한다.
+- i번째 보석이 배낭의 무게 한도보다 무거우면 넣을 수 없으므로 i번째 보석을 뺀 i-1개의 보석들을 가지고 구한 전 단계의 최적값을 그대로 가져온다.
+- 그렇지 않은 경우, i번째 보석을 위해 i번째 보석만큼의 무게를 비웠을 때의 최적값에 i번째 보석의 가격을 더한 값 or i-1개의 보석들을 가지고 구한 전 단계의 최적값 중 큰 것을 선택한다.
 ## Longest Increasing Subsequence
-# Greedy Algorithm
+# Greedy Algorithms
+- Greedy is an algorithmic paradigm that builds up a solution piece by piece, always choosing the next piece that offers the most obvious and immediate benefit. So the problems where choosing locally optimal also leads to global solution are best fit for Greedy.(Source: https://www.geeksforgeeks.org/greedy-algorithms/)
+## Fractional Knapsack Problem
 # Depth First Search
 # Breadth First Search
 # Two Pointers

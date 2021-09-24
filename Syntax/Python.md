@@ -24,6 +24,7 @@ Written by KimRass
 ### TypeError: <<Function Name>> takes exactly <<Number of needed arguments>> argument (<<Number of input arguments>> given)
 ### TypeError: sequence item 0: expected str instance, int found
 ### TypeError: can only concatenate tuple (not "<<Data Type>>") to tuple
+### TypeError: '<<Argument>>' is an invalid keyword argument for <<Function>>()
 ## NameError
 ### NameError: name '<<Variable>>' is not defined
 ## ZeroDivisionError
