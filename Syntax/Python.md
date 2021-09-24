@@ -23,6 +23,7 @@ Written by KimRass
 ### TypeError: '<<Data Type>>' object is not iterable
 ### TypeError: <<Function Name>> takes exactly <<Number of needed arguments>> argument (<<Number of input arguments>> given)
 ### TypeError: sequence item 0: expected str instance, int found
+### TypeError: can only concatenate tuple (not "<<Data Type>>") to tuple
 ## NameError
 ### NameError: name '<<Variable>>' is not defined
 ## ZeroDivisionError
