@@ -102,3 +102,7 @@ hq.heqppop(<<Heap Object>>)
 # Breadth First Search
 # Two Pointers
 # Tree
+# Implementation
+- 풀이를 떠올리는 것은 쉽지만 소스코드로 옮기기 어려운 문제.
+## Exhaustive Search
+## Simulation
