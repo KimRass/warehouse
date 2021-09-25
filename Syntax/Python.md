@@ -25,12 +25,14 @@ Written by KimRass
 ### TypeError: sequence item 0: expected str instance, int found
 ### TypeError: can only concatenate tuple (not "<<Data Type>>") to tuple
 ### TypeError: '<<Argument>>' is an invalid keyword argument for <<Function>>()
+### TypeError: unsupported operand type(s) for <<Operator>>: '<<Data Type 1>>' and '<<Data Type 2>>'
 ## NameError
 ### NameError: name '<<Variable>>' is not defined
 ## ZeroDivisionError
 ### ZeroDivisionError: division by zero
 ## SyntaxError
 ### SyntaxError: invalid syntax
+### SyntaxError: unmatched ')', SyntaxError: unmatched ']'
 ## UnboundLocalError
 ### UnboundLocalError: local variable '<<Variable>>' referenced before assignment
 ## ValueError
@@ -40,6 +42,12 @@ Written by KimRass
 ### IndexError: list index out of range
 ## ImportError
 ### ImportError: cannot import name '<<Functions Name>>' from '<<Package Name>>'
+## RuntimeError
+### RuntimeError: dictionary changed size during iteration
+# KeyError
+## KeyError: <<Dictionary Key>>
+# KeyboardInterrupt
+## KeyboardInterrupt: 
 
 
 
