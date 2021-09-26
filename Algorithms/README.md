@@ -80,8 +80,6 @@ class Trie():
         return words
 ```
 
-# Divide and Conquer
-- Divide -> Conquer -> Combine
 
 # Brute-Force Attack
 
@@ -92,6 +90,7 @@ class Trie():
 # Back Tracking
 
 # Dynamic Programming
+- Divide and Conquer: Divide -> Conquer -> Combine
 ## 0-1 Knapsack Problem
 - Source: https://gsmesie692.tistory.com/113
 - P\[i, w\] 란 i개의 보석이 있고 배낭의 무게 한도가 w일 때 최적의 이익을 의미한다.
@@ -106,9 +105,43 @@ class Trie():
 
 # Graph Traversal
 ## Depth First Search
+- Use stack
+```python
+stack = [...]
+visited = {...}
+while stack:
+	start = stack.pop()
+	if visited[start] == False:
+		visited[start] = True
+		stack.append(graph[start])
+```
 ## Breadth First Search
-
+- Use queue
 # Two Pointers
+- Time complexity: $O(N)$
+```python
+arr = sorted(arr)
+left = 0
+right = len(arr)
+cnt = 0
+while left < right:
+	if f(left, right) < x:
+		left += 1
+	elif f(left, right) > x:
+		right += 1
+	else:
+		left += 1
+		cnt += 1
+```
+
+# Prefix Sum
+```python
+pref_sum = [0]
+temp = 0
+for i in arr:
+    temp += i
+    pref_sum.append(temp)
+```
 
 # Tree
 

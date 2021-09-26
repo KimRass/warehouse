@@ -33,6 +33,7 @@ Written by KimRass
 ## SyntaxError
 ### SyntaxError: invalid syntax
 ### SyntaxError: unmatched ')', SyntaxError: unmatched ']'
+### SyntaxError: Generator expression must be parenthesized
 ## UnboundLocalError
 ### UnboundLocalError: local variable '<<Variable>>' referenced before assignment
 ## ValueError
@@ -185,6 +186,7 @@ dic.update({key1:value1, key2:value2})
 dic.pop(key)
 ```
 ### Dictionary.keys(), Dictionary.values()
+- Data type: `dict_keys`, `dict_values`
 ### Dictionary.fromkeys()
 ### sorted()
 ```python
