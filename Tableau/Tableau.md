@@ -278,3 +278,13 @@ ATTR([댓글생성자id])), 6)
 ### `Show sheets as tabs`
 ### `Show selections`
 ### `Include external files`
+
+
+
+# URL Parameters
+## :showAppBanner=false
+## :display_count=n
+## :showVizHome=n
+## :origin=viz_share_link
+## :embed=yes
+## :toolbar=top
