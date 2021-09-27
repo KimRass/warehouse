@@ -12,23 +12,34 @@ List.pop()
 - `List.pop(0)` 사용 시 첫 번째 element를 pop한 후 나머지 elements의 Index를 1칸씩 당기는 과정에서 O(n)의 계산량이 발생한다.(Source: https://www.acmicpc.net/board/view/47845)
 ```python
 from collections import deque
+
 deque().append()
 deque().popleft()
 ```
 ### Priority Queue
+#### Heap
+- Min Heap
+```python
+import heqpq as hq
+
+hq.heappush(<<Heap Object>>, <<Element>>)
+hq.heqppop(<<Heap Object>>)
+```
+- Max Heap
+```python
+import heqpq as hq
+
+hq.heappush(<<Heap Object>>, -<<Element>>)
+hq.heqppop(<<Heap Object>>)
+```
 ## Deque(Double Ended Queue)
 ```python
 from collections import deque
+
 deque().append()
 deque().appendleft()
 deque().pop()
 deque().popleft()
-```
-## Heap
-```python
-import heqpq as hq
-hq.heappush(<<Heap Object>>, <<Element>>)
-hq.heqppop(<<Heap Object>>)
 ```
 ## Trie
 - Source: https://velog.io/@gojaegaebal/210126-%EA%B0%9C%EB%B0%9C%EC%9D%BC%EC%A7%8050%EC%9D%BC%EC%B0%A8-%ED%8A%B8%EB%9D%BC%EC%9D%B4Trie-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B0%9C%EB%85%90-%EB%B0%8F-%ED%8C%8C%EC%9D%B4%EC%8D%AC%EC%97%90%EC%84%9C-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0feat.-Class
@@ -80,7 +91,6 @@ class Trie():
         return words
 ```
 
-
 # Brute-Force Attack
 
 # Recursion
@@ -97,15 +107,26 @@ class Trie():
 - i번째 보석이 배낭의 무게 한도보다 무거우면 넣을 수 없으므로 i번째 보석을 뺀 i-1개의 보석들을 가지고 구한 전 단계의 최적값을 그대로 가져온다.
 - 그렇지 않은 경우, i번째 보석을 위해 i번째 보석만큼의 무게를 비웠을 때의 최적값에 i번째 보석의 가격을 더한 값 or i-1개의 보석들을 가지고 구한 전 단계의 최적값 중 큰 것을 선택한다.
 ## Longest Increasing Subsequence
+- Time complexity: $O(N^2)$
+```python
+arr = [0] + arr
+
+mem = {0:0}
+for i in A[1:]:
+    mem[i] = max([v for k, v in mem.items() if k < i]) + 1
+print(max(mem.values()))
+```
 
 # Greedy Algorithms
 - Source: Source: https://www.geeksforgeeks.org/greedy-algorithms/
 - Greedy is an algorithmic paradigm that builds up a solution piece by piece, always choosing the next piece that offers the most obvious and immediate benefit. So the problems where choosing locally optimal also leads to global solution are best fit for Greedy.
 ## Fractional Knapsack Problem
 
+# Graph Theory
+## Dijkstra's
+## Floyd–warshall
 # Graph Traversal
 ## Depth First Search
-- Use stack
 ```python
 stack = [...]
 visited = {...}
@@ -116,11 +137,23 @@ while stack:
 		stack.append(graph[start])
 ```
 ## Breadth First Search
-- Use queue
-# Two Pointers
+```python
+from collections import deque
+
+dq = deque([...])
+visited = {...}
+while dq:
+	start = dq.popleft()
+	if visited[start] == False:
+		visited[start] = True
+		dq.append(graph[start])
+```
+
+# Two-Pointers
 - Time complexity: $O(N)$
 ```python
 arr = sorted(arr)
+
 left = 0
 right = len(arr)
 cnt = 0
@@ -145,8 +178,14 @@ for i in arr:
 
 # Tree
 
+# Binary Search
+## Longest Increasing Subsequence
+- Time complexity: $O(N\logN)$
+
 # Implementation
 - 풀이를 떠올리는 것은 쉽지만 소스코드로 옮기기 어려운 문제.
 ## Exhaustive Search
 
 ## Simulation
+
+# Hash
