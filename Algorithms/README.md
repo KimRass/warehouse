@@ -252,7 +252,19 @@ bst = BinarySearchTree(root)
 
 # Binary Search
 ```python
+arr = sorted(arr)
 
+left = 0
+right = N - 1
+while left <= right:
+    mid = (left + right)//2
+
+    if arr[mid] == tar:
+        print(arr[mid])
+    elif arr[mid] > tar:
+        right = mid - 1
+    else:
+        left = mid + 1
 ```
 ## Longest Increasing Subsequence
 - Time complexity: $O(N\logN)$
