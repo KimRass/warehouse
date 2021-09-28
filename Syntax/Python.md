@@ -31,6 +31,7 @@ Written by KimRass
 ## ZeroDivisionError
 ### ZeroDivisionError: division by zero
 ## SyntaxError
+### SyntaxError: unexpected EOF while parsing
 ### SyntaxError: invalid syntax
 ### SyntaxError: unmatched ')', SyntaxError: unmatched ']'
 ### SyntaxError: Generator expression must be parenthesized

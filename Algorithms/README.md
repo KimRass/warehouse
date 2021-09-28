@@ -177,9 +177,47 @@ for i in arr:
 ```
 
 # Tree
+- Node = Vertex
+- Edge = Link
 ## Binary Tree
 - 최대 2개의 자식 노드
 - Reference: https://gingerkang.tistory.com/86
+### Tree Traversal
+#### Depth First Traversal
+- Preorder Traverse: Parent -> Left -> Right
+```python
+def preorder(self, node):
+    if node == None:
+        pass
+    else:
+        print(node.value)
+        preorder(node.left)
+        preorder(node.right)
+```
+- Inorder Traverse: Left -> Parent -> Right
+```python
+def inorder(self, node):
+    if node == None:
+        pass
+    else:
+        inorder(node.left)
+        print(node.value)
+        inorder(node.right)
+```
+- Postorder Traverse: Left -> Right -> Parent
+```python
+def postorder(self, node):
+    if node == None:
+        pass
+    else:
+        postorder(node.left)
+        postorder(node.right)
+        print(node.value)
+```
+#### Breadth First Traversal
+- Level-Order Traverse: Level-order
+### Binary Search Tree
+- Left < Parent < Right
 ```python
 class Node():
     def __init__(self, value):
@@ -210,8 +248,6 @@ class BinarySearchTree():
 root = Node(1)
 bst = BinarySearchTree(root)
 ```
-### Binary Search Tree
-- 왼쪽은 부모보다 작고, 오른쪽은 부모보다 큼
 
 # Binary Search
 ## Longest Increasing Subsequence
