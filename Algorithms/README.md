@@ -18,20 +18,21 @@ deque().popleft()
 ```
 ### Priority Queue
 #### Heap
-- Min Heap
+- Min Heap: Parent < Child
 ```python
 import heqpq as hq
 
 hq.heappush(<<Heap Object>>, <<Element>>)
 hq.heqppop(<<Heap Object>>)
 ```
-- Max Heap
+- Max Heap: Parent > Child
 ```python
 import heqpq as hq
 
 hq.heappush(<<Heap Object>>, -<<Element>>)
 hq.heqppop(<<Heap Object>>)
 ```
+##### Binary Heap
 ## Deque(Double Ended Queue)
 ```python
 from collections import deque
@@ -250,6 +251,9 @@ bst = BinarySearchTree(root)
 ```
 
 # Binary Search
+```python
+
+```
 ## Longest Increasing Subsequence
 - Time complexity: $O(N\logN)$
 

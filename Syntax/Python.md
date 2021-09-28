@@ -4187,7 +4187,7 @@ hq.heapify(scoville)
 ```
 - Transform a list into a heap in linear time.
 - In-place function.
-## hq.nlargest()
+## hq.nsmallest(), hq.nlargest()
 ```python
 hp = hq.nlargest(len(hp), hp)[1:]
 ```
