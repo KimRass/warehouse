@@ -278,12 +278,44 @@ while left <= right:
     mid = (left + right)//2
 
     if arr[mid] == tar:
-        print(arr[mid])
+        ...
 		break
     elif arr[mid] > tar:
         right = mid - 1
     else:
         left = mid + 1
+```
+```python
+from bisect import bisect_left, bisect_right
+
+arr = sorted(arr)
+
+print(... if bisect_right(arr, tar) == bisect_left(arr, tar) else ...)
+```
+```python
+def bisect_left(arr, tar):
+    left = 0
+    right = len(arr)
+    while left < right:
+        mid = (left + right)//2
+
+        if arr[mid] < tar:
+            left = mid + 1
+        else:
+            right = mid
+    return left
+    
+def bisect_right(arr, tar):
+    left = 0
+    right = len(arr)
+    while left < right:
+        mid = (left + right)//2
+
+        if arr[mid] > tar:
+            right = mid
+        else:
+            left = mid + 1
+    return left
 ```
 ## Longest Increasing Subsequence
 - Time complexity: $O(N\logN)$
