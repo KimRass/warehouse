@@ -95,6 +95,24 @@ class Trie():
 # Brute-Force Attack
 
 # Recursion
+- Factorial
+```python
+def fac(n):
+    if n == 0 or n == 1:
+        return 1
+    else:
+        return n*fac(n - 1)
+```
+- Fibonacci Number
+```python
+def fibo(n):
+    if n == 0:
+        return 0
+    elif n == 1:
+        return 1
+    else:
+        return fibo(n - 1) + fibo(n - 2)
+```
 
 # Sorting
 
@@ -261,6 +279,7 @@ while left <= right:
 
     if arr[mid] == tar:
         print(arr[mid])
+		break
     elif arr[mid] > tar:
         right = mid - 1
     else:
