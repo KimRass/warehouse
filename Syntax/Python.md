@@ -26,6 +26,7 @@ Written by KimRass
 ### TypeError: can only concatenate tuple (not "<<Data Type>>") to tuple
 ### TypeError: '<<Argument>>' is an invalid keyword argument for <<Function>>()
 ### TypeError: unsupported operand type(s) for <<Operator>>: '<<Data Type 1>>' and '<<Data Type 2>>'
+### TypeError: heap argument must be a list
 ## NameError
 ### NameError: name '<<Variable>>' is not defined
 ## ZeroDivisionError
@@ -702,6 +703,10 @@ data["fuel"] = data["heating"].apply(lambda x:x.split(",")[1]).str.strip()
 ### Series.str.contains()
 ```python
 train[train["token"].str.contains(".", regex=False)]
+```
+### Series.str.encode(), Series.str.decode()
+```python
+infos[col] = infos[col].str.encode("latin-1").str.decode("euc-kr")
 ```
 ## Series.cat
 ### Series.cat.categories
@@ -2150,22 +2155,38 @@ img_recs = cv2.rectangle(img=img_rgb_copy, pt1=(rect[0], rect[1]),
 
 
 # datetime
-```python
-import datetime
-```
-## datetime.datetime()
+## datetime.today()
+## datetime.datetime(), datetime.date()
 ```python
 datetime.datetime(2018, 5, 19)
 ```
 - Require three parameters in sequence to create a date; year, month, day
 ### datetime.datetime.now()
-### timestamp()
-- 1970년 1월 1일 0시 0분 0초로부터 경과한 시간을 초 단위로 반환합니다.
-## datetime.datetime.strftime()
+### datetime.datetime.strptime()
+- String into Datetime
 ```python
 t2 = datetime.datetime.strptime("12:14", "%H:%M")
 ```
-## datetime.timedelta()
+- `"%Y"`: Year with century as a decimal number.
+- `"%y"`: Year without century as a zero-padded decimal number.
+- `"%m"`: Month as a zero-padded decimal number.
+- `"%d"`: Day of the month as a zero-padded decimal number.
+- `"%H"`: Hour (24-hour clock) as a zero-padded decimal number.
+- `"%I"`: Hour (12-hour clock) as a zero-padded decimal number.
+- `"%M"`: Minute as a zero-padded decimal number.
+- `"%S"`: Second as a zero-padded decimal number
+- `"%A"`: Weekday as locale’s full name.
+- `"%B"`: Month as locale’s full name.
+- `"%b"`: Month as locale’s abbreviated name.
+### datetime.datetime.strftime()
+- Datetime into String
+```python
+strftime("%Y-%m-%d")
+```
+## datetime.timedelta
+```python
+day = start + datetime.timedelta(days=1)
+```
 ### datetime.timedelta.total_seconds()
 ```python
 (t2 - t1).total_seconds()
@@ -4089,31 +4110,6 @@ sheet.append(content)
 ```python
 sheet["H8"] = "=SUM(H6:H7)"
 ```
-
-
-
-# datetime
-```python
-impoirt datetime
-```
-## datetime.datetime
-## datetime.timedelta
-```python
-day = start + datetime.timedelta(days=1)
-```
-## datetime.today()
-## strftime()
-```python
-strftime("%Y-%m-%d")
-```
-- `%Y` : 4자리 연도 숫자 
-- `%m` : 2자리 월 숫자
-- `%d` : 2자리 일 숫자
-- `%H` : 24시간 형식 2자리 시간 숫자
-- `%M` : 2자리 분 숫자
-- `%S` : 2자리 초 숫자
-- `%A` : 요일 문자열(영어)
-- `%B` : 월 문자열(영어)
 
 
 
