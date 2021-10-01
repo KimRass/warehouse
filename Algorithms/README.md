@@ -42,6 +42,78 @@ deque().appendleft()
 deque().pop()
 deque().popleft()
 ```
+## Tree
+- Node = Vertex
+- Edge = Link
+### Binary Tree
+- 최대 2개의 자식 노드
+- Reference: https://gingerkang.tistory.com/86
+#### Binary Search Tree
+- Left < Parent < Right
+```python
+class Node():
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+		self.right = None
+		
+class BinarySearchTree():
+    def __init__(self, root):
+        self.root = root
+    def insert(self, value):
+		self.cur_node = self.root
+		while True:
+			if value < self.cur_node.value:
+				if self.cur_node.left == None:
+					self.cur_node.left = Node(value)
+					break
+				else:
+					self.cur_node = self.cur_node.left
+			else:
+				if self.cur_node.right == None:
+					self.cur_node.right = Node(value)
+					break
+				else:
+					self.cur_node = self.cur_node.right
+					
+					
+root = Node(1)
+bst = BinarySearchTree(root)
+```
+### Tree Traversal
+#### Depth First Traversal
+- Preorder Traverse: Parent -> Left -> Right
+```python
+def preorder(self, node):
+    if node == None:
+        pass
+    else:
+        print(node.value)
+        preorder(node.left)
+        preorder(node.right)
+```
+- Inorder Traverse: Left -> Parent -> Right
+```python
+def inorder(self, node):
+    if node == None:
+        pass
+    else:
+        inorder(node.left)
+        print(node.value)
+        inorder(node.right)
+```
+- Postorder Traverse: Left -> Right -> Parent
+```python
+def postorder(self, node):
+    if node == None:
+        pass
+    else:
+        postorder(node.left)
+        postorder(node.right)
+        print(node.value)
+```
+#### Breadth First Traversal
+- Level-Order Traverse: Level-order
 ## Trie
 - Source: https://velog.io/@gojaegaebal/210126-%EA%B0%9C%EB%B0%9C%EC%9D%BC%EC%A7%8050%EC%9D%BC%EC%B0%A8-%ED%8A%B8%EB%9D%BC%EC%9D%B4Trie-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B0%9C%EB%85%90-%EB%B0%8F-%ED%8C%8C%EC%9D%B4%EC%8D%AC%EC%97%90%EC%84%9C-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0feat.-Class
 ```python
@@ -180,7 +252,7 @@ while left < right:
 	if f(left, right) < x:
 		left += 1
 	elif f(left, right) > x:
-		right += 1
+		right -= 1
 	else:
 		left += 1
 		cnt += 1
@@ -193,79 +265,6 @@ temp = 0
 for i in arr:
     temp += i
     pref_sum.append(temp)
-```
-
-# Tree
-- Node = Vertex
-- Edge = Link
-## Binary Tree
-- 최대 2개의 자식 노드
-- Reference: https://gingerkang.tistory.com/86
-### Tree Traversal
-#### Depth First Traversal
-- Preorder Traverse: Parent -> Left -> Right
-```python
-def preorder(self, node):
-    if node == None:
-        pass
-    else:
-        print(node.value)
-        preorder(node.left)
-        preorder(node.right)
-```
-- Inorder Traverse: Left -> Parent -> Right
-```python
-def inorder(self, node):
-    if node == None:
-        pass
-    else:
-        inorder(node.left)
-        print(node.value)
-        inorder(node.right)
-```
-- Postorder Traverse: Left -> Right -> Parent
-```python
-def postorder(self, node):
-    if node == None:
-        pass
-    else:
-        postorder(node.left)
-        postorder(node.right)
-        print(node.value)
-```
-#### Breadth First Traversal
-- Level-Order Traverse: Level-order
-### Binary Search Tree
-- Left < Parent < Right
-```python
-class Node():
-    def __init__(self, value):
-        self.value = value
-        self.left = None
-		self.right = None
-		
-class BinarySearchTree():
-    def __init__(self, root):
-        self.root = root
-    def insert(self, value):
-		self.cur_node = self.root
-		while True:
-			if value < self.cur_node.value:
-				if self.cur_node.left == None:
-					self.cur_node.left = Node(value)
-					break
-				else:
-					self.cur_node = self.cur_node.left
-			else:
-				if self.cur_node.right == None:
-					self.cur_node.right = Node(value)
-					break
-				else:
-					self.cur_node = self.cur_node.right
-					
-					
-root = Node(1)
-bst = BinarySearchTree(root)
 ```
 
 # Binary Search
