@@ -331,6 +331,7 @@ ratings_train = pd.read_table("ratings_train.txt", usecols=["document", "label"]
 ```python
 mall = pd.read_sql(query, conn)
 ```
+## DataFrame.head(), Series.head(), DataFrame.tail(), Series.tail()
 ## DataFrame.to_csv()
 ```python
 data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거래가 전처리 완료_200928-3.csv")

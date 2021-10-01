@@ -201,6 +201,14 @@ ATTR([댓글생성자id])), 6)
 
 
 
+# ELSE
+## RANDOM()
+```
+127 + 2.5*(RANDOM() - 0.2)
+```
+
+
+
 # Functions
 ## Custom Number Format
 ```
