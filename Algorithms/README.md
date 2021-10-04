@@ -43,8 +43,52 @@ deque().pop()
 deque().popleft()
 ```
 ## Tree
-- Node = Vertex
-- Edge = Link
+- Source: https://en.wikipedia.org/wiki/Tree_(data_structure)
+- Node, Vertex
+- Edge, Link
+- Ancestor: A node reachable by repeated proceeding from child to parent.
+- Descendant, Subchild: A node reachable by repeated proceeding from parent to child.
+- Degree: For a given node, its number of children. A leaf has necessarily degree zero.
+	- Degree of a tree: Maximum degree of a node in the tree.
+- Distance: The number of edges along the shortest path between two nodes.
+- Level: The level of a node is the number of edges along the unique path between it and the root node.
+- Width: The number of nodes in a level.
+- Bredth: The number of leaves.
+- Diameter of a tree: The longest path between any two nodes (which MAY or MAY NOT PASS through the root Node).
+```python
+node = list(tree)[0]
+
+stack = [(node, 0)]
+visited = {i:False for i in tree}
+visited[node] = True
+
+# 지름을 구성하는 2개의 노드 중 하나를 구합니다.
+max_dist = 1
+while stack:
+    start, dist1 = stack.pop()
+    if dist1 > max_dist:
+        max_dist = dist1
+        node = start
+    for end, dist2 in tree[start]:
+        if visited[end] == False:
+            visited[end] = True
+            stack.append((end, dist1 + dist2))
+
+stack = [(node, 0)]
+visited = {i:False for i in tree}
+visited[node] = True
+
+# 지름을 구합니다.
+diam = 1
+while stack:
+    start, dist1 = stack.pop()
+    if dist1 > diam:
+        diam = dist1
+    for end, dist2 in tree[start]:
+        if visited[end] == False:
+            visited[end] = True
+            stack.append((end, dist1 + dist2))
+```
 ### Binary Tree
 - 최대 2개의 자식 노드
 - Reference: https://gingerkang.tistory.com/86
@@ -114,7 +158,7 @@ def postorder(self, node):
 ```
 #### Breadth First search
 - Level-Order Traverse: Level-order
-## Trie
+### Trie
 - Source: https://velog.io/@gojaegaebal/210126-%EA%B0%9C%EB%B0%9C%EC%9D%BC%EC%A7%8050%EC%9D%BC%EC%B0%A8-%ED%8A%B8%EB%9D%BC%EC%9D%B4Trie-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B0%9C%EB%85%90-%EB%B0%8F-%ED%8C%8C%EC%9D%B4%EC%8D%AC%EC%97%90%EC%84%9C-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0feat.-Class
 ```python
 class Node():
