@@ -22,7 +22,7 @@ Written by KimRass
 ## Alternate Key
 - A table can have multiple choices for a primary key but only one can be set as the primary key. All the keys which are not primary key are called an Alternate Key.
 ## Foreign Key
-- Foreign key is a column that creates a relationship between two tables. The purpose of Foreign keys is to maintain data integrity and allow navigation between two different instances of an entity.
+- Foreign key is a column that creates a relationship between two tables. The purpose of foreign keys is to maintain data integrity and allow navigation between two different instances of an entity.
 - Foreign Key is used to prevent actions that would destroy links between tables. It is a field (or collection of fields) in one table, that refers to the primary key in another table. The table with the foreign key is called the child table, and the table with the primary key is called the referenced or parent table.
 - Foreign key prevents invalid data from being inserted into the foreign key column, because it has to be one of the values contained in the parent table.
 ## Compound Key
@@ -52,12 +52,25 @@ Written by KimRass
 보안
 성능
 ## Conceptual Data Modeling
-- They offer a big-picture view of what the system will contain, how it will be organized, and which business rules are involved.
-- Conceptual models are usually created as part of the process of gathering initial project requirements.
-## Logical Data Models
-- They are less abstract and provide greater detail about the concepts and relationships in the domain under consideration. One of several formal data modeling notation systems is followed. These indicate data attributes, such as data types and their corresponding lengths, and show the relationships among entities. Logical data models don’t specify any technical system requirements.
+- Conceptual models offer a big-picture view of what the system will contain, how it will be organized, and which business rules are involved.
+- They are usually created as part of the process of gathering initial project requirements.
+## Logical Data Modeling
+- Logical models are less abstract and provide greater detail about the concepts and relationships in the domain under consideration. One of several formal data modeling notation systems is followed. These indicate data attributes, such as data types and their corresponding lengths, and show the relationships among entities. Logical data models don’t specify any technical system requirements.
+### Database Normalization
+- Source: https://en.wikipedia.org/wiki/Database_normalization
+- Database normalization is the process of structuring a database, usually a relational database, in accordance with a series of so-called normal forms in order to reduce data redundancy and improve data integrity.
+- Objectives:
+	- To free the collection of relations from undesirable insertion, update and deletion dependencies.
+	- To reduce the need for restructuring the collection of relations, as new types of data are introduced, and thus increase the life span of application programs.
+- When an attempt is made to modify (update, insert into, or delete from) a relation, the following undesirable side-effects may arise in relations that have not been sufficiently normalized:
+	- Update anomaly: For example, a change of address for a particular employee may need to be applied to multiple records (one for each skill). If the update is only partially successful – the employee's address is updated on some records but not others – then the relation is left in an inconsistent state. Specifically, the relation provides conflicting answers to the question of what this particular employee's address is.
+	- Insertion anomaly: There are circumstances in which certain facts cannot be recorded at all. For example, the details of any faculty member who teaches at least one course can be recorded, but a newly hired faculty member who has not yet been assigned to teach any courses cannot be recorded, except by setting the Course Code to null.
+	- Deletion anomaly: Under certain circumstances, deletion of data representing certain facts necessitates deletion of data representing completely different facts. For example, if a faculty member temporarily ceases to be assigned to any courses, the last of the records on which that faculty member appears must be deleted, effectively also deleting the faculty member, unless the Course Code field is set to null.
+- Normalization is a database design technique, which is used to design a relational database table up to higher normal form.[9] The process is progressive, and a higher level of database normalization cannot be achieved unless the previous levels have been satisfied.
+#### Satisfying 1NF(First Normal Form)
+- To satisfy First normal form, each column of a table must have a single value. Columns which contain sets of values or nested records are not allowed.
 ## Physical Data Models
-- They provide a schema for how the data will be physically stored within a database. As such, they’re the least abstract of all. They offer a finalized design that can be implemented as a relational database, including associative tables that illustrate the relationships among entities as well as the primary keys and foreign keys that will be used to maintain those relationships.
+- Physical models provide a schema for how the data will be physically stored within a database. As such, they’re the least abstract of all. They offer a finalized design that can be implemented as a relational database, including associative tables that illustrate the relationships among entities as well as the primary keys and foreign keys that will be used to maintain those relationships.
 
 # Wireframe & Storyboard
 # Wireframe
@@ -85,3 +98,9 @@ Written by KimRass
 ## Entity
 ## Relationship
 - One to One or One to Many or Many to Many
+### Identifying Relationship
+- 외래키를 기본키로 사용하는 관계를 식별 관계.
+- B테이블은 A테이블에 종속적이 되어서 A의 값이 없으면 B의 값은 무의미해짐.
+### Non-Identifying Relationship
+- When the primary key of the parent must not become primary key of the child.
+- A의 값이 없더라도 B의 값은 독자적으로 의미를 가짐.

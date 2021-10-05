@@ -270,8 +270,8 @@ ATTR([댓글생성자id])), 6)
 - `Edit Blend Relationships...`
 ## Alt + D -> X
 - `Refresh All Extracts...`
-## Alt + B -> C
-- `Copy Image`
+## Alt + W -> C -> I, Alt + B -> C
+- `Image...`, `Copy Image` respectively
 ## Alt + B -> X
 - `Export Image...`
 ## Alt + S -> W

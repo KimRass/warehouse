@@ -1,4 +1,9 @@
-# MySQL
+# Install
+- https://www.mysql.com/ -> "DOWNLOADS" -> "MySQL Community (GPL) Downloads" -> "MySQL Installer for Windows" -> "Windows (x86, 32-bit), MSI Installer (mysql-installer-community-8.0.26.0.msi)" -> "No thanks, just start my download." -> "Choosing a Setup Type": "Custom" -> "Select Products": Select "MySQL Server", "MySQL Workbench", "Samples and Examples" -> "Type and Networking": Check off "TCP/IP", "Port": "3306", "X Protocol Port": "33060", Check off "Open Windows Firewall ports for network access" -> "Authentication Method": Check off "Use Strong Password Encyption for Authentication (RECOMMENDED)
+***
+
+
+
 ## Command Line Client
 ### set character-set
 ```
@@ -29,7 +34,7 @@ into table masterdata.base_info
 fields terminated by ','
 lines terminated by '\n'
 ```
---------------------------------------------------------------------------------------------------------------------------------
+***
 # set path
 ```
 SETX PATH "%PATH%;C:\Program Files\MySQL\MySQL Server 8.0\bin"

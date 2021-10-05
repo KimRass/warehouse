@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workbench progressCount="8" version="2.0">
+<workbenchAdvisor/>
+<window height="768" width="1024" x="7" y="120">
+<fastViewData fastViewLocation="1024"/>
+<intro standby="false"/>
+<perspectiveBar>
+<itemSize x="160"/>
+</perspectiveBar>
+<coolbarLayout locked="0">
+<coolItem id="group.file" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="99" y="22"/>
+<coolItem id="additions" itemType="typeGroupMarker"/>
+<coolItem id="com.tomato.devkit.toolbar" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="53" y="22"/>
+<coolItem id="group.nav" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="114" y="22"/>
+<coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="group.help" itemType="typeGroupMarker"/>
+<coolItem id="org.eclipse.ui.workbench.help" itemType="typeToolBarContribution" x="-1" y="-1"/>
+</coolbarLayout>
+<page focus="true" label="작업공간 - eXERD">
+<editors>
+<editorArea activeWorkbook="DefaultEditorWorkbook">
+<info part="DefaultEditorWorkbook">
+<folder appearance="1" expanded="2">
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
+</folder>
+</info>
+</editorArea>
+<editor activePart="true" focus="true" id="com.tomato.exerd.editor.DiagramEditor" name="Test.exerd" partName="Test.exerd" path="D:/Github/Programming/Database/Workspace/Test/Test.exerd" title="Test.exerd" tooltip="Test/Test.exerd" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Test/Test.exerd"/>
+</editor>
+</editors>
+<views>
+<view id="org.eclipse.ui.views.ResourceNavigator" partName="네비게이터">
+<viewState LINK_NAVIGATOR_TO_EDITOR="0" sorter="1">
+<filters>
+<filter element=".*" isEnabled="false"/>
+</filters>
+<selection>
+<element path="/Test"/>
+</selection>
+</viewState>
+</view>
+<view id="com.tomato.exerd.ui.views.thumbnail" partName="썸네일">
+<viewState/>
+</view>
+<view id="org.eclipse.ui.internal.introview" partName="환영 페이지">
+<viewState>
+<presentation currentPage="file:///C:/Program%20Files%20(x86)/eXERD/configuration/org.eclipse.osgi/bundles/143/1/.cp/nl/ko/content/html/root.html" restore="true"/>
+<standbyPart/>
+</viewState>
+</view>
+<view id="com.tomato.exerd.validate.ui.ValidateView" partName="검토"/>
+<view id="com.tomato.exerd.modelview3.ModelView3" partName="모델">
+<viewState/>
+</view>
+<view id="org.eclipse.ui.console.ConsoleView" partName="콘솔"/>
+<view id="com.tomato.exerd.ui.views.domain" partName="도메인">
+<viewState/>
+</view>
+<view id="org.eclipse.ui.views.ContentOutline" partName="아웃라인"/>
+<view id="org.eclipse.gef.ui.palette_view" partName="Palette">
+<viewState/>
+</view>
+</views>
+<perspectives activePart="com.tomato.exerd.editor.DiagramEditor" activePerspective="com.tomato.exerd.perspective.design">
+<perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
+<descriptor class="com.tomato.exerd.perspective.ExerdPerspectiveFactory" id="com.tomato.exerd.perspective.design" label="eXERD"/>
+<alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
+<alwaysOnActionSet id="org.eclipse.search.searchActionSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.annotationNavigation"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.navigation"/>
+<alwaysOnActionSet id="org.eclipse.ui.edit.text.actionSet.convertLineDelimitersTo"/>
+<alwaysOnActionSet id="org.eclipse.ui.externaltools.ExternalToolsSet"/>
+<alwaysOnActionSet id="org.eclipse.ui.actionSet.keyBindings"/>
+<alwaysOnActionSet id="org.eclipse.ui.actionSet.openFiles"/>
+<show_view_action id="org.eclipse.gef.ui.palette_view"/>
+<show_view_action id="com.tomato.exerd.ui.views.domain"/>
+<show_view_action id="org.eclipse.ui.views.ResourceNavigator"/>
+<show_view_action id="com.tomato.exerd.ui.views.thumbnail"/>
+<show_view_action id="com.tomato.exerd.modelview3.ModelView3"/>
+<show_view_action id="org.eclipse.ui.views.ContentOutline"/>
+<show_view_action id="org.eclipse.ui.console.ConsoleView"/>
+<show_view_action id="org.eclipse.ui.views.ProblemView"/>
+<new_wizard_action id="com.tomato.exerd.ui.wizards.newEXerdWizard"/>
+<new_wizard_action id="org.eclipse.ui.wizards.new.folder"/>
+<new_wizard_action id="org.eclipse.ui.wizards.new.file"/>
+<new_wizard_action id="com.tomato.exerd.erwin.import"/>
+<new_wizard_action id="com.tomato.exerd.ui.wizards.newEXerdWizardFromDatabase"/>
+<new_wizard_action id="com.tomato.exerd.term.ui.wizard.NewTermDictionaryWizard"/>
+<new_wizard_action id="com.tomato.exerd.xscript.ui.wizard.NewXScriptWizard"/>
+<view id="org.eclipse.ui.views.ResourceNavigator"/>
+<view id="org.eclipse.gef.ui.palette_view"/>
+<view id="com.tomato.exerd.ui.views.thumbnail"/>
+<view id="com.tomato.exerd.modelview3.ModelView3"/>
+<view id="org.eclipse.ui.views.ContentOutline"/>
+<view id="com.tomato.exerd.ui.views.domain"/>
+<view id="com.tomato.exerd.validate.ui.ValidateView"/>
+<view id="org.eclipse.ui.console.ConsoleView"/>
+<fastViewBars>
+<fastViewBar fastViewLocation="1024" id="org.eclipse.ui.internal.ViewStack@1808fb9" orientation="256" selectedTabId="org.eclipse.ui.internal.introview" style="0">
+<fastViews>
+<view id="org.eclipse.ui.internal.introview" ratio="0.3"/>
+</fastViews>
+</fastViewBar>
+</fastViewBars>
+<layout>
+<mainWindow>
+<info folder="true" part="leftFolder">
+<folder activePageID="org.eclipse.ui.views.ResourceNavigator" appearance="2" expanded="2">
+<page content="org.eclipse.ui.views.ResourceNavigator" label="네비게이터"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@1808fb9" ratio="0.75" ratioLeft="750" ratioRight="250" relationship="2" relative="leftFolder">
+<folder appearance="2" expanded="0">
+<page content="org.eclipse.help.ui.HelpView" label="LabelNotFound"/>
+<page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
+<page content="org.eclipse.ui.cheatsheets.views.CheatSheetView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+</folder>
+</info>
+<info part="org.eclipse.ui.editorss" ratio="0.18" ratioLeft="180" ratioRight="820" relationship="2" relative="leftFolder"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@eedb60" ratio="0.77926826" ratioLeft="639" ratioRight="181" relationship="2" relative="org.eclipse.ui.editorss">
+<folder activePageID="com.tomato.exerd.ui.views.thumbnail" appearance="2" expanded="2">
+<page content="com.tomato.exerd.ui.views.thumbnail" label="썸네일"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="rightFolder" ratio="0.249226" ratioLeft="161" ratioRight="485" relationship="4" relative="org.eclipse.ui.internal.ViewStack@eedb60">
+<folder activePageID="com.tomato.exerd.modelview3.ModelView3" appearance="2" expanded="2">
+<page content="com.tomato.exerd.modelview3.ModelView3" label="모델"/>
+<page content="org.eclipse.ui.views.ContentOutline" label="아웃라인"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="bottomFolder" ratio="0.6996904" ratioLeft="452" ratioRight="194" relationship="4" relative="org.eclipse.ui.editorss">
+<folder activePageID="com.tomato.exerd.ui.views.domain" appearance="2" expanded="2">
+<page content="com.tomato.exerd.ui.views.domain" label="도메인"/>
+<page content="com.tomato.exerd.validate.ui.ValidateView" label="검토"/>
+<page content="org.eclipse.ui.console.ConsoleView" label="콘솔"/>
+<page content="com.tomato.exerd.xscript.ScriptView" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+<part id="1"/>
+<part id="2"/>
+</presentation>
+</folder>
+</info>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@43b128" ratio="0.2987616" ratioLeft="193" ratioRight="453" relationship="4" relative="leftFolder">
+<folder activePageID="org.eclipse.gef.ui.palette_view" appearance="2" expanded="2">
+<page content="org.eclipse.gef.ui.palette_view" label="Palette"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
+</folder>
+</info>
+</mainWindow>
+</layout>
+</perspective>
+</perspectives>
+<workingSets/>
+<navigationHistory>
+<editors>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/Test.exerd"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/untitled.exerd"/>
+</editors>
+<item historyLabel="Test.exerd" index="0"/>
+<item historyLabel="untitled.exerd" index="1"/>
+<item active="true" historyLabel="Test.exerd" index="0"/>
+</navigationHistory>
+<input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
+</page>
+<workbenchWindowAdvisor/>
+<actionBarAdvisor/>
+<trimLayout>
+<trimArea IMemento.internal.id="1024">
+<trimItem IMemento.internal.id="org.eclise.ui.internal.FastViewBar"/>
+<trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
+<trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
+<trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@1808fb9"/>
+</trimArea>
+</trimLayout>
+</window>
+<mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" name="untitled.exerd" tooltip="Test/untitled.exerd">
+<persistable path="/Test/untitled.exerd"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" name="Test.exerd" tooltip="Test/Test.exerd">
+<persistable path="/Test/Test.exerd"/>
+</file>
+</mruList>
+</workbench>
