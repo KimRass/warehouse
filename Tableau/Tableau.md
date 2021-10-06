@@ -212,13 +212,13 @@ ATTR([댓글생성자id])), 6)
 # Functions
 ## Custom Number Format
 ```
-"+"#;"-"#
+"+"0;"-"0
 ```
 ```
-(+#.#%);(-#.#%)
+(+0.0%);(-0.0%)
 ```
 ```
-(###,###,###)
+(000,000,000)
 ```
 - `Default Properties` -> `Number Format...` -> `Custom`
 - `Format` -> `Numbers:` -> `Custom`

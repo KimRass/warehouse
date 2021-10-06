@@ -68,7 +68,15 @@ Written by KimRass
 	- Deletion anomaly: Under certain circumstances, deletion of data representing certain facts necessitates deletion of data representing completely different facts. For example, if a faculty member temporarily ceases to be assigned to any courses, the last of the records on which that faculty member appears must be deleted, effectively also deleting the faculty member, unless the Course Code field is set to null.
 - Normalization is a database design technique, which is used to design a relational database table up to higher normal form.[9] The process is progressive, and a higher level of database normalization cannot be achieved unless the previous levels have been satisfied.
 #### Satisfying 1NF(First Normal Form)
-- To satisfy First normal form, each column of a table must have a single value. Columns which contain sets of values or nested records are not allowed.
+- Only atomic columns.
+- To satisfy first normal form, each column of a table must have a single value. Columns which contain sets of values or nested records are not allowed.
+#### Satisfying 2NF(Second Normal Form)
+- No partial dependencies.
+- To conform to 2NF and remove duplicities, every non candidate key attribute must depend on the whole candidate key, not just part of it.
+- For example, all of the attributes that are not part of the candidate key depend on `Title`, but only `Price` also depends on `Format`. To normalize this table, make `Title` a (simple) candidate key (the primary key) so that every non candidate-key attribute depends on the whole candidate key, and remove `Price` into a separate table so that its dependency on `Format` can be preserved.
+#### Satisfying 3NF(Third Normal Form)
+- No transitive dependencies.
+- Primary key가 아닌 Column에 Dependent하는 Columns를 제거합니다.
 ## Physical Data Models
 - Physical models provide a schema for how the data will be physically stored within a database. As such, they’re the least abstract of all. They offer a finalized design that can be implemented as a relational database, including associative tables that illustrate the relationships among entities as well as the primary keys and foreign keys that will be used to maintain those relationships.
 
