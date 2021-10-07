@@ -130,30 +130,48 @@ bst = BinarySearchTree(root)
 #### Depth First Search
 - Preorder Traverse: Parent -> Left -> Right
 ```python
+def preorder(node):
+    if node != None:
+        left, right = tree[node]
+        print(node)
+        preorder(left)
+        preorder(right)
+```
+```python
 def preorder(self, node):
-    if node == None:
-        pass
-    else:
-        print(node.value)
+    if node != None:
+		print(node.value)
         preorder(node.left)
         preorder(node.right)
 ```
 - Inorder Traverse: Left -> Parent -> Right
 ```python
+def inorder(node):
+    if node != None:
+        left, right = tree[node]
+        inorder(left)
+        print(node)
+        inorder(right)
+```
+```python
 def inorder(self, node):
-    if node == None:
-        pass
-    else:
+    if node != None:
         inorder(node.left)
         print(node.value)
         inorder(node.right)
 ```
 - Postorder Traverse: Left -> Right -> Parent
 ```python
+def postorder(node):
+    if node != None:
+        left, right = tree[node]
+        postorder(left)
+        postorder(right)
+        print(node)
+```
+```python
 def postorder(self, node):
-    if node == None:
-        pass
-    else:
+    if node != None:
         postorder(node.left)
         postorder(node.right)
         print(node.value)
