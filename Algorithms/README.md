@@ -43,6 +43,8 @@ deque().pop()
 deque().popleft()
 ```
 ## Tree
+- DAG(Directed Acyclic Graph)
+- There are (n - 1) edges in a tree with n nodes.
 - Source: https://en.wikipedia.org/wiki/Tree_(data_structure)
 - Node, Vertex
 - Edge, Link
@@ -56,37 +58,37 @@ deque().popleft()
 - Bredth: The number of leaves.
 - Diameter of a tree: The longest path between any two nodes (which MAY or MAY NOT PASS through the root Node).
 ```python
+# Choose a node arbitrarily.
 node = list(tree)[0]
 
 stack = [(node, 0)]
 visited = {i:False for i in tree}
-visited[node] = True
 
 # 지름을 구성하는 2개의 노드 중 하나를 구합니다.
 max_dist = 1
 while stack:
     start, dist1 = stack.pop()
-    if dist1 > max_dist:
-        max_dist = dist1
-        node = start
-    for end, dist2 in tree[start]:
-        if visited[end] == False:
-            visited[end] = True
-            stack.append((end, dist1 + dist2))
+	if visited[start] == False:
+		visited[start] = True
+		if dist1 > max_dist:
+			max_dist = dist1
+			max_node = start
+		for end, dist2 in tree[start]:
+			stack.append((end, dist1 + dist2))
 
-stack = [(node, 0)]
+stack = [(max_node, 0)]
 visited = {i:False for i in tree}
 visited[node] = True
 
-# 지름을 구합니다.
+# Get the diameter.
 diam = 1
 while stack:
     start, dist1 = stack.pop()
-    if dist1 > diam:
-        diam = dist1
-    for end, dist2 in tree[start]:
-        if visited[end] == False:
-            visited[end] = True
+	if visited[start] == False:
+		visited[start] = True
+		if dist1 > diam:
+			diam = dist1
+		for end, dist2 in tree[start]:
             stack.append((end, dist1 + dist2))
 ```
 ### Binary Tree
