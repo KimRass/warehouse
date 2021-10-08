@@ -6,6 +6,8 @@ Written by KimRass
 List.append()
 List.pop()
 ```
+### VPS(Valid Parenthesis String)
+### NGE(Next Greater Element)
 ## Queue
 - LILO(Last-In-Last-Out)
 - 데이터가 들어오는 위치는 가장 뒤(Rear 또는 Back이라고 한다.)에 있고, 데이터가 나가는 위치는 가장 앞(Front라고 한다.)
@@ -261,7 +263,7 @@ def fibo(n):
 - P\[i, w\] 란 i개의 보석이 있고 배낭의 무게 한도가 w일 때 최적의 이익을 의미한다.
 - i번째 보석이 배낭의 무게 한도보다 무거우면 넣을 수 없으므로 i번째 보석을 뺀 i-1개의 보석들을 가지고 구한 전 단계의 최적값을 그대로 가져온다.
 - 그렇지 않은 경우, i번째 보석을 위해 i번째 보석만큼의 무게를 비웠을 때의 최적값에 i번째 보석의 가격을 더한 값 or i-1개의 보석들을 가지고 구한 전 단계의 최적값 중 큰 것을 선택한다.
-## Longest Increasing Subsequence
+## LIS(Longest Increasing Subsequence)
 - Time complexity: $O(N^2)$
 ```python
 arr = [0] + arr
