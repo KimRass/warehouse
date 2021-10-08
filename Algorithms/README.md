@@ -252,7 +252,37 @@ def fibo(n):
         return fibo(n - 1) + fibo(n - 2)
 ```
 
-# Sorting
+# Sort
+## Time Complexity of $O(n^2)$
+### Bubble Sort
+```python
+for i in range(len(arr), 0, -1):
+    for j in range(i - 1):
+        if arr[j] > arr[j + 1]:
+            arr[j], arr[j + 1] = arr[j + 1], arr[j]
+```
+### Selection Sort
+```python
+for i in range(len(arr)):
+    min_j = i
+    for j in range(i, len(arr)):
+        if arr[j] < arr[min_j]:
+            min_j = j
+    arr[i], arr[min_j] = arr[min_j], arr[i]
+```
+### Insertion Sort
+```python
+for i in range(1, len(arr)):
+    for j in range(i, 0, -1):
+        if arr[j - 1] > arr[j]:
+            arr[j], arr[j - 1] = arr[j - 1], arr[j]
+```
+```python
+for i in range(len(arr)):
+    for j in range(i):
+        if arr[j] > arr[i]:
+            arr[i], arr[j] = arr[j], arr[i]
+```
 
 # Back Tracking
 
@@ -264,7 +294,7 @@ def fibo(n):
 - i번째 보석이 배낭의 무게 한도보다 무거우면 넣을 수 없으므로 i번째 보석을 뺀 i-1개의 보석들을 가지고 구한 전 단계의 최적값을 그대로 가져온다.
 - 그렇지 않은 경우, i번째 보석을 위해 i번째 보석만큼의 무게를 비웠을 때의 최적값에 i번째 보석의 가격을 더한 값 or i-1개의 보석들을 가지고 구한 전 단계의 최적값 중 큰 것을 선택한다.
 ## LIS(Longest Increasing Subsequence)
-- Time complexity: $O(N^2)$
+- Time complexity: $O(n^2)$
 ```python
 arr = [0] + arr
 
@@ -307,7 +337,7 @@ while dq:
 ```
 
 # Two-Pointers
-- Time complexity: $O(N)$
+- Time complexity: $O(n)$
 ```python
 arr = sorted(arr)
 
@@ -383,7 +413,7 @@ def bisect_right(arr, tar):
     return left
 ```
 ## Longest Increasing Subsequence
-- Time complexity: $O(N\logN)$
+- Time complexity: $O(n\logn)$
 
 # Implementation
 - 풀이를 떠올리는 것은 쉽지만 소스코드로 옮기기 어려운 문제.
