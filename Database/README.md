@@ -77,6 +77,9 @@ Written by KimRass
 #### Satisfying 3NF(Third Normal Form)
 - No transitive dependencies.
 - Primary key가 아닌 Column에 Dependent하는 Columns를 제거합니다.
+#### 4NF
+- 서로 독립적인 관계는 테이블을 쪼갠다.
+#### 5NFe
 ## Physical Data Models
 - Physical models provide a schema for how the data will be physically stored within a database. As such, they’re the least abstract of all. They offer a finalized design that can be implemented as a relational database, including associative tables that illustrate the relationships among entities as well as the primary keys and foreign keys that will be used to maintain those relationships.
 
@@ -109,6 +112,10 @@ Written by KimRass
 ### Identifying Relationship
 - 외래키를 기본키로 사용하는 관계를 식별 관계.
 - B테이블은 A테이블에 종속적이 되어서 A의 값이 없으면 B의 값은 무의미해짐.
+- 실선
 ### Non-Identifying Relationship
 - When the primary key of the parent must not become primary key of the child.
 - A의 값이 없더라도 B의 값은 독자적으로 의미를 가짐.
+- 부모 테이블의 PK가 없더라도 유일하게 레코드 구분 가능할 때.
+- 한 사람이 한 뉴스에 여러 개의 댓글을 달 수 있으므로 회원번호만으로는 특정 댓글 식별 불가. 따라서 비식별 관계.
+- 점선

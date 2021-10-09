@@ -49,3 +49,99 @@ Command-line arguments:  -os win32 -ws win32 -arch x86
 
 !ENTRY org.eclipse.osgi 2 1 2021-10-05 12:52:33.997
 !MESSAGE NLS unused message: AboutFeaturesDialog_SimpleTitle in: org.eclipse.ui.internal.messages
+!SESSION 2021-10-09 10:21:44.290 -----------------------------------------------
+eclipse.buildId=M20090211-1700
+java.version=1.8.0_60
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86, WS=win32, NL=ko_KR
+Command-line arguments:  -os win32 -ws win32 -arch x86
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:21:48.742
+!MESSAGE NLS unused message: OpenResourceDialog_openButton_text in: org.eclipse.ui.internal.ide.messages
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:21:48.743
+!MESSAGE NLS unused message: OpenResourceDialog_openWithMenu_label in: org.eclipse.ui.internal.ide.messages
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:21:48.744
+!MESSAGE NLS unused message: OpenResourceDialog_openWithButton_toolTip in: org.eclipse.ui.internal.ide.messages
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:21:48.744
+!MESSAGE NLS unused message: CleanDialog_cleanSelectedTaskName in: org.eclipse.ui.internal.ide.messages
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:21:48.745
+!MESSAGE NLS unused message: RecentWorkspacesPreferencePage_PromptAtStartup_label in: org.eclipse.ui.internal.ide.messages
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:21:48.745
+!MESSAGE NLS unused message: RecentWorkspacesPreferencePage_RemoveButton_label in: org.eclipse.ui.internal.ide.messages
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:22:26.279
+!MESSAGE NLS unused message: url_couldNotResolve_projectDoesNotExist in: org.eclipse.core.internal.utils.messages
+
+!ENTRY org.eclipse.core.resources 2 10035 2021-10-09 10:22:26.376
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:22:27.026
+!MESSAGE NLS unused message: Shortcuts_shortcutTab in: org.eclipse.ui.internal.messages
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:22:27.027
+!MESSAGE NLS unused message: Shortcuts_selectShortcutsLabel in: org.eclipse.ui.internal.messages
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:22:27.027
+!MESSAGE NLS unused message: Shortcuts_availableMenus in: org.eclipse.ui.internal.messages
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:22:27.027
+!MESSAGE NLS unused message: Shortcuts_availableCategories in: org.eclipse.ui.internal.messages
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:22:27.027
+!MESSAGE NLS unused message: Shortcuts_allShortcuts in: org.eclipse.ui.internal.messages
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:22:27.028
+!MESSAGE NLS unused message: Util_listNull in: org.eclipse.ui.internal.messages
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:22:27.029
+!MESSAGE NLS unused message: OpenBrowserHandler_NoInfoDialogTitle in: org.eclipse.ui.internal.messages
+
+!ENTRY org.eclipse.osgi 2 1 2021-10-09 10:22:27.029
+!MESSAGE NLS unused message: AboutFeaturesDialog_SimpleTitle in: org.eclipse.ui.internal.messages
+
+!ENTRY org.eclipse.ui 4 4 2021-10-09 10:22:31.549
+!MESSAGE Could not create view: 'org.eclipse.ui.internal.introview'.
+
+!ENTRY org.eclipse.ui 4 0 2021-10-09 10:22:33.727
+!MESSAGE Workbench를 복원하는 중에 문제점이 발생했습니다.
+!SUBENTRY 1 org.eclipse.ui 0 0 2021-10-09 10:22:33.727
+!MESSAGE 
+!SUBENTRY 1 org.eclipse.core.runtime 0 0 2021-10-09 10:22:33.727
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.runtime 0 0 2021-10-09 10:22:33.727
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.core.runtime 0 0 2021-10-09 10:22:33.727
+!MESSAGE OK
+!SUBENTRY 1 org.eclipse.ui 4 0 2021-10-09 10:22:33.727
+!MESSAGE 작업공간 - eXERD Perspective를 복원할 수 없습니다.
+!SUBENTRY 2 org.eclipse.ui 0 0 2021-10-09 10:22:33.727
+!MESSAGE Perspective를 복원하는 중에 문제점이 발생했습니다.
+!SUBENTRY 3 org.eclipse.ui 0 0 2021-10-09 10:22:33.727
+!MESSAGE 
+!SUBENTRY 2 org.eclipse.ui 0 0 2021-10-09 10:22:33.727
+!MESSAGE 
+!SUBENTRY 2 org.eclipse.ui 0 0 2021-10-09 10:22:33.727
+!MESSAGE 
+!SUBENTRY 2 org.eclipse.ui 0 0 2021-10-09 10:22:33.727
+!MESSAGE 
+!SUBENTRY 2 org.eclipse.ui 0 0 2021-10-09 10:22:33.727
+!MESSAGE 
+!SUBENTRY 2 org.eclipse.ui 0 0 2021-10-09 10:22:33.727
+!MESSAGE 
+!SUBENTRY 2 org.eclipse.ui 0 0 2021-10-09 10:22:33.727
+!MESSAGE 
+!SUBENTRY 2 org.eclipse.ui 0 0 2021-10-09 10:22:33.727
+!MESSAGE 
+!SUBENTRY 2 org.eclipse.ui 0 0 2021-10-09 10:22:33.727
+!MESSAGE 
+!SUBENTRY 2 org.eclipse.ui 0 0 2021-10-09 10:22:33.727
+!MESSAGE 
+!SUBENTRY 2 org.eclipse.ui 4 0 2021-10-09 10:22:33.727
+!MESSAGE 보기를 찾을 수 없음: org.eclipse.ui.internal.introview
+!SUBENTRY 1 org.eclipse.core.runtime 0 0 2021-10-09 10:22:33.727
+!MESSAGE OK

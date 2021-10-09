@@ -19,22 +19,7 @@ deque().append()
 deque().popleft()
 ```
 ### Priority Queue
-#### Heap
-- Min Heap: Parent < Child
-```python
-import heqpq as hq
-
-hq.heappush(<<Heap Object>>, <<Element>>)
-hq.heqppop(<<Heap Object>>)
-```
-- Max Heap: Parent > Child
-```python
-import heqpq as hq
-
-hq.heappush(<<Heap Object>>, -<<Element>>)
-hq.heqppop(<<Heap Object>>)
-```
-##### Binary Heap
+- Priority queue can be implemented by heap data structure.
 ## Deque(Double Ended Queue)
 ```python
 from collections import deque
@@ -94,9 +79,29 @@ while stack:
             stack.append((end, dist1 + dist2))
 ```
 ### Binary Tree
-- 최대 2개의 자식 노드
-- Reference: https://gingerkang.tistory.com/86
+- A tree whose elements have at most 2 children.
+#### Complete Binary Tree
+- A binary tree in which all the levels are completely filled except possibly the lowest one, which is filled from the left.
+##### Heap
+- Min Heap: Parent < Child
+```python
+import heqpq as hq
+
+hq.heappush(<<Heap Object>>, <<Element>>)
+hq.heqppop(<<Heap Object>>)
+```
+- Max Heap: Parent > Child
+```python
+import heqpq as hq
+
+hq.heappush(<<Heap Object>>, -<<Element>>)
+hq.heqppop(<<Heap Object>>)
+```
+###### Binary Heap
+#### Full Binary Tree
+- A binary tree in which every node has 0 or 2 children.
 #### Binary Search Tree
+- Reference: https://gingerkang.tistory.com/86
 - Left < Parent < Right
 ```python
 class Node():
@@ -253,8 +258,10 @@ def fibo(n):
 ```
 
 # Sort
-## Time Complexity of $O(n^2)$
+- Stable sorting algorithm: Sorting algorithm which maintains the relative order of records with equal keys (i.e. valuies)).
+## Time Complexity of O(n^2)
 ### Bubble Sort
+- One of stable sorting algorithms
 ```python
 for i in range(len(arr), 0, -1):
     for j in range(i - 1):
@@ -271,18 +278,45 @@ for i in range(len(arr)):
     arr[i], arr[min_j] = arr[min_j], arr[i]
 ```
 ### Insertion Sort
+- One of stable sorting algorithms
 ```python
 for i in range(1, len(arr)):
     for j in range(i, 0, -1):
         if arr[j - 1] > arr[j]:
             arr[j], arr[j - 1] = arr[j - 1], arr[j]
+		else:
+			break
 ```
+## Time Complexity of O(n\*logn)
+### Merge Sort
+- One of stable sorting algorithms
 ```python
-for i in range(len(arr)):
-    for j in range(i):
-        if arr[j] > arr[i]:
-            arr[i], arr[j] = arr[j], arr[i]
+def merge_sort(arr):
+    if len(arr) == 1:
+        return arr
+    else:
+        left = merge_sort(arr[:len(arr)//2])
+        right = merge_sort(arr[len(arr)//2:])
+        
+        new_arr = list()
+        i = 0
+        j = 0
+        while i < len(left) and j < len(right):
+            if left[i] <= right[j]:
+                new_arr.append(left[i])
+                i += 1
+            else:
+                new_arr.append(right[j])
+                j += 1
+        new_arr += left[i:]
+        new_arr += right[j:]
+        
+        return new_arr
 ```
+### Heap Sort
+### Quick Sort
+## ETC
+### Counting Sort
 
 # Back Tracking
 
@@ -294,7 +328,7 @@ for i in range(len(arr)):
 - i번째 보석이 배낭의 무게 한도보다 무거우면 넣을 수 없으므로 i번째 보석을 뺀 i-1개의 보석들을 가지고 구한 전 단계의 최적값을 그대로 가져온다.
 - 그렇지 않은 경우, i번째 보석을 위해 i번째 보석만큼의 무게를 비웠을 때의 최적값에 i번째 보석의 가격을 더한 값 or i-1개의 보석들을 가지고 구한 전 단계의 최적값 중 큰 것을 선택한다.
 ## LIS(Longest Increasing Subsequence)
-- Time complexity: $O(n^2)$
+- Time complexity: O(n^2)
 ```python
 arr = [0] + arr
 
@@ -337,7 +371,7 @@ while dq:
 ```
 
 # Two-Pointers
-- Time complexity: $O(n)$
+- Time complexity: O(n)
 ```python
 arr = sorted(arr)
 
@@ -413,7 +447,7 @@ def bisect_right(arr, tar):
     return left
 ```
 ## Longest Increasing Subsequence
-- Time complexity: $O(n\logn)$
+- Time complexity: O(n\*logn)
 
 # Implementation
 - 풀이를 떠올리는 것은 쉽지만 소스코드로 옮기기 어려운 문제.
