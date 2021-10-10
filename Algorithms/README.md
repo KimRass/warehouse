@@ -29,7 +29,48 @@ deque().appendleft()
 deque().pop()
 deque().popleft()
 ```
-## Tree
+## Graph
+### Dijkstra's
+### Floyd–warshall
+## Graph Traversal
+### Depth First Search
+```python
+stack = [...]
+visited = {...}
+while stack:
+	start = stack.pop()
+	if visited[start] == False:
+		visited[start] = True
+		for end in graph[start]:
+			stack.append(end)
+```
+### Breadth First Search
+```python
+from collections import deque
+
+dq = deque([...])
+visited = {...}
+while dq:
+	start = dq.popleft()
+	if visited[start] == False:
+		visited[start] = True
+		for end in graph[start]:
+			dq.append(end)
+```
+- Geodesic Distance: Shortest path between the vertices.
+```python
+from collections import deque
+
+dq = deque([...])
+visited = {...}
+while dq:
+	start, cur_dist = dq.popleft()
+	if visited[start] == False:
+		visited[start] = True
+		for end, dist in graph[start]:
+			dq.append((end, cur_dist + dist))
+```
+### Tree
 - DAG(Directed Acyclic Graph)
 - There are (n - 1) edges in a tree with n nodes.
 - Source: https://en.wikipedia.org/wiki/Tree_(data_structure)
@@ -78,9 +119,9 @@ while stack:
 		for end, dist2 in tree[start]:
             stack.append((end, dist1 + dist2))
 ```
-### Binary Tree
+#### Binary Tree
 - A tree whose elements have at most 2 children.
-#### Complete Binary Tree
+##### Complete Binary Tree
 - A binary tree in which all the levels are completely filled except possibly the lowest one, which is filled from the left.
 ##### Heap
 - Min Heap: Parent < Child
@@ -363,35 +404,6 @@ print(max(mem.values()))
 - Source: Source: https://www.geeksforgeeks.org/greedy-algorithms/
 - Greedy is an algorithmic paradigm that builds up a solution piece by piece, always choosing the next piece that offers the most obvious and immediate benefit. So the problems where choosing locally optimal also leads to global solution are best fit for Greedy.
 ## Fractional Knapsack Problem
-
-# Graph Theory
-## Dijkstra's
-## Floyd–warshall
-# Graph Traversal
-## Depth First Search
-```python
-stack = [...]
-visited = {...}
-while stack:
-	start = stack.pop()
-	if visited[start] == False:
-		visited[start] = True
-		for end in graph[start]:
-			stack.append(end)
-```
-## Breadth First Search
-```python
-from collections import deque
-
-dq = deque([...])
-visited = {...}
-while dq:
-	start = dq.popleft()
-	if visited[start] == False:
-		visited[start] = True
-		for end in graph[start]:
-			dq.append(end)
-```
 
 # Two-Pointers
 - Time complexity: O(n)
