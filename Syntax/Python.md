@@ -54,13 +54,17 @@ Written by KimRass
 
 
 
-# Python
+# Python Built-in Functions
 ## bin(), oct(), hex()
 - `&`: AND
 - `|`: OR
 - `^`: XOR
 - `~`
 - `<<`, `>>`
+## round()
+```python
+print(round(summ/leng, 1))
+```
 ## open()
 ```python
 f = open("D:/Github/Work/Tableau/datamart_password.txt", "r")

@@ -259,9 +259,11 @@ def fibo(n):
 
 # Sort
 - Stable sorting algorithm: Sorting algorithm which maintains the relative order of records with equal keys (i.e. valuies)).
+- Comparison sorting algorithm
 ## Time Complexity of O(n^2)
 ### Bubble Sort
 - One of stable sorting algorithms
+- One of comparison sorting algorithms
 ```python
 for i in range(len(arr), 0, -1):
     for j in range(i - 1):
@@ -269,6 +271,8 @@ for i in range(len(arr), 0, -1):
             arr[j], arr[j + 1] = arr[j + 1], arr[j]
 ```
 ### Selection Sort
+- Not a stable sorting algorithm
+- One of comparison sorting algorithms
 ```python
 for i in range(len(arr)):
     min_j = i
@@ -279,6 +283,7 @@ for i in range(len(arr)):
 ```
 ### Insertion Sort
 - One of stable sorting algorithms
+- One of comparison sorting algorithms
 ```python
 for i in range(1, len(arr)):
     for j in range(i, 0, -1):
@@ -290,6 +295,7 @@ for i in range(1, len(arr)):
 ## Time Complexity of O(n\*logn)
 ### Merge Sort
 - One of stable sorting algorithms
+- One of comparison sorting algorithms
 ```python
 def merge_sort(arr):
     if len(arr) == 1:
@@ -317,6 +323,21 @@ def merge_sort(arr):
 ### Quick Sort
 ## ETC
 ### Counting Sort
+- Not a comparison sorting algorithm
+- Time complexity of O(n + k)(k is the range of elements of the array)
+- It assumes that all the elements of the array are positive integers.
+```python
+maxim = max(arr)
+count = {i:0 for i in range(1, maxim + 1)}
+
+for elm in arr:
+    count[elm] += 1
+
+new_arr = list()
+for k, v in count.items():
+    for _ in range(v):
+        new_arr.append(k)
+```
 
 # Back Tracking
 
@@ -355,7 +376,8 @@ while stack:
 	start = stack.pop()
 	if visited[start] == False:
 		visited[start] = True
-		stack.append(...)
+		for end in graph[start]:
+			stack.append(end)
 ```
 ## Breadth First Search
 ```python
@@ -367,7 +389,8 @@ while dq:
 	start = dq.popleft()
 	if visited[start] == False:
 		visited[start] = True
-		dq.append(...)
+		for end in graph[start]:
+			dq.append(end)
 ```
 
 # Two-Pointers
