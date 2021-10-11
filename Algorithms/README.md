@@ -30,6 +30,13 @@ deque().pop()
 deque().popleft()
 ```
 ## Graph
+- Source: https://en.wikipedia.org/wiki/Graph_theory
+- Graph is made up of vertices (also called nodes or points) which are connected by edges (also called links or lines).
+- Undirected graph is a graph where edges link two vertices symmetrically, and directed graph is a the one where edges link two vertices asymmetrically.
+- Source: https://www.acmicpc.net/problem/15681
+- 간선의 집합에 변함이 없는 한, 그래프는 얼마든지 원하는 대로 다시 그릴 수가 있다.
+- Source: https://en.wikipedia.org/wiki/Cycle_(graph_theory)
+- A cycle in a graph is a non-empty trail in which the only repeated vertices are the first and last vertices. A directed cycle in a directed graph is a non-empty directed trail in which the only repeated vertices are the first and last vertices.
 ### Dijkstra's
 ### Floyd–warshall
 ## Graph Traversal
@@ -71,11 +78,13 @@ while dq:
 			dq.append((end, cur_dist + dist))
 ```
 ### Tree
-- DAG(Directed Acyclic Graph)
+- Source: https://en.wikipedia.org/wiki/Cycle_(graph_theory)
+- A graph without cycles is called an acyclic graph. A directed graph without directed cycles is called a Directed Acyclic Graph(DAG, tree).
+- Source: https://www.acmicpc.net/problem/15681
+- 임의의 두 정점 U와 V에 대해, U에서 V로 가는 최단경로는 유일하다.
+아무 정점이나 잡고 부모와의 연결을 끊었을 때, 해당 정점과 그 자식들, 그 자식들의 자식들… 로 이루어진 부분그래프는 트리가 된다.
 - There are (n - 1) edges in a tree with n nodes.
 - Source: https://en.wikipedia.org/wiki/Tree_(data_structure)
-- Node, Vertex
-- Edge, Link
 - Ancestor: A node reachable by repeated proceeding from child to parent.
 - Descendant, Subchild: A node reachable by repeated proceeding from parent to child.
 - Degree: For a given node, its number of children. A leaf has necessarily degree zero.

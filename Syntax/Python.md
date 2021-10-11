@@ -41,6 +41,7 @@ Written by KimRass
 ## ValueError
 ### ValueError: invalid literal for int() with base 10: <<String>>
 ### ValueError: '<<Variable>>' is not in list
+### ValueError: max() arg is an empty sequence
 ## IndexError
 ### IndexError: list index out of range
 ## ImportError
