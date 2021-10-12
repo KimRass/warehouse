@@ -27,6 +27,7 @@ Written by KimRass
 ### TypeError: '<<Argument>>' is an invalid keyword argument for <<Function>>()
 ### TypeError: unsupported operand type(s) for <<Operator>>: '<<Data Type 1>>' and '<<Data Type 2>>'
 ### TypeError: heap argument must be a list
+### TypeError: Invalid comparison between dtype=<<Data Type>> and <<Data Type>>
 ## NameError
 ### NameError: name '<<Variable>>' is not defined
 ## ZeroDivisionError

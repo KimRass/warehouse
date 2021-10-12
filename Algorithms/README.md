@@ -447,6 +447,7 @@ for i in arr:
 ```
 
 # Binary Search
+- Time complexity: O(logn)
 ```python
 arr = sorted(arr)
 
@@ -497,6 +498,10 @@ def bisect_right(arr, tar):
 ```
 ## Longest Increasing Subsequence
 - Time complexity: O(n\*logn)
+
+# Parametric Search
+- Source: https://velog.io/@lake/%EC%9D%B4%EB%B6%84%ED%83%90%EC%83%89-%ED%8C%8C%EB%9D%BC%EB%A9%94%ED%8A%B8%EB%A6%AD-%EC%84%9C%EC%B9%98Parametric-Search
+- 최적화 문제(문제의 상황을 만족하는 특정 변수의 최솟값, 최댓값을 구하는 문제)를 결정 문제(decision problem)로 바꾸어 푸는 것이다. 예를 들어 범위 내에서 조건을 만족하는 가장 큰 값을 찾으라는 최적화 문제라면 이분 탐색으로 결정 문제를 해결하면서 범위를 좁혀갈 수 있다.
 
 # Implementation
 - 풀이를 떠올리는 것은 쉽지만 소스코드로 옮기기 어려운 문제.
