@@ -43,6 +43,7 @@ Written by KimRass
 ### ValueError: invalid literal for int() with base 10: <<String>>
 ### ValueError: '<<Variable>>' is not in list
 ### ValueError: max() arg is an empty sequence
+### ValueError: overflow in timedelta operation
 ## IndexError
 ### IndexError: list index out of range
 ## ImportError
@@ -2194,6 +2195,7 @@ strftime("%Y-%m-%d")
 ```python
 day = start + datetime.timedelta(days=1)
 ```
+### datetime.timedelta.days
 ### datetime.timedelta.total_seconds()
 ```python
 (t2 - t1).total_seconds()
