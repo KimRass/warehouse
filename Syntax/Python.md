@@ -428,7 +428,7 @@ pd.merge(df1, df2, left_on="id", right_on="movie_id")
 ```python
 floor_data = pd.merge(floor_data, df_conv, left_index=True, right_index=True, how="left")
 ```
-- Used between DataFrames or between a DataFrame and a Series.
+- `how`: (`"left"`, `"right"`, `"outer"`, `"inner"`, `"cross"` default `"inner"`)
 ## pd.Grouper()
 ```python
 n_tasks_month = tasks.groupby(pd.Grouper(key="task_date", freq="M")).size()

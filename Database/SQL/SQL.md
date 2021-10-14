@@ -214,10 +214,8 @@ HAVING HOUR BETWEEN 9 AND 19
 ORDER BY HOUR;
 ```
 - HOUR()는 일반조건이므로 (COUNT()와 달리) HAIVNG과 함께 쓸 수 없다.
-## DATE_FORMAT()
-```sql
-DATE_FORMAT(datetime, "%Y-%m-%d")
 ```
+## DATEADD()
 ## DATEDIFF()
 ```sql
 DATEDIFF(DAY, A.start_date, MIN(B.end_date))
