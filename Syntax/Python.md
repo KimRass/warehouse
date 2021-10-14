@@ -230,6 +230,9 @@ hr = pd.read_excel(f"./FINAL/HR/사원명단_{target_year}{str(target_month).zfi
 - Split a string into a list where each word is a list item.
 - `maxsplit`: How many splits to do.
 ### String.upper(), String.lower()
+```python
+orders.columns = orders.columns.str.lower()
+```
 ### String.isupper(), String.islower()
 ### String.isalpha()
 ### String.isdigit()
