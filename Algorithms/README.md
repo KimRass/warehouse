@@ -37,9 +37,37 @@ deque().popleft()
 - 간선의 집합에 변함이 없는 한, 그래프는 얼마든지 원하는 대로 다시 그릴 수가 있다.
 - Source: https://en.wikipedia.org/wiki/Cycle_(graph_theory)
 - A cycle in a graph is a non-empty trail in which the only repeated vertices are the first and last vertices. A directed cycle in a directed graph is a non-empty directed trail in which the only repeated vertices are the first and last vertices.
-### Dijkstra's
-### Floyd–warshall
-## Graph Traversal
+### Dijkstra Algorithm
+- Time complexity: O((V + E)logV)
+- Weighted-Directed Graph
+- 각 간선에 가중치가 있다면 사용 가능. 간선들 중 단 하나라도 가중치가 음수이면 이 알고리즘은 사용할 수 없다.
+```python
+import math
+import heapq as hq
+
+start = 1
+# 지금까지 알려진, 출발지에서 해당 노드로 가는 최단 거리를 기록하는 Dictionary
+min_dists = {i:math.inf for i in range(1, N + 1)}
+# 출발점까지의 최단 거리는 0입니다.
+min_dists[start] = 0
+hp = list()
+hq.heappush(hp, (min_dists[start], start))
+
+while hp:
+	cur_dist, cur_node = hq.heappop(hp)
+	if cur_dist > min_dists[cur_node]:
+        continue
+    else:
+		for next_node, next_dist in graph[cur_node]:
+			new_dist = cur_dist + next_dist
+			# 지금까지 알려진 `next_node`까지의 최단 거리보다 `cur_node`를 거쳐서 `next_node`로 가는 거리가 더 짧다면 `min_dists[next_node]`를 업데이트합니다.
+			if new_dist < min_dists[next_node]:
+				min_dists[next_node] = new_dist
+				hq.heappush(hp, (min_dists[next_node], next_node))
+```
+### Bellman–Ford Algorithm
+- Time complexity: O(VE)
+### Floyd–Warshall Algorithm
 ### Depth First Search
 ```python
 stack = [...]
@@ -64,7 +92,7 @@ while dq:
 		for end in graph[start]:
 			dq.append(end)
 ```
-- Geodesic Distance: Shortest path between the vertices.
+- 간선에 가중치가 없다면 Shortest path problem에 적용 가능합니다.
 ```python
 from collections import deque
 
@@ -315,7 +343,7 @@ def fibo(n):
 # Sort
 - Stable sorting algorithm: Sorting algorithm which maintains the relative order of records with equal keys (i.e. valuies)).
 - Comparison sorting algorithm
-## Time Complexity of O(n^2)
+## Time Complexity: O(n^2)
 ### Bubble Sort
 - One of stable sorting algorithms
 - One of comparison sorting algorithms
@@ -347,7 +375,7 @@ for i in range(1, len(arr)):
 		else:
 			break
 ```
-## Time Complexity of O(n\*logn)
+## Time Complexity: O(nlogn)
 ### Merge Sort
 - One of stable sorting algorithms
 - One of comparison sorting algorithms
@@ -379,7 +407,7 @@ def merge_sort(arr):
 ## ETC
 ### Counting Sort
 - Not a comparison sorting algorithm
-- Time complexity of O(n + k)(k is the range of elements of the array)
+- Time complexity: O(n + k)(k is the range of elements of the array)
 - It assumes that all the elements of the array are positive integers.
 ```python
 maxim = max(arr)
@@ -497,11 +525,11 @@ def bisect_right(arr, tar):
     return left
 ```
 ## Longest Increasing Subsequence
-- Time complexity: O(n\*logn)
+- Time complexity: O(nlogn)
 
 # Parametric Search
 - Source: https://velog.io/@lake/%EC%9D%B4%EB%B6%84%ED%83%90%EC%83%89-%ED%8C%8C%EB%9D%BC%EB%A9%94%ED%8A%B8%EB%A6%AD-%EC%84%9C%EC%B9%98Parametric-Search
-- 최적화 문제(문제의 상황을 만족하는 특정 변수의 최솟값, 최댓값을 구하는 문제)를 결정 문제(decision problem)로 바꾸어 푸는 것이다. 예를 들어 범위 내에서 조건을 만족하는 가장 큰 값을 찾으라는 최적화 문제라면 이분 탐색으로 결정 문제를 해결하면서 범위를 좁혀갈 수 있다.
+- Parametric search is a technique for transforming an optimization algorithm (find the best solution) into a decision algorithm (does this optimization problem have a solution with quality better than some given threshold?).
 
 # Implementation
 - 풀이를 떠올리는 것은 쉽지만 소스코드로 옮기기 어려운 문제.
