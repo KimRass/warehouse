@@ -6,8 +6,8 @@ Written by KimRass
 List.append()
 List.pop()
 ```
-### VPS(Valid Parenthesis String)
-### NGE(Next Greater Element)
+- VPS(Valid Parenthesis String)
+- NGE(Next Greater Element)
 ## Queue
 - LILO(Last-In-Last-Out)
 - 데이터가 들어오는 위치는 가장 뒤(Rear 또는 Back이라고 한다.)에 있고, 데이터가 나가는 위치는 가장 앞(Front라고 한다.)
@@ -160,25 +160,9 @@ while stack:
 - A tree whose elements have at most 2 children.
 ##### Complete Binary Tree
 - A binary tree in which all the levels are completely filled except possibly the lowest one, which is filled from the left.
-##### Heap
-- Min Heap: Parent < Child
-```python
-import heqpq as hq
-
-hq.heappush(<<Heap Object>>, <<Element>>)
-hq.heqppop(<<Heap Object>>)
-```
-- Max Heap: Parent > Child
-```python
-import heqpq as hq
-
-hq.heappush(<<Heap Object>>, -<<Element>>)
-hq.heqppop(<<Heap Object>>)
-```
-###### Binary Heap
-#### Full Binary Tree
+##### Full Binary Tree
 - A binary tree in which every node has 0 or 2 children.
-#### Binary Search Tree
+##### Binary Search Tree
 - Reference: https://gingerkang.tistory.com/86
 - Left < Parent < Right
 ```python
@@ -210,6 +194,21 @@ class BinarySearchTree():
 					
 root = Node(1)
 bst = BinarySearchTree(root)
+```
+##### Heap
+- Min Heap: Parent < Child
+```python
+import heqpq as hq
+
+hq.heappush(<<Heap Object>>, <<Element>>)
+hq.heqppop(<<Heap Object>>)
+```
+- Max Heap: Parent > Child
+```python
+import heqpq as hq
+
+hq.heappush(<<Heap Object>>, -<<Element>>)
+hq.heqppop(<<Heap Object>>)
 ```
 ### Tree Traversal
 #### Depth First Search
@@ -343,8 +342,8 @@ def fibo(n):
 # Sort
 - Stable sorting algorithm: Sorting algorithm which maintains the relative order of records with equal keys (i.e. valuies)).
 - Comparison sorting algorithm
-## Time Complexity: O(n^2)
-### Bubble Sort
+## Bubble Sort
+- Time Complexity: O(n^2)
 - One of stable sorting algorithms
 - One of comparison sorting algorithms
 ```python
@@ -353,7 +352,8 @@ for i in range(len(arr), 0, -1):
         if arr[j] > arr[j + 1]:
             arr[j], arr[j + 1] = arr[j + 1], arr[j]
 ```
-### Selection Sort
+## Selection Sort
+- Time Complexity: O(n^2)
 - Not a stable sorting algorithm
 - One of comparison sorting algorithms
 ```python
@@ -364,7 +364,8 @@ for i in range(len(arr)):
             min_j = j
     arr[i], arr[min_j] = arr[min_j], arr[i]
 ```
-### Insertion Sort
+## Insertion Sort
+- Time Complexity: O(n^2)
 - One of stable sorting algorithms
 - One of comparison sorting algorithms
 ```python
@@ -375,8 +376,8 @@ for i in range(1, len(arr)):
 		else:
 			break
 ```
-## Time Complexity: O(nlogn)
-### Merge Sort
+## Merge Sort
+- Time Complexity: O(nlogn)
 - One of stable sorting algorithms
 - One of comparison sorting algorithms
 ```python
@@ -402,10 +403,11 @@ def merge_sort(arr):
         
         return new_arr
 ```
-### Heap Sort
-### Quick Sort
-## ETC
-### Counting Sort
+## Heap Sort
+- Time Complexity: O(nlogn)
+## Quick Sort
+- Time Complexity: O(nlogn)
+## Counting Sort
 - Not a comparison sorting algorithm
 - Time complexity: O(n + k)(k is the range of elements of the array)
 - It assumes that all the elements of the array are positive integers.
@@ -422,30 +424,31 @@ for k, v in count.items():
         new_arr.append(k)
 ```
 
-# Back Tracking
-
 # Dynamic Programming
-- Divide and Conquer: Divide -> Conquer -> Combine
-## 0-1 Knapsack Problem
-- Source: https://gsmesie692.tistory.com/113
-- P\[i, w\] 란 i개의 보석이 있고 배낭의 무게 한도가 w일 때 최적의 이익을 의미한다.
-- i번째 보석이 배낭의 무게 한도보다 무거우면 넣을 수 없으므로 i번째 보석을 뺀 i-1개의 보석들을 가지고 구한 전 단계의 최적값을 그대로 가져온다.
-- 그렇지 않은 경우, i번째 보석을 위해 i번째 보석만큼의 무게를 비웠을 때의 최적값에 i번째 보석의 가격을 더한 값 or i-1개의 보석들을 가지고 구한 전 단계의 최적값 중 큰 것을 선택한다.
-## LIS(Longest Increasing Subsequence)
-- Time complexity: O(n^2)
-```python
-arr = [0] + arr
+- 0-1 Knapsack Problem
+	- Source: https://gsmesie692.tistory.com/113
+	- P\[i, w\] 란 i개의 보석이 있고 배낭의 무게 한도가 w일 때 최적의 이익을 의미한다.
+	- i번째 보석이 배낭의 무게 한도보다 무거우면 넣을 수 없으므로 i번째 보석을 뺀 i-1개의 보석들을 가지고 구한 전 단계의 최적값을 그대로 가져온다.
+	- 그렇지 않은 경우, i번째 보석을 위해 i번째 보석만큼의 무게를 비웠을 때의 최적값에 i번째 보석의 가격을 더한 값 or i-1개의 보석들을 가지고 구한 전 단계의 최적값 중 큰 것을 선택한다.
+- LIS(Longest Increasing Subsequence)
+	- Time complexity: O(n^2)
+	```python
+	arr = [0] + arr
 
-mem = {0:0}
-for i in A[1:]:
-    mem[i] = max([v for k, v in mem.items() if k < i]) + 1
-print(max(mem.values()))
-```
+	# `mem[i]`: i를 가장 마지막 원소로 갖는 LIS의 길이.
+	mem = {0:0}
+	for i in arr[1:]:
+		# i를 마지막 원소로 갖는 LIS의 길이는, i보다 작은 값을 마지막 원소로 갖는 LIS의 길이에 1을 더한 값과 같습니다.
+		mem[i] = max([v for k, v in mem.items() if k < i]) + 1
+	print(max(mem.values()))
+	```
+	- Time complexity: O(nlogn)
+	- Dynamic programming + Binary search
 
 # Greedy Algorithms
 - Source: Source: https://www.geeksforgeeks.org/greedy-algorithms/
 - Greedy is an algorithmic paradigm that builds up a solution piece by piece, always choosing the next piece that offers the most obvious and immediate benefit. So the problems where choosing locally optimal also leads to global solution are best fit for Greedy.
-## Fractional Knapsack Problem
+- Fractional Knapsack Problem
 
 # Two-Pointers
 - Time complexity: O(n)
@@ -524,8 +527,6 @@ def bisect_right(arr, tar):
             left = mid + 1
     return left
 ```
-## Longest Increasing Subsequence
-- Time complexity: O(nlogn)
 
 # Parametric Search
 - Source: https://velog.io/@lake/%EC%9D%B4%EB%B6%84%ED%83%90%EC%83%89-%ED%8C%8C%EB%9D%BC%EB%A9%94%ED%8A%B8%EB%A6%AD-%EC%84%9C%EC%B9%98Parametric-Search
