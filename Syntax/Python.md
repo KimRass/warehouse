@@ -3900,22 +3900,27 @@ set_matplotlib_formats("retina")
 
 
 
-# itertools
-## combinations(), permutations()
+# `itertools`
+## `combinations()`, `permutations()`, `combinations_with_replacement()`
 ```python
 from itertools import combinations, permutations
 ```
 ```python
 movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
 ```
+## `product()`
+```python
+for i in product(range(3), range(3), range(3)):
+    print(i)
+```
 
 
 
-# platform
+# `platform`
 ```python
 import platform
 ```
-## platform.system()
+## `platform.system()`
 ```python
 path = "C:/Windows/Fonts/malgun.ttf"
 if platform.system() == "Darwin":

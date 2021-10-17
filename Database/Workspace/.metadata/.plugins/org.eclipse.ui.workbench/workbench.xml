@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="15" version="2.0">
+<workbench progressCount="14" version="2.0">
 <workbenchAdvisor/>
 <window height="768" maximized="true" width="1024" x="7" y="120">
 <fastViewData fastViewLocation="1024"/>
@@ -35,10 +35,10 @@
 <editor id="com.tomato.exerd.editor.DiagramEditor" name="Test.exerd" partName="Test.exerd" path="D:/Github/Programming/Database/Workspace/Test/Test.exerd" title="Test.exerd" tooltip="Test/Test.exerd" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Test/Test.exerd"/>
 </editor>
-<editor id="com.tomato.exerd.editor.DiagramEditor" name="실습_화장품 판매.exerd" partName="실습_화장품 판매.exerd" path="D:/Github/Programming/Database/Workspace/Test/실습_화장품 판매.exerd" title="실습_화장품 판매.exerd" tooltip="Test/실습_화장품 판매.exerd" workbook="DefaultEditorWorkbook">
+<editor activePart="true" focus="true" id="com.tomato.exerd.editor.DiagramEditor" name="실습_화장품 판매.exerd" partName="실습_화장품 판매.exerd" path="D:/Github/Programming/Database/Workspace/Test/실습_화장품 판매.exerd" title="실습_화장품 판매.exerd" tooltip="Test/실습_화장품 판매.exerd" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Test/실습_화장품 판매.exerd"/>
 </editor>
-<editor activePart="true" focus="true" id="com.tomato.exerd.editor.DiagramEditor" name="물리적 설계.exerd" partName="물리적 설계.exerd" path="D:/Github/Programming/Database/Workspace/Test/물리적 설계.exerd" title="물리적 설계.exerd" tooltip="Test/물리적 설계.exerd" workbook="DefaultEditorWorkbook">
+<editor id="com.tomato.exerd.editor.DiagramEditor" name="물리적 설계.exerd" partName="물리적 설계.exerd" path="D:/Github/Programming/Database/Workspace/Test/물리적 설계.exerd" title="물리적 설계.exerd" tooltip="Test/물리적 설계.exerd" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Test/물리적 설계.exerd"/>
 </editor>
 </editors>
@@ -173,6 +173,8 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/untitled.exerd"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/실습_화장품 판매.exerd"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/물리적 설계.exerd"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/실습_화장품 판매.exerd"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/Test.exerd"/>
 </editors>
 <item historyLabel="Test.exerd" index="0"/>
 <item historyLabel="untitled.exerd" index="1"/>
@@ -182,7 +184,10 @@
 <item historyLabel="실습_화장품 판매.exerd" index="2"/>
 <item historyLabel="물리적 설계.exerd" index="3"/>
 <item historyLabel="실습_화장품 판매.exerd" index="2"/>
-<item active="true" historyLabel="물리적 설계.exerd" index="3"/>
+<item historyLabel="물리적 설계.exerd" index="3"/>
+<item historyLabel="실습_화장품 판매.exerd" index="4"/>
+<item historyLabel="Test.exerd" index="5"/>
+<item active="true" historyLabel="실습_화장품 판매.exerd" index="4"/>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
 </page>
@@ -196,7 +201,6 @@
 <trimItem IMemento.internal.id="org.eclise.ui.internal.FastViewBar"/>
 <trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
-<trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@1808fb9"/>
 </trimArea>
 </trimLayout>
 </window>

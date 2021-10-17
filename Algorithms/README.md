@@ -73,11 +73,10 @@ while hp:
 stack = [...]
 visited = {...}
 while stack:
-	start = stack.pop()
-	if visited[start] == False:
-		visited[start] = True
-		for end in graph[start]:
-			stack.append(end)
+	cur_node = stack.pop()
+	if visited[cur_node] == False:
+		visited[cur_node] = True
+		stack.update(graph[cur_node])
 ```
 ### Breadth First Search
 ```python
@@ -86,11 +85,10 @@ from collections import deque
 dq = deque([...])
 visited = {...}
 while dq:
-	start = dq.popleft()
-	if visited[start] == False:
-		visited[start] = True
-		for end in graph[start]:
-			dq.append(end)
+	cur_node = dq.popleft()
+	if visited[cur_node] == False:
+		visited[cur_node] = True
+		dq.update(graph[cur_node])
 ```
 - 간선에 가중치가 없다면 Shortest path problem에 적용 가능합니다.
 ```python
@@ -317,6 +315,13 @@ class Trie():
 ## Backtracking
 - Source: https://en.wikipedia.org/wiki/Backtracking
 - Backtracking is a general algorithm for finding solutions to some computational problems, notably constraint satisfaction problems, that incrementally builds candidates to the solutions, and abandons a candidate ("backtracks") as soon as it determines that the candidate cannot possibly be completed to a valid solution.
+- Source: https://jiwon-coding.tistory.com/34
+- 길을 가다가 이 길이 아닌 것 같으면 왔던 길로 되돌아가 다른 경로로 진행
+- 보통 재귀로 구현하며 조건이 맞지 않으면 종료한다.
+- DFS(깊이 우선 탐색) 기반
+- Source: https://namu.wiki/w/%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9
+- 상태공간을 트리로 나타낼 수 있을 때 적합한 방식이다.
+- DFS를 절대 쓰면 안되는 경우가 있는데, 트리의 깊이가 무한대가 될 때이다. 미로찾기에서 루프(회로)가 발생하는 경우, DFS는 이 가지를 탈출할 수 없게 된다. 물론 중복검사를 막기 위한 장치를 넣을 수도 있지만, 그럴 바에는 BFS가 편하다.
 - N-Queen
 
 # Recursion

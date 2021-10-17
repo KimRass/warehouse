@@ -1,8 +1,45 @@
 # Install
 - https://www.mysql.com/ -> "DOWNLOADS" -> "MySQL Community (GPL) Downloads" -> "MySQL Installer for Windows" -> "Windows (x86, 32-bit), MSI Installer (mysql-installer-community-8.0.26.0.msi)" -> "No thanks, just start my download." -> "Choosing a Setup Type": "Custom" -> "Select Products": Select "MySQL Server", "MySQL Workbench", "Samples and Examples" -> "Type and Networking": Check off "TCP/IP", "Port": "3306", "X Protocol Port": "33060", Check off "Open Windows Firewall ports for network access" -> "Authentication Method": Check off "Use Strong Password Encyption for Authentication (RECOMMENDED)
+
+# Data Types
+## Numeric
+### TINYINT
+- `Signed`: -128 ~ 127.
+- `Unsigned`: 0 ~ 255.
+### SMALLINT
+- `Signed`: -32768 ~ 32767.
+- `Unsigned`: 0 ~ 65535.
+### MEDIUMINT
+- `Signed`: -8388608 ~ 8388607.
+- `Unsigned`: 0 ~ 16777215.
+### INT
+- `Signed`: -2147483648  ~ 2147483647.
+- `Unsigned`: 0 ~ 4294967295.
+### BIGINT
+- `Signed`: -9223372036854775808   ~ 9223372036854775807.
+- `Unsigned`: 0 ~ 18446744073709551615.
+### DECIMAL
+### FLOAT
+### DOUBLE
+## Date and Time
+### DATE
+### DATETIME
+### TIMESTAMP
+### TIME
+### YEAR
+## String
+### `CHAR(n)`
+- `n`: (`0` ~ `255`, Default `1`)
+### `VARCHAR(n)`
+- `n`: (`0` ~ `65535`)
+### `TINYTEXT`
+- Hold a string with a maximum length of 255 characters.
+### `TEXT(n)`
+### `MEDIUMTEXT`
+- Hold a string with a maximum length of 16,777,215 characters.
+### `LONGTEXT`
+- Hold a string with a maximum length of 4,294,967,295 character.s
 ***
-
-
 
 ## Command Line Client
 ### set character-set

@@ -79,12 +79,24 @@ Written by KimRass
 - Primary key가 아닌 Column에 Dependent하는 Columns를 제거합니다.
 #### 4NF
 - 서로 독립적인 관계는 테이블을 쪼갠다.
-#### 5NFe
-## Physical Data Models
-- Physical models provide a schema for how the data will be physically stored within a database. As such, they’re the least abstract of all. They offer a finalized design that can be implemented as a relational database, including associative tables that illustrate the relationships among entities as well as the primary keys and foreign keys that will be used to maintain those relationships.
+#### 5NF
+## Physical Data Modeling
+- Physical models provide a schema for how the data will be physically stored within a database. As such, they’re the least abstract of all.
+### Denormalization
+- Source: https://www.geeksforgeeks.org/denormalization-in-databases/
+- Denormalization is a database optimization technique in which we add redundant data to one or more tables. This can help us avoid costly joins in a relational database. Note that denormalization does not mean not doing normalization. It is an optimization technique that is applied after doing normalization.
+- In a traditional normalized database, we store data in separate logical tables and attempt to minimize redundant data. We may strive to have only one copy of each piece of data in database. For example, in a normalized database, we might have a Courses table and a Teachers table. Each entry in Courses would store the teacherID for a Course but not the teacherName. When we need to retrieve a list of all Courses with the Teacher’s name, we would do a join between these two tables. In some ways, this is great; if a teacher changes his or her name, we only have to update the name in one place. The drawback is that if tables are large, we may spend an unnecessarily long time doing joins on tables. Denormalization, then, strikes a different compromise. Under denormalization, we decide that we’re okay with some redundancy and some extra effort to update the database in order to get the efficiency advantages of fewer joins.
+- Pros:
+	- Retrieving data is faster since we do fewer joins
+	- Queries to retrieve can be simpler(and therefore less likely to have bugs), since we need to look at fewer tables.
+- Cons:
+	- Updates and inserts are more expensive.
+	- Denormalization can make update and insert code harder to write.
+	- Data may be inconsistent . Which is the “correct” value for a piece of data?
+	- Data redundancy necessitates more storage.
 
 # Wireframe & Storyboard
-# Wireframe
+## Wireframe
 - Source: https://balsamiq.com/learn/articles/what-are-wireframes/
 - ![image]( https://balsamiq.com/assets/learn/articles/all-controls-split-r.png)
 - A wireframe is a schematic or blueprint that is useful for helping you, your programmers and designers think and communicate about the structure of the software or website you're building.
@@ -119,3 +131,64 @@ Written by KimRass
 - 부모 테이블의 PK가 없더라도 유일하게 레코드 구분 가능할 때.
 - 한 사람이 한 뉴스에 여러 개의 댓글을 달 수 있으므로 회원번호만으로는 특정 댓글 식별 불가. 따라서 비식별 관계.
 - 점선
+
+# Partition
+- Source: https://en.wikipedia.org/wiki/Partition_(database)
+## Partitioning Methods
+### Horizontal Partitioning
+- Involves putting different rows into different tables. For example, customers with ZIP codes less than 50000 are stored in CustomersEast, while customers with ZIP codes greater than or equal to 50000 are stored in CustomersWest. The two partition tables are then CustomersEast and CustomersWest, while a view with a union might be created over both of them to provide a complete view of all customers.
+### Vertical Partitioning
+- Involves creating tables with fewer columns and using additional tables to store the remaining columns. Generally, this practice is known as normalization. However, vertical partitioning extends further and partitions columns even when already normalized.
+- Distinct physical machines might be used to realize vertical partitioning: Storing infrequently used or very wide columns, taking up a significant amount of memory, on a different machine, for example, is a method of vertical partitioning.
+- A common form of vertical partitioning is to split static data from dynamic data, since the former is faster to access than the latter, particularly for a table where the dynamic data is not used as often as the static.
+- Creating a view across the two newly created tables restores the original table with a performance penalty, but accessing the static data alone will show higher performance.
+## Partitioning Criteria
+- Range partitioning: selects a partition by determining if the partitioning key is within a certain range.
+- List partitioning: a partition is assigned a list of values. If the partitioning key has one of these values, the partition is chosen.
+- Composite partitioning
+- Round-robin partitioning
+- Hash partitioning
+
+# Static Data & Dynamic Data
+- Source: https://blog.zoominfo.com/dynamic-data/
+## Static Data
+- Refers to a fixed data set—or, data that remains the same after it’s collected.
+- Source: https://en.wikipedia.org/wiki/Dynamic_data
+- Data that is infrequently accessed and not likely to be modified.
+## Dynamic Data
+- Continually changes after it’s recorded in order to maintain its integrity.
+- Source: https://en.wikipedia.org/wiki/Dynamic_data
+- Dynamic data may be updated at any time, with periods of inactivity in between.
+
+1. 회원 테이블에서 현재 위치를 저장하는 컬럼을 만든다.
+2. 서버B의 거래처 테이블에 CRUD가 발생할 때마다 서버A에도 동기화
+3. 월 단위로 Partitioning한다.
+4. 조인을 여러 번 해야 함 -> 고객-배송을 관계를 맺음.
+5. 여러 통계를 계산하여 담은 테이블을 별도로 만든다.
+6. 결제금액을 미리 계산해서 주문 테이블의 컬럼으로 만든다.
+7. 내용이 용량 너무 커서 16K 자주 조회해야 함 -> 포스트 내용만을 담은 1:1 테이블을 하나 따로 만든다
+8. 자주 조회되는 컬럼, 아닌 컬럼으로 테이블 나눈다
+
+# Case Types
+## Camel Case
+- e.g., camelCaseVar.
+## Pascal Case
+- e.g., CamelCaseVar.
+## Snake Case
+- e.g., camel_case_var.
+
+# CRUD Matrix
+# Transaction
+- Source: https://en.wikipedia.org/wiki/Database_transaction
+- A database transaction symbolizes a unit of work performed within a database management system (or similar system) against a database, and treated in a coherent and reliable way independent of other transactions.
+- In a database management system, a transaction is a single unit of logic or work, sometimes made up of multiple operations. Any logical calculation done in a consistent mode in a database is known as a transaction. One example is a transfer from one bank account to another: the complete transaction requires subtracting the amount to be transferred from one account and adding that same amount to the other.
+## ACID(Atomicity, Consistency, Isolation, Durability)
+- Source: https://en.wikipedia.org/wiki/ACID
+- ACID is a set of properties of database transactions intended to guarantee data validity despite errors, power failures, and other mishaps.
+- In the context of databases, a sequence of database operations that satisfies the ACID properties (which can be perceived as a single logical operation on the data) is called a transaction. For example, a transfer of funds from one bank account to another, even involving multiple changes such as debiting one account and crediting another, is a single transaction.
+- Atomicity
+	- Transactions are often composed of multiple statements. Atomicity guarantees that each transaction is treated as a single "unit", which either succeeds completely, or fails completely: if any of the statements constituting a transaction fails to complete, the entire transaction fails and the database is left unchanged. An atomic system must guarantee atomicity in each and every situation, including power failures, errors and crashes. A guarantee of atomicity prevents updates to the database occurring only partially, which can cause greater problems than rejecting the whole series outright. As a consequence, the transaction cannot be observed to be in progress by another database client. At one moment in time, it has not yet happened, and at the next it has already occurred in whole (or nothing happened if the transaction was cancelled in progress).
+# Index
+## Clustered Index
+- Cardinality
+# Trigger
