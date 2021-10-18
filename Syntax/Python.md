@@ -289,6 +289,8 @@ import math
 ## math.floor()
 ## math.ceil()
 ## math.gcd()
+## math.isnan()
+## math.inf
 
 
 
