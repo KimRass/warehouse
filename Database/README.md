@@ -194,12 +194,32 @@ Written by KimRass
 	- Transactions are often executed concurrently (e.g., multiple transactions reading and writing to a table at the same time). Isolation ensures that concurrent execution of transactions leaves the database in the same state that would have been obtained if the transactions were executed sequentially.
 - Durability
 	- Durability guarantees that once a transaction has been committed, it will remain committed even in the case of a system failure (e.g., power outage or crash). This usually means that completed transactions (or their effects) are recorded in non-volatile memory.
+	
 # Database Index
 - Source: https://en.wikipedia.org/wiki/Database_index
 - A database index is a data structure that improves the speed of data retrieval operations on a database table at the cost of additional writes and storage space to maintain the index data structure. Indexes are used to quickly locate data without having to search every row in a database table every time a database table is accessed. Indexes can be created using one or more columns of a database table, providing the basis for both rapid random lookups and efficient access of ordered records.
 - An index is a copy of selected columns of data, from a table, that is designed to enable very efficient search. An index normally includes a "key" or direct link to the original row of data from which it was copied, to allow the complete row to be retrieved efficiently. Some databases extend the power of indexing by letting developers create indexes on column values that have been transformed by functions or expressions. For example, an index could be created on upper(last_name), which would only store the upper-case versions of the last_name field in the index. Another option sometimes supported is the use of partial indices, where index entries are created only for those records that satisfy some conditional expression. A further aspect of flexibility is to permit indexing on user-defined functions, as well as expressions formed from an assortment of built-in functions.
+- Source: https://www.guru99.com/clustered-vs-non-clustered-index.html
+- Clustered index is a type of index that sorts the data rows in the table on their key values whereas the non-clustered index stores the data at one location and indices at another location.
+- Clustered index stores data pages in the leaf nodes of the index while Non-clustered index method never stores data pages in the leaf nodes of the index.
+- Clustered index doesn’t require additional disk space whereas the non-clustered index requires additional disk space.
+- Clustered index offers faster data accessing, on the other hand, non-clustered index is slower.
 ## Clustered Index
-- Cardinality
+- In the Database, there is only one clustered index per table.
+- A clustered index defines the order in which data is stored in the table which can be sorted in only one way.
+- In an RDBMS, usually, the primary key allows you to create a clustered index based on that specific column.
+인덱스 자체의 리프 페이지가 곧 데이터이다. 즉 테이블 자체가 인덱스이다. (따로 인덱스 페이지를 만들지 않는다.)
+데이터 입력, 수정, 삭제 시 항상 정렬 상태를 유지한다.
+비 클러스형 인덱스보다 검색 속도는 더 빠르다. 하지만 데이터의 입력. 수정, 삭제는 느리다.
+## Non-Clusterd Index
+- A Non-clustered index stores the data at one location and indices at another location. The index contains pointers to the location of that data.
+- A single table can have many non-clustered indexes as an index in the non-clustered index is stored in different places.
+- For example, a book can have more than one index, one at the beginning which displays the contents of a book unit wise while the second index shows the index of terms in alphabetical order.
+
+# Cardinality
+- Source: https://orangematter.solarwinds.com/2021/10/01/what-is-cardinality-in-a-database/
+- The number of distinct values in a table column relative to the number of rows in the table.
+
 # Database Trigger
 - Source: https://en.wikipedia.org/wiki/Database_trigger
 - A database trigger is procedural code that is automatically executed in response to certain events on a particular table or view in a database. The trigger is mostly used for maintaining the integrity of the information on the database. For example, when a new record (representing a new worker) is added to the employees table, new records should also be created in the tables of the taxes, vacations and salaries. Triggers can also be used to log historical data, for example to keep track of employees' previous salaries.
