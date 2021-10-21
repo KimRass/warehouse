@@ -21,7 +21,7 @@ Written by KimRass
 ### TypeError: sequence index must be integer, not 'slice'
 - This error raises because `collections.deque` cannot be sliced.
 ### TypeError: '<<Data Type>>' object is not iterable
-### TypeError: <<Function Name>> takes exactly <<Number of needed arguments>> argument (<<Number of input arguments>> given)
+### TypeError: <<Function>> takes exactly <<Number of needed arguments>> argument (<<Number of input arguments>> given)
 ### TypeError: sequence item 0: expected str instance, int found
 ### TypeError: can only concatenate tuple (not "<<Data Type>>") to tuple
 ### TypeError: '<<Argument>>' is an invalid keyword argument for <<Function>>()
@@ -30,6 +30,7 @@ Written by KimRass
 ### TypeError: Invalid comparison between dtype=<<Data Type>> and <<Data Type>>
 ### `TypeError: 'range' object cannot be interpreted as an integer`
 ## NameError
+### `TypeError: object of type <<Data Type>> has no <<Function>>`
 ### NameError: name '<<Variable>>' is not defined
 ## ZeroDivisionError
 ### ZeroDivisionError: division by zero
@@ -49,7 +50,7 @@ Written by KimRass
 ### IndexError: list index out of range
 ### `IndexingError: Too many indexers`
 ## ImportError
-### ImportError: cannot import name '<<Functions Name>>' from '<<Package Name>>'
+### ImportError: cannot import name '<<Function>>' from '<<Package>>'
 ## RuntimeError
 ### RuntimeError: dictionary changed size during iteration
 # KeyError
