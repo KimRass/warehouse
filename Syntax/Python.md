@@ -28,6 +28,7 @@ Written by KimRass
 ### TypeError: unsupported operand type(s) for <<Operator>>: '<<Data Type 1>>' and '<<Data Type 2>>'
 ### TypeError: heap argument must be a list
 ### TypeError: Invalid comparison between dtype=<<Data Type>> and <<Data Type>>
+### `TypeError: 'range' object cannot be interpreted as an integer`
 ## NameError
 ### NameError: name '<<Variable>>' is not defined
 ## ZeroDivisionError
@@ -46,6 +47,7 @@ Written by KimRass
 ### ValueError: overflow in timedelta operation
 ## IndexError
 ### IndexError: list index out of range
+### `IndexingError: Too many indexers`
 ## ImportError
 ### ImportError: cannot import name '<<Functions Name>>' from '<<Package Name>>'
 ## RuntimeError
@@ -247,12 +249,12 @@ orders.columns = orders.columns.str.lower()
 ### String.strip(), String.lstrip(), String.rstrip()
 ### String.replace()
 - `count`: (int, optional) A number specifying how many occurrences of the old value you want to replace. Default is all occurrences.
-## eval()
+## `eval()`
 ```python
 A = [eval(f"A{i}") for i in range(N, 0, -1)]
 ```
-- "를 제거하는 효과입니다. 단일 변수에 사용합니다.
-## exec()
+- `eval()` is for expression and returns the value of expression.
+## `exec()`
 ```python
 for data in ["tasks", "comments", "projects", "prj_members", "members"]:
     exec(f"{data} = pd.read_csv('D:/디지털혁신팀/협업플랫폼 분석/{data}.csv')")
@@ -260,7 +262,7 @@ for data in ["tasks", "comments", "projects", "prj_members", "members"]:
 ```python
 exec(f"{table} = pd.DataFrame(result)")
 ```
-- "를 제거하는 효과입니다. 수식에 사용합니다.
+- `exce()` is for statement and return `None`.
 ## open()
 ```python
 with open("C:/Users/5CG7092POZ/nsmc-master/ratings_train.txt", "r", encoding="utf-8") as f:

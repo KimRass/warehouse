@@ -208,6 +208,37 @@ import heqpq as hq
 hq.heappush(<<Heap Object>>, -<<Element>>)
 hq.heqppop(<<Heap Object>>)
 ```
+#### Quadtree
+- Source: https://en.wikipedia.org/wiki/Quadtree
+- A quadtree is a tree data structure in which each internal node has exactly four children. Quadtrees are the two-dimensional analog of octrees and are most often used to partition a two-dimensional space by recursively subdividing it into four quadrants or regions.
+```python
+from itertools import product
+
+N = int(input())
+arr = list()
+for _ in range(N):
+    arr.append(list(map(int, input().split())))
+
+def quadtree(arr):
+    global zeros, ones
+    zeros_temp = 0
+    for i, j in product(range(len(arr)), range(len(arr))):
+        zeros_temp += (arr[i][j] == 0)
+    
+    if zeros_temp == 0:
+        return (0, 1)
+    elif zeros_temp == len(arr)**2:
+        return (1, 0)
+    else:
+        n = len(arr)//2
+        return (quadtree([i[:n] for i in arr[:n]])[0] + quadtree([i[n:] for i in arr[:n]])[0] + quadtree([i[:n] for i in arr[n:]])[0] + quadtree([i[n:] for i in arr[n:]])[0], quadtree([i[:n] for i in arr[:n]])[1] + quadtree([i[n:] for i in arr[:n]])[1] + quadtree([i[:n] for i in arr[n:]])[1] + quadtree([i[n:] for i in arr[n:]])[1])
+
+zeros = 0
+ones = 0
+for i in quadtree(arr):
+    print(i)
+```
+#### Octree
 ### Tree Traversal
 #### Depth First Search
 - Preorder Traverse: Parent -> Left -> Right
