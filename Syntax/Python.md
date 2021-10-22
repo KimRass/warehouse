@@ -301,6 +301,9 @@ import math
 ```python
 import pandas as pd
 ```
+## pd.api
+### pd.api.types
+#### pd.api.types.is_string_dtype(), pd.api.types.is_numeric_dtype()
 ## pd.options
 ### pd.options.display
 #### pd.options.display.max_rows, pd.options.display.max_columns, pd.options.display.width, pd.options.display.float_format

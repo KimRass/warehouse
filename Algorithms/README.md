@@ -448,11 +448,23 @@ for k, v in count.items():
 ```
 
 # Dynamic Programming
+- Divide-and-Conquer & Memoization
 - 0-1 Knapsack Problem
-	- Source: https://gsmesie692.tistory.com/113
-	- P\[i, w\] 란 i개의 보석이 있고 배낭의 무게 한도가 w일 때 최적의 이익을 의미한다.
-	- i번째 보석이 배낭의 무게 한도보다 무거우면 넣을 수 없으므로 i번째 보석을 뺀 i-1개의 보석들을 가지고 구한 전 단계의 최적값을 그대로 가져온다.
-	- 그렇지 않은 경우, i번째 보석을 위해 i번째 보석만큼의 무게를 비웠을 때의 최적값에 i번째 보석의 가격을 더한 값 or i-1개의 보석들을 가지고 구한 전 단계의 최적값 중 큰 것을 선택한다.
+	- References: https://gsmesie692.tistory.com/113
+	```python
+	mem = dict()
+	# largest_value(idx_bef, max_w): Index `idx_bef` 전까지의 Items를 가지고 무게 `max_w` 이하로 만들 수 있는 최대 Value.
+	def largest_value(idx_bef, max_w):
+		if (idx_bef, max_w) not in mem:
+			if idx_bef == 0:
+				if items[0][0] <= max_w:
+					mem[(idx_bef, max_w)] = items[0][1]
+				else:
+					mem[(idx_bef, max_w)] = 0
+			else:
+				mem[(idx_bef, max_w)] = max(largest_value(idx_bef - 1, max_w - items[idx_bef][0]) + items[idx_bef][1], largest_value(idx_bef - 1, max_w)) if items[idx_bef][0] <= max_w else largest_value(idx_bef - 1, max_w)
+		return mem[(idx_bef, max_w)]
+	```
 - LIS(Longest Increasing Subsequence)
 	- Time complexity: O(n^2)
 	```python
@@ -467,6 +479,7 @@ for k, v in count.items():
 	```
 	- Time complexity: O(nlogn)
 	- Dynamic programming + Binary search
+- LCS(Longest Common Subsequence)
 
 # Greedy Algorithms
 - Source: Source: https://www.geeksforgeeks.org/greedy-algorithms/
