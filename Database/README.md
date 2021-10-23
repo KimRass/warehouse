@@ -223,3 +223,24 @@ Written by KimRass
 # Database Trigger
 - Source: https://en.wikipedia.org/wiki/Database_trigger
 - A database trigger is procedural code that is automatically executed in response to certain events on a particular table or view in a database. The trigger is mostly used for maintaining the integrity of the information on the database. For example, when a new record (representing a new worker) is added to the employees table, new records should also be created in the tables of the taxes, vacations and salaries. Triggers can also be used to log historical data, for example to keep track of employees' previous salaries.
+
+# Super Type
+
+# 재귀적 구조
+- 조직도, 쇼핑몰 카테고리, 게시판 댓글
+
+# BOM
+
+# 표준화
+
+# Domain
+
+# 포워드
+- Check 테이블, 기본키, 외래키, 코멘트
+
+HeidiSQL, DBeaver, DataGrip
+utf8 -> utf8_general_ci
+
+CREATE Index
+ADD CONSTRAINT, DROP CONSTRAINT
+INFORMATION_SCHEMA

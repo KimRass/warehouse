@@ -11,7 +11,7 @@
 <coolItem id="org.eclipse.ui.workbench.file" itemType="typeToolBarContribution" x="99" y="22"/>
 <coolItem id="additions" itemType="typeGroupMarker"/>
 <coolItem id="com.tomato.devkit.toolbar" itemType="typeToolBarContribution" x="-1" y="-1"/>
-<coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="-1" y="-1"/>
+<coolItem id="org.eclipse.debug.ui.launchActionSet" itemType="typeToolBarContribution" x="53" y="22"/>
 <coolItem id="org.eclipse.search.searchActionSet" itemType="typeToolBarContribution" x="53" y="22"/>
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="114" y="22"/>
@@ -27,19 +27,15 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
-<part id="2"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor id="com.tomato.exerd.editor.DiagramEditor" name="Test.exerd" partName="Test.exerd" path="D:/Github/Programming/Database/Workspace/Test/Test.exerd" title="Test.exerd" tooltip="Test/Test.exerd" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Test/Test.exerd"/>
+<editor id="com.tomato.exerd.term.ui.editor2.TermDictionaryEditor2" name="용어 사전.xdic" partName="용어 사전.xdic" path="D:/Github/Programming/Database/Workspace/Test/용어 사전.xdic" title="용어 사전.xdic" tooltip="Test/용어 사전.xdic" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Test/용어 사전.xdic"/>
 </editor>
-<editor activePart="true" focus="true" id="com.tomato.exerd.editor.DiagramEditor" name="실습_화장품 판매.exerd" partName="실습_화장품 판매.exerd" path="D:/Github/Programming/Database/Workspace/Test/실습_화장품 판매.exerd" title="실습_화장품 판매.exerd" tooltip="Test/실습_화장품 판매.exerd" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Test/실습_화장품 판매.exerd"/>
-</editor>
-<editor id="com.tomato.exerd.editor.DiagramEditor" name="물리적 설계.exerd" partName="물리적 설계.exerd" path="D:/Github/Programming/Database/Workspace/Test/물리적 설계.exerd" title="물리적 설계.exerd" tooltip="Test/물리적 설계.exerd" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Test/물리적 설계.exerd"/>
+<editor activePart="true" focus="true" id="com.tomato.exerd.editor.DiagramEditor" name="화장품판매.exerd" partName="화장품판매.exerd" title="화장품판매.exerd" tooltip="D:\Github\Programming\Database\Workspace\Test\화장품판매.exerd" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" uri="file:/D:/Github/Programming/Database/Workspace/Test/화장품판매.exerd"/>
 </editor>
 </editors>
 <views>
@@ -56,7 +52,9 @@
 <view id="com.tomato.exerd.ui.views.thumbnail" partName="썸네일">
 <viewState/>
 </view>
-<view id="com.tomato.exerd.validate.ui.ValidateView" partName="검토"/>
+<view id="com.tomato.exerd.validate.ui.ValidateView" partName="검토">
+<viewState/>
+</view>
 <view id="com.tomato.exerd.modelview3.ModelView3" partName="모델">
 <viewState/>
 </view>
@@ -123,7 +121,7 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.18" ratioLeft="180" ratioRight="820" relationship="2" relative="leftFolder"/>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@138bc06" ratio="0.77926826" ratioLeft="639" ratioRight="181" relationship="2" relative="org.eclipse.ui.editorss">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@138bc06" ratio="0.8574739" ratioLeft="1480" ratioRight="246" relationship="2" relative="org.eclipse.ui.editorss">
 <folder activePageID="com.tomato.exerd.ui.views.thumbnail" appearance="2" expanded="2">
 <page content="com.tomato.exerd.ui.views.thumbnail" label="썸네일"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
@@ -141,8 +139,8 @@
 </presentation>
 </folder>
 </info>
-<info folder="true" part="bottomFolder" ratio="0.6992593" ratioLeft="472" ratioRight="203" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="com.tomato.exerd.ui.views.domain" appearance="2" expanded="2">
+<info folder="true" part="bottomFolder" ratio="0.78852284" ratioLeft="742" ratioRight="199" relationship="4" relative="org.eclipse.ui.editorss">
+<folder activePageID="com.tomato.exerd.validate.ui.ValidateView" appearance="2" expanded="2">
 <page content="com.tomato.exerd.ui.views.domain" label="도메인"/>
 <page content="com.tomato.exerd.validate.ui.ValidateView" label="검토"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="콘솔"/>
@@ -175,6 +173,10 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/물리적 설계.exerd"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/실습_화장품 판매.exerd"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/Test.exerd"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/표준화.exerd"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.term.ui.editor2.TermDictionaryEditor2" path="/Test/용어 사전.xdic"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/물리적 설계.exerd"/>
+<editor factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" uri="file:/D:/Github/Programming/Database/Workspace/Test/화장품판매.exerd"/>
 </editors>
 <item historyLabel="Test.exerd" index="0"/>
 <item historyLabel="untitled.exerd" index="1"/>
@@ -187,7 +189,14 @@
 <item historyLabel="물리적 설계.exerd" index="3"/>
 <item historyLabel="실습_화장품 판매.exerd" index="4"/>
 <item historyLabel="Test.exerd" index="5"/>
-<item active="true" historyLabel="실습_화장품 판매.exerd" index="4"/>
+<item historyLabel="실습_화장품 판매.exerd" index="4"/>
+<item historyLabel="표준화.exerd" index="6"/>
+<item historyLabel="용어 사전.xdic" index="7"/>
+<item historyLabel="물리적 설계.exerd" index="8"/>
+<item historyLabel="용어 사전.xdic" index="7"/>
+<item historyLabel="물리적 설계.exerd" index="8"/>
+<item historyLabel="용어 사전.xdic" index="7"/>
+<item active="true" historyLabel="화장품판매.exerd" index="9"/>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
 </page>
@@ -205,6 +214,15 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" name="화장품판매.exerd" tooltip="D:\Github\Programming\Database\Workspace\Test\화장품판매.exerd">
+<persistable uri="file:/D:/Github/Programming/Database/Workspace/Test/화장품판매.exerd"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.term.ui.editor2.TermDictionaryEditor2" name="용어 사전.xdic" tooltip="Test/용어 사전.xdic">
+<persistable path="/Test/용어 사전.xdic"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" name="표준화.exerd" tooltip="Test/표준화.exerd">
+<persistable path="/Test/표준화.exerd"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" name="물리적 설계.exerd" tooltip="Test/물리적 설계.exerd">
 <persistable path="/Test/물리적 설계.exerd"/>
 </file>

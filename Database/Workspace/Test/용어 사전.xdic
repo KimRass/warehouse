@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tm:TermDictionary xmlns:tm="http://exerd.com/term-model" version="1.1">
+  <term name="사원" physicalName="emp"/>
+  <term name="부서" physicalName="dept"/>
+  <term name="번호" physicalName="no"/>
+  <term name="전화번호" physicalName="phone"/>
+  <term name="생성" physicalName="reg"/>
+  <term name="일시" physicalName="dt"/>
+  <term name="날짜" physicalName="date"/>
+  <term name="명" physicalName="nm"/>
+  <term name="입사" physicalName="join"/>
+  <term name="타입" physicalName="ty"/>
+  <term name="연봉" physicalName="salary"/>
+  <term name="아이디" physicalName="id"/>
+  <term name="수정" physicalName="edit"/>
+</tm:TermDictionary>
