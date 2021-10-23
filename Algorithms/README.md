@@ -448,6 +448,13 @@ for k, v in count.items():
 ```
 
 # Dynamic Programming
+```python
+mem = dict()
+def func(i, j):
+	if (i, j) not in mem:
+		mem[(i, j)] = ...
+	return mem[(i, j)]
+```
 - Divide-and-Conquer & Memoization
 - 0-1 Knapsack Problem
 	- References: https://gsmesie692.tistory.com/113

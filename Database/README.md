@@ -122,15 +122,23 @@ Written by KimRass
 ## Relationship
 - One to One or One to Many or Many to Many
 ### Identifying Relationship
-- 외래키를 기본키로 사용하는 관계를 식별 관계.
+- The primary key of the parent would become a subset of the primary key of the child.
+- 외래키를 기본키로 사용하는 관계.
 - B테이블은 A테이블에 종속적이 되어서 A의 값이 없으면 B의 값은 무의미해짐.
 - 실선
 ### Non-Identifying Relationship
 - When the primary key of the parent must not become primary key of the child.
 - A의 값이 없더라도 B의 값은 독자적으로 의미를 가짐.
 - 부모 테이블의 PK가 없더라도 유일하게 레코드 구분 가능할 때.
-- 한 사람이 한 뉴스에 여러 개의 댓글을 달 수 있으므로 회원번호만으로는 특정 댓글 식별 불가. 따라서 비식별 관계.
 - 점선
+### Recursive Relationship
+- Source: https://bookshelf.erwin.com/bookshelf/public_html/2020R1/Content/User%20Guides/erwin%20Help/Recursive_Relationships.html
+- A recursive relationship is a non-identifying relationship between two entities or tables that represents the fact that, for example, one company can own another company. In this type of relationship, the parent entity or table and the child entity or table are the same.
+- Types of recursive relationships:
+	- Hierarchical Recursive Relationship: A parent entity or table can have any number of children, but a child can only have one parent.
+	- Network Recursive Relationship: A parent entity or table can have any number of children, and a child can have any number of parents. An entity or table has a many-to-many relationship with itself. When a many-to-many network recursion problem exists, you can clarify the situation by creating an intermediate entity or table and converting the many-to-many relationship into two one-to-many relationships.
+- Source: https://sqldatabasetutorials.com/sql-db/recursive-relationship/
+- The ERD convention to show a recursive structure is drawn as a loop, also known as a "pig's ear".
 
 # Partition
 - Source: https://en.wikipedia.org/wiki/Partition_(database)
@@ -224,16 +232,34 @@ Written by KimRass
 - Source: https://en.wikipedia.org/wiki/Database_trigger
 - A database trigger is procedural code that is automatically executed in response to certain events on a particular table or view in a database. The trigger is mostly used for maintaining the integrity of the information on the database. For example, when a new record (representing a new worker) is added to the employees table, new records should also be created in the tables of the taxes, vacations and salaries. Triggers can also be used to log historical data, for example to keep track of employees' previous salaries.
 
-# Super Type
-
+# Supertype & Subtype
+- Source: https://sqldatabasetutorials.com/sql-db/supertypes-and-subtypes/
+- Often some instances of an entity have attributes and/or relationships that other instances do not have. Imagine a business which needs to track payments from customers. Customers can pay by cash, by check, or by credit card. All payments have some common attributes: payment date, payment amount, and so on. But only credit cards would have a "card number" attribute. And for credit card and check payments, we may need to know which customer made the payment, while this is not needed for cash payments. Should we create a single `PAYMENT` entity or three separate entities `CASH`, `CHECK`, and `CREDIT CARD`?
+- Sometimes it makes sense to subdivide an entity into subtypes. This may be the case when a group of instances has special properties, such as attributes or relationships that exist only for that group. In this case, the entity is called a supertype and each group is called a subtype.
+- A subtype:
+	- Inherits all attributes of the supertype.
+	- Inherits all relationships of the supertype.
+	- Usually has its own attributes or relationships.
+	- Is drawn within the supertype.
+	- Never exists alone.
+	- May have subtypes of its own.
+- Subtype rules:
+	- Exhaustive: Every instance of the supertype is also an instance of one of the subtypes. All subtypes are listed without omission.
+	- Mutually Exclusive: Each instance of a supertype is an instance of only one possible subtype.
+- At the conceptual modeling stage, it is good practice to include an `OTHER` subtype to make sure that your subtypes are exhaustive — that you are handling every instance of the supertype.
+	
 # 재귀적 구조
 - 조직도, 쇼핑몰 카테고리, 게시판 댓글
 
-# BOM
+# Data Domain
+- Source: https://en.wikipedia.org/wiki/Data_domain
+- A data domain is the collection of values that a column may contain. The rule for determining the domain boundary may be as simple as a data type with an enumerated list of values.
+- For example, a database table that has information about people, with one record per person, might have a "marital status" column. This column might be declared as a string data type, and allowed to have one of two known code values: "M" for married, "S" for single, and NULL for records where marital status is unknown or not applicable. The data domain for the marital status column is: "M", "S".
 
-# 표준화
-
-# Domain
+# Data Standardization
+- Source: https://www.getlore.io/knowledgecenter/data-standardization
+- Data standardization is a data processing workflow that converts the structure of disparate datasets into a common data format. As part of the Data Preparation field, Data Standardization deals with the transformation of datasets after the data is pulled from source systems and before it's loaded into target systems.
+- Data standardization enables the data consumer to analyze and use data in a consistent manner. Typically, when data is created and stored in the source system, it's structured in a particular way that is often unknown to the data consumer. Moreover, datasets that might be semantically related may be stored and represented differently, thereby making it difficult for a data consumer to aggregate or compare the datasets.
 
 # 포워드
 - Check 테이블, 기본키, 외래키, 코멘트

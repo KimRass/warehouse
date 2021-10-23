@@ -3542,6 +3542,9 @@ sys.path.append("c:/users/82104/anaconda3/envs/tf2.3/lib/site-packages")
 cmd = sys.stdin.readline().rstrip()
 ```
 ## sys.setrecursionlimit()
+```python
+sys.setrecursionlimit(1000000000)
+```
 
 
 
