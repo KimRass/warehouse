@@ -247,9 +247,6 @@ Written by KimRass
 	- Exhaustive: Every instance of the supertype is also an instance of one of the subtypes. All subtypes are listed without omission.
 	- Mutually Exclusive: Each instance of a supertype is an instance of only one possible subtype.
 - At the conceptual modeling stage, it is good practice to include an `OTHER` subtype to make sure that your subtypes are exhaustive — that you are handling every instance of the supertype.
-	
-# 재귀적 구조
-- 조직도, 쇼핑몰 카테고리, 게시판 댓글
 
 # Data Domain
 - Source: https://en.wikipedia.org/wiki/Data_domain
