@@ -51,12 +51,15 @@ Written by KimRass
 ### `IndexingError: Too many indexers`
 ## ImportError
 ### ImportError: cannot import name '<<Function>>' from '<<Package>>'
+## AttributeError
+### `AttributeError: module '<Class>' has no attribute '<<Function>>'`
+### `AttributeError: '<<Data Type>>' object has no attribute '<<Function>>'`
 ## RuntimeError
 ### RuntimeError: dictionary changed size during iteration
 # KeyError
 ## KeyError: <<Dictionary Key>>
 # KeyboardInterrupt
-## KeyboardInterrupt: 
+## KeyboardInterrupt:
 
 
 

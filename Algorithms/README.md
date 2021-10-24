@@ -76,7 +76,7 @@ while stack:
 	cur_node = stack.pop()
 	if visited[cur_node] == False:
 		visited[cur_node] = True
-		stack.update(graph[cur_node])
+		stack.extend(graph[cur_node])
 ```
 ### Breadth First Search
 ```python
@@ -88,7 +88,7 @@ while dq:
 	cur_node = dq.popleft()
 	if visited[cur_node] == False:
 		visited[cur_node] = True
-		dq.update(graph[cur_node])
+		dq.extend(graph[cur_node])
 ```
 - 간선에 가중치가 없다면 Shortest path problem에 적용 가능합니다.
 ```python
@@ -97,10 +97,10 @@ from collections import deque
 dq = deque([...])
 visited = {...}
 while dq:
-	start, cur_dist = dq.popleft()
-	if visited[start] == False:
-		visited[start] = True
-		for end, dist in graph[start]:
+	cur_node, cur_dist = dq.popleft()
+	if visited[cur_node] == False:
+		visited[cur_node] = True
+		for end, dist in graph[cur_node]:
 			dq.append((end, cur_dist + dist))
 ```
 ### Tree
@@ -119,41 +119,41 @@ while dq:
 - Level: The level of a node is the number of edges along the unique path between it and the root node.
 - Width: The number of nodes in a level.
 - Bredth: The number of leaves.
-- Diameter of a tree: The longest path between any two nodes (which MAY or MAY NOT PASS through the root Node).
-```python
-# Choose a node arbitrarily.
-node = list(tree)[0]
+- Diameter of a tree: The longest path between any two nodes (which may or may not pass through the root node).
+	```python
+	# Choose a node arbitrarily.
+	node = list(tree)[0]
 
-stack = [(node, 0)]
-visited = {i:False for i in tree}
+	stack = [(node, 0)]
+	visited = {i:False for i in tree}
 
-# 지름을 구성하는 2개의 노드 중 하나를 구합니다.
-max_dist = 1
-while stack:
-    start, dist1 = stack.pop()
-	if visited[start] == False:
-		visited[start] = True
-		if dist1 > max_dist:
-			max_dist = dist1
-			max_node = start
-		for end, dist2 in tree[start]:
-			stack.append((end, dist1 + dist2))
+	# 지름을 구성하는 2개의 노드 중 하나를 구합니다.
+	max_dist = 1
+	while stack:
+		start, dist1 = stack.pop()
+		if visited[start] == False:
+			visited[start] = True
+			if dist1 > max_dist:
+				max_dist = dist1
+				max_node = start
+			for end, dist2 in tree[start]:
+				stack.append((end, dist1 + dist2))
 
-stack = [(max_node, 0)]
-visited = {i:False for i in tree}
-visited[node] = True
+	stack = [(max_node, 0)]
+	visited = {i:False for i in tree}
+	visited[node] = True
 
-# Get the diameter.
-diam = 1
-while stack:
-    start, dist1 = stack.pop()
-	if visited[start] == False:
-		visited[start] = True
-		if dist1 > diam:
-			diam = dist1
-		for end, dist2 in tree[start]:
-            stack.append((end, dist1 + dist2))
-```
+	# Get the diameter.
+	diam = 1
+	while stack:
+		start, dist1 = stack.pop()
+		if visited[start] == False:
+			visited[start] = True
+			if dist1 > diam:
+				diam = dist1
+			for end, dist2 in tree[start]:
+				stack.append((end, dist1 + dist2))
+	```
 #### Binary Tree
 - A tree whose elements have at most 2 children.
 ##### Complete Binary Tree
