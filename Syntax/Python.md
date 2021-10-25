@@ -307,6 +307,20 @@ import pandas as pd
 ## pd.api
 ### pd.api.types
 #### pd.api.types.is_string_dtype(), pd.api.types.is_numeric_dtype()
+```python
+def load_table(table_name):
+    conn = pymssql.connect(server="133.186.215.165", database="HDCMART", user="hdcmart_user", password=password, charset="UTF8")
+    query = f"""
+    SELECT *
+    FROM {table_name}
+    """
+    table = pd.read_sql(query, conn)
+    table.columns = table.columns.str.lower()
+    for col in table.columns:
+        if pd.api.types.is_string_dtype(table[col]):
+            table[col] = table[col].str.encode("latin-1").str.decode("euc-kr")
+    return table
+```
 ## pd.options
 ### pd.options.display
 #### pd.options.display.max_rows, pd.options.display.max_columns, pd.options.display.width, pd.options.display.float_format

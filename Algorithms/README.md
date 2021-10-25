@@ -154,6 +154,16 @@ while dq:
 			for end, dist2 in tree[start]:
 				stack.append((end, dist1 + dist2))
 	```
+- Subtree
+	```python
+	def subtree(cur_node) :
+		size[cur_node] = 1
+		for next_node in tree[cur_node]:
+			if visited[next_node] == False:
+				visited[next_node] = True
+				subtree(next_node)
+				size[cur_node] += size[next_node]
+	```
 #### Binary Tree
 - A tree whose elements have at most 2 children.
 ##### Complete Binary Tree
