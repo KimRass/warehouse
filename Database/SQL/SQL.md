@@ -25,17 +25,78 @@
 
 
 
+# DDL(Data Definition Language)
+## CREATE TABLE
+### CREATE TABLE PRIMARY KEY
+### CREATE TABLE FOREIGN KEY REFERENCES
+```sql
+CREATE TABLE orders (order_id INT NOT NULL, order_no INT NOT NULL,
+person_id INT, PRIMARY KEY(order_id), FOREIGN KEY(person_id) REFERENCES persons(person_id));
+```
+## RENAME TABLE TO
+```sql
+RENAME TABLE old_table1 TO new_table1,
+	old_table2 TO new_table2,
+	old_table3 TO new_table3;
+```
+```sql
+RENAME TABLE current_db.table_name TO other_db.table_name;
+```
+## DROP TABLE
+## ALTER TABLE
+### ALTER TABLE ADD
+```sql
+ALTER TABLE users
+	ADD birth_date CHAR(6) NULL;
+```
+#### ALTER TABLE ADD FIRST
+#### ALTER TABLE ADD AFTER
+### ALTER TABLE MODIFY
+#### ALTER TABLE MODIFY FIRST
+#### ALTER TABLE MODIFY AFTER
+#### ALTER TABLE MODIFY CONSTRAINT
+```sql
+ALTER TABLE users
+	MODIFY user_id VARCHAR(16) CONSTRAINT
+### ALTER TABLE CHANGE
+```sql
+ALTER TABLE users
+	CHANGE userid user_id VARCHAR(16) NOT NULL;
+```
+### ALTER TABLE ALTER COLUMN
+```sql
+ALTER TABLE users
+	ALTER COLUMN user_id VARCHAR(16) NOT NULL;
+```
+### ALTER TABLE DROP COLUMN
+```sql
+ALTER TABLE users
+	DROP COLUMN user_age;
+```
+### ALTER TABLE ADD CONSTRAINT
+#### ALTER TABLE ADD CONSTRAINT PRIMARY KEY
+#### ALTER TABLE ADD CONSTRAINT FOREIGN KEY REFERENCES
+### ALTER TABLE DROP CONSTRAINT
+### ALTER TABLE DROP FOREIGN KEY
+
+
 
 # INFORMATION_SCHEMA
-## TABLES
+## INFORMATION_SCHEMA.TABLES
 ```sql
 SELECT *
 FROM INFORMATION_SCHEMA.TABLES
 ```
-## COLUMNS
+## INFORMATION_SCHEMA.COLUMNS
 ```sql
 SELECT COLUMN_NAME
 FROM INFORMATION_SCHEMA.COLUMNS;
+```
+## INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+```sql
+SELCT *
+FROM INFORMATION_SCHEMA.TALBE_CONTSTRAINTS
+WHERE TABLE_NAME = `users`;
 ```
 
 
@@ -55,15 +116,6 @@ INSERT INTO customers
 VALUES ("Hekkan Burger", "Gateveien 15", "Sandnes", "4306", "Norway");
 ```
 - If you are adding values for all the columns of the table, you do not need to specify the column names in the SQL query.
-### REFERENCES
-```sql
-CREATE TABLE orders
-(orderid INT NOT NULL,
-ordernumber INT NOT NULL,
-personid INT,
-PRIMARY KEY (orderid),
-FOREIGN KEY (personid) REFERENCES persons(personid));
-```
 ## UNION, UNION ALL
 - `UNION` selects only distinct values by default. To allow duplicate values, use `UNION ALL`
 ## CAST()

@@ -8,3 +8,9 @@
 
 # 논리 모드(`F4`)
 # 물리 모드(`F5`)
+
+
+
+# Forward Engineering
+- It is possible to forward engineer a database using an SQL script.
+- `eXERD` -> `포워드 엔지니어링`

@@ -41,6 +41,12 @@
 - Hold a string with a maximum length of 4,294,967,295 character.s
 ***
 
+
+
+# Forward Engineering
+- `Create a new schema in the connected server` -> `Charset`: `utf8`, `Collation`: `utf8_general_ci`
+
+
 ## Command Line Client
 ### set character-set
 ```
