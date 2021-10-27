@@ -33,6 +33,10 @@
 CREATE TABLE orders (order_id INT NOT NULL, order_no INT NOT NULL,
 person_id INT, PRIMARY KEY(order_id), FOREIGN KEY(person_id) REFERENCES persons(person_id));
 ```
+### CREATE INDEX ON
+```sql
+CREATE INDEX idx ON persons(person_id);
+```
 ## RENAME TABLE TO
 ```sql
 RENAME TABLE old_table1 TO new_table1,
@@ -52,6 +56,8 @@ ALTER TABLE users
 ```
 #### ALTER TABLE ADD FIRST
 #### ALTER TABLE ADD AFTER
+#### ALTER TABLE ADD PRIMARY KEY
+##### ALTER TABLE ADD ()
 ### ALTER TABLE MODIFY
 #### ALTER TABLE MODIFY FIRST
 #### ALTER TABLE MODIFY AFTER
@@ -119,26 +125,17 @@ INSERT INTO customers
 (customername, address, city, postalcode, country)
 VALUES ("Hekkan Burger", "Gateveien 15", "Sandnes", "4306", "Norway");
 ```
-- If you are adding values for all the columns of the table, you do not need to specify the column names in the SQL query.
+- If you are adding values for all thjjjj e columns of the table, you do not need to specify the column names in the SQL query.
 ## UNION, UNION ALL
 - `UNION` selects only distinct values by default. To allow duplicate values, use `UNION ALL`
+## MINUS (for Oracle)
+- Return all rows in the first `SELECT` statement that are not returned by the second `SELECT` statement.
 ## CAST()
 ```sql
-SELECT
-    name + "(" + LEFT(occupation, 1) + ")"
-FROM
-    occupations
-ORDER BY
-    name;
-SELECT
-    "There are a total of " + CAST(COUNT(occupation) AS CHAR) + " " + LOWER(occupation) + "s."
-FROM
-    occupations
-GROUP BY
-    occupation
-ORDER BY
-    COUNT(occupation),
-    LOWER(occupation);
+SELECT "There are a total of " + CAST(COUNT(occupation) AS CHAR) + " " + LOWER(occupation) + "s."
+FROM occupations
+GROUP BY occupation
+ORDER BY COUNT(occupation), LOWER(occupation);
 ```
 ## PIVOT, UNPIVOT
 ```sql
@@ -157,11 +154,15 @@ ORDER BY months*salary DESC;
 
 
 # Logical Functions
-## COALESCE()
+##  ESCE()
 ```sql
 COALESCE(mobile, '07986 444 2266')
 ```
-## IS NULL, IS NOT NULL
+```sql
+SELECT COALESCE(col1, col2*10, 100)
+FROM table
+```
+ ## IS NULL, IS NOT NULL
 ## CASE WHEN THEN ELSE END
 - Search for conditions sequentially.
 ```sql
@@ -205,6 +206,19 @@ SELECT name, height
 FROM sqlDB.usertbl
 WHERE height BETWEEN 180 AND 183;
 ```
+## `RANK() OVER ()`
+- 중복 값들에 대해서 동일 순위로 표시하고, 중복 순위 다음 값에 대해서는 중복 개수만큼 떨어진 순위로 출력.
+```sql
+SELECT emp_no, emp_nm, sal,
+	RANK() OVER (ORDER BY salary DESC) ranking
+FROM employee;
+```
+## `DENSE_RANK() OVER ()`
+- 중복 값들에 대해서 동일 순위로 표시하고, 중복 순위 다음 값에 대해서는 중복 값 개수와 상관없이 순차적인 순위 값을 출력.
+## `ROW_NUMBER() OVER ()`
+- 중복 값들에 대해서도 순차적인 순위를 표시하도록 출력.
+## `NTILE() OVER ()`
+- 뒤에 함께 적어주는 숫자 만큼 등분.
 
 
 

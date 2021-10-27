@@ -16,7 +16,7 @@ Written by KimRass
 ## Super Key
 - A super key is a group of single or multiple keys which identifies rows in a table. A Super key may have additional attributes that are not needed for unique identification.
 - uniqueness but not minimality
-## Candidate Key
+## Candidate Key(= 후보 식별자)
 - Candidate key is a set of attributes that uniquely identify tuples in a table. Candidate Key is a super key with no repeated attributes.
 - The Primary key should be selected from the candidate keys. Every table must have at least a single candidate key. A table can have multiple candidate keys but only a single primary key.
 - It must contain unique values.
@@ -24,23 +24,23 @@ Written by KimRass
 - Must not contain null values.
 - It should contain minimum fields to ensure uniqueness.
 - Uniquely identify each record in a table.
-## Primary Key
+## Primary Key(= 주식별자)
 - Primary key is a column or group of columns in a table that uniquely identify every row in that table.
 - Two rows can’t have the same primary key value.
 - It must for every row to have a primary key value.
 - The primary key field cannot be null.
 - The value in a primary key column can never be modified or updated if any foreign key refers to that primary key.
 - uniqueness and minimality
-## Alternate Key
+## Alternate Key(= 보고 식별자)
 - A table can have multiple choices for a primary key but only one can be set as the primary key. All the keys which are not primary key are called an Alternate Key.
-## Foreign Key
+## Foreign Key(= 외부 식별자 <-> 내부 식별자)
 - Foreign key is a column that creates a relationship between two tables. The purpose of foreign keys is to maintain data integrity and allow navigation between two different instances of an entity.
 - Foreign Key is used to prevent actions that would destroy links between tables. It is a field (or collection of fields) in one table, that refers to the primary key in another table. The table with the foreign key is called the child table, and the table with the primary key is called the referenced or parent table.
 - Foreign key prevents invalid data from being inserted into the foreign key column, because it has to be one of the values contained in the parent table.
 ## Compound Key
-## Composite Key
+## Composite Key(= 복합 식별자 <-> 복합 식별자)
 - Composite key is a combination of two or more columns that uniquely identify rows in a table. The combination of columns guarantees uniqueness, though individual uniqueness is not guaranteed.
-## Surrogate Key
+## Surrogate Key(= 인조 식별자)
 - Surrogate key is an artificial key which aims to uniquely identify each record is called a surrogate key. This kind of partial key in DBMS is unique because it is created when you don’t have any natural primary key.
 - Surrogate key in DBMS is usually an integer. A surrogate key is a value generated right before the record is inserted into a table.
 
@@ -109,13 +109,14 @@ Written by KimRass
 - For example, all of the attributes that are not part of the candidate key depend on `Title`, but only `Price` also depends on `Format`. To normalize this table, make `Title` a (simple) candidate key (the primary key) so that every non candidate-key attribute depends on the whole candidate key, and remove `Price` into a separate table so that its dependency on `Format` can be preserved.
 #### Satisfying 3NF(Third Normal Form)
 - No transitive dependencies.
-- Primary key가 아닌 Column에 Dependent하는 Columns를 제거합니다.
+- For example, `Author Nationality` is dependent on `Author`, which is dependent on `Title`. `Genre Name` is dependent on `Genre ID`, which is dependent on `Title`. 
 #### 4NF
 - 서로 독립적인 관계는 테이블을 쪼갠다.
 #### 5NF
 ## Physical Data Modeling
 - Physical models provide a schema for how the data will be physically stored within a database. As such, they’re the least abstract of all.
-### Denormalization
+
+# Denormalization
 - Source: https://www.geeksforgeeks.org/denormalization-in-databases/
 - Denormalization is a database optimization technique in which we add redundant data to one or more tables. This can help us avoid costly joins in a relational database. Note that denormalization does not mean not doing normalization. It is an optimization technique that is applied after doing normalization.
 - In a traditional normalized database, we store data in separate logical tables and attempt to minimize redundant data. We may strive to have only one copy of each piece of data in database. For example, in a normalized database, we might have a Courses table and a Teachers table. Each entry in Courses would store the teacherID for a Course but not the teacherName. When we need to retrieve a list of all Courses with the Teacher’s name, we would do a join between these two tables. In some ways, this is great; if a teacher changes his or her name, we only have to update the name in one place. The drawback is that if tables are large, we may spend an unnecessarily long time doing joins on tables. Denormalization, then, strikes a different compromise. Under denormalization, we decide that we’re okay with some redundancy and some extra effort to update the database in order to get the efficiency advantages of fewer joins.
@@ -127,6 +128,22 @@ Written by KimRass
 	- Denormalization can make update and insert code harder to write.
 	- Data may be inconsistent . Which is the “correct” value for a piece of data?
 	- Data redundancy necessitates more storage.
+## Partition
+- Source: https://en.wikipedia.org/wiki/Partition_(database)
+### Partitioning Methods
+#### Horizontal Partitioning
+- Involves putting different rows into different tables. For example, customers with ZIP codes less than 50000 are stored in CustomersEast, while customers with ZIP codes greater than or equal to 50000 are stored in CustomersWest. The two partition tables are then CustomersEast and CustomersWest, while a view with a union might be created over both of them to provide a complete view of all customers.
+#### Vertical Partitioning
+- Involves creating tables with fewer columns and using additional tables to store the remaining columns. Generally, this practice is known as normalization. However, vertical partitioning extends further and partitions columns even when already normalized.
+- Distinct physical machines might be used to realize vertical partitioning: Storing infrequently used or very wide columns, taking up a significant amount of memory, on a different machine, for example, is a method of vertical partitioning.
+- A common form of vertical partitioning is to split static data from dynamic data, since the former is faster to access than the latter, particularly for a table where the dynamic data is not used as often as the static.
+- Creating a view across the two newly created tables restores the original table with a performance penalty, but accessing the static data alone will show higher performance.
+### Partitioning Criteria
+- Range partitioning: selects a partition by determining if the partitioning key is within a certain range.
+- List partitioning: a partition is assigned a list of values. If the partitioning key has one of these values, the partition is chosen.
+- Composite partitioning
+- Round-robin partitioning
+- Hash partitioning
 
 # Wireframe & Storyboard
 ## Wireframe
@@ -151,19 +168,18 @@ Written by KimRass
 - the division of potential customers in a given market into discrete groups.
 
 # ERD(Entity Relationship Diagram)
+- Mandatory, Optional
 ## Entity
+### Associative Entity(= Intersection Entity, 교차 엔티티)
+- A relational database requires the implementation of a base relation (or base table) to resolve many-to-many relationships. A base relation representing this kind of entity is called, informally, an associative table.
 ## Relationship
-- One to One or One to Many or Many to Many
+- One of the followings; One to One, One to Many, Many to Many
 ### Identifying Relationship
 - The primary key of the parent would become a subset of the primary key of the child.
-- 외래키를 기본키로 사용하는 관계.
-- B테이블은 A테이블에 종속적이 되어서 A의 값이 없으면 B의 값은 무의미해짐.
-- 실선
+- Reprsented by a solid line.
 ### Non-Identifying Relationship
 - When the primary key of the parent must not become primary key of the child.
-- A의 값이 없더라도 B의 값은 독자적으로 의미를 가짐.
-- 부모 테이블의 PK가 없더라도 유일하게 레코드 구분 가능할 때.
-- 점선
+- Reprsented by a dotted line.
 ### Recursive Relationship
 - Source: https://bookshelf.erwin.com/bookshelf/public_html/2020R1/Content/User%20Guides/erwin%20Help/Recursive_Relationships.html
 - A recursive relationship is a non-identifying relationship between two entities or tables that represents the fact that, for example, one company can own another company. In this type of relationship, the parent entity or table and the child entity or table are the same.
@@ -172,23 +188,6 @@ Written by KimRass
 	- Network Recursive Relationship: A parent entity or table can have any number of children, and a child can have any number of parents. An entity or table has a many-to-many relationship with itself. When a many-to-many network recursion problem exists, you can clarify the situation by creating an intermediate entity or table and converting the many-to-many relationship into two one-to-many relationships.
 - Source: https://sqldatabasetutorials.com/sql-db/recursive-relationship/
 - The ERD convention to show a recursive structure is drawn as a loop, also known as a "pig's ear".
-
-# Partition
-- Source: https://en.wikipedia.org/wiki/Partition_(database)
-## Partitioning Methods
-### Horizontal Partitioning
-- Involves putting different rows into different tables. For example, customers with ZIP codes less than 50000 are stored in CustomersEast, while customers with ZIP codes greater than or equal to 50000 are stored in CustomersWest. The two partition tables are then CustomersEast and CustomersWest, while a view with a union might be created over both of them to provide a complete view of all customers.
-### Vertical Partitioning
-- Involves creating tables with fewer columns and using additional tables to store the remaining columns. Generally, this practice is known as normalization. However, vertical partitioning extends further and partitions columns even when already normalized.
-- Distinct physical machines might be used to realize vertical partitioning: Storing infrequently used or very wide columns, taking up a significant amount of memory, on a different machine, for example, is a method of vertical partitioning.
-- A common form of vertical partitioning is to split static data from dynamic data, since the former is faster to access than the latter, particularly for a table where the dynamic data is not used as often as the static.
-- Creating a view across the two newly created tables restores the original table with a performance penalty, but accessing the static data alone will show higher performance.
-## Partitioning Criteria
-- Range partitioning: selects a partition by determining if the partitioning key is within a certain range.
-- List partitioning: a partition is assigned a list of values. If the partitioning key has one of these values, the partition is chosen.
-- Composite partitioning
-- Round-robin partitioning
-- Hash partitioning
 
 # Static Data & Dynamic Data
 - Source: https://blog.zoominfo.com/dynamic-data/
@@ -236,10 +235,6 @@ Written by KimRass
 - Durability
 	- Durability guarantees that once a transaction has been committed, it will remain committed even in the case of a system failure (e.g., power outage or crash). This usually means that completed transactions (or their effects) are recorded in non-volatile memory.
 
-# Cardinality
-- Source: https://orangematter.solarwinds.com/2021/10/01/what-is-cardinality-in-a-database/
-- The number of distinct values in a table column relative to the number of rows in the table.
-
 # Database Trigger
 - Source: https://en.wikipedia.org/wiki/Database_trigger
 - A database trigger is procedural code that is automatically executed in response to certain events on a particular table or view in a database. The trigger is mostly used for maintaining the integrity of the information on the database. For example, when a new record (representing a new worker) is added to the employees table, new records should also be created in the tables of the taxes, vacations and salaries. Triggers can also be used to log historical data, for example to keep track of employees' previous salaries.
@@ -264,6 +259,9 @@ Written by KimRass
 - Source: https://en.wikipedia.org/wiki/Data_domain
 - A data domain is the collection of values that a column may contain. The rule for determining the domain boundary may be as simple as a data type with an enumerated list of values.
 - For example, a database table that has information about people, with one record per person, might have a "marital status" column. This column might be declared as a string data type, and allowed to have one of two known code values: "M" for married, "S" for single, and NULL for records where marital status is unknown or not applicable. The data domain for the marital status column is: "M", "S".
+## Cardinality
+- Source: https://orangematter.solarwinds.com/2021/10/01/what-is-cardinality-in-a-database/
+- The number of distinct values in a table column relative to the number of rows in the table.
 
 # Data Standardization
 - Source: https://www.getlore.io/knowledgecenter/data-standardization
