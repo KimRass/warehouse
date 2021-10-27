@@ -1,6 +1,6 @@
-#Sat Oct 23 11:05:08 KST 2021
+#Wed Oct 27 12:31:26 KST 2021
 SET_LOGICAL_COLUMN_NAME_SEPARATOR=_
 eclipse.preferences.version=1
 com.tomato.exerd.preference.product.lastSelectedProductId=com.tomato.db.mysql
 DO_NOT_USE_DELIMITER_FOR_LOGICAL_NAME_WITHOUT_DELIMITER=false
-last-known-version=3.3.13.20210616-1553
+last-known-version=2.5.12.20210616-1543

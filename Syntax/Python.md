@@ -209,7 +209,7 @@ word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True)
 ```
 ### Dictionary Comprehension
 ```python
-{idx:char for idx, char in enumerate(char_set)}
+min_dists = {i:0 if i == start else math.inf for i in range(1, V + 1)}
 ```
 ## String
 - Immutable.

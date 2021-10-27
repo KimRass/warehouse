@@ -39,34 +39,29 @@ deque().popleft()
 - A cycle in a graph is a non-empty trail in which the only repeated vertices are the first and last vertices. A directed cycle in a directed graph is a non-empty directed trail in which the only repeated vertices are the first and last vertices.
 ### Dijkstra Algorithm
 - Time complexity: O((V + E)logV)
-- Weighted-Directed Graph
-- 각 간선에 가중치가 있다면 사용 가능. 간선들 중 단 하나라도 가중치가 음수이면 이 알고리즘은 사용할 수 없다.
+- 각 간선에 가중치가 있다면 사용 가능합니다. 간선들 중 단 하나라도 가중치가 음수이면 이 알고리즘은 사용할 수 없습니다.
 ```python
 import math
 import heapq as hq
 
-start = 1
-# 지금까지 알려진, 출발지에서 해당 노드로 가는 최단 거리를 기록하는 Dictionary
-min_dists = {i:math.inf for i in range(1, N + 1)}
-# 출발점까지의 최단 거리는 0입니다.
-min_dists[start] = 0
-hp = list()
-hq.heappush(hp, (min_dists[start], start))
-
+# 지금까지 알려진, 출발지에서 해당 노드로 가는 최단 거리를 기록하는 Dictionary를 만듭니다.
+min_dists = {i:0 if i == start else math.inf for i in range(1, V + 1)}
+hp = [(0, start)]
 while hp:
-	cur_dist, cur_node = hq.heappop(hp)
-	if cur_dist > min_dists[cur_node]:
-        continue
-    else:
-		for next_node, next_dist in graph[cur_node]:
-			new_dist = cur_dist + next_dist
-			# 지금까지 알려진 `next_node`까지의 최단 거리보다 `cur_node`를 거쳐서 `next_node`로 가는 거리가 더 짧다면 `min_dists[next_node]`를 업데이트합니다.
-			if new_dist < min_dists[next_node]:
-				min_dists[next_node] = new_dist
-				hq.heappush(hp, (min_dists[next_node], next_node))
+    cur_dist, cur_node = hq.heappop(hp)
+    for dist, next_node in graph[cur_node]:
+		# 지금까지 알려진 `next_node`까지의 최단 거리보다 `cur_node`를 거쳐서 `next_node`로 가는 거리가 더 짧다면 그 값으로 `min_dists[next_node]`를 업데이트합니다.
+        if cur_dist + dist < min_dists[next_node]:
+            min_dists[next_node] = cur_dist + dist
+            hq.heappush(hp, (min_dists[next_node], next_node))
 ```
 ### Bellman–Ford Algorithm
 - Time complexity: O(VE)
+- 1개 이상의 간선의 가중치가 음수이더라도 사용 가능합니다.
+- Source: https://velog.io/@younge/Python-%EC%B5%9C%EB%8B%A8-%EA%B2%BD%EB%A1%9C-%EB%B2%A8%EB%A7%8C-%ED%8F%AC%EB%93%9CBellman-Ford-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98
+- 음수 사이클 존재의 여부를 알 수 있다.
+- 음수 사이클 안에서 무한으로 뺑뺑이 도는 경우를 알 수 있는 방법은, 그래프 정점의 개수를 V라고 할 때 인접 간선을 검사하고 거리 값을 갱신하는 과정을 V-1번으로 제한하면 가능해진다. 그래프의 시작 정점에서 특정 정점까지 도달하기 위해 거쳐 가는 최대 간선 수는 V-1개이기 때문에 V번째 간선이 추가되는 순간 사이클이라고 판단할 수 있게 된다.
+- 위 과정을 모두 마치고 난 후 거리가 갱신되는 경우가 생긴다면 그래프에 음수 사이클이 존재한다는 것이다.
 ### Floyd–Warshall Algorithm
 ### Depth First Search
 ```python
