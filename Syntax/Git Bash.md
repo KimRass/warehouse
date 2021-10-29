@@ -76,6 +76,9 @@ git commit --amend "commit"
 - Pushing has the potential to overwrite changes, caution should be taken when pushing.
 - To prevent you from overwriting commits, Git won’t let you push when it results in a non-fast-forward merge in the destination repository.
 ```bash
+git bash
+```
+```bash
 git push <remote-name> <branch-name>
 ```
 ```bash
