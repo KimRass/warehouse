@@ -54,7 +54,7 @@ Written by KimRass
 - Clustered index doesn’t require additional disk space whereas the non-clustered index requires additional disk space.
 - Clustered index offers faster data accessing, on the other hand, non-clustered index is slower.
 ## Clustered Index
-- In the Database, there is only one clustered index per table.
+- In the database, there is only one clustered index per table.
 - A clustered index defines the order in which data is stored in the table which can be sorted in only one way.
 - In an RDBMS, usually, the primary key allows you to create a clustered index based on that specific column.
 인덱스 자체의 리프 페이지가 곧 데이터이다. 즉 테이블 자체가 인덱스이다. (따로 인덱스 페이지를 만들지 않는다.)
@@ -269,4 +269,4 @@ Written by KimRass
 - Data standardization enables the data consumer to analyze and use data in a consistent manner. Typically, when data is created and stored in the source system, it's structured in a particular way that is often unknown to the data consumer. Moreover, datasets that might be semantically related may be stored and represented differently, thereby making it difficult for a data consumer to aggregate or compare the datasets.
 
 HeidiSQL, DBeaver, DataGrip
-utf8 -> utf8_general_ci
+
