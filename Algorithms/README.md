@@ -57,21 +57,65 @@ while hp:
 ```
 ### Bellman–Ford Algorithm
 - Time complexity: O(VE)
-- 1개 이상의 간선의 가중치가 음수이더라도 사용 가능합니다.
+- Source: https://en.wikipedia.org/wiki/Bellman%E2%80%93Ford_algorithm
+- The Bellman–Ford algorithm is an algorithm that computes shortest paths from a single source vertex to all of the other vertices in a weighted digraph.
+- It is slower than Dijkstra's algorithm for the same problem, but more versatile, as it is capable of handling graphs in which some of the edge weights are negative numbers.
+- If a graph contains a "negative cycle" (i.e. a cycle whose edges sum to a negative value) that is reachable from the source, then there is no cheapest path: any path that has a point on the negative cycle can be made cheaper by one more walk around the negative cycle. In such a case, the Bellman–Ford algorithm can detect and report the negative cycle.
 - Source: https://velog.io/@younge/Python-%EC%B5%9C%EB%8B%A8-%EA%B2%BD%EB%A1%9C-%EB%B2%A8%EB%A7%8C-%ED%8F%AC%EB%93%9CBellman-Ford-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98
 - 음수 사이클 존재의 여부를 알 수 있다.
 - 음수 사이클 안에서 무한으로 뺑뺑이 도는 경우를 알 수 있는 방법은, 그래프 정점의 개수를 V라고 할 때 인접 간선을 검사하고 거리 값을 갱신하는 과정을 V-1번으로 제한하면 가능해진다. 그래프의 시작 정점에서 특정 정점까지 도달하기 위해 거쳐 가는 최대 간선 수는 V-1개이기 때문에 V번째 간선이 추가되는 순간 사이클이라고 판단할 수 있게 된다.
 - 위 과정을 모두 마치고 난 후 거리가 갱신되는 경우가 생긴다면 그래프에 음수 사이클이 존재한다는 것이다.
-- Source: https://velog.io/@adorno10/%EC%B5%9C%EB%8B%A8%EA%B2%BD%EB%A1%9C-2-%EB%B2%A8%EB%A7%8C-%ED%8F%AC%EB%93%9CBellman-Ford-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98
-- 그래프에 음수 사이클이 존재한다고 가정해보자. 다익스트라 알고리즘에서는 시작 정점에서 목표 정점에 도달하기까지 인접 간선들을 탐색하면서 최소 비용을 찾을 때 마다 거리 값을 갱신해 나간다. 그런데 이 과정에서 음수 사이클을 만난다면 사이클을 돌수록 비용이 줄어든다고 판단할 것이고, 사이클 안에서 계속해서 맴돌다가 결국 도달할 수 없는 정점이 발생하게 된다. 따라서 이런 그래프에서는 출발점으로부터 도달가능하되, 음수 사이클이 없는 최단 경로를 구해야한다.
-- 그렇다면 어떻게 음수 사이클 안에서 무한 뺑뺑이 도는 경우를 피할 수 있을까? 방법은 그래프의 정점의 개수를 V라고 할 때, 인접 간선을 검사하고 거리 값을 갱신하는 과정을 V−1번으로 제한하는 것이다. 그래프에서 시작 정점에서 특정 정점까지 도달하기 위해 거쳐가는 최대 간선 수는 V−1개 이기 때문이다. 따라서 경로에 V번째 간선이 추가되는 순간 사이클에 진입했다고 판단할 수 있다.
 - Source: https://deep-learning-study.tistory.com/587
 - 다익스트라와의 차이점은 매 반복마다 모든 간선을 확인한다는 것입니다. 다익스트라는 방문하지 않는 노드 중에서 최단 거리가 가장 가까운 노드만을 방문했습니다.
+```python
+import math
+
+min_dists = {i:0 if i == start else math.inf for i in range(1, V + 1)}
+breaker1 = False
+breaker2 = False
+for i in range(V):
+    for cur_node in range(1, V + 1):
+        for dist, next_node in graph[cur_node]:
+            # 지금까지 알려진 `next_node`로의 최단 거리보다 `cur_node`를 거쳐서 가는 경로가 더 짧다면 이 값으로 `min_dists[next_node]`를 업데이트합니다.
+            if dist + min_dists[cur_node] < min_dists[next_node]:
+                min_dists[next_node] = dist + min_dists[cur_node]
+                # `V - 1`번 `min_dists`를 업데이트한 이후에도 또 업데이트가 된다면 Negative cycle이 존재하는 것입니다.
+                if i == V - 1:
+                    breaker1 = True
+                    break
+        if breaker1 == True:
+            breaker2 = True
+            break
+    if breaker2 == True:
+        print(-1)
+        break
+else:
+    ...
+```
 ### Floyd–Warshall Algorithm
+- Time complexity: O(V^3)
+- Source: https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm
+- Floyd–Warshall algorithm is an algorithm for finding shortest paths in a directed weighted graph with positive or negative edge weights (but with no negative cycles).
+- A single execution of the algorithm will find the lengths (summed weights) of shortest paths between all pairs of vertices. Although it does not return details of the paths themselves, it is possible to reconstruct the paths with simple modifications to the algorithm.
+```python
+import math
+from itertools import product
+
+min_dists = {(i, j):0 if i == j else math.inf for i, j in product(range(1, V + 1), range(1, V + 1))}
+
+for btw in range(1, V + 1):
+    for start in range(1, V + 1):
+        for end in range(1, V + 1):
+            if min_dists[(start, btw)] + min_dists[(btw, end)] < min_dists[(start, end)]:
+                min_dists[(start, end)] = min_dists[(start, btw)] + min_dists[(btw, end)]
+
+for start in range(1, V + 1):
+    for end in range(1, V + 1):
+        print(0 if min_dists[(start, end)] == math.inf else min_dists[(start, end)], end=" ")
+    print()
+```
 ### Depth First Search
 ```python
-stack = [...]
-visited = {...}
 while stack:
 	cur_node = stack.pop()
 	if visited[cur_node] == False:
@@ -82,8 +126,6 @@ while stack:
 ```python
 from collections import deque
 
-dq = deque([...])
-visited = {...}
 while dq:
 	cur_node = dq.popleft()
 	if visited[cur_node] == False:

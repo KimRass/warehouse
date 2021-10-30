@@ -46,6 +46,7 @@ Written by KimRass
 ### ValueError: '<<Variable>>' is not in list
 ### ValueError: max() arg is an empty sequence
 ### ValueError: overflow in timedelta operation
+### `ValueError: too many values to unpack (expected <<Number>>)`
 ## IndexError
 ### IndexError: list index out of range
 ### `IndexingError: Too many indexers`

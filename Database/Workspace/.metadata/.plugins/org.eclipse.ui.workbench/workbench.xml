@@ -34,8 +34,8 @@
 <editor id="com.tomato.exerd.term.ui.editor2.TermDictionaryEditor2" name="용어 사전.xdic" partName="용어 사전.xdic" path="D:/Github/Programming/Database/Workspace/Test/용어 사전.xdic" title="용어 사전.xdic" tooltip="Test/용어 사전.xdic" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Test/용어 사전.xdic"/>
 </editor>
-<editor activePart="true" focus="true" id="com.tomato.exerd.editor.DiagramEditor" name="화장품판매.exerd" partName="화장품판매.exerd" title="화장품판매.exerd" tooltip="D:\Github\Programming\Database\Workspace\Test\화장품판매.exerd" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" uri="file:/D:/Github/Programming/Database/Workspace/Test/화장품판매.exerd"/>
+<editor activePart="true" focus="true" id="com.tomato.exerd.editor.DiagramEditor" name="Naver Movies.exerd" partName="Naver Movies.exerd" path="D:/Github/Programming/Database/Workspace/newProject/Naver Movies.exerd" title="Naver Movies.exerd" tooltip="newProject/Naver Movies.exerd" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/newProject/Naver Movies.exerd"/>
 </editor>
 </editors>
 <views>
@@ -58,7 +58,9 @@
 <view id="com.tomato.exerd.modelview3.ModelView3" partName="모델">
 <viewState/>
 </view>
-<view id="org.eclipse.ui.console.ConsoleView" partName="콘솔"/>
+<view id="org.eclipse.ui.console.ConsoleView" partName="콘솔">
+<viewState/>
+</view>
 <view id="com.tomato.exerd.ui.views.domain" partName="도메인">
 <viewState/>
 </view>
@@ -120,7 +122,7 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.17991632" ratioLeft="344" ratioRight="1568" relationship="2" relative="leftFolder"/>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@96d94c" ratio="0.77997446" ratioLeft="1223" ratioRight="345" relationship="2" relative="org.eclipse.ui.editorss">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@178f3d5" ratio="0.77997446" ratioLeft="1223" ratioRight="345" relationship="2" relative="org.eclipse.ui.editorss">
 <folder activePageID="com.tomato.exerd.ui.views.thumbnail" appearance="2" expanded="2">
 <page content="com.tomato.exerd.ui.views.thumbnail" label="썸네일"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
@@ -128,7 +130,7 @@
 </presentation>
 </folder>
 </info>
-<info folder="true" part="rightFolder" ratio="0.25" ratioLeft="236" ratioRight="708" relationship="4" relative="org.eclipse.ui.internal.ViewStack@96d94c">
+<info folder="true" part="rightFolder" ratio="0.25" ratioLeft="236" ratioRight="708" relationship="4" relative="org.eclipse.ui.internal.ViewStack@178f3d5">
 <folder activePageID="com.tomato.exerd.modelview3.ModelView3" appearance="2" expanded="2">
 <page content="com.tomato.exerd.modelview3.ModelView3" label="모델"/>
 <page content="org.eclipse.ui.views.ContentOutline" label="아웃라인"/>
@@ -139,7 +141,7 @@
 </folder>
 </info>
 <info folder="true" part="bottomFolder" ratio="0.6991525" ratioLeft="660" ratioRight="284" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="com.tomato.exerd.ui.views.domain" appearance="2" expanded="2">
+<folder activePageID="com.tomato.exerd.validate.ui.ValidateView" appearance="2" expanded="2">
 <page content="com.tomato.exerd.ui.views.domain" label="도메인"/>
 <page content="com.tomato.exerd.validate.ui.ValidateView" label="검토"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="콘솔"/>
@@ -151,7 +153,7 @@
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@1b66650" ratio="0.29978815" ratioLeft="283" ratioRight="661" relationship="4" relative="leftFolder">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@1d4f0a2" ratio="0.29978815" ratioLeft="283" ratioRight="661" relationship="4" relative="leftFolder">
 <folder activePageID="org.eclipse.gef.ui.palette_view" appearance="2" expanded="2">
 <page content="org.eclipse.gef.ui.palette_view" label="Palette"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
@@ -176,6 +178,7 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.term.ui.editor2.TermDictionaryEditor2" path="/Test/용어 사전.xdic"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/물리적 설계.exerd"/>
 <editor factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" uri="file:/D:/Github/Programming/Database/Workspace/Test/화장품판매.exerd"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/newProject/Naver Movies.exerd"/>
 </editors>
 <item historyLabel="Test.exerd" index="0"/>
 <item historyLabel="untitled.exerd" index="1"/>
@@ -195,7 +198,10 @@
 <item historyLabel="용어 사전.xdic" index="7"/>
 <item historyLabel="물리적 설계.exerd" index="8"/>
 <item historyLabel="용어 사전.xdic" index="7"/>
-<item active="true" historyLabel="화장품판매.exerd" index="9"/>
+<item historyLabel="화장품판매.exerd" index="9"/>
+<item historyLabel="Naver Movies.exerd" index="10"/>
+<item historyLabel="화장품판매.exerd(읽기 전용)" index="9"/>
+<item active="true" historyLabel="Naver Movies.exerd" index="10"/>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
 </page>
@@ -213,6 +219,9 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" name="Naver Movies.exerd" tooltip="newProject/Naver Movies.exerd">
+<persistable path="/newProject/Naver Movies.exerd"/>
+</file>
 <file factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" name="화장품판매.exerd" tooltip="D:\Github\Programming\Database\Workspace\Test\화장품판매.exerd">
 <persistable uri="file:/D:/Github/Programming/Database/Workspace/Test/화장품판매.exerd"/>
 </file>
