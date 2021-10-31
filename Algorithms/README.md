@@ -37,6 +37,37 @@ deque().popleft()
 - 간선의 집합에 변함이 없는 한, 그래프는 얼마든지 원하는 대로 다시 그릴 수가 있다.
 - Source: https://en.wikipedia.org/wiki/Cycle_(graph_theory)
 - A cycle in a graph is a non-empty trail in which the only repeated vertices are the first and last vertices. A directed cycle in a directed graph is a non-empty directed trail in which the only repeated vertices are the first and last vertices.
+### Depth First Search
+```python
+while stack:
+	cur_node = stack.pop()
+	if visited[cur_node] == False:
+		visited[cur_node] = True
+		stack.extend(graph[cur_node])
+```
+### Breadth First Search
+```python
+from collections import deque
+
+while dq:
+	cur_node = dq.popleft()
+	if visited[cur_node] == False:
+		visited[cur_node] = True
+		dq.extend(graph[cur_node])
+```
+- 간선에 가중치가 없다면 Shortest path problem에 적용 가능합니다.
+```python
+from collections import deque
+
+dq = deque([...])
+visited = {...}
+while dq:
+	cur_node, cur_dist = dq.popleft()
+	if visited[cur_node] == False:
+		visited[cur_node] = True
+		for end, dist in graph[cur_node]:
+			dq.append((end, cur_dist + dist))
+```
 ### Dijkstra Algorithm
 - Time complexity: O((V + E)logV)
 - 각 간선에 가중치가 있다면 사용 가능합니다. 간선들 중 단 하나라도 가중치가 음수이면 이 알고리즘은 사용할 수 없습니다.
@@ -108,42 +139,6 @@ for btw in range(1, V + 1):
         for end in range(1, V + 1):
             if min_dists[(start, btw)] + min_dists[(btw, end)] < min_dists[(start, end)]:
                 min_dists[(start, end)] = min_dists[(start, btw)] + min_dists[(btw, end)]
-
-for start in range(1, V + 1):
-    for end in range(1, V + 1):
-        print(0 if min_dists[(start, end)] == math.inf else min_dists[(start, end)], end=" ")
-    print()
-```
-### Depth First Search
-```python
-while stack:
-	cur_node = stack.pop()
-	if visited[cur_node] == False:
-		visited[cur_node] = True
-		stack.extend(graph[cur_node])
-```
-### Breadth First Search
-```python
-from collections import deque
-
-while dq:
-	cur_node = dq.popleft()
-	if visited[cur_node] == False:
-		visited[cur_node] = True
-		dq.extend(graph[cur_node])
-```
-- 간선에 가중치가 없다면 Shortest path problem에 적용 가능합니다.
-```python
-from collections import deque
-
-dq = deque([...])
-visited = {...}
-while dq:
-	cur_node, cur_dist = dq.popleft()
-	if visited[cur_node] == False:
-		visited[cur_node] = True
-		for end, dist in graph[cur_node]:
-			dq.append((end, cur_dist + dist))
 ```
 ### Tree
 - Source: https://en.wikipedia.org/wiki/Cycle_(graph_theory)
@@ -278,8 +273,7 @@ def quadtree(arr):
             return arr[0][0]
 ```
 #### Octree
-### Tree Traversal
-#### Depth First Search
+### Depth First Search
 - Preorder Traverse: Parent -> Left -> Right
 ```python
 def preorder(node):
@@ -328,7 +322,7 @@ def postorder(self, node):
         postorder(node.right)
         print(node.value)
 ```
-#### Breadth First search
+### Breadth First search
 - Level-Order Traverse: Level-order
 ### Trie
 - Source: https://velog.io/@gojaegaebal/210126-%EA%B0%9C%EB%B0%9C%EC%9D%BC%EC%A7%8050%EC%9D%BC%EC%B0%A8-%ED%8A%B8%EB%9D%BC%EC%9D%B4Trie-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EA%B0%9C%EB%85%90-%EB%B0%8F-%ED%8C%8C%EC%9D%B4%EC%8D%AC%EC%97%90%EC%84%9C-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0feat.-Class
@@ -502,10 +496,10 @@ for k, v in count.items():
 # Dynamic Programming
 ```python
 mem = dict()
-def func(i, j):
-	if (i, j) not in mem:
-		mem[(i, j)] = ...
-	return mem[(i, j)]
+def func(n):
+	if n not in mem:
+		mem[n] = ...
+	return mem[n]
 ```
 - Divide-and-Conquer & Memoization
 - 0-1 Knapsack Problem
@@ -539,6 +533,28 @@ def func(i, j):
 	- Time complexity: O(nlogn)
 	- Dynamic programming + Binary search
 - LCS(Longest Common Subsequence)
+	- Time complexity: O(N^2)
+- Longest Common Substring
+	- Time complexity: O(NK)
+	```python
+	string1 = "ACAYKP"
+	string2 = "CAPCAK"
+	mem = [[0 for _ in range(len(string1))] for _ in range(len(string2))]
+	for i in range(len(string1)):
+		for j in range(len(string2)):
+			if string1[i] == string2[j]:
+				mem[i][j] = mem[i - 1][j - 1] + 1
+			else:
+				mem[i][j] = 0
+	```
+- Prefix Sum
+	```python
+	pref_sum = [0]
+	temp = 0
+	for i in arr:
+		temp += i
+		pref_sum.append(temp)
+	```
 
 # Greedy Algorithms
 - Source: Source: https://www.geeksforgeeks.org/greedy-algorithms/
@@ -561,15 +577,6 @@ while left < right:
 	else:
 		left += 1
 		cnt += 1
-```
-
-# Prefix Sum
-```python
-pref_sum = [0]
-temp = 0
-for i in arr:
-    temp += i
-    pref_sum.append(temp)
 ```
 
 # Binary Search
@@ -630,6 +637,11 @@ def bisect_right(arr, tar):
 # Implementation
 - 풀이를 떠올리는 것은 쉽지만 소스코드로 옮기기 어려운 문제.
 ## Exhaustive Search
+
+# String
+## Knuth-Morris-Pratt Algorithm
+- Time complexity: O(NK)
+- (failure function, pi[i]): i 번째 위치에서 접두사 == 접미사가 되는 최대 접두사의 길이
 
 ## Simulation
 

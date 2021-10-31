@@ -119,13 +119,13 @@ SELECT INSERT("abcdefghi", 3, 2, "####");
 ```sql
 TO_CHAR(mbrmst.mbr_leaving_expected_date, "YYYY/MM/DD") AS mbr_leaving_expected_dt
 ```
-## INSERT INTO VALUES
+## `INSERT INTO VALUES ()`
 ```sql
 INSERT INTO customers 
 (customername, address, city, postalcode, country)
 VALUES ("Hekkan Burger", "Gateveien 15", "Sandnes", "4306", "Norway");
 ```
-- If you are adding values for all thjjjj e columns of the table, you do not need to specify the column names in the SQL query.
+- If you are adding values for all the columns of the table, you do not need to specify the column names in the SQL query.
 ## UNION, UNION ALL
 - `UNION` selects only distinct values by default. To allow duplicate values, use `UNION ALL`
 ## MINUS (for Oracle)
@@ -189,6 +189,23 @@ SELECT name, addr
 FROM usertbl
 WHERE addr IN ("서울", "경기", "충청");
 ```
+## `GROUP BY`
+### `GROUP BY ROLLUP()`
+```sql
+SELECT DEPARTMENT_ID, JOB_ID, SUM(SALARY)
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID > 80
+GROUP BY ROLLUP(DEPARTMENT_ID, JOB_ID)
+ORDER BY DEPARTMENT_ID;
+```
+### `GROUP BY CUBE()`
+### `GROUP BY GROUPING SETS()`
+```sql
+SELECT DEPARTMENT_ID, JOB_ID, SUM(SALARY)
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID > 80
+GROUP BY GROUPING SETS((DEPARTMENT_ID, JOB_ID), ());
+```
 
 
 
@@ -206,16 +223,16 @@ SELECT name, height
 FROM sqlDB.usertbl
 WHERE height BETWEEN 180 AND 183;
 ```
-## `RANK() OVER ()`
+## `RANK() OVER (ORDER BY)`
 - 중복 값들에 대해서 동일 순위로 표시하고, 중복 순위 다음 값에 대해서는 중복 개수만큼 떨어진 순위로 출력.
 ```sql
 SELECT emp_no, emp_nm, sal,
 	RANK() OVER (ORDER BY salary DESC) ranking
 FROM employee;
 ```
-## `DENSE_RANK() OVER ()`
+## `DENSE_RANK() OVER (ORDER BY)`
 - 중복 값들에 대해서 동일 순위로 표시하고, 중복 순위 다음 값에 대해서는 중복 값 개수와 상관없이 순차적인 순위 값을 출력.
-## `ROW_NUMBER() OVER ()`
+## `ROW_NUMBER() OVER (ORDER BY)`
 - 중복 값들에 대해서도 순차적인 순위를 표시하도록 출력.
 ## `NTILE() OVER ()`
 - 뒤에 함께 적어주는 숫자 만큼 등분.
