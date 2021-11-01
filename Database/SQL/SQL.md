@@ -351,6 +351,23 @@ DATEDIFF(DAY, A.start_date, MIN(B.end_date))
 
 
 # Subquery
+- Source: https://www.geeksforgeeks.org/sql-subquery/
+- A subquery is a query within another query. The outer query is called as main query and inner query is called as subquery.
+- The subquery generally executes first, and its output is used to complete the query condition for the main or outer query.
+- Subquery must be enclosed in parentheses.
+- Subqueries are on the right side of the comparison operator.
+- `ORDER BY` cannot be used in a Subquery. `GROUP BY` can be used to perform same function as `ORDER BY`.
+- Use single-row operators with single-row subqueries. Use multiple-row operators with multiple-row subqueries.
+	- Source: https://www.tutorialspoint.com/What-are-single-row-and-multiple-row-subqueries
+	- Single-Row Subquery: A single-row subquery is used when the outer query's results are based on a single, unknown value. Although this query type is formally called "single-row," the name implies that the query returns multiple columns-but only one row of results. However, a single-row subquery can return only one row of results consisting of only one column to the outer query.
+	```sql
+	SELECT first_name, salary, department_id
+	FROM employees
+	WHERE salary = (SELECT MIN(salary)
+		FROM employees);
+	```
+	- Multiple-Row Subquery: Multiple-row subqueries are nested queries that can return more than one row of results to the parent query
+- A subquery can be placed in `WHERE` clause, `HAVING` clause, `FROM` clause.
 ```sql
 SELECT hacker_id, name
 FROM (
