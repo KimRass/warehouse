@@ -32,6 +32,16 @@ DATEDIFF("quarter", [고객별 최초 구매일], [고객별 최초 재구매일
 ```
 DATEADD("month", 1, DATEADD("day", -1, DATE(STR([Year Month]) + "01")))
 ```
+```
+IF DAY(TODAY() - 1) < 21
+THEN DATEADD("month", -2, 
+    DATE(STR(YEAR(TODAY())) + "-" + STR(MONTH(TODAY()))
+    + "-01") - 1)
+ELSE DATEADD("month", -1,
+    DATE(STR(YEAR(TODAY())) + "-" + STR(MONTH(TODAY()))
+    + "-01") - 1)
+END
+```
 ## DATETRUNC()
 ```
 DATETRUNC("week", [Order Date])

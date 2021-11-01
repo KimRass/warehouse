@@ -533,12 +533,31 @@ def func(n):
 	- Time complexity: O(nlogn)
 	- Dynamic programming + Binary search
 - LCS(Longest Common Subsequence)
-	- Time complexity: O(N^2)
-- Longest Common Substring
-	- Time complexity: O(NK)
+	- Time complexity: O(nk)
 	```python
-	string1 = "ACAYKP"
-	string2 = "CAPCAK"
+	mem = [[[0, ""] for _ in range(len(arr2) + 1)] for _ in range(len(arr1) + 1)]
+
+	maxim = 0
+	LCS = ""
+	for i in range(len(arr1)):
+		for j in range(len(arr2)):
+			if arr1[i] == arr2[j]:
+				mem[i + 1][j + 1][0] = mem[i][j][0] + 1
+				mem[i + 1][j + 1][1] = mem[i][j][1] + arr1[i]
+			else:
+				if mem[i][j + 1][0] > mem[i + 1][j][0]:
+					mem[i + 1][j + 1][0] = mem[i][j + 1][0]
+					mem[i + 1][j + 1][1] = mem[i][j + 1][1]
+				else:
+					mem[i + 1][j + 1][0] = mem[i + 1][j][0]
+					mem[i + 1][j + 1][1] = mem[i + 1][j][1]
+			if mem[i + 1][j + 1][0] > maxim:
+				maxim = mem[i + 1][j + 1][0]
+				LCS = mem[i + 1][j + 1][1]
+	```
+- Longest Common Substring
+	- Time complexity: O(nk)
+	```python
 	mem = [[0 for _ in range(len(string1))] for _ in range(len(string2))]
 	for i in range(len(string1)):
 		for j in range(len(string2)):
@@ -640,7 +659,7 @@ def bisect_right(arr, tar):
 
 # String
 ## Knuth-Morris-Pratt Algorithm
-- Time complexity: O(NK)
+- Time complexity: O(nk)
 - (failure function, pi[i]): i 번째 위치에서 접두사 == 접미사가 되는 최대 접두사의 길이
 
 ## Simulation
