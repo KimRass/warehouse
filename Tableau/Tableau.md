@@ -300,9 +300,15 @@ ATTR([댓글생성자id])), 6)
 
 
 # URL Parameters
-## :showAppBanner=false
-## :display_count=n
-## :showVizHome=n
-## :origin=viz_share_link
-## :embed=yes
-## :toolbar=top
+## `:showAppBanner=false`
+## `:display_count=n`
+## `:showVizHome=n`
+## `:origin=viz_share_link`
+## `:embed=yes`
+## `:toolbar=top`
+
+
+
+# Tableau Server
+## `Server Status`
+### `Background Tasks for Extracts`

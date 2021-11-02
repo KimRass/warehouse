@@ -270,3 +270,25 @@ Written by KimRass
 
 HeidiSQL, DBeaver, DataGrip
 
+# Cursor
+- https://en.wikipedia.org/wiki/Cursor_(databases)
+- A database cursor is a mechanism that enables traversal over the records in a database. Cursors facilitate subsequent processing in conjunction with the traversal, such as retrieval, addition and removal of database records.
+- 쿼리문에 의해서 반환되는 결과값들을 저장하는 메모리공간
+	- Fetch : 커서에서 원하는 결과값을 추출하는 것
+- 커서를 open하고 나서 fetch가 발생하면 true 값을 반환
+- To use cursors in SQL procedures, you need to do the following:
+	- Declare a cursor that defines a result set.
+	- Open the cursor to establish the result set.
+	- Fetch the data into local variables as needed from the cursor, one row at a time.
+	- Close the cursor when done.
+## Explicit 커서: 사용자가 선언해서 생성 후 사용하는 SQL 커서, 주로 여러개의 행을 처리하고자 할 경우 사용.
+## Implicit 커서: 오라클에서 자동으로 선언해주는 SQL 커서. 사용자는 생성 유무를 알 수 없다.
+
+# Distributed Database
+- Source: https://en.wikipedia.org/wiki/Distributed_database
+- A distributed database is a database in which data is stored across different physical locations.[1] It may be stored in multiple computers located in the same physical location (e.g. a data centre); or maybe dispersed over a network of interconnected computers.
+- Because distributed databases store data across multiple computers, distributed databases may improve performance at end-user worksites by allowing transactions to be processed on many machines, instead of being limited to one.
+- Two processes ensure that the distributed databases remain up-to-date and current: replication and duplication.
+	- Replication involves using specialized software that looks for changes in the distributive database. Once the changes have been identified, the replication process makes all the databases look the same. The replication process can be complex and time-consuming, depending on the size and number of the distributed databases. This process can also require much time and computer resources.
+	- Duplication, on the other hand, has less complexity. It identifies one database as a master and then duplicates that database. The duplication process is normally done at a set time after hours. This is to ensure that each distributed location has the same data. In the duplication process, users may change only the master database. This ensures that local data will not be overwritten.
+- Both replication and duplication can keep the data current in all distributive locations.

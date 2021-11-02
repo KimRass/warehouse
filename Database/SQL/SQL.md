@@ -132,6 +132,7 @@ WHERE TABLE_NAME = `users`;
 SELECT INSERT("abcdefghi", 3, 2, "####");
 ```
 ## TO_CHAR()
+- Used to convert a number or date to a string.
 ```sql
 TO_CHAR(mbrmst.mbr_leaving_expected_date, "YYYY/MM/DD") AS mbr_leaving_expected_dt
 ```
@@ -342,6 +343,7 @@ ORDER BY HOUR;
 ```
 - HOUR()는 일반조건이므로 (COUNT()와 달리) HAIVNG과 함께 쓸 수 없다.
 ```
+## SYSDATE (for Oracle), SYSDATE() (for MySQL)
 ## DATEADD()
 ## DATEDIFF()
 ```sql
@@ -367,6 +369,7 @@ DATEDIFF(DAY, A.start_date, MIN(B.end_date))
 		FROM employees);
 	```
 	- Multiple-Row Subquery: Multiple-row subqueries are nested queries that can return more than one row of results to the parent query
+	- 예를 들어 서브쿼리가 값을 여러 개 리턴하는 경우라면 IN, ALL, ANY, EXISTS등을 사용해야하고, 한 개만 리턴하는 경우에는 등호와 부등호를 통한 연산자를 사용할 수 있다.
 - A subquery can be placed in `WHERE` clause, `HAVING` clause, `FROM` clause.
 ```sql
 SELECT hacker_id, name
@@ -381,8 +384,30 @@ HAVING SUM(is_full_score) > 1
 ORDER BY SUM(is_full_score) DESC, hacker_id ASC;
 ```
 - Subquery로 생성한 Table은 항상 `AS`로 이름을 지정해줘야 합니다.
-- Correlated Subquery
-	- Source: https://myjamong.tistory.com/176
-	- 내부 Subquery에서 외부테이블의 값을 참조할 때 사용됩니다.
-	- Subquery와는 다르게  Inner Query 부터 Outer Query 순서대로 실행되는 것이 아니라 Outer Query에서 읽어온 행을 갖고 Inner쿼리를 실행하는 것을 반복하여 결과를 출력해줍니다.
-	- Outer Query와 Inner Query에서 같은 테이블을 참조한다면 Outer Query의 테이블에 Alias를 사용해서 구분해줍니다.
+## Correlated Subquery(= 상관 서브 쿼리)
+- Source: https://myjamong.tistory.com/176
+- 내부 Subquery에서 외부테이블의 값을 참조할 때 사용됩니다.
+- Subquery와는 다르게  Inner Query 부터 Outer Query 순서대로 실행되는 것이 아니라 Outer Query에서 읽어온 행을 갖고 Inner쿼리를 실행하는 것을 반복하여 결과를 출력해줍니다.
+- Outer Query와 Inner Query에서 같은 테이블을 참조한다면 Outer Query의 테이블에 Alias를 사용해서 구분해줍니다.
+## Subquery + `EXISTS`
+- Source: https://www.w3schools.com/sql/sql_exists.asp
+- The `EXISTS` operator is used to test for the existence of any record in a subquery.
+- The `EXISTS` operator returns `TRUE` if the subquery returns one or more records.
+```sql
+SELECT *
+FROM customers
+WHERE EXISTS (
+	SELECT *
+	FROM orders
+	WHERE orders.c_id = customers.c_id);
+```
+- 주문한 적이 있는 고객 정보를 조회하는 query.
+```sql
+SELECT SupplierName
+FROM Suppliers
+WHERE EXISTS (
+	SELECT ProductName
+	FROM Products
+	WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
+```
+- The above SQL statement returns `TRUE` and lists the suppliers with a product price less than 20.
