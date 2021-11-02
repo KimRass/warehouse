@@ -27,6 +27,15 @@
 
 
 # DDL(Data Definition Language)
+- `DELETE`
+	- 데이터만 삭제
+	- Here we can use the `ROLLBACK` command to restore the tuple.
+- `DROP`
+	- With the help of `DROP` command we can drop (delete) the whole structure in one go i.e. it removes the named elements of the schema. By using this command the existence of the whole table is finished or say lost.
+	- Here we can’t restore the table by using the `ROLLBACK` command.
+- `TRUNCATE`
+	- By using this command the existence of all the rows of the table is lost. It is comparatively faster than `DELETE` command as it deletes all the rows fastly.
+	- Here we can’t restore the tuples of the table by using the `ROLLBACK` command.
 ## CREATE TABLE
 ### CREATE TABLE PRIMARY KEY
 ### CREATE TABLE FOREIGN KEY REFERENCES
@@ -85,7 +94,7 @@ ALTER TABLE users
 ```sql
 ALTER TABLE ex_table CHANGE COLUMN nSecond sSecond VARCHAR(22);
 ```
-### ALTER TABLE DROP COLUMN
+### `ALTER TABLE DROP COLUMN`
 ```sql
 ALTER TABLE users
 	DROP COLUMN user_age;
@@ -102,6 +111,34 @@ ADD Email VARCHAR(255);
 ### ALTER TABLE DROP FOREIGN KEY
 ## `CREATE VIEW AS SELECT FROM`
 ## `DROP VIEW`
+## `CREATE ROLE`
+- Source: https://www.programmerinterview.com/database-sql/database-roles/
+- A database role is a collection of any number of permissions/privileges that can be assigned to one or more users. A database role also is also given a name for that collection of privileges.
+- The majority of today’s RDBMS’s come with predefined roles that can be assigned to any user. But, a database user can also create his/her own role if he or she has the CREATE ROLE privilege.
+
+
+
+# DCL(Data Control Language)
+## `GRANT ON TO`, `REVOKE ON TO`
+```sql
+GRANT <<Privileges>>
+ON <<Table>>
+TO <<User>>
+```
+- <<Privileges>>: `CONNECT`, `RESOURCE`, `DBA`
+- `CONNECT`: DB 접속 권한.
+- `RESOURCE`: 테이블 등 생성 권한.
+```sql
+## `WITH GRANT OPTION`
+
+
+
+# TCL(Transaction Control Language)
+## `COMMIT`
+- Source: https://www.geeksforgeeks.org/difference-between-commit-and-rollback-in-sql/
+- `COMMIT` is used to permanently save the changes done in the transaction in tables/databases. The database cannot regain its previous state after the execution of it.
+## `ROLLBACK`
+- `ROLLBACK` is used to undo the transactions that have not been saved in database. The command is only be used to undo changes since the last `COMMIT`.
 
 
 
@@ -130,11 +167,6 @@ WHERE TABLE_NAME = `users`;
 ## INSERT()
 ```sql
 SELECT INSERT("abcdefghi", 3, 2, "####");
-```
-## TO_CHAR()
-- Used to convert a number or date to a string.
-```sql
-TO_CHAR(mbrmst.mbr_leaving_expected_date, "YYYY/MM/DD") AS mbr_leaving_expected_dt
 ```
 ## `INSERT INTO () VALUES()`
 ```sql
@@ -182,28 +214,48 @@ FROM dbo.성적	UNPIVOT (점수	FOR 과목 IN(국어, 수학, 영어)) AS UNPVT
 ```
 - `PIVOT` transforms rows to columns.
 - `UNPIVOT` transforms columns to rows.
-# TOP (for MS SQL Server), LIMIT (for MySQL)
+## TOP (for MS SQL Server), LIMIT (for MySQL)
 ```sql
 SELECT TOP 1 months*salary, COUNT(employee_id)
 FROM employee
 GROUP BY months*salary
 ORDER BY months*salary DESC;
 ```
+## `EXISTS()`
+- Source: https://www.w3schools.com/sql/sql_exists.asp
+- The `EXISTS` operator is used to test for the existence of any record in a subquery.
+- The `EXISTS` operator returns `TRUE` if the subquery returns one or more records.
+```sql
+SELECT *
+FROM customers
+WHERE EXISTS (
+	SELECT *
+	FROM orders
+	WHERE orders.c_id = customers.c_id);
+```
+- 주문한 적이 있는 고객 정보를 조회하는 query.
+```sql
+SELECT SupplierName
+FROM Suppliers
+WHERE EXISTS (
+	SELECT ProductName
+	FROM Products
+	WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
+```
+- The above SQL statement returns `TRUE` and lists the suppliers with a product price less than 20.
 
 
 # Logical Functions
-## COALESCE()
-```sql
-COALESCE(mobile, '07986 444 2266')
-```
+## `COALESCE()` (for MySQL), `IFNULL()` (for MySQL), `ISNULL()` (for MS SQL Server), `NVL()`/`NVL2() (for Oracle)
 ```sql
 SELECT COALESCE(col1, col2*10, 100)
 FROM table
 ```
+```sql
+NVL(<<Column>>, <<Value if NULL>>)
+NVL2(<<Column>>, <<Value if not NULL>>, <<Value if NULL>>)
+```
 ## `IS NULL`, `IS NOT NULL`
-- Source: https://en.wikipedia.org/wiki/Null_(SQL)
-- A null should not be confused with a value of 0. A null value indicates a lack of a value, which is not the same thing as a value of zero. For example, consider the question "How many books does Adam own?" The answer may be "zero" (we know that he owns none) or "null" (we do not know how many he owns). In a database table, the column reporting this answer would start out with no value (marked by Null), and it would not be updated with the value "zero" until we have ascertained that Adam owns no books.
-- SQL null is a state, not a value.
 ## `CASE WHEN THEN ELSE END`
 - Search for conditions sequentially.
 ```sql
@@ -349,6 +401,11 @@ ORDER BY HOUR;
 ```sql
 DATEDIFF(DAY, A.start_date, MIN(B.end_date))
 ```
+## TO_CHAR()
+- Used to convert a number or date to a string.
+```sql
+TO_CHAR(mbrmst.mbr_leaving_expected_date, "YYYY/MM/DD") AS mbr_leaving_expected_dt
+```
 
 
 
@@ -362,6 +419,7 @@ DATEDIFF(DAY, A.start_date, MIN(B.end_date))
 - Use single-row operators with single-row subqueries. Use multiple-row operators with multiple-row subqueries.
 	- Source: https://www.tutorialspoint.com/What-are-single-row-and-multiple-row-subqueries
 	- Single-Row Subquery: A single-row subquery is used when the outer query's results are based on a single, unknown value. Although this query type is formally called "single-row," the name implies that the query returns multiple columns-but only one row of results. However, a single-row subquery can return only one row of results consisting of only one column to the outer query.
+	- `=`, `!=`, `<`, `<=`, `>`, `>=`
 	```sql
 	SELECT first_name, salary, department_id
 	FROM employees
@@ -369,8 +427,9 @@ DATEDIFF(DAY, A.start_date, MIN(B.end_date))
 		FROM employees);
 	```
 	- Multiple-Row Subquery: Multiple-row subqueries are nested queries that can return more than one row of results to the parent query
-	- 예를 들어 서브쿼리가 값을 여러 개 리턴하는 경우라면 IN, ALL, ANY, EXISTS등을 사용해야하고, 한 개만 리턴하는 경우에는 등호와 부등호를 통한 연산자를 사용할 수 있다.
-- A subquery can be placed in `WHERE` clause, `HAVING` clause, `FROM` clause.
+	- `IN()`, `ALL()`, `ANY()`, `EXISTS()`
+- A subquery can be placed in `WHERE` clause(Subquery), `HAVING` clause, `FROM` clause(Inline View), `SELECT` clause(Scala Subquery).
+## Inline View
 ```sql
 SELECT hacker_id, name
 FROM (
@@ -383,31 +442,10 @@ GROUP BY hacker_id, name
 HAVING SUM(is_full_score) > 1
 ORDER BY SUM(is_full_score) DESC, hacker_id ASC;
 ```
-- Subquery로 생성한 Table은 항상 `AS`로 이름을 지정해줘야 합니다.
+## Scala Subquery
+- 반드시 1개의 행과 열만 반환.
 ## Correlated Subquery(= 상관 서브 쿼리)
 - Source: https://myjamong.tistory.com/176
 - 내부 Subquery에서 외부테이블의 값을 참조할 때 사용됩니다.
 - Subquery와는 다르게  Inner Query 부터 Outer Query 순서대로 실행되는 것이 아니라 Outer Query에서 읽어온 행을 갖고 Inner쿼리를 실행하는 것을 반복하여 결과를 출력해줍니다.
 - Outer Query와 Inner Query에서 같은 테이블을 참조한다면 Outer Query의 테이블에 Alias를 사용해서 구분해줍니다.
-## Subquery + `EXISTS`
-- Source: https://www.w3schools.com/sql/sql_exists.asp
-- The `EXISTS` operator is used to test for the existence of any record in a subquery.
-- The `EXISTS` operator returns `TRUE` if the subquery returns one or more records.
-```sql
-SELECT *
-FROM customers
-WHERE EXISTS (
-	SELECT *
-	FROM orders
-	WHERE orders.c_id = customers.c_id);
-```
-- 주문한 적이 있는 고객 정보를 조회하는 query.
-```sql
-SELECT SupplierName
-FROM Suppliers
-WHERE EXISTS (
-	SELECT ProductName
-	FROM Products
-	WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
-```
-- The above SQL statement returns `TRUE` and lists the suppliers with a product price less than 20.
