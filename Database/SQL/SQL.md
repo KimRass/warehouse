@@ -27,48 +27,38 @@
 
 
 # DDL(Data Definition Language)
-- `DELETE`
-	- 데이터만 삭제
-	- Here we can use the `ROLLBACK` command to restore the tuple.
-- `DROP`
-	- With the help of `DROP` command we can drop (delete) the whole structure in one go i.e. it removes the named elements of the schema. By using this command the existence of the whole table is finished or say lost.
-	- Here we can’t restore the table by using the `ROLLBACK` command.
-- `TRUNCATE`
-	- By using this command the existence of all the rows of the table is lost. It is comparatively faster than `DELETE` command as it deletes all the rows fastly.
-	- Here we can’t restore the tuples of the table by using the `ROLLBACK` command.
-## CREATE TABLE
-### CREATE TABLE PRIMARY KEY
-### CREATE TABLE FOREIGN KEY REFERENCES
+- Oracle database implicitly commits the current transaction before and after every DDL statement.
+- `CREATE`, `ALTER`, `DROP`, `TRUNCATE`,  `RENAME`
+## `CREATE`
+### `CREATE TABLE`
+#### CREATE TABLE PRIMARY KEY
+#### `CREATE TABLE FOREIGN KEY REFERENCES`
 ```sql
 CREATE TABLE orders (order_id INT NOT NULL, order_no INT NOT NULL,
 person_id INT, PRIMARY KEY(order_id), FOREIGN KEY(person_id) REFERENCES persons(person_id));
 ```
-### CREATE INDEX ON
+### `CREATE VIEW AS SELECT FROM`
+### `CREATE ROLE`
+- Source: https://www.programmerinterview.com/database-sql/database-roles/
+- A database role is a collection of any number of permissions/privileges that can be assigned to one or more users. A database role also is also given a name for that collection of privileges.
+- The majority of today’s RDBMS’s come with predefined roles that can be assigned to any user. But, a database user can also create his/her own role if he or she has the CREATE ROLE privilege.
+### `CREATE INDEX ON`
 ```sql
-CREATE INDEX idx ON persons(person_id);
+CREATE INDEX <<Index_name>>
+ON <<Table>>(<<Column1>>, <<Column2>>, ...);
 ```
-## RENAME TABLE TO
-```sql
-RENAME TABLE old_table1 TO new_table1,
-	old_table2 TO new_table2,
-	old_table3 TO new_table3;
-```
-```sql
-RENAME TABLE current_db.table_name TO other_db.table_name;
-```
-## `DROP TABLE`
-## DROP TABLE IF EXISTS
-## `ALTER TABLE`
-### ALTER TABLE ADD
+## `ALTER`
+### `ALTER TABLE`
+#### `ALTER TABLE ADD`
 ```sql
 ALTER TABLE users
 	ADD birth_date CHAR(6) NULL;
 ```
-#### ALTER TABLE ADD FIRST
-#### ALTER TABLE ADD AFTER
-#### ALTER TABLE ADD PRIMARY KEY
-##### ALTER TABLE ADD ()
-### `ALTER TABLE ALTER COLUMN` (for MS SQL Server), `ALTER TABLE MODIFY` (for Oracle), `ALTER TABLE MODIFY COLUMN` (for MySQL)
+##### `ALTER TABLE ADD FIRST`
+##### `ALTER TABLE ADD AFTER`
+##### `ALTER TABLE ADD PRIMARY KEY`
+##### ALTER TABLE ADD()
+#### `ALTER TABLE ALTER COLUMN` (for MS SQL Server), `ALTER TABLE MODIFY` (for Oracle), `ALTER TABLE MODIFY COLUMN` (for MySQL)
 - Change the data type of a column in a table.
 ```sql
 ALTER TABLE users
@@ -78,43 +68,49 @@ ALTER COLUMN user_id VARCHAR(16) NOT NULL;
 ALTER TABLE ex_table
 MODIFY COLUMN sFifth VARCHAR(55);
 ```
-#### `ALTER TABLE MODIFY FIRST`
-#### `ALTER TABLE MODIFY AFTER`
-### `ALTER TABLE MODIFY CONSTRAINT`
+##### `ALTER TABLE MODIFY CONSTRAINT`
 ```sql
 ALTER TABLE users
 MODIFY user_id VARCHAR(16) CONSTRAINT
-### `ALTER TABLE CHANGE`
-- Change column name
+#### `ALTER TABLE CHANGE`, `ALTER TABLE CHANGE COLUMN`
+- Change column name and the data type.
 ```sql
 ALTER TABLE users
 	CHANGE userid user_id VARCHAR(16) NOT NULL;
 ```
-### `ALTER TABLE CHANGE COLUMN`
 ```sql
 ALTER TABLE ex_table CHANGE COLUMN nSecond sSecond VARCHAR(22);
 ```
-### `ALTER TABLE DROP COLUMN`
+#### `ALTER TABLE DROP COLUMN`
 ```sql
 ALTER TABLE users
 	DROP COLUMN user_age;
 ```
-### `ALTER TABLE ADD COLUMN`
+#### `ALTER TABLE ADD COLUMN`
 ```sql
 ALTER TABLE Customers
 ADD Email VARCHAR(255);
 ```
-### `ALTER TABLE ADD CONSTRAINT`
-#### ALTER TABLE ADD CONSTRAINT PRIMARY KEY
-#### ALTER TABLE ADD CONSTRAINT FOREIGN KEY REFERENCES
-### ALTER TABLE DROP CONSTRAINT
-### ALTER TABLE DROP FOREIGN KEY
-## `CREATE VIEW AS SELECT FROM`
-## `DROP VIEW`
-## `CREATE ROLE`
-- Source: https://www.programmerinterview.com/database-sql/database-roles/
-- A database role is a collection of any number of permissions/privileges that can be assigned to one or more users. A database role also is also given a name for that collection of privileges.
-- The majority of today’s RDBMS’s come with predefined roles that can be assigned to any user. But, a database user can also create his/her own role if he or she has the CREATE ROLE privilege.
+#### `ALTER TABLE ADD CONSTRAINT`
+##### `ALTER TABLE ADD CONSTRAINT PRIMARY KEY`
+##### `ALTER TABLE ADD CONSTRAINT FOREIGN KEY REFERENCES`
+#### `ALTER TABLE DROP CONSTRAINT`
+#### `ALTER TABLE DROP FOREIGN KEY`
+## `DROP`
+### `DROP TABLE`
+- With the help of `DROP` command we can drop (delete) the whole structure in one go i.e, it removes the named elements of the schema. By using this command the existence of the whole table is finished or say lost.
+- Here we can’t restore the table by using the `ROLLBACK` command.
+#### `DROP TABLE IF EXISTS`
+### `DROP VIEW`
+## `TRUNCATE`
+### `TRUNCATE TABLE`
+- By using this command the existence of all the rows of the table is lost. It is comparatively faster than `DELETE` command as it deletes all the rows fastly.
+- Here we can’t restore the tuples of the table by using the `ROLLBACK` command.
+## `RENAME`
+### `RENAME TABLE TO`
+```sql
+RENAME TABLE old_table1 TO new_table1, old_table2 TO new_table2, old_table3 TO new_table3;
+```
 
 
 
@@ -125,7 +121,7 @@ GRANT <<Privileges>>
 ON <<Table>>
 TO <<User>>
 ```
-- <<Privileges>>: `CONNECT`, `RESOURCE`, `DBA`
+- <<Privileges>>: `CONNECT`, `RESOURCE`, `DBA`, ...
 - `CONNECT`: DB 접속 권한.
 - `RESOURCE`: 테이블 등 생성 권한.
 ```sql
@@ -137,25 +133,34 @@ TO <<User>>
 ## `COMMIT`
 - Source: https://www.geeksforgeeks.org/difference-between-commit-and-rollback-in-sql/
 - `COMMIT` is used to permanently save the changes done in the transaction in tables/databases. The database cannot regain its previous state after the execution of it.
+## `SAVEPOINT`
+- Use the `SAVEPOINT` statement to identify a point in a transaction to which you can later roll back.
+```sql
+SAVEPOINT <<Savepoint Name>>
+```
 ## `ROLLBACK`
 - `ROLLBACK` is used to undo the transactions that have not been saved in database. The command is only be used to undo changes since the last `COMMIT`.
+### `ROLLBACK TO`
+```sql
+ROLLBACK TO <<Savepoint Name>>
+```
 
 
 
-# INFORMATION_SCHEMA
-## INFORMATION_SCHEMA.TABLES
+# `INFORMATION_SCHEMA`
+## `INFORMATION_SCHEMA.TABLES`
 ```sql
 SELECT *
 FROM INFORMATION_SCHEMA.TABLES
 WHERE TABLE_NAME = 'users';
 ```
-## INFORMATION_SCHEMA.COLUMNS
+## `INFORMATION_SCHEMA.COLUMNS`
 ```sql
 SELECT COLUMN_NAME
 FROM INFORMATION_SCHEMA.COLUMNS
 WHERE TABLE_NAME = 'users';
 ```
-## INFORMATION_SCHEMA.TABLE_CONSTRAINTS
+## `INFORMATION_SCHEMA.TABLE_CONSTRAINTS`
 ```sql
 SELCT *
 FROM INFORMATION_SCHEMA.TALBE_CONTSTRAINTS
@@ -164,17 +169,40 @@ WHERE TABLE_NAME = `users`;
 
 
 
-## INSERT()
-```sql
-SELECT INSERT("abcdefghi", 3, 2, "####");
-```
-## `INSERT INTO () VALUES()`
+# `DUAL` (for Oracle)
+- Oracle provides you with the DUAL table which is a special table that belongs to the schema of the user SYS but it is accessible to all users.
+- The `DUAL` table has one column named `DUMMY` whose data type is `VARCHAR2()` and contains one row with a value `X`.
+- By using the `DUAL` table, you can execute queries that contain functions that do not involve any table
+
+
+
+# DML(Data Manipulation Language)
+## `SELECT`
+### `INSERT INTO VALUES()`
 ```sql
 INSERT INTO customers 
 (customername, address, city, postalcode, country)
-VALUES ("Hekkan Burger", "Gateveien 15", "Sandnes", "4306", "Norway");
+VALUES("Hekkan Burger", "Gateveien 15", "Sandnes", "4306", "Norway");
 ```
 - If you are adding values for all the columns of the table, you do not need to specify the column names in the SQL query.
+### `SELECT INSERT()`
+```sql
+SELECT INSERT("abcdefghi", 3, 2, "####");
+```
+## `UPDATE`
+### `UPDATE SET FROM WHERE`
+```
+UPDATE emp
+SET ename = 'jojo'
+WHERE emp_no = 100;
+```
+## `DELETE`
+### `DELETE FROM WHERE`
+- Here we can use the `ROLLBACK` command to restore the tuple.
+```sql
+DELETE FROM emp
+WHERE emp_no = 100;
+```
 ## UNION, UNION ALL
 - `UNION` selects only distinct values by default. To allow duplicate values, use `UNION ALL`
 ## `MINUS` (for Oracle), `EXCEPT` (for MS SQL Server)
@@ -228,7 +256,7 @@ ORDER BY months*salary DESC;
 ```sql
 SELECT *
 FROM customers
-WHERE EXISTS (
+WHERE EXISTS(
 	SELECT *
 	FROM orders
 	WHERE orders.c_id = customers.c_id);
@@ -246,65 +274,59 @@ WHERE EXISTS (
 
 
 # Logical Functions
-## `COALESCE()` (for MySQL), `IFNULL()` (for MySQL), `ISNULL()` (for MS SQL Server), `NVL()`/`NVL2() (for Oracle)
+## `COALESCE()` (for MySQL)
 ```sql
 SELECT COALESCE(col1, col2*10, 100)
 FROM table
 ```
+## `ISNULL()` (for MS SQL Server)
+## `NVL()`/`NVL2() (for Oracle)
 ```sql
 NVL(<<Column>>, <<Value if NULL>>)
 NVL2(<<Column>>, <<Value if not NULL>>, <<Value if NULL>>)
 ```
+## `IFNULL()` (for MySQL)
+```sql
+SELECT animal_type, IFNULL(name, "No name"), sex_upon_intake
+FROM animal_ins
+ORDER BY animal_id
+```
+## `NULLIF()` (for Oracle, MS SQL Server)
+- Return `NULL` if two expressions are equal, otherwise return the first expression.
 ## `IS NULL`, `IS NOT NULL`
+- Source: https://www.w3schools.com/sql/sql_null_values.asp
+- It is not possible to test for NULL values with comparison operators, such as `=`, `<`, ....
 ## `CASE WHEN THEN ELSE END`
 - Search for conditions sequentially.
 ```sql
 SELECT CASE WHEN (a >= b + c OR b >= c + a OR c >= a + b) THEN "Not A Triangle" WHEN (a = b AND b = c) THEN "Equilateral" WHEN (a = b OR b = c OR c = a) THEN "Isosceles" ELSE "Scalene" END
 FROM triangles;
 ```
-# ANY()
+## `ANY()`
+- Return `TRUE` if any of the subquery values meet the condition.
 ```sql
 SELECT name
 FROM usertbl
-WHERE height > ANY (SELECT height FROM usertbl WHERE addr="서울");
+WHERE height > ANY(
+	SELECT height
+	FROM usertbl
+	WHERE addr = '서울');
 ```
-## IFNULL()
-```sql
-SELECT animal_type,
-IFNULL(name, "No name"),
-sex_upon_intake
-FROM animal_ins
-ORDER BY animal_id
-```
+## `ALL()`
+- Return `TRUE` if all of the subquery values meet the condition.
+- Used with `SELECT`, `WHERE` and `HAVING` statements.
 ## `IN()`
+- `NULL`은 `IN()` 연산자 안에 있어도 아무런 의미를 갖지 않습니다.
 ```sql
 SELECT name, addr
 FROM usertbl
 WHERE addr IN("서울", "경기", "충청");
-```
-## `GROUP BY`
-### `GROUP BY ROLLUP()`
-```sql
-SELECT DEPARTMENT_ID, JOB_ID, SUM(SALARY)
-FROM EMPLOYEES
-WHERE DEPARTMENT_ID > 80
-GROUP BY ROLLUP(DEPARTMENT_ID, JOB_ID)
-ORDER BY DEPARTMENT_ID;
-```
-### `GROUP BY CUBE()`
-### `GROUP BY GROUPING SETS()`
-```sql
-SELECT DEPARTMENT_ID, JOB_ID, SUM(SALARY)
-FROM EMPLOYEES
-WHERE DEPARTMENT_ID > 80
-GROUP BY GROUPING SETS((DEPARTMENT_ID, JOB_ID), ());
 ```
 
 
 
 # Numeric Functions
 ## CEILING(), FLOOR()
-## MIN(), MAX(), AVG(), SUM()
 ## FORMAT()
 ```sql
 SELECT FORMAT(123456.123456, 4);
@@ -316,19 +338,6 @@ SELECT name, height
 FROM sqlDB.usertbl
 WHERE height BETWEEN 180 AND 183;
 ```
-## `RANK() OVER(ORDER BY)`
-- 중복 값들에 대해서 동일 순위로 표시하고, 중복 순위 다음 값에 대해서는 중복 개수만큼 떨어진 순위로 출력.
-```sql
-SELECT emp_no, emp_nm, sal,
-	RANK() OVER(ORDER BY salary DESC) ranking
-FROM employee;
-```
-## `DENSE_RANK() OVER(ORDER BY)`
-- 중복 값들에 대해서 동일 순위로 표시하고, 중복 순위 다음 값에 대해서는 중복 값 개수와 상관없이 순차적인 순위 값을 출력.
-## `ROW_NUMBER() OVER(ORDER BY)`
-- 중복 값들에 대해서도 순차적인 순위를 표시하도록 출력.
-## `NTILE() OVER ()`
-- 뒤에 함께 적어주는 숫자 만큼 등분.
 
 
 
@@ -405,6 +414,83 @@ DATEDIFF(DAY, A.start_date, MIN(B.end_date))
 - Used to convert a number or date to a string.
 ```sql
 TO_CHAR(mbrmst.mbr_leaving_expected_date, "YYYY/MM/DD") AS mbr_leaving_expected_dt
+```
+
+
+
+# Window Functions
+- `SUM()`, `MAX()`, `MIN()`, `RANK()`
+## `OVER(PARTITION BY ORDER BY ROWS)`, `OVER(PARTITION BY ORDER BY RANGE)`
+- `ROWS` is used to specify which rows to include in the aggregation.
+- `RANGE` can be used to let Oracle determine which rows lie within the range.
+- `UNBOUNDED PRECEDING`: Window의 첫 위치가 첫 번째 행.
+- `UNBOUNDED FOLLOWING`: Window의 마지막 위치가 마지막 행.
+- `CURRENT ROW`: Window의 첫 위치가 현재 행.
+```sql
+SELECT month, SUM(tot_sales) AS monthly_sales,
+	AVG(SUM(tot_sales)) OVER(ORDER BY month RANGE BETWEEN 1 PRECEDING AND 1 FOLLOWING) AS rolling_avg
+FROM orders
+```
+
+
+
+# Rank Functions
+## `RANK() OVER(ORDER BY)`
+- 중복 값들에 대해서 동일 순위로 표시하고, 중복 순위 다음 값에 대해서는 중복 개수만큼 떨어진 순위로 출력.
+```sql
+SELECT emp_no, emp_nm, sal,
+	RANK() OVER(ORDER BY salary DESC) ranking
+FROM employee;
+```
+## `DENSE_RANK() OVER(ORDER BY)`
+- 중복 값들에 대해서 동일 순위로 표시하고, 중복 순위 다음 값에 대해서는 중복 값 개수와 상관없이 순차적인 순위 값을 출력.
+## `ROW_NUMBER() OVER(ORDER BY)`
+- 중복 값들에 대해서도 순차적인 순위를 표시하도록 출력.
+## `NTILE() OVER ()`
+- 뒤에 함께 적어주는 숫자 만큼 등분.
+
+
+
+# Aggregate Functions
+## `MIN()`, `MAX()`, `AVG()`, `SUM()`
+## `COUNT()`
+- `COUNT(*)`, `COUNT(1)`, ...: Return the number of rows in the table.
+- `COUNT(<<Column>>)`: Return the number of non-NULL values in the column.
+- `COUNT(DISTINCT <<Column>>): Return the number of distinct non-NULL values in the column.
+
+
+
+# Group Functions
+## `GROUP BY`
+### `GROUP BY ROLLUP()`
+```sql
+SELECT DEPARTMENT_ID, JOB_ID, SUM(SALARY)
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID > 80
+GROUP BY ROLLUP(DEPARTMENT_ID, JOB_ID)
+ORDER BY DEPARTMENT_ID;
+```
+### `GROUP BY CUBE()`
+- Generate subtotals for all combinations of the dimensions specified.
+```sql
+SELECT dname, job, SUM(sal)
+FROM test18
+GROUP BY CUBE(dname, job);
+```
+### `GROUP BY GROUPING SETS()`
+- 인자 컬럼인 경우: `GROUP BY
+- `GROUP BY GROUPING SETS(<<Column>>)`
+	- `GROUP BY <<Column>>`과 동일.
+- `GROUP BY GROUPING SETS((<<Column1>>, <<Column2>>, ...))`
+	- 인자로 주어진 컬럼들의 조합별로 값 집계.
+- `GROUP BY GROUPING SETS(())`
+	- 전체에 대한 집계.
+- 인자가 여러 개인 경우 위 3가지 경우의 각 결과를 `UNION ALL`한 것과 같음.
+```sql
+SELECT DEPARTMENT_ID, JOB_ID, SUM(SALARY)
+FROM EMPLOYEES
+WHERE DEPARTMENT_ID > 80
+GROUP BY GROUPING SETS((DEPARTMENT_ID, JOB_ID), ());
 ```
 
 

@@ -291,6 +291,7 @@ HeidiSQL, DBeaver, DataGrip
 - Both replication and duplication can keep the data current in all distributive locations.
 
 # Optimizer Join
+- Whenever you join a table to another table logically, the query optimizer can choose one of the three physical join iterators based on some cost based decision, these are hash join, nested loop join and merge join.
 ## Hash Join
 - Source: https://en.wikipedia.org/wiki/Hash_join
 - All variants of hash join algorithms involve building hash tables from the tuples of one or both of the joined relations, and subsequently probing those tables so that only tuples with the same hash code need to be compared for equality in equijoins.
@@ -300,15 +301,25 @@ HeidiSQL, DBeaver, DataGrip
 - The first phase is usually called the "build" phase, while the second is called the "probe" phase. Similarly, the join relation on which the hash table is built is called the "build" input, whereas the other input is called the "probe" input.
 - This algorithm is simple, but it requires that the smaller join relation fits into memory, which is sometimes not the case.
 - Source: https://coding-factory.tistory.com/758
-- HASH JOIN은 비용 기반 옵티마이저를 사용할 때만 사용될 수 있는 조인 방식.
+- 비용 기반 옵티마이저를 사용할 때만 사용될 수 있는 조인 방식.
 - `=` 비교를 통한 조인에서만 사용될 수 있습니다.
-- HASH JOIN은 해시 테이블을 생성하는 비용이 수반되므로 이 과정을 효율화하는 것이 성능 개선에 있어 가장 중요합니다.
+- 해시 테이블을 생성하는 비용이 수반되므로 이 과정을 효율화하는 것이 성능 개선에 있어 가장 중요합니다.
 - Build Input 해시 키 칼럼에 중복 값이 거의 없어야 효율적인 동작을 기대할 수 있습니다.
 - 많은 메모리와 CPU 자원을 소모.
 ## Nested Loop Join
-- Random Access
+- Random access: This technique is only applicable when the joining column(s) of the inner side table is already sorted (indexed).
+- Outer table, Inner table, Index
+- Source: https://en.wikipedia.org/wiki/Nested_loop_join
+- A nested loop join is a naive algorithm that joins two sets by using two nested loops.
 
 # NULL
 - Source: https://en.wikipedia.org/wiki/Null_(SQL)
 - A null should not be confused with a value of 0. A null value indicates a lack of a value, which is not the same thing as a value of zero. For example, consider the question "How many books does Adam own?" The answer may be "zero" (we know that he owns none) or "null" (we do not know how many he owns). In a database table, the column reporting this answer would start out with no value (marked by Null), and it would not be updated with the value "zero" until we have ascertained that Adam owns no books.
 - SQL null is a state, not a value.
+
+# PL/SQL
+- Source: https://en.wikipedia.org/wiki/PL/SQL
+- PL/SQL(Procedural Language for SQL) is Oracle Corporation's procedural extension for SQL and the Oracle relational database.
+```sql
+DECLARE NAME VARCHAR2(10) := 'HR';
+```
