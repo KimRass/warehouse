@@ -14,29 +14,47 @@
 - `TIME`: A time. Format: `hh:mm:ss`.
 - `DATETIME`: A date and time combination. Format: `YYYY-MM-DD hh:mm:ss`.
 
-
-
 # Execution Order
 - `FROM` -> `WHERE` -> `GROUP BY` -> `HAVING` -> `SELECT` -> `ORDER BY` -> `LIMIT` or `TOP`
-
-
+	- `ORDER BY`가 정렬을 하는 시점은 모든 실행이 끝난 후 데이터를 출력하기 바로 직전이다.
 
 # Error Messages
 ## Column <<COLUMN1>> is invalid in the ORDER BY clause because it is not contained in either an aggregate function or the GROUP BY clause.
 
-
+# Operator Precedence Rules
+- Parentheses -> Arithmetic Operators(`*`, `/` -> `+`, `-`) -> Concatenation Operator(`||`) -> Comparison Operators(`=`, `!=`, `<`, `<=`, `>`, `>=`) -> `IS`(`IS NULL`, `IS NOT NULL`, `IS EMPTY`, `IS NOT EMPTY`) -> (`BETWEEN`, `LIKE`, `IN()`( -> Logical Operatiors(`NOT` -> `AND` -> `OR`)
 
 # DDL(Data Definition Language)
 - Oracle database implicitly commits the current transaction before and after every DDL statement.
 - `CREATE`, `ALTER`, `DROP`, `TRUNCATE`,  `RENAME`
 ## `CREATE`
 ### `CREATE TABLE`
-#### CREATE TABLE PRIMARY KEY
-#### `CREATE TABLE FOREIGN KEY REFERENCES`
+#### `CREATE TABLE (NOT NULL, DEFAULT, UNIQUE, CHECK, PRIMARY KEY, FOREIGN KEY REFERENCES)`
+- `NOT NULL`: Ensures that a column cannot have NULL value.
+- `DEFAULT`: Provides a default value for a column when none is specified.
+- `UNIQUE`: Ensures that all values in a column are different.
+- `CHECK`: Ensures that all the values in a column satisfies certain conditions.
+- `PRIMARY KEY`: Uniquely identifies each record in a database table.
+- `FOREIGN KEY REFERENCES`: Uniquely identifies a record in any of the given database table.
 ```sql
-CREATE TABLE orders (order_id INT NOT NULL, order_no INT NOT NULL,
-person_id INT, PRIMARY KEY(order_id), FOREIGN KEY(person_id) REFERENCES persons(person_id));
+CREATE TABLE orders(
+	order_id INT NOT NULL PRIMARY KEY,
+	order_no INT NOT NULL,
+	person_id INT FOREIGN KEY REFERENCES persons(person_id));
 ```
+- For defining a primary key on multiple columns, the statement should be like;
+	```sql
+	CREATE TABLE orders(
+		order_id INT NOT NULL,
+		order_no INT NOT NULL,
+		person_id INT,
+		PRIMARY KEY(order_id),
+		FOREIGN KEY(person_id) REFERENCES persons(person_id));
+	```
+##### `CREATE TABLE (FOREIGN KEY REFERENCES ON DELETE CASCADE)`
+- Source: http://www.dba-oracle.com/t_foreign_key_on_delete_cascade.htm
+- When you create a foreign key constraint, Oracle default to `ON DELETE RESTRICT` to ensure that a parent rows cannot be deleted while a child row still exists. However, you can also implement `ON DELETE CASCADE` to delete all child rows when a parent row is deleted.
+- Using `ON DELETE CASCADE` and `ON DELETE RESTRICT` is used when a strict one-to-many relationship exists such that any "orphan" row violates the integrity of the data.
 ### `CREATE VIEW AS SELECT FROM`
 ### `CREATE ROLE`
 - Source: https://www.programmerinterview.com/database-sql/database-roles/
@@ -58,7 +76,7 @@ ALTER TABLE users
 ##### `ALTER TABLE ADD AFTER`
 ##### `ALTER TABLE ADD PRIMARY KEY`
 ##### ALTER TABLE ADD()
-#### `ALTER TABLE ALTER COLUMN` (for MS SQL Server), `ALTER TABLE MODIFY` (for Oracle), `ALTER TABLE MODIFY COLUMN` (for MySQL)
+#### `ALTER TABLE ALTER COLUMN` (MS SQL Server), `ALTER TABLE MODIFY` (Oracle), `ALTER TABLE MODIFY COLUMN` (MySQL)
 - Change the data type of a column in a table.
 ```sql
 ALTER TABLE users
@@ -112,8 +130,6 @@ ADD Email VARCHAR(255);
 RENAME TABLE old_table1 TO new_table1, old_table2 TO new_table2, old_table3 TO new_table3;
 ```
 
-
-
 # DCL(Data Control Language)
 ## `GRANT ON TO`, `REVOKE ON TO`
 ```sql
@@ -126,8 +142,6 @@ TO <<User>>
 - `RESOURCE`: 테이블 등 생성 권한.
 ```sql
 ## `WITH GRANT OPTION`
-
-
 
 # TCL(Transaction Control Language)
 ## `COMMIT`
@@ -144,8 +158,6 @@ SAVEPOINT <<Savepoint Name>>
 ```sql
 ROLLBACK TO <<Savepoint Name>>
 ```
-
-
 
 # `INFORMATION_SCHEMA`
 ## `INFORMATION_SCHEMA.TABLES`
@@ -167,17 +179,14 @@ FROM INFORMATION_SCHEMA.TALBE_CONTSTRAINTS
 WHERE TABLE_NAME = `users`;
 ```
 
-
-
-# `DUAL` (for Oracle)
+# `DUAL` (Oracle)
 - Oracle provides you with the DUAL table which is a special table that belongs to the schema of the user SYS but it is accessible to all users.
 - The `DUAL` table has one column named `DUMMY` whose data type is `VARCHAR2()` and contains one row with a value `X`.
 - By using the `DUAL` table, you can execute queries that contain functions that do not involve any table
 
-
-
 # DML(Data Manipulation Language)
-## `SELECT`
+- `INSERT`, `UPDATE`, `DELETE`, `SELECT`
+## `INSERT`
 ### `INSERT INTO VALUES()`
 ```sql
 INSERT INTO customers 
@@ -203,9 +212,54 @@ WHERE emp_no = 100;
 DELETE FROM emp
 WHERE emp_no = 100;
 ```
+## `SELECT TOP FROM` (MS SQL Server), `SELECT FROM LIMIT` (MySQL), `SELECT FROM FETCH FIRST ROWS ONLY` (Oracle)
+```sql
+SELECT TOP 1 months*salary, COUNT(employee_id)
+FROM employee
+GROUP BY months*salary
+ORDER BY months*salary DESC;
+```
+```sql
+SELECT *
+FROM Customers
+FETCH FIRST 3 ROWS ONLY;
+```
+### `SELECT TOP PERCENT FROM` (MS SQL Server), `SELECT FROM FETCH FIRST PERCENT ROWS ONLY` (Oracle)
+## `SELECT ROWNUM FROM`
+```sql
+SELECT ROWNUM, pr.product_name, pr.standard_cost
+FROM products AS pr
+```
+- `ROWNUM`과 `ORDER BY`를 같이 사용할 경우 매겨놓은 순번이 섞여버리는 현상이 발생합니다.
+- 이 때, Inline view에서 먼저 정렬을 하고 순번을 매기는 방법으로 정렬된 데이터에 순번을 매길 수 있습니다.
+## `ROW_NUMBER()`
+- Inline view를 사용하지 않고도 어떤 값의 순서대로 순번을 매길 수 있습니다. 
+## `SELECT FROM WHERE EXISTS()`
+- Source: https://www.w3schools.com/sql/sql_exists.asp
+- The `EXISTS` operator is used to test for the existence of any record in a subquery.
+- The `EXISTS` operator returns `TRUE` if the subquery returns one or more records.
+```sql
+SELECT *
+FROM customers
+WHERE EXISTS(
+	SELECT *
+	FROM orders
+	WHERE orders.c_id = customers.c_id);
+```
+- 주문한 적이 있는 고객 정보를 조회하는 query.
+```sql
+SELECT SupplierName
+FROM Suppliers
+WHERE EXISTS (
+	SELECT ProductName
+	FROM Products
+	WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
+```
+- The above SQL statement returns `TRUE` and lists the suppliers with a product price less than 20.
+
 ## UNION, UNION ALL
 - `UNION` selects only distinct values by default. To allow duplicate values, use `UNION ALL`
-## `MINUS` (for Oracle), `EXCEPT` (for MS SQL Server)
+## `MINUS` (Oracle), `EXCEPT` (MS SQL Server)
 - Return all rows in the first `SELECT` statement that are not returned by the second `SELECT` statement.
 ## `START WITH CONNECT BY PRIOR ORDER SIBLINGS BY`
 - `START WITH` specifies the root row(s) of the hierarchy. `START WITH` 다음에 조건을 명시할 수도 있다.
@@ -242,56 +296,26 @@ FROM dbo.성적	UNPIVOT (점수	FOR 과목 IN(국어, 수학, 영어)) AS UNPVT
 ```
 - `PIVOT` transforms rows to columns.
 - `UNPIVOT` transforms columns to rows.
-## TOP (for MS SQL Server), LIMIT (for MySQL)
-```sql
-SELECT TOP 1 months*salary, COUNT(employee_id)
-FROM employee
-GROUP BY months*salary
-ORDER BY months*salary DESC;
-```
-## `EXISTS()`
-- Source: https://www.w3schools.com/sql/sql_exists.asp
-- The `EXISTS` operator is used to test for the existence of any record in a subquery.
-- The `EXISTS` operator returns `TRUE` if the subquery returns one or more records.
-```sql
-SELECT *
-FROM customers
-WHERE EXISTS(
-	SELECT *
-	FROM orders
-	WHERE orders.c_id = customers.c_id);
-```
-- 주문한 적이 있는 고객 정보를 조회하는 query.
-```sql
-SELECT SupplierName
-FROM Suppliers
-WHERE EXISTS (
-	SELECT ProductName
-	FROM Products
-	WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
-```
-- The above SQL statement returns `TRUE` and lists the suppliers with a product price less than 20.
-
 
 # Logical Functions
-## `COALESCE()` (for MySQL)
+## `COALESCE()` (MySQL)
 ```sql
 SELECT COALESCE(col1, col2*10, 100)
 FROM table
 ```
-## `ISNULL()` (for MS SQL Server)
-## `NVL()`/`NVL2() (for Oracle)
+## `ISNULL()` (MS SQL Server)
+## `NVL()`/`NVL2() (Oracle)
 ```sql
 NVL(<<Column>>, <<Value if NULL>>)
 NVL2(<<Column>>, <<Value if not NULL>>, <<Value if NULL>>)
 ```
-## `IFNULL()` (for MySQL)
+## `IFNULL()` (MySQL)
 ```sql
 SELECT animal_type, IFNULL(name, "No name"), sex_upon_intake
 FROM animal_ins
 ORDER BY animal_id
 ```
-## `NULLIF()` (for Oracle, MS SQL Server)
+## `NULLIF()` (Oracle, MS SQL Server)
 - Return `NULL` if two expressions are equal, otherwise return the first expression.
 ## `IS NULL`, `IS NOT NULL`
 - Source: https://www.w3schools.com/sql/sql_null_values.asp
@@ -323,8 +347,6 @@ FROM usertbl
 WHERE addr IN("서울", "경기", "충청");
 ```
 
-
-
 # Numeric Functions
 ## CEILING(), FLOOR()
 ## FORMAT()
@@ -339,50 +361,42 @@ FROM sqlDB.usertbl
 WHERE height BETWEEN 180 AND 183;
 ```
 
-
-
 # String Functions
-## REPLACE()
+## `REPLACE()`
 ```sql
 SELECT CAST(CEILING(AVG(CAST(salary AS FLOAT)) - AVG(CAST(REPLACE(CAST(salary AS FLOAT), "0", "") AS FLOAT))) AS INT)
 FROM employees;
 ```
-## LEFT(), RIGHT(), SUBSTRING()
+## `LEFT()`, `RIGHT()`
 ```sql
 SELECT DISTINCT city
 FROM station
 WHERE RIGHT(city, 1) IN ("a", "e", "i", "o", "u");
 ```
+## `SUBSTRING()`
 ## LOWER(), UPPER(), INITCAP()
 ## LPAD(), RPAD()
 ```sql
 SELECT LPAD("이것이", 5, "##")
 ```
-## LTRIM(), RTRIM()
-```sql
-SELECT LTRIM("    좌측공백제거");
-```
-## TRIM()
-### BOTH, LEADING, TRAILING
+## `LTRIM()`, `RTRIM()`
+## `TRIM()`
+### `SELECT TRIM(BOTH) FROM`, `SELECT TRIM(LEADING) FROM`, `SELECT TRIM(TRAILING) FROM`
 ```sql
 SELECT TRIM("   좌우측공백삭제   ";
 SELECT TRIM(BOTH "ㅋ" FROM "ㅋㅋㅋ좌우측문자삭제ㅋㅋㅋ");
 SELECT TRIM(LEADING "ㅋ" FROM "ㅋㅋㅋ좌측문자삭제ㅋㅋㅋ");
 SELECT TRIM(TRAILING "ㅋ" FROM "ㅋㅋㅋ우측문자삭제ㅋㅋㅋ");
 ```
-## CONCAT()
+## `CONCAT()`
 ```sql
-SELECT
-CONCAT(CASE hdc_mbr.mbr_mst.mbr_sex
-WHEN "0" THEN "남자"
-WHEN "`" THEN "여자"
-END, "/", hdc_mbr.mbr_mst.mbr_birth)
+SELECT CONCAT(CASE hdc_mbr.mbr_mst.mbr_sex WHEN '0' THEN '남자' WHEN '`' THEN '여자' END, '/', hdc_mbr.mbr_mst.mbr_birth)
 ```
 ## CONCAT_WS()
 ```sql
 SELECT CONCAT_WS("/", "2020", "01", "12");
 ```
-## LIKE
+## `SELECT FROM WHERE LIKE`
 ```sql
 SELECT DISTINCT city
 FROM station
@@ -390,11 +404,14 @@ WHERE city LIKE "%a" OR city LIke "%e" OR city LIKE "%i" OR city LIKE "%o" OR ci
 ```
 - `%` represents zero, one, or multiple characters.
 - `_` represents one, single character.
-
-
+## `SELECT TO_CHAR() FROM`
+- Used to convert a number or date to a string.
+```sql
+TO_CHAR(mbrmst.mbr_leaving_expected_date, "YYYY/MM/DD") AS mbr_leaving_expected_dt
+```
 
 # Date Functions
-## HOUR()
+## `HOUR()`
 ```sql
 SELECT HOUR(datetime) AS HOUR, COUNT(*)
 FROM animal_outs
@@ -404,19 +421,13 @@ ORDER BY HOUR;
 ```
 - HOUR()는 일반조건이므로 (COUNT()와 달리) HAIVNG과 함께 쓸 수 없다.
 ```
-## SYSDATE (for Oracle), SYSDATE() (for MySQL)
-## DATEADD()
-## DATEDIFF()
+## `SYSDATE` (Oracle), `SYSDATE()` (MySQL)
+## `EXTRACT('YEAR' FROM)`, `EXTRACT('MONTH' FROM)`, `EXTRACT('DAY' FROM)`
+## `DATEADD()`
+## `DATEDIFF(YEAR)`, `DATEDIFF(MONTH)`, `DATEDIFF(DAY)`
 ```sql
 DATEDIFF(DAY, A.start_date, MIN(B.end_date))
 ```
-## TO_CHAR()
-- Used to convert a number or date to a string.
-```sql
-TO_CHAR(mbrmst.mbr_leaving_expected_date, "YYYY/MM/DD") AS mbr_leaving_expected_dt
-```
-
-
 
 # Window Functions
 - `SUM()`, `MAX()`, `MIN()`, `RANK()`
@@ -431,8 +442,6 @@ SELECT month, SUM(tot_sales) AS monthly_sales,
 	AVG(SUM(tot_sales)) OVER(ORDER BY month RANGE BETWEEN 1 PRECEDING AND 1 FOLLOWING) AS rolling_avg
 FROM orders
 ```
-
-
 
 # Rank Functions
 ## `RANK() OVER(ORDER BY)`
@@ -449,20 +458,18 @@ FROM employee;
 ## `NTILE() OVER ()`
 - 뒤에 함께 적어주는 숫자 만큼 등분.
 
-
-
 # Aggregate Functions
-## `MIN()`, `MAX()`, `AVG()`, `SUM()`
+## `MIN()`, `MAX()`, `AVG()`, `SUM()`, `STDDEV()`, `VARIAN()`
 ## `COUNT()`
 - `COUNT(*)`, `COUNT(1)`, ...: Return the number of rows in the table.
 - `COUNT(<<Column>>)`: Return the number of non-NULL values in the column.
-- `COUNT(DISTINCT <<Column>>): Return the number of distinct non-NULL values in the column.
-
-
+- `COUNT(DISTINCT <<Column>>)`: Return the number of distinct non-NULL values in the column.
 
 # Group Functions
-## `GROUP BY`
-### `GROUP BY ROLLUP()`
+## `SELECT FROM GROUP BY`
+- `GROUP BY` treats `NULL` as valid values.
+- All `NULL` values are grouped into one value or bucket.
+### `SELECT FROM GROUP BY ROLLUP()`
 ```sql
 SELECT DEPARTMENT_ID, JOB_ID, SUM(SALARY)
 FROM EMPLOYEES
@@ -470,15 +477,14 @@ WHERE DEPARTMENT_ID > 80
 GROUP BY ROLLUP(DEPARTMENT_ID, JOB_ID)
 ORDER BY DEPARTMENT_ID;
 ```
-### `GROUP BY CUBE()`
+### `SELECT FROM GROUP BY CUBE()`
 - Generate subtotals for all combinations of the dimensions specified.
 ```sql
 SELECT dname, job, SUM(sal)
 FROM test18
 GROUP BY CUBE(dname, job);
 ```
-### `GROUP BY GROUPING SETS()`
-- 인자 컬럼인 경우: `GROUP BY
+### `SELECT FROM GROUP BY GROUPING SETS()`
 - `GROUP BY GROUPING SETS(<<Column>>)`
 	- `GROUP BY <<Column>>`과 동일.
 - `GROUP BY GROUPING SETS((<<Column1>>, <<Column2>>, ...))`
@@ -492,8 +498,6 @@ FROM EMPLOYEES
 WHERE DEPARTMENT_ID > 80
 GROUP BY GROUPING SETS((DEPARTMENT_ID, JOB_ID), ());
 ```
-
-
 
 # Subquery
 - Source: https://www.geeksforgeeks.org/sql-subquery/
@@ -516,6 +520,7 @@ GROUP BY GROUPING SETS((DEPARTMENT_ID, JOB_ID), ());
 	- `IN()`, `ALL()`, `ANY()`, `EXISTS()`
 - A subquery can be placed in `WHERE` clause(Subquery), `HAVING` clause, `FROM` clause(Inline View), `SELECT` clause(Scala Subquery).
 ## Inline View
+- Subquery in the `FROM` clause of a `SELECT` statement.
 ```sql
 SELECT hacker_id, name
 FROM (

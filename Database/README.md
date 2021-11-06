@@ -3,13 +3,6 @@ Written by KimRass
 - Source: https://www.tutorialspoint.com/sql/sql-constraints.htm
 - Constraints are the rules enforced on the data columns of a table. These are used to limit the type of data that can go into a table. This ensures the accuracy and reliability of the data in the database.
 - Constraints could be either on a column level or a table level. The column level constraints are applied only to one column, whereas the table level constraints are applied to the whole table.
-## NOT NULL Constraint: Ensures that a column cannot have NULL value.
-## DEFAULT Constraint: Provides a default value for a column when none is specified.
-## UNIQUE Constraint: Ensures that all values in a column are different.
-## PRIMARY Key: Uniquely identifies each record in a database table.
-## FOREIGN Key: Uniquely identifies a record in any of the given database table.
-## CHECK Constraint: Ensures that all the values in a column satisfies certain conditions.
-## INDEX: Used to create and retrieve data from the database very quickly.
 
 # Key
 - Source: https://www.guru99.com/dbms-keys.html
@@ -53,6 +46,7 @@ Written by KimRass
 - Clustered index stores data pages in the leaf nodes of the index while Non-clustered index method never stores data pages in the leaf nodes of the index.
 - Clustered index doesn’t require additional disk space whereas the non-clustered index requires additional disk space.
 - Clustered index offers faster data accessing, on the other hand, non-clustered index is slower.
+- 순차 인덱스, 결합 인덱스, 해시 인덱스, 비트맵, 클러스터
 ## Clustered Index
 - In the database, there is only one clustered index per table.
 - A clustered index defines the order in which data is stored in the table which can be sorted in only one way.
@@ -138,9 +132,25 @@ Written by KimRass
 ### Partitioning Criteria
 - Range partitioning: selects a partition by determining if the partitioning key is within a certain range.
 - List partitioning: a partition is assigned a list of values. If the partitioning key has one of these values, the partition is chosen.
-- Composite partitioning
 - Round-robin partitioning
 - Hash partitioning
+- Composite partitioning
+## Partition Index
+### Global Partition Index
+- A global partitioned index is an index on a partitioned or non-partitioned table that is partitioned independently, i.e. using a different partitioning key from the table.
+- Table partition key와 Index partition key가 서로 다르다.
+- Partition key에 대해 생성한 Index.
+#### Global Prefixed Index
+#### Global Non-Prefixed Index
+### Local Partition Index
+- A local index on a partitioned table is created where the index is partitioned in exactly the same manner as the underlying partitioned table. That is, the local index inherits the partitioning method of the table. This is known as equi-partitioning.
+- The table and local index are either partitioned in exactly the same manner, or have the same partition key because the local indexes are automatically maintained, can offer higher availability.
+- - Table partition key와 Index partition key가 서로 같다.
+#### Local Prefixed Index
+#### Local Non-Prefixed Index
+Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 같다.
+Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다.
+## Non-Partition Index
 
 # Wireframe & Storyboard
 ## Wireframe
