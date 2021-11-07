@@ -1,9 +1,11 @@
 # Data Types
 ## String
-- `CHAR(size)`: A fixed length string.
+- `CHAR(n)`: A fixed length string.
 	- Blank-Padded Comparison Semantics: With blank-padded semantics, if the two values have different lengths, then Oracle first adds blanks to the end of the shorter one so their lengths are equal. Oracle then compares the values character by character up to the first character that differs. The value with the greater character in the first differing position is considered greater. If two values have no differing characters, then they are considered equal. This rule means that two values are equal if they differ only in the number of trailing blanks.
-- `VARCHAR(size)`: A variable length string.
+- `VARCHAR(n)`: A variable length string.
 	- Nonpadded Comparison Semantics: With nonpadded semantics, Oracle compares two values character by character up to the first character that differs. The value with the greater character in that position is considered greater. If two values of different length are identical up to the end of the shorter one, then the longer value is considered greater. If two values of equal length have no differing characters, then the values are considered equal.
+- `VARCHAR2(n)
+	- There is no difference between `VAHRCHAR` and `VARCHAR2` in Oracle. However, it is advised not to use `VARCHAR` for storing data as it is reserved for future use for storing some other type of variable. Hence, always use `VARCHAR2` in place of `VARCHAR`.
 ## Numeric
 - `BOOL`: Zero is considered as false, nonzero values are considered as true.
 - `INT`
@@ -15,7 +17,7 @@
 - `DATETIME`: A date and time combination. Format: `YYYY-MM-DD hh:mm:ss`.
 
 # Execution Order
-- `FROM` -> `WHERE` -> `GROUP BY` -> `HAVING` -> `SELECT` -> `ORDER BY` -> `LIMIT` or `TOP`
+- `FROM` -> `WHERE` -> `GROUP BY` -> `HAVING` -> `SELECT` -> `ORDER BY` -> `LIMIT`, `TOP` or `FETCH`
 	- `ORDER BY`가 정렬을 하는 시점은 모든 실행이 끝난 후 데이터를 출력하기 바로 직전이다.
 
 # Error Messages
@@ -185,7 +187,7 @@ WHERE TABLE_NAME = `users`;
 - By using the `DUAL` table, you can execute queries that contain functions that do not involve any table
 
 # DML(Data Manipulation Language)
-- `INSERT`, `UPDATE`, `DELETE`, `SELECT`
+- `INSERT`(Create), `SELECT`(Read), `UPDATE`(Update), `DELETE`(Delete)
 ## `INSERT`
 ### `INSERT INTO VALUES()`
 ```sql
@@ -326,6 +328,14 @@ ORDER BY animal_id
 SELECT CASE WHEN (a >= b + c OR b >= c + a OR c >= a + b) THEN "Not A Triangle" WHEN (a = b AND b = c) THEN "Equilateral" WHEN (a = b OR b = c OR c = a) THEN "Isosceles" ELSE "Scalene" END
 FROM triangles;
 ```
+## `DECODE()`
+```sql
+DECODE(<<Expression>>, <<Search1>>, <<Result1>>, ..., <<Default>>)
+```
+- <<Expression>>: It is used to specify the value to be compared.
+- <<Search1>>, ...: It is used to specify the value to be compared against expression.
+- <<Result1>>, ...: It is used to specify the value to return, if expression is equal to search.
+- <<Default>>: (Optional) It is used to specify the default value to be returned if no matches are found.
 ## `ANY()`
 - Return `TRUE` if any of the subquery values meet the condition.
 ```sql
@@ -348,13 +358,13 @@ WHERE addr IN("서울", "경기", "충청");
 ```
 
 # Numeric Functions
-## CEILING(), FLOOR()
-## FORMAT()
+## `CEILING()`, `FLOOR()`
+## `FORMAT()`
 ```sql
 SELECT FORMAT(123456.123456, 4);
 ```
 - 출력할 소수점 이하 자릿수 지정. 
-# BETWEEN AND
+# `BETWEEN AND`
 ```sql
 SELECT name, height
 FROM sqlDB.usertbl
@@ -413,11 +423,11 @@ TO_CHAR(mbrmst.mbr_leaving_expected_date, "YYYY/MM/DD") AS mbr_leaving_expected_
 # Date Functions
 ## `HOUR()`
 ```sql
-SELECT HOUR(datetime) AS HOUR, COUNT(*)
+SELECT HOUR(datetime) AS hour, COUNT(*)
 FROM animal_outs
-GROUP BY HOUR
-HAVING HOUR BETWEEN 9 AND 19
-ORDER BY HOUR;
+GROUP BY hour
+HAVING hour BETWEEN 9 AND 19
+ORDER BY hour;
 ```
 - HOUR()는 일반조건이므로 (COUNT()와 달리) HAIVNG과 함께 쓸 수 없다.
 ```
@@ -430,7 +440,7 @@ DATEDIFF(DAY, A.start_date, MIN(B.end_date))
 ```
 
 # Window Functions
-- `SUM()`, `MAX()`, `MIN()`, `RANK()`
+- `SUM()`, `MAX()`, `MIN()`, `RANK()`에 적용 가능합니다.
 ## `OVER(PARTITION BY ORDER BY ROWS)`, `OVER(PARTITION BY ORDER BY RANGE)`
 - `ROWS` is used to specify which rows to include in the aggregation.
 - `RANGE` can be used to let Oracle determine which rows lie within the range.
@@ -444,19 +454,24 @@ FROM orders
 ```
 
 # Rank Functions
+- Source: https://codingsight.com/similarities-and-differences-among-rank-dense_rank-and-row_number-functions/, https://www.sqlshack.com/overview-of-sql-rank-functions/
 ## `RANK() OVER(ORDER BY)`
-- 중복 값들에 대해서 동일 순위로 표시하고, 중복 순위 다음 값에 대해서는 중복 개수만큼 떨어진 순위로 출력.
+- If there is a tie between N previous records for the value in the `ORDER BY` column, the `RANK()` function skips the next N-1 positions before incrementing the counter.
+- e.g., 1, 2, 2, 4, 4, 4, 7
 ```sql
 SELECT emp_no, emp_nm, sal,
 	RANK() OVER(ORDER BY salary DESC) ranking
 FROM employee;
 ```
+### `RANK() OVER(PARTITION BY ORDER BY)`
 ## `DENSE_RANK() OVER(ORDER BY)`
-- 중복 값들에 대해서 동일 순위로 표시하고, 중복 순위 다음 값에 대해서는 중복 값 개수와 상관없이 순차적인 순위 값을 출력.
+- `DENSE_RANK()` function does not skip any ranks if there is a tie between the ranks of the preceding records.
+- e.g., 1, 2, 2, 3, 3, 3, 4)
+### `DENSE_RANK() OVER(PARTITION BY ORDER BY)`
 ## `ROW_NUMBER() OVER(ORDER BY)`
-- 중복 값들에 대해서도 순차적인 순위를 표시하도록 출력.
-## `NTILE() OVER ()`
-- 뒤에 함께 적어주는 숫자 만큼 등분.
+- Give a unique sequential number for each row in the specified data. It gives the rank one for the first row and then increments the value by one for each row. We get different ranks for the row having similar values as well.
+- e.g., 1, 2, 3, 4, 5, 6, 7)
+### `ROW_NUMBER() OVER(PARTITION BY ORDER BY)`
 
 # Aggregate Functions
 ## `MIN()`, `MAX()`, `AVG()`, `SUM()`, `STDDEV()`, `VARIAN()`
@@ -470,13 +485,7 @@ FROM employee;
 - `GROUP BY` treats `NULL` as valid values.
 - All `NULL` values are grouped into one value or bucket.
 ### `SELECT FROM GROUP BY ROLLUP()`
-```sql
-SELECT DEPARTMENT_ID, JOB_ID, SUM(SALARY)
-FROM EMPLOYEES
-WHERE DEPARTMENT_ID > 80
-GROUP BY ROLLUP(DEPARTMENT_ID, JOB_ID)
-ORDER BY DEPARTMENT_ID;
-```
+- `GROUP BY ROLLUP(<<Column1>>, <<Column2>>, ...)` is same as `GROUP BY GROUPING SETS(<<Column1>>, (<<Column1>>, <<Column2>>), ..., ())`
 ### `SELECT FROM GROUP BY CUBE()`
 - Generate subtotals for all combinations of the dimensions specified.
 ```sql
@@ -497,6 +506,22 @@ SELECT DEPARTMENT_ID, JOB_ID, SUM(SALARY)
 FROM EMPLOYEES
 WHERE DEPARTMENT_ID > 80
 GROUP BY GROUPING SETS((DEPARTMENT_ID, JOB_ID), ());
+```
+
+# Join
+## Equi Join
+- Source: https://www.w3resource.com/sql/joins/perform-an-equi-join.php
+- Equi join performs a join against equality or matching column(s) values of the associated tables. An equal sign(`=`) is used as comparison operator in the where clause to refer equality.
+## Non-Equi Join
+- Source: https://learnsql.com/blog/illustrated-guide-sql-non-equi-join/
+- `!=`, `<`, `<=`, `>`, `>=`, `BETWEEN AND`
+## `INNER JOIN`, `LEFT OUTER JOIN`, `LEFT OUTER JOIN`, `FULL OUTER JOIN`
+## `CROSS JOIN`
+- In Mathematics, given two sets `A` and `B`, the Cartesian product of `AxB` is the set of all ordered pair `(a, b)`, which `a` belongs to `A` and `b` belongs to `B`.
+```sql
+SELECT column_list
+FROM t1 
+	CROSS JOIN t2; 
 ```
 
 # Subquery

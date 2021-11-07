@@ -225,6 +225,9 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - e.g., camel_case_var.
 
 # CRUD Matrix
+- https://en.wikipedia.org/wiki/Create,_read,_update_and_delete
+- The four basic operations of persistent storage.
+- Create, Read, Update, Delete.
 # Transaction
 - Source: https://en.wikipedia.org/wiki/Database_transaction
 - A database transaction symbolizes a unit of work performed within a database management system (or similar system) against a database, and treated in a coherent and reliable way independent of other transactions.
@@ -293,7 +296,7 @@ HeidiSQL, DBeaver, DataGrip
 
 # Distributed Database
 - Source: https://en.wikipedia.org/wiki/Distributed_database
-- A distributed database is a database in which data is stored across different physical locations.[1] It may be stored in multiple computers located in the same physical location (e.g. a data centre); or maybe dispersed over a network of interconnected computers.
+- A distributed database is a database in which data is stored across different physical locations.[1] It may be stored in multiple computers located in the same physical location (e.g., a data center); or maybe dispersed over a network of interconnected computers.
 - Because distributed databases store data across multiple computers, distributed databases may improve performance at end-user worksites by allowing transactions to be processed on many machines, instead of being limited to one.
 - Two processes ensure that the distributed databases remain up-to-date and current: replication and duplication.
 	- Replication involves using specialized software that looks for changes in the distributive database. Once the changes have been identified, the replication process makes all the databases look the same. The replication process can be complex and time-consuming, depending on the size and number of the distributed databases. This process can also require much time and computer resources.
@@ -312,15 +315,19 @@ HeidiSQL, DBeaver, DataGrip
 - This algorithm is simple, but it requires that the smaller join relation fits into memory, which is sometimes not the case.
 - Source: https://coding-factory.tistory.com/758
 - 비용 기반 옵티마이저를 사용할 때만 사용될 수 있는 조인 방식.
-- `=` 비교를 통한 조인에서만 사용될 수 있습니다.
+- Equi join에서만 사용될 수 있습니다.
 - 해시 테이블을 생성하는 비용이 수반되므로 이 과정을 효율화하는 것이 성능 개선에 있어 가장 중요합니다.
 - Build Input 해시 키 칼럼에 중복 값이 거의 없어야 효율적인 동작을 기대할 수 있습니다.
-- 많은 메모리와 CPU 자원을 소모.
+- 수행 빈도가 낮고 수행 시간이 오래 걸리는 대용량 테이블에 대해 유용합니다.
 ## Nested Loop Join
 - Random access: This technique is only applicable when the joining column(s) of the inner side table is already sorted (indexed).
 - Outer table, Inner table, Index
 - Source: https://en.wikipedia.org/wiki/Nested_loop_join
 - A nested loop join is a naive algorithm that joins two sets by using two nested loops.
+- OLTP(OnLine Transaction Processing)에 유용합니다.
+- 적은 데이터를 Join할 때 유리합니다.
+## Merge Join
+- Equi join과 Non-equi join 모두에서 사용할 수 있습니다.
 
 # NULL
 - Source: https://en.wikipedia.org/wiki/Null_(SQL)
@@ -333,3 +340,22 @@ HeidiSQL, DBeaver, DataGrip
 ```sql
 DECLARE NAME VARCHAR2(10) := 'HR';
 ```
+```sql
+SELECT name
+INTO v_name
+FROM emp;
+```
+
+# Relational Operation
+- SELECT, PROJECT, JOIN, DIVISION
+
+# Execution Plan
+- 사용자가 SQL을 실행하여 데이터를 추출하려고 할 때 옵티마이저가 수립하는 작업절차를 뜻한다.
+- SQL 해석 -> 실행계획 수립 -> 실행
+## Optimizer
+- 사용자가 질의한 SQL문에 대해 최적의 실행 방법(= Execution Plan)을 결정하는 역할 수행.
+- 어떤 방법으로 처리하는 것이 최소 일량으로 동일한 일을 처리할 수 있을지 결정하는 것
+### RBO(Rule-Based Optimizer)
+- 규칙(우선 순위)을 가지고 실행계획을 생성, 실행계획을 생성하는 규칙을 이해하면 누구나 실행계획을 비교적 쉽게 예측 가능.
+### CBO(Cost-Based Optimizer)
+- 비용(예상되는 소요시간, 자원 사용량)이 가장 적은 실행계획을 선택하는 방식, 규칙기반 옵티마이저의 단점을 극복하기 위해서 출현.
