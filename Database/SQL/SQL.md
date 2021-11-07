@@ -23,7 +23,10 @@
 # Error Messages
 ## Column <<COLUMN1>> is invalid in the ORDER BY clause because it is not contained in either an aggregate function or the GROUP BY clause.
 
-# Operator Precedence Rules
+# Operators
+## Concatenation Operator `||`
+- The result of concatenating two character strings is another character string.
+## Operator Precedence Rules
 - Parentheses -> Arithmetic Operators(`*`, `/` -> `+`, `-`) -> Concatenation Operator(`||`) -> Comparison Operators(`=`, `!=`, `<`, `<=`, `>`, `>=`) -> `IS`(`IS NULL`, `IS NOT NULL`, `IS EMPTY`, `IS NOT EMPTY`) -> (`BETWEEN`, `LIKE`, `IN()`( -> Logical Operatiors(`NOT` -> `AND` -> `OR`)
 
 # DDL(Data Definition Language)
@@ -150,12 +153,14 @@ TO <<User>>
 - Source: https://www.geeksforgeeks.org/difference-between-commit-and-rollback-in-sql/
 - `COMMIT` is used to permanently save the changes done in the transaction in tables/databases. The database cannot regain its previous state after the execution of it.
 ## `SAVEPOINT`
-- Use the `SAVEPOINT` statement to identify a point in a transaction to which you can later roll back.
 ```sql
 SAVEPOINT <<Savepoint Name>>
 ```
+- Use the `SAVEPOINT` statement to identify a point in a transaction to which you can later roll back.
+- If you give two savepoints the same name, the earlier savepoint is erased.
 ## `ROLLBACK`
 - `ROLLBACK` is used to undo the transactions that have not been saved in database. The command is only be used to undo changes since the last `COMMIT`.
+- Rolling back to a savepoint erases any savepoints marked after that savepoint. However, the savepoint to which you rollback is not erased.
 ### `ROLLBACK TO`
 ```sql
 ROLLBACK TO <<Savepoint Name>>
@@ -188,11 +193,11 @@ WHERE TABLE_NAME = `users`;
 
 # DML(Data Manipulation Language)
 - `INSERT`(Create), `SELECT`(Read), `UPDATE`(Update), `DELETE`(Delete)
+- `MERGE` (Oracle)
 ## `INSERT`
 ### `INSERT INTO VALUES()`
 ```sql
-INSERT INTO customers 
-(customername, address, city, postalcode, country)
+INSERT INTO customers(customername, address, city, postalcode, country)
 VALUES("Hekkan Burger", "Gateveien 15", "Sandnes", "4306", "Norway");
 ```
 - If you are adding values for all the columns of the table, you do not need to specify the column names in the SQL query.
@@ -200,20 +205,11 @@ VALUES("Hekkan Burger", "Gateveien 15", "Sandnes", "4306", "Norway");
 ```sql
 SELECT INSERT("abcdefghi", 3, 2, "####");
 ```
-## `UPDATE`
-### `UPDATE SET FROM WHERE`
-```
-UPDATE emp
-SET ename = 'jojo'
-WHERE emp_no = 100;
-```
-## `DELETE`
-### `DELETE FROM WHERE`
-- Here we can use the `ROLLBACK` command to restore the tuple.
-```sql
-DELETE FROM emp
-WHERE emp_no = 100;
-```
+### `INSERT INTO SELECT`
+- Source: https://www.w3schools.com/sql/sql_insert_into_select.asp
+- The `INSERT INTO SELECT` statement copies data from one table and inserts it into another table.
+- The `INSERT INTO SELECT` statement requires that the data types in source and target tables matches.
+- The existing records in the target table are unaffected.
 ## `SELECT TOP FROM` (MS SQL Server), `SELECT FROM LIMIT` (MySQL), `SELECT FROM FETCH FIRST ROWS ONLY` (Oracle)
 ```sql
 SELECT TOP 1 months*salary, COUNT(employee_id)
@@ -258,16 +254,52 @@ WHERE EXISTS (
 	WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
 ```
 - The above SQL statement returns `TRUE` and lists the suppliers with a product price less than 20.
+## `UPDATE`
+### `UPDATE SET WHERE`
+```
+UPDATE emp
+SET ename = 'jojo'
+WHERE emp_no = 100;
+```
+## `DELETE`
+### `DELETE FROM WHERE`
+- Here we can use the `ROLLBACK` command to restore the tuple.
+```sql
+DELETE FROM emp
+WHERE emp_no = 100;
+```
+## `MERGE` (Oracle)
+- Source: https://www.oracletutorial.com/oracle-basics/oracle-merge/
+- The `MERGE` statement selects data from one or more source tables and updates or inserts it into a target table. The `MERGE` statement allows you to specify a condition to determine whether to update data from or insert data into the target table.
+- Because the `MERGE` is a deterministic statement, you cannot update the same row of the target table multiple times in the same `MERGE` statement.
+## `MERGE INTO USING ON WHEN MATCHED THEN UPDATE SET WHERE [DELETE WHERE] WHEN NOT MATCHED THEN INSERT () VALUES() WHERE`
+```sql
+MERGE INTO <<Target Table>>
+USING <<Source Table>> 
+ON <<Search Condition>>
+WHEN MATCHED THEN
+	UPDATE SET <<Column1>> = <<Value1>>, <<Column2>> = <<Value2>>, ...
+	WHERE <<Update Condition>>
+	[DELETE WHERE <<Delete Condition>>]
+WHEN NOT MATCHED THEN
+	INSERT (<<Column1>>, <<Column2>>, ...)
+	VALUE(<<Value1>>, <<Value2>>, ...)
+	WHERE <<Insert Condition>>;
+```
+- <<Search Condition>>
+	- For each row in the target table, Oracle evaluates the <<Search Condition>>
+		- If the result is true, then Oracle updates the row with the corresponding data from the source table.
+		- In case the result is false for any rows, then Oracle inserts the corresponding row from the source table into the target table.
+- <<Delete Condition>>
+	- You can add an optional `DELETE WHERE` clause to the `MATCHED` clause to clean up after a merge operation. The `DELETE` clause deletes only the rows in the target table that match both `ON` and `DELETE WHERE` clauses.
+	- Source: https://oracle-base.com/articles/10g/merge-enhancements-10g
+	- Only those rows in the destination table that match both the ON clause and the `DELETE WHERE` are deleted. If you add a `WHERE` clause to the update in the matched clause, we can think of this as additional match criteria for the delete, as only rows that are touched by the update are available for the `DELETE` clause to remove. Depending on which table the `DELETE WHERE` references, it can target the rows prior or post update.
 
-## UNION, UNION ALL
-- `UNION` selects only distinct values by default. To allow duplicate values, use `UNION ALL`
-## `MINUS` (Oracle), `EXCEPT` (MS SQL Server)
-- Return all rows in the first `SELECT` statement that are not returned by the second `SELECT` statement.
+# Hierarchical Queries
 ## `START WITH CONNECT BY PRIOR ORDER SIBLINGS BY`
 - `START WITH` specifies the root row(s) of the hierarchy. `START WITH` 다음에 조건을 명시할 수도 있다.
 - `CONNECT BY` specifies the relationship between parent rows and child rows of the hierarchy. It always joins a table to itself, not to another table.
 - `PRIOR` should occur exactly once in each `CONNECT BY` expression. `PRIOR` can occur on either the left-hand side or the right-hand side of the expression, but not on both.
-- If you want to order rows of siblings of the same parent, then use the `ORDER SIBLINGS BY` clause.
 ```sql
 SELECT last_name, employee_id, manager_id, LEVEL
 FROM employees
@@ -275,7 +307,8 @@ START WITH employee_id = 100
 CONNECT BY PRIOR employee_id = manager_id
 ORDER SIBLINGS BY last_name;
 ```
-- The `NOCYCLE` parameter in the `CONNECT BY` condition causes Oracle to return the rows in spite of the loop. The `CONNECT_BY_ISCYCLE` pseudocolumn shows you which rows contain the cycle.
+- If you want to order rows of siblings of the same parent, then use the `ORDER SIBLINGS BY` clause.
+- For each row returned by a hierarchical query, the `LEVEL` pseudocolumn returns 1 for a root row, 2 for a child of a root, and so on
 ```sql
 SELECT last_name "Employee", CONNECT_BY_ISCYCLE "Cycle",
 LEVEL, SYS_CONNECT_BY_PATH(last_name, '/') "Path"
@@ -284,6 +317,8 @@ WHERE level <= 3 AND department_id = 80
 START WITH last_name = 'King'
 CONNECT BY NOCYCLE PRIOR employee_id = manager_id AND LEVEL <= 4;
 ```
+- The `NOCYCLE` parameter in the `CONNECT BY` condition causes Oracle to return the rows in spite of the loop. The `CONNECT_BY_ISCYCLE` pseudocolumn shows you which rows contain the cycle.
+
 ## CAST()
 ```sql
 SELECT "There are a total of " + CAST(COUNT(occupation) AS CHAR) + " " + LOWER(occupation) + "s."
@@ -291,37 +326,8 @@ FROM occupations
 GROUP BY occupation
 ORDER BY COUNT(occupation), LOWER(occupation);
 ```
-## PIVOT, UNPIVOT
-```sql
-SELECT 반정보, 과목, 점수
-FROM dbo.성적	UNPIVOT (점수	FOR 과목 IN(국어, 수학, 영어)) AS UNPVT
-```
-- `PIVOT` transforms rows to columns.
-- `UNPIVOT` transforms columns to rows.
 
 # Logical Functions
-## `COALESCE()` (MySQL)
-```sql
-SELECT COALESCE(col1, col2*10, 100)
-FROM table
-```
-## `ISNULL()` (MS SQL Server)
-## `NVL()`/`NVL2() (Oracle)
-```sql
-NVL(<<Column>>, <<Value if NULL>>)
-NVL2(<<Column>>, <<Value if not NULL>>, <<Value if NULL>>)
-```
-## `IFNULL()` (MySQL)
-```sql
-SELECT animal_type, IFNULL(name, "No name"), sex_upon_intake
-FROM animal_ins
-ORDER BY animal_id
-```
-## `NULLIF()` (Oracle, MS SQL Server)
-- Return `NULL` if two expressions are equal, otherwise return the first expression.
-## `IS NULL`, `IS NOT NULL`
-- Source: https://www.w3schools.com/sql/sql_null_values.asp
-- It is not possible to test for NULL values with comparison operators, such as `=`, `<`, ....
 ## `CASE WHEN THEN ELSE END`
 - Search for conditions sequentially.
 ```sql
@@ -334,7 +340,7 @@ DECODE(<<Expression>>, <<Search1>>, <<Result1>>, ..., <<Default>>)
 ```
 - <<Expression>>: It is used to specify the value to be compared.
 - <<Search1>>, ...: It is used to specify the value to be compared against expression.
-- <<Result1>>, ...: It is used to specify the value to return, if expression is equal to search.
+- <<Result1>>, ...: It is used to specify the value to return, if <<Expression1>> is equal to <<Search1>>.
 - <<Default>>: (Optional) It is used to specify the default value to be returned if no matches are found.
 ## `ANY()`
 - Return `TRUE` if any of the subquery values meet the condition.
@@ -350,12 +356,39 @@ WHERE height > ANY(
 - Return `TRUE` if all of the subquery values meet the condition.
 - Used with `SELECT`, `WHERE` and `HAVING` statements.
 ## `IN()`
-- `NULL`은 `IN()` 연산자 안에 있어도 아무런 의미를 갖지 않습니다.
+- NULL은 `IN()` 연산자 안에 있어도 아무런 의미를 갖지 않습니다.
 ```sql
 SELECT name, addr
 FROM usertbl
 WHERE addr IN("서울", "경기", "충청");
 ```
+
+# NULL Functions
+## `NVL()`/`NVL2() (Oracle)
+```sql
+NVL(<<Column>>, <<Value if NULL>>)
+NVL2(<<Column>>, <<Value if not NULL>>, <<Value if NULL>>)
+```
+## `COALESCE()` (Oracle, MySQL)
+```sql
+COALESCE(<<Expression1>>, <<Expression2>>, ...)
+```
+- Return the first non-NULL expression in the list. If all expressions evaluate to null, return NULL
+## `NULLIF()` (Oracle, MS SQL Server)
+```sql
+NULLIF(<<Expression1>>, <<Expression2>>)
+```
+- Return NULL if <<Expression1>> and <<Expression2>> are equal and return <<Expression1>> if <<Expression1>> and <<Expression2>> are not equal.
+## `IFNULL()` (MySQL)
+```sql
+SELECT animal_type, IFNULL(name, "No name"), sex_upon_intake
+FROM animal_ins
+ORDER BY animal_id
+```
+## `ISNULL()` (MS SQL Server)
+## `IS NULL`, `IS NOT NULL`
+- Source: https://www.w3schools.com/sql/sql_null_values.asp
+- It is not possible to test for NULL values with comparison operators, such as `=`, `<`, ....
 
 # Numeric Functions
 ## `CEILING()`, `FLOOR()`
@@ -385,10 +418,12 @@ WHERE RIGHT(city, 1) IN ("a", "e", "i", "o", "u");
 ```
 ## `SUBSTRING()`
 ## LOWER(), UPPER(), INITCAP()
-## LPAD(), RPAD()
+## `LPAD()`, `RPAD()`
+- The `LPAD()` function left-pads a string with another string, to a certain length.
 ```sql
-SELECT LPAD("이것이", 5, "##")
+LPAD(<<Original String>>, <<Target Length>>, <<String to Pad>>)
 ```
+- `<<Target Length>>`: The length of the string after it has been left-padded. Note that if the <<Target Length>> is less than the length of the <<Original String>>, then `LPAD()` function will shorten down the source_string to the target_length without doing any padding.
 ## `LTRIM()`, `RTRIM()`
 ## `TRIM()`
 ### `SELECT TRIM(BOTH) FROM`, `SELECT TRIM(LEADING) FROM`, `SELECT TRIM(TRAILING) FROM`
@@ -474,7 +509,9 @@ FROM employee;
 ### `ROW_NUMBER() OVER(PARTITION BY ORDER BY)`
 
 # Aggregate Functions
-## `MIN()`, `MAX()`, `AVG()`, `SUM()`, `STDDEV()`, `VARIAN()`
+## `MIN()`, `MAX()`
+## `AVG()`, `SUM()`, `STDDEV()`, `VARIAN()`
+- NULL values are ignored.
 ## `COUNT()`
 - `COUNT(*)`, `COUNT(1)`, ...: Return the number of rows in the table.
 - `COUNT(<<Column>>)`: Return the number of non-NULL values in the column.
@@ -482,8 +519,8 @@ FROM employee;
 
 # Group Functions
 ## `SELECT FROM GROUP BY`
-- `GROUP BY` treats `NULL` as valid values.
-- All `NULL` values are grouped into one value or bucket.
+- `GROUP BY` treats NULL as valid values.
+- All NULL values are grouped into one value or bucket.
 ### `SELECT FROM GROUP BY ROLLUP()`
 - `GROUP BY ROLLUP(<<Column1>>, <<Column2>>, ...)` is same as `GROUP BY GROUPING SETS(<<Column1>>, (<<Column1>>, <<Column2>>), ..., ())`
 ### `SELECT FROM GROUP BY CUBE()`
@@ -512,17 +549,30 @@ GROUP BY GROUPING SETS((DEPARTMENT_ID, JOB_ID), ());
 ## Equi Join
 - Source: https://www.w3resource.com/sql/joins/perform-an-equi-join.php
 - Equi join performs a join against equality or matching column(s) values of the associated tables. An equal sign(`=`) is used as comparison operator in the where clause to refer equality.
+### `INNER JOIN`, `LEFT OUTER JOIN`, `LEFT OUTER JOIN`, `FULL OUTER JOIN`
 ## Non-Equi Join
 - Source: https://learnsql.com/blog/illustrated-guide-sql-non-equi-join/
 - `!=`, `<`, `<=`, `>`, `>=`, `BETWEEN AND`
-## `INNER JOIN`, `LEFT OUTER JOIN`, `LEFT OUTER JOIN`, `FULL OUTER JOIN`
 ## `CROSS JOIN`
 - In Mathematics, given two sets `A` and `B`, the Cartesian product of `AxB` is the set of all ordered pair `(a, b)`, which `a` belongs to `A` and `b` belongs to `B`.
+- Join key가 없을 떄 발생합니다.
 ```sql
 SELECT column_list
 FROM t1 
-	CROSS JOIN t2; 
+	CROSS JOIN t2;
 ```
+
+## `UNION`, `UNION ALL`
+- `UNION` selects only distinct values by default. To allow duplicate values, use `UNION ALL`
+## `MINUS` (Oracle), `EXCEPT` (MS SQL Server)
+- Return all rows in the first `SELECT` statement that are not returned by the second `SELECT` statement.
+## PIVOT, UNPIVOT
+```sql
+SELECT 반정보, 과목, 점수
+FROM dbo.성적	UNPIVOT (점수	FOR 과목 IN(국어, 수학, 영어)) AS UNPVT
+```
+- `PIVOT` transforms rows to columns.
+- `UNPIVOT` transforms columns to rows.
 
 # Subquery
 - Source: https://www.geeksforgeeks.org/sql-subquery/

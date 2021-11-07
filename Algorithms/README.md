@@ -658,9 +658,15 @@ def bisect_right(arr, tar):
 ## Exhaustive Search
 
 # String
-## Knuth-Morris-Pratt Algorithm
-- Time complexity: O(nk)
-- (failure function, pi[i]): i 번째 위치에서 접두사 == 접미사가 되는 최대 접두사의 길이
+## Knuth-Morris-Pratt Algorithm(KMP Algorithm)
+https://chanhuiseok.github.io/posts/algo-14/
+https://bowbowbow.tistory.com/6
+- Source: https://www.educative.io/edpresso/what-is-the-knuth-morris-pratt-algorithm
+- Time complexity: O(nm) (where `n` and `k` are the lengths of `s` and `p` respectively).
+- The KMP algorithm is an algorithm that is used to search for a pattern `p` in a given string `s`.
+- Failure Function
+	- The mapping of an index to the length of the longest prefix of `s` which is also a suffix.
+	- This function is based on the fact that when a mismatch occurs, all the previous characters match correctly. This implies that if a prefix of `p` occurred in this set of matching characters, then that prefix is also a suffix of `p`.
 
 ## Simulation
 
