@@ -236,13 +236,13 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - Source: https://en.wikipedia.org/wiki/ACID
 - ACID is a set of properties of database transactions intended to guarantee data validity despite errors, power failures, and other mishaps.
 - In the context of databases, a sequence of database operations that satisfies the ACID properties (which can be perceived as a single logical operation on the data) is called a transaction. For example, a transfer of funds from one bank account to another, even involving multiple changes such as debiting one account and crediting another, is a single transaction.
-- Atomicity
+- Atomicity(= 원자성)
 	- Transactions are often composed of multiple statements. Atomicity guarantees that each transaction is treated as a single "unit", which either succeeds completely, or fails completely: if any of the statements constituting a transaction fails to complete, the entire transaction fails and the database is left unchanged. An atomic system must guarantee atomicity in each and every situation, including power failures, errors and crashes. A guarantee of atomicity prevents updates to the database occurring only partially, which can cause greater problems than rejecting the whole series outright. As a consequence, the transaction cannot be observed to be in progress by another database client. At one moment in time, it has not yet happened, and at the next it has already occurred in whole (or nothing happened if the transaction was cancelled in progress).
-- Consistency(Correctness)
+- Consistency(Correctness)(= 일관성)
 	- Consistency ensures that a transaction can only bring the database from one valid state to another, maintaining database invariants: any data written to the database must be valid according to all defined rules, including constraints, cascades, triggers, and any combination thereof. This prevents database corruption by an illegal transaction, but does not guarantee that a transaction is correct.
-- Isolation
+- Isolation(= 고립성, 격리성)
 	- Transactions are often executed concurrently (e.g., multiple transactions reading and writing to a table at the same time). Isolation ensures that concurrent execution of transactions leaves the database in the same state that would have been obtained if the transactions were executed sequentially.
-- Durability
+- Durability(= 영속성, 지속성)
 	- Durability guarantees that once a transaction has been committed, it will remain committed even in the case of a system failure (e.g., power outage or crash). This usually means that completed transactions (or their effects) are recorded in non-volatile memory.
 
 # Database Trigger
@@ -328,11 +328,6 @@ HeidiSQL, DBeaver, DataGrip
 - 적은 데이터를 Join할 때 유리합니다.
 ## Merge Join
 - Equi join과 Non-equi join 모두에서 사용할 수 있습니다.
-
-# NULL
-- Source: https://en.wikipedia.org/wiki/Null_(SQL)
-- A null should not be confused with a value of 0. A null value indicates a lack of a value, which is not the same thing as a value of zero. For example, consider the question "How many books does Adam own?" The answer may be "zero" (we know that he owns none) or "null" (we do not know how many he owns). In a database table, the column reporting this answer would start out with no value (marked by Null), and it would not be updated with the value "zero" until we have ascertained that Adam owns no books.
-- SQL null is a state, not a value.
 
 # PL/SQL
 - Source: https://en.wikipedia.org/wiki/PL/SQL

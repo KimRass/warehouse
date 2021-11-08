@@ -18,7 +18,6 @@
 
 # Execution Order
 - `FROM` -> `WHERE` -> `GROUP BY` -> `HAVING` -> `SELECT` -> `ORDER BY` -> `LIMIT`, `TOP` or `FETCH`
-	- `ORDER BY`가 정렬을 하는 시점은 모든 실행이 끝난 후 데이터를 출력하기 바로 직전이다.
 
 # Error Messages
 ## Column <<COLUMN1>> is invalid in the ORDER BY clause because it is not contained in either an aggregate function or the GROUP BY clause.
@@ -26,8 +25,37 @@
 # Operators
 ## Concatenation Operator `||`
 - The result of concatenating two character strings is another character string.
+## `BETWEEN AND`
+- The `BETWEEN AND` operator selects values within a given range. The values can be numbers, text, or dates.
+- The `BETWEEN AND` operator is inclusive: begin and end values are included.
+- 앞에 오는 숫자가 뒤에 오는 숫자보다 작아야 합니다.
 ## Operator Precedence Rules
 - Parentheses -> Arithmetic Operators(`*`, `/` -> `+`, `-`) -> Concatenation Operator(`||`) -> Comparison Operators(`=`, `!=`, `<`, `<=`, `>`, `>=`) -> `IS`(`IS NULL`, `IS NOT NULL`, `IS EMPTY`, `IS NOT EMPTY`) -> (`BETWEEN`, `LIKE`, `IN()`( -> Logical Operatiors(`NOT` -> `AND` -> `OR`)
+
+# `INFORMATION_SCHEMA`
+## `INFORMATION_SCHEMA.TABLES`
+```sql
+SELECT *
+FROM INFORMATION_SCHEMA.TABLES
+WHERE TABLE_NAME = 'users';
+```
+## `INFORMATION_SCHEMA.COLUMNS`
+```sql
+SELECT COLUMN_NAME
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'users';
+```
+## `INFORMATION_SCHEMA.TABLE_CONSTRAINTS`
+```sql
+SELCT *
+FROM INFORMATION_SCHEMA.TALBE_CONTSTRAINTS
+WHERE TABLE_NAME = `users`;
+```
+
+# `DUAL` (Oracle)
+- Oracle provides you with the DUAL table which is a special table that belongs to the schema of the user SYS but it is accessible to all users.
+- The `DUAL` table has one column named `DUMMY` whose data type is `VARCHAR2()` and contains one row with a value `X`.
+- By using the `DUAL` table, you can execute queries that contain functions that do not involve any table
 
 # DDL(Data Definition Language)
 - Oracle database implicitly commits the current transaction before and after every DDL statement.
@@ -138,20 +166,20 @@ RENAME TABLE old_table1 TO new_table1, old_table2 TO new_table2, old_table3 TO n
 # DCL(Data Control Language)
 ## `GRANT ON TO`, `REVOKE ON TO`
 ```sql
-GRANT <<Privileges>>
+GRANT <<Privilege>>, ...
 ON <<Table>>
 TO <<User>>
 ```
-- <<Privileges>>: `CONNECT`, `RESOURCE`, `DBA`, ...
-- `CONNECT`: DB 접속 권한.
-- `RESOURCE`: 테이블 등 생성 권한.
-```sql
+- <<Privilege>>: `CONNECT`, `RESOURCE`, `DBA`, ...
+	- `CONNECT`: DB 접속 권한.
+	- `RESOURCE`: 테이블 등 생성 권한.
 ## `WITH GRANT OPTION`
 
 # TCL(Transaction Control Language)
 ## `COMMIT`
 - Source: https://www.geeksforgeeks.org/difference-between-commit-and-rollback-in-sql/
 - `COMMIT` is used to permanently save the changes done in the transaction in tables/databases. The database cannot regain its previous state after the execution of it.
+- `COMMIT` 되지 않은 데이터는 나 자신은 볼 수 있지만 다른 사용자는 볼 수 없으며 변경할 수도 없습니다.
 ## `SAVEPOINT`
 ```sql
 SAVEPOINT <<Savepoint Name>>
@@ -166,31 +194,6 @@ SAVEPOINT <<Savepoint Name>>
 ROLLBACK TO <<Savepoint Name>>
 ```
 
-# `INFORMATION_SCHEMA`
-## `INFORMATION_SCHEMA.TABLES`
-```sql
-SELECT *
-FROM INFORMATION_SCHEMA.TABLES
-WHERE TABLE_NAME = 'users';
-```
-## `INFORMATION_SCHEMA.COLUMNS`
-```sql
-SELECT COLUMN_NAME
-FROM INFORMATION_SCHEMA.COLUMNS
-WHERE TABLE_NAME = 'users';
-```
-## `INFORMATION_SCHEMA.TABLE_CONSTRAINTS`
-```sql
-SELCT *
-FROM INFORMATION_SCHEMA.TALBE_CONTSTRAINTS
-WHERE TABLE_NAME = `users`;
-```
-
-# `DUAL` (Oracle)
-- Oracle provides you with the DUAL table which is a special table that belongs to the schema of the user SYS but it is accessible to all users.
-- The `DUAL` table has one column named `DUMMY` whose data type is `VARCHAR2()` and contains one row with a value `X`.
-- By using the `DUAL` table, you can execute queries that contain functions that do not involve any table
-
 # DML(Data Manipulation Language)
 - `INSERT`(Create), `SELECT`(Read), `UPDATE`(Update), `DELETE`(Delete)
 - `MERGE` (Oracle)
@@ -201,10 +204,6 @@ INSERT INTO customers(customername, address, city, postalcode, country)
 VALUES("Hekkan Burger", "Gateveien 15", "Sandnes", "4306", "Norway");
 ```
 - If you are adding values for all the columns of the table, you do not need to specify the column names in the SQL query.
-### `SELECT INSERT()`
-```sql
-SELECT INSERT("abcdefghi", 3, 2, "####");
-```
 ### `INSERT INTO SELECT`
 - Source: https://www.w3schools.com/sql/sql_insert_into_select.asp
 - The `INSERT INTO SELECT` statement copies data from one table and inserts it into another table.
@@ -222,17 +221,21 @@ SELECT *
 FROM Customers
 FETCH FIRST 3 ROWS ONLY;
 ```
+## `SELECT`
+### `SELECT FROM ORDER BY`
+- `ORDER BY`가 정렬을 하는 시점은 모든 실행이 끝난 후 데이터를 출력하기 바로 직전이다.
+- `ORDER BY <<Number>>: <Number>> stands for the column based on the number of columns defined in the `SELECT` clause.
+- Oracle considers NULL values larger than any non-NULL values.
+#### `SELECT FROM ORDER BY NULLS FIRST | NULLS LAST`
 ### `SELECT TOP PERCENT FROM` (MS SQL Server), `SELECT FROM FETCH FIRST PERCENT ROWS ONLY` (Oracle)
-## `SELECT ROWNUM FROM`
+### `SELECT ROWNUM FROM`, `SELECT FROM WHERE ROWNUM
 ```sql
 SELECT ROWNUM, pr.product_name, pr.standard_cost
-FROM products AS pr
+FROM products;
 ```
 - `ROWNUM`과 `ORDER BY`를 같이 사용할 경우 매겨놓은 순번이 섞여버리는 현상이 발생합니다.
 - 이 때, Inline view에서 먼저 정렬을 하고 순번을 매기는 방법으로 정렬된 데이터에 순번을 매길 수 있습니다.
-## `ROW_NUMBER()`
-- Inline view를 사용하지 않고도 어떤 값의 순서대로 순번을 매길 수 있습니다. 
-## `SELECT FROM WHERE EXISTS()`
+### `SELECT FROM WHERE EXISTS()`
 - Source: https://www.w3schools.com/sql/sql_exists.asp
 - The `EXISTS` operator is used to test for the existence of any record in a subquery.
 - The `EXISTS` operator returns `TRUE` if the subquery returns one or more records.
@@ -309,6 +312,7 @@ ORDER SIBLINGS BY last_name;
 ```
 - If you want to order rows of siblings of the same parent, then use the `ORDER SIBLINGS BY` clause.
 - For each row returned by a hierarchical query, the `LEVEL` pseudocolumn returns 1 for a root row, 2 for a child of a root, and so on
+- The `CONNECT_BY_ISLEAF` pseudocolumn returns 1 if the current row is a leaf of the tree defined by the CONNECT BY condition, 0 otherwise.
 ```sql
 SELECT last_name "Employee", CONNECT_BY_ISCYCLE "Cycle",
 LEVEL, SYS_CONNECT_BY_PATH(last_name, '/') "Path"
@@ -356,7 +360,6 @@ WHERE height > ANY(
 - Return `TRUE` if all of the subquery values meet the condition.
 - Used with `SELECT`, `WHERE` and `HAVING` statements.
 ## `IN()`
-- NULL은 `IN()` 연산자 안에 있어도 아무런 의미를 갖지 않습니다.
 ```sql
 SELECT name, addr
 FROM usertbl
@@ -364,6 +367,10 @@ WHERE addr IN("서울", "경기", "충청");
 ```
 
 # NULL Functions
+- Source: https://en.wikipedia.org/wiki/Null_(SQL)
+- A null value indicates a lack of a value, which is not the same thing as a value of zero. For example, consider the question "How many books does Adam own?" The answer may be "zero" (we know that he owns none) or "null" (we do not know how many he owns). In a database table, the column reporting this answer would start out with no value (marked by NULL), and it would not be updated with the value "zero" until we have ascertained that Adam owns no books.
+- SQL null is a state, not a value.
+- NULL means that the value is unknown.
 ## `NVL()`/`NVL2() (Oracle)
 ```sql
 NVL(<<Column>>, <<Value if NULL>>)
@@ -388,7 +395,9 @@ ORDER BY animal_id
 ## `ISNULL()` (MS SQL Server)
 ## `IS NULL`, `IS NOT NULL`
 - Source: https://www.w3schools.com/sql/sql_null_values.asp
-- It is not possible to test for NULL values with comparison operators, such as `=`, `<`, ....
+- It is not possible to test for NULL values with comparison operators(`=`, `!=`, `<`, `<=`, `>`, `>=`).
+- `NULL IS NULL` is `TRUE` and `NULL IS NOT NULL` is `FALSE`.
+- Because NULL represents a lack of data, a NULL cannot be equal or unequal to any value or to another NULL. However, Oracle considers two NULLs to be equal when evaluating a `DECODE()` function.(So `NULL IN(NULL, ...)` is `FALSE`)
 
 # Numeric Functions
 ## `CEILING()`, `FLOOR()`
@@ -447,8 +456,16 @@ SELECT DISTINCT city
 FROM station
 WHERE city LIKE "%a" OR city LIke "%e" OR city LIKE "%i" OR city LIKE "%o" OR city LIKE "%u";
 ```
-- `%` represents zero, one, or multiple characters.
-- `_` represents one, single character.
+- A wildcard character is used to substitute one or more characters in a string.
+	- `%`: Represents zero, one, or multiple characters.
+	- `_`: Represents one, single character.
+	- `-`: Represents any single character within the specified range
+## `SELECT FROM WHERE LIKE ESCAPE`
+```sql
+SELECT *
+FROM tbl
+WHERE name LIKE '%@_%` ESCAPE '@';
+```
 ## `SELECT TO_CHAR() FROM`
 - Used to convert a number or date to a string.
 ```sql
@@ -475,18 +492,45 @@ DATEDIFF(DAY, A.start_date, MIN(B.end_date))
 ```
 
 # Window Functions
-- `SUM()`, `MAX()`, `MIN()`, `RANK()`에 적용 가능합니다.
-## `OVER(PARTITION BY ORDER BY ROWS)`, `OVER(PARTITION BY ORDER BY RANGE)`
-- `ROWS` is used to specify which rows to include in the aggregation.
-- `RANGE` can be used to let Oracle determine which rows lie within the range.
-- `UNBOUNDED PRECEDING`: Window의 첫 위치가 첫 번째 행.
-- `UNBOUNDED FOLLOWING`: Window의 마지막 위치가 마지막 행.
-- `CURRENT ROW`: Window의 첫 위치가 현재 행.
+- Source: https://docs.oracle.com/cd/E17952_01/mysql-8.0-en/window-functions-usage.html
+- Window functions are aggregates based on a set of rows, similar to an aggregate function like a `GROUP BY`, but in this case this aggregation of rows moves or slides across a number of rows so we have a sort of sliding window, thus the name window functions.
+- Window operations do not collapse groups of query rows to a single output row. Instead, they produce a result for each row.
+- `MIN()`, `MAX()`, `SUM()`, Rank functions(`RANK()`, `DENSE_RANK()`, `ROW_NUMBER()`), `NTILE()`, `ROW_NUMBER()`, `FIRST_VALUE()`, `LAST_VALUE()`, `LAG`, `LEAD`에 적용 가능합니다.
+## `OVER()`
+- An empty `OVER` clause treats the entire set of query rows as a single partition. The window function thus produces a global sum, but does so for each row.
+### `OVER([PARTITION BY])`
+- `OVER(PARTITION BY)` clause partitions rows by a column, producing a sum per partition. The function produces this sum for each partition row.
+#### `OVER([PARTITION BY] [ORDER BY])`
+- An `ORDER BY` clause indicates how to sort rows in each partition. If `ORDER BY` is omitted, partition rows are unordered.
+- An `ORDER BY` in a window definition applies within individual partitions. To sort the result set as a whole, include an `ORDER BY` at the query top level.
+##### `OVER([PARTITION BY] [ORDER BY] [ROWS BETWEEN AND])`, `OVER([PARTITION BY] [ORDER BY] [RANGE BETWEEN AND])`
+- Source: https://learnsql.com/blog/range-clause/
+- The `RANGE` and the `ROW` clauses have the same purpose: to specify the starting and ending points within the partition, with the goal of limiting rows. However, each clause does it differently. The `ROW` clause does it by specifying a fixed number of rows that precede or follow the current row. The `RANGE` clause, on the other hand, limits the rows logically; it specifies the range of values in relation to the value of the current row.
+- The default window frame without the `ORDER BY` is the whole partition. But when you use the `ORDER BY`, the default window frame is `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`(= `UNBOUNDED PRECEDING`).
+- `BETWEEN <<Start Point>> AND <<End Point>>`
+	- <<Start Point>>: `UNBOUNDED PRECEDING`, `n PRECEDING`, `CURRENT ROW`
+	- <<End Point>>`: `UNBOUNDED FOLLOWING`, `m FOLLOWING`, `CURRENT ROW`
+- `<<Start Point>>`
+	- In this case, `<<End Point>>` is same as `CURRENT ROW`(`<<End Point>>` is omitted)
 ```sql
 SELECT month, SUM(tot_sales) AS monthly_sales,
 	AVG(SUM(tot_sales)) OVER(ORDER BY month RANGE BETWEEN 1 PRECEDING AND 1 FOLLOWING) AS rolling_avg
 FROM orders
 ```
+## `FIRST_VALUE() [RESPECT | IGNORE NULLS]`, `LAST_VALUE() [RESPECT | IGNORE NULLS]`
+- `RESPECT NULLS | IGNORE NULLS`: It is an optional parameter which is used to specify whether to include or ignore the NULL values in the calculation. The default value is `RESPECT NULLS`.
+```sql
+SELECT DISTINCT FIRST_VALUE(marks)
+OVER(ORDER BY marks DESC RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS `Highest`
+FROM students;
+```
+## `NTILE() OVER([PARTITION BY] ORDER BY)`
+- Source: https://www.sqltutorial.org/sql-window-functions/sql-ntile/
+- `NTILE()` is a window function that allows you to break the result set into a specified number of approximately equal groups, or buckets. It assigns each group a bucket number starting from one. For each row in a group, the `NTILE()` function assigns a bucket number representing the group to which the row belongs.
+- The `ORDER BY` clause specifies the order of rows in each partition to which the `NTILE()` is applied.
+- Notice that if the number of rows is not divisible by buckets, the `NTILE()` function results in groups of two sizes with the difference by one. The larger groups always come before the smaller group in the order specified by the `ORDER BY` clause.
+## `ROW_NUMBER()`
+- `ROW_NUMBER()`을 사용하면 Inline view를 사용하지 않고도 어떤 값의 순서대로 순번을 매길 수 있습니다.
 
 # Rank Functions
 - Source: https://codingsight.com/similarities-and-differences-among-rank-dense_rank-and-row_number-functions/, https://www.sqlshack.com/overview-of-sql-rank-functions/
@@ -545,25 +589,9 @@ WHERE DEPARTMENT_ID > 80
 GROUP BY GROUPING SETS((DEPARTMENT_ID, JOB_ID), ());
 ```
 
-# Join
-## Equi Join
-- Source: https://www.w3resource.com/sql/joins/perform-an-equi-join.php
-- Equi join performs a join against equality or matching column(s) values of the associated tables. An equal sign(`=`) is used as comparison operator in the where clause to refer equality.
-### `INNER JOIN`, `LEFT OUTER JOIN`, `LEFT OUTER JOIN`, `FULL OUTER JOIN`
-## Non-Equi Join
-- Source: https://learnsql.com/blog/illustrated-guide-sql-non-equi-join/
-- `!=`, `<`, `<=`, `>`, `>=`, `BETWEEN AND`
-## `CROSS JOIN`
-- In Mathematics, given two sets `A` and `B`, the Cartesian product of `AxB` is the set of all ordered pair `(a, b)`, which `a` belongs to `A` and `b` belongs to `B`.
-- Join key가 없을 떄 발생합니다.
-```sql
-SELECT column_list
-FROM t1 
-	CROSS JOIN t2;
-```
-
 ## `UNION`, `UNION ALL`
 - `UNION` selects only distinct values by default. To allow duplicate values, use `UNION ALL`
+- The sort is implicit in order to remove duplicates since `UNION` does not include duplicates.
 ## `MINUS` (Oracle), `EXCEPT` (MS SQL Server)
 - Return all rows in the first `SELECT` statement that are not returned by the second `SELECT` statement.
 ## PIVOT, UNPIVOT
@@ -573,6 +601,39 @@ FROM dbo.성적	UNPIVOT (점수	FOR 과목 IN(국어, 수학, 영어)) AS UNPVT
 ```
 - `PIVOT` transforms rows to columns.
 - `UNPIVOT` transforms columns to rows.
+
+# Join
+## `INNER JOIN`(= `JOIN`), `LEFT OUTER JOIN`, `LEFT OUTER JOIN`, `FULL OUTER JOIN`
+## `CROSS JOIN`
+- In Mathematics, given two sets `A` and `B`, the Cartesian product of `AxB` is the set of all ordered pair `(a, b)`, which `a` belongs to `A` and `b` belongs to `B`.
+- Join key가 없을 때 발생합니다.
+- The `CROSS JOIN` produces a result set which is the number of rows in the first table multiplied by the number of rows in the second table if no `WHERE` clause is used along with `CROSS JOIN`.This kind of result is called as Cartesian product.
+- If `WHERE` clause is used with `CROSS JOIN`, it functions like an `INNER JOIN`.
+```sql
+SELECT foods.item_name,foods.item_unit, company.company_name,company.company_city 
+FROM foods CROSS JOIN company;
+```
+## `NATURAL JOIN`
+- A `NATURAL JOIN` is a join operation that creates an implicit join clause for you based on the common columns in the two tables being joined. Common columns are columns that have the same name in both tables.
+- `<<Table>>.<<Column>>`과 같은 형태로 사용할 수 없습니다.
+### `NATURAL INNER JOIN`(= `NATURAL JOIN`), `NATURAL LEFT OUTER JOIN`, `NATURAL RIGHT OUTER JOIN`
+- 
+```sql
+SELECT *
+FROM countries NATURAL INNER JOIN cities;
+```
+```sql
+SELECT *
+FROM countries INNER JOIN cities
+	USING(country, country_iso_code)
+```
+- Above two statements are the same.
+## Equi Join
+- Source: https://www.w3resource.com/sql/joins/perform-an-equi-join.php
+- Equi join performs a join against equality or matching column(s) values of the associated tables. An equal sign(`=`) is used as comparison operator in the where clause to refer equality.
+## Non-Equi Join
+- Source: https://learnsql.com/blog/illustrated-guide-sql-non-equi-join/
+- `!=`, `<`, `<=`, `>`, `>=`, `BETWEEN AND`
 
 # Subquery
 - Source: https://www.geeksforgeeks.org/sql-subquery/
@@ -595,7 +656,7 @@ FROM dbo.성적	UNPIVOT (점수	FOR 과목 IN(국어, 수학, 영어)) AS UNPVT
 	- `IN()`, `ALL()`, `ANY()`, `EXISTS()`
 - A subquery can be placed in `WHERE` clause(Subquery), `HAVING` clause, `FROM` clause(Inline View), `SELECT` clause(Scala Subquery).
 ## Inline View
-- Subquery in the `FROM` clause of a `SELECT` statement.
+- Inline view is a subquery in the `FROM` clause of a `SELECT` statement.
 ```sql
 SELECT hacker_id, name
 FROM (
