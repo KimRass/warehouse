@@ -319,7 +319,7 @@ def load_table(table_name):
     table.columns = table.columns.str.lower()
     for col in table.columns:
         if pd.api.types.is_string_dtype(table[col]):
-            table[col] = table[col].str.encode("latin-1").str.decode("euc-kr")
+            table[col] = table[col].str.encode("latin-1", errors="ignore").str.decode("euc-kr", errors="ignore")
     return table
 ```
 ## pd.options
@@ -741,10 +741,11 @@ data["fuel"] = data["heating"].apply(lambda x:x.split(",")[1]).str.strip()
 ```python
 train[train["token"].str.contains(".", regex=False)]
 ```
-### Series.str.encode(), Series.str.decode()
+### `Series.str.encode()`, `Series.str.decode()`
 ```python
 infos[col] = infos[col].str.encode("latin-1").str.decode("euc-kr")
 ```
+- `error`: (`"strict"`, `"ingore"`, `"replace"`, default `"strict"`)
 ## Series.cat
 ### Series.cat.categories
 ### Series.cat.set_categories()
