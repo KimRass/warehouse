@@ -200,16 +200,44 @@ ROLLBACK TO <<Savepoint Name>>
 ## `INSERT`
 ### `INSERT INTO VALUES()`
 ```sql
-INSERT INTO customers(customername, address, city, postalcode, country)
-VALUES("Hekkan Burger", "Gateveien 15", "Sandnes", "4306", "Norway");
+INSERT
+	INTO customers(customername, address, city, postalcode, country) VALUES("Hekkan Burger", "Gateveien 15", "Sandnes", "4306", "Norway");
 ```
 - If you are adding values for all the columns of the table, you do not need to specify the column names in the SQL query.
-### `INSERT INTO SELECT`
+### `INSERT INTO SELECT FROM`
+```sql
+INSERT
+	INTO <<Target Table>>
+SELECT FROM <<Source Table>>
+```
 - Source: https://www.w3schools.com/sql/sql_insert_into_select.asp
-- The `INSERT INTO SELECT` statement copies data from one table and inserts it into another table.
-- The `INSERT INTO SELECT` statement requires that the data types in source and target tables matches.
-- The existing records in the target table are unaffected.
-## `SELECT TOP FROM` (MS SQL Server), `SELECT FROM LIMIT` (MySQL), `SELECT FROM FETCH FIRST ROWS ONLY` (Oracle)
+- The `INSERT INTO SELECT` statement copies data from <<Source Table>> and inserts it into <<Target Table>>.
+- The `INSERT INTO SELECT` statement requires that the data types in <<Source Table>> and <<Tartget Table>> match.
+- The existing records in the <<Target Table>> are unaffected.
+#### `INSERT ALL INTO SELECT FROM`
+- When using an unconditional `INSERT ALL` statement, each row produced by the driving query results in a new row in each of the tables listed in the `INTO` clauses.
+```sql
+INSERT ALL
+  INTO pivot_dest(id, day, val) VALUES(id, 'mon', mon_val)
+  INTO pivot_dest(id, day, val) VALUES(id, 'tue', tue_val)
+  INTO pivot_dest(id, day, val) VALUES(id, 'wed', wed_val)
+  INTO pivot_dest(id, day, val) VALUES(id, 'thu', thu_val)
+  INTO pivot_dest(id, day, val) VALUES(id, 'fri', fri_val)
+SELECT *
+FROM   pivot_source;
+```
+#### `INSERT FIRST WHEN THEN INTO ELSE INTO SELECT FROM`
+```sql
+INSERT FIRST
+  WHEN id <= 3 THEN INTO dest_tab1(id, description) VALUES(id, description)
+  WHEN id <= 5 THEN INTO dest_tab2(id, description) VALUES(id, description)
+  ELSE INTO dest_tab3(id, description) VALUES(id, description)
+SELECT id, description
+FROM   source_tab;
+```
+- Using `INSERT FIRST` makes the multitable insert work like a `CASE` expression, so the conditions are tested until the first match is found, and no further conditions are tested.
+## `SELECT`
+### `SELECT TOP FROM` (MS SQL Server), `SELECT FROM LIMIT` (MySQL), `SELECT FROM FETCH FIRST ROWS ONLY` (Oracle)
 ```sql
 SELECT TOP 1 months*salary, COUNT(employee_id)
 FROM employee
@@ -221,7 +249,6 @@ SELECT *
 FROM Customers
 FETCH FIRST 3 ROWS ONLY;
 ```
-## `SELECT`
 ### `SELECT FROM ORDER BY`
 - `ORDER BY`가 정렬을 하는 시점은 모든 실행이 끝난 후 데이터를 출력하기 바로 직전이다.
 - `ORDER BY <<Number>>: <Number>> stands for the column based on the number of columns defined in the `SELECT` clause.
@@ -238,7 +265,7 @@ FROM products;
 ### `SELECT FROM WHERE EXISTS()`
 - Source: https://www.w3schools.com/sql/sql_exists.asp
 - The `EXISTS` operator is used to test for the existence of any record in a subquery.
-- The `EXISTS` operator returns `TRUE` if the subquery returns one or more records.
+- The `EXISTS` operator returns TRUE if the subquery returns one or more records.
 ```sql
 SELECT *
 FROM customers
@@ -256,7 +283,7 @@ WHERE EXISTS (
 	FROM Products
 	WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
 ```
-- The above SQL statement returns `TRUE` and lists the suppliers with a product price less than 20.
+- The above SQL statement returns TRUE and lists the suppliers with a product price less than 20.
 ## `UPDATE`
 ### `UPDATE SET WHERE`
 ```
@@ -312,7 +339,8 @@ ORDER SIBLINGS BY last_name;
 ```
 - If you want to order rows of siblings of the same parent, then use the `ORDER SIBLINGS BY` clause.
 - For each row returned by a hierarchical query, the `LEVEL` pseudocolumn returns 1 for a root row, 2 for a child of a root, and so on
-- The `CONNECT_BY_ISLEAF` pseudocolumn returns 1 if the current row is a leaf of the tree defined by the CONNECT BY condition, 0 otherwise.
+- The `CONNECT_BY_ISLEAF` pseudocolumn returns 1 if the current row is a leaf of the tree defined by the `CONNECT BY` condition, 0 otherwise.
+- The `CONNECT_BY_ROOT` pseudocolumn returns the root.
 ```sql
 SELECT last_name "Employee", CONNECT_BY_ISCYCLE "Cycle",
 LEVEL, SYS_CONNECT_BY_PATH(last_name, '/') "Path"
@@ -321,7 +349,12 @@ WHERE level <= 3 AND department_id = 80
 START WITH last_name = 'King'
 CONNECT BY NOCYCLE PRIOR employee_id = manager_id AND LEVEL <= 4;
 ```
-- The `NOCYCLE` parameter in the `CONNECT BY` condition causes Oracle to return the rows in spite of the loop. The `CONNECT_BY_ISCYCLE` pseudocolumn shows you which rows contain the cycle.
+- The `NOCYCLE` parameter in the `CONNECT BY` condition causes Oracle to return the rows in spite of the loop.
+- The `CONNECT_BY_ISCYCLE` pseudocolumn shows you which rows contain the cycle.
+```sql
+SYS_CONNECT_BY_PATH(<<Column>>, <<Character>>)
+```
+- The `SYS_CONNECT_BY_PATH` function returns the path of a <<Column>> value from root to node, with column values separated by <<Character>> for each row returned by `CONNECT BY` condition.
 
 ## CAST()
 ```sql
@@ -340,14 +373,11 @@ FROM triangles;
 ```
 ## `DECODE()`
 ```sql
-DECODE(<<Expression>>, <<Search1>>, <<Result1>>, ..., <<Default>>)
+DECODE(<<Expression>>, <<Value to Be Compared1>>, <<Value If Equal to1>>, ..., <<Default>>)
 ```
-- <<Expression>>: It is used to specify the value to be compared.
-- <<Search1>>, ...: It is used to specify the value to be compared against expression.
-- <<Result1>>, ...: It is used to specify the value to return, if <<Expression1>> is equal to <<Search1>>.
 - <<Default>>: (Optional) It is used to specify the default value to be returned if no matches are found.
 ## `ANY()`
-- Return `TRUE` if any of the subquery values meet the condition.
+- Return TRUE if any of the subquery values meet the condition.
 ```sql
 SELECT name
 FROM usertbl
@@ -357,7 +387,7 @@ WHERE height > ANY(
 	WHERE addr = '서울');
 ```
 ## `ALL()`
-- Return `TRUE` if all of the subquery values meet the condition.
+- Return TRUE if all of the subquery values meet the condition.
 - Used with `SELECT`, `WHERE` and `HAVING` statements.
 ## `IN()`
 ```sql
@@ -371,11 +401,16 @@ WHERE addr IN("서울", "경기", "충청");
 - A null value indicates a lack of a value, which is not the same thing as a value of zero. For example, consider the question "How many books does Adam own?" The answer may be "zero" (we know that he owns none) or "null" (we do not know how many he owns). In a database table, the column reporting this answer would start out with no value (marked by NULL), and it would not be updated with the value "zero" until we have ascertained that Adam owns no books.
 - SQL null is a state, not a value.
 - NULL means that the value is unknown.
-## `NVL()`/`NVL2() (Oracle)
+## `NVL()` (Oracle)
 ```sql
-NVL(<<Column>>, <<Value if NULL>>)
-NVL2(<<Column>>, <<Value if not NULL>>, <<Value if NULL>>)
+NVL(<<Column to Test>>, <<Value if NULL>>)
 ```
+- Return <<Column to Test>> if not NULL otherwise return <<Value if NULL>> if NULL.
+## `NVL2()` (Oracle)
+```sql
+NVL2(<<Column to Test>>, <<Value if not NULL>>, <<Value if NULL>>)
+```
+- Return <<Value if not NULL>> if <<Column to Test>> is not NULL otherwise return <<Value if NULL>> if <<Column to Test>> is NULL.
 ## `COALESCE()` (Oracle, MySQL)
 ```sql
 COALESCE(<<Expression1>>, <<Expression2>>, ...)
@@ -396,8 +431,8 @@ ORDER BY animal_id
 ## `IS NULL`, `IS NOT NULL`
 - Source: https://www.w3schools.com/sql/sql_null_values.asp
 - It is not possible to test for NULL values with comparison operators(`=`, `!=`, `<`, `<=`, `>`, `>=`).
-- `NULL IS NULL` is `TRUE` and `NULL IS NOT NULL` is `FALSE`.
-- Because NULL represents a lack of data, a NULL cannot be equal or unequal to any value or to another NULL. However, Oracle considers two NULLs to be equal when evaluating a `DECODE()` function.(So `NULL IN(NULL, ...)` is `FALSE`)
+- `NULL IS NULL` is TRUE and `NULL IS NOT NULL` is FALSE.
+- Because NULL represents a lack of data, a NULL cannot be equal or unequal to any value or to another NULL. However, Oracle considers two NULLs to be equal when evaluating a `DECODE()` function.(So `NULL IN(NULL, ...)` is FALSE)
 
 # Numeric Functions
 ## `CEILING()`, `FLOOR()`
@@ -425,22 +460,40 @@ SELECT DISTINCT city
 FROM station
 WHERE RIGHT(city, 1) IN ("a", "e", "i", "o", "u");
 ```
-## `SUBSTRING()`
-## LOWER(), UPPER(), INITCAP()
+## `SUBSTR()`, `SUBSTRING()`
+```sql
+SUBSTR(<<String>>, <<Start Position>>, [<<Length>>])
+```
+- <<String>>: The first position in the <<String>> is always 1, the last -1.
+- <<Length>>: If this parameter is omitted, the `SUBSTR` function will return the entire <<String>>.
+## `LOWER()`, `UPPER()`, `INITCAP()`
+```sql
+UPPER('eabc')
+```
 ## `LPAD()`, `RPAD()`
 - The `LPAD()` function left-pads a string with another string, to a certain length.
 ```sql
 LPAD(<<Original String>>, <<Target Length>>, <<String to Pad>>)
 ```
-- `<<Target Length>>`: The length of the string after it has been left-padded. Note that if the <<Target Length>> is less than the length of the <<Original String>>, then `LPAD()` function will shorten down the source_string to the target_length without doing any padding.
+- `<<Target Length>>`: The length of the string after it has been left-padded. Note that if the <<Target Length>> is less than the length of the <<Original String>>, then `LPAD()` function will shorten down the <<Original String>> to the <<Target Length>> without doing any padding.
+- If <<String to Pad>> is `' '` if omitted.
 ## `LTRIM()`, `RTRIM()`
 ## `TRIM()`
-### `SELECT TRIM(BOTH) FROM`, `SELECT TRIM(LEADING) FROM`, `SELECT TRIM(TRAILING) FROM`
+### `SELECT TRIM([[LEADING | TRAILING | BOTH] FROM]) FROM`
 ```sql
-SELECT TRIM("   좌우측공백삭제   ";
-SELECT TRIM(BOTH "ㅋ" FROM "ㅋㅋㅋ좌우측문자삭제ㅋㅋㅋ");
-SELECT TRIM(LEADING "ㅋ" FROM "ㅋㅋㅋ좌측문자삭제ㅋㅋㅋ");
-SELECT TRIM(TRAILING "ㅋ" FROM "ㅋㅋㅋ우측문자삭제ㅋㅋㅋ");
+TRIM('   tech   ')
+```
+```sql
+TRIM(' ' FROM '   tech   ')
+```
+```sql
+TRIM(LEADING '0' FROM '000123')
+```
+```sql
+TRIM(TRAILING '1' FROM 'Tech1')
+```
+```sql
+TRIM(BOTH '1' FROM '123Tech111')
 ```
 ## `CONCAT()`
 ```sql
@@ -484,7 +537,11 @@ ORDER BY hour;
 - HOUR()는 일반조건이므로 (COUNT()와 달리) HAIVNG과 함께 쓸 수 없다.
 ```
 ## `SYSDATE` (Oracle), `SYSDATE()` (MySQL)
-## `EXTRACT('YEAR' FROM)`, `EXTRACT('MONTH' FROM)`, `EXTRACT('DAY' FROM)`
+## `EXTRACT([YEAR | MONTH | DAY | HOUR | MINUTE | SECOND] FROM)`
+- Returns a numeric value when the following parameters are provided: `YEAR`, `MONTH`, `DAY`, `HOUR`, `MINUTE`, `SECOND`.
+```sql
+EXTRACT(MONTH FROM order_date)
+```
 ## `DATEADD()`
 ## `DATEDIFF(YEAR)`, `DATEDIFF(MONTH)`, `DATEDIFF(DAY)`
 ```sql
@@ -590,11 +647,13 @@ GROUP BY GROUPING SETS((DEPARTMENT_ID, JOB_ID), ());
 ```
 
 ## `UNION`, `UNION ALL`
-- `UNION` selects only distinct values by default. To allow duplicate values, use `UNION ALL`
-- The sort is implicit in order to remove duplicates since `UNION` does not include duplicates.
+- The `UNION` operator eliminates duplicate selected rows. The sort is implicit in order to remove duplicates since.
+- The `UNION ALL` operator does not eliminate duplicate selected rows.
 ## `MINUS` (Oracle), `EXCEPT` (MS SQL Server)
 - Return all rows in the first `SELECT` statement that are not returned by the second `SELECT` statement.
-## PIVOT, UNPIVOT
+## `INTERSECT`
+- The `INTERSECT` operator returns only those rows returned by both queries.
+## `PIVOT`, `UNPIVOT`
 ```sql
 SELECT 반정보, 과목, 점수
 FROM dbo.성적	UNPIVOT (점수	FOR 과목 IN(국어, 수학, 영어)) AS UNPVT
@@ -654,7 +713,7 @@ FROM countries INNER JOIN cities
 	```
 	- Multiple-Row Subquery: Multiple-row subqueries are nested queries that can return more than one row of results to the parent query
 	- `IN()`, `ALL()`, `ANY()`, `EXISTS()`
-- A subquery can be placed in `WHERE` clause(Subquery), `HAVING` clause, `FROM` clause(Inline View), `SELECT` clause(Scala Subquery).
+- A subquery can be placed in `SELECT` clause(Scala Subquery), `FROM` clause(Inline View), `WHERE` clause(Subquery), `HAVING` clause.
 ## Inline View
 - Inline view is a subquery in the `FROM` clause of a `SELECT` statement.
 ```sql
@@ -670,7 +729,7 @@ HAVING SUM(is_full_score) > 1
 ORDER BY SUM(is_full_score) DESC, hacker_id ASC;
 ```
 ## Scala Subquery
-- 반드시 1개의 행과 열만 반환.
+- Scala subquery should be a single-row subquery.
 ## Correlated Subquery(= 상관 서브 쿼리)
 - Source: https://myjamong.tistory.com/176
 - 내부 Subquery에서 외부테이블의 값을 참조할 때 사용됩니다.

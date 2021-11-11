@@ -59,6 +59,13 @@ Written by KimRass
 - A single table can have many non-clustered indexes as an index in the non-clustered index is stored in different places.
 - For example, a book can have more than one index, one at the beginning which displays the contents of a book unit wise while the second index shows the index of terms in alphabetical order.
 
+# Database Lock
+- Source: https://www.tutorialcup.com/interview/sql-interview-questions/db-locks.htm
+- When two sessions or users of database try to update or delete the same data in a table, then there will be a concurrent update problem. In order to avoid this problem, database locks the data for the first user and allows him to update/delete the data. Once he is done with his update/delete, he COMMITs or ROLLBACK the transaction, which will release the lock on the data. When lock on the data is released, another user can lock it for his changes.
+- Therefore locking in the context of SQL is to hold the row or particular column which the user is going to update and not allowing any other session or user to insert/update/delete the data. It will not allow anyone to use the data until the lock on the data is released. Lock on the data will be released when the transaction is committed or rolled back.
+- Whenever a user issues `UPDATE` or `DELETE` command, database will implicitly place the lock on the data. It does not require user to explicitly type lock on the data. Whenever the database sees `UPDATE` or `DELETE` statement, lock is automatically placed on the data.
+- Reading the data when it is locked depends on the locking mechanism used. If the lock is read exclusive, then it will not allow to read locked data
+
 # View
 - Source: https://en.wikipedia.org/wiki/View_(SQL)
 - Unlike ordinary base tables in a relational database, a view does not form part of the physical schema: as a result set, it is a virtual table computed or collated dynamically from data in the database when access to that view is requested. Changes applied to the data in a relevant underlying table are reflected in the data shown in subsequent invocations of the view.
@@ -332,6 +339,14 @@ HeidiSQL, DBeaver, DataGrip
 # PL/SQL
 - Source: https://en.wikipedia.org/wiki/PL/SQL
 - PL/SQL(Procedural Language for SQL) is Oracle Corporation's procedural extension for SQL and the Oracle relational database.
+- Block 구조로 되어 있어 각 기능별로 모듈화가 가능합니다.
+- 여러 SQL 문장을 Block으로 묶고 한 번에 Block 전부를 서버로 보내기 때문에 통신량을 줄일 수 있습니다.
+- 변수, 상수 등을 선언하여 SQL 문장 간 값을 교환합니다.
+- IF, LOOP 등의 절차형 언어를 사용하여 절차적인 프로그램이 가능하도록 합니다.
+- DBMS 정의 에러나 사용자 정의 에러를 정의하여 사용할 수 있습니다.
+- Oracle에 내장되어 있습니다.
+- 응용 프로그램의 성능을 향상시킬 수 있습니다.
+- `DECLARE`와 `BEGIN END` 문이 필수입니다.
 ```sql
 DECLARE NAME VARCHAR2(10) := 'HR';
 ```
