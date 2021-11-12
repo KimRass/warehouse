@@ -1,3 +1,10 @@
+# Case Sensitivity
+- Source: https://seeq.atlassian.net/wiki/spaces/KB/pages/443088907/SQL+Column+Names+and+Case+Sensitivity
+## Oracle
+- Oracle stores unquoted column names in uppercase.
+## MS SQL Server
+- The returned column name has the case that was used in the `SELECT` statement.
+
 # Data Types
 ## String
 - `CHAR(n)`: A fixed length string.
@@ -23,7 +30,7 @@
 ## Column <<COLUMN1>> is invalid in the ORDER BY clause because it is not contained in either an aggregate function or the GROUP BY clause.
 
 # Operators
-## Concatenation Operator `||`
+## Concatenation Operator `||` (Oracle, PostgreSQL), `+` (MS SQL Server), `CONCAT()` (All)
 - The result of concatenating two character strings is another character string.
 ## `BETWEEN AND`
 - The `BETWEEN AND` operator selects values within a given range. The values can be numbers, text, or dates.
@@ -88,7 +95,6 @@ CREATE TABLE orders(
 ##### `CREATE TABLE (FOREIGN KEY REFERENCES ON DELETE CASCADE)`
 - Source: http://www.dba-oracle.com/t_foreign_key_on_delete_cascade.htm
 - When you create a foreign key constraint, Oracle default to `ON DELETE RESTRICT` to ensure that a parent rows cannot be deleted while a child row still exists. However, you can also implement `ON DELETE CASCADE` to delete all child rows when a parent row is deleted.
-- Using `ON DELETE CASCADE` and `ON DELETE RESTRICT` is used when a strict one-to-many relationship exists such that any "orphan" row violates the integrity of the data.
 ### `CREATE VIEW AS SELECT FROM`
 ### `CREATE ROLE`
 - Source: https://www.programmerinterview.com/database-sql/database-roles/
@@ -99,6 +105,8 @@ CREATE TABLE orders(
 CREATE INDEX <<Index_name>>
 ON <<Table>>(<<Column1>>, <<Column2>>, ...);
 ```
+### `CREATE TRIGGER`
+### `CREATE PROCEDURE`
 ## `ALTER`
 ### `ALTER TABLE`
 #### `ALTER TABLE ADD`
@@ -150,14 +158,15 @@ ADD Email VARCHAR(255);
 #### `ALTER TABLE DROP FOREIGN KEY`
 ## `DROP`
 ### `DROP TABLE`
-- With the help of `DROP` command we can drop (delete) the whole structure in one go i.e, it removes the named elements of the schema. By using this command the existence of the whole table is finished or say lost.
-- Here we can’t restore the table by using the `ROLLBACK` command.
+- With the help of `DROP` command we can drop (delete) the whole structure in one go. By using this command the existence of the whole table is finished or say lost.
+- Table space is freed from memory.
 #### `DROP TABLE IF EXISTS`
 ### `DROP VIEW`
 ## `TRUNCATE`
 ### `TRUNCATE TABLE`
-- By using this command the existence of all the rows of the table is lost. It is comparatively faster than `DELETE` command as it deletes all the rows fastly.
-- Here we can’t restore the tuples of the table by using the `ROLLBACK` command.
+- By using this command the existence of all the rows of the table is lost.
+- The `TRUNCATE` command does not free the table space from memory.
+- It is comparatively faster than `DELETE` command.
 ## `RENAME`
 ### `RENAME TABLE TO`
 ```sql
@@ -167,7 +176,7 @@ RENAME TABLE old_table1 TO new_table1, old_table2 TO new_table2, old_table3 TO n
 # DCL(Data Control Language)
 ## `GRANT ON TO`, `REVOKE ON TO`
 ```sql
-GRANT <<Privilege>>, ...
+GRANT <<Privilege1>>, <<Privilege2>>, ...
 ON <<Table>>
 TO <<User>>
 ```
@@ -331,6 +340,10 @@ WHEN NOT MATCHED THEN
 - `START WITH` specifies the root row(s) of the hierarchy. `START WITH` 다음에 조건을 명시할 수도 있다.
 - `CONNECT BY` specifies the relationship between parent rows and child rows of the hierarchy. It always joins a table to itself, not to another table.
 - `PRIOR` should occur exactly once in each `CONNECT BY` expression. `PRIOR` can occur on either the left-hand side or the right-hand side of the expression, but not on both.
+- If the query contains a `WHERE` clause without a join, then Oracle eliminates all rows from the hierarchy that do not satisfy the condition of the `WHERE` clause. Oracle evaluates this condition for each row individually, rather than removing all the children of a row that does not satisfy the condition.
+- For each row returned by a hierarchical query, the `LEVEL` pseudocolumn returns 1 for a root row, 2 for a child of a root, and so on
+- The `CONNECT_BY_ISLEAF` pseudocolumn returns 1 if the current row is a leaf of the tree defined by the `CONNECT BY` condition, 0 otherwise.
+- The `CONNECT_BY_ROOT` pseudocolumn returns the root.
 ```sql
 SELECT last_name, employee_id, manager_id, LEVEL
 FROM employees
@@ -339,9 +352,6 @@ CONNECT BY PRIOR employee_id = manager_id
 ORDER SIBLINGS BY last_name;
 ```
 - If you want to order rows of siblings of the same parent, then use the `ORDER SIBLINGS BY` clause.
-- For each row returned by a hierarchical query, the `LEVEL` pseudocolumn returns 1 for a root row, 2 for a child of a root, and so on
-- The `CONNECT_BY_ISLEAF` pseudocolumn returns 1 if the current row is a leaf of the tree defined by the `CONNECT BY` condition, 0 otherwise.
-- The `CONNECT_BY_ROOT` pseudocolumn returns the root.
 ```sql
 SELECT last_name "Employee", CONNECT_BY_ISCYCLE "Cycle",
 LEVEL, SYS_CONNECT_BY_PATH(last_name, '/') "Path"
@@ -404,7 +414,7 @@ FROM triangles;
 ```
 ## `DECODE()`
 ```sql
-DECODE(<<Expression>>, <<Value to Be Compared1>>, <<Value If Equal to1>>, ..., <<Default>>)
+DECODE(<<Expression>>, <<Value to Be Compared1>>, <<Value If Equal to1>>, <<Value to Be Compared2>>, <<Value If Equal to2>>, ..., <<Default>>)
 ```
 - <<Default>>: (Optional) It is used to specify the default value to be returned if no matches are found.
 ## `ANY()`
@@ -488,14 +498,15 @@ TRIM(TRAILING '1' FROM 'Tech1')
 ```sql
 TRIM(BOTH '1' FROM '123Tech111')
 ```
-## `CONCAT()`
+## `CONCAT()` (All)
 ```sql
 SELECT CONCAT(CASE hdc_mbr.mbr_mst.mbr_sex WHEN '0' THEN '남자' WHEN '`' THEN '여자' END, '/', hdc_mbr.mbr_mst.mbr_birth)
 ```
-## CONCAT_WS()
+## `CONCAT_WS()`
 ```sql
-SELECT CONCAT_WS("/", "2020", "01", "12");
+CONCAT_WS(<<Separator>>, <<Expression1>>, <<Expression2>>, ...)
 ```
+- The `CONCAT_WS()` function adds <<Expression1>>, <<Expression2>>, ... together with a <<Separator>>.
 ## `SELECT FROM WHERE LIKE`
 ```sql
 SELECT DISTINCT city
@@ -592,7 +603,7 @@ FROM students;
 
 # Rank Functions
 - Source: https://codingsight.com/similarities-and-differences-among-rank-dense_rank-and-row_number-functions/, https://www.sqlshack.com/overview-of-sql-rank-functions/
-## `RANK() OVER(ORDER BY)`
+## `RANK() OVER([PARTITION BY] ORDER BY)`
 - If there is a tie between N previous records for the value in the `ORDER BY` column, the `RANK()` function skips the next N-1 positions before incrementing the counter.
 - e.g., 1, 2, 2, 4, 4, 4, 7
 ```sql
@@ -600,22 +611,19 @@ SELECT emp_no, emp_nm, sal,
 	RANK() OVER(ORDER BY salary DESC) ranking
 FROM employee;
 ```
-### `RANK() OVER(PARTITION BY ORDER BY)`
-## `DENSE_RANK() OVER(ORDER BY)`
+## `DENSE_RANK() OVER([PARTITION BY] ORDER BY)`
 - `DENSE_RANK()` function does not skip any ranks if there is a tie between the ranks of the preceding records.
 - e.g., 1, 2, 2, 3, 3, 3, 4)
-### `DENSE_RANK() OVER(PARTITION BY ORDER BY)`
-## `ROW_NUMBER() OVER(ORDER BY)`
+## `ROW_NUMBER() OVER([PARTITION BY] ORDER BY)`
 - Give a unique sequential number for each row in the specified data. It gives the rank one for the first row and then increments the value by one for each row. We get different ranks for the row having similar values as well.
 - e.g., 1, 2, 3, 4, 5, 6, 7)
-### `ROW_NUMBER() OVER(PARTITION BY ORDER BY)`
 
 # Aggregate Functions
 ## `MIN()`, `MAX()`
 ## `AVG()`, `SUM()`, `STDDEV()`, `VARIAN()`
 - NULL values are ignored.
 ## `COUNT()`
-- `COUNT(*)`, `COUNT(1)`, ...: Return the number of rows in the table.
+- `COUNT(*)`, `COUNT(1)`, `COUNT(2)`, ...: Return the number of rows in the table.
 - `COUNT(<<Column>>)`: Return the number of non-NULL values in the column.
 - `COUNT(DISTINCT <<Column>>)`: Return the number of distinct non-NULL values in the column.
 
@@ -634,9 +642,9 @@ GROUP BY CUBE(dname, job);
 ```
 ### `SELECT FROM GROUP BY GROUPING SETS()`
 - `GROUP BY GROUPING SETS(<<Column>>)`
-	- `GROUP BY <<Column>>`과 동일.
+	- `GROUP BY <<Column>>`과 동일합니다.
 - `GROUP BY GROUPING SETS((<<Column1>>, <<Column2>>, ...))`
-	- 인자로 주어진 컬럼들의 조합별로 값 집계.
+	- `GROUP BY <<Column1>>, <<Column2>>, ...과 동일합니다.
 - `GROUP BY GROUPING SETS(())`
 	- 전체에 대한 집계.
 - 인자가 여러 개인 경우 위 3가지 경우의 각 결과를 `UNION ALL`한 것과 같음.

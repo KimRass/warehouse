@@ -59,13 +59,6 @@ Written by KimRass
 - A single table can have many non-clustered indexes as an index in the non-clustered index is stored in different places.
 - For example, a book can have more than one index, one at the beginning which displays the contents of a book unit wise while the second index shows the index of terms in alphabetical order.
 
-# Database Lock
-- Source: https://www.tutorialcup.com/interview/sql-interview-questions/db-locks.htm
-- When two sessions or users of database try to update or delete the same data in a table, then there will be a concurrent update problem. In order to avoid this problem, database locks the data for the first user and allows him to update/delete the data. Once he is done with his update/delete, he COMMITs or ROLLBACK the transaction, which will release the lock on the data. When lock on the data is released, another user can lock it for his changes.
-- Therefore locking in the context of SQL is to hold the row or particular column which the user is going to update and not allowing any other session or user to insert/update/delete the data. It will not allow anyone to use the data until the lock on the data is released. Lock on the data will be released when the transaction is committed or rolled back.
-- Whenever a user issues `UPDATE` or `DELETE` command, database will implicitly place the lock on the data. It does not require user to explicitly type lock on the data. Whenever the database sees `UPDATE` or `DELETE` statement, lock is automatically placed on the data.
-- Reading the data when it is locked depends on the locking mechanism used. If the lock is read exclusive, then it will not allow to read locked data
-
 # View
 - Source: https://en.wikipedia.org/wiki/View_(SQL)
 - Unlike ordinary base tables in a relational database, a view does not form part of the physical schema: as a result set, it is a virtual table computed or collated dynamically from data in the database when access to that view is requested. Changes applied to the data in a relevant underlying table are reflected in the data shown in subsequent invocations of the view.
@@ -255,6 +248,14 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 # Database Trigger
 - Source: https://en.wikipedia.org/wiki/Database_trigger
 - A database trigger is procedural code that is automatically executed in response to certain events on a particular table or view in a database. The trigger is mostly used for maintaining the integrity of the information on the database. For example, when a new record (representing a new worker) is added to the employees table, new records should also be created in the tables of the taxes, vacations and salaries. Triggers can also be used to log historical data, for example to keep track of employees' previous salaries.
+- 생성하면 소스코드와 실행코드가 생성됩니다.
+- 생성 후 자동으로 실행됩니다.
+- `COMMIT`, `ROLLBACK`이 불가합니다.
+
+# Procedure
+- 생성하면 소스코드와 실행코드가 생성됩니다.
+- `EXECUTE` 명령어로 실행합니다.
+- `COMMIT`, `ROLLBACK`이 가능합니다.
 
 # Supertype & Subtype
 - Source: https://sqldatabasetutorials.com/sql-db/supertypes-and-subtypes/
@@ -285,8 +286,6 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - Data standardization is a data processing workflow that converts the structure of disparate datasets into a common data format. As part of the Data Preparation field, Data Standardization deals with the transformation of datasets after the data is pulled from source systems and before it's loaded into target systems.
 - Data standardization enables the data consumer to analyze and use data in a consistent manner. Typically, when data is created and stored in the source system, it's structured in a particular way that is often unknown to the data consumer. Moreover, datasets that might be semantically related may be stored and represented differently, thereby making it difficult for a data consumer to aggregate or compare the datasets.
 
-HeidiSQL, DBeaver, DataGrip
-
 # Cursor
 - https://en.wikipedia.org/wiki/Cursor_(databases)
 - A database cursor is a mechanism that enables traversal over the records in a database. Cursors facilitate subsequent processing in conjunction with the traversal, such as retrieval, addition and removal of database records.
@@ -310,6 +309,13 @@ HeidiSQL, DBeaver, DataGrip
 	- Duplication, on the other hand, has less complexity. It identifies one database as a master and then duplicates that database. The duplication process is normally done at a set time after hours. This is to ensure that each distributed location has the same data. In the duplication process, users may change only the master database. This ensures that local data will not be overwritten.
 - Both replication and duplication can keep the data current in all distributive locations.
 
+# Database Lock
+- Source: https://www.tutorialcup.com/interview/sql-interview-questions/db-locks.htm
+- When two sessions or users of database try to update or delete the same data in a table, then there will be a concurrent update problem. In order to avoid this problem, database locks the data for the first user and allows him to update/delete the data. Once he is done with his update/delete, he `COMMIT`s or `ROLLBACK` the transaction, which will release the lock on the data. When lock on the data is released, another user can lock it for his changes.
+- Therefore locking in the context of SQL is to hold the row or particular column which the user is going to update and not allowing any other session or user to insert/update/delete the data. It will not allow anyone to use the data until the lock on the data is released. Lock on the data will be released when the transaction is committed or rolled back.
+- Whenever a user issues `UPDATE` or `DELETE` command, database will implicitly place the lock on the data. It does not require user to explicitly type lock on the data. Whenever the database sees `UPDATE` or `DELETE` statement, lock is automatically placed on the data.
+- Reading the data when it is locked depends on the locking mechanism used. If the lock is read exclusive, then it will not allow to read locked data
+
 # Optimizer Join
 - Whenever you join a table to another table logically, the query optimizer can choose one of the three physical join iterators based on some cost based decision, these are hash join, nested loop join and merge join.
 ## Hash Join
@@ -326,6 +332,7 @@ HeidiSQL, DBeaver, DataGrip
 - 해시 테이블을 생성하는 비용이 수반되므로 이 과정을 효율화하는 것이 성능 개선에 있어 가장 중요합니다.
 - Build Input 해시 키 칼럼에 중복 값이 거의 없어야 효율적인 동작을 기대할 수 있습니다.
 - 수행 빈도가 낮고 수행 시간이 오래 걸리는 대용량 테이블에 대해 유용합니다.
+- 조인하는 컬럼의 인덱스가 존재하지 않을 경우에도 사용할 수 있습니다.
 ## Nested Loop Join
 - Random access: This technique is only applicable when the joining column(s) of the inner side table is already sorted (indexed).
 - Outer table, Inner table, Index
@@ -346,7 +353,7 @@ HeidiSQL, DBeaver, DataGrip
 - DBMS 정의 에러나 사용자 정의 에러를 정의하여 사용할 수 있습니다.
 - Oracle에 내장되어 있습니다.
 - 응용 프로그램의 성능을 향상시킬 수 있습니다.
-- `DECLARE`와 `BEGIN END` 문이 필수입니다.
+- `DC
 ```sql
 DECLARE NAME VARCHAR2(10) := 'HR';
 ```
