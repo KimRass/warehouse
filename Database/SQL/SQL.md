@@ -32,7 +32,7 @@
 ## Operator Precedence Rules
 - Parentheses -> Arithmetic Operators(`*`, `/` -> `+`, `-`) -> Concatenation Operator(`||`) -> Comparison Operators(`=`, `!=`, `<`, `<=`, `>`, `>=`) -> `IS`(`IS NULL`, `IS NOT NULL`, `IS EMPTY`, `IS NOT EMPTY`) -> (`BETWEEN`, `LIKE`, `IN()`( -> Logical Operatiors(`NOT` -> `AND` -> `OR`)
 
-# `INFORMATION_SCHEMA`
+# `INFORMATION_SCHEMA` (MS SQL Server)
 ## `INFORMATION_SCHEMA.TABLES`
 ```sql
 SELECT *
@@ -56,6 +56,7 @@ WHERE TABLE_NAME = `users`;
 - Oracle provides you with the DUAL table which is a special table that belongs to the schema of the user SYS but it is accessible to all users.
 - The `DUAL` table has one column named `DUMMY` whose data type is `VARCHAR2()` and contains one row with a value `X`.
 - By using the `DUAL` table, you can execute queries that contain functions that do not involve any table
+- MS SQL Server doesn't need `FROM` clause.
 
 # DDL(Data Definition Language)
 - Oracle database implicitly commits the current transaction before and after every DDL statement.
@@ -356,46 +357,6 @@ SYS_CONNECT_BY_PATH(<<Column>>, <<Character>>)
 ```
 - The `SYS_CONNECT_BY_PATH` function returns the path of a <<Column>> value from root to node, with column values separated by <<Character>> for each row returned by `CONNECT BY` condition.
 
-## CAST()
-```sql
-SELECT "There are a total of " + CAST(COUNT(occupation) AS CHAR) + " " + LOWER(occupation) + "s."
-FROM occupations
-GROUP BY occupation
-ORDER BY COUNT(occupation), LOWER(occupation);
-```
-
-# Logical Functions
-## `CASE WHEN THEN ELSE END`
-- Search for conditions sequentially.
-```sql
-SELECT CASE WHEN (a >= b + c OR b >= c + a OR c >= a + b) THEN "Not A Triangle" WHEN (a = b AND b = c) THEN "Equilateral" WHEN (a = b OR b = c OR c = a) THEN "Isosceles" ELSE "Scalene" END
-FROM triangles;
-```
-## `DECODE()`
-```sql
-DECODE(<<Expression>>, <<Value to Be Compared1>>, <<Value If Equal to1>>, ..., <<Default>>)
-```
-- <<Default>>: (Optional) It is used to specify the default value to be returned if no matches are found.
-## `ANY()`
-- Return TRUE if any of the subquery values meet the condition.
-```sql
-SELECT name
-FROM usertbl
-WHERE height > ANY(
-	SELECT height
-	FROM usertbl
-	WHERE addr = '서울');
-```
-## `ALL()`
-- Return TRUE if all of the subquery values meet the condition.
-- Used with `SELECT`, `WHERE` and `HAVING` statements.
-## `IN()`
-```sql
-SELECT name, addr
-FROM usertbl
-WHERE addr IN("서울", "경기", "충청");
-```
-
 # NULL Functions
 - Source: https://en.wikipedia.org/wiki/Null_(SQL)
 - A null value indicates a lack of a value, which is not the same thing as a value of zero. For example, consider the question "How many books does Adam own?" The answer may be "zero" (we know that he owns none) or "null" (we do not know how many he owns). In a database table, the column reporting this answer would start out with no value (marked by NULL), and it would not be updated with the value "zero" until we have ascertained that Adam owns no books.
@@ -433,6 +394,38 @@ ORDER BY animal_id
 - It is not possible to test for NULL values with comparison operators(`=`, `!=`, `<`, `<=`, `>`, `>=`).
 - `NULL IS NULL` is TRUE and `NULL IS NOT NULL` is FALSE.
 - Because NULL represents a lack of data, a NULL cannot be equal or unequal to any value or to another NULL. However, Oracle considers two NULLs to be equal when evaluating a `DECODE()` function.(So `NULL IN(NULL, ...)` is FALSE)
+
+# Logical Functions
+## `CASE WHEN THEN ELSE END`
+- Search for conditions sequentially.
+```sql
+SELECT CASE WHEN (a >= b + c OR b >= c + a OR c >= a + b) THEN "Not A Triangle" WHEN (a = b AND b = c) THEN "Equilateral" WHEN (a = b OR b = c OR c = a) THEN "Isosceles" ELSE "Scalene" END
+FROM triangles;
+```
+## `DECODE()`
+```sql
+DECODE(<<Expression>>, <<Value to Be Compared1>>, <<Value If Equal to1>>, ..., <<Default>>)
+```
+- <<Default>>: (Optional) It is used to specify the default value to be returned if no matches are found.
+## `ANY()`
+- Return TRUE if any of the subquery values meet the condition.
+```sql
+SELECT name
+FROM usertbl
+WHERE height > ANY(
+	SELECT height
+	FROM usertbl
+	WHERE addr = '서울');
+```
+## `ALL()`
+- Return TRUE if all of the subquery values meet the condition.
+- Used with `SELECT`, `WHERE` and `HAVING` statements.
+## `IN()`
+```sql
+SELECT name, addr
+FROM usertbl
+WHERE addr IN("서울", "경기", "충청");
+```
 
 # Numeric Functions
 ## `CEILING()`, `FLOOR()`
@@ -536,7 +529,7 @@ ORDER BY hour;
 ```
 - HOUR()는 일반조건이므로 (COUNT()와 달리) HAIVNG과 함께 쓸 수 없다.
 ```
-## `SYSDATE` (Oracle), `SYSDATE()` (MySQL)
+## `SYSDATE` (Oracle), `SYSDATE()` (MySQL), `GETDATE()` (MS SQL Server)
 ## `EXTRACT([YEAR | MONTH | DAY | HOUR | MINUTE | SECOND] FROM)`
 - Returns a numeric value when the following parameters are provided: `YEAR`, `MONTH`, `DAY`, `HOUR`, `MINUTE`, `SECOND`.
 ```sql
@@ -547,6 +540,14 @@ EXTRACT(MONTH FROM order_date)
 ```sql
 DATEDIFF(DAY, A.start_date, MIN(B.end_date))
 ```
+
+# Data Type Conversion Functions
+## `CAST(AS)`
+```sql
+CAST(COUNT(occupation) AS CHAR)
+```
+## `STR()`
+## `YEAR`, `MONTH`, `DAY`, `HOUR`, `MINUTE`, `SECOND`
 
 # Window Functions
 - Source: https://docs.oracle.com/cd/E17952_01/mysql-8.0-en/window-functions-usage.html
@@ -646,7 +647,7 @@ WHERE DEPARTMENT_ID > 80
 GROUP BY GROUPING SETS((DEPARTMENT_ID, JOB_ID), ());
 ```
 
-## `UNION`, `UNION ALL`
+## `SELECT FROM UNION SELECT FROM`, `SELECT FROM UNION ALL SELECT FROM`
 - The `UNION` operator eliminates duplicate selected rows. The sort is implicit in order to remove duplicates since.
 - The `UNION ALL` operator does not eliminate duplicate selected rows.
 ## `MINUS` (Oracle), `EXCEPT` (MS SQL Server)
