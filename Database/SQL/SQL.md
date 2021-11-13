@@ -27,7 +27,7 @@
 - `FROM` -> `WHERE` -> `GROUP BY` -> `HAVING` -> `SELECT` -> `ORDER BY` -> `LIMIT`, `TOP` or `FETCH`
 
 # Error Messages
-## Column \<\<COLUMN1\>\> is invalid in the ORDER BY clause because it is not contained in either an aggregate function or the GROUP BY clause.
+## `Column <<Column>> is invalid in the ORDER BY clause because it is not contained in either an aggregate function or the GROUP BY clause.`
 
 # Operators
 ## Arithmetic Operators(`*`, `/` -> `+`, `-`)
@@ -104,8 +104,8 @@ CREATE TABLE orders(
 - The majority of today’s RDBMS’s come with predefined roles that can be assigned to any user. But, a database user can also create his/her own role if he or she has the CREATE ROLE privilege.
 ### `CREATE INDEX ON`
 ```sql
-CREATE INDEX \<\<Index_name\>\>
-ON \<\<Table\>\>(\<\<Column1\>\>, \<\<Column2\>\>, ...);
+CREATE INDEX <<Index_name>>
+ON <<Table>>(<<Column1>>, <<Column2>>, ...);
 ```
 ### `CREATE TRIGGER`
 ### `CREATE PROCEDURE`
@@ -179,11 +179,11 @@ RENAME TABLE old_table1 TO new_table1, old_table2 TO new_table2, old_table3 TO n
 # DCL(Data Control Language)
 ## `GRANT ON TO`, `REVOKE ON TO`
 ```sql
-GRANT \<\<Privilege1\>\>, \<\<Privilege2\>\>, ...
-ON \<\<Table\>\>
-TO \<\<User\>\>
+GRANT <<Privilege1>>, <<Privilege2>>, ...
+ON <<Table>>
+TO <<User>>
 ```
-- \<\<Privilege\>\>: `CONNECT`, `RESOURCE`, `DBA`, ...
+- `<<Privilege>>`: `CONNECT`, `RESOURCE`, `DBA`, ...
 	- `CONNECT`: DB 접속 권한.
 	- `RESOURCE`: 테이블 등 생성 권한.
 ## `WITH GRANT OPTION`
@@ -195,7 +195,7 @@ TO \<\<User\>\>
 - `COMMIT` 되지 않은 데이터는 나 자신은 볼 수 있지만 다른 사용자는 볼 수 없으며 변경할 수도 없습니다.
 ## `SAVEPOINT`
 ```sql
-SAVEPOINT \<\<Savepoint Name\>\>
+SAVEPOINT <<Savepoint Name>>
 ```
 - Use the `SAVEPOINT` statement to identify a point in a transaction to which you can later roll back.
 - If you give two savepoints the same name, the earlier savepoint is erased.
@@ -204,7 +204,7 @@ SAVEPOINT \<\<Savepoint Name\>\>
 - Rolling back to a savepoint erases any savepoints marked after that savepoint. However, the savepoint to which you rollback is not erased.
 ### `ROLLBACK TO`
 ```sql
-ROLLBACK TO \<\<Savepoint Name\>\>
+ROLLBACK TO <<Savepoint Name>>
 ```
 
 # DML(Data Manipulation Language)
@@ -214,19 +214,19 @@ ROLLBACK TO \<\<Savepoint Name\>\>
 ### `INSERT INTO VALUES()`
 ```sql
 INSERT
-	INTO \<\<Table\>\>(\<\<Column1\>\>, \<\<Column2\>\>, ...) VALUES(\<\<Value1\>\>, \<\<Value2\>\>, ...);
+	INTO <<Table>>(<<Column1>>, <<Column2>>, ...) VALUES(<<Value1>>, <<Value2>>, ...);
 ```
 - If you are adding values for all the columns of the table, you do not need to specify the column names in the SQL query.
 ### `INSERT INTO SELECT FROM`
 ```sql
 INSERT
-	INTO \<\<Target Table\>\>
-SELECT FROM \<\<Source Table\>\>
+	INTO <<Target Table>>
+SELECT FROM <<Source Table>>
 ```
 - Source: https://www.w3schools.com/sql/sql_insert_into_select.asp
-- The `INSERT INTO SELECT` statement copies data from \<\<Source Table\>\> and inserts it into \<\<Target Table\>\>.
-- The `INSERT INTO SELECT` statement requires that the data types in \<\<Source Table\>\> and \<\<Tartget Table\>\> match.
-- The existing records in the \<\<Target Table\>\> are unaffected.
+- The `INSERT INTO SELECT` statement copies data from `<<Source Table>>` and inserts it into `<<Target Table>>`.
+- The `INSERT INTO SELECT` statement requires that the data types in `<<Source Table>>` and `<<Tartget Table>>` match.
+- The existing records in the `<<Target Table>>` are unaffected.
 #### `INSERT ALL INTO SELECT FROM`
 - When using an unconditional `INSERT ALL` statement, each row produced by the driving query results in a new row in each of the tables listed in the `INTO` clauses.
 ```sql
@@ -264,8 +264,8 @@ FETCH FIRST 3 ROWS ONLY;
 ```
 ### `SELECT FROM ORDER BY`
 - `ORDER BY`가 정렬을 하는 시점은 모든 실행이 끝난 후 데이터를 출력하기 바로 직전이다.
-- `ORDER BY \<\<Number\>\>
-	- <Number\>\> stands for the column based on the number of columns defined in the `SELECT` clause.
+- `ORDER BY <<Number>>`
+	- `<Number>>` stands for the column based on the number of columns defined in the `SELECT` clause.
 - Oracle considers NULL values larger than any non-NULL values.
 #### `SELECT FROM ORDER BY NULLS FIRST | NULLS LAST`
 ### `SELECT TOP PERCENT FROM` (MS SQL Server), `SELECT FROM FETCH FIRST PERCENT ROWS ONLY` (Oracle)
@@ -321,23 +321,23 @@ WHERE emp_no = 100;
 - Because the `MERGE` is a deterministic statement, you cannot update the same row of the target table multiple times in the same `MERGE` statement.
 ## `MERGE INTO USING ON WHEN MATCHED THEN UPDATE SET WHERE [DELETE WHERE] WHEN NOT MATCHED THEN INSERT () VALUES() WHERE`
 ```sql
-MERGE INTO \<\<Target Table\>\>
-USING \<\<Source Table\>\> 
-ON \<\<Search Condition\>\>
+MERGE INTO <<Target Table>>
+USING <<Source Table>> 
+ON <<Search Condition>>
 WHEN MATCHED THEN
-	UPDATE SET \<\<Column1\>\> = \<\<Value1\>\>, \<\<Column2\>\> = \<\<Value2\>\>, ...
-	WHERE \<\<Update Condition\>\>
-	[DELETE WHERE \<\<Delete Condition\>\>]
+	UPDATE SET <<Column1>> = <<Value1>>, <<Column2>> = <<Value2>>, ...
+	WHERE <<Update Condition>>
+	[DELETE WHERE <<Delete Condition>>]
 WHEN NOT MATCHED THEN
-	INSERT (\<\<Column1\>\>, \<\<Column2\>\>, ...)
-	VALUE(\<\<Value1\>\>, \<\<Value2\>\>, ...)
-	WHERE \<\<Insert Condition\>\>;
+	INSERT (<<Column1>>, <<Column2>>, ...)
+	VALUE(<<Value1>>, <<Value2>>, ...)
+	WHERE <<Insert Condition>>;
 ```
-- \<\<Search Condition\>\>
-	- For each row in the target table, Oracle evaluates the \<\<Search Condition\>\>
+- `<<Search Condition>>`
+	- For each row in the target table, Oracle evaluates the `<<Search Condition>>`
 		- If the result is true, then Oracle updates the row with the corresponding data from the source table.
 		- In case the result is false for any rows, then Oracle inserts the corresponding row from the source table into the target table.
-- \<\<Delete Condition\>\>
+- `<<Delete Condition>>`
 	- You can add an optional `DELETE WHERE` clause to the `MATCHED` clause to clean up after a merge operation. The `DELETE` clause deletes only the rows in the target table that match both `ON` and `DELETE WHERE` clauses.
 	- Source: https://oracle-base.com/articles/10g/merge-enhancements-10g
 	- Only those rows in the destination table that match both the ON clause and the `DELETE WHERE` are deleted. If you add a `WHERE` clause to the update in the matched clause, we can think of this as additional match criteria for the delete, as only rows that are touched by the update are available for the `DELETE` clause to remove. Depending on which table the `DELETE WHERE` references, it can target the rows prior or post update.
@@ -373,9 +373,9 @@ CONNECT BY NOCYCLE PRIOR employee_id = manager_id AND LEVEL <= 4;
 - The `NOCYCLE` parameter in the `CONNECT BY` condition causes Oracle to return the rows in spite of the loop.
 - The `CONNECT_BY_ISCYCLE` pseudocolumn shows you which rows contain the cycle.
 ```sql
-SYS_CONNECT_BY_PATH(\<\<Column\>\>, \<\<Character\>\>)
+SYS_CONNECT_BY_PATH(<<Column>>, <<Character>>)
 ```
-- The `SYS_CONNECT_BY_PATH` function returns the path of a \<\<Column\>\> value from root to node, with column values separated by \<\<Character\>\> for each row returned by `CONNECT BY` condition.
+- The `SYS_CONNECT_BY_PATH` function returns the path of a `<<Column>>` value from root to node, with column values separated by `<<Character>>` for each row returned by `CONNECT BY` condition.
 
 # NULL Functions
 - Source: https://en.wikipedia.org/wiki/Null_(SQL)
@@ -384,24 +384,24 @@ SYS_CONNECT_BY_PATH(\<\<Column\>\>, \<\<Character\>\>)
 - NULL means that the value is unknown.
 ## `NVL()` (Oracle)
 ```sql
-NVL(\<\<Column to Test\>\>, \<\<Value if NULL\>\>)
+NVL(<<Column to Test>>, <<Value if NULL>>)
 ```
-- Return \<\<Column to Test\>\> if not NULL otherwise return \<\<Value if NULL\>\> if NULL.
+- Return `<<Column to Test>>` if not NULL otherwise return `<<Value if NULL>>` if NULL.
 ## `NVL2()` (Oracle)
 ```sql
-NVL2(\<\<Column to Test\>\>, \<\<Value if not NULL\>\>, \<\<Value if NULL\>\>)
+NVL2(<<Column to Test>>, <<Value if not NULL>>, <<Value if NULL>>)
 ```
-- Return \<\<Value if not NULL\>\> if \<\<Column to Test\>\> is not NULL otherwise return \<\<Value if NULL\>\> if \<\<Column to Test\>\> is NULL.
+- Return `<<Value if not NULL>>` if <<Column to Test>> is not NULL otherwise return `<<Value if NULL>>` if `<<Column to Test>>` is NULL.
 ## `COALESCE()` (Oracle, MySQL)
 ```sql
-COALESCE(\<\<Expression1\>\>, \<\<Expression2\>\>, ...)
+COALESCE(<<Expression1>>, <<Expression2>>, ...)
 ```
 - Return the first non-NULL expression in the list. If all expressions evaluate to null, return NULL
 ## `NULLIF()` (Oracle, MS SQL Server)
 ```sql
-NULLIF(\<\<Expression1\>\>, \<\<Expression2\>\>)
+NULLIF(<<Expression1>>, <<Expression2>>)
 ```
-- Return NULL if \<\<Expression1\>\> and \<\<Expression2\>\> are equal and return \<\<Expression1\>\> if \<\<Expression1\>\> and \<\<Expression2\>\> are not equal.
+- Return NULL if `<<Expression1>>` and `<<Expression2>>` are equal and return `<<Expression1>>` if `<<Expression1>>` and `<<Expression2>>` are not equal.
 ## `IFNULL()` (MySQL)
 ```sql
 SELECT animal_type, IFNULL(name, "No name"), sex_upon_intake
@@ -424,9 +424,9 @@ FROM triangles;
 ```
 ## `DECODE()`
 ```sql
-DECODE(\<\<Expression\>\>, \<\<Value to Be Compared1\>\>, \<\<Value If Equal to1\>\>, \<\<Value to Be Compared2\>\>, \<\<Value If Equal to2\>\>, ..., \<\<Default\>\>)
+DECODE(<<Expression>>, <<Value to Be Compared1>>, <<Value If Equal to1>>, <<Value to Be Compared2>>, <<Value If Equal to2>>, ..., <<Default>>)
 ```
-- \<\<Default\>\>: (Optional) It is used to specify the default value to be returned if no matches are found.
+- `<<Default>>`: (Optional) It is used to specify the default value to be returned if no matches are found.
 ## `ANY()`
 - Return TRUE if any of the subquery values meet the condition.
 ```sql
@@ -475,10 +475,10 @@ WHERE RIGHT(city, 1) IN ("a", "e", "i", "o", "u");
 ```
 ## `SUBSTR()`, `SUBSTRING()`
 ```sql
-SUBSTR(\<\<String\>\>, \<\<Start Position\>\>, [\<\<Length\>\>])
+SUBSTR(<<String>>, <<Start Position>>, [<<Length>>])
 ```
-- \<\<String\>\>: The first position in the \<\<String\>\> is always 1, the last -1.
-- \<\<Length\>\>: If this parameter is omitted, the `SUBSTR` function will return the entire \<\<String\>\>.
+- `<<String>>`: The first position in the `<<String>>` is always 1, the last -1.
+- `<<Length>>`: If this parameter is omitted, the `SUBSTR` function will return the entire `<<String>>`.
 ## `LOWER()`, `UPPER()`, `INITCAP()`
 ```sql
 UPPER('eabc')
@@ -486,10 +486,10 @@ UPPER('eabc')
 ## `LPAD()`, `RPAD()`
 - The `LPAD()` function left-pads a string with another string, to a certain length.
 ```sql
-LPAD(\<\<Original String\>\>, \<\<Target Length\>\>, \<\<String to Pad\>\>)
+LPAD(<<Original String>>, <<Target Length>>, <<String to Pad>>)
 ```
-- `\<\<Target Length\>\>`: The length of the string after it has been left-padded. Note that if the \<\<Target Length\>\> is less than the length of the \<\<Original String\>\>, then `LPAD()` function will shorten down the \<\<Original String\>\> to the \<\<Target Length\>\> without doing any padding.
-- If \<\<String to Pad\>\> is `' '` if omitted.
+- `<<Target Length>>`: The length of the string after it has been left-padded. Note that if the `<<Target Length>>` is less than the length of the `<<Original String>>`, then `LPAD()` function will shorten down the `<<Original String>>` to the `<<Target Length>>` without doing any padding.
+- If `<<String to Pad>>` is `' '` if omitted.
 ## `LTRIM()`, `RTRIM()`
 ## `TRIM()`
 ### `SELECT TRIM([[LEADING | TRAILING | BOTH] FROM]) FROM`
@@ -514,9 +514,9 @@ SELECT CONCAT(CASE hdc_mbr.mbr_mst.mbr_sex WHEN '0' THEN '남자' WHEN '`' THEN 
 ```
 ## `CONCAT_WS()`
 ```sql
-CONCAT_WS(\<\<Separator\>\>, \<\<Expression1\>\>, \<\<Expression2\>\>, ...)
+CONCAT_WS(<<Separator>>, <<Expression1>>, <<Expression2>>, ...)
 ```
-- The `CONCAT_WS()` function adds \<\<Expression1\>\>, \<\<Expression2\>\>, ... together with a \<\<Separator\>\>.
+- The `CONCAT_WS()` function adds `<<Expression1>>`, `<<Expression2>>`, ... together with a `<<Separator>>`.
 ## `SELECT FROM WHERE LIKE`
 ```sql
 SELECT DISTINCT city
@@ -586,11 +586,11 @@ CAST(COUNT(occupation) AS CHAR)
 - Source: https://learnsql.com/blog/range-clause/
 - The `RANGE` and the `ROW` clauses have the same purpose: to specify the starting and ending points within the partition, with the goal of limiting rows. However, each clause does it differently. The `ROW` clause does it by specifying a fixed number of rows that precede or follow the current row. The `RANGE` clause, on the other hand, limits the rows logically; it specifies the range of values in relation to the value of the current row.
 - The default window frame without the `ORDER BY` is the whole partition. But when you use the `ORDER BY`, the default window frame is `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`(= `UNBOUNDED PRECEDING`).
-- `BETWEEN \<\<Start Point\>\> AND \<\<End Point\>\>`
-	- \<\<Start Point\>\>: `UNBOUNDED PRECEDING`, `n PRECEDING`, `CURRENT ROW`
-	- \<\<End Point\>\>`: `UNBOUNDED FOLLOWING`, `m FOLLOWING`, `CURRENT ROW`
-- `\<\<Start Point\>\>`
-	- In this case, `\<\<End Point\>\>` is same as `CURRENT ROW`(`\<\<End Point\>\>` is omitted)
+- `BETWEEN <<Start Point>> AND <<End Point>>`
+	- `<<Start Point>>`: `UNBOUNDED PRECEDING`, `n PRECEDING`, `CURRENT ROW`
+	- `<<End Point>>`: `UNBOUNDED FOLLOWING`, `m FOLLOWING`, `CURRENT ROW`
+- `<<Start Point>>`
+	- In this case, `<<End Point>>` is same as `CURRENT ROW`(`<<End Point>>` is omitted)
 ```sql
 SELECT month, SUM(tot_sales) AS monthly_sales,
 	AVG(SUM(tot_sales)) OVER(ORDER BY month RANGE BETWEEN 1 PRECEDING AND 1 FOLLOWING) AS rolling_avg
@@ -634,15 +634,15 @@ FROM employee;
 - NULL values are ignored.
 ## `COUNT()`
 - `COUNT(*)`, `COUNT(1)`, `COUNT(2)`, ...: Return the number of rows in the table.
-- `COUNT(\<\<Column\>\>)`: Return the number of non-NULL values in the column.
-- `COUNT(DISTINCT \<\<Column\>\>)`: Return the number of distinct non-NULL values in the column.
+- `COUNT(<<Column>>)`: Return the number of non-NULL values in the column.
+- `COUNT(DISTINCT <<Column>>)`: Return the number of distinct non-NULL values in the column.
 
 # Group Functions
 ## `SELECT FROM GROUP BY`
 - `GROUP BY` treats NULL as valid values.
 - All NULL values are grouped into one value or bucket.
 ### `SELECT FROM GROUP BY ROLLUP()`
-- `GROUP BY ROLLUP(\<\<Column1\>\>, \<\<Column2\>\>, ...)` is same as `GROUP BY GROUPING SETS(\<\<Column1\>\>, (\<\<Column1\>\>, \<\<Column2\>\>), ..., ())`
+- `GROUP BY ROLLUP(<<Column1>>, <<Column2>>, ...)` is same as `GROUP BY GROUPING SETS(<<Column1>>, (<<Column1>>, <<Column2>>), ..., ())`
 - ***계측 구조로 계층 간 정렬이 가능합니다.***
 ### `SELECT FROM GROUP BY CUBE()`
 - Generate subtotals for all combinations of the dimensions specified.
@@ -652,10 +652,10 @@ FROM test18
 GROUP BY CUBE(dname, job);
 ```
 ### `SELECT FROM GROUP BY GROUPING SETS()`
-- `GROUP BY GROUPING SETS(\<\<Column\>\>)`
-	- `GROUP BY \<\<Column\>\>`과 동일합니다.
-- `GROUP BY GROUPING SETS((\<\<Column1\>\>, \<\<Column2\>\>, ...))`
-	- `GROUP BY \<\<Column1\>\>, \<\<Column2\>\>, ...과 동일합니다.
+- `GROUP BY GROUPING SETS(<<Column>>)`
+	- `GROUP BY <<Column>>`과 동일합니다.
+- `GROUP BY GROUPING SETS((<<Column1>>, <<Column2>>, ...))`
+	- `GROUP BY <<Column1>>, <<Column2>>, ...`과 동일합니다.
 - `GROUP BY GROUPING SETS(())`
 	- 전체에 대한 집계.
 - 인자가 여러 개인 경우 위 3가지 경우의 각 결과를 `UNION ALL`한 것과 같음.
@@ -694,7 +694,7 @@ FROM foods CROSS JOIN company;
 ```
 ## `NATURAL JOIN`
 - A `NATURAL JOIN` is a join operation that creates an implicit join clause for you based on the common columns in the two tables being joined. Common columns are columns that have the same name in both tables.
-- ***`\<\<Table\>\>.\<\<Column\>\>`과 같은 형태로 사용할 수 없습니다.***
+- ***`<<Table>>.<<Column>>`과 같은 형태로 사용할 수 없습니다.***
 ### `NATURAL INNER JOIN`(= `NATURAL JOIN`), `NATURAL LEFT OUTER JOIN`, `NATURAL RIGHT OUTER JOIN`
 - 
 ```sql
@@ -709,19 +709,19 @@ FROM countries INNER JOIN cities
 - The above two statements are the same.
 ### Join with `+` Operator
 ```sql
-FROM A LEFT OUTER JOIN B ON A.\<\<Column1\>\> = B.\<\<Column2\>\>
+FROM A LEFT OUTER JOIN B ON A.<<Column1>> = B.<<Column2>>
 ```
 ```sql
 FROM A, B
-WHERE A.\<\<Column1\>\> = B.\<\<Column2\>\>(+)
+WHERE A.<<Column1>> = B.<<Column2>>(+)
 ```
 - The above two statements are the same.
 ```sql
-FROM A RIGHT OUTER JOIN B ON A.\<\<Column1\>\> = B.\<\<Column2\>\>
+FROM A RIGHT OUTER JOIN B ON A.<<Column1>> = B.<<Column2>>
 ```
 ```sql
 FROM A, B
-WHERE A.\<\<Column1\>\>(+) = B.\<\<Column2\>\>
+WHERE A.<<Column1>>(+) = B.<<Column2>>
 ```
 - The above two statements are the same.
 ## Equi Join
