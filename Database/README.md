@@ -331,7 +331,7 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - Equi join에서만 사용될 수 있습니다.
 - 해시 테이블을 생성하는 비용이 수반되므로 이 과정을 효율화하는 것이 성능 개선에 있어 가장 중요합니다.
 - Build Input 해시 키 칼럼에 중복 값이 거의 없어야 효율적인 동작을 기대할 수 있습니다.
-- 수행 빈도가 낮고 수행 시간이 오래 걸리는 **대용량 테이블에 대해 유용합니다.**
+- 수행 빈도가 낮고 수행 시간이 오래 걸리는 ***대용량 테이블에 대해 유용합니다.***
 - 조인하는 컬럼의 인덱스가 존재하지 않을 경우에도 사용할 수 있습니다.
 ## Nested Loop Join
 - Random access: This technique is only applicable when the joining column(s) of the inner side table is already sorted (indexed).
@@ -341,7 +341,7 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - OLTP(OnLine Transaction Processing)에 유용합니다.
 - 적은 데이터를 Join할 때 유리합니다.
 ## Merge Join
-- **Equi join과 Non-equi join 모두에서 사용할 수 있습니다.**
+- ***Equi join과 Non-equi join 모두에서 사용할 수 있습니다.***
 
 # PL/SQL
 - Source: https://en.wikipedia.org/wiki/PL/SQL

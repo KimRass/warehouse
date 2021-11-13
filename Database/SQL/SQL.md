@@ -159,13 +159,13 @@ ADD Email VARCHAR(255);
 ## `DROP`
 ### `DROP TABLE`
 - With the help of `DROP` command we can drop (delete) the whole structure in one go. The existence of the whole table is finished.
-- **The `DROP TABLE` statement does not result in space being released back to the tablespace for use by other objects.**
+- ***The `DROP TABLE` statement does not result in space being released back to the tablespace for use by other objects.***
 #### `DROP TABLE IF EXISTS`
 ### `DROP VIEW`
 ## `TRUNCATE`
 ### `TRUNCATE TABLE`
 - It removes all the rows exist in the table.
-- **It returns the freed space to the tablespace.**
+- ***It returns the freed space to the tablespace.***
 - It is comparatively faster than `DELETE` command.
 ## `RENAME`
 ### `RENAME TABLE TO`
