@@ -68,11 +68,11 @@ WHERE TABLE_NAME = `users`;
 - MS SQL Server doesn't need `FROM` clause.
 
 # DDL(Data Definition Language)
-- Oracle database implicitly commits the current transaction before and after every DDL statement.
+- ***Oracle database implicitly commits the current transaction before and after every DDL statement.***
+- ***MS SQL Server는 Auto commit을 수행하지 않습니다.***
 - `CREATE`, `ALTER`, `DROP`, `TRUNCATE`,  `RENAME`
 ## `CREATE`
-### `CREATE TABLE`
-#### `CREATE TABLE (NOT NULL, DEFAULT, UNIQUE, CHECK, PRIMARY KEY, FOREIGN KEY REFERENCES)`
+### `CREATE TABLE ([NOT NULL | DEFAULT | UNIQUE | CHECK | PRIMARY KEY | FOREIGN KEY REFERENCES])`
 - `NOT NULL`: Ensures that a column cannot have NULL value.
 - `DEFAULT`: Provides a default value for a column when none is specified.
 - `UNIQUE`: Ensures that all values in a column are different.
@@ -94,9 +94,9 @@ CREATE TABLE orders(
 		PRIMARY KEY(order_id),
 		FOREIGN KEY(person_id) REFERENCES persons(person_id));
 	```
-##### `CREATE TABLE (FOREIGN KEY REFERENCES ON DELETE CASCADE)`
+#### `CREATE TABLE (FOREIGN KEY REFERENCES [ONE DELETE RESTRICT | ON DELETE CASCADE])`
 - Source: http://www.dba-oracle.com/t_foreign_key_on_delete_cascade.htm
-- When you create a foreign key constraint, Oracle default to `ON DELETE RESTRICT` to ensure that a parent rows cannot be deleted while a child row still exists. However, you can also implement `ON DELETE CASCADE` to delete all child rows when a parent row is deleted.
+- ***When you create a foreign key constraint, Oracle default to `ON DELETE RESTRICT` to ensure that a parent rows cannot be deleted while a child row still exists. However, you can also implement `ON DELETE CASCADE` to delete all child rows when a parent row is deleted.***
 ### `CREATE VIEW AS SELECT FROM`
 ### `CREATE ROLE`
 - Source: https://www.programmerinterview.com/database-sql/database-roles/
@@ -268,12 +268,13 @@ FETCH FIRST 3 ROWS ONLY;
 - Oracle considers NULL values larger than any non-NULL values.
 #### `SELECT FROM ORDER BY NULLS FIRST | NULLS LAST`
 ### `SELECT TOP PERCENT FROM` (MS SQL Server), `SELECT FROM FETCH FIRST PERCENT ROWS ONLY` (Oracle)
-### `SELECT ROWNUM FROM`, `SELECT FROM WHERE ROWNUM
+### `SELECT ROWNUM FROM`, `SELECT FROM WHERE ROWNUM`
+- For each row returned by a query, the `ROWNUM` pseudocolumn returns a number indicating the order in which Oracle selects the row from a table or set of joined rows. The first row selected has a `ROWNUM` of 1, the second has 2, and so on.
 ```sql
 SELECT ROWNUM, pr.product_name, pr.standard_cost
 FROM products;
 ```
-- `ROWNUM`과 `ORDER BY`를 같이 사용할 경우 매겨놓은 순번이 섞여버리는 현상이 발생합니다.
+- ***`ROWNUM`과 `ORDER BY`를 같이 사용할 경우 매겨놓은 순번이 섞여버리는 현상이 발생합니다.***
 - 이 때, Inline view에서 먼저 정렬을 하고 순번을 매기는 방법으로 정렬된 데이터에 순번을 매길 수 있습니다.
 #### `SELECT FROM ORDER BY HAVING`
 - ***`HAVING`은 `GROUP BY`문의 조건절이므로 `GROUP BY` 함수 없이 사용되면 `SELECT`문에서 어떤 행도 반환하지 않습니다.***
@@ -692,7 +693,7 @@ FROM foods CROSS JOIN company;
 ```
 ## `NATURAL JOIN`
 - A `NATURAL JOIN` is a join operation that creates an implicit join clause for you based on the common columns in the two tables being joined. Common columns are columns that have the same name in both tables.
-- `<<Table>>.<<Column>>`과 같은 형태로 사용할 수 없습니다.
+- ***`<<Table>>.<<Column>>`과 같은 형태로 사용할 수 없습니다.***
 ### `NATURAL INNER JOIN`(= `NATURAL JOIN`), `NATURAL LEFT OUTER JOIN`, `NATURAL RIGHT OUTER JOIN`
 - 
 ```sql
@@ -704,7 +705,24 @@ SELECT *
 FROM countries INNER JOIN cities
 	USING(country, country_iso_code)
 ```
-- Above two statements are the same.
+- The above two statements are the same.
+### Join with `+` Operator
+```sql
+FROM A LEFT OUTER JOIN B ON A.<<Column1>> = B.<<Column2>>
+```
+```sql
+FROM A, B
+WHERE A.<<Column1>> = B.<<Column2>>(+)
+```
+- The above two statements are the same.
+```sql
+FROM A RIGHT OUTER JOIN B ON A.<<Column1>> = B.<<Column2>>
+```
+```sql
+FROM A, B
+WHERE A.<<Column1>>(+) = B.<<Column2>>
+```
+- The above two statements are the same.
 ## Equi Join
 - Source: https://www.w3resource.com/sql/joins/perform-an-equi-join.php
 - Equi join performs a join against equality or matching column(s) values of the associated tables. An equal sign(`=`) is used as comparison operator in the where clause to refer equality.
