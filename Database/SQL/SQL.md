@@ -30,14 +30,16 @@
 ## Column <<COLUMN1>> is invalid in the ORDER BY clause because it is not contained in either an aggregate function or the GROUP BY clause.
 
 # Operators
-## Concatenation Operator `||` (Oracle, PostgreSQL), `+` (MS SQL Server), `CONCAT()` (All)
+## Arithmetic Operators(`*`, `/` -> `+`, `-`)
+- ***Any calculation performed on the NULL value returns NULL.***
+## Concatenation Operator(`||`) (Oracle, PostgreSQL), `+` (MS SQL Server), `CONCAT()` (All)
 - The result of concatenating two character strings is another character string.
 ## `BETWEEN AND`
 - The `BETWEEN AND` operator selects values within a given range. The values can be numbers, text, or dates.
 - The `BETWEEN AND` operator is inclusive: begin and end values are included.
 - 앞에 오는 숫자가 뒤에 오는 숫자보다 작아야 합니다.
 ## Operator Precedence Rules
-- Parentheses -> Arithmetic Operators(`*`, `/` -> `+`, `-`) -> Concatenation Operator(`||`) -> Comparison Operators(`=`, `!=`, `<`, `<=`, `>`, `>=`) -> `IS`(`IS NULL`, `IS NOT NULL`, `IS EMPTY`, `IS NOT EMPTY`) -> (`BETWEEN`, `LIKE`, `IN()`( -> Logical Operatiors(`NOT` -> `AND` -> `OR`)
+- ***Parentheses -> Arithmetic Operators(`*`, `/` -> `+`, `-`) -> Concatenation Operator(`||`) -> Comparison Operators(`=`, `!=`, `<`, `<=`, `>`, `>=`) -> `IS`(`IS NULL`, `IS NOT NULL`, `IS EMPTY`, `IS NOT EMPTY`) -> (`BETWEEN`, `LIKE`, `IN()`( -> Logical Operatiors(`NOT` -> `AND` -> `OR`)***
 
 # `INFORMATION_SCHEMA` (MS SQL Server)
 ## `INFORMATION_SCHEMA.TABLES`
@@ -273,6 +275,8 @@ FROM products;
 ```
 - `ROWNUM`과 `ORDER BY`를 같이 사용할 경우 매겨놓은 순번이 섞여버리는 현상이 발생합니다.
 - 이 때, Inline view에서 먼저 정렬을 하고 순번을 매기는 방법으로 정렬된 데이터에 순번을 매길 수 있습니다.
+#### `SELECT FROM ORDER BY HAVING`
+- ***`HAVING`은 `GROUP BY`문의 조건절이므로 `GROUP BY` 함수 없이 사용되면 `SELECT`문에서 어떤 행도 반환하지 않습니다.***
 ### `SELECT FROM WHERE EXISTS()`
 - Source: https://www.w3schools.com/sql/sql_exists.asp
 - The `EXISTS` operator is used to test for the existence of any record in a subquery.
@@ -637,6 +641,7 @@ FROM employee;
 - All NULL values are grouped into one value or bucket.
 ### `SELECT FROM GROUP BY ROLLUP()`
 - `GROUP BY ROLLUP(<<Column1>>, <<Column2>>, ...)` is same as `GROUP BY GROUPING SETS(<<Column1>>, (<<Column1>>, <<Column2>>), ..., ())`
+- ***계측 구조로 계층 간 정렬이 가능합니다.***
 ### `SELECT FROM GROUP BY CUBE()`
 - Generate subtotals for all combinations of the dimensions specified.
 ```sql

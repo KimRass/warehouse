@@ -237,13 +237,14 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - ACID is a set of properties of database transactions intended to guarantee data validity despite errors, power failures, and other mishaps.
 - In the context of databases, a sequence of database operations that satisfies the ACID properties (which can be perceived as a single logical operation on the data) is called a transaction. For example, a transfer of funds from one bank account to another, even involving multiple changes such as debiting one account and crediting another, is a single transaction.
 - Atomicity(= 원자성)
-	- Transactions are often composed of multiple statements. Atomicity guarantees that each transaction is treated as a single "unit", which either succeeds completely, or fails completely: if any of the statements constituting a transaction fails to complete, the entire transaction fails and the database is left unchanged. An atomic system must guarantee atomicity in each and every situation, including power failures, errors and crashes. A guarantee of atomicity prevents updates to the database occurring only partially, which can cause greater problems than rejecting the whole series outright. As a consequence, the transaction cannot be observed to be in progress by another database client. At one moment in time, it has not yet happened, and at the next it has already occurred in whole (or nothing happened if the transaction was cancelled in progress).
+	- Transactions are often composed of multiple statements. ***Atomicity guarantees that each transaction is treated as a single "unit", which either succeeds completely, or fails completely: if any of the statements constituting a transaction fails to complete, the entire transaction fails and the database is left unchanged.*** An atomic system must guarantee atomicity in each and every situation, including power failures, errors and crashes. A guarantee of atomicity prevents updates to the database occurring only partially, which can cause greater problems than rejecting the whole series outright. As a consequence, the transaction cannot be observed to be in progress by another database client. At one moment in time, it has not yet happened, and at the next it has already occurred in whole (or nothing happened if the transaction was cancelled in progress).
 - Consistency(Correctness)(= 일관성)
-	- Consistency ensures that a transaction can only bring the database from one valid state to another, maintaining database invariants: any data written to the database must be valid according to all defined rules, including constraints, cascades, triggers, and any combination thereof. This prevents database corruption by an illegal transaction, but does not guarantee that a transaction is correct.
+	- Source: https://www.bmc.com/blogs/acid-atomic-consistent-isolated-durable/
+	- ***Consistency refers to maintaining data integrity constraints. A consistent transaction will not violate integrity constraints placed on the data by the database rules.*** Enforcing consistency ensures that if a database enters into an illegal state (if a violation of data integrity constraints occurs) the process will be aborted and changes rolled back to their previous, legal state.
 - Isolation(= 고립성, 격리성)
-	- Transactions are often executed concurrently (e.g., multiple transactions reading and writing to a table at the same time). Isolation ensures that concurrent execution of transactions leaves the database in the same state that would have been obtained if the transactions were executed sequentially.
+	- Transactions are often executed concurrently (e.g., multiple transactions reading and writing to a table at the same time). ***Isolation ensures that concurrent execution of transactions leaves the database in the same state that would have been obtained if the transactions were executed sequentially.***
 - Durability(= 영속성, 지속성)
-	- Durability guarantees that once a transaction has been committed, it will remain committed even in the case of a system failure (e.g., power outage or crash). This usually means that completed transactions (or their effects) are recorded in non-volatile memory.
+- Durability guarantees that once a transaction has been committed, it will remain committed even in the case of a system failure (e.g., power outage or crash). ***This usually means that completed transactions (or their effects) are recorded in non-volatile memory.***
 
 # Database Trigger
 - Source: https://en.wikipedia.org/wiki/Database_trigger
@@ -334,12 +335,13 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - 수행 빈도가 낮고 수행 시간이 오래 걸리는 ***대용량 테이블에 대해 유용합니다.***
 - 조인하는 컬럼의 인덱스가 존재하지 않을 경우에도 사용할 수 있습니다.
 ## Nested Loop Join
-- Random access: This technique is only applicable when the joining column(s) of the inner side table is already sorted (indexed).
-- Outer table, Inner table, Index
 - Source: https://en.wikipedia.org/wiki/Nested_loop_join
 - A nested loop join is a naive algorithm that joins two sets by using two nested loops.
+- ***Random access: This technique is only applicable when the joining column(s) of the inner side table is already sorted (indexed).***
+- Outer table, Inner table, Index
 - OLTP(OnLine Transaction Processing)에 유용합니다.
 - 적은 데이터를 Join할 때 유리합니다.
+- ***Full access join을 수행하는 두 개의 테이블에 대해서 Nested loop join을 수행하면 두 개의 테이블의 모든 행의 조합마다 join 연산을 수행하므로 성능이 떨어집니다.***
 ## Merge Join
 - ***Equi join과 Non-equi join 모두에서 사용할 수 있습니다.***
 
