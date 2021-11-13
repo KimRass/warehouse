@@ -158,14 +158,14 @@ ADD Email VARCHAR(255);
 #### `ALTER TABLE DROP FOREIGN KEY`
 ## `DROP`
 ### `DROP TABLE`
-- With the help of `DROP` command we can drop (delete) the whole structure in one go. By using this command the existence of the whole table is finished or say lost.
-- Table space is freed from memory.
+- With the help of `DROP` command we can drop (delete) the whole structure in one go. The existence of the whole table is finished.
+- **The `DROP TABLE` statement does not result in space being released back to the tablespace for use by other objects.**
 #### `DROP TABLE IF EXISTS`
 ### `DROP VIEW`
 ## `TRUNCATE`
 ### `TRUNCATE TABLE`
-- By using this command the existence of all the rows of the table is lost.
-- The `TRUNCATE` command does not free the table space from memory.
+- It removes all the rows exist in the table.
+- **It returns the freed space to the tablespace.**
 - It is comparatively faster than `DELETE` command.
 ## `RENAME`
 ### `RENAME TABLE TO`
@@ -261,7 +261,8 @@ FETCH FIRST 3 ROWS ONLY;
 ```
 ### `SELECT FROM ORDER BY`
 - `ORDER BY`가 정렬을 하는 시점은 모든 실행이 끝난 후 데이터를 출력하기 바로 직전이다.
-- `ORDER BY <<Number>>: <Number>> stands for the column based on the number of columns defined in the `SELECT` clause.
+- `ORDER BY <<Number>>
+	- <Number>> stands for the column based on the number of columns defined in the `SELECT` clause.
 - Oracle considers NULL values larger than any non-NULL values.
 #### `SELECT FROM ORDER BY NULLS FIRST | NULLS LAST`
 ### `SELECT TOP PERCENT FROM` (MS SQL Server), `SELECT FROM FETCH FIRST PERCENT ROWS ONLY` (Oracle)
@@ -302,7 +303,7 @@ SET ename = 'jojo'
 WHERE emp_no = 100;
 ```
 ## `DELETE`
-### `DELETE FROM WHERE`
+### `DELETE FROM [WHERE]`
 - Here we can use the `ROLLBACK` command to restore the tuple.
 ```sql
 DELETE FROM emp
@@ -343,6 +344,9 @@ WHEN NOT MATCHED THEN
 - If the query contains a `WHERE` clause without a join, then Oracle eliminates all rows from the hierarchy that do not satisfy the condition of the `WHERE` clause. Oracle evaluates this condition for each row individually, rather than removing all the children of a row that does not satisfy the condition.
 - For each row returned by a hierarchical query, the `LEVEL` pseudocolumn returns 1 for a root row, 2 for a child of a root, and so on
 - The `CONNECT_BY_ISLEAF` pseudocolumn returns 1 if the current row is a leaf of the tree defined by the `CONNECT BY` condition, 0 otherwise.
+```sql
+CONNECT_BY_ROOT last_name AS boss
+```
 - The `CONNECT_BY_ROOT` pseudocolumn returns the root.
 ```sql
 SELECT last_name, employee_id, manager_id, LEVEL
