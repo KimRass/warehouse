@@ -213,19 +213,18 @@ ROLLBACK TO <<Savepoint Name>>
 ## `INSERT`
 ### `INSERT INTO VALUES()`
 ```sql
-INSERT
-	INTO <<Table>>(<<Column1>>, <<Column2>>, ...) VALUES(<<Value1>>, <<Value2>>, ...);
+INSERT INTO <<Table>>(<<Column1>>, <<Column2>>, ...) VALUES(<<Value1>>, <<Value2>>, ...);
 ```
 - If you are adding values for all the columns of the table, you do not need to specify the column names in the SQL query.
 ### `INSERT INTO SELECT FROM`
 ```sql
-INSERT
-	INTO <<Target Table>>
-SELECT FROM <<Source Table>>
+INSERT INTO <<Target Table>>
+SELECT
+FROM <<Source Table>>
 ```
 - Source: https://www.w3schools.com/sql/sql_insert_into_select.asp
-- The `INSERT INTO SELECT` statement copies data from `<<Source Table>>` and inserts it into `<<Target Table>>`.
-- The `INSERT INTO SELECT` statement requires that the data types in `<<Source Table>>` and `<<Tartget Table>>` match.
+- The `INSERT INTO SELECT FROM` statement copies data from `<<Source Table>>` and inserts it into `<<Target Table>>`.
+- The `INSERT INTO SELECT FROM` statement requires that the data types in `<<Source Table>>` and `<<Tartget Table>>` match.
 - The existing records in the `<<Target Table>>` are unaffected.
 #### `INSERT ALL INTO SELECT FROM`
 - When using an unconditional `INSERT ALL` statement, each row produced by the driving query results in a new row in each of the tables listed in the `INTO` clauses.
