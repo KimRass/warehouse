@@ -329,11 +329,11 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - This algorithm is simple, but it requires that the smaller join relation fits into memory, which is sometimes not the case.
 - Source: https://coding-factory.tistory.com/758
 - 비용 기반 옵티마이저를 사용할 때만 사용될 수 있는 조인 방식.
-- Equi join에서만 사용될 수 있습니다.
+- ***Equi join에서만 사용될 수 있습니다.***
 - 해시 테이블을 생성하는 비용이 수반되므로 이 과정을 효율화하는 것이 성능 개선에 있어 가장 중요합니다.
 - Build Input 해시 키 칼럼에 중복 값이 거의 없어야 효율적인 동작을 기대할 수 있습니다.
 - 수행 빈도가 낮고 수행 시간이 오래 걸리는 ***대용량 테이블에 대해 유용합니다.***
-- 조인하는 컬럼의 인덱스가 존재하지 않을 경우에도 사용할 수 있습니다.
+- ***조인하는 컬럼의 인덱스가 존재하지 않을 경우에도 사용할 수 있습니다.***
 ## Nested Loop Join
 - Source: https://en.wikipedia.org/wiki/Nested_loop_join
 - A nested loop join is a naive algorithm that joins two sets by using two nested loops.
@@ -344,6 +344,7 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - ***Full access join을 수행하는 두 개의 테이블에 대해서 Nested loop join을 수행하면 두 개의 테이블의 모든 행의 조합마다 join 연산을 수행하므로 성능이 떨어집니다.***
 ## Merge Join
 - ***Equi join과 Non-equi join 모두에서 사용할 수 있습니다.***
+- ***정렬된 결과들을 통해 조인 작업이 수행되며 조인에 성공하면 추출 버퍼에 넣는 작업을 수행합니다.***
 
 # PL/SQL
 - Source: https://en.wikipedia.org/wiki/PL/SQL

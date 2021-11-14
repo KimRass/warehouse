@@ -5,6 +5,12 @@
 ## MS SQL Server
 - The returned column name has the case that was used in the `SELECT` statement.
 
+# Table or Column Names
+## Oracle
+- Be no longer than 30 characters.
+- Begin with an alphabetical character.
+- Contain only alphabetical characters, numbers, or one of the following special characters: `#`, `$`, `_`
+
 # Data Types
 ## String
 - `CHAR(n)`: A fixed length string.
@@ -265,7 +271,8 @@ FETCH FIRST 3 ROWS ONLY;
 - `ORDER BY`가 정렬을 하는 시점은 모든 실행이 끝난 후 데이터를 출력하기 바로 직전이다.
 - `ORDER BY <<Number>>`
 	- `<Number>>` stands for the column based on the number of columns defined in the `SELECT` clause.
-- Oracle considers NULL values larger than any non-NULL values.
+- ***Oracle considers NULL values larger than any non-NULL values.***
+- ***MS SQL Server considers NULL values smaller than any non-NULL values.***
 #### `SELECT FROM ORDER BY NULLS FIRST | NULLS LAST`
 ### `SELECT TOP PERCENT FROM` (MS SQL Server), `SELECT FROM FETCH FIRST PERCENT ROWS ONLY` (Oracle)
 ### `SELECT ROWNUM FROM`, `SELECT FROM WHERE ROWNUM`
@@ -308,10 +315,10 @@ SET ename = 'jojo'
 WHERE emp_no = 100;
 ```
 ## `DELETE`
-### `DELETE FROM [WHERE]`
+### `DELETE [FROM] [WHERE]`
 - Here we can use the `ROLLBACK` command to restore the tuple.
 ```sql
-DELETE FROM emp
+DELETE [FROM] emp
 WHERE emp_no = 100;
 ```
 ## `MERGE` (Oracle)
@@ -447,8 +454,17 @@ WHERE addr IN("서울", "경기", "충청");
 ```
 
 # Numeric Functions
-## `CEILING()`, `FLOOR()`
-## `FORMAT()`
+## `CEIL()`(= `CEILING()`), `FLOOR()`
+- Returns the smallest(largest) integer value that is bigger(smaller) than or equal to a number.
+## `ROUND()`
+```sql
+ROUND(<<Target Number>>, [<<Decimal Place>>])
+```
+- If no <<Decimal Place>> is defined, then <<Target Number>> is rounded to zero places.
+- If the <<Decimal Place>> specified is negative, then <<Target Number>> is rounded off to the left of the decimal point.
+- If the <<Decimal Place>> specified is positive, then <<Target Number>> is rounded up to <<Decimal Place>> decimal place(s).
+## `ABS()`
+## `FORMAT()` (MS SQL Server)
 ```sql
 SELECT FORMAT(123456.123456, 4);
 ```
@@ -472,7 +488,7 @@ SELECT DISTINCT city
 FROM station
 WHERE RIGHT(city, 1) IN ("a", "e", "i", "o", "u");
 ```
-## `SUBSTR()`, `SUBSTRING()`
+## `SUBSTR()`(= `SUBSTRING()`)
 ```sql
 SUBSTR(<<String>>, <<Start Position>>, [<<Length>>])
 ```
@@ -573,7 +589,7 @@ CAST(COUNT(occupation) AS CHAR)
 - Source: https://docs.oracle.com/cd/E17952_01/mysql-8.0-en/window-functions-usage.html
 - Window functions are aggregates based on a set of rows, similar to an aggregate function like a `GROUP BY`, but in this case this aggregation of rows moves or slides across a number of rows so we have a sort of sliding window, thus the name window functions.
 - Window operations do not collapse groups of query rows to a single output row. Instead, they produce a result for each row.
-- `MIN()`, `MAX()`, `SUM()`, Rank functions(`RANK()`, `DENSE_RANK()`, `ROW_NUMBER()`), `NTILE()`, `ROW_NUMBER()`, `FIRST_VALUE()`, `LAST_VALUE()`, `LAG`, `LEAD`에 적용 가능합니다.
+- ***`GROUP BY`와 함께 사용할 수 없습니다.***
 ## `OVER()`
 - An empty `OVER` clause treats the entire set of query rows as a single partition. The window function thus produces a global sum, but does so for each row.
 ### `OVER([PARTITION BY])`
@@ -581,7 +597,7 @@ CAST(COUNT(occupation) AS CHAR)
 #### `OVER([PARTITION BY] [ORDER BY])`
 - An `ORDER BY` clause indicates how to sort rows in each partition. If `ORDER BY` is omitted, partition rows are unordered.
 - An `ORDER BY` in a window definition applies within individual partitions. To sort the result set as a whole, include an `ORDER BY` at the query top level.
-##### `OVER([PARTITION BY] [ORDER BY] [ROWS BETWEEN AND])`, `OVER([PARTITION BY] [ORDER BY] [RANGE BETWEEN AND])`
+#### `OVER([PARTITION BY] [ORDER BY] [ROWS BETWEEN AND])`, `OVER([PARTITION BY] [ORDER BY] [RANGE BETWEEN AND])`
 - Source: https://learnsql.com/blog/range-clause/
 - The `RANGE` and the `ROW` clauses have the same purpose: to specify the starting and ending points within the partition, with the goal of limiting rows. However, each clause does it differently. The `ROW` clause does it by specifying a fixed number of rows that precede or follow the current row. The `RANGE` clause, on the other hand, limits the rows logically; it specifies the range of values in relation to the value of the current row.
 - The default window frame without the `ORDER BY` is the whole partition. But when you use the `ORDER BY`, the default window frame is `RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`(= `UNBOUNDED PRECEDING`).
@@ -595,46 +611,44 @@ SELECT month, SUM(tot_sales) AS monthly_sales,
 	AVG(SUM(tot_sales)) OVER(ORDER BY month RANGE BETWEEN 1 PRECEDING AND 1 FOLLOWING) AS rolling_avg
 FROM orders
 ```
-## `FIRST_VALUE() [RESPECT | IGNORE NULLS]`, `LAST_VALUE() [RESPECT | IGNORE NULLS]`
+## Aggregate Window Functions
+### `MIN()`, `MAX()`
+### `AVG()`, `SUM()`
+- ***NULL values are ignored.***
+### `COUNT()`
+- `COUNT(*)`, `COUNT(1)`, `COUNT(2)`, ...: Return the number of rows in the table.
+- `COUNT(<<Column>>)`: Return the number of non-NULL values in the column.
+- `COUNT(DISTINCT <<Column>>)`: Return the number of distinct non-NULL values in the column.
+## Rank Window Functions
+- Source: https://codingsight.com/similarities-and-differences-among-rank-dense_rank-and-row_number-functions/, https://www.sqlshack.com/overview-of-sql-rank-functions/
+### `RANK()`
+- If there is a tie between N previous records for the value in the `ORDER BY` column, the `RANK()` function skips the next N-1 positions before incrementing the counter.(e.g., 1, 2, 2, 4, 4, 4, 7)
+```sql
+SELECT emp_no, emp_nm, sal,
+	RANK() OVER(ORDER BY salary DESC) ranking
+FROM employee;
+```
+### `DENSE_RANK()`
+- `DENSE_RANK()` function does not skip any ranks if there is a tie between the ranks of the preceding records.(e.g., 1, 2, 2, 3, 3, 3, 4)
+### `ROW_NUMBER()`
+- Give a unique sequential number for each row in the specified data. It gives the rank one for the first row and then increments the value by one for each row. We get different ranks for the row having similar values as well.(e.g., 1, 2, 3, 4, 5, 6, 7)
+- `ROW_NUMBER()`을 사용하면 Inline view를 사용하지 않고도 어떤 값의 순서대로 순번을 매길 수 있습니다.
+### `NTILE()`
+- Source: https://www.sqltutorial.org/sql-window-functions/sql-ntile/
+- `NTILE()` is a window function that allows you to break the result set into a specified number of approximately equal groups, or buckets. It assigns each group a bucket number starting from one. For each row in a group, the `NTILE()` function assigns a bucket number representing the group to which the row belongs.
+- The `ORDER BY` clause specifies the order of rows in each partition to which the `NTILE()` is applied.
+- Notice that if the number of rows is not divisible by buckets, the `NTILE()` function results in groups of two sizes with the difference by one. The larger groups always come before the smaller group in the order specified by the `ORDER BY` clause.
+## Value Window Functions 
+### `LAG()`, `LEAD()`
+- The `LAG` function is used to access data from a previous row.
+- The `LEAD` function is used to return data from rows further down the result set.
+### `FIRST_VALUE() [RESPECT | IGNORE NULLS]`, `LAST_VALUE() [RESPECT | IGNORE NULLS]`
 - `RESPECT NULLS | IGNORE NULLS`: It is an optional parameter which is used to specify whether to include or ignore the NULL values in the calculation. The default value is `RESPECT NULLS`.
 ```sql
 SELECT DISTINCT FIRST_VALUE(marks)
 OVER(ORDER BY marks DESC RANGE BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS `Highest`
 FROM students;
 ```
-## `NTILE() OVER([PARTITION BY] ORDER BY)`
-- Source: https://www.sqltutorial.org/sql-window-functions/sql-ntile/
-- `NTILE()` is a window function that allows you to break the result set into a specified number of approximately equal groups, or buckets. It assigns each group a bucket number starting from one. For each row in a group, the `NTILE()` function assigns a bucket number representing the group to which the row belongs.
-- The `ORDER BY` clause specifies the order of rows in each partition to which the `NTILE()` is applied.
-- Notice that if the number of rows is not divisible by buckets, the `NTILE()` function results in groups of two sizes with the difference by one. The larger groups always come before the smaller group in the order specified by the `ORDER BY` clause.
-## `ROW_NUMBER()`
-- `ROW_NUMBER()`을 사용하면 Inline view를 사용하지 않고도 어떤 값의 순서대로 순번을 매길 수 있습니다.
-
-# Rank Functions
-- Source: https://codingsight.com/similarities-and-differences-among-rank-dense_rank-and-row_number-functions/, https://www.sqlshack.com/overview-of-sql-rank-functions/
-## `RANK() OVER([PARTITION BY] ORDER BY)`
-- If there is a tie between N previous records for the value in the `ORDER BY` column, the `RANK()` function skips the next N-1 positions before incrementing the counter.
-- e.g., 1, 2, 2, 4, 4, 4, 7
-```sql
-SELECT emp_no, emp_nm, sal,
-	RANK() OVER(ORDER BY salary DESC) ranking
-FROM employee;
-```
-## `DENSE_RANK() OVER([PARTITION BY] ORDER BY)`
-- `DENSE_RANK()` function does not skip any ranks if there is a tie between the ranks of the preceding records.
-- e.g., 1, 2, 2, 3, 3, 3, 4)
-## `ROW_NUMBER() OVER([PARTITION BY] ORDER BY)`
-- Give a unique sequential number for each row in the specified data. It gives the rank one for the first row and then increments the value by one for each row. We get different ranks for the row having similar values as well.
-- e.g., 1, 2, 3, 4, 5, 6, 7)
-
-# Aggregate Functions
-## `MIN()`, `MAX()`
-## `AVG()`, `SUM()`, `STDDEV()`, `VARIAN()`
-- NULL values are ignored.
-## `COUNT()`
-- `COUNT(*)`, `COUNT(1)`, `COUNT(2)`, ...: Return the number of rows in the table.
-- `COUNT(<<Column>>)`: Return the number of non-NULL values in the column.
-- `COUNT(DISTINCT <<Column>>)`: Return the number of distinct non-NULL values in the column.
 
 # Group Functions
 ## `SELECT FROM GROUP BY`
@@ -665,14 +679,22 @@ WHERE DEPARTMENT_ID > 80
 GROUP BY GROUPING SETS((DEPARTMENT_ID, JOB_ID), ());
 ```
 
-## `SELECT FROM UNION SELECT FROM`, `SELECT FROM UNION ALL SELECT FROM`
+# Set Operators
+## `UNION`, `UNION ALL`
+### `SELECT FROM UNION(UNION ALL) SELECT FROM`
 - The `UNION` operator eliminates duplicate selected rows. The sort is implicit in order to remove duplicates since.
-- The `UNION ALL` operator does not eliminate duplicate selected rows.
-## `MINUS` (Oracle), `EXCEPT` (MS SQL Server)
-- Return all rows in the first `SELECT` statement that are not returned by the second `SELECT` statement.
-## `INTERSECT`
+## `INTERSECT`, `INTERSECT ALL`
+### `SELECT FROM INTERSECT(INTERSECT ALL) SELECT FROM`
 - The `INTERSECT` operator returns only those rows returned by both queries.
-## `PIVOT`, `UNPIVOT`
+- ***The `INTERSECT` operator removes duplicate rows from the final result set.***
+- The `INTERSECT ALL` operator does not remove duplicate rows from the final result set, but if a row appears X times in the first query and Y times in the second, it will appear min(X, Y) times in the result set.
+## `MINUS` (Oracle), `EXCEPT`, `EXCEPT ALL` (MS SQL Server)
+### `SELECT FROM MINUS SELECT FROM`, `SELECT FROM EXCEPT(EXCEPT ALL) SELECT FROM`
+- Return all rows in the first `SELECT` statement that are not returned by the second `SELECT` statement.
+- ***The `MINUS`(`EXCEPT`) operator removes duplicate rows from the final result set.***
+- The `EXCEPT ALL` operator does not remove duplicates, but if a row appears X times in the first query and Y times in the second, it will appear max(X - Y, 0) times in the result set.
+
+# `PIVOT`, `UNPIVOT`
 ```sql
 SELECT 반정보, 과목, 점수
 FROM dbo.성적	UNPIVOT (점수	FOR 과목 IN(국어, 수학, 영어)) AS UNPVT
@@ -682,6 +704,7 @@ FROM dbo.성적	UNPIVOT (점수	FOR 과목 IN(국어, 수학, 영어)) AS UNPVT
 
 # Join
 ## `INNER JOIN`(= `JOIN`), `LEFT OUTER JOIN`, `LEFT OUTER JOIN`, `FULL OUTER JOIN`
+- `FULL OUTER JOIN` is same as `LEFT OUTER JOIN UNION ALL RIGHT OUTER JOIN`.
 ## `CROSS JOIN`
 - In Mathematics, given two sets `A` and `B`, the Cartesian product of `AxB` is the set of all ordered pair `(a, b)`, which `a` belongs to `A` and `b` belongs to `B`.
 - Join key가 없을 때 발생합니다.
