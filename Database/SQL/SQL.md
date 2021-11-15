@@ -49,6 +49,7 @@
 
 # `INFORMATION_SCHEMA` (MS SQL Server)
 ## `INFORMATION_SCHEMA.TABLES`
+- Pseudocolumns: `table_catalog`, `table_schema`, `table_name`, `table_type`
 ```sql
 SELECT *
 FROM INFORMATION_SCHEMA.TABLES
@@ -565,7 +566,7 @@ ORDER BY hour;
 ```
 - HOUR()는 일반조건이므로 (COUNT()와 달리) HAIVNG과 함께 쓸 수 없다.
 ```
-## `SYSDATE` (Oracle), `SYSDATE()` (MySQL), `GETDATE()` (MS SQL Server)
+## `SYSDATE` (Oracle), `CURDATE()` (MySQL), `GETDATE()` (MS SQL Server)
 ## `EXTRACT([YEAR | MONTH | DAY | HOUR | MINUTE | SECOND] FROM)`
 - Returns a numeric value when the following parameters are provided: `YEAR`, `MONTH`, `DAY`, `HOUR`, `MINUTE`, `SECOND`.
 ```sql
