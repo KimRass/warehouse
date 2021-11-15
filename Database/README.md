@@ -14,17 +14,14 @@ Written by KimRass
 - The Primary key should be selected from the candidate keys. Every table must have at least a single candidate key. A table can have multiple candidate keys but only a single primary key.
 - It must contain unique values.
 - Candidate key in SQL may have multiple attributes.
-- Must not contain null values.
+- Must not contain NULL values.
 - It should contain minimum fields to ensure uniqueness.
 - Uniquely identify each record in a table.
 ## Primary Key(= 주식별자)
-- Primary key is a column or group of columns in a table that uniquely identify every row in that table.
-- Two rows can’t have the same primary key value.
+- ***A primary key is a specific choice of a minimal set of attributes(= columns) that uniquely specify a tuple(= row) in a table.(Uniqueness and minimality)***
 - It must for every row to have a primary key value.
-- The primary key field cannot be null.
-- The value in a primary key column can never be modified or updated if any foreign key refers to that primary key.
-- uniqueness and minimality
-## Alternate Key(= 보고 식별자)
+- ***The value in a primary key column can never be modified or updated if any foreign key refers to that primary key.***
+## Alternate Key(= 보조 식별자)
 - A table can have multiple choices for a primary key but only one can be set as the primary key. All the keys which are not primary key are called an Alternate Key.
 ## Foreign Key(= 외부 식별자 <-> 내부 식별자)
 - Foreign key is a column that creates a relationship between two tables. The purpose of foreign keys is to maintain data integrity and allow navigation between two different instances of an entity.
@@ -69,9 +66,12 @@ Written by KimRass
 - Views take very little space to store; the database contains only the definition of a view, not a copy of all the data that it presents.
 
 # Data Modeling
+- ***추상화(Abstraction): 현실 세계를 간략하게 추상화하여 표현합니다.***
+- ***단순화(Simplicity): 누구나 쉽게 이해할 수 있도록 표현합니다.***
+- ***명확성(Clarity): 명확하게 의미가 해석되어야 합니다.***
 - Source: https://www.ibm.com/cloud/learn/data-modeling
 - Data Requirements Collecting -> Conceptual Data Modeling -> Logical Data Modeling -> Physical Data Modeling
-## Data Requirements
+## Data Requirements Collecting
 - Source: https://www.freetutes.com/systemanalysis/sa7-data-modeling-data-requirements.html
 - Here the database designer interviews database users. By this process they are able to understand their data requirements. Results of this process are clearly documented.
 기능
@@ -81,18 +81,19 @@ Written by KimRass
 ## Conceptual Data Modeling
 - Conceptual models offer a big-picture view of what the system will contain, how it will be organized, and which business rules are involved.
 - They are usually created as part of the process of gathering initial project requirements.
+- 사용자 관점에서 Data requirements를 식별합니다.
 ## Logical Data Modeling
 - Logical models are less abstract and provide greater detail about the concepts and relationships in the domain under consideration. One of several formal data modeling notation systems is followed. ***These indicate data attributes, such as data types and their corresponding lengths, and show the relationships among entities.*** Logical data models don’t specify any technical system requirements.
 ### ***Database Normalization***
 - Source: https://en.wikipedia.org/wiki/Database_normalization
 - Database normalization is the process of structuring a database, usually a relational database, in accordance with a series of so-called normal forms in order to reduce data redundancy and improve data integrity.
 - Objectives:
-	- To free the collection of relations from undesirable insertion, update and deletion dependencies.
-	- To reduce the need for restructuring the collection of relations, as new types of data are introduced, and thus increase the life span of application programs.
+	- ***To free the collection of relations from undesirable update, insertion and deletion dependencies.***
+	- ***To reduce the need for restructuring the collection of relations, as new types of data are introduced, and thus increase the life span of application programs.***
 - When an attempt is made to modify (update, insert into, or delete from) a relation, the following undesirable side-effects may arise in relations that have not been sufficiently normalized:
-	- Update anomaly: For example, a change of address for a particular employee may need to be applied to multiple records (one for each skill). If the update is only partially successful – the employee's address is updated on some records but not others – then the relation is left in an inconsistent state. Specifically, the relation provides conflicting answers to the question of what this particular employee's address is.
-	- Insertion anomaly: There are circumstances in which certain facts cannot be recorded at all. For example, the details of any faculty member who teaches at least one course can be recorded, but a newly hired faculty member who has not yet been assigned to teach any courses cannot be recorded, except by setting the Course Code to null.
-	- Deletion anomaly: Under certain circumstances, deletion of data representing certain facts necessitates deletion of data representing completely different facts. For example, if a faculty member temporarily ceases to be assigned to any courses, the last of the records on which that faculty member appears must be deleted, effectively also deleting the faculty member, unless the Course Code field is set to null.
+	- Update anomaly: For example, a change of address for a particular employee may need to be applied to multiple records. If the update is only partially successful – the employee's address is updated on some records but not others – then the relation is left in an inconsistent state. Specifically, the relation provides conflicting answers to the question of what this particular employee's address is.
+	- Insertion anomaly: There are circumstances in which certain facts cannot be recorded at all. For example, the details of any faculty member who teaches at least one course can be recorded, but a newly hired faculty member who has not yet been assigned to teach any courses cannot be recorded, except by setting the Course Code to NULL.
+	- Deletion anomaly: Under certain circumstances, deletion of data representing certain facts necessitates deletion of data representing completely different facts. For example, if a faculty member temporarily ceases to be assigned to any courses, the last of the records on which that faculty member appears must be deleted, effectively also deleting the faculty member, unless the course code field is set to NULL.
 - Normalization is a database design technique, which is used to design a relational database table up to higher normal form.[9] The process is progressive, and a higher level of database normalization cannot be achieved unless the previous levels have been satisfied.
 #### Satisfying 1NF(First Normal Form)
 - Only atomic columns.
@@ -105,7 +106,7 @@ Written by KimRass
 - No transitive dependencies.
 - For example, `Author Nationality` is dependent on `Author`, which is dependent on `Title`. `Genre Name` is dependent on `Genre ID`, which is dependent on `Title`. 
 ## Physical Data Modeling
-- Physical models provide a schema for how the data will be physically stored within a database. As such, they’re the least abstract of all.
+- ***Physical models provide a schema for how the data will be physically stored within a database***. As such, they’re the least abstract of all.
 
 # Denormalization
 - Source: https://www.geeksforgeeks.org/denormalization-in-databases/
@@ -175,12 +176,26 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - the division of potential customers in a given market into discrete groups.
 
 # ERD(Entity Relationship Diagram)
-- Mandatory, Optional
+- Mandatory, Optional.
+- IE(Information Engineering) Notation.
 ## Entity
+- 1개의 Entity는 2개 이상의 Instance의 집합이어야 합니다.
+- 1개의 Entity는 2개 이상의 Attribute를 갖습니다.
+- 1개의 Attribute는 1개의 Value를 갖습니다.
 ### Associative Entity(= Intersection Entity, 교차 엔티티)
 - A relational database requires the implementation of a base relation (or base table) to resolve many-to-many relationships. A base relation representing this kind of entity is called, informally, an associative table.
+## Attribute
+### Stored Attribute(= 기본 속성)
+- Stored attribute is an attribute which are physically stored in the database.
+### Derived Attribute(= 파생 속성)
+- ***A derived attribute is an attribute whose values are calculated from other attributes.***
+### 설계 속성
 ## Relationship
-- One of the followings; One to One, One to Many, Many to Many
+### Degree of a Relationship(= 관게 차수)
+- ***The number of participating entities in a relationship***
+### Relationship Cardinality
+- The number of relationship instances an entity can participate in.
+- ***One of the followings; One to One, One to Many or Many to Many.***
 ### Identifying Relationship
 - The primary key of the parent would become a subset of the primary key of the child.
 - Reprsented by a solid line.
@@ -273,10 +288,19 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 	- Exhaustive: Every instance of the supertype is also an instance of one of the subtypes. All subtypes are listed without omission.
 	- Mutually Exclusive: Each instance of a supertype is an instance of only one possible subtype.
 - At the conceptual modeling stage, it is good practice to include an `OTHER` subtype to make sure that your subtypes are exhaustive — that you are handling every instance of the supertype.
+## One to One Types
+- ***Supertype과 Subtype를 개별 Table로 도출합니다.***
+- ***Table의 수가 많아서 Join이 많이 발생하고 관리가 어렵습니다.***
+## Plus Types
+- ***Supertype과 Subtype를 개별 Table로 도출합니다.***
+- ***Table의 수가 많아서 Join이 많이 발생하고 관리가 어렵습니다.***
+## Single Type
+- ***Supertype과 Subtype를 하나의 Table로 도출합니다.***
+- ***Join 성능이 좋고 관리가 편합니다.***
 
 # Data Domain
 - Source: https://en.wikipedia.org/wiki/Data_domain
-- A data domain is the collection of values that a column may contain. The rule for determining the domain boundary may be as simple as a data type with an enumerated list of values.
+- A data domain is the collection of values that a column may contain. ***The rule for determining the domain boundary may be as simple as a data type with an enumerated list of values.***
 - For example, a database table that has information about people, with one record per person, might have a "marital status" column. This column might be declared as a string data type, and allowed to have one of two known code values: "M" for married, "S" for single, and NULL for records where marital status is unknown or not applicable. The data domain for the marital status column is: "M", "S".
 ## Cardinality
 - Source: https://orangematter.solarwinds.com/2021/10/01/what-is-cardinality-in-a-database/
