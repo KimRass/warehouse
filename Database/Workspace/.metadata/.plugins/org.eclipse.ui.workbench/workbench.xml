@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workbench progressCount="14" version="2.0">
 <workbenchAdvisor/>
-<window height="768" maximized="true" width="1024" x="7" y="120">
+<window height="1066" width="976" x="-8" y="-8">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -26,16 +26,12 @@
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
-<part id="1"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor id="com.tomato.exerd.term.ui.editor2.TermDictionaryEditor2" name="용어 사전.xdic" partName="용어 사전.xdic" path="D:/Github/Programming/Database/Workspace/Test/용어 사전.xdic" title="용어 사전.xdic" tooltip="Test/용어 사전.xdic" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/Test/용어 사전.xdic"/>
-</editor>
-<editor activePart="true" focus="true" id="com.tomato.exerd.editor.DiagramEditor" name="Naver Movies.exerd" partName="Naver Movies.exerd" path="D:/Github/Programming/Database/Workspace/newProject/Naver Movies.exerd" title="Naver Movies.exerd" tooltip="newProject/Naver Movies.exerd" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/newProject/Naver Movies.exerd"/>
+<editor activePart="true" focus="true" id="com.tomato.exerd.editor.DiagramEditor" name="Customer Satisfaction.exerd" partName="Customer Satisfaction.exerd" path="D:/Github/Programming/Database/Workspace/newProject/Customer Satisfaction.exerd" title="Customer Satisfaction.exerd" tooltip="newProject/Customer Satisfaction.exerd" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/newProject/Customer Satisfaction.exerd"/>
 </editor>
 </editors>
 <views>
@@ -95,23 +91,38 @@
 <new_wizard_action id="com.tomato.exerd.ui.wizards.newEXerdWizardFromDatabase"/>
 <new_wizard_action id="com.tomato.exerd.term.ui.wizard.NewTermDictionaryWizard"/>
 <new_wizard_action id="com.tomato.exerd.xscript.ui.wizard.NewXScriptWizard"/>
-<view id="org.eclipse.ui.views.ResourceNavigator"/>
-<view id="org.eclipse.gef.ui.palette_view"/>
-<view id="com.tomato.exerd.ui.views.thumbnail"/>
-<view id="com.tomato.exerd.modelview3.ModelView3"/>
-<view id="org.eclipse.ui.views.ContentOutline"/>
 <view id="com.tomato.exerd.ui.views.domain"/>
 <view id="com.tomato.exerd.validate.ui.ValidateView"/>
 <view id="org.eclipse.ui.console.ConsoleView"/>
-<fastViewBars/>
+<fastViewBars>
+<fastViewBar fastViewLocation="131072" id="rightFolder" orientation="512" selectedTabId="com.tomato.exerd.modelview3.ModelView3" style="0">
+<fastViews>
+<view id="com.tomato.exerd.modelview3.ModelView3" ratio="0.3"/>
+<view id="org.eclipse.ui.views.ContentOutline" ratio="0.3"/>
+</fastViews>
+</fastViewBar>
+<fastViewBar fastViewLocation="1024" id="org.eclipse.ui.internal.ViewStack@1634f04" orientation="512" selectedTabId="org.eclipse.gef.ui.palette_view" style="0">
+<fastViews>
+<view id="org.eclipse.gef.ui.palette_view" ratio="0.3"/>
+</fastViews>
+</fastViewBar>
+<fastViewBar fastViewLocation="131072" id="org.eclipse.ui.internal.ViewStack@193febc" orientation="256" selectedTabId="com.tomato.exerd.ui.views.thumbnail" style="0">
+<fastViews>
+<view id="com.tomato.exerd.ui.views.thumbnail" ratio="0.3"/>
+</fastViews>
+</fastViewBar>
+<fastViewBar fastViewLocation="16384" id="leftFolder" orientation="256" selectedTabId="org.eclipse.ui.views.ResourceNavigator" style="0">
+<fastViews>
+<view id="org.eclipse.ui.views.ResourceNavigator" ratio="0.3"/>
+</fastViews>
+</fastViewBar>
+</fastViewBars>
 <layout>
 <mainWindow>
 <info folder="true" part="leftFolder">
-<folder activePageID="org.eclipse.ui.views.ResourceNavigator" appearance="2" expanded="2">
-<page content="org.eclipse.ui.views.ResourceNavigator" label="네비게이터"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-</presentation>
+<folder appearance="2" expanded="0">
+<page content="org.eclipse.ui.views.ResourceNavigator" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info folder="true" part="stickyFolderRight" ratio="0.75" ratioLeft="1434" ratioRight="478" relationship="2" relative="leftFolder">
@@ -122,26 +133,21 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.17991632" ratioLeft="344" ratioRight="1568" relationship="2" relative="leftFolder"/>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@178f3d5" ratio="0.77997446" ratioLeft="1223" ratioRight="345" relationship="2" relative="org.eclipse.ui.editorss">
-<folder activePageID="com.tomato.exerd.ui.views.thumbnail" appearance="2" expanded="2">
-<page content="com.tomato.exerd.ui.views.thumbnail" label="썸네일"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-</presentation>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@193febc" ratio="0.77997446" ratioLeft="1223" ratioRight="345" relationship="2" relative="org.eclipse.ui.editorss">
+<folder appearance="2" expanded="0">
+<page content="com.tomato.exerd.ui.views.thumbnail" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
-<info folder="true" part="rightFolder" ratio="0.25" ratioLeft="236" ratioRight="708" relationship="4" relative="org.eclipse.ui.internal.ViewStack@178f3d5">
-<folder activePageID="com.tomato.exerd.modelview3.ModelView3" appearance="2" expanded="2">
-<page content="com.tomato.exerd.modelview3.ModelView3" label="모델"/>
-<page content="org.eclipse.ui.views.ContentOutline" label="아웃라인"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-<part id="1"/>
-</presentation>
+<info folder="true" part="rightFolder" ratio="0.25" ratioLeft="236" ratioRight="708" relationship="4" relative="org.eclipse.ui.internal.ViewStack@193febc">
+<folder appearance="2" expanded="0">
+<page content="com.tomato.exerd.modelview3.ModelView3" label="LabelNotFound"/>
+<page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 <info folder="true" part="bottomFolder" ratio="0.6991525" ratioLeft="660" ratioRight="284" relationship="4" relative="org.eclipse.ui.editorss">
-<folder activePageID="com.tomato.exerd.validate.ui.ValidateView" appearance="2" expanded="2">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="com.tomato.exerd.ui.views.domain" label="도메인"/>
 <page content="com.tomato.exerd.validate.ui.ValidateView" label="검토"/>
 <page content="org.eclipse.ui.console.ConsoleView" label="콘솔"/>
@@ -153,12 +159,10 @@
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@1d4f0a2" ratio="0.29978815" ratioLeft="283" ratioRight="661" relationship="4" relative="leftFolder">
-<folder activePageID="org.eclipse.gef.ui.palette_view" appearance="2" expanded="2">
-<page content="org.eclipse.gef.ui.palette_view" label="Palette"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
-<part id="0"/>
-</presentation>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@1634f04" ratio="0.29978815" ratioLeft="283" ratioRight="661" relationship="4" relative="leftFolder">
+<folder appearance="2" expanded="0">
+<page content="org.eclipse.gef.ui.palette_view" label="LabelNotFound"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
 </folder>
 </info>
 </mainWindow>
@@ -179,6 +183,7 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/Test/물리적 설계.exerd"/>
 <editor factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" uri="file:/D:/Github/Programming/Database/Workspace/Test/화장품판매.exerd"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/newProject/Naver Movies.exerd"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/newProject/Customer Satisfaction.exerd"/>
 </editors>
 <item historyLabel="Test.exerd" index="0"/>
 <item historyLabel="untitled.exerd" index="1"/>
@@ -201,13 +206,21 @@
 <item historyLabel="화장품판매.exerd" index="9"/>
 <item historyLabel="Naver Movies.exerd" index="10"/>
 <item historyLabel="화장품판매.exerd(읽기 전용)" index="9"/>
-<item active="true" historyLabel="Naver Movies.exerd" index="10"/>
+<item historyLabel="Naver Movies.exerd" index="10"/>
+<item active="true" historyLabel="Customer Satisfaction.exerd" index="11"/>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
 </page>
 <workbenchWindowAdvisor/>
 <actionBarAdvisor/>
 <trimLayout>
+<trimArea IMemento.internal.id="16384">
+<trimItem IMemento.internal.id="leftFolder"/>
+</trimArea>
+<trimArea IMemento.internal.id="131072">
+<trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@193febc"/>
+<trimItem IMemento.internal.id="rightFolder"/>
+</trimArea>
 <trimArea IMemento.internal.id="128">
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.WorkbenchWindow.topBar"/>
 </trimArea>
@@ -215,10 +228,14 @@
 <trimItem IMemento.internal.id="org.eclise.ui.internal.FastViewBar"/>
 <trimItem IMemento.internal.id="org.eclipse.jface.action.StatusLineManager"/>
 <trimItem IMemento.internal.id="org.eclipse.ui.internal.progress.ProgressRegion"/>
+<trimItem IMemento.internal.id="org.eclipse.ui.internal.ViewStack@1634f04"/>
 </trimArea>
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" name="Customer Satisfaction.exerd" tooltip="newProject/Customer Satisfaction.exerd">
+<persistable path="/newProject/Customer Satisfaction.exerd"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" name="Naver Movies.exerd" tooltip="newProject/Naver Movies.exerd">
 <persistable path="/newProject/Naver Movies.exerd"/>
 </file>
