@@ -572,6 +572,7 @@ ORDER BY hour;
 ```sql
 EXTRACT(MONTH FROM order_date)
 ```
+## `DATE()` (MS SQL Server)
 ## `DATEADD()`
 ## `DATEDIFF(YEAR)`, `DATEDIFF(MONTH)`, `DATEDIFF(DAY)`
 ```sql

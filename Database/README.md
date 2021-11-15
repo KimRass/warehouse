@@ -70,7 +70,7 @@ Written by KimRass
 
 # Data Modeling
 - Source: https://www.ibm.com/cloud/learn/data-modeling
-- Data Requirements Collection -> Conceptual Data Models -> Logical Data Models -> Physical Data Models
+- Data Requirements Collecting -> Conceptual Data Modeling -> Logical Data Modeling -> Physical Data Modeling
 ## Data Requirements
 - Source: https://www.freetutes.com/systemanalysis/sa7-data-modeling-data-requirements.html
 - Here the database designer interviews database users. By this process they are able to understand their data requirements. Results of this process are clearly documented.
@@ -82,8 +82,8 @@ Written by KimRass
 - Conceptual models offer a big-picture view of what the system will contain, how it will be organized, and which business rules are involved.
 - They are usually created as part of the process of gathering initial project requirements.
 ## Logical Data Modeling
-- Logical models are less abstract and provide greater detail about the concepts and relationships in the domain under consideration. One of several formal data modeling notation systems is followed. These indicate data attributes, such as data types and their corresponding lengths, and show the relationships among entities. Logical data models don’t specify any technical system requirements.
-### Database Normalization
+- Logical models are less abstract and provide greater detail about the concepts and relationships in the domain under consideration. One of several formal data modeling notation systems is followed. ***These indicate data attributes, such as data types and their corresponding lengths, and show the relationships among entities.*** Logical data models don’t specify any technical system requirements.
+### ***Database Normalization***
 - Source: https://en.wikipedia.org/wiki/Database_normalization
 - Database normalization is the process of structuring a database, usually a relational database, in accordance with a series of so-called normal forms in order to reduce data redundancy and improve data integrity.
 - Objectives:
