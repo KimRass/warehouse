@@ -461,7 +461,7 @@ WHERE addr IN("서울", "경기", "충청");
 ```sql
 ROUND(<<Target Number>>, [<<Decimal Place>>])
 ```
-- If no <<Decimal Place>> is defined, then <<Target Number>> is rounded to zero places.
+- If no <<Decimal Place>> is defined (Oracle) or equal to zero (MS SQL Server), then <<Target Number>> is rounded to zero places.
 - If the <<Decimal Place>> specified is negative, then <<Target Number>> is rounded off to the left of the decimal point.
 - If the <<Decimal Place>> specified is positive, then <<Target Number>> is rounded up to <<Decimal Place>> decimal place(s).
 ## `ABS()`
