@@ -43,6 +43,7 @@ Written by KimRass
 - Clustered index stores data pages in the leaf nodes of the index while Non-clustered index method never stores data pages in the leaf nodes of the index.
 - Clustered index doesn’t require additional disk space whereas the non-clustered index requires additional disk space.
 - Clustered index offers faster data accessing, on the other hand, non-clustered index is slower.
+- ***만들 수 있는 Index의 수는 제한이 없으나 너무 많이 만들면 오히려 성능 저하가 발생합니다.***
 - 순차 인덱스, 결합 인덱스, 해시 인덱스, 비트맵, 클러스터
 ## Clustered Index
 - In the database, there is only one clustered index per table.
@@ -58,12 +59,13 @@ Written by KimRass
 
 # View
 - Source: https://en.wikipedia.org/wiki/View_(SQL)
-- Unlike ordinary base tables in a relational database, a view does not form part of the physical schema: as a result set, it is a virtual table computed or collated dynamically from data in the database when access to that view is requested. Changes applied to the data in a relevant underlying table are reflected in the data shown in subsequent invocations of the view.
-- Views can represent a subset of the data contained in a table. Consequently, a view can limit the degree of exposure of the underlying tables to the outer world: a given user may have permission to query the view, while denied access to the rest of the base table.
-- Views can join and simplify multiple tables into a single virtual table.
+- Unlike ordinary base tables in a relational database, ***a view does not form part of the physical schema: as a result set, it is a virtual table computed or collated dynamically from data in the database when access to that view is requested.(물리성)*** Changes applied to the data in a relevant underlying table are reflected in the data shown in subsequent invocations of the view.
+- Views can represent a subset of the data contained in a table. Consequently, a view can limit the degree of exposure of the underlying tables to the outer world: ***a given user may have permission to query the view, while denied access to the rest of the base table.(보안성)***
+- ***Views can join and simplify multiple tables into a single virtual table.(편리성)***
 - Views can act as aggregated tables, where the database engine aggregates data (sum, average, etc.) and presents the calculated results as part of the data.
 - Views can hide the complexity of data. For example, a view could appear as Sales2000 or Sales2001, transparently partitioning the actual underlying table.
 - Views take very little space to store; the database contains only the definition of a view, not a copy of all the data that it presents.
+- ***독립성: 테이블 구조가 변경되어도 View를 사용하는 응용 프로그램은 변경하지 않아도 된다.***
 
 # Data Modeling
 - ***추상화(Abstraction): 현실 세계를 간략하게 추상화하여 표현합니다.***
@@ -151,7 +153,15 @@ Written by KimRass
 #### Local Non-Prefixed Index
 Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 같다.
 Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다.
-## Non-Partition Index
+### Non-Partition Index
+## Adding Columns
+### Adding Redundant Columns
+- Source: https://www.slideshare.net/mnoia/denormalization-56426459
+- You can add redundant columns to eliminate frequent joins.
+### Adding Derived Columns
+- Adding derived columns can help eliminate joins and reduce the time needed to produce aggregate values.
+## Combining Tables
+- If most users need to see the full set of joined data from two tables, collapsing the two tables into one can improve performance by eliminating the join.
 
 # Wireframe & Storyboard
 ## Wireframe
@@ -183,7 +193,7 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - 1개의 Entity는 2개 이상의 Attribute를 갖습니다.
 - 1개의 Attribute는 1개의 Value를 갖습니다.
 ### Associative Entity(= Intersection Entity, 교차 엔티티)
-- A relational database requires the implementation of a base relation (or base table) to resolve many-to-many relationships. A base relation representing this kind of entity is called, informally, an associative table.
+- ***A relational database requires the implementation of a base relation (or base table) to resolve many-to-many relationships.*** A base relation representing this kind of entity is called, informally, an associative table.
 ## Attribute
 ### Stored Attribute(= 기본 속성)
 - Stored attribute is an attribute which are physically stored in the database.
@@ -194,8 +204,10 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 ### Degree of a Relationship(= 관게 차수)
 - ***The number of participating entities in a relationship***
 ### Relationship Cardinality
-- The number of relationship instances an entity can participate in.
+- Determines the number of entities on one side of the relationship that can be joined to a single entity on the other side.
 - ***One of the followings; One to One, One to Many or Many to Many.***
+### Relationship Optionality
+- Specifies if entities on one side must be joined to an entity on the other side.
 ### Identifying Relationship
 - The primary key of the parent would become a subset of the primary key of the child.
 - Reprsented by a solid line.
@@ -327,12 +339,15 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 
 # Distributed Database
 - Source: https://en.wikipedia.org/wiki/Distributed_database
-- A distributed database is a database in which data is stored across different physical locations.[1] It may be stored in multiple computers located in the same physical location (e.g., a data center); or maybe dispersed over a network of interconnected computers.
-- Because distributed databases store data across multiple computers, distributed databases may improve performance at end-user worksites by allowing transactions to be processed on many machines, instead of being limited to one.
+- A distributed database is a database in which data is stored across different physical locations. It may be stored in multiple computers located in the same physical location (e.g., a data center); or maybe dispersed over a network of interconnected computers.
+- Because distributed databases store data across multiple computers, ***distributed databases may improve performance at end-user worksites by allowing transactions to be processed on many machines, instead of being limited to one.***
 - Two processes ensure that the distributed databases remain up-to-date and current: replication and duplication.
 	- Replication involves using specialized software that looks for changes in the distributive database. Once the changes have been identified, the replication process makes all the databases look the same. The replication process can be complex and time-consuming, depending on the size and number of the distributed databases. This process can also require much time and computer resources.
 	- Duplication, on the other hand, has less complexity. It identifies one database as a master and then duplicates that database. The duplication process is normally done at a set time after hours. This is to ensure that each distributed location has the same data. In the duplication process, users may change only the master database. This ensures that local data will not be overwritten.
 - Both replication and duplication can keep the data current in all distributive locations.
+- ***Data integrity를 보장할 수 없습니다.***
+- ***빠른 응답 속도와 통신 비용을 보장합니다.***
+- ***데이터 처리 비용이 높습니다.***
 
 # Database Lock
 - Source: https://www.tutorialcup.com/interview/sql-interview-questions/db-locks.htm
@@ -366,7 +381,8 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - OLTP(OnLine Transaction Processing)에 유용합니다.
 - 적은 데이터를 Join할 때 유리합니다.
 - ***Full access join을 수행하는 두 개의 테이블에 대해서 Nested loop join을 수행하면 두 개의 테이블의 모든 행의 조합마다 join 연산을 수행하므로 성능이 떨어집니다.***
-## Merge Join
+## (Sort) Merge Join
+- ***Sorting한 후에 Merging하면서 정렬을 수행합니다.***
 - ***Equi join과 Non-equi join 모두에서 사용할 수 있습니다.***
 - ***정렬된 결과들을 통해 조인 작업이 수행되며 조인에 성공하면 추출 버퍼에 넣는 작업을 수행합니다.***
 

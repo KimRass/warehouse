@@ -14,11 +14,11 @@
 # Data Types
 ## String
 - `CHAR(n)`: A fixed length string.
-	- Blank-Padded Comparison Semantics: With blank-padded semantics, if the two values have different lengths, then Oracle first adds blanks to the end of the shorter one so their lengths are equal. Oracle then compares the values character by character up to the first character that differs. The value with the greater character in the first differing position is considered greater. If two values have no differing characters, then they are considered equal. This rule means that two values are equal if they differ only in the number of trailing blanks.
+	- Blank-Padded Comparison Semantics: ***If the two values have different lengths, then Oracle first adds blanks to the end of the shorter one so their lengths are equal.*** Oracle then compares the values character by character up to the first character that differs. The value with the greater character in the first differing position is considered greater. If two values have no differing characters, then they are considered equal. This rule means that two values are equal if they differ only in the number of trailing blanks.
 - `VARCHAR(n)`: A variable length string.
-	- Nonpadded Comparison Semantics: With nonpadded semantics, Oracle compares two values character by character up to the first character that differs. The value with the greater character in that position is considered greater. If two values of different length are identical up to the end of the shorter one, then the longer value is considered greater. If two values of equal length have no differing characters, then the values are considered equal.
+	- Nonpadded Comparison Semantics: Oracle compares two values character by character up to the first character that differs. The value with the greater character in that position is considered greater. If two values of different length are identical up to the end of the shorter one, then the longer value is considered greater. ***If two values of equal length have no differing characters, then the values are considered equal.***
 - `VARCHAR2(n)`
-	- There is no difference between `VAHRCHAR` and `VARCHAR2` in Oracle. However, it is advised not to use `VARCHAR` for storing data as it is reserved for future use for storing some other type of variable. Hence, always use `VARCHAR2` in place of `VARCHAR`.
+	- There is no difference between `VAHRCHAR` and `VARCHAR2` in Oracle. However, it is advised not to use `VARCHAR` for storing data as it is reserved for future use for storing some other type of variable. Hence, ***always use `VARCHAR2` in place of `VARCHAR`.***
 ## Numeric
 - `BOOL`: Zero is considered as false, nonzero values are considered as true.
 - `INT`
@@ -354,7 +354,7 @@ WHEN NOT MATCHED THEN
 - `START WITH` specifies the root row(s) of the hierarchy. `START WITH` 다음에 조건을 명시할 수도 있다.
 - `CONNECT BY` specifies the relationship between parent rows and child rows of the hierarchy. It always joins a table to itself, not to another table.
 - `PRIOR` should occur exactly once in each `CONNECT BY` expression. `PRIOR` can occur on either the left-hand side or the right-hand side of the expression, but not on both.
-- If the query contains a `WHERE` clause without a join, then Oracle eliminates all rows from the hierarchy that do not satisfy the condition of the `WHERE` clause. Oracle evaluates this condition for each row individually, rather than removing all the children of a row that does not satisfy the condition.
+- If the query contains a `WHERE` clause without a join, then Oracle eliminates all rows from the hierarchy that do not satisfy the condition of the `WHERE` clause. ***Oracle evaluates this condition for each row individually, rather than removing all the children of a row that does not satisfy the condition.***
 - For each row returned by a hierarchical query, the `LEVEL` pseudocolumn returns 1 for a root row, 2 for a child of a root, and so on
 - The `CONNECT_BY_ISLEAF` pseudocolumn returns 1 if the current row is a leaf of the tree defined by the `CONNECT BY` condition, 0 otherwise.
 ```sql
@@ -502,10 +502,10 @@ UPPER('eabc')
 ## `LPAD()`, `RPAD()`
 - The `LPAD()` function left-pads a string with another string, to a certain length.
 ```sql
-LPAD(<<Original String>>, <<Target Length>>, <<String to Pad>>)
+LPAD(<<Original String>>, <<Target Length>>, [<<String to Pad>>])
 ```
 - `<<Target Length>>`: The length of the string after it has been left-padded. Note that if the `<<Target Length>>` is less than the length of the `<<Original String>>`, then `LPAD()` function will shorten down the `<<Original String>>` to the `<<Target Length>>` without doing any padding.
-- If `<<String to Pad>>` is `' '` if omitted.
+- `<<String to Pad>>` is equal to `' '` if omitted.
 ## `LTRIM()`, `RTRIM()`
 ## `TRIM()`
 ### `SELECT TRIM([[LEADING | TRAILING | BOTH] FROM]) FROM`
@@ -657,15 +657,11 @@ FROM students;
 - `GROUP BY` treats NULL as valid values.
 - All NULL values are grouped into one value or bucket.
 ### `SELECT FROM GROUP BY ROLLUP()`
-- `GROUP BY ROLLUP(<<Column1>>, <<Column2>>, ...)` is same as `GROUP BY GROUPING SETS(<<Column1>>, (<<Column1>>, <<Column2>>), ..., ())`
-- ***계측 구조로 계층 간 정렬이 가능합니다.***
+- ***`GROUP BY ROLLUP(<<Column1>>, <<Column2>>, ...)` is same as `GROUP BY GROUPING SETS(<<Column1>>, (<<Column1>>, <<Column2>>), ..., ())`***
+- ***계층 구조로 계층 간 정렬이 가능합니다.***
 ### `SELECT FROM GROUP BY CUBE()`
 - Generate subtotals for all combinations of the dimensions specified.
-```sql
-SELECT dname, job, SUM(sal)
-FROM test18
-GROUP BY CUBE(dname, job);
-```
+- ***`GROUP BY CUBE(<<Column1>>, <<Column2>>, ...)` is same as `GROUP BY GROUPING SETS(<<Column1>>, <<Column2>>, ..., (<<Column1>>, <<Column2>>, ...), ())`***
 ### `SELECT FROM GROUP BY GROUPING SETS()`
 - `GROUP BY GROUPING SETS(<<Column>>)`
 	- `GROUP BY <<Column>>`과 동일합니다.
@@ -674,12 +670,6 @@ GROUP BY CUBE(dname, job);
 - `GROUP BY GROUPING SETS(())`
 	- 전체에 대한 집계.
 - 인자가 여러 개인 경우 위 3가지 경우의 각 결과를 `UNION ALL`한 것과 같음.
-```sql
-SELECT DEPARTMENT_ID, JOB_ID, SUM(SALARY)
-FROM EMPLOYEES
-WHERE DEPARTMENT_ID > 80
-GROUP BY GROUPING SETS((DEPARTMENT_ID, JOB_ID), ());
-```
 
 # Set Operators
 ## `UNION`, `UNION ALL`
@@ -793,6 +783,6 @@ ORDER BY SUM(is_full_score) DESC, hacker_id ASC;
 - Scala subquery should be a single-row subquery.
 ## Correlated Subquery(= 상관 서브 쿼리)
 - Source: https://myjamong.tistory.com/176
-- 내부 Subquery에서 외부테이블의 값을 참조할 때 사용됩니다.
+- ***내부 Subquery에서 외부테이블의 값을 참조할 때 사용됩니다.***
 - Subquery와는 다르게  Inner Query 부터 Outer Query 순서대로 실행되는 것이 아니라 Outer Query에서 읽어온 행을 갖고 Inner쿼리를 실행하는 것을 반복하여 결과를 출력해줍니다.
 - Outer Query와 Inner Query에서 같은 테이블을 참조한다면 Outer Query의 테이블에 Alias를 사용해서 구분해줍니다.
