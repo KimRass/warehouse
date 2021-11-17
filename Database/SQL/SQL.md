@@ -761,7 +761,7 @@ WHERE A.<<Column1>>(+) = B.<<Column2>>
 - The subquery generally executes first, and its output is used to complete the query condition for the main or outer query.
 - Subquery must be enclosed in parentheses.
 - Subqueries are on the right side of the comparison operator.
-- `ORDER BY` cannot be used in a Subquery. `GROUP BY` can be used to perform same function as `ORDER BY`.
+- ***`ORDER BY` cannot be used in a Subquery. `GROUP BY` can be used to perform same function as `ORDER BY`.***
 - Use single-row operators with single-row subqueries. Use multiple-row operators with multiple-row subqueries.
 	- Source: https://www.tutorialspoint.com/What-are-single-row-and-multiple-row-subqueries
 	- Single-Row Subquery: A single-row subquery is used when the outer query's results are based on a single, unknown value. Although this query type is formally called "single-row," the name implies that the query returns multiple columns-but only one row of results. However, a single-row subquery can return only one row of results consisting of only one column to the outer query.
