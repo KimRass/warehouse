@@ -107,8 +107,8 @@ CREATE TABLE orders(
 ### `CREATE VIEW AS SELECT FROM`
 ### `CREATE ROLE`
 - Source: https://www.programmerinterview.com/database-sql/database-roles/
-- A database role is a collection of any number of permissions/privileges that can be assigned to one or more users. A database role also is also given a name for that collection of privileges.
-- The majority of today’s RDBMS’s come with predefined roles that can be assigned to any user. But, a database user can also create his/her own role if he or she has the CREATE ROLE privilege.
+- ***A database role is a collection of any number of permissions/privileges that can be assigned to one or more users.*** A database role is also given a name for that collection of privileges.
+- The majority of today’s RDBMS’s come with predefined roles that can be assigned to any user. But, a database user can also create his/her own role if he or she has the `CREATE ROLE` privilege.
 ### `CREATE INDEX ON`
 ```sql
 CREATE INDEX <<Index_name>>
@@ -118,54 +118,39 @@ ON <<Table>>(<<Column1>>, <<Column2>>, ...);
 ### `CREATE PROCEDURE`
 ## `ALTER`
 ### `ALTER TABLE`
-#### `ALTER TABLE ADD`
+#### `ALTER TABLE ADD [FIRST | AFTER]`
 ```sql
-ALTER TABLE users
-	ADD birth_date CHAR(6) NULL;
+ALTER TABLE <<Table>>
+ADD <<Column>> <<Data Type>> [<<Constraint>>];
 ```
-##### `ALTER TABLE ADD FIRST`
-##### `ALTER TABLE ADD AFTER`
-##### `ALTER TABLE ADD PRIMARY KEY`
-##### ALTER TABLE ADD()
-#### `ALTER TABLE ALTER COLUMN` (MS SQL Server), `ALTER TABLE MODIFY` (Oracle), `ALTER TABLE MODIFY COLUMN` (MySQL)
+#### `ALTER TABLE MODIFY` (Oracle), `ALTER TABLE ALTER COLUMN` (MS SQL Server), `ALTER TABLE MODIFY COLUMN` (MySQL)
 - Change the data type of a column in a table.
 ```sql
-ALTER TABLE users
-ALTER COLUMN user_id VARCHAR(16) NOT NULL;
+ALTER TABLE <<Table>>
+ALTER COLUMN | MODIFY | MODIFY COLUMN <<Column>> <<Data Type>> [<<Constraint>>];
 ```
 ```sql
-ALTER TABLE ex_table
-MODIFY COLUMN sFifth VARCHAR(55);
+ALTER TABLE <<Table>>
+ALTER COLUMN | MODIFY | MODIFY COLUMN(
+	<<Column1>> <<Data Type1>> [<<Constraint1>>],
+	<<Column2>> <<Data TYpe2>> [<<Constraint2>>],
+	...);
 ```
-##### `ALTER TABLE MODIFY CONSTRAINT`
+#### `ALTER TABLE DROP COLUMN` (Oracle)
 ```sql
-ALTER TABLE users
-MODIFY user_id VARCHAR(16) CONSTRAINT
+ALTER TABLE <<Table>>
+DROP COLUMN <<Column>>;
 ```
-#### `ALTER TABLE CHANGE`, `ALTER TABLE CHANGE COLUMN`
-- Change column name and the data type.
+#### `ALTER TABLE RENAME TO` (Oracle)
 ```sql
-ALTER TABLE users
-	CHANGE userid user_id VARCHAR(16) NOT NULL;
+ALTER TABLE <<Table Before>>
+RENAME TO <<Table After>>
 ```
+#### `ALTER TABLE RENAME COLUMN TO` (Oracle)
 ```sql
-ALTER TABLE ex_table CHANGE COLUMN nSecond sSecond VARCHAR(22);
+ALTER TABLE <<Table>>
+RENAME COLUMN <<Column Before>> TO <<Column After>>
 ```
-#### `ALTER TABLE DROP COLUMN`
-```sql
-ALTER TABLE users
-	DROP COLUMN user_age;
-```
-#### `ALTER TABLE ADD COLUMN`
-```sql
-ALTER TABLE Customers
-ADD Email VARCHAR(255);
-```
-#### `ALTER TABLE ADD CONSTRAINT`
-##### `ALTER TABLE ADD CONSTRAINT PRIMARY KEY`
-##### `ALTER TABLE ADD CONSTRAINT FOREIGN KEY REFERENCES`
-#### `ALTER TABLE DROP CONSTRAINT`
-#### `ALTER TABLE DROP FOREIGN KEY`
 ## `DROP`
 ### `DROP TABLE`
 - With the help of `DROP` command we can drop (delete) the whole structure in one go. The existence of the whole table is finished.
@@ -586,6 +571,11 @@ CAST(COUNT(occupation) AS CHAR)
 ```
 ## `STR()`
 ## `YEAR`, `MONTH`, `DAY`, `HOUR`, `MINUTE`, `SECOND`
+## `TO_CHAR()`, `TO_DATE()` (Oracle)
+```sql
+TO_CHAR(1340.64, '9999.9')
+TO_CHAR(sysdate, 'Month DD, YYYY')
+```
 
 # Window Functions
 - Source: https://docs.oracle.com/cd/E17952_01/mysql-8.0-en/window-functions-usage.html
@@ -618,9 +608,9 @@ FROM orders
 ### `AVG()`, `SUM()`
 - ***NULL values are ignored.***
 ### `COUNT()`
-- `COUNT(*)`, `COUNT(1)`, `COUNT(2)`, ...: Return the number of rows in the table.
-- `COUNT(<<Column>>)`: Return the number of non-NULL values in the column.
-- `COUNT(DISTINCT <<Column>>)`: Return the number of distinct non-NULL values in the column.
+- ***`COUNT(*)`, `COUNT(1)`, `COUNT(2)`, ...: Return the number of rows in the table.***
+- ***`COUNT(<<Column>>)`: Return the number of non-NULL values in the column.***
+- ***`COUNT(DISTINCT <<Column>>)`: Return the number of distinct non-NULL values in the column.***
 ## Rank Window Functions
 - Source: https://codingsight.com/similarities-and-differences-among-rank-dense_rank-and-row_number-functions/, https://www.sqlshack.com/overview-of-sql-rank-functions/
 ### `RANK()`
