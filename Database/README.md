@@ -99,10 +99,10 @@ Written by KimRass
 - Normalization is a database design technique, which is used to design a relational database table up to higher normal form.[9] The process is progressive, and a higher level of database normalization cannot be achieved unless the previous levels have been satisfied.
 #### Satisfying 1NF(First Normal Form)
 - Only atomic columns.
-- To satisfy first normal form, each column of a table must have a single value. Columns which contain sets of values or nested records are not allowed.
+- ***To satisfy first normal form, each column of a table must have a single value.*** Columns which contain sets of values or nested records are not allowed.
 #### Satisfying 2NF(Second Normal Form)
 - No partial dependencies.
-- To conform to 2NF and remove duplicities, every non candidate key attribute must depend on the whole candidate key, not just part of it.
+- To conform to 2NF and remove duplicities, ***every non candidate key attribute must depend on the whole candidate key, not just part of it.***
 - For example, all of the attributes that are not part of the candidate key depend on `Title`, but only `Price` also depends on `Format`. To normalize this table, make `Title` a (simple) candidate key (the primary key) so that every non candidate-key attribute depends on the whole candidate key, and remove `Price` into a separate table so that its dependency on `Format` can be preserved.
 #### Satisfying 3NF(Third Normal Form)
 - No transitive dependencies.
@@ -142,7 +142,7 @@ Written by KimRass
 ### Global Partition Index
 - A global partitioned index is an index on a partitioned or non-partitioned table that is partitioned independently, i.e. using a different partitioning key from the table.
 - Table partition key와 Index partition key가 서로 다르다.
-- Partition key에 대해 생성한 Index.
+- ***Partition key에 대해 생성한 Index.***
 #### Global Prefixed Index
 #### Global Non-Prefixed Index
 ### Local Partition Index
@@ -389,7 +389,7 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 
 # PL/SQL
 - Source: https://en.wikipedia.org/wiki/PL/SQL
-- PL/SQL(Procedural Language for SQL) is Oracle Corporation's procedural extension for SQL and the Oracle relational database.
+- PL/SQL(***Procedural Language for SQL***) is Oracle Corporation's procedural extension for SQL and the Oracle relational database.
 - Block 구조로 되어 있어 각 기능별로 모듈화가 가능합니다.
 - 여러 SQL 문장을 Block으로 묶고 한 번에 Block 전부를 서버로 보내기 때문에 통신량을 줄일 수 있습니다.
 - 변수, 상수 등을 선언하여 SQL 문장 간 값을 교환합니다.
@@ -397,15 +397,7 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - DBMS 정의 에러나 사용자 정의 에러를 정의하여 사용할 수 있습니다.
 - Oracle에 내장되어 있습니다.
 - 응용 프로그램의 성능을 향상시킬 수 있습니다.
-- `DC
-```sql
-DECLARE NAME VARCHAR2(10) := 'HR';
-```
-```sql
-SELECT name
-INTO v_name
-FROM emp;
-```
+- ***임시 테이블로서 잠깐 사용하기 위해 PL/SQL 내부에서 테이블을 생성할 수 있습니다.***
 
 # Relational Operation
 - SELECT, PROJECT, JOIN, DIVISION

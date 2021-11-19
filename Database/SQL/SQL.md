@@ -45,7 +45,7 @@
 - The `BETWEEN AND` operator is inclusive: begin and end values are included.
 - 앞에 오는 숫자가 뒤에 오는 숫자보다 작아야 합니다.
 ## Operator Precedence Rules
-- ***Parentheses -> Arithmetic Operators(`*`, `/` -> `+`, `-`) -> Concatenation Operator(`||`) -> Comparison Operators(`=`, `!=`, `<`, `<=`, `>`, `>=`) -> `IS`(`IS NULL`, `IS NOT NULL`, `IS EMPTY`, `IS NOT EMPTY`) -> (`BETWEEN`, `LIKE`, `IN()`( -> Logical Operatiors(`NOT` -> `AND` -> `OR`)***
+- ***Parentheses -> Arithmetic Operators(`*`, `/` -> `+`, `-`) -> Concatenation Operator(`||`) -> Comparison Operators(`=`, `!=`, `<`, `<=`, `>`, `>=`) -> `IS`(`IS NULL`, `IS NOT NULL`, `IS EMPTY`, `IS NOT EMPTY`), `LIKE`, `IN()` -> `BETWEEN` -> Logical Operatiors(`NOT` -> `AND` -> `OR`)***
 
 # `INFORMATION_SCHEMA` (MS SQL Server)
 ## `INFORMATION_SCHEMA.TABLES`
@@ -86,19 +86,16 @@ FROM INFORMATION_SCHEMA.TALBE_CONTSTRAINTS
 - `PRIMARY KEY`: Uniquely identifies each record in a database table.
 - `FOREIGN KEY REFERENCES`: Uniquely identifies a record in any of the given database table.
 ```sql
-CREATE TABLE orders(
-	order_id INT NOT NULL PRIMARY KEY,
-	order_no INT NOT NULL,
-	person_id INT FOREIGN KEY REFERENCES persons(person_id));
+CREATE TABLE <<Table>>(
+	<<Column1>> <<Data Type1>> [<<Constraint1>>],
+	<<Column2>> <<Data Type2>> [<<Constraint2>>],
+	...)
 ```
 - For defining a primary key on multiple columns, the statement should be like;
 	```sql
-	CREATE TABLE orders(
-		order_id INT NOT NULL,
-		order_no INT NOT NULL,
-		person_id INT,
-		PRIMARY KEY(order_id),
-		FOREIGN KEY(person_id) REFERENCES persons(person_id));
+	CREATE TABLE <<Table>>(
+		PRIMARY KEY(<<Column1>>, <<Column2>>, ...),
+		...)
 	```
 #### `CREATE TABLE (FOREIGN KEY REFERENCES [ONE DELETE RESTRICT | ON DELETE CASCADE])`
 - Source: http://www.dba-oracle.com/t_foreign_key_on_delete_cascade.htm
@@ -253,11 +250,11 @@ FROM Customers
 FETCH FIRST 3 ROWS ONLY;
 ```
 ### `SELECT FROM ORDER BY`
-- `ORDER BY`가 정렬을 하는 시점은 모든 실행이 끝난 후 데이터를 출력하기 바로 직전이다.
+- ***`ORDER BY`가 정렬을 하는 시점은 모든 실행이 끝난 후 데이터를 출력하기 바로 직전이다.***
 - `ORDER BY <<Number>>`
 	- `<Number>>` stands for the column based on the number of columns defined in the `SELECT` clause.
-- ***Oracle considers NULL values larger than any non-NULL values.***
-- ***MS SQL Server considers NULL values smaller than any non-NULL values.***
+- ***Oracle: NULL values are larger than any non-NULL values.***
+- ***MS SQL Server: NULL values are smaller than any non-NULL values.***
 #### `SELECT FROM ORDER BY NULLS FIRST | NULLS LAST`
 ### `SELECT TOP PERCENT FROM` (MS SQL Server), `SELECT FROM FETCH FIRST PERCENT ROWS ONLY` (Oracle)
 ### `SELECT ROWNUM FROM`, `SELECT FROM WHERE ROWNUM`
@@ -266,8 +263,7 @@ FETCH FIRST 3 ROWS ONLY;
 SELECT ROWNUM, pr.product_name, pr.standard_cost
 FROM products;
 ```
-- ***`ROWNUM`과 `ORDER BY`를 같이 사용할 경우 매겨놓은 순번이 섞여버리는 현상이 발생합니다.***
-- 이 때, Inline view에서 먼저 정렬을 하고 순번을 매기는 방법으로 정렬된 데이터에 순번을 매길 수 있습니다.
+- ***Execution order: `ROWNUM` -> `ORDER BY`***
 #### `SELECT FROM ORDER BY HAVING`
 - ***`HAVING`은 `GROUP BY`문의 조건절이므로 `GROUP BY` 함수 없이 사용되면 `SELECT`문에서 어떤 행도 반환하지 않습니다.***
 ### `SELECT FROM WHERE EXISTS()`
@@ -282,16 +278,7 @@ WHERE EXISTS(
 	FROM orders
 	WHERE orders.c_id = customers.c_id);
 ```
-- 주문한 적이 있는 고객 정보를 조회하는 query.
-```sql
-SELECT SupplierName
-FROM Suppliers
-WHERE EXISTS (
-	SELECT ProductName
-	FROM Products
-	WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
-```
-- The above SQL statement returns TRUE and lists the suppliers with a product price less than 20.
+- The above statement returns TRUE and lists the customers who have ever ordered.
 ## `UPDATE`
 ### `UPDATE SET WHERE`
 ```
@@ -652,8 +639,6 @@ FROM students;
 - Generate subtotals for all combinations of the dimensions specified.
 - ***`GROUP BY CUBE(<<Column1>>, <<Column2>>, ...)` is same as `GROUP BY GROUPING SETS(<<Column1>>, <<Column2>>, ..., (<<Column1>>, <<Column2>>, ...), ())`***
 ### `SELECT FROM GROUP BY GROUPING SETS()`
-- `GROUP BY GROUPING SETS(<<Column>>)`
-	- `GROUP BY <<Column>>`과 동일합니다.
 - `GROUP BY GROUPING SETS((<<Column1>>, <<Column2>>, ...))`
 	- `GROUP BY <<Column1>>, <<Column2>>, ...`과 동일합니다.
 - `GROUP BY GROUPING SETS(())`
