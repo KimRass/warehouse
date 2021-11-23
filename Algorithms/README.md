@@ -662,11 +662,26 @@ def bisect_right(arr, tar):
 https://chanhuiseok.github.io/posts/algo-14/
 https://bowbowbow.tistory.com/6
 - Source: https://www.educative.io/edpresso/what-is-the-knuth-morris-pratt-algorithm
-- Time complexity: O(nm) (where `n` and `k` are the lengths of `s` and `p` respectively).
+- Time complexity: O(n + m) (where `n` and `k` are the lengths of string `s` and pattern `p` respectively).
 - The KMP algorithm is an algorithm that is used to search for a pattern `p` in a given string `s`.
 - Failure Function
-	- The mapping of an index to the length of the longest prefix of `s` which is also a suffix.
+	- The mapping of an index `i` to the length of the longest prefix of `s[:i + 1]` which is also a suffix.
 	- This function is based on the fact that when a mismatch occurs, all the previous characters match correctly. This implies that if a prefix of `p` occurred in this set of matching characters, then that prefix is also a suffix of `p`.
+	```python
+	i = 0
+	j = 1
+	f = {0:0}
+	while j < len(s):
+		if s[i] == s[j]:
+			f[j] = i + 1
+			i += 1
+			j += 1
+		elif i == 0:
+			f[j] = 0
+			j += 1
+		else:
+			i = f[i - 1]
+	```
 
 ## Simulation
 
