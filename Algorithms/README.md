@@ -659,28 +659,66 @@ def bisect_right(arr, tar):
 
 # String
 ## Knuth-Morris-Pratt Algorithm(KMP Algorithm)
-https://chanhuiseok.github.io/posts/algo-14/
-https://bowbowbow.tistory.com/6
 - Source: https://www.educative.io/edpresso/what-is-the-knuth-morris-pratt-algorithm
-- Time complexity: O(n + m) (where `n` and `k` are the lengths of string `s` and pattern `p` respectively).
+- Time complexity: O(n + k) (where `n` and `k` are the lengths of string `s` and pattern `p` respectively).
 - The KMP algorithm is an algorithm that is used to search for a pattern `p` in a given string `s`.
-- Failure Function
-	- The mapping of an index `i` to the length of the longest prefix of `s[:i + 1]` which is also a suffix.
-	- This function is based on the fact that when a mismatch occurs, all the previous characters match correctly. This implies that if a prefix of `p` occurred in this set of matching characters, then that prefix is also a suffix of `p`.
+- LPS(Longest proper Prefix which is also proper Suffix)(= Failure Function)
+	- The mapping of an index `i` to the length of the longest prefix of `p[:i + 1]` which is also a suffix.
+	- This function is based on the fact that when a mismatch occurs, all the previous characters match correctly.
+	- Time complexity: O(k^2)
+		```python
+		i = 0
+		j = 1
+		lps = {i:0 for i in range(len(p))}
+		while j < len(p):
+			if p[:i + 1] == s[j - i:j + 1]:
+				lps[j] = i + 1
+			if i == j - 1:
+				j += 1
+				i = 0
+			else:
+				i += 1
+		```
+	- Time complexity: O(k)
+		```python
+		i = 0
+		j = 1
+		lps = {i:0 for i in range(len(p))}
+		while j < len(p):
+			print(i, j, p[i], p[j], lps)
+			if p[i] == p[j]:
+				lps[j] = i + 1
+				i += 1
+				j += 1
+			else:
+				if i == 0:
+					j += 1
+				else:
+					i = lps[i - 1]
+		```
+	- main
 	```python
 	i = 0
-	j = 1
-	f = {0:0}
-	while j < len(s):
-		if s[i] == s[j]:
-			f[j] = i + 1
-			i += 1
-			j += 1
-		elif i == 0:
-			f[j] = 0
-			j += 1
+	j = 0
+	ans = list()
+	while i < len(p) and j < len(s):
+		if p[i] == s[j]:
+			if i == len(p) - 1:
+				ans.append(j - len(p) + 2)
+	#             print(j - len(p) + 2)
+				j += 1
+			else:
+				i += 1
+				j += 1
 		else:
-			i = f[i - 1]
+			if i == 0:
+				j += 1
+			else:
+				i = lps[i - 1]
+				
+	print(len(ans))
+	for i in ans:
+		print(i, end=" ")
 	```
 
 ## Simulation
