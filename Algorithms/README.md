@@ -662,6 +662,12 @@ def bisect_right(arr, tar):
 - Source: https://www.educative.io/edpresso/what-is-the-knuth-morris-pratt-algorithm
 - Time complexity: O(n + k) (where `n` and `k` are the lengths of string `s` and pattern `p` respectively).
 - The KMP algorithm is an algorithm that is used to search for a pattern `p` in a given string `s`.
+- Failure Function `f(i)`
+	- Time complexity: O(k)
+	- The mapping of a prefix with a length of `i` of a pattern `p` to its LPS(Longest proper Prefix which is also proper Suffix).
+	- This function is based on the fact that when a mismatch occurs, all the previous characters match correctly.
+	
+
 - LPS(Longest proper Prefix which is also proper Suffix)(= Failure Function)
 	- The mapping of an index `i` to the length of the longest prefix of `p[:i + 1]` which is also a suffix.
 	- This function is based on the fact that when a mismatch occurs, all the previous characters match correctly.
