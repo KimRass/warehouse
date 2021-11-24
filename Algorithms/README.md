@@ -574,7 +574,7 @@ def func(n):
 		temp += i
 		pref_sum.append(temp)
 	```
-
+	
 # Greedy Algorithms
 - Source: Source: https://www.geeksforgeeks.org/greedy-algorithms/
 - Greedy is an algorithmic paradigm that builds up a solution piece by piece, always choosing the next piece that offers the most obvious and immediate benefit. So the problems where choosing locally optimal also leads to global solution are best fit for Greedy.
@@ -657,76 +657,38 @@ def bisect_right(arr, tar):
 - 풀이를 떠올리는 것은 쉽지만 소스코드로 옮기기 어려운 문제.
 ## Exhaustive Search
 
-# String
-## Knuth-Morris-Pratt Algorithm(KMP Algorithm)
+# String-Searching Algorithms
+## KMP Algorithm(Knuth-Morris-Pratt Algorithm)
 - Source: https://www.educative.io/edpresso/what-is-the-knuth-morris-pratt-algorithm
 - Time complexity: O(n + k) (where `n` and `k` are the lengths of string `s` and pattern `p` respectively).
-- The KMP algorithm is an algorithm that is used to search for a pattern `p` in a given string `s`.
-- Failure Function `f(i)`
+- The KMP algorithm is an algorithm that is used to search for `p` in `s`.
+- Failure Function
 	- Time complexity: O(k)
-	- The mapping of a prefix with a length of `i` of a pattern `p` to its LPS(Longest proper Prefix which is also proper Suffix).
+	- The mapping of a length of a prefix of `p` to its LPS(Longest proper Prefix which is also proper Suffix).
 	- This function is based on the fact that when a mismatch occurs, all the previous characters match correctly.
-	
-
-- LPS(Longest proper Prefix which is also proper Suffix)(= Failure Function)
-	- The mapping of an index `i` to the length of the longest prefix of `p[:i + 1]` which is also a suffix.
-	- This function is based on the fact that when a mismatch occurs, all the previous characters match correctly.
-	- Time complexity: O(k^2)
-		```python
-		i = 0
-		j = 1
-		lps = {i:0 for i in range(len(p))}
-		while j < len(p):
-			if p[:i + 1] == s[j - i:j + 1]:
-				lps[j] = i + 1
-			if i == j - 1:
-				j += 1
-				i = 0
-			else:
-				i += 1
-		```
-	- Time complexity: O(k)
-		```python
-		i = 0
-		j = 1
-		lps = {i:0 for i in range(len(p))}
-		while j < len(p):
-			print(i, j, p[i], p[j], lps)
-			if p[i] == p[j]:
-				lps[j] = i + 1
-				i += 1
-				j += 1
-			else:
-				if i == 0:
-					j += 1
-				else:
-					i = lps[i - 1]
-		```
-	- main
 	```python
+	failure_func = {1:0}
 	i = 0
-	j = 0
-	ans = list()
-	while i < len(p) and j < len(s):
-		if p[i] == s[j]:
-			if i == len(p) - 1:
-				ans.append(j - len(p) + 2)
-	#             print(j - len(p) + 2)
-				j += 1
-			else:
-				i += 1
-				j += 1
+	j = 1
+	while j < len(p):
+		if p[i] == p[j]:
+			# `s`로부터 만들어진 길이 `j + 1`의 Prefix의 LPS를 `i + 1`로 갱신합니다.
+			failure_func[j + 1] = i + 1
+			j += 1
+			i += 1
 		else:
+			# `p[0]`과 `p[j]`가 서로 같지 않다면
 			if i == 0:
+				# `s`로부터 만들어진 길이 `j + 1`의 Prefix의 LPS는 0입니다.
+				failure_func[j + 1] = 0
 				j += 1
+			# `p[i]`와 `p[j]`가 서로 같지 않고 `i`가 0이 아니라면, 더 작은 `i`에 대해서 `p[i]`와 `p[j]`가 서로 같게 되는 `i`를 찾아야 합니다.
 			else:
-				i = lps[i - 1]
-				
-	print(len(ans))
-	for i in ans:
-		print(i, end=" ")
+				# `s`로부터 만들어진 길이 `i`의 Prefix(P1)에서는 길이 `failure_func[i]`만큼의 Prefix(P2)와 Suffix(S2)가 서로 같습니다. 따라서 P1의 뒤에서 `failure_func[i]`번째 문자는 앞에서 `failure_func[i]`번째 문자와 서로 같습니다.
+				i = failure_func[i]
 	```
-
+## Rabin-Karp Algorithm
+	
 ## Simulation
 
 # Hash

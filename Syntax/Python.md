@@ -1,7 +1,5 @@
 Written by KimRass
 
-
-
 # Auto Reload Modules
 ```python
 %reload_ext autoreload
@@ -9,8 +7,6 @@ Written by KimRass
 %aimport module
 ```
 - Reload all modules imported with %aimport every time before executing the Python code typed.
-
-
 
 # Error Messages
 ## TypeError
@@ -61,8 +57,6 @@ Written by KimRass
 ## KeyError: <<Dictionary Key>>
 # KeyboardInterrupt
 ## KeyboardInterrupt:
-
-
 
 # Python Built-in Functions
 ## bin(), oct(), hex()
