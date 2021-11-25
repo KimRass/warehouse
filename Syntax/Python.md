@@ -272,15 +272,11 @@ with open("C:/Users/5CG7092POZ/nsmc-master/ratings_train.txt", "r", encoding="ut
 A = list(map(int, in "A를 차례대로 입력 : ").split()))
 ```
 ## ord()
+- Returns the unicode code of a specified character.
 ## chr()
-- `ord()`와 반대입니다.
-
-
+- Returns the character that represents the specified unicode.
 
 # math
-```python
-import math
-```
 ## math.exp()
 ## math.log()
 ## math.log2()
@@ -292,8 +288,6 @@ import math
 ## math.gcd()
 ## math.isnan()
 ## math.inf
-
-
 
 # pandas
 ```python

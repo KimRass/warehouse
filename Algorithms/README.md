@@ -667,30 +667,66 @@ def bisect_right(arr, tar):
 	- The mapping of a length of a prefix of `p` to its LPS(Longest proper Prefix which is also proper Suffix).
 	- This function is based on the fact that when a mismatch occurs, all the previous characters match correctly.
 	```python
-	failure_func = {1:0}
+	failure_func = {0:0}
 	i = 0
 	j = 1
 	while j < len(p):
 		if p[i] == p[j]:
 			# `s`로부터 만들어진 길이 `j + 1`의 Prefix의 LPS를 `i + 1`로 갱신합니다.
-			failure_func[j + 1] = i + 1
+			failure_func[j] = i + 1
 			j += 1
 			i += 1
 		else:
 			# `p[0]`과 `p[j]`가 서로 같지 않다면
 			if i == 0:
 				# `s`로부터 만들어진 길이 `j + 1`의 Prefix의 LPS는 0입니다.
-				failure_func[j + 1] = 0
+				failure_func[j] = 0
 				j += 1
 			# `p[i]`와 `p[j]`가 서로 같지 않고 `i`가 0이 아니라면, 더 작은 `i`에 대해서 `p[i]`와 `p[j]`가 서로 같게 되는 `i`를 찾아야 합니다.
 			else:
 				# `s`로부터 만들어진 길이 `i`의 Prefix(P1)에서는 길이 `failure_func[i]`만큼의 Prefix(P2)와 Suffix(S2)가 서로 같습니다. 따라서 P1의 뒤에서 `failure_func[i]`번째 문자는 앞에서 `failure_func[i]`번째 문자와 서로 같습니다.
-				i = failure_func[i]
+				i = failure_func[i - 1]
+	```
+- String Search
+	```python
+	i = 0
+	j = 0
+	cnt = 0
+	ans = list()
+	while i < len(s):
+		if s[i] == p[j]:
+			if j == len(p) - 1:
+				cnt += 1
+				ans.append(i - len(p) + 2)
+				j = failure_func[j - 1]
+			else:
+				i += 1
+				j += 1
+		else:
+			if j == 0:
+				i += 1
+			else:
+				j = failure_func[j - 1]
 	```
 ## Rabin-Karp Algorithm
+- Source: https://www.programiz.com/dsa/rabin-karp-algorithm
+- A string `s` is taken and checked for the possibility of the presence of the pattern `p`. If the possibility is found then, character matching is performed.
+- 비교할 문자열과 패턴을 Hash function을 통해 해시값으로 변환하고, (2)해시값의 비교를 통해서 문자열이 일치하는지 확인하는데, 일치하지 않으면 다음 문자열로 넘어가고, 일치한다면 해당 문자열과 패턴의 1:1 매칭을 통해서 최종적으로 일치하는지 확인합니다.
+- 시값이 일치하면 문자열이 같다라고 판단할 수 있는데, 이는 해시 충돌(hash collison)이 없는 경우에 해당하긴 하지만 대부분 유효하다고 볼 수 있으며, 혹시나 해시값이 같지만 다른 문자열인 경우를 대비해서 해시값이 일치하는 경우에는 일대일 매칭으로 일치하는지 확인하는 과정을 거치면 됩니다.
+- 패턴과 일치하지 않는 부분을 빠르게 걸러주기 위해서 rolling hash를 hash function으로 사용합니다.
+- Rolling Hash
+	- Source: https://en.wikipedia.org/wiki/Rolling_hash
+	- A rolling hash is a hash function where the input is hashed in a window that moves through the input.
+	- A few hash functions allow a rolling hash to be computed very quickly—the new hash value is rapidly calculated given only the old hash value, the old value removed from the window, and the new value added to the window—similar to the way a moving average function can be computed much more quickly than other low-pass filters.
+	- Rolling hash는 sliding window와 같이 문자열을 훑으면서 Hash 값을 구하는데 유용한 것으로, 주어진 문자열을 처음부터 끝까지 패턴과 비교하면서 해시값을 구하는데, 중복되는 부분의 해시값은 그대로 두고 업데이트되는 부분만 해시값을 계산해주어서 중복되는 연산을 줄여줍니다.
+	- Rabin Fingerprint
+		- Prime Number(소수)
+		- ASCII값을 사용한다.
+
 	
 ## Simulation
 
 # Hash
+- Hash Collision
 
 # Union-Find
