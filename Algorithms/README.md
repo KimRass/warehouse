@@ -659,97 +659,83 @@ def bisect_right(arr, tar):
 
 # String-Searching Algorithms
 ## KMP Algorithm(Knuth-Morris-Pratt Algorithm)
-- Source: https://www.educative.io/edpresso/what-is-the-knuth-morris-pratt-algorithm
+- Source: https://blog.encrypted.gg/857
 - Time complexity: O(n + k) (where `n` and `k` are the lengths of string `s` and pattern `p` respectively).
 - The KMP algorithm is an algorithm that is used to search for `p` in `s`.
 - Failure Function
 	- Time complexity: O(k)
-	- The mapping of a length of a prefix of `p` to its LPS(Longest proper Prefix which is also proper Suffix).
+	- The mapping of the index `j` to the LPS(Longest proper Prefix which is also proper Suffix) of `p[:j + 1]`.
 	- This function is based on the fact that when a mismatch occurs, all the previous characters match correctly.
-	```python
-	failure_func = {0:0}
-	i = 0
-	j = 1
-	while j < len(p):
-		if p[i] == p[j]:
-			# `s`로부터 만들어진 길이 `j + 1`의 Prefix의 LPS를 `i + 1`로 갱신합니다.
-			failure_func[j] = i + 1
+- String-Search
+	- Time complexity: O(n)
+```python
+# s = "ABABABABABACABABACABAD"
+# p = "ABABACABA"
+# 를 가지고 이해하면 쉽습니다.
+failure_func = {0:0}
+i = 0
+j = 1
+while j < len(p):
+	if p[i] == p[j]:
+		failure_func[j] = i + 1
+		j += 1
+		i += 1
+	else:
+		if i == 0:
+			failure_func[j] = 0
 			j += 1
+		else:
+			# `p[i - 1] == p[j - 1]`, `p[i - 2] == p[j - 2]`, ..., `p[0] == p[j - i - 2]`가 성립할 것이고 `p[i] != p[j]`이므로 `failure_func[j]`는 `i + 1`이 될 수 없습니다. 따라서 `i`를 더 작게 만들어서 failure_func[j]`의 값을 찾아야 합니다. 이 때, `p[:i]`은 길이 `failure_func[i - 1]`만큼의 Prefix와 Suffix가 같습니다. 이 말은 즉, `p[failure_func[i - 1]] != p[i - 1]`임을 의미합니다. 그런데 앞서 살펴봤듯이 `p[i - 1] == p[j - 1]`이므로 `p[failure_func[i - 1]] != p[j - 1]`입니다. 따라서 `failure_func[j]`는 `failure_func[i - 1] + 2`가 될 수 없고 가능한 최댓값은 `failure_func[i - 1] + 1`입니다. 그러므로 `failure_func[j]`가 `failure_func[i - 1] + 1`과 같을 수 있는지 알아내기 위해 `i = failure_func[i - 1]`을 대입하고 다음 스텝에서 `p[i] == p[j]`를 만족하는지 확인하는 것입니다.
+			i = failure_func[i - 1]
+			
+i = 0
+j = 0
+match = list()
+while i < len(s):
+	if s[i] == p[j]:
+		if j == len(p) - 1:
+			match.append(i - len(p) + 1)
+			i += 1
+			j = failure_func[len(p) - 1]
+		else:
+			i += 1
+			j += 1
+	else:
+		if j == 0:
 			i += 1
 		else:
-			# `p[0]`과 `p[j]`가 서로 같지 않다면
-			if i == 0:
-				# `s`로부터 만들어진 길이 `j + 1`의 Prefix의 LPS는 0입니다.
-				failure_func[j] = 0
-				j += 1
-			# `p[i]`와 `p[j]`가 서로 같지 않고 `i`가 0이 아니라면, 더 작은 `i`에 대해서 `p[i]`와 `p[j]`가 서로 같게 되는 `i`를 찾아야 합니다.
-			else:
-				# `s`로부터 만들어진 길이 `i`의 Prefix(P1)에서는 길이 `failure_func[i]`만큼의 Prefix(P2)와 Suffix(S2)가 서로 같습니다. 따라서 P1의 뒤에서 `failure_func[i]`번째 문자는 앞에서 `failure_func[i]`번째 문자와 서로 같습니다.
-				i = failure_func[i - 1]
-	```
-- String Search
-	```python
-	i = 0
-	j = 0
-	cnt = 0
-	ans = list()
-	while i < len(s):
-		if s[i] == p[j]:
-			if j == len(p) - 1:
-				cnt += 1
-				ans.append(i - len(p) + 2)
-				j = failure_func[j - 1]
-			else:
-				i += 1
-				j += 1
-		else:
-			if j == 0:
-				i += 1
-			else:
-				j = failure_func[j - 1]
+			j = failure_func[j - 1]
 	```
 ## Rabin-Karp Algorithm
 - Source: https://www.programiz.com/dsa/rabin-karp-algorithm
 - A string `s` is taken and checked for the possibility of the presence of the pattern `p`. If the possibility is found then, character matching is performed.
-- 비교할 문자열과 패턴을 Hash function을 통해 해시값으로 변환하고, (2)해시값의 비교를 통해서 문자열이 일치하는지 확인하는데, 일치하지 않으면 다음 문자열로 넘어가고, 일치한다면 해당 문자열과 패턴의 1:1 매칭을 통해서 최종적으로 일치하는지 확인합니다.
-- 시값이 일치하면 문자열이 같다라고 판단할 수 있는데, 이는 해시 충돌(hash collison)이 없는 경우에 해당하긴 하지만 대부분 유효하다고 볼 수 있으며, 혹시나 해시값이 같지만 다른 문자열인 경우를 대비해서 해시값이 일치하는 경우에는 일대일 매칭으로 일치하는지 확인하는 과정을 거치면 됩니다.
-- 패턴과 일치하지 않는 부분을 빠르게 걸러주기 위해서 rolling hash를 hash function으로 사용합니다.
 - Rolling Hash
 	- Source: https://en.wikipedia.org/wiki/Rolling_hash
 	- A rolling hash is a hash function where the input is hashed in a window that moves through the input.
 	- A few hash functions allow a rolling hash to be computed very quickly—the new hash value is rapidly calculated given only the old hash value, the old value removed from the window, and the new value added to the window—similar to the way a moving average function can be computed much more quickly than other low-pass filters.
-	- Rolling hash는 sliding window와 같이 문자열을 훑으면서 Hash 값을 구하는데 유용한 것으로, 주어진 문자열을 처음부터 끝까지 패턴과 비교하면서 해시값을 구하는데, 중복되는 부분의 해시값은 그대로 두고 업데이트되는 부분만 해시값을 계산해주어서 중복되는 연산을 줄여줍니다.
-	- Rabin Fingerprint
-		- Prime Number(소수)
-		- ASCII값을 사용한다.
 ```python
 s = input()
 p = input()
 
-d = 13
-q = 11
-hash_p = 0
+# Choose `x` appropriately.
 hash_s = 0
+hash_p = 0
 for i in range(len(p)):
-    hash_s = (d*hash_s + ord(s[i]))
-    hash_p = (d*hash_p + ord(p[i]))
+    hash_s = (x*hash_s + ord(s[i]))
+    hash_p = (x*hash_p + ord(p[i]))
 
 j = 0
 res = list()
 while j < len(s) - len(p):
-#     print(j, hash_s, hash_p)
     if hash_s == hash_p:
         # Check character by character.
         for k in range(len(p)):
             if s[k + j] != p[k]:
                 break
         else:
-            res.append(j + 1)
-    hash_s = (hash_s - ord(s[j])*(d**(len(p) - 1)))*d + ord(s[j + len(p)])
+            res.append(j)
+    hash_s = (hash_s - ord(s[j])*(x**(len(p) - 1)))*x + ord(s[j + len(p)])
     j += 1
-
-print(len(res))
-print(*res, sep=" ")
 ```
 	
 ## Simulation
