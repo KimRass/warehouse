@@ -722,7 +722,35 @@ def bisect_right(arr, tar):
 	- Rabin Fingerprint
 		- Prime Number(소수)
 		- ASCII값을 사용한다.
+```python
+s = input()
+p = input()
 
+d = 13
+q = 11
+hash_p = 0
+hash_s = 0
+for i in range(len(p)):
+    hash_s = (d*hash_s + ord(s[i]))
+    hash_p = (d*hash_p + ord(p[i]))
+
+j = 0
+res = list()
+while j < len(s) - len(p):
+#     print(j, hash_s, hash_p)
+    if hash_s == hash_p:
+        # Check character by character.
+        for k in range(len(p)):
+            if s[k + j] != p[k]:
+                break
+        else:
+            res.append(j + 1)
+    hash_s = (hash_s - ord(s[j])*(d**(len(p) - 1)))*d + ord(s[j + len(p)])
+    j += 1
+
+print(len(res))
+print(*res, sep=" ")
+```
 	
 ## Simulation
 

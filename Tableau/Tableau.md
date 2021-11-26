@@ -1,15 +1,9 @@
 Written by KimRass
 
-
-
 # Order of Operations
 - Context Filters -> {FIXED:} -> Dimensition Filters(Actions, Groups) -> {INCLUDE:}, {EXCLUDE:} -> Blending -> Table Calculations -> Table Calculation Filters(FIRST(), LAST()) -> Manually Hidden Marks
 
-
-
 # Number
-
-
 
 # String
 ## LEFT()
@@ -20,8 +14,6 @@ LEFT("█████",Round([사용하실 측정값]*5,0))
 ```
 CONTAINS([mbr_id], "MBR")
 ```
-
-
 
 # Date
 ## DATEDIFF()
@@ -46,8 +38,6 @@ END
 ```
 DATETRUNC("week", [Order Date])
 ```
-
-
 
 # Logical
 ## CASE, WHEN, THEN, END
@@ -99,8 +89,6 @@ THEN [현장명]
 END)
 ```
 
-
-
 # Aggregate
 ## ATTR()
 - Return the value of the given expression if only have a single value for all rows in the group, otherwise display `*`. NULL is ignored.
@@ -141,8 +129,6 @@ END
 ```
 - Compute and aggregate excluding the specified dimensions if present in the view.
 - Reference: https://www.youtube.com/watch?v=RWIhdRiQ3Ic&list=PLyipEw5AFv5RVvw9X4a-Q-LQxbBqsU9Z1&index=3
-
-
 
 # Table Calculation
 ## FIRST(), LAST()
@@ -203,21 +189,15 @@ return soup.find('sta_dt').get_text()",
 ATTR([댓글생성자id])), 6)
 ```
 
-
-
 # Spatial
 ## DISTANCE()
 ## MAKEPOINT()
-
-
 
 # ELSE
 ## RANDOM()
 ```
 127 + 2.5*(RANDOM() - 0.2)
 ```
-
-
 
 # Functions
 ## Custom Number Format
@@ -246,8 +226,6 @@ ATTR([댓글생성자id])), 6)
 - `Copy Formatting` -> `Paste Formatting`
 ## Match Mark Color
 - `Mark Cards` -> `Label` -> `Font` -> `Match Mark Color`
-
-
 
 # Shortcut Keys
 ## Ctrl + W
@@ -289,15 +267,11 @@ ATTR([댓글생성자id])), 6)
 ## Alt + O -> D or W
 - `Dashboard...` or `Workbook...`
 
-
-
 # `Publish Workbook to Tableau Server`
 ## `More Options`
 ### `Show sheets as tabs`
 ### `Show selections`
 ### `Include external files`
-
-
 
 # URL Parameters
 ## `:showAppBanner=false`
@@ -306,8 +280,6 @@ ATTR([댓글생성자id])), 6)
 ## `:origin=viz_share_link`
 ## `:embed=yes`
 ## `:toolbar=top`
-
-
 
 # Tableau Server
 ## `Server Status`
