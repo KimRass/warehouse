@@ -17,14 +17,15 @@ Written by KimRass
 ### TypeError: sequence index must be integer, not 'slice'
 - This error raises because `collections.deque` cannot be sliced.
 ### TypeError: '<<Data Type>>' object is not iterable
-### TypeError: <<Function>> takes exactly <<Number of needed arguments>> argument (<<Number of input arguments>> given)
+### TypeError: <<Function>> takes exactly <<Number of Needed Arguments>> argument (<<Number of Input Arguments>> given)
 ### TypeError: sequence item 0: expected str instance, int found
 ### TypeError: can only concatenate tuple (not "<<Data Type>>") to tuple
 ### TypeError: '<<Argument>>' is an invalid keyword argument for <<Function>>()
-### TypeError: unsupported operand type(s) for <<Operator>>: '<<Data Type 1>>' and '<<Data Type 2>>'
+### TypeError: unsupported operand type(s) for <<Operator>>: '<<Data Type1>>' and '<<Data Type2>>'
 ### TypeError: heap argument must be a list
 ### TypeError: Invalid comparison between dtype=<<Data Type>> and <<Data Type>>
 ### `TypeError: 'range' object cannot be interpreted as an integer`
+### `TypeError: '<<Class>>' object is not callable`
 ## NameError
 ### `TypeError: object of type <<Data Type>> has no <<Function>>`
 ### NameError: name '<<Variable>>' is not defined

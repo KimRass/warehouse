@@ -373,7 +373,7 @@ class Trie():
             next_nodes = list()
         return words
 ```
-
+## Union-Find
 # Exhaustive Search
 ## Brute-Force Attack
 ## Backtracking
@@ -749,5 +749,3 @@ while j < len(s) - len(p):
 
 # Hash
 - Hash Collision
-
-# Union-Find
