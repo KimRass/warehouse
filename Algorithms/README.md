@@ -713,19 +713,26 @@ while i < len(s):
 	- Source: https://en.wikipedia.org/wiki/Rolling_hash
 	- A rolling hash is a hash function where the input is hashed in a window that moves through the input.
 	- A few hash functions allow a rolling hash to be computed very quickly—the new hash value is rapidly calculated given only the old hash value, the old value removed from the window, and the new value added to the window—similar to the way a moving average function can be computed much more quickly than other low-pass filters.
+	```python
+	hash = ord(s[0])*(d**(len(p) - 1)) + ord(s[1])*(d**(len(p) - 2)) + ... + ord(s[len(p) - 1])
+	```
 ```python
-s = input()
-p = input()
+# If `d` is too small, hash collision easily occurs. So `d` should be at least larger than the number of characters in both `s` and `p`. 또한 `a`가 `p`의 원시근이 아닐 경우에도 Hash collision이 쉽게 일어납니다.
+d = 302
+# Choose a prime number for `q` in such a way that we can perform all the calculations with single-precision arithmetic.
+q = 1000000007
+h = 1
+for i in range(len(p) - 1):
+    h = (h*d)%q
 
-# Choose `x` appropriately.
 hash_s = 0
 hash_p = 0
 for i in range(len(p)):
-    hash_s = (x*hash_s + ord(s[i]))
-    hash_p = (x*hash_p + ord(p[i]))
+    hash_s = (d*hash_s + ord(s[i]))%q
+    hash_p = (d*hash_p + ord(p[i]))%q
 
 j = 0
-res = list()
+match = list()
 while j < len(s) - len(p):
     if hash_s == hash_p:
         # Check character by character.
@@ -733,8 +740,8 @@ while j < len(s) - len(p):
             if s[k + j] != p[k]:
                 break
         else:
-            res.append(j)
-    hash_s = (hash_s - ord(s[j])*(x**(len(p) - 1)))*x + ord(s[j + len(p)])
+            match.append(j)
+    hash_s = ((hash_s - ord(s[j])*h)*d + ord(s[j + len(p)]))%q
     j += 1
 ```
 	
