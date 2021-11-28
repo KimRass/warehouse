@@ -26,8 +26,8 @@ Written by KimRass
 ### TypeError: Invalid comparison between dtype=<<Data Type>> and <<Data Type>>
 ### `TypeError: 'range' object cannot be interpreted as an integer`
 ### `TypeError: '<<Class>>' object is not callable`
-## NameError
 ### `TypeError: object of type <<Data Type>> has no <<Function>>`
+## NameError
 ### NameError: name '<<Variable>>' is not defined
 ## ZeroDivisionError
 ### ZeroDivisionError: division by zero
@@ -60,54 +60,84 @@ Written by KimRass
 ## KeyboardInterrupt:
 
 # Python Built-in Functions
-## bin(), oct(), hex()
-- `&`: AND
-- `|`: OR
-- `^`: XOR
-- `~`
-- `<<`, `>>`
-## round()
+## `bin()`, `oct()`, `hex()`
+- Source: https://wiki.python.org/moin/BitwiseOperators
+- `~x`(`NOT`): Returns the complement.
+- `x & y`(`AND`): Returns `1` if the corresponding bit of `x` and of `y` is `1`, otherwise returns `0`.
+- `x | y`(`OR`): Returns `0` if the corresponding bit of `x` and of `y` is `0`, otherwise returns `1`.
+- `x ^ y`(`XOR`): Returns the same bit as the corresponding bit in `x` if that bit in `y` is `0`, otherwise the complement.
+- `x << y`, `x >> y`: Returns `x` with the bits shifted to the left(right) by `y` places (and new bits on the right-hand-side are zeros).
+## `int()`
+- `base`: (Default `10`) Number format.
+## `round()`
 ```python
 print(round(summ/leng, 1))
 ```
-## open()
+## `open()`
 ```python
 f = open("D:/Github/Work/Tableau/datamart_password.txt", "r")
 ```
-### f.readline(), f.readlines()
-```python
-password = f.readline()
-```
-## hash()
-## input()
-```python
-list(map(int, input("숫자 입력  : ").split()))
-```
-## display()
-## print()
+### `f.readline()`, `f.readlines()`
+## `hash()`
+## `display()`
+## `print()`
 - `end`: (default "\n")
 - `sep`: (default " ") Determine the value to join elements with.
-## isinstance()
+```python
+print(f"{'a':0>10}")
+```
+	- You can also append characters other than white spaces, by adding the specified characters before the `>`(right align), `^`(center align) or `<`(left align) character:
+## `isinstance()`
 ```python
 if not isinstance(movie, frozenset):
     movie = frozenset(movie)
 ```
-## type()
+## `type()`
 ```python
 type(test_X[0][0])
 ```
-## sum()
+## `sum()`
 ```python
 sum(sentences, [])
 ```
-- 두번째 층의 대괄호 제거
-## assert
+	- 두번째 층의 대괄호 제거
+## `assert`
 ```python
 assert model_name in self.model_list, "There is no such a model."
 ```
+
+## `eval()`
+```python
+A = [eval(f"A{i}") for i in range(N, 0, -1)]
+```
+- `eval()` is for expression and returns the value of expression.
+## `exec()`
+```python
+for data in ["tasks", "comments", "projects", "prj_members", "members"]:
+    exec(f"{data} = pd.read_csv('D:/디지털혁신팀/협업플랫폼 분석/{data}.csv')")
+```
+```python
+exec(f"{table} = pd.DataFrame(result)")
+```
+- `exce()` is for statement and return `None`.
+## `open()`
+```python
+with open("C:/Users/5CG7092POZ/nsmc-master/ratings_train.txt", "r", encoding="utf-8") as f:
+    train_docs = [line.split("\t") for line in f.read().splitlines()][1:]
+```
+## `input()`
+```python
+A = list(map(int, in "A를 차례대로 입력 : ").split()))
+```
+## `ord()`
+- Returns the unicode code of a specified character.
+## `chr()`
+- Returns the character that represents the specified unicode code.
+
 ## Variable.data
 #### Variable.data.nbytes
 - 변수에 할당된 메모리 크기 리턴
+
 ## List
 - Mutable.
 - Unhashable.
@@ -115,11 +145,10 @@ assert model_name in self.model_list, "There is no such a model."
 ```python
 names.index((17228, "아트빌"))
 ```
-### List.append()
-```python
-feature_to_shuffle.append("area")
-```
-### List.extend()
+### `List.append()`
+- Adds the argument as a single element to the end of a List. 
+### `List.extend()`
+- Iterates over the argument and adding each element to the List and extending the List.
 ### List.insert()
 - idx, value 순으로 arg를 입력합니다.
 ### List.remove()
@@ -127,9 +156,6 @@ feature_to_shuffle.append("area")
 features.remove("area")
 ```
 ### List.count()
-```python
-[2, 4012, 3394, 3, 1, 1].count(1)
-```
 ### sorted()
 ```python
 sorted(confs, key=lambda x:(x[0], x[1]))
@@ -163,13 +189,15 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 - Mutable.
 - Unhashable.
 - No order.
-### &, |
-- Union, Intersection respectively.
-### Set.add()
-### Set.update()
-```python
-effect.update([i for i in range(apt - w, apt + w + 1) if i >= 1 and i <= n])
-```
+### `A & B`
+- Union of `A` and `B`.
+### `A | B`
+- Intersection of `A` and `B`.
+### `Set.add()`
+- Adds the argument as a single element to the end of a Set if it is not in the Set.
+### `Set.update()`
+- It expects a single or multiple iterable sequences as arguments and appends all the elements in these iterable sequences to the Set.
+### `Set.discard()`
 ## Frozenset
 - 구성 요소들이 순서대로 들어 있지 않아 인덱스를 사용한 연산을 할 수 없고
 - 유일한 항목 1개만 들어가 있습니다.
@@ -179,27 +207,26 @@ effect.update([i for i in range(apt - w, apt + w + 1) if i >= 1 and i <= n])
 ## Dictionary
 - Mutable.
 - Unhashable.
-### Dictionary\[]
+### `Dictionary\[]`, `Dictionary.get()`
 - key를 입력받아 value를 반환합니다.
-### Dictionary[], Dictionary.get()
-### Dictionary.items()
+### `Dictionary.items()`
 ```python
 for key, value in dic.items():
     print(key, value)
 ```
-### Dictionary.setdefault()
-### Dictionary.update()
+### `Dictionary.setdefault()`
+### `Dictionary.update()`
 ```python
 dic.update({key1:value1, key2:value2})
 ```
-### Dictionary.pop()
+### `Dictionary.pop()`
 ```python
-dic.pop(key)
+dic.pop(<<key>>)
 ```
-### Dictionary.keys(), Dictionary.values()
-- Data type: `dict_keys`, `dict_values`
-### Dictionary.fromkeys()
-### sorted()
+### `Dictionary.keys()`, `Dictionary.values()`
+- Data type: `dict_keys`, `dict_values` respectively.
+### `Dictionary.fromkeys()`
+### `sorted()`
 ```python
 word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
 ```
@@ -209,88 +236,53 @@ min_dists = {i:0 if i == start else math.inf for i in range(1, V + 1)}
 ```
 ## String
 - Immutable.
-### String.format()
+### `String.format()`
+### `String.ljust()`, `String.rjust()`
 ```python
-print("[{0:>4d}], [{1:>20d}]".format(100, 200))
+string.ljust(<<Target Length>>, <<Character to Pad>>)
 ```
-```python
-print("[{0:<20s}]".format("string"))
-```
-```python
-print("[{0:<20.20f}], [{1:>10.2f}]".format(3.14, 10.925))
-```
-### String.zfill()
-```python
-hr = pd.read_excel(f"./FINAL/HR/사원명단_{target_year}{str(target_month).zfill(2)}.xlsx")
-```
-### String.join()
+### `String.zfill()`
+### `String.join()`
 ```python
 " ".join(["good", "bad", "worse", "so good"])
 ```
-- String을 사이에 두고 리스트의 모든 원소들을 하나로 합침
-### String.split()
+ - Join all items in a Tuple or List into a string, using `String`.
+### `String.split()`
 - Split a string into a list where each word is a list item.
 - `maxsplit`: How many splits to do.
 ### String.upper(), String.lower()
 ```python
 orders.columns = orders.columns.str.lower()
 ```
-### String.isupper(), String.islower()
-### String.isalpha()
-### String.isdigit()
-### String.count()
+### `String.isupper()`, `String.islower()`
+### `String.isalpha()`
+### `String.isdigit()`
+### `String.count()`
 ```python
 "저는 과일이 좋아요".count("과일이")
 ```
-### String.find()
+### `String.find()`
 - Return the first index of the argument.
-### String.startswith(), String.endswith()
+### `String.startswith()`, `String.endswith()`
 - Return `True` if a string starts with the specified prefix. If not, return `False`
-### String.strip(), String.lstrip(), String.rstrip()
-### String.replace()
+### `String.strip()`, `String.lstrip()`, `String.rstrip()`
+### `String.replace()`
 - `count`: (int, optional) A number specifying how many occurrences of the old value you want to replace. Default is all occurrences.
-## `eval()`
-```python
-A = [eval(f"A{i}") for i in range(N, 0, -1)]
-```
-- `eval()` is for expression and returns the value of expression.
-## `exec()`
-```python
-for data in ["tasks", "comments", "projects", "prj_members", "members"]:
-    exec(f"{data} = pd.read_csv('D:/디지털혁신팀/협업플랫폼 분석/{data}.csv')")
-```
-```python
-exec(f"{table} = pd.DataFrame(result)")
-```
-- `exce()` is for statement and return `None`.
-## open()
-```python
-with open("C:/Users/5CG7092POZ/nsmc-master/ratings_train.txt", "r", encoding="utf-8") as f:
-    train_docs = [line.split("\t") for line in f.read().splitlines()][1:]
-```
-## input()
-```python
-A = list(map(int, in "A를 차례대로 입력 : ").split()))
-```
-## `ord()`
-- Returns the unicode code of a specified character.
-## `chr()`
-- Returns the character that represents the specified unicode code.
 
-# math
-## math.exp()
-## math.log()
-## math.log2()
-## math.log10()
-## math.factorial()
-## math.comb()
-## math.floor()
-## math.ceil()
-## math.gcd()
-## math.isnan()
-## math.inf
+# `math`
+## `math.exp()`
+## `math.log()`
+## `math.log2()`
+## `math.log10()`
+## `math.factorial()`
+## `math.comb()`
+## `math.floor()`
+## `math.ceil()`
+## `math.gcd()`
+## `math.isnan()`
+## `math.inf`
 
-# pandas
+# `pandas`
 ```python
 import pandas as pd
 ```
@@ -754,9 +746,7 @@ for k, v in target.items():
     queries.append(f"{k}-{v}")
 ```
 
-
-
-# numpy
+# `numpy`
 ```python
 import numpy as np
 ```
@@ -985,8 +975,6 @@ np.fill_diagonal(cos_sim_item, 0
 ```
 ## np.fromfile()
 - `count`: Number of items to read. `-1` means all items (i.e., the complete file).
-
-
 
 # sklearn
 ```python

@@ -749,3 +749,22 @@ while j < len(s) - len(p):
 
 # Hash
 - Hash Collision
+
+# Bitmask
+- Source: https://en.wikipedia.org/wiki/Mask_(computing)
+- In computer science, a mask or bitmask is data that is used for bitwise operations, particularly in a bit field. Using a mask, multiple bits in a byte, nibble, word etc. can be set either on, off or inverted from on to off (or vice versa) in a single bitwise operation.
+```python
+bitmask = (1 << <<Position>>)
+
+# Getting a bit: To read the value of a particular bit on a given position.
+<<Target>> & bitmask
+
+# Setting a bit
+<<Target>> | bitmask
+
+# Unsetting a bit: To clear a bit, you want to copy all binary digits while enforcing zero at one specific index.
+<<Target>> & ~bitmask
+
+# Toggling a bit
+<<Target>> ^ bitmask
+```
