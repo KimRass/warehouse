@@ -374,36 +374,43 @@ class Trie():
         return words
 ```
 ## Disjoint-Set(= Union-Find, Merge-Find)
-- Source: https://en.wikipedia.org/wiki/Disjoint-set_data_structure
-- Disjoint-set is a data structure that stores a collection of disjoint (non-overlapping) sets.
-- 집합을 관리하는 트리 형태의 자료구조
-- 보통 배열에서 인덱스를 노드로 나타내어 각 인덱스의 값에 해당 인덱스의 부모 노드를 저장합니다.
-- 순수히 노드 간의 연결 관계를 파악할 때 유용하게 사용됩니다.
-- find (루트 노드를 찾는 연산).
-	- find 연산은 어떤 노드를 인자로 넘겼을 때, 해당 노드의 루트 노드를 반환하는 연산으로, 실 사용 예로는 임의의 두 노드가 연결되어 있는지(루트 노드가 같은지) 확인할 때 쓰이며, 보통 재귀 호출의 형태로 구현합니다. 또한, 시간 복잡도 효율을 높이기 위해 find 연산에서 경로 압축 최적화를 합니다. (재귀 호출 시, 자식 노드들의 값을 모두 루트 노드로 바꾸어 Skewed Tree를 방지합니다.)
+- Two sets are said to be disjoint sets if they have no common elements.
+- Source: https://www.geeksforgeeks.org/disjoint-set-data-structures/
+- Problem: To find whether x and y belong to same group or not, i.e., to find if x and y are direct/indirect friends.
+- Solution: Partitioning the individuals into different sets according to the groups in which they fall. This method is known as disjoint set data structure which maintains collection of disjoint sets and each set is represented by its representative which is one of its members.
+- Approach
+	- How to Resolve sets: Initially all elements belong to different sets. After working on the given relations, we select a member as representative. There can be many ways to select a representative, a simple one is to select with the biggest index.
+	- Check if 2 persons are in the same group: If representatives of two individuals are same, then they’ll become friends.
+- Data Structures used
+	- Array: An array of integers `parent`. If we are dealing with `n` items, `i`’th element of the array represents the parent of the `i`’th item. These relationships create one, or more, virtual trees.
+	- Tree: It is a disjointset. If two elements are in the same tree, then they are in the same disjoint set. The root node of each tree is called the representative of the set. ***There is always a single unique representative of each set. A simple rule to identify representative is, if `i` is the representative of a set, then `parent[i]` equals to `i`. If `i` is not the representative of his set, then it can be found by traveling up the tree until we find the representative.***
+- Operations
+	- Find: Can be implemented by recursively traversing the parent array until we hit a node who is parent of itself.
 	```python
-	def find(tar):
-		# `tar`가 루트노드이면 자기 자신을 반환합니다.
-		if tar == parent[tar]:
-			return tar
-	 
-		# 경로 압축 최적화(= Memoization)
-		parent[tar] = find(parent[tar])
-		return parent[tar]
-	```
-- union (서로 다른 두 트리(집합)를 합치는 연산)
-	- union 연산은 서로 다른 두 트리(집합)를 합치는 연산으로, 보통 각 트리의 루트 노드를 비교하여 둘 중 작은 루트 노드를 기준으로 합치게 됩니다. 따라서, union 연산을 하기 위해서는 사전에 반드시 find 연산이 필요하며 이는 코드상으로도 마찬가지입니다.
-	```python
-	def union(a, b):
-		a = find(a)
-		b = find(b)
-	 
-		# 작은 루트 노드를 기준으로 합침. 큰 것의 부모가 작은 것이 되도록.
-		if a < b:
-			parent[b] = a
+	def find(x):
+		# If `x` is the parent of itself
+		if x == parent[x]:
+			# Then `x` is the representative of this set.
+			return x
+		# If `x` is not the parent of itself, then `x` is not the representative of his set.
 		else:
-			parent[a] = b
-		# 루트 노드가 같다면 합칠 필요 없음
+			# Else we recursively call `find()` on its parent.
+			# Path Compression: It speeds up the data structure by compressing the height of the trees. We `x` directly under the representative of this set.
+			parent[x] = find(parent[x])	
+			return parent[x]
+	```
+	- Union: It takes, as input, two elements. And finds the representatives of their sets using the find operation, and finally puts either one of the trees (representing the set) under the root node of the other tree, effectively merging the trees and the sets.
+	```python
+	def union(x, y):
+		# Find the representatives (or the root nodes) for the set that includes `x` and `y` respectively.
+		x_rep = find(x)
+		y_rep = find(y)
+	 
+		if x_rep < y_rep:
+			# Make the parent of `x`’s representative be `y`’s representative.
+			parent[x_rep] = y_rep
+		else:
+			parent[y_rep] = x_rep
 	```
 
 # Exhaustive Search
