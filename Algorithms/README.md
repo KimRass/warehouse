@@ -405,12 +405,13 @@ class Trie():
 		# Find the representatives (or the root nodes) for the set that includes `x` and `y` respectively.
 		x_rep = find(x)
 		y_rep = find(y)
-	 
 		if x_rep < y_rep:
 			# Make the parent of `x`’s representative be `y`’s representative.
 			parent[x_rep] = y_rep
-		else:
+	        size[y_rep] += size[x_rep]
+		elif y_rep < x_rep:
 			parent[y_rep] = x_rep
+	        size[x_rep] += size[y_rep]
 	```
 
 # Exhaustive Search
