@@ -4308,8 +4308,6 @@ model.n_jobs=5
 model.fit(train_X, train_y, eval_set=[(train_X, train_y), (val_X, val_y)], early_stopping_rounds=50, verbose=True)
 ```
 
-
-
-# copy
-## copy.copy()
-## copy.deepcopy()
+# `copy`
+## `copy.copy()`
+## `copy.deepcopy()`
