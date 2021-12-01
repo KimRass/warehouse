@@ -7,7 +7,6 @@ List.append()
 List.pop()
 ```
 - VPS(Valid Parenthesis String)
-- NGE(Next Greater Element)
 ## Queue
 - LILO(Last-In-Last-Out)
 - 데이터가 들어오는 위치는 가장 뒤(Rear 또는 Back이라고 한다.)에 있고, 데이터가 나가는 위치는 가장 앞(Front라고 한다.)
@@ -380,13 +379,16 @@ class Trie():
 - Solution: Partitioning the individuals into different sets according to the groups in which they fall. This method is known as disjoint set data structure which maintains collection of disjoint sets and each set is represented by its representative which is one of its members.
 - Approach
 	- How to Resolve sets: Initially all elements belong to different sets. After working on the given relations, we select a member as representative. There can be many ways to select a representative, a simple one is to select with the biggest index.
-	- Check if 2 persons are in the same group: If representatives of two individuals are same, then they’ll become friends.
+	- ***Check if 2 persons are in the same group: If representatives of two individuals are same, then they’ll become friends.***
 - Data Structures used
 	- Array: An array of integers `parent`. If we are dealing with `n` items, `i`’th element of the array represents the parent of the `i`’th item. These relationships create one, or more, virtual trees.
 	- Tree: It is a disjointset. If two elements are in the same tree, then they are in the same disjoint set. The root node of each tree is called the representative of the set. ***There is always a single unique representative of each set. A simple rule to identify representative is, if `i` is the representative of a set, then `parent[i]` equals to `i`. If `i` is not the representative of his set, then it can be found by traveling up the tree until we find the representative.***
 - Operations
 	- Find: Can be implemented by recursively traversing the parent array until we hit a node who is parent of itself.
 	```python
+	parent = [i for i in range(n)]
+	size = [1 for i in range(n)]
+	
 	def find(x):
 		# If `x` is the parent of itself
 		if x == parent[x]:
@@ -395,7 +397,7 @@ class Trie():
 		# If `x` is not the parent of itself, then `x` is not the representative of his set.
 		else:
 			# Else we recursively call `find()` on its parent.
-			# Path Compression: It speeds up the data structure by compressing the height of the trees. We `x` directly under the representative of this set.
+			# Path Compression: It speeds up the data structure by compressing the height of the trees. We put `x` and all its ascendants directly under the representative of this set.
 			parent[x] = find(parent[x])	
 			return parent[x]
 	```
@@ -613,6 +615,9 @@ def func(n):
 	for i in arr:
 		temp += i
 		pref_sum.append(temp)
+	```
+- NGE(Next Greater Element)
+	```python
 	```
 	
 # Greedy Algorithms
