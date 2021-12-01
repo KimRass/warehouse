@@ -7,6 +7,51 @@ List.append()
 List.pop()
 ```
 - VPS(Valid Parenthesis String)
+	```python
+	stack = list()
+	for p in ps:
+		if p == "(":
+			stack.append()
+		elif p == ")":
+			if stack:
+				stack.pop()
+			else:
+				print("NO")
+				break
+	else:
+		print("NO" if stack else "YES")
+	```
+- NGE(Next Greater Element)
+	- Source: https://www.geeksforgeeks.org/next-greater-element/
+	- The Next greater Element for an element x is the first greater element on the right side of x in the array. (Elements for which no greater element exist, consider the next greater element as -1.)
+	```python
+		arr = [3, 4, 5, 2, 6, 8, 7, 2, 3]
+
+	stack = list()
+	popped = 0
+	tar = 0
+	stack.append(arr[0])
+	for i in range(1, len(arr)):
+		tar = arr[i]
+		print(tar, stack)
+		if stack:
+			popped = stack.pop()
+			while popped < tar:
+				print(str(popped) + " -- " + str(tar))
+				if not stack:
+					break
+				popped = stack.pop()
+			if popped > tar:
+				stack.append(popped)
+		stack.append(tar)
+	print("---------")
+	print(stack)
+	while stack:
+		popped = stack.pop()
+		tar = -1
+		print(str(popped) + " -- " + str(tar))
+	```
+	
 ## Queue
 - LILO(Last-In-Last-Out)
 - 데이터가 들어오는 위치는 가장 뒤(Rear 또는 Back이라고 한다.)에 있고, 데이터가 나가는 위치는 가장 앞(Front라고 한다.)
@@ -615,9 +660,6 @@ def func(n):
 	for i in arr:
 		temp += i
 		pref_sum.append(temp)
-	```
-- NGE(Next Greater Element)
-	```python
 	```
 	
 # Greedy Algorithms
