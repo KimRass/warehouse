@@ -25,31 +25,19 @@ List.pop()
 	- Source: https://www.geeksforgeeks.org/next-greater-element/
 	- The Next greater Element for an element x is the first greater element on the right side of x in the array. (Elements for which no greater element exist, consider the next greater element as -1.)
 	```python
-		arr = [3, 4, 5, 2, 6, 8, 7, 2, 3]
-
-	stack = list()
-	popped = 0
-	tar = 0
-	stack.append(arr[0])
-	for i in range(1, len(arr)):
-		tar = arr[i]
-		print(tar, stack)
-		if stack:
+	stack = [0]
+	nges = [-1 for _ in range(len(arr))]
+	i = 1
+	while i < len(arr):
+		while stack:
 			popped = stack.pop()
-			while popped < tar:
-				print(str(popped) + " -- " + str(tar))
-				if not stack:
-					break
-				popped = stack.pop()
-			if popped > tar:
+			if arr[i] > arr[popped]:
+				nges[popped] = i
+			else:        
 				stack.append(popped)
-		stack.append(tar)
-	print("---------")
-	print(stack)
-	while stack:
-		popped = stack.pop()
-		tar = -1
-		print(str(popped) + " -- " + str(tar))
+				break
+		stack.append(i)
+		i += 1
 	```
 	
 ## Queue
