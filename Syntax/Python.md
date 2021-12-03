@@ -2206,19 +2206,15 @@ day = start + datetime.timedelta(days=1)
 (t2 - t1).total_seconds()
 ```
 
-
-
-# dateutil
-## dateutil.relativedelta
-### relativedelta
+# `dateutil`
+## `dateutil.relativedelta`
+### `relativedelta`
 ```python
 from dateutil.relativedelta import relativedelta
 ```
 ```python
 data["년-월"] = data["년-월"].apply(lambda x:x + relativedelta(months=1) - datetime.timedelta(days=1))
 ```
-
-
 
 # time
 ```python

@@ -255,6 +255,8 @@ ATTR([댓글생성자id])), 6)
 - `Edit Blend Relationships...`
 ## Alt + D -> X
 - `Refresh All Extracts...`
+## Alt + W -> O
+- `Tooltip...`
 ## Alt + W -> C -> I, Alt + B -> C
 - `Image...`, `Copy Image` respectively
 ## Alt + B -> X
@@ -281,3 +283,11 @@ ATTR([댓글생성자id])), 6)
 # Tableau Server
 ## `Server Status`
 ### `Background Tasks for Extracts`
+
+# Options
+## `Dashboard`
+- `Add Phone Layouts to New Dashboards`
+## `Worksheet`
+- `Show Sort Contols`
+## `Analysis`
+- `Table Layout` -> `Show Field Labels for Rows`
