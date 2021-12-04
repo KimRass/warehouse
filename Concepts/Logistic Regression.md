@@ -1,1 +1,0 @@
-- 출처 : http://hleecaster.com/ml-logistic-regression-concept/

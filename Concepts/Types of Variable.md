@@ -1,1 +1,0 @@
-- 출처 : https://statistics.laerd.com/statistical-guides/types-of-variable.php

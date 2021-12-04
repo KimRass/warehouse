@@ -1,1 +1,0 @@
-- 출처 : https://dreamgonfly.github.io/blog/word2vec-explained/
