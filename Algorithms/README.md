@@ -759,7 +759,7 @@ while i < len(s):
 			i += 1
 		else:
 			j = failure_func[j - 1]
-	```
+```
 ## Rabin-Karp Algorithm
 - Source: https://www.programiz.com/dsa/rabin-karp-algorithm
 - A string `s` is taken and checked for the possibility of the presence of the pattern `p`. If the possibility is found then, character matching is performed.
