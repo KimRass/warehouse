@@ -315,13 +315,6 @@ def preorder(node):
         preorder(left)
         preorder(right)
 ```
-```python
-def preorder(self, node):
-    if node != None:
-		print(node.value)
-        preorder(node.left)
-        preorder(node.right)
-```
 - Inorder Traverse: Left -> Parent -> Right
 ```python
 def inorder(node):
@@ -331,13 +324,6 @@ def inorder(node):
         print(node)
         inorder(right)
 ```
-```python
-def inorder(self, node):
-    if node != None:
-        inorder(node.left)
-        print(node.value)
-        inorder(node.right)
-```
 - Postorder Traverse: Left -> Right -> Parent
 ```python
 def postorder(node):
@@ -346,13 +332,6 @@ def postorder(node):
         postorder(left)
         postorder(right)
         print(node)
-```
-```python
-def postorder(self, node):
-    if node != None:
-        postorder(node.left)
-        postorder(node.right)
-        print(node.value)
 ```
 ### Breadth First search
 - Level-Order Traverse: Level-order
