@@ -1,0 +1,11 @@
+# DeepFM
+- source : https://greeksharifa.github.io/machine_learning/2020/04/07/DeepFM/
+- 모델에 대해 설명할 것이다. 이 DeepFM이라는 모델은 FM과 딥러닝을 결합한 것이다. 최근(2017년 기준) 구글에서 발표한 Wide & Deep model에 비해 피쳐 엔지니어링이 필요 없고, wide하고 deep한 부분에서 공통된 Input을 가진다는 점이 특징적이다.
+- DeepFM은 피쳐 엔지니어링 없이 end-to-end 학습을 진행할 수 있다. 저차원의 interaction들은 FM 구조를 통해 모델화하고, 고차원의 interaction들은 DNN을 통해 모델화한다.
+- DeepFM은 같은 Input과 Embedding 벡터를 공유하기 때문에 효과적으로 학습을 진행할 수 있다.
+- source : https://orill.tistory.com/category/RecSys
+- 최근 구글에서 발표한 Wide & Deep Model과 비교해보면, DeepFM은 Wide 부분과 Deep 부분이 공통된 입력(shared input)을 받고 Feature Engineering이 필요하지 않다.
+- 낮은 차원, 높은 차원의 상호 작용 둘 다를 모델링하기 위해 [Cheng et al., 2016]은 linear("wide") 모델과 deep 모델을 결합한 흥미로운 혼합 네트워크 구조(Wide & Deep)를 제시했다. 이 모델에서는 두 개의 다른 inputs이 wide 부분과 deep 부분을 위해 각각 필요하다. "wide part"의 입력은 여전히 전문가의 feature engineering이 필요하다.
+- 이 모델은 FM을 통해 낮은 차원의 피쳐 상호작용을 학습하고 DNN을 통해서는 높은 차원의 피쳐 상호작용을 학습한다. Wide & Deep 모델과는 다르게 DeepFM은 end-to-end로 feature engineering이 필요 없이 학습할 수 있다.
+- DeepFM은 Wide & Deep과는 다르게 같은 input과 embedding layer를 공유하기 때문에 효율적으로 학습할 수 있다. Wide & Deep 에서는 input vector가 직접 고안한 pairwise 피쳐 상호작용을 wide part에 포함하기 때문에 입력 vector가 굉장히 커질 수 있고 이는 복잡도를 굉장히 증가시킨다.
+- 1) 다른 field의 input vector의 길이는 다를 수 있지만 embedding은 같은 크기(k)이다. (역자 예시: gender field는 보통 length가 남, 여 2인 반면 국적이나 나이 field의 길이는 더 길다. 하지만 embedding시에는 똑같이 k=5차원 벡터로 임베딩 된다.)

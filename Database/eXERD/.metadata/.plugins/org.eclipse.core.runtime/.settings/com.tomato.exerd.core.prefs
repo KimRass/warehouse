@@ -1,6 +1,0 @@
-#Mon Nov 15 18:15:05 KST 2021
-SET_LOGICAL_COLUMN_NAME_SEPARATOR=_
-eclipse.preferences.version=1
-com.tomato.exerd.preference.product.lastSelectedProductId=com.tomato.db.sqlserver_2005
-DO_NOT_USE_DELIMITER_FOR_LOGICAL_NAME_WITHOUT_DELIMITER=false
-last-known-version=2.5.12.20210616-1543
