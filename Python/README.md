@@ -70,64 +70,64 @@ Written by KimRass
 ## `int()`
 - `base`: (Default `10`) Number format.
 ## `round()`
-``python
+```python
 print(round(summ/leng, 1))
-``
+```
 ## `open()`
-``python
+```python
 f = open("D:/Github/Work/Tableau/datamart_password.txt", "r")
-``
+```
 ### `f.readline()`, `f.readlines()`
 ## `hash()`
 ## `display()`
 ## `print()`
 - `end`: (default "\n")
 - `sep`: (default " ") Determine the value to join elements with.
-``python
+```python
 print(f"{'a':0>10}")
-``
+```
 	- You can also append characters other than white spaces, by adding the specified characters before the `>`(right align), `^`(center align) or `<`(left align) character:
 ## `isinstance()`
-``python
+```python
 if not isinstance(movie, frozenset):
     movie = frozenset(movie)
-``
+```
 ## `type()`
-``python
+```python
 type(test_X[0][0])
-``
+```
 ## `sum()`
-``python
+```python
 sum(sentences, [])
-``
+```
 	- 두번째 층의 대괄호 제거
 ## `assert`
-``python
+```python
 assert model_name in self.model_list, "There is no such a model."
-``
+```
 ## `eval()`
-``python
+```python
 A = [eval(f"A{i}") for i in range(N, 0, -1)]
-``
+```
 - `eval()` is for expression and returns the value of expression.
 ## `exec()`
-``python
+```python
 for data in ["tasks", "comments", "projects", "prj_members", "members"]:
     exec(f"{data} = pd.read_csv('D:/디지털혁신팀/협업플랫폼 분석/{data}.csv')")
-``
-``python
+```
+```python
 exec(f"{table} = pd.DataFrame(result)")
-``
+```
 - `exce()` is for statement and return `None`.
 ## `open()`
-``python
+```python
 with open("C:/Users/5CG7092POZ/nsmc-master/ratings_train.txt", "r", encoding="utf-8") as f:
     train_docs = [line.split("\t") for line in f.read().splitlines()][1:]
-``
+```
 ## `input()`
-``python
+```python
 A = list(map(int, in "A를 차례대로 입력 : ").split()))
-``
+```
 ## `ord()`
 - Returns the unicode code of a specified character.
 ## `chr()`
@@ -146,39 +146,39 @@ A = list(map(int, in "A를 차례대로 입력 : ").split()))
 ### `List.insert()`
 - idx, value 순으로 arg를 입력합니다.
 ### `List.remove()`
-``python
+```python
 features.remove("area")
-``
+```
 ### `List.count()`
 ### `sorted()`
-``python
+```python
 sorted(confs, key=lambda x:(x[0], x[1]))
-``
+```
 - `reverse`: (Bool, default `False`)
 - `key`: Define a function to sort by.
 ### `reversed()`
-``python
+```python
 list(reversed([int(i) for i in str(n)]))
-``
+```
 ### `map()`
-``python
+```python
 list(map(len, train_tkn))
-``
-``python
+```
+```python
 x_data = list(map(lambda word : [char2idx.get(char) for char in word], words))
-``
+```
 ### `filter()`
 ### `sum()`
-``python
+```python
 sum(sents, [])
-``
+```
 ### List Comprehension
-``python
+```python
 chars = set([char for word in words for char in word])
-``
-``python
+```
+```python
 idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
-``
+```
 ## Set
 - Mutable.
 - Unhashable.
@@ -204,57 +204,57 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 ### `Dictionary[]`, `Dictionary.get()`
 - key를 입력받아 value를 반환합니다.
 ### `Dictionary.items()`
-``python
+```python
 for key, value in dic.items():
     print(key, value)
-``
+```
 ### `Dictionary.setdefault()`
 ### `Dictionary.update()`
-``python
+```python
 dic.update({key1:value1, key2:value2})
-``
+```
 ### `Dictionary.pop()`
-``python
+```python
 dic.pop(<<key>>)
-``
+```
 ### `Dictionary.keys()`, `Dictionary.values()`
 - Data type: `dict_keys`, `dict_values` respectively.
 ### `Dictionary.fromkeys()`
 ### `sorted()`
-``python
+```python
 word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
-``
+```
 ### Dictionary Comprehension
-``python
+```python
 min_dists = {i:0 if i == start else math.inf for i in range(1, V + 1)}
-``
+```
 ## String
 - Immutable.
 ### `String.format()`
 ### `String.ljust()`, `String.rjust()`
-``python
+```python
 string.ljust(<<Target Length>>, <<Character to Pad>>)
-``
+```
 ### `String.zfill()`
 ### `String.join()`
-``python
+```python
 " ".join(["good", "bad", "worse", "so good"])
-``
+```
  - Join all items in a Tuple or List into a string, using `String`.
 ### `String.split()`
 - Split a string into a list where each word is a list item.
 - `maxsplit`: How many splits to do.
 ### `String.upper()`, `String.lower()`
-``python
+```python
 orders.columns = orders.columns.str.lower()
-``
+```
 ### `String.isupper()`, `String.islower()`
 ### `String.isalpha()`
 ### `String.isdigit()`
 ### `String.count()`
-``python
+```python
 "저는 과일이 좋아요".count("과일이")
-``
+```
 ### `String.find()`
 - Return the first index of the argument.
 ### `String.startswith()`, `String.endswith()`
@@ -277,13 +277,13 @@ orders.columns = orders.columns.str.lower()
 ## `math.inf`
 
 # `pandas`
-``python
+```python
 import pandas as pd
-``
+```
 ## `pd.api`
 ### `pd.api.types`
 #### `pd.api.types.is_string_dtype()`, `pd.api.types.is_numeric_dtype()`
-``python
+```python
 def load_table(table_name):
     conn = pymssql.connect(server="133.186.215.165", database="HDCMART", user="hdcmart_user", password=password, charset="UTF8")
     query = f"""
@@ -296,34 +296,34 @@ def load_table(table_name):
         if pd.api.types.is_string_dtype(table[col]):
             table[col] = table[col].str.encode("latin-1", errors="ignore").str.decode("euc-kr", errors="ignore")
     return table
-``
+```
 ## `pd.options`
 ### `pd.options.display`
 #### `pd.options.display.max_rows`, `pd.options.display.max_columns, pd.options.display.width`, `pd.options.display.float_format`
 ### `pd.options.mode`
 #### `pd.options.mode.chained_assignment`
-``python
+```python
 pd.options.display.max_columns = None
-``
-``python
+```
+```python
 pd.set_option("display.float_format", "{:.3f}".format)
-``
-``python
+```
+```python
 pd.options.mode.chained_assignment = None
-``
+```
 - Ignore `SettingWithCopyWarning`
 ## `pd.DataFrame()`
 - `data`: (Array, List, List of Tuples, Dictionary of List)
 - `index`
 - `columns`
 ## `pd.Series()`
-``python
+```python
 idf_ser = pd.Series(idf, index=vocab)
-``
+```
 ## `pd.read_csv()`
-``python
+```python
 data = pd.read_csv("fra.txt", names=["src", "tar", "CC"], sep="\t")
-``
+```
 - `thousands=","`
 - `float_precision="round_trip"`
 - `skiprows`
@@ -331,20 +331,20 @@ data = pd.read_csv("fra.txt", names=["src", "tar", "CC"], sep="\t")
 - `names`: List of column names to use.
 ## `pd.read_excel()`
 ## `pd.read_table()`
-``python
+```python
 ratings_train = pd.read_table("ratings_train.txt", usecols=["document", "label"])
-``
+```
 - `names`: List of column names to use.
 - `usecols`
 ### `pd.read_sql()`
-``python
+```python
 mall = pd.read_sql(query, conn)
-``
+```
 ## `DataFrame.head()`, `Series.head()`, `DataFrame.tail()`, `Series.tail()`
 ## `DataFrame.to_csv()`
-``python
+```python
 data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거래가 전처리 완료_200928-3.csv")
-``
+```
 - `index`: (Bool)
 ## `DataFrame.to_excel()`
 - `sheet_name`: (String, default "Sheet1")
@@ -353,98 +353,98 @@ data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거
 - `header`: If a list of string is given it is assumed to be aliases for the column names.
 - `merge_cells`
 ## `pd.crosstab()`
-``python
+```python
 pd.crosstab(index=data["count"], columns=data["weather"], margins=True)
-``
+```
 ## `pd.concat()`
-``python
+```python
 data_without = pd.concat([data_without, data_subset], axis=0)
-``
-``python
+```
+```python
 dfs = []
 for filename in filenames:
     dfs.append(pd.read_csv(filename))
 data = pd.concat(dfs, ignore_index=True, axis=0)
-``
+```
 - `join`: (`"inner"`, `"outer"`, default `"outer"`)
 - `ignore_index`: If `True`, do not use the index values along the concatenation axis. The resulting axis will be labeled `0`, …, `n - 1`.
 ## `pd.pivot_table()`
-``python
+```python
 pivot = pd.pivot_table(uses_df[["daytime", "weekday", "cnt"]], index="daytime", columns="weekday", values="cnt", aggfunc=np.sum)
-``
+```
 ## `pd.melt()`
-``python
+```python
 n_post = pd.melt(n_post, id_vars="Date", var_name="Emp", value_name="NPost", ignore_index=False)
-``
-``python
+```
+```python
 data = pd.melt(data, id_vars=basic_cols + money_cols, value_name="date")
 data = pd.melt(data, id_vars=basic_cols + ["date"], var_name="classification", value_name="money")
-``
+```
 - pd.pivot_table()의 반대 과정입니다.
 ## `pd.cut()`
-``python
+```python
 raw_all["temp_group"] = pd.cut(raw_all["temp"], 10)
-``
+```
 ## `pd.Categorical()`
-``python
+```python
 results["lat"] = pd.Categorical(results["lat"], categories=order)
 results_ordered=results.sort_values(by="lat")
-``
+```
 - dtype을 category로 변환.
 - `ordered`: (Bool, deafult `False`): category들 간에 대소 부여.
 - Reference: https://kanoki.org/2020/01/28/sort-pandas-dataframe-and-series/
 ## `pd.get_dummies()`
-``python
+```python
 data = pd.get_dummies(data, columns=["heating", "company1", "company2", "elementary", "built_month", "trade_month"], drop_first=False, dummy_na=True)
-``
+```
 - `prefix`: String to append DataFrame column names. Pass a list with length equal to the number of columns when calling get_dummies on a DataFrame.
 - `dop_first`: Whether to get k-1 dummies out of k categorical levels by removing the first level.
 - `dummy_na`: Add a column to indicate NaNs, if False NaNs are ignored.
 - 결측값이 있는 경우 `drop_first`, `dummy_na` 중 하나만 True로 설정해야 함
 ## `pd.to_datetime()`
-``python
+```python
 ratings_df["rated_at"] = pd.to_datetime(ratings_df["rated_at"], unit="s")
-``
+```
 ### `pd.to_datetime().dt`
 #### `pd.to_datetime().dt.hour, pd.to_datetime().dt.day`,  `pd.to_datetime().dt.week`,  `pd.to_datetime().dt.dayofweek`, `pd.to_datetime().dt.month`, `pd.to_datetime().dt.quarter`, `pd.to_datetime().dt.year`
 #### `pd.to_datetime().dt.normalize()`
-``python
+```python
 appo["end"] = appo["end"].dt.normalize()
-``
+```
 ## `pd.date_range()`
-``python
+```python
 raw.time = pd.date_range(start="1974-01-01", periods=len(raw), freq="M")
-``
+```
 - Return a fixed frequency DatetimeIndex.
 ## `pd.merge()`
-``python
+```python
 data = pd.merge(data, start_const, on=["지역구분", "입찰년월"], how="left")
-``
-``python
+```
+```python
 pd.merge(df1, df2, left_on="id", right_on="movie_id")
-``
-``python
+```
+```python
 floor_data = pd.merge(floor_data, df_conv, left_index=True, right_index=True, how="left")
-``
+```
 - `how`: (`"left"`, `"right"`, `"outer"`, `"inner"`, `"cross"` default `"inner"`)
 ## `pd.Grouper()`
-``python
+```python
 n_tasks_month = tasks.groupby(pd.Grouper(key="task_date", freq="M")).size()
-``
+```
 ## `pd.MultiIndex`
 ### `pd.MultiIndex.from_tuples()
-``python
+```python
 order = pd.MultiIndex.from_tuples((hq, dep) for dep, hq in dep2hq.items())
-``
+```
 ## `pd.plotting`
 ### `pd.plotting.scatter_matrix()
-``python
+```python
 pd.plotting.scatter_matrix(data, figsize=(18, 18), diagonal="kde")
-``
+```
 ### `pd.plotting.lag_plot()`
-``python
+```python
 fig = pd.plotting.lag_plot(ax=axes[0], series=resid_tr["resid"].iloc[1:], lag=1)
-``
+```
 ## `DataFrame.style`
 ### `DataFrame.style.set_precision()`
 ### `DataFrame.style.set_properties()`
@@ -452,27 +452,27 @@ fig = pd.plotting.lag_plot(ax=axes[0], series=resid_tr["resid"].iloc[1:], lag=1)
 ### `DataFrame.style.bar()`
 - `color`
 ### `DataFrame.style.background_gradient()`
-``python
+```python
 data.corr().style.background_gradient(cmap="Blues").set_precision(1).set_properties(**{"font-size":"9pt"})
-``
+```
 - `cmap`
 ## `DataFrame.info()`
 ## `DataFrame.describe()`
-``python
+```python
 raw_data.describe(include="all").T
-``
+```
 - Show number of samples, mean, standard deviation, minimum, Q1(lower quartile), Q2(median), Q3(upper quantile), maximum of each independent variable.
 ## `DataFrame.corr()`
 ## `DataFrame.shape`
 ## `DataFrame.ndim`
 ## `DataFrame.quantile()`
-``python
+```python
 top90per = plays_df[plays_df["plays"]>plays_df["plays"].quantile(0.1)]
-``
+```
 ## `DataFrame.groupby()`
-``python
+```python
 df.groupby(["Pclass", "Sex"], as_index=False)
-``
+```
 - Return an iterable Tuple in the form of (a group, a DataFrame in the group).
 ### `DataFrame.groupby().groups`
 ### `DataFrame.groupby().mean()`, `DataFrame.groupby().count()`
@@ -480,276 +480,276 @@ df.groupby(["Pclass", "Sex"], as_index=False)
 ### `DataFrame.groupby().size()`
 - Return Series.
 ## `DataFrame.groupby().apply()`
-``python
+```python
 over4.groupby("user_id")["movie_id"].apply(set)
-``
+```
 ## `DataFrame.pivot()`
-``python
+```python
 df_pivoted = df.pivot("col1", "col2", "col3")
-``
+```
 ## `DataFrame.stack()`
 - 열 인덱스 -> 행 인덱스로 변환
 ## `DataFrame.unstack()`
 - 행 인덱스 -> 열 인덱스로 변환
 - pd.pivot_table()과 동일
 - `level`: index의 계층이 정수로 들어감
-``python
+```python
 groupby.unstack(level=-1, fill_value=None)
-``
+```
 ## `DataFrame.append()`
-``python
+```python
 df = df.append({"addr1":addr1, "addr2":addr2, "dist":dist}, ignore_index=True)
-``
+```
 ## `DataFrame.apply()`
-``python
+```python
 hr["코스트센터 분류"] = hr.apply(lambda x:"지사" if ("사업소" in x["조직명"]) or ("베트남지사" in x["조직명"]) else ("본사" if re.search("^\d", x["코스트센터"]) else "현장"), axis=1)
-``
-``python
+```
+```python
 hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"]) | ("촉탁" in x["하위그룹"]) | ("파견" in x["하위그룹"]) | (x["재직여부"]=="퇴직") else ("본부인원에서만 제외" if ("PM" in x["조직명"]) | ("신규준비" in x["직무"]) | (x["직무"]=="휴직") | (x["직무"]=="비상계획") | (x["직무"]=="축구협") | (x["직무"]=="비서") | ("조직명" in x["조직명"]) | (x["직무"]=="미화") else "포함"), axis=1)
-``
+```
 ## `DataFrame.progress_apply()`
-``python
+```python
 data["morphs"] = data["review"].progress_apply(mcb.morphs)
-``
+```
 - `tqdm.pandas()`가 선행되어야합니다.
 ## `DataFrame.rename()`
-``python
+```python
 data = data.rename({"단지명.1":"name", "세대수":"houses_buildings", "저/최고층":"floors"}, axis=1)
-``
+```
 ## `DataFrame.reindex()`
-``python
+```python
 pivot = pivot.reindex(dep_order)
-``
+```
 ## `DataFrame.insert()`
-``python
+```python
 data.insert(3, "age2", data["age"]*2)
-``
+```
 ## `DataFrame.sort_values()`
-``python
+```python
 results_groupby_ordered = results_groupby.sort_values(by=["error"], ascending=True, na_position="first", axis=0)
-``
+```
 ## `DataFrame.nlargest()`, `DataFrame.nsmallest()`
-``python
+```python
 df.nlargest(3, ["population", "GDP"], keep="all")
-``
+```
 - `keep`: (`"first"`, `"last"`, `"all"`)
 ## `DataFrame.index`
 ### `DataFrame.index.name`, `DataFrame.index.names`
 ## `DataFrame.sort_index()`
 ## `DataFrame.set_index()`
-``python
+```python
 data = data.set_index(["id", "name"])
-``
+```
 - `inplace`: (Bool, default `False`)
 ## `DataFrame.reset_index()`
 - `drop`: (bool, default False) Reset the index to the default integer index.
 - `level`: Only remove the given levels from the index. Removes all levels by default.
 ## `DataFrame.loc()`
-``python
+```python
 data.loc[data["buildings"]==5, ["age", "ratio2"]]
 data.loc[[7200, "대림가경"], ["houses", "lowest"]]
-``
+```
 ## `DataFrame.isin()`
-``python
+```python
 train_val = data[~data["name"].isin(names_test)]
-``
+```
 - `values`: (List, Dictionary)
 ## `DataFrame.query()`
-``python
+```python
 data.query("houses in @list")
-``
+```
 - 외부 변수 또는 함수 사용 시 앞에 @을 붙임.
 ## `DataFrame.idxmax()`
-``python
+```python
 data["genre"] = data.loc[:, "unknown":"Western"].idxmax(axis=1)
-``
+```
 ## `DataFrame.drop()`
-``python
+```python
 data = data.drop(["Unnamed: 0", "address1", "address2"], axis=1)
-``
-``python
+```
+```python
 data = data.drop(data.loc[:, "unknown":"Western"].columns, axis=1)
-``
+```
 ## `DataFrame.duplicated()`
-``python
+```python
 df.duplicated(keep="first)
-``
+```
 ## `DataFrame.columns`
-``python
+```python
 concat.columns = ["n_rating", "cumsum"]
-``
+```
 ### `DataFrame.columns.drop()`
-``python
+```python
 uses_df.columns.drop("cnt")
-``
+```
 - Make new Index with passed list of labels deleted.
 ### `DataFrame.columns.droplevel`
-``python
+```python
 df.columns = df.columns.droplevel([0, 1])
-``
+```
 ## `DataFrame.drop_duplicates()`
-``python
+```python
 df = df.drop_duplicates(["col1"], keep="first")
-``
+```
 ## `DataFrame.mul()`
-``python
+```python
 df1.mul(df2)
-``
+```
 ## `DataFrame.dot()`
-``python
+```python
 def cos_sim(x, y):
     return x.dot(y)/(np.linalg.norm(x, axis=1, ord=2)*np.linalg.norm(y, ord=2))
-``
+```
 ## `DataFrame.isna()`
 ## `DataFrame.notna()`
-``python
+```python
 retail[retail["CustomerID"].notna()]
-``
+```
 ## `DataFrame.dropna()`
-``python
+```python
 data = data.dropna(subset=["id"])
-``
-``python
+```
+```python
 df.loc[~df.index.isin(df.dropna().index)]
-``
+```
 ## `DataFrame.fillna()`
-``python
+```python
 data = data.fillna(method="ffill")
-``
+```
 - `method="ffill"`: Propagate last valid observation forward to next valid backfill.
 ## `DataFrame.sample()`, `Series.sample()`
-``python
+```python
 baskets_df.sample(frac=0.05)
-``
-``python
+```
+```python
 set(n_per_movie_unseen.sample(n=100, replace=False, weights=n_per_movie).index)
-``
+```
 - `random_state`: (Int)
 ## `DataFrame.iterrows()`
 - Iterate over DataFrame rows as (index, Series) pairs.
 ## `DataFrame.iteritems()`, `DataFrame.items()`
-``python
+```python
 {k:v for k, v in x_train.iteritems()}
-``
+```
 - Iterate over the DataFrame columns, returning a tuple with the column name and the content as a Series.
 ## `Series.iteritems()`, `Series.items()`
-``python
+```python
 for i, value in raw_data["quarter2"].items():
     print(i, value)
-``
+```
 - Iterate over (index, value) tuples.
 ## `DataFrame.asfreq()`
-``python
+```python
 raw_data = raw_data.asfreq("H", method="ffill")
-``
+```
 - `freq`: (`"D"`, "W"`)
 - `method="ffill"`: Forawd fill.
 - `method="bfill"`: Backward fill.
 ## `DataFrame.rolling()`
-``python
+```python
 raw_all[["count"]].rolling(window=24, center=False).mean()
-``
+```
 ## `DataFrame.diff()`, `Series.diff()`
 ## `DataFrame.shift()`
-``python
+```python
 raw_data["count_lag1"] = raw_data["count"].shift(1)
-``
+```
 ## `DataFrame.mean()`
-``python
+```python
 ui.mean(axis=1)
-``
+```
 ## `DataFrame.mean().mean()`
 ## `DataFrame.add()`, `DataFrame.sub()`, `DataFrame.mul()`, `DataFrame.div()`, `DataFrame.pow()`
-``python
+```python
 adj_ui = ui.sub(user_bias, axis=0).sub(item_bias, axis=1)
-``
+```
 ## `Series.rename()`
-``python
+```python
 plays_df.groupby(["user_id"]).size().rename("n_arts")
-``
+```
 ## `DataFrame.value_counts()`, `Series.value_counts()`
-``python
+```python
 ratings_df["movie_id"].value_counts()
-``
+```
 ## `Series.nunique()`
-``python
+```python
 n_item = ratings_df["movie_id"].nunique()
-``
+```
 ## `Series.isnull()`
 ## `Series.map()`
-``python
+```python
 target_ratings["title"] = target_ratings["movie_id"].map(target)
-``
-``python
+```
+```python
 all_seen = ratings_df_target_set[ratings_df_target_set.map(lambda x : len(x)==5)].index
-``
+```
 ## `Series.astype()`
-``python
+```python
 data.loc[:, cats] = data.loc[:, cats].astype("category")
-``
+```
 - `dtype`: (`"int32"`, `"int63"`, `"float64"`, `"object"`, `"category"`, `"string"`)
 - `errors`: (`"raise"`, `"ignore"`, default `"raise"`)
 ## `Series.hist()`
 ## `Series.cumsum()`
-``python
+```python
 cumsum = n_rating_item.cumsum()/len(ratings_df)
-``
+```
 ## `Series.min()`, `Series.max()`, `Series.mean()`, `Series.std()`
 ## `Series.str`
 ### `Series.str.replace()`
-``python
+```python
 data["parking"] = data["parking"].str.replace("대", "", regex=False)
-``
+```
 ### `Series.str.split()`
-``python
+```python
 data["buildings"] = data.apply(lambda x : str(x["houses_buildings"]).split("총")[1][:-3], axis=1)
-``
+```
 - `pat`: Same as `" "` When omitted.
 ### `Series.str.strip()`
-``python
+```python
 data["fuel"] = data["heating"].apply(lambda x:x.split(",")[1]).str.strip()
-``
+```
 ### `Series.str.contains()`
-``python
+```python
 train[train["token"].str.contains(".", regex=False)]
-``
+```
 ### `Series.str.encode()`, `Series.str.decode()`
-``python
+```python
 infos[col] = infos[col].str.encode("latin-1").str.decode("euc-kr")
-``
+```
 - `error`: (`"strict"`, `"ingore"`, `"replace"`, default `"strict"`)
 ## `Series.cat`
 ### `Series.cat.categories`
 ### `Series.cat.set_categories()`
-``python
+```python
 ser.cat.set_categories([2, 3, 1], ordered=True)
-``
+```
 - 순서 부여
 ### `Series.cat.codes`
-``python
+```python
 for cat in cats:
     data[cat] = data[cat].cat.codes
-``
+```
 - label encoding을 시행합니다.
 ## `Series.items()`
-``python
+```python
 for k, v in target.items():
     queries.append(f"{k}-{v}")
-``
+```
 
 # `numpy`
-``python
+```python
 import numpy as np
-``
+```
 ## `Array.size`
 ## `Array.astype()`
-``python
+```python
 x_train = x_train.astype("float32")
-``
+```
 ## `Array.ravel()`
-``python
+```python
 arr.ravel(order="F")	
-``
+```
 - `order="C"` : row 기준
 - `order="F"` : column 기준
 ## `Array.flatten()`
@@ -757,193 +757,193 @@ arr.ravel(order="F")
 ## `Array.T`
 ## `Array.shape`
 ## `Array.transpose()`, `np.transpose()`
-``python
+```python
 conv_weights = np.fromfile(f, dtype=np.float32, count=np.prod(conv_shape)).reshape(conv_shape).transpose((2, 3, 1, 0))
-``
+```
 ## `np.inf`
 ## `np.set_printoptions()`
-``python
+```python
 np.set_printoptions(precision=3)
-``
-``python
+```
+```python
 np.set_printoptions(edgeitems=3, infstr="inf", linewidth=75, nanstr="nan", precision=8, suppress=False, threshold=1000, formatter=None)
-``
+```
 - Go back to the default options.
 ## `np.load()`
-``python
+```python
 intent_train = np.load("train_text.npy").tolist()
-``
+```
 ## `np.logical_and()`, `np.logical_or()`
-``python
+```python
 mask = np.logical_or((pred_bbox[:, 0] > pred_bbox[:, 2]), (pred_bbox[:, 1] > pred_bbox[:, 3]))
-``
+```
 ## `np.array_equal()`
-``python
+```python
 np.array_equal(arr1, arr2)
-``
+```
 ## `np.arange()`
-``python	
+```python	
 np.arange(5, 101, 5)
-``
+```
 - `start`: Start of interval. The interval includes this value. The default start value is 0.
 - `stop`: End of interval. The interval does not include this value, except in some cases where step is not an integer and floating point round-off affects the length of out.
 - `step`
 ## `np.zeros()`, `np.ones()`
-``python
+```python
 np.ones(shape=(2, 3, 4))
-``
+```
 ## `np.empty()`
 ## `np.full()`
-``python
+```python
 img_paded = np.full(shape=(tar_height, tar_width, 3), fill_value=128.)
-``
+```
 ## `np.eye()`
-``python
+```python
 np.eye(4)
-``
+```
 ## `np.log()`
-``python
+```python
 np.log(data)
-``
+```
 ## `np.ones_like()`, `np.zeros_like()`
 - `a`: (Array-like)
 ## `np.linspace()`
-``python
+```python
 np.linspace(-5, 5, 100)
-``
+```
 ## `np.meshgrid()`
-``python
+```python
 xs = np.linspace(0, output_size-1, output_size)
 ys = np.linspace(0, output_size-1, output_size)
 x, y = np.meshgrid(xs, ys)
-``
+```
 ## `np.any()`
-``python
+```python
 np.any(arr>0)
-``
+```
 ## `np.all()`
 ## `np.where()`
-``python
+```python
 np.min(np.where(cumsum >= np.cumsum(cnts)[-1]*ratio))
-``
+```
 ## `np.tanh()`
-``python
+```python
 temp = np.tanh(np.dot(Wh, h_t) + np.dot(Wx, x_t) + b)
-``
+```
 ## `np.shape()`
-``python
+```python
 np.shape(hidden_states)
-``	
+```	
 ## `np.isin()`
-``python
+```python
 data[np.isin(data["houses"], list)]
-``
+```
 ## `np.prod()`
-``python
+```python
 conv_shape = (filters, in_dim, kernel_size, kernel_size)
 conv_weights = np.fromfile(f, dtype=np.float32, count=np.product(conv_shape))
-``
+```
 - Return the product of Array elements over a given axis.
 - `axis`
 ## `np.argmax()`
 ## `np.swapaxes()`
-``python
+```python
 feature_maps = np.transpose(conv2d, (3, 1, 2, 0))
-``
-``python
+```
+```python
 feature_maps = np.swapaxes(conv2d, 0, 3)
-``
+```
 ## `np.max()`, `np.min()`
-``python
+```python
 np.max(axis=-1)
-``
+```
 ## `np.maximum()`, `np.minimum()`
 - Element-wise minimum(maximum) of Array elements.
 ## `np.cumsum()`
-``python
+```python
 np.cumsum(cnt)
-``
+```
 ## `np.quantile()`
-``python
+```python
 lens = sorted([len(doc) for doc in train_X])
 ratio = 0.99
 max_len = int(np.quantile(lens, ratio))
 print(f"가장 긴 문장의 길이는 {np.max(lens)}입니다.")
 print(f"길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
-``
+```
 ## `np.einsum()`
-``python
+```python
 def get_p_pi(self, policy):
 	p_pi = np.einsum("ik, kij -> ij", policy, self.P)
 	return p_pi
-``
+```
 ## `np.concatenate()`
-``python
+```python
 intersected_movie_ids = np.concatenate([json.loads(row) for row in rd.mget(queries)], axis=None)
-``
+```
 ## `np.stack()`
 ## `np.delete()`
-``python
+```python
 idx_drop = [idx for idx, doc in enumerate(X_train) if len(doc) == 0]
 X_train = np.delete(X_train, idx_drop, axis=0)
-``
+```
 ## `np.random`
 ### `np.random.seed()`
-``python
+```python
 np.random.seed(23)
-``
+```
 ### `np.random.random()`
-``python
+```python
 np.random.random((2, 3, 4))
-``
+```
 - Create an Array of the given shape and populate it with random samples from a uniform distribution over \[0, 1).
 - Similar with `np.random.rand()`
 ### `np.random.randint()`
-``python
+```python
 np.random.randint(1, 100, size=(2, 3, 4))	
-``
+```
 ### `np.random.choice()`
 - Generates a random sample from a given 1-D array.
 - If an ndarray, a random sample is generated from its elements. If an int, the random sample is generated as if a were np.arange(a).
-``python
+```python
 np.random.choice(5, size=(2, 3, 4))
-``
+```
 ### `np.random.normal()`
-``python
+```python
 np.random.normal(mean, std, size=(3, 4))	
-``
+```
 ## `np.digitize()`
-``python		
+```python		
 bins=range(0, 55000, 5000)
 data["price_range"]=np.digitize(data["money"], bins)
-``
+```
 ## `np.isnan()`
 ## `np.nanmean()`
 ## `np.sort()`
 ## `np.reshape()`, `Array.reshape()`
-``python
+```python
 bn_weights = np.reshape(bn_weights, newshape=(4, filters))[[1, 0, 2, 3]]
-``
-``python
+```
+```python
 bn_weights = bn_weights.reshape((4, filters))[[1, 0, 2, 3]]
-``
+```
 ## `np.expand_dims()`
-``python
+```python
 np.expand_dims(mh_df.values, axis=1)
-``
+```
 ## `np.newaxis`(= `None`)
-``python
+```python
 iou = calculate_iou(best_bbox[None, :4], bboxes_cls[:, :4])
-``
+```
 ## `np.unique()`
-``python
+```python
 items, counts = np.unique(intersected_movie_ids, return_counts=True)
-``
+```
 ## `np.linalg`
 ### `np.linalg.norm()`
-``python
+```python
 np.linalg.norm(x, axis=1, ord=2)
-``
+```
 - `ord=1`: L1 normalization.
 - `ord=2`: L2 normalization.
 ### `np.linalg.solve()`
@@ -952,41 +952,41 @@ np.linalg.norm(x, axis=1, ord=2)
 ## `np.sqrt()`
 ## `np.power()`
 ## `np.exp()`
-``python
+```python
 def sig(x):
     return 1 / (1 + np.exp(-x))
-``
+```
 ## `np.add.outer()`, `np.multiply.outer()`
-``python
+```python
 euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))
-``
+```
 ## `np.fill_diagonal()`
-``python
+```python
 np.fill_diagonal(cos_sim_item, 0	
-``
+```
 ## `np.fromfile()`
 - `count`: Number of items to read. `-1` means all items (i.e., the complete file).
 
 # sklearn`
-``python
+```python
 from sklearn import *
-``
+```
 ## `sklearn.model_selection`
-``python
+```python
 from sklearn.model_selection import train_test_split
-``
+```
 ### `train_test_split`
-``python
+```python
 train_X, val_X, train_y, val_y = train_test_split(train_val_X, train_val_y, train_size=0.8, shuffle=True, random_state=3)
-``
+```
 ## `sklearn.feature_extraction.text`
 ### `CountVectorizer()`
-``python
+```python
 from sklearn.feature_extraction.text import CountVectorizer
-``
-``python
+```
+```python
 vect = CountVectorizer(max_df=500, min_df=5, max_features=500)
-``
+```
 - Ignore if frequency of the token is greater than `max_df` or lower than `min_df`.
 #### `vect.fit()`
 #### `vect.transform()`
@@ -999,89 +999,89 @@ vect = CountVectorizer(max_df=500, min_df=5, max_features=500)
 ##### `vect.vocabulary_.get()`
 - Return the index of the argument.
 ### `TfidfVectorizer()`
-``python
+```python
 from sklearn.feature_extraction.text import TfidfVectorizer
-``
+```
 ## `sklearn.preprocessing`
 ### `LabelEncoder()`
-``python
+```python
 from sklearn.preprocessing import LabelEncoder
-``
-``python
+```
+```python
 le = LabelEncoder()
-``
+```
 ### `StandardScaler()`, `MinMaxScaler()`, `RobustScaler()`, `Normalizer()`
-``python
+```python
 from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, Normalizer
-``
-``python
+```
+```python
 sc = StandardScaler()
-``
+```
 #### `sc.fit()`, `sc.transform()`, `sc.fit_transform()`
 ## `sklearn.decomposition`
 ### `PCA()`
-``python
+```python
 from sklearn.decomposition import PCA
-``
-``python
+```
+```python
 pca = PCA(n_components=2)
-``
-``python
+```
+```python
 pca_mat = pca.fit_transform(user_emb_df)
-``
+```
 ## `sklearn.preprocessing`
 ### `sklearn.preprocessing.LabelEncoder()`
-``python
+```python
 le = LabelEncoder()
-``
+```
 #### `le.fit()`, `le.transform()`, `le.fit_transform()`
 #### `le.inverse_transform()`
 #### `le.classes_`
-``python
+```python
 label2idx = dict(zip(le.classes_, set(label_train)))
-``
+```
 ## `sklearn.pipeline`
 ### `Pipeline()`
-``python
+```python
 from sklearn.pipeline import Pipeline
-``
-``python
+```
+```python
 model = Pipeline([("vect", CountVectorizer()), ("model", SVC(kernel="poly", degree=8))])
-``
+```
 - 파이프라인으로 결합된 모형은 원래의 모형이 가지는 fit, predict 메서드를 가지며 각 메서드가 호출되면 그에 따른 적절한 메서드를 파이프라인의 각 객체에 대해서 호출한다. 예를 들어 파이프라인에 대해 fit 메서드를 호출하면 전처리 객체에는 fit_transform이 내부적으로 호출되고 분류 모형에서는 fit 메서드가 호출된다. 파이프라인에 대해 predict 메서드를 호출하면 전처리 객체에는 transform이 내부적으로 호출되고 분류 모형에서는 predict 메서드가 호출된다.
 ## `sklearn.svm`
 ### `SVC()`, SVR()`
-``python
+```python
 from sklearn.svm import SVC
-``
-``python
+```
+```python
 SVC(kernel="linear")
-``
+```
 - `kernel="linear"`
 - `kernel="poly"`: gamma, coef0, degree
 - `kernel="rbf"`: gamma
 - `kernel="sigmoid"`: gomma, coef0
 ## `sklearn.naive_bayes`
-``python
+```python
 from sklearn.naive_bayes import MultinomialNB
-``
+```
 ## `sklearn.linear_model`
-``python
+```python
 from sklearn.linear_model import SGDClassifier
-``
+```
 ### `Ridge()`, `Lasso()`, `ElasticNet()`
-``python
+```python
 fit = Ridge(alpha=alpha, fit_intercept=True, normalize=True, random_state=123).fit(x, y)
-``
+```
 #### `fit.intercept_`, `fit.coef_`
 ### `SGDClassifier`
-``python
+```python
 model = SGDClassifier(loss="perceptron", penalty="l2", alpha=1e-4, random_state=42, max_iter=100)
 ...
 model.fit(train_x, train_y)
 train_pred = model.pred(train_x)
 train_acc = np.mean(train_pred == train_y)
-``
+```
 - `loss`: The loss function to be used.
     - `loss="hinge": Give a linear SVM.
     - `loss="log"`: Give logistic regression.
@@ -1093,35 +1093,35 @@ train_acc = np.mean(train_pred == train_y)
 - max_iter`: The maximum number of passes over the training data (aka epochs).
 ## `sklearn.ensemble`
 ### `RandomForestRegressor()`, `GradientBoostingRegressor()`, `AdaBoostRegressor()`
-``python
+```python
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor
-``
+```
 ## `sklearn.tree`
 ### `DecisionTreeRegressor()`
-``python
+```python
 from sklearn.tree import DecisionTreeRegressor
-``
+```
 ## `sklearn.datasets`
 ### `sklearn.datasets.fetch_20newsgroups()`
-``python
+```python
 newsdata = sklearn.datasets.fetch_20newsgroups(subset="train")
-``
+```
 - `subset`: (`"all"`, `"train"`, `"test"`)
 ### `sklearn.datasets.sample_generator`
 #### `make_blobs()
-``python
+```python
  from sklearn.datasets.sample_generator improt make_blobs
-``
+```
 ## `sklearn.metrcis`
 ### `sklearn.metrics.pairwise`
 #### `sklearn.metrics.pairwise.cosine_similarity`
 ### `sklearn.metrics.classification_report()`
-``python
+```python
 print(sklearn.metrics.classification_report(y_pred, y_test))
-``
+```
 
 # `tensorflow`
-``python
+```python
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -1130,102 +1130,102 @@ from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Concatenate,
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras import Input, Model, Sequential
-``
+```
 ## `@tf.function`
 - 자동 그래프 생성
 - 함수 정의문 직전에 사용
 ## `tensor.shape`
-``python
+```python
 lstm, for_h_state, for_c_state, back_h_state, back_c_state = Bidirectional(LSTM(units=64, dropout=0.5, return_sequences=True, return_state=True))(z)
 
 print(lstm.shape, for_h_state.shape, back_h_state.shape)
-``
+```
 ## `tf.identity()`
 ## `tf.constant()`
-``python
+```python
 image = tf.constant([[[[1], [2], [3]], [[4], [5], [6]], [[7], [8], [9]]]], dtype=tf.float32)
-``
+```
 ## `tf.convert_to_tensor()`
-``python
+```python
 img = tf.convert_to_tensor(img)
-``
+```
 ## `tf.Variable()`
 ## `tf.zeros()`
-``python
+```python
 W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
-``
+```
 ## `tf.transpose()`
 ## `tf.cast()`
-``python
+```python
 pred = tf.cast(h > 0.5, dtype=tf.float32)
-``
+```
 - 조건이 True면 1, False면 0 반환.
 - 혹은 단순히 Tensor의 자료형 변환.
 ## `tf.concat()`(= `tf.keras.layers.Concatenate()`)
-``python
+```python
 layer3 = tf.concat([layer1, layer2], axis=1)
-``
+```
 - 지정한 axis의 dimension이 유지됩니다.
 - `np.stack()`와 동일한 문법입니다.
 ## `tf.stack()`
-``python
+```python
 x = tf.stack(x, axis=0)
-``
+```
 - 지정한 axis의 dimension이 +1됩니다.
 - 동일한 shape을 가진 tensors에만 적용할 수 있습니다.
 ## `tf.shape()`
-``python
+```python
 batch_size = tf.shape(conv_output)[0]
-``
+```
 ## `tf.reshape()`
-``python
+```python
 conv_output = tf.reshape(conv_output, shape=(batch_size, output_size, output_size, 3,
                                                  5 + n_clss))
-``
+```
 ## `tf.range()`
-``python
+```python
 tf.range(3, 18, 3)
-``
+```
 ## `tf.tile()`
-``python
+```python
 y = tf.tile(y, multiples=[1, output_size])
-``
+```
 ## `tf.constant_initializer()`
-``
+```
 weight_init = tf.constant_initializer(weight)
-``
+```
 ## `tf.GradientTape()`
-``python
+```python
 with tf.GradientTape() as tape:
     hyp = W * X + b
     loss = tf.reduce_mean(tf.square(hyp - y))
 
 dW, db = tape.gradient(loss, [W, b])
-``
+```
 ## `tf.math`
 ### `tf.math.add()`, `tf.math.subtract()`, `tf.math.multiply()`, `tf.math.divide()`
 ### `tf.math.add_n()`
-``python
+```python
 logits = tf.math.add_n(x) + self.w0
-``
+```
 - Adds all input tensors element-wise.
 - inputs : A list of tf.Tensor, each with the same shape and type.
 ### `tf.math.square()`
 - Compute square of x element-wise.
 ### `tf.math.argmax()`
-``python
+```python
 y_pred = tf.math.argmax(model.predict(X_test), axis=1)
-``
+```
 ### `tf.math.sign`
-``python
+```python
 tf.math.sign(tf.math.reduce_sum(self.w * x) + self.b)
-``
+```
 ### `tf.math.exp()`
 ### `tf.math.log()`
 ### `tf.math.equal()`
-``python
+```python
 acc = tf.math.reduce_mean(tf.cast(tf.math.equal(pred, labels), dtype=tf.float32))
-``
+```
 ### `tf.math.sigmoid()`
 ### `tf.math.reduce_sum()`, `tf.math.reduce_mean()`
 - source : https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
@@ -1236,22 +1236,22 @@ acc = tf.math.reduce_mean(tf.cast(tf.math.equal(pred, labels), dtype=tf.float32)
 ## `tf.random`
 ### `tf.random.set_seed()`
 ### `tf.random.normal()`
-``python
+```python
 x = tf.Variable(tf.random.normal([784, 200], 1, 0.35))
-``
+```
 ## `tf.nn`
 ### `tf.nn.softmax()`
-``python
+```python
 h = tf.nn.softmax(tf.matmul(train_X, W) + b)
-``
+```
 ### `tf.nn.relu`
 ## `tf.data`
 ### `tf.data.Dataset`
 #### `tf.data.Dataset.from_tensor_slices()`
-``python
+```python
 train_dataset = tf.data.Dataset.from_tensor_slices((train_x, train_y)).shuffle(len(train_x)).batch(batch_size, drop_remainder=True).prefetch(batch_size)
 test_dataset = tf.data.Dataset.from_tensor_slices((test_x, test_y)).shuffle(len(test_x)).batch(len(test_x)).prefetch(len(test_x))
-``
+```
 ##### `tf.data.Dataset.from_tensor_slices().shuffle()`
 - 지정한 개수의 데이터를 무작위로 섞어서 출력합니다.
 ##### `tf.data.Dataset.from_tensor_slices().batch()`
@@ -1262,31 +1262,31 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_x, test_y)).shuffle(len(
 ### `tf.train.Checkpoint()
 ## `tf.keras`
 ### `Sequential()
-``python
+```python
 model = Sequential()
-``
+```
 ### `Input()`
-``python
+```python
 input_tokens = Input(shape=(max_len,), name="input_tokens", dtype=tf.int32)
-``
+```
 ### `Model`
-``python
+```python
 model = Model(inputs=inputs, outputs=logits, name="lr")
-``
+```
 ### `tf.keras.utils`
 #### `tf.keras.utils.get_file()`
-``python
+```python
 base_url = "https://pai-datasets.s3.ap-northeast-2.amazonaws.com/recommender_systems/movielens/datasets/"
 movies_path = tf.keras.utils.get_file(fname="movies.csv", origin=os.path.join(base_url, "movies.csv"))
 
 movie_df = pd.read_csv(movies_path)
-``
+```
 - 인터넷의 파일을 로컬 컴퓨터의 홈 디렉토리 아래 `.keras/datasets` 디렉토리로 다운로드합니다.
 - `untar=True`
 #### `tf.keras.utils.to_categorical()`
-``python
+```python
 tf.keras.utils.to_categorical([2, 5, 1, 6, 3, 7])
-``
+```
 - Performs OHE.
 ### `tf.keras.backend`
 #### `tf.keras.backend.clear_session()`
@@ -1294,55 +1294,55 @@ tf.keras.utils.to_categorical([2, 5, 1, 6, 3, 7])
 ### `tf.keras.datasets`
 #### `tf.keras.datasets.mnist`
 ##### `tf.keras.datasets.mnist.load_data()`
-``python
+```python
 (X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
-``
+```
 #### `tf.keras.datasets.reuters`
 ##### `tf.keras.datasets.reuters.load_data()`
-``python
+```python
 (X_train, y_train), (X_test, y_test) = reuters.load_data(num_words=None, test_split=0.2)
-``
+```
 #### `tf.keras.datasets.cifar10`
 ##### `tf.keras.datasets.cifar10.load_data()`
-``python
+```python
 (x_tr, y_tr), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-``
+```
 ### `tf.keras.optimizers`
 #### `tf.keras.optimizers.SGD()`
-``python
+```python
 opt = tf.keras.optimizers.SGD(lr=0.01)
-``
+```
 #### `tf.keras.optimizers.Adam()`
 - "adam"과 동일합니다.
 #### `tf.keras.optimizers.Adagrad()`
 #### `optimizer.apply_gradients()`
-``python
+```python
 opt.apply_gradients(zip([dW, db], [W, b]))
-``
-``python
+```
+```python
 opt.apply_gradients(zip(grads, model.trainable_variables))
-``
+```
 ### `tf.keras.losses`
 #### `tf.keras.losses.MeanSquaredError()`
 - "mse"와 동일합니다.
 #### `tf.keras.losses.BinaryCrossentropy()`
 - "binary_crossentropy"와 동일합니다.
 #### `tf.keras.losses.categorical_crossentropy()`
-``python
+```python
 def loss_fn(model, images, labels):
     logits = model(images, training=True)
     loss = tf.reduce_mean(tf.keras.losses.categorical_crossentropy(y_true=labels, y_pred=logits, from_logits=True))
     return loss
-``
+```
 - 출처 : [https://hwiyong.tistory.com/335](https://hwiyong.tistory.com/335)
 - 딥러닝에서 쓰이는 logit은 매우 간단합니다. 모델의 출력값이 문제에 맞게 normalize 되었느냐의 여부입니다. 예를 들어, 10개의 이미지를 분류하는 문제에서는 주로 softmax 함수를 사용하는데요. 이때, 모델이 출력값으로 해당 클래스의 범위에서의 확률을 출력한다면, 이를 logit=False라고 표현할 수 있습니다(이건 저만의 표현인 점을 참고해서 읽어주세요). 반대로 모델의 출력값이 sigmoid 또는 linear를 거쳐서 만들어지게 된다면, logit=True라고 표현할 수 있습니다.
 - 클래스 분류 문제에서 softmax 함수를 거치면 `from_logits=False`(default값), 그렇지 않으면 `from_logits=True`(numerically stable)
 - 정답 레이블이 one-hot encoding 형태일 경우 사용합니다.
 #### `tf.keras.losses.sparse_categorical_crossentropy()`
-``python
+```python
 def loss_fn(model, x, y):
     return tf.reduce_mean(tf.keras.losses.sparse_categorical_crossentropy(y_true=y, y_pred=model(x), from_logits=True))
-``
+```
 - 정답 레이블이 one-hot vector가 아닐 경우 사용합니다.
 ### `tf.keras.metrics`
 #### `tf.keras.metrics.RootMeanSquaredError()`
@@ -1353,17 +1353,17 @@ def loss_fn(model, x, y):
 - "sparse_categorical_accuracy"와 동일합니다.
 ### `tf.keras.layers`
 #### `Add()`
-``python
+```python
 logits = Add()([logits_mlr, logits_fm, logits_dfm])
-``
+```
 - It takes as input a list of tensors, all of the same shape, and returns a single tensor (also of the same shape).
 #### `Dot()`
-``python
+```python
 pos_score = Dot(axes=(1, 1))([user_embedding, pos_item_embedding])
-``
+```
 - `axes` : Integer or tuple of integers, axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
 #### `Multiply()`
-``python
+```python
 def se_block(x, c, r):
 	z = GlobalAveragePooling2D()(x)
 	z = Dense(units=c//r, activation="relu")(z)
@@ -1371,30 +1371,30 @@ def se_block(x, c, r):
 	z = Reshape(target_shape=(1, 1, c))(z)
 	z = Multiply()([x, z])
 	return z
-``
+```
 #### `Reshape()`
-``python
+```python
 z = Reshape(target_shape=(1, 1, ch))(z)
-``
+```
 #### `Concatenate()`
-``python
+```python
 Concatenate(axis=1)(embs_fm)
-``
+```
 - tf.concat()와 동일합니다.
 #### `Activation()`
-``python
+```python
 x = Activation("relu")(x)
-``
+```
 #### `Flatten()`
 - 입력되는 tensor의 row를 펼쳐서 일렬로 만듭니다.
 - 학습되는 weights는 없고 데이터를 변환하기만 합니다.
-``python
+```python
 model.add(Flatten(input_shape=(28, 28)))
-``
+```
 #### `Dense()`
-``python
+```python
 Dense(units=52, input_shape=(13,), activation="relu")
-``
+```
 - units: 해당 은닉층에서 활동하는 뉴런의 수(출력 값의 크기)
 - activation: 활성화함수, 해당 은닉층의 가중치와 편향의 연산 결과를 어느 함수에 적합하여 출력할 것인가?
 - input_shape : 입력 벡터의 크기. 여기서 13은 해당 데이터 프레임의 열의 수를 나타낸다. 데이터의 구조(이미지, 영상)에 따라 달라질 수 있다. 첫 번째 은닉층에서만 정의해준다.
@@ -1403,14 +1403,14 @@ Dense(units=52, input_shape=(13,), activation="relu")
 #### `BatchNormalization()`
 - usually used before activation function layers.
 #### `Conv1D()`
-``python
+```python
 Conv1D(filters=n_kernels, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
-``
+```
 - `strides` : basically equals to 1
 #### `Conv2D()`
-``python
+```python
 conv2d = Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padding="same")(image)
-``
+```
 - `image`: (batch, height of image, width of image, number of channels)
 - `kernel`: (height of filter, width of filter, number of channels, number of kernels)
 - `convolution`: (batch, height of convolution, width of convolution, number of kernels)
@@ -1425,9 +1425,9 @@ conv2d = Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padd
 #### `MaxPool1D()`, `MaxPooling1D()`
 - `strides` : basically equals to 2
 #### `MaxPool2D()`, `MaxPooling2D()`
-``python
+```python
 pool = MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="channels_last")(image)
-``
+```
 #### `GlobalMaxPool1D()`, `GlobalMaxPooling1D()`
 - Shape changes from (a, b, c, d) to (a, d).
 #### `GlobalMaxPool2D()`, `GlobalMaxPooling2D()`
@@ -1435,9 +1435,9 @@ pool = MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="chan
 - Shape changes from (a, b, c) to (b, c).
 #### `AveragePooling1D()`
 #### `AveragePooling2D()`
-``python
+```python
 model.add(AveragePooling2D(pool_size=(2, 2), strides=(2, 2), padding="valid")
-``
+```
 #### `GlobalAveragePooling1D()`
 #### `GlobalAveragePooling2D()`
 #### `ZeroPadding2D`
@@ -1449,39 +1449,39 @@ model.add(AveragePooling2D(pool_size=(2, 2), strides=(2, 2), padding="valid")
 #### `SimpleRNNCell()`
 #### `RNN()`
 #### `SimpleRNN()`, `GRU()`
-``python
+```python
 outputs, hidden_states = SimpleRNN(units=hidden_size)(x_data), input_shape=(timesteps, input_dim), return_sequences=True, return_state=True)(x_date)
-``
+```
 - `SimpleRNN()` = `SimpleRNNCell()` + `RNN()`
 - `batch_input_shape=(batch_size, timesteps, input_dim)`
 - `return_sequences=False` : (default)time step의 마지막에서만 아웃풋을 출력합니다.(shape of output : (batch_size, hidden_size))
 - `return_sequences=True` : 모든 time step에서 아웃풋을 출력합니다. many to many 문제를 풀거나 LSTM 레이어를 여러개로 쌓아올릴 때는 이 옵션을 사용합니다.(shape of output : (batch_size, timesteps, hidden_size))
 - `return_state=True` : hidden state를 출력합니다.(shape of hidden state : (batch_size, hidden_size))
-``python
+```python
 GRU(units=hidden_size, input_shape=(timesteps, input_dim))
-``
+```
 #### `LSTM()`
-``python
+```python
 _, hidden_state, cell_state = LSTM(units=256, return_state=True)(inputs_enc)
-``
+```
 - `tf.keras.layers.SimpleRNN()`과 문법이 동일합니다.
 - `return_state=True` : hidden state와 cell state를 출력합니다.
 #### `Bidirectional()`
-``python
+```python
 Bidirectional(tf.keras.layers.SimpleRNN(hidden_size, return_sequences=True), input_shape=(timesteps, input_dim))
-``
+```
 #### `Embedding()`
-``python
+```python
 Embedding(input_dim=vocab_size+2, output_dim=emb_dim)
-``
+```
 - `input_length=max_len` : 입력 sequence의 길이
 - `mask_zero=True` : If mask_zero is set to True, as a consequence, index 0 cannot be used in the vocabulary. so input_dim should equal to size of vocabulary + 1
 - `weights=[emb_mat]`
 - `trainable=False` : 학습할지 아니면 초기 가중치 값을 그대로 사용할지 여부를 결정합니다.
 #### `TimeDistributed()`
-``python
+```python
 model.add(TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
-``
+```
 - TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다.
 - In keras - while building a sequential model - usually the second dimension (one after sample dimension) - is related to a time dimension. This means that if for example, your data is 5-dim with (sample, time, width, length, channel) you could apply a convolutional layer using TimeDistributed (which is applicable to 4-dim with (sample, width, length, channel)) along a time dimension (applying the same layer to each time slice) in order to obtain 5-d output.
 #### `tf.keras.layers.Layer`
@@ -1492,28 +1492,28 @@ model.add(TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
 #### `tf.keras.layers.experimental`
 ##### `tf.keras.layers.experimental.preprocessing`
 ###### `Rescaling`
-``python
+```python
 model.add(Rescaling(1/255, input_shape=(img_height, img_width, 3)))
-``
-``python
+```
+```python
 from tensorflow.keras.layers.experimental.preprocessing import RandomFlip, RandomRotation, RandomZoom
-``
+```
 ###### `RandomFlip`
-``python
+```python
 data_aug.add(RandomFlip("horizontal", input_shape=(img_height, img_width, 3)))
-``
+```
 ###### `RandomRotation`
-``python
+```python
 data_aug.add(RandomRotation(0.1))
-``
+```
 ###### `RandomZoom()`
-``python
+```python
 data_aug.add(RandomZoom(0.1))
-``
-``python
+```
+```python
 log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-``
+```
 ### `tf.keras.initializers`
 #### `tf.keras.initializers.RandomNormal()`
 #### `tf.keras.initializers.glorot_uniform()`
@@ -1521,73 +1521,73 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram
 #### `tf.keras.initializers.Constant()`
 ### `tf.keras.activations`
 #### `tf.keras.activations.linear()`, `tf.keras.activations.sigmoid()(= `"sigmoid"`), `tf.keras.activations.relu()`(= `"relu"`)
-```python
+````python
 outputs = tf.keras.activations.sigmoid(logits)
-```
+````
 #### `model.summary()`
 #### `model.trainable_variables`
 #### `model.save()`
 #### `model.input`
 #### `model.layers`
-``python
+```python
 for layer in model.layers[1:]:
-``
+```
 #### `model.get_layer()`
-``python
+```python
 model.get_layer("conv2d_22")
-``
+```
 ##### `layer.name`
 ##### `layers.output`
 ##### `layer.input_shape`
 ##### `layer.output_shape`
 ##### `layer.get_weights()`
-``python
+```python
 weight = layer.get_weights()[0]
 bias = layer.get_weights()[1]
-``
+```
 #### `model.compile()`
-``python
+```python
 model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", loss_weights=[0.3, 0.3, 1], metrics=["accuracy"]) 
-``
+```
 - `optimizer` : `"sgd"` | `"adam"` | `"rmsprop"`
 - `loss` : `"mse"` | `"binary_crossentropy"` | `"categorical_crossentropy"` | `"sparse_categorical_crossentropy"`
 - `metrics` : `["mse"]` | `["binary_accuracy"]` | `["categorical_accuracy"]` | `["sparse_categorical_crossentropy"]` | `["acc"]`
 #### `model.fit()`
-``python
+```python
 hist = model.fit(x=X_train, y=y_train, validation_split=0.2, batch_size=64, epochs=10, verbose=1, shuffle=True, callbacks=[es, mc])
-``
-``python
+```
+```python
 hist = model.fit(train_ds, validation_data=val_ds, epochs=epochs)
-``
+```
 - `validation_data`=(X_val, y_val)
 #### `model.fit_generator()`
-``python
+```python
 hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
-``
+```
 ##### `hist.history`
-``python
+```python
 hist.history["accuracy"]
-``
+```
 - `"accuracy"`, `"val_accuracy"`, `"loss"`, `"val_loss"`
 #### `model.evaluate()`
-``python
+```python
 score = model.evaluate(x_test, y_test, batch_size=128, verbose=0)
-``
+```
 #### `model.predict()`
-``python
+```python
 preds = model.predict(x.values)
-``
+```
 ### `tf.keras.callbacks`
 #### `EarlyStopping()`
-``python
+```python
 es = EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=4)
-``
+```
 - `mode` : One of {"auto", "min", "max"}. In min mode, training will stop when the quantity monitored has stopped decreasing; in "max" mode it will stop when the quantity monitored has stopped increasing; in "auto" mode, the direction is automatically inferred from the name of the monitored quantity.
 - `patience` : Number of epochs with no improvement after which training will be stopped.
 #### `ModelCheckpoint()`
-``python
+```python
 mc = ModelCheckpoint(filepath=model_path, monitor="val_binary_accuracy", mode="auto", verbose=1, save_best_only=True)
-``
+```
 - `save_best_only=True` : `monitor` 기준으로 가장 좋은 값으로 모델이 저장됩니다.
 - `save_best_only=False` : 매 epoch마다 모델이 filepath{epoch}으로 저장됩니다.
 - `save_weights_only=True` : 모델의 weights만 저장됩니다.
@@ -1597,39 +1597,39 @@ mc = ModelCheckpoint(filepath=model_path, monitor="val_binary_accuracy", mode="a
 ### `tf.keras.preprocessing`
 #### `tf.keras.preprocessing.image`
 ##### `load_img()`
-``python
+```python
 from tensorflow.keras.preprocessing.image import load_img
-``
-``python
+```
+```python
 img = load_img(fpath, target_size=(img_height, img_width))
-``
+```
 ##### `img_to_array()`
-``python
+```python
 from tensorflow.keras.preprocessing.image import img_to_array
-``
-``python
+```
+```python
 img_array = img_to_array(img)
-``
+```
 #### `image_dataset_from_directory()`
-``python
+```python
 from tf.keras.preprocessing import image_dataset_from_directory
-``
-``python
+```
+```python
 train_ds = image_dataset_from_directory(data_dir, validation_split=0.2, subset="training",
                                         image_size=(img_height, img_width), seed=1, batch_size=batch_size)
-``
-``python
+```
+```python
 for image_batch, labels_batch in train_ds:
     print(image_batch.shape)
     print(labels_batch.shape)
     break
-``
+```
 ##### `ds.class_names`
-``python
+```python
 train_ds.class_names
-``
+```
 ##### `ds.take()`
-``python
+```python
 plt.figure(figsize=(10, 10))
 for images, labels in train_ds.take(1):
     for i in range(9):
@@ -1637,14 +1637,14 @@ for images, labels in train_ds.take(1):
         ax.imshow(images[i].numpy().astype("uint8"))
         ax.set_title(cls_names[labels[i]])
         ax.axis("off")
-``
+```
 ##### `ImageDataGenerator`
-``python
+```python
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
-``
-``python
+```
+```python
 gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True)
-``
+```
 - `validation_split`
 - `shear_range` : float. Shear Intensity (Shear angle in counter-clockwise direction as radians)
 - `zoom_range` : Float or [lower, upper]. Range for random zoom. If a float, [lower, upper] = [1-zoom_range, 1+zoom_range]
@@ -1659,20 +1659,20 @@ gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizon
 - `vertical_flip`
 - transformation은 이미지에 변화를 주어서 학습 데이터를 많게 해서 성능을 높이기 위해 하는 것이기 때문에 train set만 해주고, test set에는 해 줄 필요가 없다. 그러나 주의할 것은 Rescale은 train, test 모두 해 주어야 한다.
 - References: https://m.blog.naver.com/PostView.nhn?blogId=isu112600&logNo=221582003889&proxyReferer=https:%2F%2Fwww.google.com%2F
-``python
+```python
 gen.fit(x_tr)
-``
+```
 - Only required if `featurewise_center` or `featurewise_std_normalization` or `zca_whitening` are set to True.
 ###### `gen.flow()`
-``python
+```python
 hist = model.fit(gen.flow(x_tr, y_tr, batch_size=32), validation_data=gen.flow(x_val, y_val, batch_size=32),
                  epochs=10)
-``
+```
 ###### `gen.flow_from_directory()`
-``python
+```python
 gen = ImageDataGenerator()
 datagen_tr = gen.flow_from_directory(directory="./dogsandcats", target_size=(224, 224))
-``
+```
 - `batch_size=batch_size`
 - `target_size` : the dimensions to which all images found will be resized.
 - `class_mode` : `"binary"`|`"categorical"`|`"sparse"`|`"input"`|`None`
@@ -1685,37 +1685,37 @@ datagen_tr = gen.flow_from_directory(directory="./dogsandcats", target_size=(224
 - `shuffle`
 #### `tf.keras.preprocessing.sequence`
 ##### `pad_sequences()`
-``python
+```python
 train_X = pad_sequences(train_X, maxlen=max_len)
-``
-``python
+```
+```python
 X_char = [pad_sequences([[char2idx[char] if char in chars else 1 for char in word] for word in sent]) for sent in corpus]
-``
-``python
+```
+```python
 train_X = pad_sequences([tokenizer.convert_tokens_to_ids(tokens) for tokens in tokens_lists], 
                         maxlen=max_len, value=tokenizer.convert_tokens_to_ids("[PAD]"),
                         truncating="post", padding="post")
-``
+```
 - `padding="pre" | "post"`
 - `truncating="pre" | "post"`
 - `value=` : padding에 사용할 value를 지정합니다.
 #### `tf.keras.preprocessing.text`
 ##### `tf.keras.preprocessing.text.Tokenizer()`
-``python
+```python
 tkn = tf.keras.preprocessing.text.Tokenizer(num_words=vocab_size+2, oov_token="UNK", lower=True)
-``
+```
 - `lower=False` : 대문자를 유지합니다.
 ##### `tkn.fit_on_texts()`
-``python
+```python
 tkn.fit_on_texts(["나랑 점심 먹으러 갈래 점심 메뉴는 햄버거 갈래 갈래 햄버거 최고야"])
-``
+```
 ##### `tkn.word_index`
-``python
+```python
 word2idx = tkn.word_index
-``
+```
 ##### `tkn.index_word`
 ##### `tkn.word_counts`
-``python
+```python
 word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
 
 cnts = list(word2cnt.values())
@@ -1726,91 +1726,91 @@ for vocab_size, value in enumerate(np.cumsum(cnts)/np.sum(cnts)):
 
 print(f"{vocab_size:,}개의 단어로 전체 data의 {ratio:.0%}를 표현할 수 있습니다.")
 print(f"{len(word2idx):,}개의 단어 중 {vocab_size/len(word2idx):.1%}에 해당합니다.")
-``
+```
 ##### `tkn.texts_to_sequences()`
-``python
+```python
 train_X = tkn.texts_to_sequences(train_X)
-``
+```
 - `num_words`가 적용됩니다.
 ##### `tkn.sequences_to_texts()`
 ##### `tkn.texts_to_matrix()`
-``python
+```python
 tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"], mode="count"))
-``
+```
 - `mode="count"` | `"binary"` | `"tfidf"` | `"freq"`
 - `num_words`가 적용됩니다.
 ### `tf.keras.models`
 #### `tf.keras.models.load_model()`
-``python
+```python
 model = tf.keras.models.load_model(model_path)
-``
+```
 ### `tf.keras.applications`
 #### `tf.keras.applications.VGG16()`
-``python
+```python
 vgg = tf.keras.applications.VGG16(input_shape=(224, 224, 3), include_top=False, weights="imagenet")
-``
+```
 ##### `vgg.trainable`
-``python
+```python
 vgg.trainable=Flase
-``
+```
 
 # `tensorflow_addons`
-``python
+```python
 import tensorflow_addons as tfa
-``
+```
 ## `tfa.optimizers`
 ### `tfa.optimizers.RectifiedAdam()`
-``python
+```python
 opt = tfa.optimizers.RectifiedAdam(lr=5.0e-5, total_steps = 2344*4, warmup_proportion=0.1, min_lr=1e-5, epsilon=1e-08, clipnorm=1.0)
-``
+```
 
 # `tensorflow_hub`
-``python
+```python
 import tensorflow_hub as hub
-``
+```
 ## `hub.Module()`
-``python
+```python
 elmo = hub.Module("https://tfhub.dev/google/elmo/3", trainable=True)
-``
+```
 ### `elmo()`
-``python
+```python
 embeddings = elmo(["the cat is on the mat", "dogs are in the fog"], signature="default", as_dict=True)["elmo"]
-``
+```
 
 # `tensorflow_datasets`
-``python
+```python
 import tensorflow_datasets as tfds
-``
+```
 ## `tfds.deprecated`
 ### `tfds.deprecated.text`
 #### `tfds.deprecated.text.SubwordTextEncoder`
 ##### `tfds.deprecated.text.SubwordTextEncoder.build_from_corpus()`
-``python
+```python
 tkn = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(train_data["document"], target_vocab_size=2**13)
-``
+```
 ##### `tkn.subwords`
 ##### `tkn.encode()`
-``python
+```python
 tkn.encode(train_data["document"][20])
-``
+```
 ##### `tkn.decode()`
-``python
+```python
 tkn.decode(tkn.encode(sample))
-``
+```
 
 # `torch`
-``python
+```python
 conda install pytorch cpuonly -c pytorch
-``
-``python
+```
+```python
 import torch
-``
+```
 ## `torch.tensor()`
 ## `torch.empty()`
 ## `torch.ones()`
-``python
+```python
 w = torch.ones(size=(1,), requires_grad=True)
-``
+```
 - Returns a tensor filled with the scalar value `1`, with the shape defined by the variable argument `size`
 - `requires_grad`(`True` | `False`)
 ## `torch.ones_like()`
@@ -1820,9 +1820,9 @@ w = torch.ones(size=(1,), requires_grad=True)
 ### `Tensor.shape`
 ### `Tensor.size()`
 ### `Tensor.view()`
-``python
+```python
 torch.randn(4, 4).view(-1, 8)
-``
+```
 - Returns a new tensor with the same data as the `self` tensor but of a different `shape`.
 ### `Tensor.float()`
 ### `Tensor.backward()`
@@ -1830,51 +1830,51 @@ torch.randn(4, 4).view(-1, 8)
 - 미분할 Tensor에 대해 `requires=False`이거나 미분될 Tensor에 대해 `Tensor.backward()`가 선언되지 않으면 `None`을 반환합니다.
 ## `torch.optim`
 ### `torch.optim.SGD(), torch.optim.Adam()
-``python
+```python
 opt = torch.optim.SGD(params=linear.parameters(), lr=0.01)
-``
+```
 #### `opt.zero_grad()`
 - Sets the gradients of all optimized Tensors to zero.
 #### `opt.step()`
 ## `torch.nn
-``python
+```python
 import torch.nn as nn
-``
+```
 ### `nn.Linear()`
-``python
+```python
 linear = nn.Linear(in_features=10, out_features=1)
-``
+```
 - `in_features`: size of each input sample.
 - `out_features`: size of each output sample.
 ### `linear.parameters()`
-``python
+```python
 for param in linear.parameters():
     print(param)
     print(param.shape)
     print('\n')
-``
+```
 ### `linear.weight`, `linear.bias`
 #### `linear.weight.data`, `linear.bias.data`
 ## `nn.MSELoss()`
-``python
+```python
 loss = nn.MSELoss()(ys_hat, ys)
-``
+```
 ### `loss.backward()`
 ## `nn.Module`
 ## `nn.ModuleList()`
 
 # `bs4`
 ## `BeautifulSoup()`
-``python
+```python
 from bs4 import BeautifulSoup as bs
-``
-``python
+```
+```python
 soup = bs(xml,"lxml")
-``
+```
 ### `soup.find_all()`
 #### `soup.find_all().find()`
 #### `soup.find_all().find().get_text()`
-``python
+```python
 features = ["bjdcode", "codeaptnm", "codehallnm", "codemgrnm", "codesalenm", "dorojuso", "hocnt", "kaptacompany", "kaptaddr", "kaptbcompany",  "kaptcode", "kaptdongcnt", "kaptfax", "kaptmarea", "kaptmarea",  "kaptmparea_136", "kaptmparea_135", "kaptmparea_85", "kaptmparea_60",  "kapttarea", "kapttel", "kapturl", "kaptusedate", "kaptdacnt", "privarea"]
 for item in soup.find_all("item"):
     for feature in features:
@@ -1882,76 +1882,76 @@ for item in soup.find_all("item"):
             kapt_data.loc[index, feature] = item.find(feature).get_text()
         except:
             continue
-``
+```
 
 # `selenium`
 ## `webdriver`
-``python
+```python
 from selenium import webdriver
-``
-``python
+```
+```python
 driver = webdriver.Chrome("chromedriver.exe")
-``
+```
 ### `driver.get()`
-``python
+```python
 driver.get("https://www.google.co.kr/maps/")
-``
+```
 ### `driver.find_element_by_css_selector()`, `driver.find_element_by_tag_name()`, `driver.find_element_by_class_name()`, driver.find_element_by_id()`, `driver.find_element_by_xpath()`,
 #### `driver.find_element_by_*().text`
-``python
+```python
 df.loc[index, "배정초"]=driver.find_element_by_xpath("//\*[@id='detailContents5']/div/div[1]/div[1]/h5").text
-``
+```
 #### `driver.find_element_by_*().get_attribute()`
-``python
+```python
 driver.find_element_by_xpath("//*[@id='detailTab" +str(j) + "']").get_attribute("text")
-``
+```
 #### `driver.find_element_by_*().click()`
 #### `driver.find_element_by_*().clear()`
-``python
+```python
 driver.find_element_by_xpath('//*[@id="searchboxinput"]').clear()
-``
+```
 #### `driver.find_element_by_*().send_keys()`
-``python
+```python
 driver.find_element_by_xpath('//*[@id="searchboxinput"]').send_keys(qeury)
-``
-``python
+```
+```python
 driver.find_element_by_name('username').send_keys(id)
 driver.find_element_by_name('password').send_keys(pw)
-``
-``python
+```
+```python
 driver.find_element_by_xpath('//*[@id="wpPassword1"]').send_keys(Keys.ENTER)
-``
+```
 ### `driver.execute_script()`
-``python
+```python
 for j in [4,3,2]:
     button = driver.find_element_by_xpath("//\*[@id='detailTab"+str(j)+"']")
     driver.execute_script("arguments[0].click();", button)
-``
+```
 ### `driver.implicitly_wait()`
-``python
+```python
 driver.implicitly_wait(1)
-``
+```
 ### `driver.current_url`
 ### `driver.save_screenshot()`
-``python
+```python
 driver.save_screenshot(screenshot_title)
-``
+```
 ## `WebDriverWait()`
 ### `WebDriverWait().until()`
-``python
+```python
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-``
-``python
+```
+```python
 WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, "//\*[@id='detailContents5']/div/div[1]/div[1]/h5")))
-``
+```
 - By.ID, By.XPATH
 ## `ActionChains()`
-``python
+```python
 from selenium.webdriver import ActionChains
-``
-``python
+```
+```python
 module=["MDM","사업비","공사","외주","자재","노무","경비"]
 
 for j in module:
@@ -1959,73 +1959,73 @@ for j in module:
     actions=ActionChains(driver)
     actions.click(module_click)
     actions.perform()
-``
+```
 ### `actions.click()`, `actions.double_click()`
 
 # `urllib`
-``python
+```python
 import urllib
-``
+```
 ## `urllib.request`
 ### `urllib.request.urlopen()`
-``python
+```python
 xml = urllib.request.urlopen(full_url).read().decode("utf-8")
-``
+```
 ### `urllib.request.urlretrieve()`
-``python
+```python
 urllib.request.urlretrieve("https://raw.githubusercontent.com/e9t/nsmc/master/ratings_train.txt", filename="ratings_train.txt")
-``
+```
 - 해당 URL에 연결된 파일을 다운로드합니다.
 
 # `urllib3`
-``python
+```python
 import urllib3
-``
+```
 ## `urllib3.PoolManager()`
 ### `urllib3.PoolManager().request()`
-``python
+```python
 urllib3.PoolManager().request("GET", url, preload_content=False)
-``
+```
 
 # `pathlib`
-``python
+```python
 import pathlib
-``
+```
 ## `pathlib.Path()`
-``python
+```python
 data_dir = pathlib.Path(data_dir)
-``
+```
 
 # `requests`
-``python
+```python
 import requests
-``
+```
 ## `requests.get()`
-``python
+```python
 req = requests.get("https://github.com/euphoris/datasets/raw/master/imdb.zip")
-``
+```
 ### `req.content`
 
 # `wget`
-```python
+````python
 import wget
-```
+````
 ## `wget.download()`
 
 # `category_encoders`
-``python
+```python
 !pip install --upgrade category_encoders
-``
-``python
+```
+```python
 import category_encoders as ce
-``
+```
 ## `ce.target_encoder`
 ### `ce.target_encoder.TargetEncoder()`
-``python
+```python
 encoder = ce.target_encoder.TargetEncoder(cols=["company1"])
 encoder.fit(data["company1"], data["money"]);
 data["company1_label"] = encoder.transform(data["company1"]).round(0)
-``
+```
 
 # `cv2`
 ```python
@@ -2258,7 +2258,7 @@ model.save("kakaotalk model")
 #### `model.show_topic()`
 ```python
 model.show_topic(1, topn=20)
-``
+```
 - Arguments : (the index of the topic, number of words to print)
 #### `model.wv`
 ##### `model.wv.vecotrs`
@@ -2407,9 +2407,9 @@ spp.load("imdb.model")
 ### `spp.encode_as_pieces()`
 - 원래 문장 -> subword
 ### `spp.IdToPiece()`
-``python
+```python
 spp.IdToPiece(4)
-``
+```
 - index -> subword
 ### `spp.DecodeIds()`
 ```python
@@ -2542,7 +2542,7 @@ fig.savefig("means_plot_200803.png", bbox_inches="tight")
 a`x.imshow(image.numpy().reshape(3,3), cmap="Greys")
 ```
 #### `ax.set()`
-``python
+```python
 ax.set(title="Example", xlabel="xAxis", ylabel="yAxis", xlim=[0, 1], ylim=[-0.5, 2.5], xticks=data.index, yticks=[1, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3])
 ```
 - `title`
@@ -2618,9 +2618,9 @@ fig = raw_all[["count"]].rolling(24).mean().plot.line(ax=axes, lw=3, fontsize=20
 - `xlim`, `ylim`
 - Reference: https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D
 ### `DataFrame.plot.pie()`, `Series.plot.pie()`
-``python
+```python
 cnt_genre.sort_values("movie_id", ascending=False)["movie_id"].plot.pie(ax=ax, startangle=90, legend=True)
-``
+```
 #### `ax.scatter()`, `DataFrame.plot.scatter()`
 ```python
 ax.scatter(gby["0.5km 내 교육기관 개수"], gby["실거래가"], s=70, c=gby["전용면적(m²)"], cmap="RdYlBu", alpha=0.7, edgecolors="black", linewidth=0.5)
@@ -3704,7 +3704,6 @@ os.environ["PATH"] += os.pathsep + "C:\Program Files (x86)/Graphviz2.38/bin/"
 ```python
 os.path.join("C:\Tmp", "a", "b")
 ```
-\>\>\> "C:\Tmp\a\b"
 ### `os.path.exists()
 ```python
 if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
