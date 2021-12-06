@@ -432,12 +432,12 @@ floor_data = pd.merge(floor_data, df_conv, left_index=True, right_index=True, ho
 n_tasks_month = tasks.groupby(pd.Grouper(key="task_date", freq="M")).size()
 ```
 ## `pd.MultiIndex`
-### `pd.MultiIndex.from_tuples()
+### `pd.MultiIndex.from_tuples()`
 ```python
 order = pd.MultiIndex.from_tuples((hq, dep) for dep, hq in dep2hq.items())
 ```
 ## `pd.plotting`
-### `pd.plotting.scatter_matrix()
+### `pd.plotting.scatter_matrix()`
 ```python
 pd.plotting.scatter_matrix(data, figsize=(18, 18), diagonal="kde")
 ```
@@ -448,7 +448,7 @@ fig = pd.plotting.lag_plot(ax=axes[0], series=resid_tr["resid"].iloc[1:], lag=1)
 ## `DataFrame.style`
 ### `DataFrame.style.set_precision()`
 ### `DataFrame.style.set_properties()`
-- `"font_size"`
+- (`"background_color"`, `"font_size"`, `"color"`, `"border_color"`, ...)
 ### `DataFrame.style.bar()`
 - `color`
 ### `DataFrame.style.background_gradient()`
@@ -511,7 +511,7 @@ hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"
 ```python
 data["morphs"] = data["review"].progress_apply(mcb.morphs)
 ```
-- `tqdm.pandas()`가 선행되어야합니다.
+- `tqdm.pandas()` should be followed.
 ## `DataFrame.rename()`
 ```python
 data = data.rename({"단지명.1":"name", "세대수":"houses_buildings", "저/최고층":"floors"}, axis=1)
@@ -967,7 +967,7 @@ np.fill_diagonal(cos_sim_item, 0
 ## `np.fromfile()`
 - `count`: Number of items to read. `-1` means all items (i.e., the complete file).
 
-# sklearn`
+# `sklearn`
 ```python
 from sklearn import *
 ```
@@ -992,10 +992,10 @@ vect = CountVectorizer(max_df=500, min_df=5, max_features=500)
 #### `vect.transform()`
 - Build document term maxtrix.
 ##### `vect.transform().toarray()`
-#### `vect.fit_transform()
+#### `vect.fit_transform()`
 - `vect.fit()` + `vect.transform()`
 ##### `vect.fit_transform().toarray()`
-#### `vect.vocabulary_
+#### `vect.vocabulary_`
 ##### `vect.vocabulary_.get()`
 - Return the index of the argument.
 ### `TfidfVectorizer()`
@@ -1050,7 +1050,7 @@ model = Pipeline([("vect", CountVectorizer()), ("model", SVC(kernel="poly", degr
 ```
 - 파이프라인으로 결합된 모형은 원래의 모형이 가지는 fit, predict 메서드를 가지며 각 메서드가 호출되면 그에 따른 적절한 메서드를 파이프라인의 각 객체에 대해서 호출한다. 예를 들어 파이프라인에 대해 fit 메서드를 호출하면 전처리 객체에는 fit_transform이 내부적으로 호출되고 분류 모형에서는 fit 메서드가 호출된다. 파이프라인에 대해 predict 메서드를 호출하면 전처리 객체에는 transform이 내부적으로 호출되고 분류 모형에서는 predict 메서드가 호출된다.
 ## `sklearn.svm`
-### `SVC()`, SVR()`
+### `SVC()`, `SVR()`
 ```python
 from sklearn.svm import SVC
 ```
@@ -1108,7 +1108,7 @@ newsdata = sklearn.datasets.fetch_20newsgroups(subset="train")
 ```
 - `subset`: (`"all"`, `"train"`, `"test"`)
 ### `sklearn.datasets.sample_generator`
-#### `make_blobs()
+#### `make_blobs()`
 ```python
  from sklearn.datasets.sample_generator improt make_blobs
 ```
@@ -1259,9 +1259,9 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_x, test_y)).shuffle(len(
 ##### `tf.data.Dataset.from_tensor_slices().prefetch()`
 - This allows later elements to be prepared while the current element is being processed. This often improves latency and throughput, at the cost of using additional memory to store prefetched elements.
 ## `tf.train`
-### `tf.train.Checkpoint()
+### `tf.train.Checkpoint()`
 ## `tf.keras`
-### `Sequential()
+### `Sequential()`
 ```python
 model = Sequential()
 ```
@@ -1312,8 +1312,7 @@ tf.keras.utils.to_categorical([2, 5, 1, 6, 3, 7])
 ```python
 opt = tf.keras.optimizers.SGD(lr=0.01)
 ```
-#### `tf.keras.optimizers.Adam()`
-- "adam"과 동일합니다.
+#### `tf.keras.optimizers.Adam()`(= `"adam"`)
 #### `tf.keras.optimizers.Adagrad()`
 #### `optimizer.apply_gradients()`
 ```python
@@ -1323,10 +1322,8 @@ opt.apply_gradients(zip([dW, db], [W, b]))
 opt.apply_gradients(zip(grads, model.trainable_variables))
 ```
 ### `tf.keras.losses`
-#### `tf.keras.losses.MeanSquaredError()`
-- "mse"와 동일합니다.
-#### `tf.keras.losses.BinaryCrossentropy()`
-- "binary_crossentropy"와 동일합니다.
+#### `tf.keras.losses.MeanSquaredError()`(= `"mse"`)
+#### `tf.keras.losses.BinaryCrossentropy()`(= "binary_crossentropy"`)
 #### `tf.keras.losses.categorical_crossentropy()`
 ```python
 def loss_fn(model, images, labels):
@@ -1334,7 +1331,7 @@ def loss_fn(model, images, labels):
     loss = tf.reduce_mean(tf.keras.losses.categorical_crossentropy(y_true=labels, y_pred=logits, from_logits=True))
     return loss
 ```
-- 출처 : [https://hwiyong.tistory.com/335](https://hwiyong.tistory.com/335)
+- Source: [https://hwiyong.tistory.com/335](https://hwiyong.tistory.com/335)
 - 딥러닝에서 쓰이는 logit은 매우 간단합니다. 모델의 출력값이 문제에 맞게 normalize 되었느냐의 여부입니다. 예를 들어, 10개의 이미지를 분류하는 문제에서는 주로 softmax 함수를 사용하는데요. 이때, 모델이 출력값으로 해당 클래스의 범위에서의 확률을 출력한다면, 이를 logit=False라고 표현할 수 있습니다(이건 저만의 표현인 점을 참고해서 읽어주세요). 반대로 모델의 출력값이 sigmoid 또는 linear를 거쳐서 만들어지게 된다면, logit=True라고 표현할 수 있습니다.
 - 클래스 분류 문제에서 softmax 함수를 거치면 `from_logits=False`(default값), 그렇지 않으면 `from_logits=True`(numerically stable)
 - 정답 레이블이 one-hot encoding 형태일 경우 사용합니다.
@@ -1345,12 +1342,9 @@ def loss_fn(model, x, y):
 ```
 - 정답 레이블이 one-hot vector가 아닐 경우 사용합니다.
 ### `tf.keras.metrics`
-#### `tf.keras.metrics.RootMeanSquaredError()`
-- "rmse"와 동일합니다.
-#### `tf.keras.metrics.BinaryCrossentropy()`
-- "binary_accuracy"와 동일합니다.
-#### `tf.keras.metrics.SparseCategoricalAccuracy()`
-- "sparse_categorical_accuracy"와 동일합니다.
+#### `tf.keras.metrics.RootMeanSquaredError()`(= `"rmse"`)
+#### `tf.keras.metrics.BinaryCrossentropy()`(= `"binary_accuracy"`)
+#### `tf.keras.metrics.SparseCategoricalAccuracy()`(= `"sparse_categorical_accuracy"`)
 ### `tf.keras.layers`
 #### `Add()`
 ```python
@@ -1520,7 +1514,7 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram
 #### `tf.keras.initializers.he_uniform()`
 #### `tf.keras.initializers.Constant()`
 ### `tf.keras.activations`
-#### `tf.keras.activations.linear()`, `tf.keras.activations.sigmoid()(= `"sigmoid"`), `tf.keras.activations.relu()`(= `"relu"`)
+#### `tf.keras.activations.linear()`, `tf.keras.activations.sigmoid()`(= `"sigmoid"`), `tf.keras.activations.relu()`(= `"relu"`)
 ````python
 outputs = tf.keras.activations.sigmoid(logits)
 ````
@@ -1549,9 +1543,9 @@ bias = layer.get_weights()[1]
 ```python
 model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", loss_weights=[0.3, 0.3, 1], metrics=["accuracy"]) 
 ```
-- `optimizer` : `"sgd"` | `"adam"` | `"rmsprop"`
-- `loss` : `"mse"` | `"binary_crossentropy"` | `"categorical_crossentropy"` | `"sparse_categorical_crossentropy"`
-- `metrics` : `["mse"]` | `["binary_accuracy"]` | `["categorical_accuracy"]` | `["sparse_categorical_crossentropy"]` | `["acc"]`
+- `optimizer`: (`"sgd"`, `"adam"`, `"rmsprop"`)
+- `loss`: (`"mse"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
+- `metrics`: (`["mse"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
 #### `model.fit()`
 ```python
 hist = model.fit(x=X_train, y=y_train, validation_split=0.2, batch_size=64, epochs=10, verbose=1, shuffle=True, callbacks=[es, mc])
@@ -1559,7 +1553,6 @@ hist = model.fit(x=X_train, y=y_train, validation_split=0.2, batch_size=64, epoc
 ```python
 hist = model.fit(train_ds, validation_data=val_ds, epochs=epochs)
 ```
-- `validation_data`=(X_val, y_val)
 #### `model.fit_generator()`
 ```python
 hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
@@ -1568,7 +1561,7 @@ hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch
 ```python
 hist.history["accuracy"]
 ```
-- `"accuracy"`, `"val_accuracy"`, `"loss"`, `"val_loss"`
+- (`"accuracy"`, `"val_accuracy"`, `"loss"`, `"val_loss"`)
 #### `model.evaluate()`
 ```python
 score = model.evaluate(x_test, y_test, batch_size=128, verbose=0)
@@ -1582,7 +1575,7 @@ preds = model.predict(x.values)
 ```python
 es = EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=4)
 ```
-- `mode` : One of {"auto", "min", "max"}. In min mode, training will stop when the quantity monitored has stopped decreasing; in "max" mode it will stop when the quantity monitored has stopped increasing; in "auto" mode, the direction is automatically inferred from the name of the monitored quantity.
+- `mode`: (`"auto"`, `"min"`, `"max"`). In min mode, training will stop when the quantity monitored has stopped decreasing; in "max" mode it will stop when the quantity monitored has stopped increasing; in "auto" mode, the direction is automatically inferred from the name of the monitored quantity.
 - `patience` : Number of epochs with no improvement after which training will be stopped.
 #### `ModelCheckpoint()`
 ```python
