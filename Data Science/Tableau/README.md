@@ -36,8 +36,8 @@ END
 DATETRUNC("week", [Order Date])
 ```
 
-# Logical
-## CASE, WHEN, THEN, END
+# `Logical`
+## `CASE WHEN THEN END`
 ```
 CASE [Sort Criteria Selection]
 WHEN "Sales" THEN SUM([Sales])
@@ -46,7 +46,7 @@ WHEN "Profit Ratio" THEN [Profit Ratio]
 WHEN "Discount" THEN AVG([Discount])
 END
 ```
-## IF, ELSEIF, ELSE, THEN, END
+## `IF ELSEIF ELSE THEN END`
 ```
 IF [검색할 변수] == "처리결과"
 THEN [처리결과]
@@ -56,7 +56,8 @@ ELSEIF [검색할 변수] == "팀명"
 THEN [팀명]
 END
 ```
-## ZN()
+## `IN()`
+## `ZN()`
 ```
 SUM(IF (DATEDIFF("year", [계약금1차일자], [기준 날짜]) == 0
 AND [계약금1차일자] <= [기준 날짜])
@@ -68,7 +69,7 @@ AND [계약여부] == "N")
 THEN [_]
 END))
 ```
-## COUNT()
+## `COUNT()`, `COUNTD()`
 ```
 COUNT(IF [계약금1차일자] <= [기준 날짜]
 THEN [계약여부]
@@ -76,13 +77,6 @@ END)
 - COUNT(IF ([계약금1차일자] <= [기준 날짜]
 AND [계약여부] = "N")
 THEN [계약여부]
-END)
-```
-## COUNTD()
-```
-COUNTD(
-IF [분양 완료?] == "분양 진행"
-THEN [현장명]
 END)
 ```
 
