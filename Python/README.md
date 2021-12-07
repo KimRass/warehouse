@@ -1667,14 +1667,14 @@ gen = ImageDataGenerator()
 datagen_tr = gen.flow_from_directory(directory="./dogsandcats", target_size=(224, 224))
 ```
 - `batch_size=batch_size`
-- `target_size` : the dimensions to which all images found will be resized.
-- `class_mode` : `"binary"`|`"categorical"`|`"sparse"`|`"input"`|`None`
-- `class_mode="binary"` : for binary classification.
-- `class_mode="categorical"` : for multi-class classification(OHE).
-- `class_mode="sparse"` : for multi-class classification(no OHE).
+- `target_size`: the dimensions to which all images found will be resized.
+- `class_mode`: (`"binary"`, `"categorical"`, `"sparse"`, `"input"`, `None`)
+- `class_mode="binary"`: for binary classification.
+- `class_mode="categorical"`: for multi-class classification(OHE).
+- `class_mode="sparse"`: for multi-class classification(no OHE).
 - `class_mode="input"`
-- `class_mode=None` : returns no label.
-- `subset` : subset of data if `validation_split` is set in ImageDataGenerator(). `"training"`|`"validation"`
+- `class_mode=None`: Returns no label.
+- `subset`: (`"training"`, `"validation"`) Subset of data if `validation_split` is set in ImageDataGenerator().
 - `shuffle`
 #### `tf.keras.preprocessing.sequence`
 ##### `pad_sequences()`
@@ -1689,8 +1689,8 @@ train_X = pad_sequences([tokenizer.convert_tokens_to_ids(tokens) for tokens in t
                         maxlen=max_len, value=tokenizer.convert_tokens_to_ids("[PAD]"),
                         truncating="post", padding="post")
 ```
-- `padding="pre" | "post"`
-- `truncating="pre" | "post"`
+- `padding`: (`"pre"`, `"post"`)
+- `truncating`: (`"pre"`, `"post"`)
 - `value=` : padding에 사용할 value를 지정합니다.
 #### `tf.keras.preprocessing.text`
 ##### `tf.keras.preprocessing.text.Tokenizer()`
@@ -1730,7 +1730,7 @@ train_X = tkn.texts_to_sequences(train_X)
 ```python
 tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"], mode="count"))
 ```
-- `mode="count"` | `"binary"` | `"tfidf"` | `"freq"`
+- `mode`: (`"count"`, `"binary"`, `"tfidf"`, `"freq"`)
 - `num_words`가 적용됩니다.
 ### `tf.keras.models`
 #### `tf.keras.models.load_model()`
@@ -1805,10 +1805,13 @@ import torch
 w = torch.ones(size=(1,), requires_grad=True)
 ```
 - Returns a tensor filled with the scalar value `1`, with the shape defined by the variable argument `size`
-- `requires_grad`(`True` | `False`)
+- `requires_grad`: (bool)
 ## `torch.ones_like()`
-- Returns a tensor filled with the scalar value 1, with the same size as `input`.
-- (`input`)(Tensor)
+```python
+torch.ones_like(input()
+```
+- `input`: (Tensor)
+- Returns a tensor filled with the scalar value `1`, with the same size as `input`.
 ### `Tensor.data`
 ### `Tensor.shape`
 ### `Tensor.size()`
@@ -2085,9 +2088,8 @@ contours, hierachy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_
 ```
 ## `cv2.TERM_CRITERIA_EPS`, `cv2.TERM_CRITERIA_MAX_ITER`
 ```python
-criteria = (cv2.TERM_CRITERIA_EPS + cv2.TERM_CRITERIA_MAX_ITER, 10, 1.0)
+criteria = (type, max_iter, epsilon)
 ```
--  Define criteria = (type, max_iter = 10, epsilon = 1.0)
 ## `CV2.KMEANS_RANDOM_CENTERS`
 ```python
 flags = cv2.KMEANS_RANDOM_CENTERS
@@ -2101,8 +2103,8 @@ compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 ## `selectivesearch.selective_search()`
 ```python
 _, regions = selectivesearch.selective_search(img_rgb, scale=100, min_size=2000)
-``
-``python
+```
+```python
 img_recs = cv2.rectangle(img=img_rgb_copy, pt1=(rect[0], rect[1]),
                                  pt2=(rect[0]+rect[2], rect[1]+rect[3]),
                                  color=green_rgb, thickness=2)
@@ -2117,7 +2119,10 @@ datetime.datetime(2018, 5, 19)
 - Require three parameters in sequence to create a date; year, month, day
 ### `datetime.datetime.now()`
 ### `datetime.datetime.strptime()`
-- String into Datetime
+```python
+datetime.datetime.strptime(date_string, format)
+```
+- Returns a datetime corresponding to date_string, parsed according to format.
 ```python
 t2 = datetime.datetime.strptime("12:14", "%H:%M")
 ```
@@ -2133,7 +2138,10 @@ t2 = datetime.datetime.strptime("12:14", "%H:%M")
 - `"%B"`: Month as locale’s full name.
 - `"%b"`: Month as locale’s abbreviated name.
 ### `datetime.datetime.strftime()`
-- Datetime into String
+```python
+datetime.datetime.strftime(format)
+```
+- Returns a string representing the date and time, controlled by an explicit format string
 ```python
 gby_month["ym"] = gby_month["date_created"].apply(lambda x:datetime.datetime.strftime(x, "%m"))
 ```
@@ -2157,7 +2165,7 @@ from dateutil.relativedelta import relativedelta
 data["년-월"] = data["년-월"].apply(lambda x:x + relativedelta(months=1) - datetime.timedelta(days=1))
 ```
 
-# time`
+# `time`
 ```python
 import time
 ```
@@ -2195,12 +2203,12 @@ dtm = [id2word.doc2bow(doc) for doc in docs_tkn]
 id2word = gensim.corpora.Dictionary.load("kakaotalk id2word")
 ```
 ### `gensim.corpora.BleiCorpus`
-#### `gensim.corpora.BleiCorpus.serizalize()
+#### `gensim.corpora.BleiCorpus.serizalize()`
 ```python
 gensim.corpora.BleiCorpus.serialize("kakotalk dtm", dtm)
 ```
 ### `gensim.corpora.bleicorpus`
-#### `gensim.corpora.bleicorpus.BleiCorpus()
+#### `gensim.corpora.bleicorpus.BleiCorpus()`
 ```python
 dtm = gensim.corpora.bleicorpus.BleiCorpus("kakaotalk dtm")
 ```
@@ -2223,7 +2231,7 @@ model = gensim.models.ldamodel.LdaModel(dtm, num_topics=n_topics, id2word=id2wor
 ```
 ## `gensim.models.Word2Vec()`
 ```python
-    model = gensim.models.Word2Vec(result, size=100, window=5, min_count=5, workers=4, sg=0)
+model = gensim.models.Word2Vec(result, size=100, window=5, min_count=5, workers=4, sg=0)
 ```
 - `size` : 임베딩 벡터의 차원.
 - `min_count` : 단어 최소 빈도 수(빈도가 적은 단어들은 학습하지 않는다)
@@ -2345,11 +2353,11 @@ hnn = Hannanum()
 ```
 #### `okt.nouns()`, `kkm.nouns()`, `kmr.nouns()`, `hnn.nouns()`
 #### `okt.morphs()`, `kkm.morphs()`, `kmr.morphs()`, `hnn.morphs()`
-- `stem=True`
-- `norm=True`
+- `stem`: (bool)
+- `norm`: (bool)
 #### `okt.pos()`, `kkm.pos()`, `kmr.pos()`, `hnn.pos()`
-- `stem=True`
-- `norm=True`
+- `stem`: (bool)
+- `norm`: (bool)
 
 # `ckonlpy`
 ```python
@@ -2443,16 +2451,8 @@ viz = GraduatedCircleViz(data=geo_data, access_token=token, height="600px", widt
 ```python
 viz.style = "mapbox://styles/mapbox/outdoors-v11"
 ```
-- `"mapbox://styles/mapbox/streets-v11"`
-- `"mapbox://styles/mapbox/outdoors-v11"`
-- `"mapbox://styles/mapbox/light-v10"`
-- `"mapbox://styles/mapbox/dark-v10"`
-- `"mapbox://styles/mapbox/satellite-v9"`
-- `"mapbox://styles/mapbox/satellite-streets-v11"`
-- `"mapbox://styles/mapbox/navigation-preview-day-v4"`
-- `"mapbox://styles/mapbox/navigation-preview-night-v4"`
-- `"mapbox://styles/mapbox/navigation-guidance-day-v4"`
-- `"mapbox://styles/mapbox/navigation-guidance-night-v4"`
+- (`"mapbox://styles/mapbox/streets-v11"`, `"mapbox://styles/mapbox/outdoors-v11"`, `"mapbox://styles/mapbox/light-v10"`
+- `"mapbox://styles/mapbox/dark-v10"`, `"mapbox://styles/mapbox/satellite-v9"`, `"mapbox://styles/mapbox/satellite-streets-v11"`, `"mapbox://styles/mapbox/navigation-preview-day-v4"`, `"mapbox://styles/mapbox/navigation-preview-night-v4"`, `"mapbox://styles/mapbox/navigation-guidance-day-v4"`, `"mapbox://styles/mapbox/navigation-guidance-night-v4"`)
 ### `viz.show()`
 ### `viz.create_html()`
 ```python
@@ -2493,7 +2493,7 @@ font_name = mpl.font_manager.FontProperties(fname=fpath).get_name()
 ```python
 mpl.rc("font", family=font_name)
 ```
-- `family="NanumBarunGothic"`
+- `family`: (`"NanumBarunGothic"`)
 ```python
 mpl.rc("axes", unicode_minus=False)
 ```
@@ -2506,7 +2506,7 @@ import matplotlib.pyplot as plt
 plt.setp(obj=ax, yticks=ml_mean_gr_ax["le"], yticklabels=ml_mean_gr_ax.index)
 ```
 ### `plt.style.use()`
-- `"default"`, `"dark_background"`
+- (`"default"`, `"dark_background"`)
 ### `plt.subplot()`
 ```python
 for i in range(9):
@@ -2573,7 +2573,7 @@ ax.xaxis.set_label_position("top")
 ```python
 ax.yaxis.set_ticks_position("right")
 ```
-- `"top"`, `"bottom"`, `"left"`, `"right"`
+- (`"top"`, `"bottom"`, `"left"`, `"right"`)
 ##### `ax.xaxis.set_major_formatter()`, `ax.yaxis.set_major_formatter()`
 ```python
 ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter("{x:,.0f}"))
@@ -2603,7 +2603,7 @@ fig = raw_all[["count"]].rolling(24).mean().plot.line(ax=axes, lw=3, fontsize=20
 ```
 - `ls`: (`"-"`, `"--"`, `"-."`, `":"`)
 - `lw`
-- `c`: color
+- `c`: Specifies a color.
 - `label`
 - `fontsize`
 - `title`
@@ -2647,7 +2647,7 @@ raw_data.boxplot(column="count", by="season", grid=False, figsize=(12,5))
 ```python
 fig = ax.axhline(y=mean, color="r", ls=":", lw=2)
 ```
-- Return `Line2D`
+- Returns `Line2D`
 #### `ax.text()`
 ```python
 for _, row in ml_gby_ax.iterrows():
@@ -2663,7 +2663,7 @@ ax.fill_between(x=range(sgd_loss_mean.shape[0]), y1=sgd_loss_mean + sgd_loss_std
 import seaborn as sb
 ```
 ### `sb.set()`
-- `palette`: `"muted"`
+- `palette`: (`"muted"`)
 - `color_codes`: If `True` and `palette` is a seaborn palette, remap the shorthand color codes (e.g. `"b"`, `"g"`, `"r"`, etc.) to the colors from this palette.
 - `font_scale`: (float)
 ### `sb.lmplot()`
@@ -2934,17 +2934,14 @@ text = nltk.Text(total_tokens, name="NMSC")
 ```
 ### `text.tokens`
 ### `text.vocab()`
-- returns frequency distribution
+- Returns frequency distribution
 #### `text.vocab().most_common()`
 ```python
 text.vocab().most_common(10)
 ```
 ### `text.plot()`
-```python
-text.plot(50)
-```
 ## `nltk.download()`
-- "punkt", "wordnet", "stopwords", "movie_reviews"
+- (`"punkt"`, `"wordnet"`, `"stopwords"`, `"movie_reviews"`)
 ## `nltk.corpus`
 ### `stopwords`
 ```python
@@ -2978,7 +2975,7 @@ ref = [["this", "is", "a", "test"], ["this", "is" "test"]]
 cand = ["this", "is", "a", "test"]
 score = nltk.translate.bleu_score.sentence_bleu(ref, cand)
 ```
-- `weights`=(1/2, 1/2, 0, 0)
+- `weights`: e.g., `(1/2, 1/2, 0, 0)`
 #### `corpus_bleu()`
 ```python
 refs = [[["this", "is", "a", "test"], ["this", "is" "test"]]]
@@ -3066,7 +3063,7 @@ sent_ckd = spell_checker.check("맞춤법 틀리면 외 않되? 쓰고싶은대�
 import pyLDAvis
 ```
 ## `pyLDAvis.enable_notebook()`
-- pyLDAvis를 jupyter notebook에서 실행할 수 있게 활성화.
+- `pyLDAvis`를 Jupyter Notebook에서 실행할 수 있게 활성화합니다.
 ## `pyLDAvis.gensim`
 ```python
 import pyLDAvis.gensim
@@ -3117,7 +3114,7 @@ urllib.request.urlretrieve("https://raw.githubusercontent.com/monologg/KoBERT-NE
 ```python
 from tokenization_kobert import KoBertTokenizer
 ```
-- KoBertTokenizer 파일 안에 from transformers import PreTrainedTokenizer가 이미 되어있습니다.
+- `KoBertTokenizer` 파일 안에 `from transformers import PreTrainedTokenizer`가 이미 되어있습니다.
 ### `KoBertTokenizer.from_pretrained()`
 ```python
 tokenizer = KoBertTokenizer.from_pretrained("monologg/kobert")
@@ -3136,7 +3133,7 @@ tokenizer.encode("보는내내 그대로 들어맞는 예측 카리스마 없는
 ```python
 tokenizer.convert_tokens_to_ids("[CLS]")
 ```
-- Unknown Token: 0, "[PAD]" : 1, "[CLS]" : 2, "[SEP]" : 3
+- Unknown Token: `0`, `"[PAD]"`: `1`, `"[CLS]"`: `2`, `"[SEP]"`: `3`
 
 # `pymssql`, `pymysql`, `psycopg2`
 ## `pymssql.connect()`, `pymysql.connect()`, `psycopg2.connect()`
@@ -3240,7 +3237,7 @@ expr = re.sub(rf"[0-9]+[{s}][0-9]+", str(eval(calc)), expr, count=1)
 ```python
 p = re.compile(".+\t[A-Z]+")
 ```
-- 이후 p.search(), p.match() 등의 형태로 사용.
+- 이후 `p.search()`, `p.match()` 등의 형태로 사용합니다.
 
 
 
@@ -3284,7 +3281,7 @@ sm.tsa.seasonal_decompose(raw_all["count"], model="additive").plot()
 ##### `sm.tsa.seasonal_decompose().trend`
 ##### `sm.tsa.seasonal_decompose().seasonal`
 ##### `sm.tsa.seasonal_decompose().resid`
-- When `model="additive"`, `sm.tsa.seasonal_decompose().observed` is same as `sm.tsa.seasonal_decompose().trend + sm.tsa.seasonal_decompose().seasonal + sm.tsa.seasonal_decompose().resid`
+- When `model="additive"`, `sm.tsa.seasonal_decompose().observed` is same as `sm.tsa.seasonal_decompose().trend` + `sm.tsa.seasonal_decompose().seasonal` + `sm.tsa.seasonal_decompose().resid`
 #### `sm.tsa.stattools`
 ##### `sm.tsa.stattools.adfuller()`
 ```python
@@ -3360,12 +3357,12 @@ cols = [0, 2, 5, 6, 14, 0, 1]
 sparse_matrix = csr_matrix((vals,  (rows,  cols)))
 ```
 #### `sparse_mat.todense()`
-## `stats
+## `stats`
 ```python
 from scipy import stats
 ```
-### `stats.norm
-### `stats.beta``
+### `stats.norm`
+### `stats.beta`
 #### `stats.beta.pdf()`
 ```python
 ys = stats.beta.pdf(xs, a, b)
@@ -3427,7 +3424,7 @@ for idx, value in enumerate(art_embs_df.values):
 ```python
 tree.build(20)
 ```
-### `tree.get_nns_by_vector()
+### `tree.get_nns_by_vector()`
 ```python
 print([art_id2name[art] for art in tree.get_nns_by_vector(user_embs_df.loc[user_id], 10)])
 ```
@@ -3488,6 +3485,15 @@ wb = openpyxl.Workbook()
 ```python
 wb = openpyxl.load_workbook("D:/디지털혁신팀/태블로/HR분석/FINAL/★직급별인원(5년)_본사현장(5년)-태블로적용.xlsx")
 ```
+## `openpyxl.worksheet`
+### `openpyxl.worksheet.formula`
+#### `ArrayFormula`
+```python
+from openpyxl.worksheet.formula import ArrayFormula
+```
+```python
+f = ArrayFormula("E2:E11", "=SUM(C2:C11*D2:D11)")
+```
 ### `wb[]`
 ### `wb.active`
 ```python
@@ -3522,8 +3528,6 @@ ws.merge_cells("A2:D2")
 ```python
 wb.save("test.xlsx")
 ```
-from openpyxl.worksheet.formula import ArrayFormula
-f = ArrayFormula("E2:E11", "=SUM(C2:C11*D2:D11)")
 
 ### `wb.active`
 ```python
@@ -3553,11 +3557,8 @@ prs = Presentation("sample.pptx")
 ```
 ### `prs.slides[].shapes[].text_frame.paragraphs[].text`
 ```python
-prs.slides[a].shapes[b].text_frame.paragraphs[c].text
+prs.slides[<<Index of the Slide>>].shapes[<<Index of the Text Box>>].text_frame.paragraphs[<<Index of the Text in the Text Box>>].text
 ```
-- a : 슬라이드 번호
-- b : 텍스트 상자의 인덱스
-- c : 텍스트 상자 안에서 텍스트의 인덱스
 ### `prs.slides[].shapes[].text_frame.paragraphs[].font`
 #### `prs.slides[].shapes[].text_frame.paragraphs[].text.name`
 ```python
@@ -3656,7 +3657,7 @@ model.fit(train_X, train_y, eval_set=[(train_X, train_y), (val_X, val_y)], early
 ## `copy.copy()`
 ## `copy.deepcopy()`
 
- `csv`
+# `csv`
 ```python
 import csv
 ```
@@ -3784,7 +3785,7 @@ elif platform.system() == "Windows":
     font_name = mpl.font_manager.FontProperties(fname=path).get_name()
     mpl.rc('font', family=font_name)
 ```
-- "Darwin", "Windows" 등 OS의 이름 반환합니다.
+- Returns the system/OS name, such as `'Linux'`, `'Darwin'`, `'Java'`, `'Windows'`. An empty string is returned if the value cannot be determined.
 
 # `pprint`
 ## `pprint()`
@@ -3864,8 +3865,8 @@ if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
 ## `os.path.dirname()`
 ```python
 os.path.dirname("C:/Python35/Scripts/pip.exe")
+# >>> 'C:/Python35/Scripts'
 ```
-\>\>\> "C:/Python35/Scripts"
 - 경로 중 디렉토리명만 얻습니다.
 
 # `glob`
@@ -3940,7 +3941,7 @@ img = img.resize((600, 600))
 ```python
 img.convert("L")
 ```
-- `"RGB"` | `"RGBA"` | `"CMYK"` | `"L"` | `"1"`
+- (`"RGB"`, `"RGBA"`, `"CMYK"`, `"L"`, `"1"`)
 ### `img.paste()`
 ```python
 img1.paste(img2, (20,20,220,220))
@@ -3989,7 +3990,7 @@ rd.get("A")
 ```
 
 # `google`
-## `google.colab
+## `google.colab`
 ### `drive`
 ```python
 from google.colab import drive
@@ -4032,14 +4033,14 @@ sys.setrecursionlimit(1000000000)
 ```
 
 # `tqdm`
-## `tqdm.notebook
+## `tqdm.notebook`
 ### `tqdm`
 ```python
 from tqdm.notebook import tqdm
 ```
 - for Jupyter Notebook
 ## `tqdm.auto`
-### `tqdm
+### `tqdm`
 ```python
 from tqdm.auto import tqdm
 ```
@@ -4074,8 +4075,8 @@ server = TSC.Server("http://218.153.56.75/", use_server_version=True)
 with server.auth.sign_in(tableau_auth):
 ```
 #### `server.auth.sign_out()`
-### `server.projects
-#### `server.projects.`get()`
+### `server.projects`
+#### `server.projects.get()`
 ### `server.groups`
 #### `server.groups.get()`
 ```python
