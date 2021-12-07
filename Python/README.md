@@ -2666,7 +2666,7 @@ import seaborn as sb
 - `palette`: `"muted"`
 - `color_codes`: If `True` and `palette` is a seaborn palette, remap the shorthand color codes (e.g. `"b"`, `"g"`, `"r"`, etc.) to the colors from this palette.
 - `font_scale`: (float)
-### `sb.lmplot()
+### `sb.lmplot()`
 ```python
 sb.lmplot(data=resid_tr.iloc[1:], x="idx", y="resid", fit_reg=True, line_kws={"color": "red"}, size=5.2, aspect=2, ci=99, sharey=True)
 ```
@@ -2674,26 +2674,26 @@ sb.lmplot(data=resid_tr.iloc[1:], x="idx", y="resid", fit_reg=True, line_kws={"c
 - `fit_reg`: (bool) If `True`, estimate and plot a regression model relating the x and y variables.
 - `ci`: (int in [0, 100] or None, optional) Size of the confidence interval for the regression estimate. This will be drawn using translucent bands around the regression line. The confidence interval is estimated using a bootstrap; for large datasets, it may be advisable to avoid that computation by setting this parameter to None.
 - `aspect`: Aspect ratio of each facet, so that aspect\*height gives the width of each facet in inches.
-### `sb.distplot()
+### `sb.distplot()`
 ```python
 fig, axes = plt.subplots(1, 1, figsize=(7, 5))
 fig = sb.distplot(ax=axes, a=resid_tr["resid"].iloc[1:], norm_hist=True, fit=stats.norm)
 ```
 - `a`: (Series, 1d-Array, or List)
 - `norm_hist`: (bool, optional) If `True`, the histogram height shows a density rather than a count. This is implied if a KDE or fitted density is plotted.
-### `sb.scatterplot()
+### `sb.scatterplot()`
 ```python
 sb.scatterplot(ax=ax, data=df, x="ppa", y="error", hue="id", hue_norm=(20000, 20040), palette="RdYlGn", s=70, alpha=0.5)
 ```
-### `sb.lineplot()
+### `sb.lineplot()`
 ```python
 ax = sb.lineplot(x=data.index, y=data["ppa_ratio"], linewidth=3, color="red", label="흥덕구+서원구 아파트 평균")
 ```
-### `sb.barplot()
+### `sb.barplot()`
 ```python
 sb.barplot(ax=ax, x=area_df["ft_cut"], y=area_df[0], color="brown", edgecolor="black", orient="v")
 ```
-### `sb.countplot()
+### `sb.countplot()`
 ```python
 sb.countplot(ax=ax, data=cmts202011, x="dep")
 ```
@@ -2702,76 +2702,72 @@ sb.countplot(ax=ax, data=cmts202011, x="dep")
 sb.countplot(ax=ax, x=label_train)
 ```
 - `x`: (Array, List of Arrays)
-### `sb.replot()
+### `sb.replot()`
 ```python
 ax = sb.replot(x="total_bill", y="tip", col="time", hue="day", style="day", kind="scatter", data=tips)
 ```
-### `sb.kedplot()
+### `sb.kedplot()`
 ```python
 sb.kdeplot(ax=ax, data=data["ppa_root"])
 ```
-### `sb.stripplot()
+### `sb.stripplot()`
 ```python
 ax = sb.stripplot(x=xx, y=yy, data=results_order, jitter=0.4, edgecolor="gray", size=4)
 ```
-### `sb.pairtplot()
+### `sb.pairtplot()`
 ```python
 ax = sb.pairplot(data_for_corr)
 ```
-### `sb.heatmap()
+### `sb.heatmap()`
 - Reference: http://seaborn.pydata.org/generated/seaborn.heatmap.html
 ```python
 sb.heatmap(ax=ax, data=gby_occup_genre, annot=True, annot_kws={"size": 10}, fmt=".2f", linewidths=0.2, center=3, cmap="RdBu")
 ```
 
-
-
-# networkx
+# `networkx`
 ```python
 improt networks as nx
 ```
-## `nx.Graph()
+## `nx.Graph()`
 ```python
 g = nx.Graph()
 ```
-## `nx.DiGraph()
-## `nx.circular_layout()
+## `nx.DiGraph()`
+## `nx.circular_layout()`
 ```python
 pos = nx.circular_layout(g)
 ```
-## `nx.draw_networks_nodex()
+## `nx.draw_networks_nodex()`
 ```python
 nx.draw_networkx_nodes(g, pos, node_size=2000)
 ```
-## `nx.draw_networkx_edges()
+## `nx.draw_networkx_edges()`
 ```python
 nx.draw_networkx_edges(g, pos, width=weights)
 ```
-## `nx.draw_networkx_labels()
+## `nx.draw_networkx_labels()`
 ```python
 nx.draw_networkx_labels(g, pos, font_family=font_name, font_size=11)
 ```
-## `nx.draw_shell()
+## `nx.draw_shell()`
 ```python
 nx.draw_shell(g, with_labels=False)
 ```
-### `g.add_nodes_from()
+### `g.add_nodes_from()`
 ```python
 g.add_nodes_from(set(df.index.get_level_values(0)))
 ```
-### `g.add_edge()
+### `g.add_edge()`
 ```python
 for _, row in df.iterrows():
     g.add_edge(row.name[0], row.name[1], weight=row["cowork"]/200)
 ```
-### `g.edges()
+### `g.edges()`
 ```python
 weights = [cnt["weight"] for (_, _, cnt) in g.edges(data=True)]
 ```
 
-
-
-# MeCab
+# `MeCab`
 ```python
 !git clone https://github.com/SOMJANG/Mecab-ko-for-Google-Colab.git
 %cd Mecab-ko-for-Google-Colab
@@ -2808,30 +2804,28 @@ class Mecab:
 mcb = Mecab()
 ```
 
-
-
-# wordcloud
-## `WordCloud
+# `wordcloud`
+## `WordCloud`
 ```python
 from wordcloud import WordCloud
 ```
 ```python
 wc = WordCloud(font_path="C:/Windows/Fonts/HMKMRHD.TTF", relative_scaling=0.2, background_color="white", width=1600, height=1600, max_words=30000, mask=mask, max_font_size=80, background_color="white")
 ```
-### `wc.generate_from_frequencies()
+### `wc.generate_from_frequencies()`
 ```python
 wc.generate_from_frequencies(words)
 ```
-### `wc.generate_from_text
-### `wc.recolor()
+### `wc.generate_from_text`
+### `wc.recolor()`
 ```python
 wc.recolor(color_func=img_colors)
 ```
-### `wc.to_file()
+### `wc.to_file()`
 ```python
 wc.to_file("test2.png")
 ```
-## `ImageColorGenerator
+## `ImageColorGenerator`
 ```python
 from wordcloud import ImageColorGenerator
 ```
@@ -2840,42 +2834,40 @@ img_arr = np.array(Image.open(pic))
 img_colors = ImageColorGenerator(img_arr)
 img_colors.default_color=[0.6, 0.6, 0.6]
 ```
-## `STOPWORDS
+## `STOPWORDS`
 ```python
 from wordcloud import STOPWORDS
 ```
 
-
-
-# mlxtend
+# `mlxtend`
 ```python
 import mlxtend
 ```
-## `mlxtend.preprocessing
-### `TransactionEncoder
+## `mlxtend.preprocessing`
+### `TransactionEncoder`
 ```python
 from mlxtend.preprocessing import TransactionEncoder
 ```
 ```python
 te = TransactionEncoder()
 ```
-#### `te.fit_transform()
+#### `te.fit_transform()`
 ```python
 baskets_te = te.fit_transform(baskets)
 ```
-#### `te.columns_
+#### `te.columns_`
 ```python
 baskets_df = pd.DataFrame(baskets_te, index=baskets.index, columns=te.columns_)
 ```
-## `mlxtend.frequent_patterns
-### `apriori
+## `mlxtend.frequent_patterns`
+### `apriori`
 ```python
 from mlxtend.frequent_patterns import apriori
 ```
 ```python
 freq_sets_df = apriori(baskets_df_over5000.sample(frac=0.05), min_support=0.01, max_len=2, use_colnames=True, verbose=1)
 ```
-### `association_rules
+### `association_rules`
 ```python
 from mlxtend.frequent_patterns import association_rules
 ```
@@ -2883,139 +2875,135 @@ from mlxtend.frequent_patterns import association_rules
 asso_rules = association_rules(sups, metric="support", min_threshold=0.01)
 ```
 
-
-
-# nltk
+# `nltk`
 ```python
 import nltk
 ```
-## `nltk.tokenize
-### `nltk.tokenize.word_tokenize()
+## `nltk.tokenize`
+### `nltk.tokenize.word_tokenize()`
 ```python
 nltk.tokenize.word_tokenize("Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as cheery as cheery goes for a pastry shop.")
 ```
-### `nltk.tokenize.sent_tokenize()
+### `nltk.tokenize.sent_tokenize()`
 ```python
 nltk.tokenize.sent_tokenize("I am actively looking for Ph.D. students and you are a Ph.D student.")
 ```
-### `WordPunctTokenizer()
+### `WordPunctTokenizer()`
 ```python
 from nltk.tokenize import WordPunctTokenizer
 ```
-#### `WordPunctTokenizer().tokenize()
+#### `WordPunctTokenizer().tokenize()`
 ```python
 WordPunctTokenizer().tokenize("Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as cheery as cheery goes for a pastry shop.")
 ```
-### `TreebankWordTokenizer()
+### `TreebankWordTokenizer()`
 ```python
 from nltk.tokenize import TreebankWordTokenizer
 ```
-#### `TreebankWordTokenizer().tokenize()
+#### `TreebankWordTokenizer().tokenize()`
 ```python
 TreebankWordTokenizer().tokenize("Starting a home-based restaurant may be an ideal. it doesn't have a food chain or restaurant of their own.")
 ```
 - Penn Treebank Tokenization.
-## `nltk.stem
-### `PorterStemmer()
+## `nltk.stem`
+### `PorterStemmer()`
 ```python
 from nltk.stem import PorterStemmer
 ```
 ```python
 ps = PorterStemmer()
 ```
-#### `ps.stem()
+#### `ps.stem()`
 ```python
 [ps.stem(word) for word in ["formalize", "allowance", "electricical"]]
 ```
-### `WordNetLemmatizer()
+### `WordNetLemmatizer()`
 ```python
 from nltk.stem import WordNetLemmatizer
 ```
 ```python
 wnl = WordNetLemmatizer()
 ```
-#### `wnl.lemmatize()
+#### `wnl.lemmatize()`
 ```python
 wnl.lemmatize("watched", "v")
 ```
-## `nltk.Text()
+## `nltk.Text()`
 ```python
 text = nltk.Text(total_tokens, name="NMSC")
 ```
-### `text.tokens
-### `text.vocab()
+### `text.tokens`
+### `text.vocab()`
 - returns frequency distribution
-#### `text.vocab().most_common()
+#### `text.vocab().most_common()`
 ```python
 text.vocab().most_common(10)
 ```
-### `text.plot()
+### `text.plot()`
 ```python
 text.plot(50)
 ```
-## `nltk.download()
+## `nltk.download()`
 - "punkt", "wordnet", "stopwords", "movie_reviews"
-## `nltk.corpus
-### `stopwords
+## `nltk.corpus`
+### `stopwords`
 ```python
 from nltk.corpus import stopwords
 ```
-#### `stopwords.words()
+#### `stopwords.words()`
 ```python
 stopwords.words("english")
 ```
-### `movie_reviews
+### `movie_reviews`
 ```python
 from nltk.corpus import movie_reviews
 ```
-#### `movie_reviews.sents()
+#### `movie_reviews.sents()`
 ```python
 sentences = [sent for sent in movie_reviews.sents()]
 ```
-### `nltk.corpus.treebank
-#### `nltk.corpus.treebank.tagged_sents()
+### `nltk.corpus.treebank`
+#### `nltk.corpus.treebank.tagged_sents()`
 ```python
 tagged_sents = nltk.corpus.treebank.tagged_sents()
 ```
-## `nltk.translate
-### `nltk.translate.bleu_score
+## `nltk.translate`
+### `nltk.translate.bleu_score`
 ```python
 from nltk.translate.bleu_score import sentence_bleu, corpus_bleu, SmoothingFunction
 ```
-#### `sentence_bleu()
+#### `sentence_bleu()`
 ```python
 ref = [["this", "is", "a", "test"], ["this", "is" "test"]]
 cand = ["this", "is", "a", "test"]
 score = nltk.translate.bleu_score.sentence_bleu(ref, cand)
 ```
 - `weights`=(1/2, 1/2, 0, 0)
-#### `corpus_bleu()
+#### `corpus_bleu()`
 ```python
 refs = [[["this", "is", "a", "test"], ["this", "is" "test"]]]
 cands = [["this", "is", "a", "test"]]
 score = nltk.translate.bleu_score.corpus_bleu(refs, cands)
 ```
 - `weights`=(1/2, 1/2, 0, 0)
-#### `SmoothingFunction()
-## `nltk.ngrams()
+#### `SmoothingFunction()`
+## `nltk.ngrams()`
 ```python
 nltk.ngrams("I am a boy", 3)
 ```
 
-
-
-# khaiii
-## `KhaiiiApi
+# `khaiii`
+## `KhaiiiApi`
 ```python
 from khaiii import KhaiiiApi
 ```
 ```python
 api = KhaiiiApi()
 ```
-### `api.analyze()
-#### `word.morphs
-##### `morph.lex
-##### `morph.tag
+### `api.analyze()`
+#### `word.morphs`
+##### `morph.lex`
+##### `morph.tag`
 ```python
 morphs = []
 sentence = "하스스톤 전장이 새로 나왔는데 재밌어요!"
@@ -3024,17 +3012,13 @@ for word in api.analyze(sentence):
         morphs.append((morph.lex, morph.tag))
 ```
 
-
-
-# kss
-## `kss.split_sentences()
+# `kss`
+## `kss.split_sentences()`
 ```python
 kss.split_sentences("딥 러닝 자연어 처리가 재미있기는 합니다. 그런데 문제는 영어보다 한국어로 할 때 너무 어려워요. 농담아니에요. 이제 해보면 알걸요?")
 ```
 
-
-
-# pykospacing
+# `pykospacing`
 ```python
 !pip install git+https://github.com/haven-jeon/PyKoSpacing.git --user
 ```
@@ -3044,126 +3028,70 @@ kss.split_sentences("딥 러닝 자연어 처리가 재미있기는 합니다. �
 ```python
 import pykospacing
 ```
-## `pykospacing.spacing()
+## `pykospacing.spacing()`
 ```
 sent_ks = pykospacing.spacing("오지호는극중두얼굴의사나이성준역을맡았다.성준은국내유일의태백권전승자를가리는결전의날을앞두고20년간동고동락한사형인진수(정의욱분)를찾으러속세로내려온인물이다.")
 ```
 
-
-
-# soynlp
-## `soynlp.normalizer
+# `soynlp`
+## `soynlp.normalizer`
 ```python
 from soynlp.normalizer import *
 ```
-### `emoticon_normalize()
+### `emoticon_normalize()`
 ```python
 emoticon_normalize("앜ㅋㅋㅋㅋ이영화존잼쓰ㅠㅠㅠㅠㅠ", num_repeats=2)
 ```
-### `repeat_normalize()
+### `repeat_normalize()`
 ```python
 repeat_normalize("와하하하하하하하하하핫", num_repeats=2)
 ```
 
-
-
-# hanspell
+# `hanspell`
 ```python
 !pip install git+https://github.com/ssut/py-hanspell.git
 ```
-## `spell_checker
+## `spell_checker`
 ```python
 from hanspell import spell_checker
 ```
-### `spell_checker.check()
-#### `spell_checker.check().checked
+### `spell_checker.check()`
+#### `spell_checker.check().checked`
 ```python
 sent_ckd = spell_checker.check("맞춤법 틀리면 외 않되? 쓰고싶은대로쓰면돼지").checked
 ```
-# collections
-## `Counter()
-```python
-from collections import Counter
-```
-```python
-word2cnt = Counter(words)
-```
-- lst의 원소별 빈도를 나타내는 dic을 반환합니다.
-### `Counter[key]
-### `Counter().values()
-```python
-sum(Counter(nltk.ngrams(cand.split(), 2)).values())
-```
-### `Counter().most_common()
-## `deque()
-```python
-from collections import deque
-```
-```python
-dq = deque("abc")
-```
-- `maxlen`
-### `dq[]
-```python
-dq[2] = "d"
-```
-### `dq.append()
-### `dq.appendleft()
-### `dq.pop()
-### `dq.popleft()
-### `dq.extend()
-### `dq.extendleft()
-### `dq.remove()
 
-
-
-# functools
-## `reduce()
-```python
-from functools import reduce
-```
-```python
-reduce(lambda acc, cur: acc + cur["age"], users, 0)
-```
-```python
-reduce(lambda acc, cur: acc + [cur["mail"]], users, [])
-```
-
-
-
-# pyLDAvis
+# `pyLDAvis`
 ```python
 import pyLDAvis
 ```
-## `pyLDAvis.enable_notebook()
+## `pyLDAvis.enable_notebook()`
 - pyLDAvis를 jupyter notebook에서 실행할 수 있게 활성화.
-## `pyLDAvis.gensim
+## `pyLDAvis.gensim`
 ```python
 import pyLDAvis.gensim
 ```
-### `pyLDAvis.gensim.prepare()
+### `pyLDAvis.gensim.prepare()`
 ```python
 pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
 ```
 
-
-
-# transformers
+# `transformers`
 ```python
 !pip install --target=$my_path transformers==3.5.0
 ```
-## `BertModel
+## `BertModel`
 ```python
 from transformers import BertModel
 ```
 ```python
 model = BertModel.from_pretrained("monologg/kobert")
 ```
-## `TFBertModel
+## `TFBertModel`
 ```python
 from transformers import TFBertModel
 ```
-### `TFBertModel.from_pretrained()
+### `TFBertModel.from_pretrained()`
 ```python
 model = TFBertModel.from_pretrained("monologg/kobert", from_pt=True,
                                     num_labels=len(tag2idx), output_attentions=False,
@@ -3172,104 +3100,94 @@ model = TFBertModel.from_pretrained("monologg/kobert", from_pt=True,
 ```python
 bert_outputs = model([token_inputs, mask_inputs])
 ```
-#### `model.save()
+#### `model.save()`
 ```python
 model.save("kobert_navermoviereview.h5", save_format="tf")
 ```
-### `BertModel.from_pretrained()
+### `BertModel.from_pretrained()`
 ```python
 model = BertModel.from_pretrained("monologg/kobert")
 ```
 
-
-
-# tokenization_kobert
+# `tokenization_kobert`
 ```python
 urllib.request.urlretrieve("https://raw.githubusercontent.com/monologg/KoBERT-NER/master/tokenization_kobert.py", filename="tokenization_kobert.py")
 ```
-## `KoBertTokenizer
+## `KoBertTokenizer`
 ```python
 from tokenization_kobert import KoBertTokenizer
 ```
 - KoBertTokenizer 파일 안에 from transformers import PreTrainedTokenizer가 이미 되어있습니다.
-### `KoBertTokenizer.from_pretrained()
+### `KoBertTokenizer.from_pretrained()`
 ```python
 tokenizer = KoBertTokenizer.from_pretrained("monologg/kobert")
 ```
-#### `tokenier.tokenize()
+#### `tokenier.tokenize()`
 ```python
 tokenizer.tokenize("보는내내 그대로 들어맞는 예측 카리스마 없는 악역")
 ```
-#### `tokenizer.encode()
+#### `tokenizer.encode()`
 ```python
 tokenizer.encode("보는내내 그대로 들어맞는 예측 카리스마 없는 악역")
 ```
 - `max_length`
 - `padding="max_length"`
-#### `tokenizer.convert_tokens_to_ids()
+#### `tokenizer.convert_tokens_to_ids()`
 ```python
 tokenizer.convert_tokens_to_ids("[CLS]")
 ```
 - Unknown Token: 0, "[PAD]" : 1, "[CLS]" : 2, "[SEP]" : 3
 
-
-
-# pymssql, pymysql, psycopg2
-## `pymssql.connect(), pymysql.connect(), psycopg2.connect()
+# `pymssql`, `pymysql`, `psycopg2`
+## `pymssql.connect()`, `pymysql.connect()`, `psycopg2.connect()`
 ```python
 conn = pymssql.connect(server="125.60.68.233", database="eiparkclub", user="myhomie", password="homie2021!@#", charset="utf8")
 ```
-### `conn.cursor()
+### `conn.cursor()`
 ```python
 cur = conn.cursor()
 ```
-#### `cur.excute()
+#### `cur.excute()`
 ```python
 cur.excute(query)
 ```
-#### `cur.fetchall()
+#### `cur.fetchall()`
 ```python
 result = cur.fetchall() 
 ```
-#### `cur.close()
-#### `cur.description
+#### `cur.close()`
+#### `cur.description`
 ```python
 salary = pd.DataFrame(result, columns=[col[0] for col in cur.description])
 ```
 
-
-
-# psycopg2
-## `psycopg2.extras
-### `RealDictCursor
+# `psycopg2`
+## `psycopg2.extras`
+### `RealDictCursor`
 ```python
 from psycopg2.extras import RealDictCursor
 ```
-## `psycopg2.connect()
-### `conn.cursor()
+## `psycopg2.connect()`
+### `conn.cursor()`
 ```python
 cur = conn.cursor(cursor_factory=RealDictCursor)
 ```
 
-
-
-# random
+# `random`
 ```python
 import random
 ```
-## `random.seed()
-## `random.random()
+## `random.seed()`
+## `random.random()`
 - Returns a random number in [0, 1).
-## `random.sample()
+## `random.sample()`
 ```python
 names = random.sample(list(set(data.index)), 20)
 ```
-## `random.shuffle()
+## `random.shuffle()`
 - In-place function
 
-
-
-# re
+# `re`
 ```python
  import re
 ```
@@ -3293,11 +3211,11 @@ names = random.sample(list(set(data.index)), 20)
 - `{n}`: n개의 바로 앞의 character
 - `^`: Match the start of the string.
 - `$`: Match the end of the string.
-## `re.search()
+## `re.search()`
 - Scan through string looking for the first location where the regular expression pattern produces a match, and return a corresponding match object. Return None if no position in the string matches the pattern; note that this is different from finding a zero-length match at some point in the string.
-## `re.match()
+## `re.match()`
 - If zero or more characters at the beginning of string match the regular expression pattern, return a corresponding match object. Return None if the string does not match the pattern; note that this is different from a zero-length match.
-### `re.search().group(), re.match().group()
+### `re.search().group()`, `re.match().group()`
 ```python
 re.search(r"(\w+)@(.+)", "test@gmail.com").group(0) #test@gmail.com
 re.search(r"(\w+)@(.+)", "test@gmail.com").group(1) #test
@@ -3306,19 +3224,19 @@ re.search(r"(\w+)@(.+)", "test@gmail.com").group(2) #gmail.com
 ```python
 views["apt_name"] = views["pageTitle"].apply(lambda x:re.search(r"(.*)\|(.*)\|(.*)", x).group(2) if "|" in x else x)
 ```
-## `re.findall()
+## `re.findall()`
 ```python
 re.findall(rf"[ ][a-z]{{{n_wc}}}{chars}[ ]", words)
 ```
 - Return all non-overlapping matches of pattern in string, as a list of strings. The string is scanned left-to-right, and matches are returned in the order found. If one or more groups are present in the pattern, return a list of groups; this will be a list of tuples if the pattern has more than one group. Empty matches are included in the result.
-## `re.split()
+## `re.split()`
 - `maxsplit`
-## `re.sub()
+## `re.sub()`
 ```python
 expr = re.sub(rf"[0-9]+[{s}][0-9]+", str(eval(calc)), expr, count=1)
 ```
 - count=0 : 전체 치환
-## `re.compile()
+## `re.compile()`
 ```python
 p = re.compile(".+\t[A-Z]+")
 ```
@@ -3326,21 +3244,19 @@ p = re.compile(".+\t[A-Z]+")
 
 
 
-# requests
+# `requests`
 ```python
 import requests
 ```
-## `requests.get()
+## `requests.get()`
 ```python
 req = requests.get(url)
 ```
 
-
-
-# statsmodels
-## `statsmodels.stats
-### `statsmodels.stats.outliers_influence
-#### `variance_inflation_factor()
+# `statsmodels`
+## `statsmodels.stats`
+### `statsmodels.stats.outliers_influence`
+#### `variance_inflation_factor()`
 ```python
 from statsmodels.stats.outliers_influence import variance_inflation_factor
 ```
@@ -3349,37 +3265,37 @@ vif = pd.DataFrame()
 vif["vif"] = [variance_inflation_factor(x_tr.values, i) for i in range(x_tr.shape[1])]
 vif["feat"] = x_tr.columns
 ```
-## `statsmodels.api
+## `statsmodels.api`
 ```python
 import statsmodels.api as sm
 ```
-### `sm.qqplot()
+### `sm.qqplot()`
 ```python
 fig = sm.qqplot(ax=axes[0], data=data["value"], fit=True, line="45")
 ```
-### `sm.tsa
-#### `sm.tsa.seasonal_decompose()
+### `sm.tsa`
+#### `sm.tsa.seasonal_decompose()`
 ```python
 sm.tsa.seasonal_decompose(raw_all["count"], model="additive").plot()
 ```
 - `model="additive"`
 - `model="multiplicative"`
-##### `sm.tsa.seasonal_decompose().observed
-##### `sm.tsa.seasonal_decompose().trend
-##### `sm.tsa.seasonal_decompose().seasonal
-##### `sm.tsa.seasonal_decompose().resid
+##### `sm.tsa.seasonal_decompose().observed`
+##### `sm.tsa.seasonal_decompose().trend`
+##### `sm.tsa.seasonal_decompose().seasonal`
+##### `sm.tsa.seasonal_decompose().resid`
 - When `model="additive"`, `sm.tsa.seasonal_decompose().observed` is same as `sm.tsa.seasonal_decompose().trend + sm.tsa.seasonal_decompose().seasonal + sm.tsa.seasonal_decompose().resid`
-#### `sm.tsa.stattools
-##### `sm.tsa.stattools.adfuller()
+#### `sm.tsa.stattools`
+##### `sm.tsa.stattools.adfuller()`
 ```python
 sm.tsa.stattools.adfuller(resid_tr["resid"])
 ```
-### `sm.OLS()
-#### `sm.OLS().fit()
+### `sm.OLS()`
+#### `sm.OLS().fit()`
 ```python
 sm.OLS(y_tr, x_tr).fit()
 ```
-##### `sm.OLS().fit().summary()
+##### `sm.OLS().fit().summary()`
 - `coef`: The measurement of how change in the independent variable affects the dependent variable. Negative sign means inverse relationship. As one rises, the other falls.
 - `R-squared`, `Adj. R-squared`
 - `P>|t|`: p-value. Measurement of how likely the dependent variable is measured through the model by chance. That is, there is a (p-value) chance that the independent variable has no effect on the dependent variable, and the results are produced by chance. Proper model analysis will compare the p-value to a previously established threshold with which we can apply significance to our coefficient. A common threshold is 0.05.
@@ -3387,106 +3303,52 @@ sm.OLS(y_tr, x_tr).fit()
 - `Skew`: Skewness.
 - `Kurtosis`: Kurtosis.
 - `Cond. No.`: Condition number of independent variables.
-##### `sm.OLS().fit().rsquared_adj
+##### `sm.OLS().fit().rsquared_adj`
 - Return `Adj. R-squared` of the independent variables.
-##### `sm.OLS().fit().fvalue
-##### `sm.OLS().fit().f_pvalue
-##### `sm.OLS().fit().aic
-##### `sm.OLS().fit().bic
-##### `sm.OLS().fit().params
+##### `sm.OLS().fit().fvalue`
+##### `sm.OLS().fit().f_pvalue`
+##### `sm.OLS().fit().aic`
+##### `sm.OLS().fit().bic`
+##### `sm.OLS().fit().params`
 - Return `coef`s of the independent variables.
-##### `sm.OLS().fit().pvalues
+##### `sm.OLS().fit().pvalues`
 - Return `P>|t|`s of the independent variables.
-##### `sm.OLS().fit().predict()
-### `sm.graphics
-#### `sm.graphics.tsa
-##### `sm.graphics.tsa.plot_acf(), sm.graphics.sta.plot_pacf()
+##### `sm.OLS().fit().predict()`
+### `sm.graphics`
+#### `sm.graphics.tsa`
+##### `sm.graphics.tsa.plot_acf()`, `sm.graphics.sta.plot_pacf()`
 ```python
 fig = sm.graphics.tsa.plot_acf(ax=axes[0], x=resid_tr["resid"].iloc[1:], lags=100, use_vlines=True)
 ```
 - `title`
-### `sm.stats
-#### `sm.stats.diagnostic
-##### `sm.stats.diagnostic.acorr_ljungbox()
+### `sm.stats`
+#### `sm.stats.diagnostic`
+##### `sm.stats.diagnostic.acorr_ljungbox()`
 ```python
 Autocorrelation = pd.DataFrame(sm.stats.diagnostic.acorr_ljungbox(resid_tr["resid"], lags=[1, 5, 10, 50]), index=["Test Statistic", "p-value"], columns=["Autocorr(lag1)", "Autocorr(lag5)", "Autocorr(lag10)", "Autocorr(lag50)"])
 ```
-##### `sm.stats.diagnostic.het_goldfeldquandt()
+##### `sm.stats.diagnostic.het_goldfeldquandt()`
 ```python
 Heteroscedasticity = pd.DataFrame([sm.stats.diagnostic.het_goldfeldquandt(y=resid_tr["resid"], x=x_tr.values, alternative="two-sided")], index=["Heteroscedasticity"], columns=["Test Statistic", "p-value", "Alternative"]).T
 ```
 - `alternative`: Specity the alternative for the p-value calculation.
 
-
-
-# string
+# `string`
 ```python
 import string
 ```
-## `string.punctuation
+## `string.punctuation`
 ```python
 for punct in string.punctuation:
     sw.add(punct)
 ```
 
-
-
-# sys
-```python
-import sys
-```
-## `sys.maxsize()
-## `sys.path
-```python
-sys.path.append("c:/users/82104/anaconda3/envs/tf2.3/lib/site-packages")
-```
-## `sys.stdin
-### `sys.stdin.readline()
-```python
-cmd = sys.stdin.readline().rstrip()
-```
-## `sys.setrecursionlimit()
-```python
-sys.setrecursionlimit(1000000000)
-```
-
-
-
-# tqdm
-## `tqdm.notebook
-### `tqdm
-```python
-from tqdm.notebook import tqdm
-```
-- for Jupyter Notebook
-## `tqdm.auto
-### `tqdm
-```python
-from tqdm.auto import tqdm
-```
-- for Google Colab
-## `tqdm.pandas()
-- `DataFrame.progress_apply()`를 사용하기 위해 필요합니다.
-
-
-
-# warnings
-```python
-import warnings
-```
-## `warnings.filterwarnings()
-```python
-warnings.filterwarnings("ignore", category=DeprecationWarning)
-```
-
-
-
-# scipy
+# `scipy`
 ```python
 import scipy
 ```
-## `scipy.sparse
-### `csr_matrix
+## `scipy.sparse`
+### `csr_matrix`
 ```python
 from scipy.sparse import csr_matrix
 ```
@@ -3497,39 +3359,37 @@ cols = [0, 2, 5, 6, 14, 0, 1]
 
 sparse_matrix = csr_matrix((vals,  (rows,  cols)))
 ```
-#### `sparse_mat.todense()
+#### `sparse_mat.todense()`
 ## `stats
 ```python
 from scipy import stats
 ```
 ### `stats.norm
-### `stats.beta
-#### `stats.beta.pdf()
+### `stats.beta``
+#### `stats.beta.pdf()`
 ```python
 ys = stats.beta.pdf(xs, a, b)
 ```
-### `stats.shapiro()
+### `stats.shapiro()`
 ```python
 Normality = pd.DataFrame([stats.shapiro(resid_tr["resid"])], index=["Normality"], columns=["Test Statistic", "p-value"]).T
 ```
 - Return test statistic and p-value.
-### `stats.boxcox_normalplot()
+### `stats.boxcox_normalplot()`
 ```python
 x, y = stats.boxcox_normplot(data["value"], la=-3, lb=3)
 ```
-### `stats.boxcox()
+### `stats.boxcox()`
 ```python
 y_trans, l_opt = stats.boxcox(data["value"])
 ```
 
-
-
-# implicit
+# `implicit`
 ```python
 conda install -c conda-forge implicit
 ```
-## `implicit.bpr
-### `BayesianPersonalizedRanking
+## `implicit.bpr`
+### `BayesianPersonalizedRanking`
 ```python
 from implicit.bpr import BayesianPersonalizedRanking as BPR
 ```
@@ -3538,21 +3398,19 @@ model = BPR(factors=60)
 
 model.fit(inputs)
 ```
-#### `model.user_factors, model.item_factors
+#### `model.user_factors`, `model.item_factors`
 ```python
 user_embs = model.user_factors
 item_embs = model.item_factors
 ```
 
-
-
-# annoy
+# `annoy`
 - https://github.com/spotify/annoy
 ```python
 !pip install "C:\Users\5CG7092POZ\annoy-1.16.3-cp37-cp37m-win_amd64.whl"
 ```
 - source : https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
-## `AnnoyIndex
+## `AnnoyIndex`
 ```python
 from annoy import AnnoyIndex
 ```
@@ -3560,12 +3418,12 @@ from annoy import AnnoyIndex
 n_facts = 61
 tree = AnnoyIndex(n_facts, "dot")
 ```
-### `tree.add_item()
+### `tree.add_item()`
 ```python
 for idx, value in enumerate(art_embs_df.values):
     tree.add_item(idx, value)
 ```
-### `tree.build()
+### `tree.build()`
 ```python
 tree.build(20)
 ```
@@ -3574,324 +3432,12 @@ tree.build(20)
 print([art_id2name[art] for art in tree.get_nns_by_vector(user_embs_df.loc[user_id], 10)])
 ```
 
-
-
-# google_drive_downloader
-```python
-!pip install googledrivedownloader
-```
-## `GoogleDriveDownloader
-```python
-from google_drive_downloader import GoogleDriveDownloader as gdd
-```
-### `gdd.download_file_from_google_drive()
-```python
-gdd.download_file_from_google_drive(file_id="1uPjBuhv96mJP9oFi-KNyVzNkSlS7U2xY", dest_path="./movies.csv")
-```
-
-
-
-# datasketch
-## `MinHash
-```python
-from datasketch import MinHash
-```
-```python
-mh = MinHash(num_perm=128)
-```
-- MinHash는 각 원소 별로 signature를 구한 후, 각 Signature 중 가장 작은 값을 저장하는 방식입니다. 가장 작은 값을 저장한다 해서 MinHash라고 불립니다.
-### `mh.update()
-```python
-for value in set_A:
-    mh.update(value.encode("utf-8"))
-```
-### `mh.hashvalues
-
-
-
-# redis
-## `Redis
-```python
-from redis import Redis
-```
-```python
-rd = Redis(host="localhost", port=6379, db=0)
-```
-### `rd.set()
-```python
-rd.set("A", 1)
-```
-### `rd.delete()
-```python
-rd.delete("A")
-```
-### `rd.get()
-```python
-rd.get("A")
-```
-
-
-
-# google
-## `google.colab
-### `drive
-```python
-from google.colab import drive
-```
-#### `drive.mount()
-```python
-drive.mount("/content/drive")
-```
-
-
-
-# zipfile
-```python
-import zipfile
-```
-## `zipfile.ZipFile()
-```python
-with zipfile.ZipFile("spa-eng.zip", "r") as f:
-    file = f.open("spa-eng/spa.txt")
-    data = pd.read_csv(file, names=["eng", "spa"], sep="\t")
-```
-### `zipfile.ZipFile().extractall()
-```python
-zipfile.ZipFile("glove.6B.zip").extractall(cur_dir)
-```
-
-
-
-# lxml
-## `etree
-```python
-from lxml import etree
-```
-### `etree.parse()
-```python
-with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
-	target_text = etree.parse(z.open("ted_en-20160408.xml", "r"))
-```
-
-
-# os
-```python
-import os
-```
-## `os.getcwd()
-```python
-cur_dir = os.getcwd()
-```
-## `os.makedirs()
-```python
-os.makedirs(ckpt_dir, exist_ok=True)
-```
-## `os.chdir()
-## `os.environ
-## `os.pathsep
-```python
-os.environ["PATH"] += os.pathsep + "C:\Program Files (x86)/Graphviz2.38/bin/"
-```
-## `os.path
-### `os.path.join()	
-```python
-os.path.join("C:\Tmp", "a", "b")
-```
-### `os.path.exists()
-```python
-if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
-```
-## `os.path.dirname()
-```python
-os.path.dirname("C:/Python35/Scripts/pip.exe")
-```
-\>\>\> "C:/Python35/Scripts"
-- 경로 중 디렉토리명만 얻습니다.
-
-
-
-# glob
-## `glob.glob()
-```python
-path = "./DATA/전체"
-filenames = glob.glob(path + "/*.csv")
-```
-
-
-
-# pickle
-```python
-import pickle as pk
-```
-## `pk.dump()
-```python
-with open("filename.pkl", "wb") as f:
-	pk.dump(list, f)
-```
-## `pk.load()
-```python
-with open("filename.pkl", "rb") as f:
-	data = pk.load(f)
-```
-- 한 줄씩 load
-
-
-
-# json
-```python
-import json
-```
-## `json.dump()
-```python
-with open(path, "w", encoding="utf-8") as f:
-    json.dump(train_data, f, ensure_ascii=False, indent="\t")
-```
-```python
-with open(f"{model_path}_hist", "w") as f:
-	json.dump(hist.history, f)
-```
-## `json.load()
-```python
-with open(path, "r", encoding="utf-8") as f:
-    train_data = json.load(f)
-```
-```python
-with open(f"{model_path}_hist", "r") as f:
-	hist.history = json.load(f)
-```
-
-
-
-# Image
-```python
-from PIL import Image
-```
-## `Image.open()
-```python
-img = Image.open("20180312000053_0640 (2).jpg")
-```
-### `img.size
-### `img.save()
-### `img.thumbnail()
-```python
-img.thumbnail((64, 64))
-```
-### `img.crop()
-```python
-img_crop = img.crop((100, 100, 150, 150))	
-```
-### `img.resize()
-```python
-img = img.resize((600, 600))
-```
-### `img.convert()
-```python
-img.convert("L")
-```
-- `"RGB"` | `"RGBA"` | `"CMYK"` | `"L"` | `"1"`
-### `img.paste()
-```python
-img1.paste(img2, (20,20,220,220))
-```
-- img2.size와 동일하게 두 번째 parameter 설정.	
-## `Image.new()
-```python
-mask = Image.new("RGB", icon.size, (255, 255, 255))
-```
-
-
-
-# IPython
-## `IPython.display
-### `set_matplotlib_formats
-```python
-from IPython.display import set_matplotlib_formats
-```
-```python
-set_matplotlib_formats("retina")
-```
-- font를 선명하게 표시
-
-
-
-# `itertools`
-## `combinations()`, `permutations()`, `combinations_with_replacement()`
-```python
-from itertools import combinations, permutations
-```
-```python
-movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
-```
-## `product()`
-```python
-for i in product(range(3), range(3), range(3)):
-    print(i)
-```
-
-
-
-# `platform`
-```python
-import platform
-```
-## `platform.system()`
-```python
-path = "C:/Windows/Fonts/malgun.ttf"
-if platform.system() == "Darwin":
-    mpl.rc("font", family="AppleGothic")
-elif platform.system() == "Windows":
-    font_name = mpl.font_manager.FontProperties(fname=path).get_name()
-    mpl.rc('font', family=font_name)
-```
-- "Darwin", "Windows" 등 OS의 이름 반환합니다.
-
-
-
-# pprint	
-## `pprint()
-```python
-from pprint import pprint
-```
-
-
-
-# pptx
-## `Presentation()
-```python
-from pptx import Presentation
-```
-```python
-prs = Presentation("sample.pptx")
-```
-### `prs.slides[].shapes[].text_frame.paragraphs[].text
-```python
-prs.slides[a].shapes[b].text_frame.paragraphs[c].text
-```
-- a : 슬라이드 번호
-- b : 텍스트 상자의 인덱스
-- c : 텍스트 상자 안에서 텍스트의 인덱스
-### `prs.slides[].shapes[].text_frame.paragraphs[].font
-#### `prs.slides[].shapes[].text_frame.paragraphs[].text.name
-```python
-prs.slides[a].shapes[b].text_frame.paragraphs[c].font.name = "Arial"
-```
-#### `prs.slides[].shapes[].text_frame.paragraphs[].text.size
-```python
-prs.slides[a].shapes[b].text_frame.paragraphs[c].font.size = Pt(16)
-```
-### `prs.save()
-```python
-prs.save("파일 이름")
-```
-
-
-
-# pygame
+# `pygame`
 ```python
 import pygame
 ```
-## `gamepad
-### `gamepad.blit()
+## `gamepad`
+### `gamepad.blit()`
 ```python
 def bg(bg, x, y):
     global gamepad, background
@@ -3902,8 +3448,10 @@ def plane(x, y):
     global gamepad, aircraft
     gamepad.blit(aircraft, (x, y)) #"aircraft"를 "(x, y)"에 배치
 ```
-## `pygame
-### `pygame.event.get(), event.type, event.key
+## `pygame.event`
+### `pygame.event.get()`
+#### `event.type`
+#### `event.key`
 ```python
 while not crashed:
     for event in pygame.event.get():
@@ -3914,15 +3462,16 @@ while not crashed:
             if event.key==pygame.K_RIGHT:
                 x_change=15
 ```
-### `pygame.KEYUP, pygame.KEYDOWN
+### `pygame.KEYUP`, `pygame.KEYDOWN`
 ```python
 if event.type==pygame.KEYUP
 ```
-- `pygame.KEYUP` : 키보드를 누른 후 뗄 때
-- `pygame.KEYDOWN` : 키보드를 누를 때
-### `pygame.init()
-### `pygame.quit()
-### `pygame.display.set_model()
+- `pygame.KEYUP`: 키보드를 누른 후 뗄 때
+- `pygame.KEYDOWN`: 키보드를 누를 때
+### `pygame.init()`
+### `pygame.quit()`
+### `pygame.display`
+#### `pygame.display.set_model()`
 ```python
 gamepad = pygame.display.set_mode((pad_width, pad_height))
 ```
@@ -3969,49 +3518,13 @@ ws.append(content)
 ws.merge_cells("A2:D2")
 ```
 ### `wb.sheetnames`
-### `wb.save()
+### `wb.save()`
 ```python
 wb.save("test.xlsx")
 ```
 from openpyxl.worksheet.formula import ArrayFormula
 f = ArrayFormula("E2:E11", "=SUM(C2:C11*D2:D11)")
 
-# csv`
-```python
-import csv
-```
-## `csv.QUOTE_NONE`
-```python
-subws = pd.read_csv("imdb.vocab", sep="\t", header=None, quoting=csv.QUOTE_NONE)
-```
-
-# `shutil`
-```python
-import shutil
-```
-## `shutil.copyfile()`
-```python
-shutil.copyfile("./test1/test1.txt", "./test2.txt")
-```
-## `shutil.copyfileobj()`
-```python
-shutil.copyfileobj(urllib3.PoolManager().request("GET", url, preload_content=False), open(file_dir, "wb"))
-```
-
-# `logging`
-## `logging.basicConfig()
-```python
-logging.basicConfig(level=logging.ERROR)
-```
-
-# `openpyxl`
-```python
-import openpyxl
-```
-## `openpyxl.Workbook()`
-```python
-wb = openpyxl.Workbook()
-```
 ### `wb.active`
 ```python
 sheet = wb.active
@@ -4030,21 +3543,33 @@ sheet.append(content)
 sheet["H8"] = "=SUM(H6:H7)"
 ```
 
-
-
-# `traceback`
+# `pptx`
+## `Presentation()`
 ```python
-import traceback
+from pptx import Presentation
 ```
-## `traceback.format_exec()`
 ```python
-try:            
-    cur.execute(query)            
-    result = cur.fetchall()        
-except Exception as e:            
-    msg = traceback.format_exc()            
-    msg += "\n\n Query: \n" + query            
-    print(msg)  
+prs = Presentation("sample.pptx")
+```
+### `prs.slides[].shapes[].text_frame.paragraphs[].text`
+```python
+prs.slides[a].shapes[b].text_frame.paragraphs[c].text
+```
+- a : 슬라이드 번호
+- b : 텍스트 상자의 인덱스
+- c : 텍스트 상자 안에서 텍스트의 인덱스
+### `prs.slides[].shapes[].text_frame.paragraphs[].font`
+#### `prs.slides[].shapes[].text_frame.paragraphs[].text.name`
+```python
+prs.slides[a].shapes[b].text_frame.paragraphs[c].font.name = "Arial"
+```
+#### `prs.slides[].shapes[].text_frame.paragraphs[].text.size`
+```python
+prs.slides[a].shapes[b].text_frame.paragraphs[c].font.size = Pt(16)
+```
+### `prs.save()`
+```python
+prs.save("파일 이름")
 ```
 
 # `bisect`
@@ -4055,22 +3580,6 @@ from bisect import bisect_left, bisect_right
 ```python
 def count_by_range(a, left, right):
     return bisect_right(a, right) - bisect_left(a, left)
-```
-
-# `google`
-## `google.colab`
-### `google.colab.patches`
-#### `cv2_imshow()`
-```python
-from google.colab.patches import cv2_imshow
-```
-
-# `colorsys`
-## `colorsys.hsv_to_rgb()`
-```python
-hsv_tuples = [(idx/n_clss, 1, 1) for idx in idx2cls.keys()]
-colors = list(map(lambda x: colorsys.hsv_to_rgb(*x), hsv_tuples))
-colors = list(map(lambda x: (int(x[0]*255), int(x[1]*255), int(x[2]*255)), colors))
 ```
 
 # `heapq`
@@ -4097,6 +3606,454 @@ hq.heapify(scoville)
 ## `hq.nsmallest()`, `hq.nlargest()`
 ```python
 hp = hq.nlargest(len(hp), hp)[1:]
+```
+
+# `xgboost`
+```python
+import xgboost as xgb
+```
+## `xgb.DMatrix()`
+```python
+dtrain = xgb.DMatrix(data=train_X, label=train_y, missing=-1, nthread=-1)
+dtest = xgb.DMatrix(data=test_X, label=test_y, missing=-1, nthread=-1)
+```
+## `xgb.train()`
+```python
+params={"eta":0.02, "max_depth":6, "min_child_weight":5, "gamma":1, "subsample":0.5, "colsample_bytree":1, "reg_alpha":0.1, "n_jobs":6}
+watchlist = [(dtrain, "train"), (dtest,"val")]
+num=12
+def objective(pred, dtrain):
+    observed = dtrain.get_label()
+    grad = np.power(pred - observed, num - 1)
+    hess = np.power(pred - observed, num - 2)
+    return grad, hess
+def metric(pred, dtrain):
+    observed = dtrain.get_label()
+    return "error", (pred - observed)/(len(observed), 1/num)
+model = xgb.train(params=params, evals=watchlist, dtrain=dtrain, num_boost_round=1000, early_stopping_rounds=10, obj=objective, feval=metric)
+```
+## `xgb.XGBRegressor()`
+```python
+model = xgb.XGBRegressor(booster="gbtree", max_delta_step=0, importance_type="gain", missing=-1, n_jobs=5, reg_lambda=1, scale_pos_weight=1, seed=None, base_score=0.5, verbosity=1, warning="ignore", silent=0)
+model.eta=0.01
+model.n_estimators=1000
+model.max_depth=6
+model.min_child_weight=5
+model.gamma=1
+model.subsample=0.5
+model.colsample_bytree=1
+model.reg_alpha=0.1
+model.objective = custom_se
+model.n_jobs=5
+```
+- `n_estimators`
+### `model.fit()`
+```python
+model.fit(train_X, train_y, eval_set=[(train_X, train_y), (val_X, val_y)], early_stopping_rounds=50, verbose=True)
+```
+
+# `copy`
+## `copy.copy()`
+## `copy.deepcopy()`
+
+ `csv`
+```python
+import csv
+```
+## `csv.QUOTE_NONE`
+```python
+subws = pd.read_csv("imdb.vocab", sep="\t", header=None, quoting=csv.QUOTE_NONE)
+```
+
+# `shutil`
+```python
+import shutil
+```
+## `shutil.copyfile()`
+```python
+shutil.copyfile("./test1/test1.txt", "./test2.txt")
+```
+## `shutil.copyfileobj()`
+```python
+shutil.copyfileobj(urllib3.PoolManager().request("GET", url, preload_content=False), open(file_dir, "wb"))
+```
+
+# `logging`
+## `logging.basicConfig()`
+```python
+logging.basicConfig(level=logging.ERROR)
+```
+
+# `traceback`
+```python
+import traceback
+```
+## `traceback.format_exec()`
+```python
+try:            
+    cur.execute(query)            
+    result = cur.fetchall()        
+except Exception as e:            
+    msg = traceback.format_exc()            
+    msg += "\n\n Query: \n" + query            
+    print(msg)  
+```
+
+# `IPython`
+## `IPython.display`
+### `set_matplotlib_formats`
+```python
+from IPython.display import set_matplotlib_formats
+```
+```python
+set_matplotlib_formats("retina")
+```
+- font를 선명하게 표시
+
+# `itertools`
+## `combinations()`, `permutations()`, `combinations_with_replacement()`
+```python
+from itertools import combinations, permutations
+```
+```python
+movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
+```
+## `product()`
+```python
+for i in product(range(3), range(3), range(3)):
+    print(i)
+```
+
+# `collections`
+## `Counter()`
+```python
+from collections import Counter
+```
+```python
+word2cnt = Counter(words)
+```
+- lst의 원소별 빈도를 나타내는 dic을 반환합니다.
+### `Counter[]`
+### `Counter().values()`
+```python
+sum(Counter(nltk.ngrams(cand.split(), 2)).values())
+```
+### `Counter().most_common()`
+## `deque()`
+```python
+from collections import deque
+```
+```python
+dq = deque("abc")
+```
+- `maxlen`
+### `dq[]`
+```python
+dq[2] = "d"
+```
+### `dq.append()`
+### `dq.appendleft()`
+### `dq.pop()`
+### `dq.popleft()`
+### `dq.extend()`
+### `dq.extendleft()`
+### `dq.remove()`
+
+# `functools`
+## `reduce()`
+```python
+from functools import reduce
+```
+```python
+reduce(lambda acc, cur: acc + cur["age"], users, 0)
+```
+```python
+reduce(lambda acc, cur: acc + [cur["mail"]], users, [])
+```
+
+# `platform`
+```python
+import platform
+```
+## `platform.system()`
+```python
+path = "C:/Windows/Fonts/malgun.ttf"
+if platform.system() == "Darwin":
+    mpl.rc("font", family="AppleGothic")
+elif platform.system() == "Windows":
+    font_name = mpl.font_manager.FontProperties(fname=path).get_name()
+    mpl.rc('font', family=font_name)
+```
+- "Darwin", "Windows" 등 OS의 이름 반환합니다.
+
+# `pprint`
+## `pprint()`
+```python
+from pprint import pprint
+```
+
+# `google`
+## `google.colab`
+### `google.colab.patches`
+#### `cv2_imshow()`
+```python
+from google.colab.patches import cv2_imshow
+```
+
+# `colorsys`
+## `colorsys.hsv_to_rgb()`
+```python
+hsv_tuples = [(idx/n_clss, 1, 1) for idx in idx2cls.keys()]
+colors = list(map(lambda x: colorsys.hsv_to_rgb(*x), hsv_tuples))
+colors = list(map(lambda x: (int(x[0]*255), int(x[1]*255), int(x[2]*255)), colors))
+```
+
+# `zipfile`
+```python
+import zipfile
+```
+## `zipfile.ZipFile()`
+```python
+with zipfile.ZipFile("spa-eng.zip", "r") as f:
+    file = f.open("spa-eng/spa.txt")
+    data = pd.read_csv(file, names=["eng", "spa"], sep="\t")
+```
+### `zipfile.ZipFile().extractall()`
+```python
+zipfile.ZipFile("glove.6B.zip").extractall(cur_dir)
+```
+
+# `lxml`
+## `etree`
+```python
+from lxml import etree
+```
+### `etree.parse()`
+```python
+with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
+	target_text = etree.parse(z.open("ted_en-20160408.xml", "r"))
+```
+
+# `os`
+```python
+import os
+```
+## `os.getcwd()`
+```python
+cur_dir = os.getcwd()
+```
+## `os.makedirs()`
+```python
+os.makedirs(ckpt_dir, exist_ok=True)
+```
+## `os.chdir()`
+## `os.environ`
+## `os.pathsep`
+```python
+os.environ["PATH"] += os.pathsep + "C:\Program Files (x86)/Graphviz2.38/bin/"
+```
+## `os.path`
+### `os.path.join()	`
+```python
+os.path.join("C:\Tmp", "a", "b")
+```
+### `os.path.exists()`
+```python
+if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
+```
+## `os.path.dirname()`
+```python
+os.path.dirname("C:/Python35/Scripts/pip.exe")
+```
+\>\>\> "C:/Python35/Scripts"
+- 경로 중 디렉토리명만 얻습니다.
+
+# `glob`
+## `glob.glob()`
+```python
+path = "./DATA/전체"
+filenames = glob.glob(path + "/*.csv")
+```
+
+# `pickle`
+```python
+import pickle as pk
+```
+## `pk.dump()`
+```python
+with open("filename.pkl", "wb") as f:
+	pk.dump(list, f)
+```
+## `pk.load()`
+```python
+with open("filename.pkl", "rb") as f:
+	data = pk.load(f)
+```
+- 한 줄씩 load
+
+# `json`
+```python
+import json
+```
+## `json.dump()`
+```python
+with open(path, "w", encoding="utf-8") as f:
+    json.dump(train_data, f, ensure_ascii=False, indent="\t")
+```
+```python
+with open(f"{model_path}_hist", "w") as f:
+	json.dump(hist.history, f)
+```
+## `json.load()`
+```python
+with open(path, "r", encoding="utf-8") as f:
+    train_data = json.load(f)
+```
+```python
+with open(f"{model_path}_hist", "r") as f:
+	hist.history = json.load(f)
+```
+
+# `Image`
+```python
+from PIL import Image
+```
+## `Image.open()`
+```python
+img = Image.open("20180312000053_0640 (2).jpg")
+```
+### `img.size`
+### `img.save()`
+### `img.thumbnail()`
+```python
+img.thumbnail((64, 64))
+```
+### `img.crop()`
+```python
+img_crop = img.crop((100, 100, 150, 150))	
+```
+### `img.resize()`
+```python
+img = img.resize((600, 600))
+```
+### `img.convert()`
+```python
+img.convert("L")
+```
+- `"RGB"` | `"RGBA"` | `"CMYK"` | `"L"` | `"1"`
+### `img.paste()`
+```python
+img1.paste(img2, (20,20,220,220))
+```
+- img2.size와 동일하게 두 번째 parameter 설정.	
+## `Image.new()`
+```python
+mask = Image.new("RGB", icon.size, (255, 255, 255))
+```
+
+# `datasketch`
+## `MinHash`
+```python
+from datasketch import MinHash
+```
+```python
+mh = MinHash(num_perm=128)
+```
+- MinHash는 각 원소 별로 signature를 구한 후, 각 Signature 중 가장 작은 값을 저장하는 방식입니다. 가장 작은 값을 저장한다 해서 MinHash라고 불립니다.
+### `mh.update()`
+```python
+for value in set_A:
+    mh.update(value.encode("utf-8"))
+```
+### `mh.hashvalues`
+
+# `redis`
+## `Redis`
+```python
+from redis import Redis
+```
+```python
+rd = Redis(host="localhost", port=6379, db=0)
+```
+### `rd.set()`
+```python
+rd.set("A", 1)
+```
+### `rd.delete()`
+```python
+rd.delete("A")
+```
+### `rd.get()`
+```python
+rd.get("A")
+```
+
+# `google`
+## `google.colab
+### `drive`
+```python
+from google.colab import drive
+```
+#### `drive.mount()`
+```python
+drive.mount("/content/drive")
+```
+
+# `google_drive_downloader`
+```python
+!pip install googledrivedownloader
+```
+## `GoogleDriveDownloader`
+```python
+from google_drive_downloader import GoogleDriveDownloader as gdd
+```
+### `gdd.download_file_from_google_drive()`
+```python
+gdd.download_file_from_google_drive(file_id="1uPjBuhv96mJP9oFi-KNyVzNkSlS7U2xY", dest_path="./movies.csv")
+```
+
+# `sys`
+```python
+import sys
+```
+## `sys.maxsize()`
+## `sys.path`
+```python
+sys.path.append("c:/users/82104/anaconda3/envs/tf2.3/lib/site-packages")
+```
+## `sys.stdin`
+### `sys.stdin.readline()`
+```python
+cmd = sys.stdin.readline().rstrip()
+```
+## `sys.setrecursionlimit()`
+```python
+sys.setrecursionlimit(1000000000)
+```
+
+# `tqdm`
+## `tqdm.notebook
+### `tqdm`
+```python
+from tqdm.notebook import tqdm
+```
+- for Jupyter Notebook
+## `tqdm.auto`
+### `tqdm
+```python
+from tqdm.auto import tqdm
+```
+- for Google Colab
+## `tqdm.pandas()`
+- `DataFrame.progress_apply()`를 사용하기 위해 필요합니다.
+
+# `warnings`
+```python
+import warnings
+```
+## `warnings.filterwarnings()`
+```python
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 ```
 
 # `tableauserverclient`
@@ -4148,51 +4105,3 @@ req_opts = TSC.RequestOptions(pagesize=1000)
 ```
 #### `TSC.UserItem.Roles.Creator`, `TSC.UserItem.Roles.Explorer`, `TSC.UserItem.Roles.ExplorerCanPublish`, `TSC.UserItem.Roles.ServerAdministrator`, `TSC.UserItem.Roles.SiteAdministratorCreator`, `TSC.UserItem.Roles.Unlicensed`,
 `TSC.UserItem.Roles.ReadOnly`, `TSC.UserItem.Roles.Viewer`
-
-# `xgboost`
-```python
-import xgboost as xgb
-```
-## `xgb.DMatrix()`
-```python
-dtrain = xgb.DMatrix(data=train_X, label=train_y, missing=-1, nthread=-1)
-dtest = xgb.DMatrix(data=test_X, label=test_y, missing=-1, nthread=-1)
-```
-## `xgb.train()`
-```python
-params={"eta":0.02, "max_depth":6, "min_child_weight":5, "gamma":1, "subsample":0.5, "colsample_bytree":1, "reg_alpha":0.1, "n_jobs":6}
-watchlist = [(dtrain, "train"), (dtest,"val")]
-num=12
-def objective(pred, dtrain):
-    observed = dtrain.get_label()
-    grad = np.power(pred - observed, num - 1)
-    hess = np.power(pred - observed, num - 2)
-    return grad, hess
-def metric(pred, dtrain):
-    observed = dtrain.get_label()
-    return "error", (pred - observed)/(len(observed), 1/num)
-model = xgb.train(params=params, evals=watchlist, dtrain=dtrain, num_boost_round=1000, early_stopping_rounds=10, obj=objective, feval=metric)
-```
-## `xgb.XGBRegressor()`
-```python
-model = xgb.XGBRegressor(booster="gbtree", max_delta_step=0, importance_type="gain", missing=-1, n_jobs=5, reg_lambda=1, scale_pos_weight=1, seed=None, base_score=0.5, verbosity=1, warning="ignore", silent=0)
-model.eta=0.01
-model.n_estimators=1000
-model.max_depth=6
-model.min_child_weight=5
-model.gamma=1
-model.subsample=0.5
-model.colsample_bytree=1
-model.reg_alpha=0.1
-model.objective = custom_se
-model.n_jobs=5
-```
-- `n_estimators`
-### `model.fit()`
-```python
-model.fit(train_X, train_y, eval_set=[(train_X, train_y), (val_X, val_y)], early_stopping_rounds=50, verbose=True)
-```
-
-# `copy`
-## `copy.copy()`
-## `copy.deepcopy()`
