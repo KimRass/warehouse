@@ -1,7 +1,7 @@
 Written by KimRass
 
 # Order of Operations
-- Context Filters -> {FIXED:} -> Dimensition Filters(Actions, Groups) -> {INCLUDE:}, {EXCLUDE:} -> Blending -> Table Calculations -> Table Calculation Filters(FIRST(), LAST()) -> Manually Hidden Marks
+- Context Filters -> `{FIXED:}` -> Dimensition Filters(Actions, Groups) -> `{INCLUDE:}`, `{EXCLUDE:}` -> Blending -> Table Calculations -> Table Calculation Filters(`FIRST()`, `LAST()`) -> Manually Hidden Marks
 
 # Number
 
@@ -280,8 +280,8 @@ ATTR([댓글생성자id])), 6)
 
 # Options
 ## `Dashboard`
-- `Add Phone Layouts to New Dashboards`
+- Uncheck `Add Phone Layouts to New Dashboards`
 ## `Worksheet`
-- `Show Sort Contols`
+- Uncheck `Show Sort Contols`
 ## `Analysis`
-- `Table Layout` -> `Show Field Labels for Rows`
+- `Table Layout` -> Toggle `Show Field Labels for Rows`
