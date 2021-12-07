@@ -10,12 +10,12 @@ Written by KimRass
 
 # Error Messages
 ## `TypeError`
-### `TypeError: unhashable type: '<<Data Type>>'
+### `TypeError: unhashable type: '<<Data Type>>'`
 - The unhashable objects are not allowed in set or dictionary key. The dictionary or set hashes the object and uses the hash value as a primary reference to the key.
 ### `TypeError: '<<Data Type>>' object is not subscriptable`
 - "Subscriptable" means that the object contain, or can contain, other objects.
 ### `TypeError: sequence index must be integer, not 'slice'`
-- This error raises because `collections.deque` cannot be sliced.
+- This error raises because `collections.deque()` cannot be sliced.
 ### `TypeError: '<<Data Type>>' object is not iterable`
 ### `TypeError: <<Function>> takes exactly <<Number of Needed Arguments>> argument (<<Number of Input Arguments>> given)`
 ### `TypeError: sequence item 0: expected str instance, int found`
@@ -25,7 +25,7 @@ Written by KimRass
 ### `TypeError: heap argument must be a list`
 ### `TypeError: Invalid comparison between dtype=<<Data Type>> and <<Data Type>>`
 ### `TypeError: 'range' object cannot be interpreted as an integer`
-### `TypeError: '<<Class>>' object is not callable``
+### `TypeError: '<<Class>>' object is not callable`
 ### `TypeError: object of type <<Data Type>> has no <<Function>>`
 ## `NameError`
 ### `NameError: name '<<Variable>>' is not defined`
@@ -81,12 +81,12 @@ f = open("D:/Github/Work/Tableau/datamart_password.txt", "r")
 ## `hash()`
 ## `display()`
 ## `print()`
-- `end`: (default "\n")
-- `sep`: (default " ") Determine the value to join elements with.
+- `end`: (default `"\n"`)
+- `sep`: (default `" "`) Determine the value to join elements with.
 ```python
 print(f"{'a':0>10}")
 ```
-	- You can also append characters other than white spaces, by adding the specified characters before the `>`(right align), `^`(center align) or `<`(left align) character:
+- You can also append characters other than white spaces, by adding the specified characters before the `>`(right align), `^`(center align) or `<`(left align) character:
 ## `isinstance()`
 ```python
 if not isinstance(movie, frozenset):
@@ -100,7 +100,7 @@ type(test_X[0][0])
 ```python
 sum(sentences, [])
 ```
-	- 두번째 층의 대괄호 제거
+- 두번째 층의 대괄호 제거
 ## `assert`
 ```python
 assert model_name in self.model_list, "There is no such a model."
@@ -183,10 +183,10 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 - Mutable.
 - Unhashable.
 - No order.
-### `A & B`
-- Union of `A` and `B`.
-### `A | B`
-- Intersection of `A` and `B`.
+### `<<Set1>> & <<Set2>>`
+- Returns the union of `<<Set1>>` and `<<Set2>>`.
+### `<<Set1>> | <<Set2>>`
+- Returns the intersection of `<<Set1>>` and `<<Set2>>`.
 ### `Set.add()`
 - Adds the argument as a single element to the end of a Set if it is not in the Set.
 ### `Set.update()`
@@ -299,7 +299,7 @@ def load_table(table_name):
 ```
 ## `pd.options`
 ### `pd.options.display`
-#### `pd.options.display.max_rows`, `pd.options.display.max_columns, pd.options.display.width`, `pd.options.display.float_format`
+#### `pd.options.display.max_rows`, `pd.options.display.max_columns`, `pd.options.display.width`, `pd.options.display.float_format`
 ### `pd.options.mode`
 #### `pd.options.mode.chained_assignment`
 ```python
@@ -347,8 +347,8 @@ data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거
 ```
 - `index`: (Bool)
 ## `DataFrame.to_excel()`
-- `sheet_name`: (String, default "Sheet1")
-- `na_rep`: (String, default "") Missing data reprsentation.
+- `sheet_name`: (String, default `"Sheet1"`)
+- `na_rep`: (String, default `""`) Missing data reprsentation.
 - `float_format`
 - `header`: If a list of string is given it is assumed to be aliases for the column names.
 - `merge_cells`
@@ -380,7 +380,7 @@ n_post = pd.melt(n_post, id_vars="Date", var_name="Emp", value_name="NPost", ign
 data = pd.melt(data, id_vars=basic_cols + money_cols, value_name="date")
 data = pd.melt(data, id_vars=basic_cols + ["date"], var_name="classification", value_name="money")
 ```
-- pd.pivot_table()의 반대 과정입니다.
+- `pd.pivot_table()`의 반대 과정입니다.
 ## `pd.cut()`
 ```python
 raw_all["temp_group"] = pd.cut(raw_all["temp"], 10)
@@ -400,13 +400,13 @@ data = pd.get_dummies(data, columns=["heating", "company1", "company2", "element
 - `prefix`: String to append DataFrame column names. Pass a list with length equal to the number of columns when calling get_dummies on a DataFrame.
 - `dop_first`: Whether to get k-1 dummies out of k categorical levels by removing the first level.
 - `dummy_na`: Add a column to indicate NaNs, if False NaNs are ignored.
-- 결측값이 있는 경우 `drop_first`, `dummy_na` 중 하나만 True로 설정해야 함
+- 결측값이 있는 경우 `drop_first`, `dummy_na` 중 하나만 `True`로 설정해야 함
 ## `pd.to_datetime()`
 ```python
 ratings_df["rated_at"] = pd.to_datetime(ratings_df["rated_at"], unit="s")
 ```
 ### `pd.to_datetime().dt`
-#### `pd.to_datetime().dt.hour, pd.to_datetime().dt.day`,  `pd.to_datetime().dt.week`,  `pd.to_datetime().dt.dayofweek`, `pd.to_datetime().dt.month`, `pd.to_datetime().dt.quarter`, `pd.to_datetime().dt.year`
+#### `pd.to_datetime().dt.hour`, `pd.to_datetime().dt.day`,  `pd.to_datetime().dt.week`,  `pd.to_datetime().dt.dayofweek`, `pd.to_datetime().dt.month`, `pd.to_datetime().dt.quarter`, `pd.to_datetime().dt.year`
 #### `pd.to_datetime().dt.normalize()`
 ```python
 appo["end"] = appo["end"].dt.normalize()
@@ -491,7 +491,7 @@ df_pivoted = df.pivot("col1", "col2", "col3")
 - 열 인덱스 -> 행 인덱스로 변환
 ## `DataFrame.unstack()`
 - 행 인덱스 -> 열 인덱스로 변환
-- pd.pivot_table()과 동일
+- `pd.pivot_table()`과 동일
 - `level`: index의 계층이 정수로 들어감
 ```python
 groupby.unstack(level=-1, fill_value=None)
@@ -1083,13 +1083,13 @@ train_pred = model.pred(train_x)
 train_acc = np.mean(train_pred == train_y)
 ```
 - `loss`: The loss function to be used.
-    - `loss="hinge": Give a linear SVM.
+    - `loss="hinge"`: Give a linear SVM.
     - `loss="log"`: Give logistic regression.
     - `loss="perceptron"`: The linear loss used by the perceptron algorithm.
 - `penalty`: Regularization term.
     - `penalty="l1"`
     - `penalty="l2"`: The standard regularizer for linear SVM models.
-- `alpha`: Constant that multiplies the regularization term. The higher the value, the stronger the regularization. Also used to compute the learning rate when set to learning_rate is set to ‘optimal’.
+- `alpha`: Constant that multiplies the regularization term. The higher the value, the stronger the regularization. Also used to compute the learning rate when `learning_rate` is set to `"optimal"`.
 - max_iter`: The maximum number of passes over the training data (aka epochs).
 ## `sklearn.ensemble`
 ### `RandomForestRegressor()`, `GradientBoostingRegressor()`, `AdaBoostRegressor()`
@@ -1323,7 +1323,7 @@ opt.apply_gradients(zip(grads, model.trainable_variables))
 ```
 ### `tf.keras.losses`
 #### `tf.keras.losses.MeanSquaredError()`(= `"mse"`)
-#### `tf.keras.losses.BinaryCrossentropy()`(= "binary_crossentropy"`)
+#### `tf.keras.losses.BinaryCrossentropy()`(= `"binary_crossentropy"`)
 #### `tf.keras.losses.categorical_crossentropy()`
 ```python
 def loss_fn(model, images, labels):
@@ -1435,7 +1435,9 @@ model.add(AveragePooling2D(pool_size=(2, 2), strides=(2, 2), padding="valid")
 #### `GlobalAveragePooling1D()`
 #### `GlobalAveragePooling2D()`
 #### `ZeroPadding2D`
-- z = ZeroPadding2D(padding=((1, 0), (1, 0)))(x)
+```python
+z = ZeroPadding2D(padding=((1, 0), (1, 0)))(x)
+```
 - `padding`:
 	- Int: the same symmetric padding is applied to height and width.
 	- Tuple of 2 ints: interpreted as two different symmetric padding values for height and width: `(symmetric_height_pad, symmetric_width_pad)`.
@@ -1652,9 +1654,7 @@ gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizon
 - `vertical_flip`
 - transformation은 이미지에 변화를 주어서 학습 데이터를 많게 해서 성능을 높이기 위해 하는 것이기 때문에 train set만 해주고, test set에는 해 줄 필요가 없다. 그러나 주의할 것은 Rescale은 train, test 모두 해 주어야 한다.
 - References: https://m.blog.naver.com/PostView.nhn?blogId=isu112600&logNo=221582003889&proxyReferer=https:%2F%2Fwww.google.com%2F
-```python
-gen.fit(x_tr)
-```
+###### `gen.fit()`
 - Only required if `featurewise_center` or `featurewise_std_normalization` or `zca_whitening` are set to True.
 ###### `gen.flow()`
 ```python
@@ -1822,14 +1822,14 @@ torch.randn(4, 4).view(-1, 8)
 ### `Tensor.grad`
 - 미분할 Tensor에 대해 `requires=False`이거나 미분될 Tensor에 대해 `Tensor.backward()`가 선언되지 않으면 `None`을 반환합니다.
 ## `torch.optim`
-### `torch.optim.SGD(), torch.optim.Adam()
+### `torch.optim.SGD()`, `torch.optim.Adam()`
 ```python
 opt = torch.optim.SGD(params=linear.parameters(), lr=0.01)
 ```
 #### `opt.zero_grad()`
 - Sets the gradients of all optimized Tensors to zero.
 #### `opt.step()`
-## `torch.nn
+## `torch.nn`
 ```python
 import torch.nn as nn
 ```
@@ -1889,7 +1889,7 @@ driver = webdriver.Chrome("chromedriver.exe")
 ```python
 driver.get("https://www.google.co.kr/maps/")
 ```
-### `driver.find_element_by_css_selector()`, `driver.find_element_by_tag_name()`, `driver.find_element_by_class_name()`, driver.find_element_by_id()`, `driver.find_element_by_xpath()`,
+### `driver.find_element_by_css_selector()`, `driver.find_element_by_tag_name()`, `driver.find_element_by_class_name()`, `driver.find_element_by_id()`, `driver.find_element_by_xpath()`,
 #### `driver.find_element_by_*().text`
 ```python
 df.loc[index, "배정초"]=driver.find_element_by_xpath("//\*[@id='detailContents5']/div/div[1]/div[1]/h5").text
@@ -1939,7 +1939,7 @@ from selenium.webdriver.support import expected_conditions as EC
 ```python
 WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, "//\*[@id='detailContents5']/div/div[1]/div[1]/h5")))
 ```
-- By.ID, By.XPATH
+- `By.ID`, `By.XPATH`
 ## `ActionChains()`
 ```python
 from selenium.webdriver import ActionChains
@@ -4103,5 +4103,4 @@ with server.auth.sign_in(tableau_auth):
 ```python
 req_opts = TSC.RequestOptions(pagesize=1000)
 ```
-#### `TSC.UserItem.Roles.Creator`, `TSC.UserItem.Roles.Explorer`, `TSC.UserItem.Roles.ExplorerCanPublish`, `TSC.UserItem.Roles.ServerAdministrator`, `TSC.UserItem.Roles.SiteAdministratorCreator`, `TSC.UserItem.Roles.Unlicensed`,
-`TSC.UserItem.Roles.ReadOnly`, `TSC.UserItem.Roles.Viewer`
+#### `TSC.UserItem.Roles.Creator`, `TSC.UserItem.Roles.Explorer`, `TSC.UserItem.Roles.ExplorerCanPublish`, `TSC.UserItem.Roles.ServerAdministrator`, `TSC.UserItem.Roles.SiteAdministratorCreator`, `TSC.UserItem.Roles.Unlicensed`, `TSC.UserItem.Roles.ReadOnly`, `TSC.UserItem.Roles.Viewer`
