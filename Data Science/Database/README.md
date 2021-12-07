@@ -234,15 +234,6 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - Source: https://en.wikipedia.org/wiki/Dynamic_data
 - Dynamic data may be updated at any time, with periods of inactivity in between.
 
-1. 회원 테이블에서 현재 위치를 저장하는 컬럼을 만든다.
-2. 서버B의 거래처 테이블에 CRUD가 발생할 때마다 서버A에도 동기화
-3. 월 단위로 Partitioning한다.
-4. 조인을 여러 번 해야 함 -> 고객-배송을 관계를 맺음.
-5. 여러 통계를 계산하여 담은 테이블을 별도로 만든다.
-6. 결제금액을 미리 계산해서 주문 테이블의 컬럼으로 만든다.
-7. 내용이 용량 너무 커서 16K 자주 조회해야 함 -> 포스트 내용만을 담은 1:1 테이블을 하나 따로 만든다
-8. 자주 조회되는 컬럼, 아닌 컬럼으로 테이블 나눈다
-
 # Case Types
 ## Camel Case
 - e.g., camelCaseVar.
