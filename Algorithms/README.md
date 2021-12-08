@@ -430,6 +430,26 @@ class Trie():
 
 # Exhaustive Search
 ## Brute-Force Attack
+- Sieve of Eratosthenes
+	- Using Python Set
+	```python
+	primes = {i for i in range(2, n + 1)}
+	for i in range(2, n + 1):
+		if i in primes:
+			primes -= {i*j for j in range(2, n//i + 1)}
+	```
+	- Using Python Dictionary
+	```python
+	is_prime = {i:True for i in range(2, n + 1)}
+	# n의 최대 약수가 `n**0.5` 이하이므로 `int(n**0.5)`까지만 검사합니다.
+	for i in range(2, int(n**0.5) + 1):
+		if is_prime[i] == True:
+			for j in range(i + i, n + 1, i):
+				print(j)
+				is_prime[j] = False            
+
+	primes = [k for k, v in is_prime.items() if v == True]
+	```
 ## Backtracking
 - Source: https://en.wikipedia.org/wiki/Backtracking
 - Backtracking is a general algorithm for finding solutions to some computational problems, notably constraint satisfaction problems, that incrementally builds candidates to the solutions, and abandons a candidate ("backtracks") as soon as it determines that the candidate cannot possibly be completed to a valid solution.
@@ -709,7 +729,6 @@ def bisect_right(arr, tar):
 
 # Implementation
 - 풀이를 떠올리는 것은 쉽지만 소스코드로 옮기기 어려운 문제.
-## Exhaustive Search
 
 # String-Searching Algorithms
 ## KMP Algorithm(Knuth-Morris-Pratt Algorithm)
