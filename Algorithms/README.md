@@ -464,23 +464,37 @@ class Trie():
 
 # Recursion
 - Factorial
-```python
-def fac(n):
-    if n == 0 or n == 1:
-        return 1
-    else:
-        return n*fac(n - 1)
-```
+	```python
+	def fac(n):
+		if n == 0 or n == 1:
+			return 1
+		else:
+			return n*fac(n - 1)
+	```
 - Fibonacci Number
-```python
-def fibo(n):
-    if n == 0:
-        return 0
-    elif n == 1:
-        return 1
-    else:
-        return fibo(n - 1) + fibo(n - 2)
-```
+	```python
+	def fibo(n):
+		if n == 0:
+			return 0
+		elif n == 1:
+			return 1
+		else:
+			return fibo(n - 1) + fibo(n - 2)
+	```
+- Tower of Hanoi
+	```python
+	import sys
+
+	sys.setrecursionlimit(10**9)
+
+	def hanoi(n, a, b, c):
+		if n == 1:
+			print(a, c)
+		else:    
+			hanoi(n - 1, a, c, b)
+			print(a, c)
+			hanoi(n - 1, b, a, c)
+	```
 
 # Sort
 - Stable sorting algorithm: Sorting algorithm which maintains the relative order of records with equal keys (i.e. valuies)).

@@ -4027,9 +4027,10 @@ sys.path.append("c:/users/82104/anaconda3/envs/tf2.3/lib/site-packages")
 ```python
 cmd = sys.stdin.readline().rstrip()
 ```
+## `sys.getrecursionlimit()`
 ## `sys.setrecursionlimit()`
 ```python
-sys.setrecursionlimit(1000000000)
+sys.setrecursionlimit(10**9)
 ```
 
 # `tqdm`
