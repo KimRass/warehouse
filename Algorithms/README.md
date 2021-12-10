@@ -580,6 +580,24 @@ for k, v in count.items():
     for _ in range(v):
         new_arr.append(k)
 ```
+## Coordinate Compression
+- Source: https://medium.com/algorithms-digest/coordinate-compression-2fff95326fb
+- Coordinate compression is a technique to map a large set of points to a smaller range by removing gaps and/or redundant information. By compressing the points to a smaller range, we can save considerable time and memory.
+- Coordinate Compression In 1D
+	- The simplest example of coordinate compression is sorting a 1D array. Suppose we have an array `A` of size `N`. After sorting, the element `A[i]` is mapped to index `i`. This way, elements that were in an arbitrary range are now mapped to the range `[0, N - 1]` and yet their relative ordering is preserved.
+	```python
+	coors = [[i, coors[i]] for i in range(N)]
+    coors = sorted(coors, key=lambda x:x[1])
+
+    j = 0
+    for i in range(N - 1):
+        coors[i].append(j)
+        if coors[i][1] != coors[i + 1][1]:
+            j += 1
+    coors[i + 1].append(j)
+
+    print(*[i[2] for i in sorted(coors, key=lambda x:x[0])])
+	```
 
 # Dynamic Programming
 ```python
