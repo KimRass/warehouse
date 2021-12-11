@@ -442,26 +442,7 @@ class Trie():
 
 # Exhaustive Search
 ## Brute-Force Attack
-- Sieve of Eratosthenes
-	- Using Python Set
-	```python
-	primes = {i for i in range(2, n + 1)}
-	for i in range(2, n + 1):
-		if i in primes:
-			primes -= {i*j for j in range(2, n//i + 1)}
-	```
-	- Using Python Dictionary
-	```python
-	is_prime = {i:True for i in range(2, n + 1)}
-	# n의 최대 약수가 `n**0.5` 이하이므로 `int(n**0.5)`까지만 검사합니다.
-	for i in range(2, int(n**0.5) + 1):
-		if is_prime[i] == True:
-			for j in range(i + i, n + 1, i):
-				print(j)
-				is_prime[j] = False            
 
-	primes = [k for k, v in is_prime.items() if v == True]
-	```
 ## Backtracking
 - Source: https://en.wikipedia.org/wiki/Backtracking
 - Backtracking is a general algorithm for finding solutions to some computational problems, notably constraint satisfaction problems, that incrementally builds candidates to the solutions, and abandons a candidate ("backtracks") as soon as it determines that the candidate cannot possibly be completed to a valid solution.
@@ -916,3 +897,33 @@ bitmask = (1 << <<Position>>)
 # Toggling a bit
 <<Target>> ^ bitmask
 ```
+
+# Number Theory
+- Sieve of Eratosthenest
+	```python
+	primes = {i for i in range(2, n + 1)}
+	for i in range(2, int(n**0.5) + 1):
+		primes -= {j for j in range(2*i, lim + 1, i)}
+	```
+- Greatest Common Divisor
+	```python
+	   gcd = 1
+    for i in primes:
+        while A%i == 0 and B%i == 0:
+            gcd *= i
+			A //= i
+			B //= i
+	```
+- Least Common Multiple
+	- Implementation
+	```python
+	lcm = 1
+	for i in primes:
+        while A%i == 0 or B%i == 0:
+            lcm *= i
+            if A%i == 0:
+                A //= i
+            if B%i == 0:
+                B //= i
+	```
+	- Using Euclidean Algorithm

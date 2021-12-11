@@ -32,3 +32,16 @@
 - Source: https://en.wikipedia.org/wiki/Goldbach%27s_conjecture
 - Goldbach's conjecture is one of the oldest and best-known unsolved problems in number theory and all of mathematics. It states that every even whole number greater than `2` is the sum of two prime numbers.
 - The conjecture has been shown to hold for all integers less than `4*(10**18)`, but remains unproven despite considerable effort.
+
+# Number Theory
+## Euclidean Algorithm
+- Source: https://en.wikipedia.org/wiki/Euclidean_algorithm
+- The Euclidean algorithm is based on the principle that **the greatest common divisor of two numbers does not change if the larger number is replaced by its difference with the smaller number.** For example, 21 is the GCD of 252 and 105 (as 252 = 21 × 12 and 105 = 21 × 5), and the same number 21 is also the GCD of 105 and 252 − 105 = 147. **Since this replacement reduces the larger of the two numbers, repeating this process gives successively smaller pairs of numbers until the two numbers become equal. When that occurs, they are the GCD of the original two numbers.**
+
+# Fraction
+## Coprime Integers
+- Source: https://en.wikipedia.org/wiki/Coprime_integers
+- In mathematics, two integers `a` and `b` are coprime, relatively prime or mutually prime if the only positive integer that is a divisor of both of them is `1`.
+## Irreducible Fraction(= 기약분수)
+- Source: https://en.wikipedia.org/wiki/Irreducible_fraction
+- An irreducible fraction is a fraction in which the numerator and denominator are integers that have no other common divisors than `1` (and `−1`, when negative numbers are considered). In other words, a fraction `a/b` is irreducible if and only if `a` and `b` are coprime, that is, if `a` and `b` have a greatest common divisor of `1`.
