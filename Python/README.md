@@ -3720,6 +3720,7 @@ from itertools import combinations, permutations
 movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
 ```
 ## `product()`
+- `repeat`
 ```python
 for i in product(range(3), range(3), range(3)):
     print(i)

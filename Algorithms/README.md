@@ -70,13 +70,25 @@ deque().popleft()
 - Source: https://en.wikipedia.org/wiki/Cycle_(graph_theory)
 - A cycle in a graph is a non-empty trail in which the only repeated vertices are the first and last vertices. A directed cycle in a directed graph is a non-empty directed trail in which the only repeated vertices are the first and last vertices.
 ### Depth First Search
-```python
-while stack:
-	cur_node = stack.pop()
-	if visited[cur_node] == False:
-		visited[cur_node] = True
-		stack.extend(graph[cur_node])
-```
+- Using Stack
+	```python
+	while stack:
+		cur_node = stack.pop()
+		if visited[cur_node] == False:
+			visited[cur_node] = True
+			stack.extend(graph[cur_node])
+	```
+- Using Recursion
+	```python
+	visited = list()
+
+	def dfs(cur_node):
+		visited.append(cur_node)
+		for next_node in graph[cur_node]:
+			if next_node not in visited:
+				dfs(next_node)
+		return visited
+	```
 ### Breadth First Search
 ```python
 from collections import deque
@@ -453,14 +465,38 @@ class Trie():
 ## Backtracking
 - Source: https://en.wikipedia.org/wiki/Backtracking
 - Backtracking is a general algorithm for finding solutions to some computational problems, notably constraint satisfaction problems, that incrementally builds candidates to the solutions, and abandons a candidate ("backtracks") as soon as it determines that the candidate cannot possibly be completed to a valid solution.
-- Source: https://jiwon-coding.tistory.com/34
-- 길을 가다가 이 길이 아닌 것 같으면 왔던 길로 되돌아가 다른 경로로 진행
-- 보통 재귀로 구현하며 조건이 맞지 않으면 종료한다.
-- DFS(깊이 우선 탐색) 기반
-- Source: https://namu.wiki/w/%EB%B0%B1%ED%8A%B8%EB%9E%98%ED%82%B9
-- 상태공간을 트리로 나타낼 수 있을 때 적합한 방식이다.
-- DFS를 절대 쓰면 안되는 경우가 있는데, 트리의 깊이가 무한대가 될 때이다. 미로찾기에서 루프(회로)가 발생하는 경우, DFS는 이 가지를 탈출할 수 없게 된다. 물론 중복검사를 막기 위한 장치를 넣을 수도 있지만, 그럴 바에는 BFS가 편하다.
+```python
+arr = list()
+def dfs(step):
+    if step == M:
+        print(*arr, sep=" ")
+    else:
+        for i in range(1, N + 1):
+            arr.append(i)
+            dfs(step + 1)
+            arr.pop()
+```
 - N-Queen
+	```python
+	arr = list()
+	cnt = 0
+	def dfs(row):
+		global cnt
+		
+		if row == N:
+			cnt += 1
+		else:
+			for i in range(N):
+				for j in range(row):
+					if i in [arr[j] + j - row, arr[j], arr[j] - j + row]:
+						break
+				else:
+					arr.append(i)
+					dfs(row + 1)
+					arr.pop()
+
+	dfs(0)
+	```
 
 # Recursion
 - Factorial
