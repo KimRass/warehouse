@@ -48,25 +48,6 @@ SVD를 비롯한 MF에서 목적함수는, Predicted rating을 구하는 Matrix 
 - 다음으로, 영화 추천이나 맛집 추천 서비스가 아닌 대부분의 추천 서비스에서 나타나는 문제점인 Information Utilization Problem이 있다. 이는 추천 시스템 구축에 활용하기 위한 데이터, 정보들을 올바르게 활용하기 위한 고민에서 나온 문제점이라고 할 수 있다. 이를 이해하기 위해 e-commere에서의 추천 시스템에서 고객의 행동을 생각해보자. 대부분의 고객들은 상품을 눌러보고, 다른 상품도 살펴보고, 본인 기준에 마음에 든다면 장바구니에 넣어뒀다가 이를 구매하기도 한다. 이런 정보들을 Implicit Score(암묵 점수)라고 한다. 
 왓챠나 넷플릭스 같은 영화 추천 서비스에서처럼, 사용자들은 아이템에 대한 명확한 평가를 내리지 않는다. 단지 상품을 눌러보고, 관심 표시를 하거나 구매 하는 정도이다. 상품에 대한 리뷰를 작성하거나 별점을 주는 고객은 극소수에 가깝다. 이러한 로그 데이터 속에 숨어있는 정보를 이용하는 고민이 필요하다. 하지만 이것이 쉽지 않기 때문에 Information Utilization Problem 이라고 부르는 것이다. 만약 고객의 구매 목록 데이터가 있을 때, 구매가 완료되었다고 과연 이 데이터가 상품에 대한 호감을 나타내는 데이터라고 할 수 있을까? 환불이나 교환이 일어났다면? 이 모든 것을 고려하여 데이터를 활용하기 용이한 Explicit Score(명시 점수 : 영화 평점에 대한 rating 같은 점수)처럼 데이터를 Utilization 하는 과정이 필요할 것이다.
 그렇다고 Explicit Score가 항상 좋은 데이터인 것은 아니다. 대부분의 잘 정리된 명시 점수의 경우 Sparsity Problem을 심각하게 겪을 것이다.
-## association rule
-- Association Rule은 고객들의 상품 묶음 정보를 규칙으로 표현하는 가장 기본적인 알고리즘이다. 흔히 장바구니 분석이라고도 불린다. 데이터마이닝 같은 수업을 들었다면 한번 쯤 들어봤을 법한 알고리즘이다. 이 알고리즘은 기초적인 확률론에 기반한 방법으로, 전체 상품중에 고객이 함께 주문한 내역을 살펴본 뒤 상품간의 연관성을 수치화하여 나타내는 알고리즘이다. 매우 직관적이고 구현하기도 쉽지만, 그렇다고 현재로서 성능이 매우 떨어지는 알고리즘도 아니다. 추천 시스템에서 여전히 가장 중요한 알고리즘으로 분류되며 Association Rule에서 파생된 다양한 알고리즘들이 존재한다.
-- 출처 : https://yamalab.tistory.com/86?category=747907
 ## 분류
 - 추천의 타입은 크게 3가지로 분류된다. 먼저 유저의 정보에 기반하여 자동으로 아이템 리스트를 추려주는 Personalized recommender(개인화 추천), 그리고 rating 기반의 인기 상품이나 현재 상품 기준 AR(Association Rule. 이하 AR) 순위 상품을 추천해주는 Non-personalized recommender 방법이 있다. 이 방법은 주로 Cold Start Problem(개인화 추천 모델링을 위한 유저정보 혹은 아이템 정보가 부족한 상황)이 발생하는 상황이나 개인화추천이 잘 적용되지 않는 추천 영역에 사용된다. 그리고 마지막으로 Attribute-based recommender 방법이 있다. 아이템 자체가 가지고 있는 정보, 즉 Contents 정보를 활용하여 추천하는 방법으로 Cold Start 문제를 해결하는 조금 더 세련된 방법이라고 할 수 있다. 뒤에 설명할 CF(Collaborative Filtering. 이하 CF)와 상호 보완적인 알고리즘인 Content-based approach 라고도 불린다.
 위의 세 가지 타입에 매칭되는 대표적인 알고리즘은 Personalized recommender - CF, Non-personalized recommender - AR, Attribute-based recommender - Content based approach 라고 할 수 있다. 
-# evaluation metrics
-## MAP(Mean Average Precision)
-- 하지만 사용자에 따라서 실제로 소비한 아이템의 수가 천 개, 2천개까지 늘어날 수 있습니다. 이 경우 recall이 1이 되는 지점까지 고려하는 것은 무리이므로 최대 n개까지만 고려하여 mAP를 계산하며, 이 경우 mAP@n 으로 표기합니다.
-## nDCG(normalized Discounted Cumulative Gain)
-- 추천 엔진은 기본적으로 각 아이템에 대해서 사용자가 얼마나 선호할 지를 평가하며, 이 스코어 값을 relevance score라고 부릅니다. 그리고 이 relevance score 값들의 총 합을 Cumulative Gain(CG)라고 부릅니다. 먼저 위치한 relavance score가 CG에 더 많은 영향을 줄 수 있도록 할인의 개념을 도입한 것이 Discounted Cumulative Gain(DCG)입니다.
-- <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://blog.kakaocdn.net/dn/dikjW1/btqDvgFUh3K/GdjWcm9XS4zpqECsQx9Nu1/img.png" height="80px">
-- 하루에 100개의 동영상을 소비하는 사용자와 10개의 동영상을 소비하는 사용자에게 제공되는 추천 아이템의 개수는 다를 수 밖에 없습니다. 이 경우 추천 아이템의 개수를 딱 정해놓고 DCG를 구하여 비교할 경우 제대로 된 성능 평가를 진행할 수 없습니다. 때문에 DCG에 정규화를 적용한 NDCG(normalized discounted cumulative gain)이 제안됩니다. NDCG를 구하기 위해서는 먼저 DCG와 함께 추가적으로 iDCG를 구해주어야 합니다. iDCG의 i는 ideal을 의미하며 가장 이상적으로 relavace score를 구한 것을 말합니다. NDCG는 DCG를 iDCG로 나누어 준 값으로 0에서 1 사이의 값을 가지게 됩니다.
-- <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://blog.kakaocdn.net/dn/r9q0s/btqDxJzAlCa/Pccibd37tTjavu1QBeMZeK/img.png" height="200px">
-## entropy diversity
-- 그런데 아직 전체 아이템에서 얼마나 다양하게 추천을 진행했는지는 평가하지 못했습니다. Entropy Diversity는 추천 결과가 얼마나 분산 되어 있느냐를 평가하는 지표입니다.
-- Entropy는 섀넌의 정보 이론에서 등장한 개념으로 머신러닝에서도 많이 사용됩니다. 간략하게 설명하면 잘 일어나지 않는 사건의 정보량은 잘 일어나는 사건의 정보량보다 많다는 것입니다. 이를 사건이 일어날 확률에 로그를 씌워서 정보량을 표현하며 로그의 밑의 경우 자연 상수를 취해줍니다. (다른 상수도 가능하긴 합니다.)
-- <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://blog.kakaocdn.net/dn/bOwzN3/btqDxt4UBcd/s0Kx6WWXyITuoKXaSZMAsk/img.png" height="250px">
-- entropy란 발생할 수 있는 모든 사건들의 정보량의 기대 값입니다.
-- <img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://blog.kakaocdn.net/dn/sXcph/btqDwdoeBsv/IjVthd4jsDV0jt3p6MCfT0/img.png" height="70px">
-- Entropy Diversity란 이러한 엔트로피의 개념을 추천 결과에 적용한 것입니다. 모든 사용자들에게 비슷한 종류의 상품을 추천할 경우 해당 상품 추천은 자주 발생하므로 정보량이 낮습니다. 반면 개인에게 맞춤화 된 추천은 발생 횟수가 적으므로 정보량이 높아집니다. 이들의 기대값을 구한 것이 바로 Entropy Diversity입니다.
-- 그러나 Entropy Diversity 만으로 추천 엔진이 더 정확하다고 평가할 수 는 없습니다. 어디까지나 추천 결과의 다양성을 측정하는 지표이므로 mAP나 NDCG처럼 정확도를 측정할 수 있는 지표와 함께 사용하는 것이 바람직해 보입니다.

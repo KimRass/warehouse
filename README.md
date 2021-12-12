@@ -10,7 +10,9 @@ Written by KimRass
 # Machine Learning
 ## Recommendation System
 - 안창배님의 "고객데이터와 딥러닝을 활용한 추천 시스템 구현" 강의 내용을 바탕으로 정리한 자료입니다.
-- Dataset: MovieLens, Last.fm, Frappe
+- `MovieLens` Dataset을 가지고 Non-personalized recommendation system을 구현해 봅니다. 최신 영화, 또는 평점이 높은 영화를 추천합니다. Content-based Filtering으로서 어떤 사용자가 높은 평점을 준 영화와 동일한 장르의 영화를 추천합니다.
+- 
+- Dataset: `MovieLens`, `Last.fm`, `Frappe`
 - Libraries: `pandas`, `numpy`, `mlxtend`, `implicit`, `tensorflow`
 - Support, Confidence, Lift, Frequent Set, User-Item Matrix, Similarity, Multi Armed Bandit
 - Content-Based Filtering, Apriori Algorithm, Collaborative Filtering(User-Based, Item-Based, Momory-Based, Model-Based), Association Analysis, Matrix Factorization, Bayesian Personalized Ranking, K-Core Pruning, Thompson Sampling, Factorization Machine, DeepFM

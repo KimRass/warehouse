@@ -927,3 +927,18 @@ bitmask = (1 << <<Position>>)
                 B //= i
 	```
 	- Using Euclidean Algorithm
+- Combination
+	- The number of `k`-combinations If the set has `n` elements
+	```python
+	import math
+	
+	math.factorial(n)//(math.factorial(n - r)*math.factorial(r))
+	```
+	```python
+	# n*(n - 1)*...*(n - r + 1)/(1*2*...*r)
+	res = 1
+	for i in range(n, n - r, -1):
+		res *= i
+	for i in range(1, r + 1):
+		res //= i
+	```
