@@ -17,8 +17,17 @@
 - Source: https://en.wikipedia.org/wiki/Taxicab_geometry
 - A taxicab geometry is a form of geometry in which the usual distance function or metric of Euclidean geometry is replaced by a new metric in which the distance between two points is the sum of the absolute differences of their Cartesian coordinates.
 ## Manhattan Distance
+## Triangle
+### Equilateral Triangle: 정삼각형
+### Isosceles Triangle: 이등변삼각형
+### Scalene Triangle
+- In geometry, a scalene triangle has three sides that are all different lengths.
+### Right Triangle: 직각삼각형
+### Obtuse Triangle: 둔각삼각형
+### Acute Triangle: 예각삼각형
 
 # Prime Number
+## Composition Number: 합성수
 ## Sieve of Eratosthenes
 - Source: https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes
 - In mathematics, the sieve of Eratosthenes is an ancient algorithm for finding all prime numbers up to any given limit. It does so by iteratively marking as composite (i.e., not prime) the multiples of each prime, starting with the first prime number, 2.
@@ -32,8 +41,13 @@
 - Source: https://en.wikipedia.org/wiki/Goldbach%27s_conjecture
 - Goldbach's conjecture is one of the oldest and best-known unsolved problems in number theory and all of mathematics. It states that every even whole number greater than `2` is the sum of two prime numbers.
 - The conjecture has been shown to hold for all integers less than `4*(10**18)`, but remains unproven despite considerable effort.
+## Prime Factorization
 
 # Number Theory
+## Factor: 약수(인수)
+### Common Factor: 공약수
+## Multiple: 배수
+### Common Multiple: 공배수
 ## Square Number
 - Source: https://en.wikipedia.org/wiki/Square_number
 - In mathematics, a square number or perfect square is an integer that is the square of an integer.
@@ -48,3 +62,13 @@
 ## Irreducible Fraction(= 기약분수)
 - Source: https://en.wikipedia.org/wiki/Irreducible_fraction
 - An irreducible fraction is a fraction in which the numerator and denominator are integers that have no other common divisors than `1` (and `−1`, when negative numbers are considered). In other words, a fraction `a/b` is irreducible if and only if `a` and `b` are coprime, that is, if `a` and `b` have a greatest common divisor of `1`.
+## Numerator: 분자
+## Denominator: 분모
+
+## Whole Number: 0과 자연수
+## Natural Number: 자연수
+## Rational Number: 유리수
+## Irrational Number: 무리수
+## Real Number: 실수
+## Imaginary Number: 허수
+## Complex Number: 복소수

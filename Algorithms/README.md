@@ -903,7 +903,24 @@ bitmask = (1 << <<Position>>)
 	```python
 	primes = {i for i in range(2, n + 1)}
 	for i in range(2, int(n**0.5) + 1):
-		primes -= {j for j in range(2*i, lim + 1, i)}
+		if i in primes:
+			primes -= {j for j in range(2*i, n + 1, i)}
+	```
+- Prime Factorization
+	```python
+	m = int(n**0.5)
+    primes = {i for i in range(2, m + 1)}
+    for i in range(2, int(m**0.5) + 1):
+        if i in primes:
+            primes -= {j for j in range(2*i, m + 1, i)}
+
+	prime_facts = list()
+    for i in sorted(list(primes)):
+        while n%i == 0:
+            n //= i
+            prime_facts.append(i)
+    if n != 1:
+        prime_facts.append(n)
 	```
 - Greatest Common Divisor
 	```python

@@ -3209,8 +3209,14 @@ names = random.sample(list(set(data.index)), 20)
 - `^`: Match the start of the string.
 - `$`: Match the end of the string.
 ## `re.search()`
+```python
+re.search(<<Pattern>>, <<String>>)
+```
 - Scan through string looking for the first location where the regular expression pattern produces a match, and return a corresponding match object. Return None if no position in the string matches the pattern; note that this is different from finding a zero-length match at some point in the string.
 ## `re.match()`
+```python
+re.match(<<Pattern>>, <<String>>)
+```
 - If zero or more characters at the beginning of string match the regular expression pattern, return a corresponding match object. Return None if the string does not match the pattern; note that this is different from a zero-length match.
 ### `re.search().group()`, `re.match().group()`
 ```python

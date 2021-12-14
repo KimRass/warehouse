@@ -17,11 +17,11 @@ CONTAINS([mbr_id], "MBR")
 ```
 
 # Date
-## DATEDIFF()
+## `DATEDIFF()`
 ```
 DATEDIFF("quarter", [고객별 최초 구매일], [고객별 최초 재구매일 ])
 ```
-## DATEADD()
+## `DATEADD()`
 ```
 DATEADD("month", 1, DATEADD("day", -1, DATE(STR([Year Month]) + "01")))
 ```
@@ -31,9 +31,13 @@ THEN DATETRUNC("month", DATEADD("month", - 1, TODAY())) - 1
 ELSE DATETRUNC("month", TODAY()) - 1
 END
 ```
-## DATETRUNC()
+## `DATETRUNC()`
 ```
 DATETRUNC("week", [Order Date])
+```
+## `DATEPARSE()`
+```
+DATEPARSE("YYYYMM", STR([연월]))
 ```
 
 # `Logical`

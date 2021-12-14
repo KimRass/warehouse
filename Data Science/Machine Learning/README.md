@@ -412,3 +412,7 @@ E## Experimental Errors
 
 # Sparse Respresentation, Dense Representation
 - Source: https://dreamgonfly.github.io/blog/word2vec-explained/
+
+# MLOps
+- Source: https://en.wikipedia.org/wiki/MLOps
+- MLOps or ML Ops is a set of practices that aims to deploy and maintain machine learning models in production reliably and efficiently.[1] The word is a compound of "machine learning" and the continuous development practice of DevOps in the software field. Machine learning models are tested and developed in isolated experimental systems. When an algorithm is ready to be launched, MLOps is practiced between Data Scientists, DevOps, and Machine Learning engineers to transition the algorithm to production systems.
