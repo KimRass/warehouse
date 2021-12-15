@@ -111,7 +111,3 @@ This loss term is only computed for the detectors that are not responsible for d
 - The previous section described what happens to detectors that are not responsible for finding objects. The only thing they can do wrong is find an object where there is none.
 - YOLO v3 and SSD take a different approach. They don’t see this as a multi-class classification problem but as a multi-label problem. Hence they don’t use softmax (which always chooses a single label to be the winner) but a logistic sigmoid, which allows multiple labels to be chosen. They use a standard binary cross-entropy to compute this loss term.
 - The scale factor coord_scale is used to make the loss from the bounding box coordinate predictions count more heavily than the other loss terms. A typical value for this hyperparameter is 5.
-
-# AI Upscaling
-- Source: https://blogs.nvidia.com/blog/2020/02/03/what-is-ai-upscaling/
-- Traditional upscaling starts with a low-resolution image and tries to improve its visual quality at higher resolutions. AI upscaling takes a different approach: Given a low-resolution image, a deep learning model predicts a high-resolution image that would downscale to look like the original, low-resolution image.

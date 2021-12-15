@@ -617,6 +617,7 @@ for k, v in count.items():
 	```
 
 # Dynamic Programming
+- Divide-and-Conquer & Memoization
 ```python
 mem = dict()
 def func(n):
@@ -624,7 +625,6 @@ def func(n):
 		mem[n] = ...
 	return mem[n]
 ```
-- Divide-and-Conquer & Memoization
 - 0-1 Knapsack Problem
 	- References: https://gsmesie692.tistory.com/113
 	```python
@@ -923,6 +923,7 @@ bitmask = (1 << <<Position>>)
         prime_facts.append(n)
 	```
 - Greatest Common Divisor
+	- Implementation
 	```python
 	   gcd = 1
     for i in primes:
@@ -930,6 +931,14 @@ bitmask = (1 << <<Position>>)
             gcd *= i
 			A //= i
 			B //= i
+	```
+	- Using Euclidean Algorithm
+	```python	
+	def gcd(a, b):
+		if a >= b:
+			return b if a%b == 0 else gcd(b, a%b)
+		else:
+			return a if b%a == 0 else gcd(a, b%a)
 	```
 - Least Common Multiple
 	- Implementation
@@ -943,7 +952,6 @@ bitmask = (1 << <<Position>>)
             if B%i == 0:
                 B //= i
 	```
-	- Using Euclidean Algorithm
 - Combination
 	- The number of `k`-combinations If the set has `n` elements
 	```python
