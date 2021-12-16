@@ -952,18 +952,20 @@ bitmask = (1 << <<Position>>)
             if B%i == 0:
                 B //= i
 	```
-- Combination
+- Combination(= Binomial Coefficient)
 	- The number of `k`-combinations If the set has `n` elements
 	```python
 	import math
 	
-	math.factorial(n)//(math.factorial(n - r)*math.factorial(r))
+	math.factorial(n)//(math.factorial(n - k)*math.factorial(k))
 	```
 	```python
-	# n*(n - 1)*...*(n - r + 1)/(1*2*...*r)
+	# n*(n - 1)*...*(n - k + 1)/(1*2*...*k)
+	minim = min(k, n - k)
+	maxim = max(k, n - k)
 	res = 1
-	for i in range(n, n - r, -1):
+	for i in range(n, maxim, -1):
 		res *= i
-	for i in range(1, r + 1):
+	for i in range(minim, 0, -1):
 		res //= i
 	```
