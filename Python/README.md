@@ -2120,23 +2120,21 @@ datetime.datetime(2018, 5, 19)
 ### `datetime.datetime.now()`
 ### `datetime.datetime.strptime()`
 ```python
-datetime.datetime.strptime(date_string, format)
+datetime.datetime.strptime(<<Date String>>, <<Format>>)
 ```
-- Returns a datetime corresponding to date_string, parsed according to format.
-```python
-t2 = datetime.datetime.strptime("12:14", "%H:%M")
-```
-- `"%Y"`: Year with century as a decimal number.
-- `"%y"`: Year without century as a zero-padded decimal number.
-- `"%m"`: Month as a zero-padded decimal number.
-- `"%d"`: Day of the month as a zero-padded decimal number.
-- `"%H"`: Hour (24-hour clock) as a zero-padded decimal number.
-- `"%I"`: Hour (12-hour clock) as a zero-padded decimal number.
-- `"%M"`: Minute as a zero-padded decimal number.
-- `"%S"`: Second as a zero-padded decimal number
-- `"%A"`: Weekday as locale’s full name.
-- `"%B"`: Month as locale’s full name.
-- `"%b"`: Month as locale’s abbreviated name.
+- Returns a datetime corresponding to <<Date String>>, parsed according to <<Format>>.
+- `format`:
+	- `"%Y"`: Year with century as a decimal number.
+	- `"%y"`: Year without century as a zero-padded decimal number.
+	- `"%m"`: Month as a zero-padded decimal number.
+	- `"%d"`: Day of the month as a zero-padded decimal number.
+	- `"%H"`: Hour (24-hour clock) as a zero-padded decimal number.
+	- `"%I"`: Hour (12-hour clock) as a zero-padded decimal number.
+	- `"%M"`: Minute as a zero-padded decimal number.
+	- `"%S"`: Second as a zero-padded decimal number
+	- `"%A"`: Weekday as locale’s full name.
+	- `"%B"`: Month as locale’s full name.
+	- `"%b"`: Month as locale’s abbreviated name.
 ### `datetime.datetime.strftime()`
 ```python
 datetime.datetime.strftime(format)

@@ -539,16 +539,22 @@ ORDER BY hour;
 ```
 ## `SYSDATE` (Oracle), `CURDATE()` (MySQL), `GETDATE()` (MS SQL Server)
 ## `EXTRACT([YEAR | MONTH | DAY | HOUR | MINUTE | SECOND] FROM)`
-- Returns a numeric value when the following parameters are provided: `YEAR`, `MONTH`, `DAY`, `HOUR`, `MINUTE`, `SECOND`.
+- Returns a numeric value according to the parameter.
 ```sql
 EXTRACT(MONTH FROM order_date)
 ```
 ## `DATE()` (MS SQL Server)
-## `DATEADD()`
-## `DATEDIFF(YEAR)`, `DATEDIFF(MONTH)`, `DATEDIFF(DAY)`
+## `DATEADD([YEAR | MONTH | DAY | HOUR | MINUTE | SECOND])`
 ```sql
-DATEDIFF(DAY, A.start_date, MIN(B.end_date))
+DATEADD(<<Interval>>, <<Number>>, <<Date>>)
 ```
+- <<Number>>: Required. The number of interval to add to <<Date>>.
+- <<Date>>:	Required. The date that will be modified.
+## `DATEDIFF([YEAR | MONTH | DAY])`
+```sql
+DATEDIFF(YEAR, 0, GETDATE())
+```
+- `0` means the default date of `1900-01-01 00:00:00.000`
 
 # Data Type Conversion Functions
 ## `CAST(AS)`
