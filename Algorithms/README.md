@@ -726,8 +726,8 @@ while left < right:
 ```python
 arr = sorted(arr)
 
-left = 0
-right = N - 1
+# `left`: Possible minimum value
+# `right`: Possible maximum value
 while left <= right:
     mid = (left + right)//2
 
@@ -774,7 +774,48 @@ def bisect_right(arr, tar):
 
 # Parametric Search
 - Source: https://velog.io/@lake/%EC%9D%B4%EB%B6%84%ED%83%90%EC%83%89-%ED%8C%8C%EB%9D%BC%EB%A9%94%ED%8A%B8%EB%A6%AD-%EC%84%9C%EC%B9%98Parametric-Search
-- Parametric search is a technique for transforming an optimization algorithm (find the best solution) into a decision algorithm (does this optimization problem have a solution with quality better than some given threshold?).
+- **Parametric search is a technique for transforming an optimization algorithm (find the best solution) into a decision algorithm (does this optimization problem have a solution with quality better than some given threshold?).**
+```python
+arr = sorted(arr)
+
+# The initial value for `left` should be equal to the possible minimum value for the answer.
+# The initial value for `right` should be equal to the possible maximum value for the answer.
+# The initial value for `ans` should be among the values that cannot be the answer.
+while left <= right:
+    mid = (left + right)//2
+```
+	- 문제에서 우리가 구하고자 하는 값이 최대값이고 `mid`의 값이 커질수록 `func(mid)`의 값이 커질 때
+	```python
+    if func(mid) <= tar:
+        left = mid + 1
+		ans = mid
+    else:
+        right = mid - 1
+	```
+	- 문제에서 우리가 구하고자 하는 값이 최대값이고 `mid`의 값이 커질수록 `func(mid)`의 값이 작아질 때
+	```python
+    if func(mid) >= tar:
+        left = mid + 1
+		ans = mid
+    else:
+        right = mid - 1
+	```
+	- 문제에서 우리가 구하고자 하는 값이 최소값이고 `mid`의 값이 커질수록 `func(mid)`의 값이 커질 때
+	```python
+    if func(mid) >= tar:
+        right = mid - 1
+		ans = mid
+    else:
+        left = mid + 1
+	```
+	- 문제에서 우리가 구하고자 하는 값이 최소값이고 `mid`의 값이 커질수록 `func(mid)`의 값이 작아질 때
+	```python
+    if func(mid) <= tar:
+        right = mid - 1
+		ans = mid
+    else:
+        left = mid + 1
+	```
 
 # Implementation
 - 풀이를 떠올리는 것은 쉽지만 소스코드로 옮기기 어려운 문제.
