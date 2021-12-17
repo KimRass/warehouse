@@ -403,3 +403,7 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - 규칙(우선 순위)을 가지고 실행계획을 생성, 실행계획을 생성하는 규칙을 이해하면 누구나 실행계획을 비교적 쉽게 예측 가능.
 ### CBO(Cost-Based Optimizer)
 - 비용(예상되는 소요시간, 자원 사용량)이 가장 적은 실행계획을 선택하는 방식, 규칙기반 옵티마이저의 단점을 극복하기 위해서 출현.
+
+# ETL (Extract, Transform, Load)
+- Source: https://www.ibm.com/topics/etl
+- ETL is a process that extracts, transforms, and loads data from multiple sources to a data warehouse or other unified data repository. 
