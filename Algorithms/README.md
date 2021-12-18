@@ -728,6 +728,8 @@ arr = sorted(arr)
 
 # `left`: Possible minimum value
 # `right`: Possible maximum value
+left = 0
+right = len(arr) - 1
 while left <= right:
     mid = (left + right)//2
 
