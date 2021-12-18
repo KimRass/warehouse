@@ -786,39 +786,38 @@ arr = sorted(arr)
 while left <= right:
     mid = (left + right)//2
 ```
-
-- 문제에서 우리가 구하고자 하는 값이 최대값이고 `mid`의 값이 커질수록 `func(mid)`의 값이 커질 때:
-	```python
-	if func(mid) <= tar:
-		left = mid + 1
-		ans = mid
-	else:
-		right = mid - 1
-	```
-- 문제에서 우리가 구하고자 하는 값이 최대값이고 `mid`의 값이 커질수록 `func(mid)`의 값이 작아질 때:
-	```python
-	if func(mid) >= tar:
-		left = mid + 1
-		ans = mid
-	else:
-		right = mid - 1
-	```
-- 문제에서 우리가 구하고자 하는 값이 최소값이고 `mid`의 값이 커질수록 `func(mid)`의 값이 커질 때:
-	```python
-	if func(mid) >= tar:
-		right = mid - 1
-		ans = mid
-	else:
-		left = mid + 1
-	```
-- 문제에서 우리가 구하고자 하는 값이 최소값이고 `mid`의 값이 커질수록 `func(mid)`의 값이 작아질 때:
-	```python
-	if func(mid) <= tar:
-		right = mid - 1
-		ans = mid
-	else:
-		left = mid + 1
-	```
+- 구하고자 하는 값이 최대값이고 `func()`가 증가함수일 때:
+```python
+if func(mid) <= tar:
+	left = mid + 1
+	ans = mid
+else:
+	right = mid - 1
+```
+- 구하고자 하는 값이 최대값이고 `func()`가 감소함수일 때:
+```python
+if func(mid) >= tar:
+	left = mid + 1
+	ans = mid
+else:
+	right = mid - 1
+```
+- 구하고자 하는 값이 최소값이고 `func()`가 증가함수일 때:
+```python
+if func(mid) >= tar:
+	right = mid - 1
+	ans = mid
+else:
+	left = mid + 1
+```
+- 구하고자 하는 값이 최소값이고 `func()`가 감소함수일 때:
+```python
+if func(mid) <= tar:
+	right = mid - 1
+	ans = mid
+else:
+	left = mid + 1
+```
 
 # Implementation
 - 풀이를 떠올리는 것은 쉽지만 소스코드로 옮기기 어려운 문제.
