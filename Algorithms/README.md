@@ -786,7 +786,7 @@ arr = sorted(arr)
 while left <= right:
     mid = (left + right)//2
 ```
-- 구하고자 하는 값이 최대값이고 `func()`가 증가함수일 때:
+- 구하고자 하는 값이 최대값이고 `func()`가 Increasing function일 때:
 ```python
 if func(mid) <= tar:
 	left = mid + 1
@@ -794,7 +794,7 @@ if func(mid) <= tar:
 else:
 	right = mid - 1
 ```
-- 구하고자 하는 값이 최대값이고 `func()`가 감소함수일 때:
+- 구하고자 하는 값이 최대값이고 `func()`가 Decreasing function일 때:
 ```python
 if func(mid) >= tar:
 	left = mid + 1
@@ -802,7 +802,7 @@ if func(mid) >= tar:
 else:
 	right = mid - 1
 ```
-- 구하고자 하는 값이 최소값이고 `func()`가 증가함수일 때:
+- 구하고자 하는 값이 최소값이고 `func()`가 Increasing function일 때:
 ```python
 if func(mid) >= tar:
 	right = mid - 1
@@ -810,7 +810,7 @@ if func(mid) >= tar:
 else:
 	left = mid + 1
 ```
-- 구하고자 하는 값이 최소값이고 `func()`가 감소함수일 때:
+- 구하고자 하는 값이 최소값이고 `func()`가 Decreasing function일 때:
 ```python
 if func(mid) <= tar:
 	right = mid - 1

@@ -76,3 +76,10 @@
 ## Real Number: 실수
 ## Imaginary Number: 허수
 ## Complex Number: 복소수
+
+# Function
+## Monotonic Function
+- Source: https://en.wikipedia.org/wiki/Monotonic_function
+- In mathematics, a monotonic function (or monotone function) is a function between ordered sets that preserves or reverses the given order.
+### Increasing Function
+### Decreasing Function
