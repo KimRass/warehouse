@@ -705,21 +705,40 @@ def func(n):
 
 # Two-Pointers
 - Time complexity: O(n)
-```python
-arr = sorted(arr)
+	```python
+	arr = sorted(arr)
 
-left = 0
-right = len(arr)
-cnt = 0
-while left < right:
-	if f(left, right) < x:
-		left += 1
-	elif f(left, right) > x:
-		right -= 1
-	else:
-		left += 1
-		cnt += 1
-```
+	left = 0
+	right = len(arr) - 1
+	while left < right:
+		if func(left, right) == x:
+			left += 1
+			right -= 1
+			...
+		elif func(left, right) > x:
+			right -= 1
+			...
+		elif func(left, right) < x::
+			left += 1
+			...
+	```
+	```python
+	arr += [0]
+	
+	left = 0
+	right = 0
+	while left <= len(arr) - 1 and right <= len(arr) - 1:
+		if func(left, right) == x:
+			left += 1
+			right += 1
+			...
+		elif func(left, right) > x:
+			left += 1
+			...
+		elif func(left, right) < x:
+			right += 1
+			...
+	```
 
 # Binary Search
 - Time complexity: O(logn)
@@ -943,12 +962,24 @@ bitmask = (1 << <<Position>>)
 
 # Number Theory
 - Sieve of Eratosthenest
-	```python
-	primes = {i for i in range(2, n + 1)}
-	for i in range(2, int(n**0.5) + 1):
-		if i in primes:
-			primes -= {j for j in range(2*i, n + 1, i)}
-	```
+	- Using Python List
+		```python
+		is_prime = [True for i in range(n + 1)]
+		is_prime[0] = False
+		is_prime[1] = False
+		for i in range(2, int(n**0.5) + 1):
+			if is_prime[i]:
+				for j in range(2*i, n + 1, i):
+					is_prime[j] = False      
+		primes = [i for i, j in enumerate(is_prime) if j == True] + [0]
+		```
+	- Using Python Set
+		```python
+		primes = {i for i in range(2, n + 1)}
+		for i in range(2, int(n**0.5) + 1):
+			if i in primes:
+				primes -= {j for j in range(2*i, n + 1, i)}
+		```
 - Prime Factorization
 	```python
 	m = int(n**0.5)

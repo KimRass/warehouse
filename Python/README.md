@@ -58,6 +58,8 @@ Written by KimRass
 ### `KeyError: <<Dictionary Key>>`
 ## `KeyboardInterrupt`
 ### `KeyboardInterrupt:`
+## `MemoryError`
+### `MemoryError: Unable to allocate ...`
 
 # Python Built-in Functions
 ## `bin()`, `oct()`, `hex()`

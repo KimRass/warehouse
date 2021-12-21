@@ -543,6 +543,7 @@ ORDER BY hour;
 ```sql
 EXTRACT(MONTH FROM order_date)
 ```
+## `CALENDAR_YEAR()`, `CALENDAR_QUARTER()`, `CALENDAR_MONTH()`, `DAY_IN_MONTH()`, `HOUR_IN_DAY()` (Salesforce Object Query Language)
 ## `DATE()` (MS SQL Server)
 ## `DATEADD([YEAR | MONTH | DAY | HOUR | MINUTE | SECOND])`
 ```sql
