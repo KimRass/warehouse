@@ -998,34 +998,34 @@ bitmask = (1 << <<Position>>)
 	```
 - Greatest Common Divisor
 	- Implementation
-	```python
-	   gcd = 1
-    for i in primes:
-        while A%i == 0 and B%i == 0:
-            gcd *= i
-			A //= i
-			B //= i
-	```
+		```python
+		   gcd = 1
+		for i in primes:
+			while A%i == 0 and B%i == 0:
+				gcd *= i
+				A //= i
+				B //= i
+		```
 	- Using Euclidean Algorithm
-	```python	
-	def gcd(a, b):
-		if a >= b:
-			return b if a%b == 0 else gcd(b, a%b)
-		else:
-			return a if b%a == 0 else gcd(a, b%a)
-	```
+		```python	
+		def gcd(a, b):
+			if a >= b:
+				return b if a%b == 0 else gcd(b, a%b)
+			else:
+				return a if b%a == 0 else gcd(a, b%a)
+		```
 - Least Common Multiple
 	- Implementation
-	```python
-	lcm = 1
-	for i in primes:
-        while A%i == 0 or B%i == 0:
-            lcm *= i
-            if A%i == 0:
-                A //= i
-            if B%i == 0:
-                B //= i
-	```
+		```python
+		lcm = 1
+		for i in primes:
+			while A%i == 0 or B%i == 0:
+				lcm *= i
+				if A%i == 0:
+					A //= i
+				if B%i == 0:
+					B //= i
+		```
 - Combination(= Binomial Coefficient)
 	- The number of `k`-combinations If the set has `n` elements
 	```python
