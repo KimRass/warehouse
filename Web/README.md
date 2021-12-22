@@ -20,3 +20,73 @@
 - TLS를 사용해 암호화된 연결을 하는 HTTP를 HTTPS(HTTP Secure)라고 하며, 당연히 웹사이트 주소 역시 "http://"가 아닌 "https://"로 시작된다. 기본 포트는 80번이 아닌 443번을 쓴다.
 - 흔히 TLS와 HTTPS를 혼동하는 경우가 많은데, 둘은 유사하긴 하지만 엄연히 다른 개념임을 알아두자. TLS는 다양한 종류의 보안 통신을 하기 위한 프로토콜이며, HTTPS는 TLS 위에 HTTP 프로토콜을 얹어 보안된 HTTP 통신을 하는 프로토콜이다. 다시 말해 TLS는 HTTP뿐만이 아니라 FTP, SMTP와 같은 여타 프로토콜에도 적용할 수 있으며, HTTPS는 TLS와 HTTP가 조합된 프로토콜만을 가리킨다.
 - HTTP는 HTTPS와 달리 암호화되지 않았으며, 중간자 공격 또는 도청의 가능성이 높으므로 HTTPS만큼 안전하지 않다.
+
+# Network
+- Source: https://fcit.usf.edu/network/chap1/chap1.htm
+- A network consists of two or more computers that are linked in order to share resources (such as printers and CDs), exchange files, or allow electronic communications. The computers on a network may be linked through cables, telephone lines, radio waves, satellites, or infrared light beams.
+## LAN (Local Area Network)
+- Source: https://www.cisco.com/c/en/us/products/switches/what-is-a-lan-local-area-network.html
+- A local area network (LAN) is a collection of devices connected together in one physical location, such as a building, office, or home. A LAN can be small or large, ranging from a home network with one user to an enterprise network with thousands of users and devices in an office or school.
+- Regardless of size, a LAN's single defining characteristic is that it connects devices that are in a single, limited area. In contrast, a wide area network (WAN) or metropolitan area network (MAN) covers larger geographic areas. Some WANs and MANs connect many LANs together.
+
+# Apache Log4j
+- Source: https://en.wikipedia.org/wiki/Log4j
+- Apache Log4j is a Java-based logging utility. It is part of the Apache Logging Services, a project of the Apache Software Foundation. Log4j is one of several Java logging frameworks.
+- Source: https://www.wsj.com/articles/what-is-the-log4j-vulnerability-11639446180
+- Software developers use the Log4j framework to record user activity and the behavior of applications. Distributed free by the nonprofit Apache Software Foundation, Log4j has been downloaded millions of times and is among the most widely used tools to collect information across corporate computer networks, websites and applications.
+## The Log4j Vulnerability
+- The Log4j flaw allows attackers to execute code remotely on a target computer, which could let them steal data, install malware or take control. Exploits discovered recently include hacking systems to mine cryptocurrency. Other hackers have built malware to hijack computers for large-scale assaults on internet infrastructure, cyber researchers have found.
+
+## Client
+- Source: https://learntomato.flashrouters.com/what-is-a-client-what-is-a-server-what-is-a-host/
+- A client is a computer hardware device or software that accesses a service made available by a server. The server is often (but not always) located on a separate physical computer.
+- 클라이언트는 일반적으로 웹 브라우저를 의미합니다.
+## Server
+- Source: https://learntomato.flashrouters.com/what-is-a-client-what-is-a-server-what-is-a-host/
+- A server is a physical computer dedicated to run services to serve the needs of other computers. Depending on the service that is running, it could be a file server, database server, home media server, print server, or web server.
+- Source: https://4sight.mt/blog/whats-the-difference-between-host-and-server/
+- First off, a server can be both software and hardware. Its role is to provide a service to any device that is connected to the network. But not all connected devices are hosts.
+- Devices using these type of services are called Clients and can also be both hardware or software. A server can serve multiple users at the same time from either the same device or different devices entirely.
+## Web Server
+- Source: https://www.wpbeginner.com/glossary/apache/
+- Wondering what the heck is a web server? Well a web server is like a restaurant host. When you arrive in a restaurant, the host greets you, checks your booking information and takes you to your table. Similar to the restaurant host, the web server checks for the web page you have requested and fetches it for your viewing pleasure. However, A web server is not just your host but also your server. Once it has found the web page you requested, it also serves you the web page.
+- So basically a web server is the software that receives your request to access a web page. It runs a few security checks on your HTTP request and takes you to the web page. Depending on the page you have requested, the page may ask the server to run a few extra modules while generating the document to serve you. It then serves you the document you requested.
+- Source: https://www.infoworld.com/article/2077354/app-server-web-server-what-s-the-difference.html
+- A Web server handles the HTTP protocol. When the Web server receives an HTTP request, it responds with an HTTP response, such as sending back an HTML page. To process a request, a Web server may respond with a static HTML page or image, send a redirect.
+- 클라이언트의 요청(Request)을 WAS에 보내고, WAS가 처리한 결과를 클라이언트에게 전달(응답, Response)한다.
+### Apache HTTP Server
+- Source: https://www.wpbeginner.com/glossary/apache/
+- Apache is the most widely used web server software. Developed and maintained by Apache Software Foundation, Apache is an open source software available for free. It runs on 67% of all webservers in the world. It is fast, reliable, and secure. It can be highly customized to meet the needs of many different environments by using extensions and modules.
+## WAS (Web Application Server)
+- Source: https://www.infoworld.com/article/2077354/app-server-web-server-what-s-the-difference.html
+- ***While a Web server mainly deals with sending HTML for display in a Web browser, an application server provides access to business logic for use by client application programs.***
+- Such application server clients can include GUIs (graphical user interface) running on a PC, a Web server, or even other application servers. The information traveling back and forth between an application server and its client is not restricted to simple display markup. Instead, the information is program logic. Since the logic takes the form of data and method calls and not static HTML, the client can employ the exposed business logic however it wants.
+- Source: https://codechasseur.tistory.com/25
+- WAS는 웹 서버와 웹 컨테이너가 합쳐진 형태로서, 웹 서버 단독으로는 처리할 수 없는 데이터베이스의 조회나 다양한 로직 처리가 필요한 동적 컨텐츠를 제공한다. 덕분에 사용자의 다양한 요구에 맞춰 웹 서비스를 제공할 수 있다. WAS는 JSP, Servlet 구동환경을 제공해주기 때문에 웹 컨테이너 혹은 서블릿 컨테이너라고도 불린다.
+- ***WAS는 DB 조회 및 다양한 로직을 처리하는 데 집중해야 한다. 따라서 단순한 정적 컨텐츠는 웹 서버에게 맡기며 기능을 분리시켜 서버 부하를 방지한다.*** 만약 WAS가 정적 컨텐츠 요청까지 처리하면, 부하가 커지고 동적 컨텐츠 처리가 지연되면서 수행 속도가 느려지고 이로 인해 페이지 노출 시간이 늘어나는 문제가 발생하여 효율성이 크게 떨어진다.
+- Source: https://gmlwjd9405.github.io/2018/10/27/webserver-vs-was.html
+- Web Server만을 이용한다면 사용자가 원하는 요청에 대한 결과값을 모두 미리 만들어 놓고 서비스를 해야 한다. 하지만 이렇게 수행하기에는 자원이 절대적으로 부족하다.
+### Web Container
+- 웹 서버가 보낸 JSP, PHP 등의 파일을 수행한 결과를 다시 웹 서버로 보내주는 역할을 함.
+### Apache Tomcat
+- Source: https://en.wikipedia.org/wiki/Apache_Tomcat
+- Apache Tomcat (called "Tomcat" for short) is a free and open-source implementation of the Jakarta Servlet, Jakarta Expression Language, and WebSocket technologies. Tomcat provides a "pure Java" HTTP web server environment in which Java code can run.
+## Host
+- Source: https://4sight.mt/blog/whats-the-difference-between-host-and-server/
+- Think of a host as a machine that can be connected to a device within the network. As mentioned above, this could include your personal computer, your work laptop or even your faithful iPhone.
+- Source: https://learntomato.flashrouters.com/what-is-a-client-what-is-a-server-what-is-a-host/
+- Suppose you want to download an image from another computer on your network. That computer is “hosting” the image and therefore, it is the host computer. On the other hand, if that same computer downloads an image from your computer, your computer becomes the host computer.
+- Your computer can be a host to other computers. Likewise, your router can be a host to other routers. ***But a host must have an assigned IP address. Therefore, modems, hubs, and switches are not considered hosts because they do not have assigned IP addresses.***
+
+# OAuth
+- Source: https://www.varonis.com/blog/what-is-oauth/
+- OAuth is an open-standard authorization protocol or framework that provides applications the ability for “secure designated access.” For example, you can tell Facebook that it’s OK for ESPN.com to access your profile or post updates to your timeline without having to give ESPN your Facebook password. This minimizes risk in a major way: In the event ESPN suffers a breach, your Facebook password remains safe.
+- OAuth doesn’t share password data but instead uses authorization tokens to prove an identity between consumers and service providers. OAuth is an authentication protocol that allows you to approve one application interacting with another on your behalf without giving away your password.
+- ***The simplest example of OAuth in action is one website saying “hey, do you want to log into our website with other website’s login?” In this scenario, the only thing the first website – let’s refer to that website as the consumer – wants to know is that the user is the same user on both websites and has logged in successfully to the service provider – which is the site the user initially logged into, not the consumer.***
+- Your smart home devices – toaster, thermostat, security system, etc. – probably use some kind of login data to sync with each other and allow you to administer them from a browser or client device. These devices use what OAuth calls confidential authorization. That means they hold onto the secret key information, so you don’t have to log in over and over again.
+- ***OAuth is about authorization and not authentication. Authorization is asking for permission to do stuff. Authentication is about proving you are the correct person because you know things. OAuth doesn’t pass authentication data between consumers and service providers – but instead acts as an authorization token of sorts.***
+
+# SAML (Security Assertion Markup Language)
+- Source: https://www.varonis.com/blog/what-is-oauth/
+- SAML is an alternative federated authentication standard that many enterprises use for Single-Sign On (SSO). SAML enables enterprises to monitor who has access to corporate resources.
+- There are many differences between SAML and OAuth. SAML uses XML to pass messages, and OAuth uses JSON. OAuth provides a simpler mobile experience, while SAML is geared towards enterprise security. That last point is a key differentiator: OAuth uses API calls extensively, which is why mobile applications, modern web applications, game consoles, and Internet of Things (IoT) devices find OAuth a better experience for the user. SAML, on the other hand, drops a session cookie in a browser that allows a user to access certain web pages – great for short-lived work days, but not so great when have to log into your thermostat every day.
