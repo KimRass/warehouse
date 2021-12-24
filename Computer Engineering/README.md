@@ -34,3 +34,7 @@
 	- Bitcoin Mining: The process of mining bitcoins involves using computational power to solve complex cryptographic hashes. The increasing expansion of Bitcoin and the difficulty of mining bitcoins has led bitcoin mines to implement a GPU to handle immense volumes of cryptographic data in the hopes of earning bitcoins.
 	- Machine Learning: Neural networks, particularly those used for deep-learning algorithms, function through the ability to process large amounts of training data through smaller nodes of operations. GPUs for machine learning have emerged to help process the enormous data sets used to train machine-learning algorithms and AI.
 	- Analytics and Data Science: GPUs are uniquely suited to help analytics programs process large amounts of base data from different sources. Furthermore, these same GPUs can power the computation necessary for deep data sets associated with research areas like life sciences (genomic sequencing).
+	
+# Filename Extension
+- Source: https://en.wikipedia.org/wiki/Filename_extension
+- A filename extension, file extension or file type is an identifier specified as a suffix to the name of a computer file (.txt, .docx, .ppt, etc.). The extension indicates a characteristic of the file contents or its intended use. A filename extension is typically delimited from the filename with a full stop (period).

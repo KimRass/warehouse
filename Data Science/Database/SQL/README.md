@@ -721,7 +721,8 @@ WHERE A.<<Column1>>(+) = B.<<Column2>>
 - The above two statements are the same.
 ## Equi Join
 - Source: https://www.w3resource.com/sql/joins/perform-an-equi-join.php
-- Equi join performs a join against equality or matching column(s) values of the associated tables. An equal sign(`=`) is used as comparison operator in the where clause to refer equality.
+- Equi join performs a join against equality or matching column(s) values of the associated tables. ***An equal sign(`=`) is used as comparison operator in the where clause to refer equality.***
+- Salesforce에서는 Equi join만 사용 가능합니다.
 ## Non-Equi Join
 - Source: https://learnsql.com/blog/illustrated-guide-sql-non-equi-join/
 - `!=`, `<`, `<=`, `>`, `>=`, `BETWEEN AND`
