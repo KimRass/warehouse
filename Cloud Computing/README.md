@@ -24,6 +24,13 @@
 - Privileged Instruction: 시스템 요소들과 소통하는 명령.
 - 하나의 하드웨어 시스템당 OS는 1개만 돌아갈 수 있음.
 - 일반 프로그램들은 특권 명령이 필요 없어 여러 개를 동시에 수행 가능
+### Windows
+### Linux
+#### `sudo`
+#### Terminal
+### MacOS
+### centOS
+### Ubuntu
 ## IaaS
 - Virtualization, Servers, Storage, Networking
 - Examples: AWS EC2
@@ -45,12 +52,17 @@
 - OS, Middleware, Runtime
 - Applications, Data
 - Software updates, bug fixes, and general software maintenance are handled by the provider and the user connects to the app via a dashboard or API. ***There’s no installation of the software on individual machines and group access to the program is smoother and more reliable.***
-- You’re already familiar with a form of SaaS if you have an email account with a web-based service like Outlook or Gmail, for example, as you can log into your account and get your email from any computer, anywhere. 
+- You’re already familiar with a form of SaaS if you have an email account with a web-based service like Outlook or Gmail, for example, as you can log into your account and get your email from any computer, anywhere.
+
+# Clustering
+- Source: https://medium.com/@mena.meseha/difference-between-distributed-and-cluster-aca9d50c2c44
+- It means that multiple servers are grouped together to achieve the same business and can be regarded as one computer.
 
 # AWS (Amazon Web Services)
 ## 글로벌 서비스
 ### IAM (Identity and Access Management)
-### Amazon S3 (Amazon Simple Storage Service)
+### Amazon EC2 (Elastic Compute Cloud)
+### Amazon S3 (Simple Storage Service)
 - Source: https://en.wikipedia.org/wiki/Amazon_S3
 - Amazon S3 or Amazon Simple Storage Service is a service offered by Amazon Web Services (AWS) that provides object storage through a web service interface. Amazon S3 can be employed to store any type of object, which allows for uses like storage for Internet applications, backup and recovery, disaster recovery, data archives, data lakes for analytics, and hybrid cloud storage.
 ### Amazon SageMaker
@@ -62,16 +74,21 @@
 - Amazon DynamoDB is a fully managed proprietary NoSQL database service that supports key–value and document data structures.
 ### Amazon Batch
 ### Amazon Kinesis
+### Amazon EMR (Elastic MapReduce)
+- Source: https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-what-is-emr.html
+- ***Amazon EMR (previously called Amazon Elastic MapReduce) is a managed cluster platform that simplifies running big data frameworks, such as Apache Hadoop and Apache Spark, on AWS to process and analyze vast amounts of data.*** Using these frameworks and related open-source projects, you can process data for analytics purposes and business intelligence workloads. Amazon EMR also lets you transform and move large amounts of data into and out of other AWS data stores and databases, such as Amazon Simple Storage Service (Amazon S3) and Amazon DynamoDB.
+### Amazon RDS (Relational Database Service)
+- Amazon Relational Database Service (Amazon RDS) is a web service that makes it easier to set up, operate, and scale a relational database in the AWS Cloud. It provides cost-efficient, resizable capacity for an industry-standard relational database and manages common database administration tasks.
 ### CloudFront
 ## 지역 서비스
 - 특정 리전 기반.
-## Region
-- Each Amazon EC2 Region is designed to be isolated from the other Amazon EC2 Regions. This achieves the greatest possible fault tolerance and stability.
-- When you view your resources, you see only the resources that are tied to the Region that you specified. This is because Regions are isolated from each other, and we don't automatically replicate resources across Regions.
-- 서버의 물리적 위치
-- 리전별로 제공 서비스 다름
+## AWS Region
+- ***Amazon cloud computing resources are housed in highly available data center facilities in different areas of the world (for example, North America, Europe, or Asia).*** Each data center location is called an AWS Region.
+- ***Each Amazon EC2 Region is designed to be isolated from the other Amazon EC2 Regions. This achieves the greatest possible fault tolerance and stability.***
+- ***When you view your resources, you see only the resources that are tied to the Region that you specified. This is because Regions are isolated from each other, and we don't automatically replicate resources across Regions.***
 ### Availability Zone (AZ)
 - Availability Zones are multiple, isolated locations within each Region.
+- Each AWS Region contains multiple distinct locations called Availability Zones, or AZs. Each Availability Zone is engineered to be isolated from failures in other Availability Zones. Each is engineered to provide inexpensive, low-latency network connectivity to other Availability Zones in the same AWS Region. By launching instances in separate Availability Zones, you can protect your applications from the failure of a single location.
 ## Edge Location
 - 임시 데이터 저장소. 속도 빨라짐.
 ## Amazon Resource Name (ARN)

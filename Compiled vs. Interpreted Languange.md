@@ -74,3 +74,40 @@
 - A scripting language for use on Microsoft Windows operating systems.
 ### Visual Basic for Applications
 - An extension language specifically for Microsoft Office applications.
+
+# Notebook
+- ***Notebooks are a form of interactive computing, in which users write and execute code, visualize the results, and share insights.*** Typically, data scientists use notebooks for experiments and exploration tasks.
+## Jupyter Notebook (Formerly known as the IPython (Interactive Python) Notebook)
+- Source: https://ipython.org/notebook.html
+- The IPython Notebook is now known as the Jupyter Notebook. It is an interactive computational environment, in which you can combine code execution, rich text, mathematics, plots and rich media.
+- Source: https://medium.com/memory-leak/data-science-notebooks-a-primer-4af256c8f5c6
+- ***Notebooks are represented as JSON documents. In turn, notebooks can interweave code with natural language markup and HTML.***
+- ***The browser passes the code to a back-end “kernel,” which runs the code and returns the results to the client. The kernel can run locally or in the cloud.***
+## Apache Zeppelin
+- Source: https://www.cloudera.com/products/open-source/apache-hadoop/apache-zeppelin.html
+- ***A completely open web-based notebook that enables interactive data analytics.***
+- Apache Zeppelin is a new and incubating multi-purposed web-based notebook which brings data ingestion, data exploration, visualization, sharing and collaboration features to ***Hadoop and Spark***.
+- Apache Zeppelin is a new and upcoming web-based notebook which brings data exploration, visualization, sharing and collaboration features to Spark.   ***It support Python, but also a growing list of programming languages such as Scala, Hive, SparkSQL, shell and markdown.***
+- Also when you are done with your notebook and found some insight you want to share, you can easily create a report out of it and either print it or send it out.
+## Google Colab
+- Source: https://medium.com/memory-leak/data-science-notebooks-a-primer-4af256c8f5c6
+- Data scientists/ML engineers share notebooks today, but it isn’t easy to do with open source Jupyter. In contrast, ***Google Colab emphasizes sharing as part of its functionality.*** Individuals thought the opportunity to do “remote pair programming” in a notebook could be useful, especially for senior leaders trying to help junior individuals on the team.
+
+# JSON (JavaScript Object Notation)
+- JSON is simply a notation for encoding common computer data types in a readable form.
+- Source: https://www.w3schools.com/whatis/whatis_json.asp
+- ***JSON is a lightweight format for storing and transporting data***.
+- ***JSON is often used when data is sent from a server to a web page. A common use of JSON is to read data from a web server, and display the data in a web page.***
+```json
+{
+"employees":[
+    {"firstName":"John", "lastName":"Doe"},
+    {"firstName":"Anna", "lastName":"Smith"},
+    {"firstName":"Peter", "lastName":"Jones"}
+]
+}
+```
+	- Data is in name/value pairs.
+	- Data is separated by commas.
+	- Curly braces hold objects.
+	- Square brackets hold arrays.
