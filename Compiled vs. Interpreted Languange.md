@@ -39,7 +39,7 @@
 ## HTML (HyperText Markup Language)
 - HTML is a markup language used for creating webpages. The contents of each webpage are defined by HTML tags. Most elements require a beginning and end tag, with the content placed between the tags.
 ## XML (eXtensible Markup Language)
-- XML is used for storing structured data, rather than formatting information on a page. While HTML documents use predefined tags (like the examples above), XML files use custom tags to define elements. For example, an XML file that stores information about computer models may include the following section:
+- ***XML is used for storing structured data, rather than formatting information on a page. While HTML documents use predefined tags (like the examples above), XML files use custom tags to define elements.*** For example, an XML file that stores information about computer models may include the following section:
 	```xml
 	<computer>
 	  <manufacturer>Dell</manufacturer>
@@ -65,7 +65,7 @@
 ### JavaScript
 ### Bash
 ### Kotlin
-### PHP
+### PHP: Hypertext Preprocessor
 - Source: https://en.wikipedia.org/wiki/Scripting_language
 - ***PHP is a general-purpose scripting language geared towards web development.***
 - Source: https://www.freecodecamp.org/news/what-is-php-the-php-programming-language-meaning-explained/

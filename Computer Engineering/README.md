@@ -38,3 +38,7 @@
 # Filename Extension
 - Source: https://en.wikipedia.org/wiki/Filename_extension
 - A filename extension, file extension or file type is an identifier specified as a suffix to the name of a computer file (.txt, .docx, .ppt, etc.). The extension indicates a characteristic of the file contents or its intended use. A filename extension is typically delimited from the filename with a full stop (period).
+
+# Terminal
+- Source: https://itconnect.uw.edu/learn/workshops/online-tutorials/web-publishing/what-is-a-terminal/
+- Terminals, also known as command lines or consoles, allow us to accomplish and automate tasks on a computer without the use of a graphical user interface.

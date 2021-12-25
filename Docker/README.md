@@ -21,6 +21,10 @@ docker run [OPTIONS] IMAGE [COMMAND]
 - 하나의 Image로 여러 개의 Container를 만들 수 있습니다.
 - `[OPTIONS]`
 	- `--name NAME`
+	- `-p` (= `--publish`): Publish a container's port(s) to the host.
+		```
+		docker run --name ws3 -p 8080:80 httpd
+		```
 ## `docker start`
 - `docker stop` 후 재실행합니다.
 ## `docker rm`
@@ -35,12 +39,37 @@ docker rmi [OPTIONS] IMAGE
 ### `docker rm --force`
 ## `docker images`
 ## `docker ps`
-- Containers를 확인합니다.
-### `docker ps -a`
-- All
+```
+docker ps [OPTIONS]
+```
+- List containers.
+- `[OPTIONS]
+	- `-a` (= `--all`): Show all containers (default shows just running).
 ## `docker logs`
 ```
-docker logs IMAGE
+docker logs [OPTIONS] CONTAINER
 ```
-### `docker -f logs`
-- Log가 계속 뜹니다.
+- Fetch the logs of a container.
+- `[OPTIONS]`
+	- `-f` (= `--follow`): 	Follow log output.
+## `docker exec`
+```
+docker exec [OPTIONS] CONTAINER COMMAND
+```
+- Run a command in a running container
+```
+docker exec ws pwd
+```
+- By default docker exec command runs in the same working directory set when container was created.
+- `[OPTIONS]`
+	- `-i` (= `--interactive`):	Keep STDIN open even if not attached.
+	- `-t` (= `--tty`): Allocate a pseudo-TTY.
+		```
+		docker exec -it ws /bin/sh
+		```
+		```
+		docker exec -it ws /bin/bash
+		```
+		
+`pwd`, `ls -al`
+`/usr/local/apache2/htdocs/`
