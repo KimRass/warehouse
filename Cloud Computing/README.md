@@ -12,11 +12,10 @@
 - VMs have many benefits. These include the ability to run different operating systems on the same server, more efficient and cost-effective utilization of physical resources, and faster server provisioning. On the flip side, each VM contains an OS image, libraries, applications, and more, and therefore can become quite large.
 #### Container
 - Just as shipping industries use physical containers to isolate different cargos—for example, to transport in ships and trains—software development technologies increasingly use an approach called containerization.
-- A standard package of software—known as a container—bundles an application’s code together with the related configuration files and libraries, and with the dependencies required for the app to run. This allows developers and IT pros to deploy applications seamlessly across environments.
-- The problem of an application failing to run correctly when moved from one environment to another is as old as software development itself. Such problems typically arise due to differences in configuration underlying library requirements and other dependencies.
-- Containers address this problem by providing a lightweight, immutable infrastructure for application packaging and deployment. ***An application or service, its dependencies, and its configuration are packaged together as a container image. The containerized application can be tested as a unit and deployed as a container image instance to the host operating system.***
+- ***A standard package of software—known as a container—bundles an application’s code together with the related configuration files and libraries, and with the dependencies required for the app to run. This allows developers and IT pros to deploy applications seamlessly across environments.***
+- ***The problem of an application failing to run correctly when moved from one environment to another is as old as software development itself. Such problems typically arise due to differences in configuration underlying library requirements and other dependencies.***
+- ***Containers address this problem by providing a lightweight, immutable infrastructure for application packaging and deployment. An application or service, its dependencies, and its configuration are packaged together as a container image. The containerized application can be tested as a unit and deployed as a container image instance to the host operating system.***
 - ***This way, containers enable developers and IT professionals to deploy applications across environments with little or no modification.***
-- ***A container virtualizes the underlying OS and causes the containerized app to perceive that it has the OS—including CPU, memory, file storage, and network connections—all to itself.*** Because the differences in underlying OS and infrastructure are abstracted, as long as the base image is consistent, ***the container can be deployed and run anywhere.*** For developers, this is incredibly attractive.
 - ***Since containers share the host OS, they don’t need to boot an OS or load libraries. This enables containers to be much more efficient and lightweight.*** Containerized applications can start in seconds, and many more instances of the application can fit onto the machine as compared to a VM scenario. The shared OS approach has the added benefit of reduced overhead when it comes to maintenance, such as patching and updates.
 - ***Though containers are portable, they’re constrained to the operating system they’re defined for. For example, a container for Linux can’t run on Windows, and vice versa.***
 ## OS (Operating System)
@@ -24,7 +23,7 @@
 - Privileged Instruction: 시스템 요소들과 소통하는 명령.
 - 하나의 하드웨어 시스템당 OS는 1개만 돌아갈 수 있음.
 - 일반 프로그램들은 특권 명령이 필요 없어 여러 개를 동시에 수행 가능
-### Windows
+### Microsoft Windows
 ### Linux
 #### `sudo`
 #### Terminal
@@ -40,6 +39,11 @@
 - OS, Middleware, Runtime
 - You write the code, build, and manage your apps, but you do it without the headaches of software updates or hardware maintenance. The environment to build and deploy is provided for you.
 - Examples: AWS Elastic Beanstalk, Heroku, and Red Hat OpenShift.
+- Middleware
+	- Source: https://en.wikipedia.org/wiki/Middleware
+	- Middleware is a type of computer software that provides services to software applications beyond those available from the operating system. It can be described as "software glue".
+	- Source: https://azure.microsoft.com/en-us/overview/what-is-middleware/
+	- Middleware is software that lies between an operating system and the applications running on it. Essentially functioning as hidden translation layer, middleware enables communication and data management for distributed applications. It’s sometimes called plumbing, as it connects two applications together so data and databases can be easily passed between the "pipe".
 ### Heroku
 - Source: https://en.wikipedia.org/wiki/Heroku
 - Heroku is a cloud platform as a service (PaaS) supporting several programming languages. One of the first cloud platforms, Heroku has been in development since June 2007, when it supported only the Ruby programming language, ***but now supports Java, Node.js, Scala, Clojure, Python, PHP, and Go.*** For this reason, Heroku is said to be a polyglot platform as it has features for a developer to build, run and scale applications in a similar manner across most languages. Heroku was acquired by Salesforce.com in 2010 for $212 million.
@@ -53,6 +57,9 @@
 - Applications, Data
 - Software updates, bug fixes, and general software maintenance are handled by the provider and the user connects to the app via a dashboard or API. ***There’s no installation of the software on individual machines and group access to the program is smoother and more reliable.***
 - You’re already familiar with a form of SaaS if you have an email account with a web-based service like Outlook or Gmail, for example, as you can log into your account and get your email from any computer, anywhere.
+- Application
+	- Source: https://en.wikipedia.org/wiki/Application_software
+	- An application program (application or app for short) is a computer program designed to carry out a specific task other than one relating to the operation of the computer itself, typically to be used by end-users.
 
 # Clustering
 - Source: https://medium.com/@mena.meseha/difference-between-distributed-and-cluster-aca9d50c2c44
@@ -61,6 +68,7 @@
 # AWS (Amazon Web Services)
 ## 글로벌 서비스
 ### IAM (Identity and Access Management)
+- MFA (Multi-Factor Authentication)
 ### Amazon EC2 (Elastic Compute Cloud)
 ### Amazon S3 (Simple Storage Service)
 - Source: https://en.wikipedia.org/wiki/Amazon_S3

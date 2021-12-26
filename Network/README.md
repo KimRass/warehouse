@@ -2,33 +2,42 @@
 - Source: https://www.cloudflare.com/ko-kr/learning/network-layer/what-is-a-protocol/
 - ***In networking, a protocol is a set of rules for formatting and processing data. Network protocols are like a common language for computers. The computers within a network may use vastly different software and hardware; however, the use of protocols enables them to communicate with each other regardless.***
 - Standardized protocols are like a common language that computers can use, similar to how two people from different parts of the world may not understand each other's native languages, but they can communicate using a shared third language. If one computer uses the Internet Protocol (IP) and a second computer does as well, they will be able to communicate — just as the United Nations relies on its 6 official languages to communicate amongst representatives from all over the globe. But if one computer uses IP and the other does not know this protocol, they will be unable to communicate.
-## TCP (Transport Layer Protocol)
-- TCP is a transport layer protocol that ensures reliable data delivery. ***TCP is meant to be used with IP, and the two protocols are often referenced together as TCP/IP.***
-## UDP (User Datagram Protocol)
+## Internet Protocol Suite (= TCP/IP)
+- ***The Internet protocol suite, commonly known as TCP/IP, is the set of communications protocols used in the Internet and similar computer networks. The current foundational protocols in the suite are the Transmission Control Protocol (TCP) and the Internet Protocol (IP).***
+### Internet Layer
+#### IP (Internet Protocol)
+##### IP Address
+- ***An IP address, or Internet Protocol address, is a complex string of numbers that acts as a binary identifier for devices across the Internet. In short, an IP address is the address that computers, servers and other devices use to identify one another online. The vast majority of IP addresses are arranged into four sets of digits – i.e., 12.34.56.78.***
+### Transport Layer
+#### TCP (Transmission Control Protocol)
+- The Transmission Control Protocol (TCP) is one of the main protocols of the Internet protocol suite
+#### UDP (User Datagram Protocol)
 - UDP is a faster but less reliable alternative to TCP at the transport layer. It is often used in services like video streaming and gaming, where fast data delivery is paramount.
-## HTTP (HyperText Transfer Protocol)
-- HTTP is the foundation of the World Wide Web, the Internet that most users interact with.
-## HTTPS (HTTP Secure)
+### Application Layer
+#### HTTP (HyperText Transfer Protocol)
+- ***HTTP is the foundation of the World Wide Web, the Internet that most users interact with.***
+##### HTTPS (HTTP Secure)
 - ***The problem with HTTP is that it is not encrypted — any attacker who intercepts an HTTP message can read it. HTTPS corrects this by encrypting HTTP messages.***
+- HTTPS is the secure and encrypted version of HTTP. 
 - Source: https://namu.wiki/w/TLS#s-1.2
 - TLS를 사용해 암호화된 연결을 하는 HTTP를 HTTPS(HTTP Secure)라고 하며, 당연히 웹사이트 주소 역시 "http://"가 아닌 "https://"로 시작된다. 기본 포트는 80번이 아닌 443번을 쓴다.
 - 흔히 TLS와 HTTPS를 혼동하는 경우가 많은데, 둘은 유사하긴 하지만 엄연히 다른 개념임을 알아두자. TLS는 다양한 종류의 보안 통신을 하기 위한 프로토콜이며, HTTPS는 TLS 위에 HTTP 프로토콜을 얹어 보안된 HTTP 통신을 하는 프로토콜이다. 다시 말해 TLS는 HTTP뿐만이 아니라 FTP, SMTP와 같은 여타 프로토콜에도 적용할 수 있으며, HTTPS는 TLS와 HTTP가 조합된 프로토콜만을 가리킨다.
 - HTTP는 HTTPS와 달리 암호화되지 않았으며, 중간자 공격 또는 도청의 가능성이 높으므로 HTTPS만큼 안전하지 않다.
-### TLS (Transport Layer Security)
-#### SSL (Secure Sockets Layer)
+#### TLS (Transport Layer Security)/SSL (Secure Sockets Layer)
 - ***TLS is the protocol HTTPS uses for encryption.*** TLS used to be called SSL.
 - Source: https://namu.wiki/w/TLS#s-1.2
 - 인터넷에서의 정보를 암호화해서 송수신하는 프로토콜. 넷스케이프 커뮤니케이션스사가 개발한 SSL(Secure Sockets Layer)에 기반한 기술로, 국제 인터넷 표준화 기구에서 표준으로 인정받은 프로토콜이다. TCP 443 포트를 사용한다. 표준에 명시된 정식 명칭은 TLS지만 아직도 SSL이라는 용어가 많이 사용되고 있다.
 - 인터넷을 사용한 통신에서 보안을 확보하려면 두 통신 당사자가 서로가 신뢰할 수 있는 자임을 확인할 수 있어야 하며, 서로간의 통신 내용이 제 3자에 의해 도청되는 것을 방지해야 한다. 따라서 서로 자신을 신뢰할 수 있음을 알리기 위해 전자 서명이 포함된 인증서를 사용하며, 도청을 방지하기 위해 통신 내용을 암호화한다. 이러한 통신 규약을 묶어 정리한 것이 바로 TLS. 주요 웹브라우저 주소창에 자물쇠 아이콘이 뜨는 것으로 TLS의 적용 여부를 확인할 수 있다.
 - 예를 들어 인터넷 뱅킹을 하기 위해 은행의 사이트에 방문했을 때, 고객은 그 사이트가 정말 은행의 사이트가 맞는지 아니면 해커가 만든 가짜 피싱 사이트인지 확인할 수 있어야 하며, 은행 역시 자신의 서비스에 접속한자가 해당 고객이 맞는지 아니면 고객의 컴퓨터와 서버 사이에서 내용을 가로채고자 하는 해커인지 확인할 수 있어야 한다. 그리고 은행과 고객 간의 통신 내용이 다른 해커에게 도청되지 않도록 내용을 숨겨야 한다. 이럴 때 바로 은행과 고객 간에 TLS를 사용한 연결을 맺어 안전하게 통신을 할 수 있다.
 - 쉽게 요약해서, 먼저 서로가 어떤 TLS 버전을 사용 가능한지를 확인하고, 인증서를 사용해 서로를 믿을 수 있는지 확인한 뒤, 서로간의 통신에 쓸 암호를 교환하는 것이다. 그 다음부터는 서로 교환한 암호를 사용해 제3자가 도청할 수 없는 암호화된 통신을 하면 된다.
-## SSH (Secure SHell)
+#### SSH (Secure SHell)
 - Source: https://www.ucl.ac.uk/isd/what-ssh-and-how-do-i-use-it
 - SSH or Secure Shell is a network communication protocol that enables two computers to communicate (c.f http or hypertext transfer protocol, which is the protocol used to transfer hypertext such as web pages) and share data. An inherent feature of ssh is that the communication between the two computers is encrypted meaning that it is suitable for use on insecure networks.
 - Source: https://www.ssh.com/academy/ssh/protocol
 - The protocol works in the client-server model, which means that the connection is established by the SSH client connecting to the SSH server. ***The SSH client drives the connection setup process and uses public key cryptography to verify the identity of the SSH server.*** After the setup phase the SSH protocol uses strong symmetric encryption and hashing algorithms to ensure the privacy and integrity of the data that is exchanged between the client and server.
 - There are several options that can be used for user authentication. The most common ones are passwords and public key authentication.
 - The public key authentication method is primarily used for automation and sometimes by system administrators for single sign-on. It has turned out to be much more widely used than we ever anticipated. ***The idea is to have a cryptographic key pair - public key and private key - and configure the public key on a server to authorize access and grant anyone who has a copy of the private key access to the server. The keys used for authentication are called SSH keys.***
+
 ## OAuth
 - Source: https://www.varonis.com/blog/what-is-oauth/
 - OAuth is an open-standard authorization protocol or framework that provides applications the ability for “secure designated access.” For example, you can tell Facebook that it’s OK for ESPN.com to access your profile or post updates to your timeline without having to give ESPN your Facebook password. This minimizes risk in a major way: In the event ESPN suffers a breach, your Facebook password remains safe.
@@ -43,7 +52,7 @@
 
 # Network
 - Source: https://fcit.usf.edu/network/chap1/chap1.htm
-- A network consists of two or more computers that are linked in order to share resources (such as printers and CDs), exchange files, or allow electronic communications. The computers on a network may be linked through cables, telephone lines, radio waves, satellites, or infrared light beams.
+- ***A network consists of two or more computers that are linked in order to share resources (such as printers and CDs), exchange files, or allow electronic communications.*** The computers on a network may be linked through cables, telephone lines, radio waves, satellites, or infrared light beams.
 ## LAN (Local Area Network)
 - Source: https://www.cisco.com/c/en/us/products/switches/what-is-a-lan-local-area-network.html
 - A local area network (LAN) is a collection of devices connected together in one physical location, such as a building, office, or home. A LAN can be small or large, ranging from a home network with one user to an enterprise network with thousands of users and devices in an office or school.
@@ -57,6 +66,20 @@
 	- Encryption stops hackers from seeing sensitive information that you enter into websites, like your passwords. This is especially important if you’re using public WiFi because it’s easy for cybercriminals to monitor your connection on public networks. But a VPN makes sure that even if someone stole your data, they wouldn’t be able to decrypt it or even understand it.
 - Your VPN also protects your privacy
 	- Websites and services use your IP to determine your location. When you connect to a VPN server, your IP address won’t be visible. Because they can no longer see your real IP, they can’t see where you’re located.
+	
+# DNS (Domain Name System)
+- Source: https://whatismyipaddress.com/dns
+- Every time you visit a website, you are interacting with the largest ***distributed database*** in the world. This massive database is collectively known as the DNS, or the Domain Name System.
+## Domain Name
+- When you input a URL like www.example.com/index into a web browser, its domain name is example.com. Basically, a domain name is the human-friendly version of an IP address.***
+## TLD (Top Level Domain)
+- ***A Top Level Domain refers to the part of a domain name that comes after the period. For instance, the TLD of example.com is COM.*** While there’s an ever-expanding number of domain names, there’s a relatively static number of Top Level Domains; .com, .edu and .org are just a few key examples.
+## Root Server
+- ***Specialized computers called root servers store the IP addresses of each Top Level Domain’s registries. Therefore, the first stop that the DNS makes when it resolves, or translates, a domain name is at its associated root server.*** From there, the requested domain name is sent along to a Domain Name Resolver, or DNR.
+## DNR (Domain Name Resolver)
+- ***Domain Name Resolvers, or resolvers, are located within individual Internet Service Providers and organizations. They respond to requests from root servers to find the necessary IP addresses.*** Since the root server already recognizes the .com, .edu or other part of the equation, it simply has to resolve the remainder of the request. It usually does this instantly, and the information is forwarded to the user’s PC.
+## URL (Universal Resource Locator)
+- ***The universal resource locator, or URL, is an entire set of directions, and it contains extremely detailed information. The domain name is one of the pieces inside of a URL***
 
 # Client-Server Model
 ## Host
@@ -122,3 +145,15 @@
 - Software developers use the Log4j framework to record user activity and the behavior of applications. Distributed free by the nonprofit Apache Software Foundation, Log4j has been downloaded millions of times and is among the most widely used tools to collect information across corporate computer networks, websites and applications.
 ## The Log4j Vulnerability
 - The Log4j flaw allows attackers to execute code remotely on a target computer, which could let them steal data, install malware or take control. Exploits discovered recently include hacking systems to mine cryptocurrency. Other hackers have built malware to hijack computers for large-scale assaults on internet infrastructure, cyber researchers have found.
+
+# Port
+- Source: https://www.cloudflare.com/ko-kr/learning/network-layer/what-is-a-computer-port/
+- Vastly different types of data flow to and from a computer over the same network connection. ***The use of ports helps computers understand what to do with the data they receive.***
+- Suppose Bob transfers an MP3 audio recording to Alice using the File Transfer Protocol (FTP). If Alice's computer passed the MP3 file data to Alice's email application, the email application would not know how to interpret it. ***But because Bob's file transfer uses the port designated for FTP (port 21), Alice's computer is able to receive and store the file. Meanwhile, Alice's computer can simultaneously load HTTP webpages using port 80, even though both the webpage files and the MP3 sound file flow to Alice's computer over the same WiFi connection.***
+- Some of the most commonly used ports, along with their associated networking protocol, are:
+	- Port 22: SSH
+	- ***Port 80: HTTP
+	- ***Port 443: HTTPS. All HTTPS web traffic goes to port 443. Network services that use HTTPS for encryption, such as DNS over HTTPS, also connect at this port.***
+## Port Forwarding
+- Source: https://stevessmarthomeguide.com/understanding-port-forwarding/
+- ***Port forwarding is a technique that is used to allow external devices access to computers services on private networks. It does this by mapping an external port to an internal IP address and port.***
