@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="8" version="2.0">
+<workbench progressCount="15" version="2.0">
 <workbenchAdvisor/>
-<window height="768" minimized="true" width="1024" x="961" y="184">
+<window height="1057" maximized="true" width="974" x="953" y="0">
 <fastViewData fastViewLocation="1024"/>
 <perspectiveBar>
 <itemSize x="160"/>
@@ -30,8 +30,8 @@
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="com.tomato.exerd.editor.DiagramEditor" name="Customer Satisfaction.exerd" partName="Customer Satisfaction.exerd" title="Customer Satisfaction.exerd" tooltip="D:\Github\Programming\Data Science\Database\eXERD\Workspace\Customer Satisfaction.exerd" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" uri="file:/D:/Github/Programming/Data%20Science/Database/eXERD/Workspace/Customer%20Satisfaction.exerd"/>
+<editor activePart="true" focus="true" id="com.tomato.exerd.editor.DiagramEditor" name="CS.exerd" partName="CS.exerd" path="D:/Github/Programming/Data Science/Database/eXERD/Workspace/newProject/CS.exerd" title="CS.exerd" tooltip="newProject/CS.exerd" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/newProject/CS.exerd"/>
 </editor>
 </editors>
 <views>
@@ -112,7 +112,7 @@
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.18" ratioLeft="180" ratioRight="820" relationship="2" relative="leftFolder"/>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@15838f" ratio="0.77926826" ratioLeft="639" ratioRight="181" relationship="2" relative="org.eclipse.ui.editorss">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@15838f" ratio="0.85863876" ratioLeft="656" ratioRight="108" relationship="2" relative="org.eclipse.ui.editorss">
 <folder activePageID="com.tomato.exerd.ui.views.thumbnail" appearance="2" expanded="2">
 <page content="com.tomato.exerd.ui.views.thumbnail" label="썸네일"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
@@ -159,8 +159,10 @@
 <navigationHistory>
 <editors>
 <editor factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" uri="file:/D:/Github/Programming/Data%20Science/Database/eXERD/Workspace/Customer%20Satisfaction.exerd"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" path="/newProject/CS.exerd"/>
 </editors>
-<item active="true" historyLabel="Customer Satisfaction.exerd" index="0"/>
+<item historyLabel="Customer Satisfaction.exerd" index="0"/>
+<item active="true" historyLabel="CS.exerd" index="1"/>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
 </page>
@@ -178,6 +180,9 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" name="CS.exerd" tooltip="newProject/CS.exerd">
+<persistable path="/newProject/CS.exerd"/>
+</file>
 <file factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="com.tomato.exerd.editor.DiagramEditor" name="Customer Satisfaction.exerd" tooltip="D:\Github\Programming\Data Science\Database\eXERD\Workspace\Customer Satisfaction.exerd">
 <persistable uri="file:/D:/Github/Programming/Data%20Science/Database/eXERD/Workspace/Customer%20Satisfaction.exerd"/>
 </file>

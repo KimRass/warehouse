@@ -66,38 +66,54 @@
 - It means that multiple servers are grouped together to achieve the same business and can be regarded as one computer.
 
 # AWS (Amazon Web Services)
-## 글로벌 서비스
-### IAM (Identity and Access Management)
+## AWS Region
+- ***Amazon cloud computing resources are housed in highly available data center facilities in different areas of the world (for example, North America, Europe, or Asia).*** Each data center location is called an AWS Region.
+- ***Each Amazon EC2 Region is designed to be isolated from the other Amazon EC2 Regions. This achieves the greatest possible fault tolerance and stability.***
+- ***When you view your resources, you see only the resources that are tied to the Region that you specified. This is because Regions are isolated from each other, and we don't automatically replicate resources across Regions.***
+### Availability Zone (AZ)
+- Each AWS Region contains multiple distinct locations called Availability Zones, or AZs. ***Each Availability Zone is engineered to be isolated from failures in other Availability Zones. Each is engineered to provide inexpensive, low-latency network connectivity to other Availability Zones in the same AWS Region.*** By launching instances in separate Availability Zones, you can protect your applications from the failure of a single location.
+- ***Availability Zones are multiple, isolated locations within each Region.***
+## Edge Location
+- 임시 데이터 저장소. 속도 빨라짐.
+## Amazon Resource Name (ARN)
+- 모든 리소스의 고유 아이디.
+## IAM (Identity and Access Management)
 - MFA (Multi-Factor Authentication)
-### Amazon EC2 (Elastic Compute Cloud)
-### Amazon S3 (Simple Storage Service)
+## Amazon EC2 (Elastic Compute Cloud)
+### AMI (Amazon Machine Image)
+- ***An Amazon Machine Image (AMI) is a template that contains a software configuration (for example, an operating system, an application server, and applications).***
+### Instance
+- ***An instance is a virtual server in the cloud. Its configuration at launch is a copy of the AMI that you specified when you launched the instance.***
+- ***You can launch different types of instances from a single AMI.*** An instance type essentially determines the hardware of the host computer used for your instance. Each instance type offers different compute and memory capabilities. Select an instance type based on the amount of memory and computing power that you need for the application or software that you plan to run on the instance.
+- ***Your instances keep running until you stop, hibernate, or terminate them, or until they fail.*** If an instance fails, you can launch a new one from the AMI.
+- ***You are not charged for additional instance usage while the instance is in a stopped state.*** A minimum of one minute is charged for every transition from a stopped state to a running state. If the instance type was changed while the instance was stopped, you will be charged the rate for the new instance type after the instance is started.
+- On-Demand Instance
+	- There is no long-term commitment required when you purchase On-Demand Instances. ***You pay only for the seconds that your On-Demand Instances are in the running state. The price per second for a running On-Demand Instance is fixed.***
+- Spot Instance
+- `Delete on Termination`: *EBS volumes persist independently from the running life of an EC2 instance. However, you can choose to automatically delete an EBS volume when the associated instance is terminated.*
+- Security Group
+	- `Type`
+		- The protocol to open to network traffic. *You can choose a common protocol, such as SSH (for a Linux instance), RDP (for a Windows instance), and HTTP and HTTPS to allow Internet traffic to reach your instance.* You can also manually enter a custom port or port ranges.
+		- Instance에 원격으로 접속할 것이라면 `SSH`로 설정합니다.
+	- `Source`: *Determines the traffic that can reach your instance. Specify a single IP address, or an IP address range in CIDR notation (for example, 203.0.113.5/32).*
+#### Amazon Elastic Block Store (EBS)
+- ***Amazon Elastic Block Store (Amazon EBS) provides block level storage volumes for use with EC2 instances.*** EBS volumes behave like raw, unformatted block devices. ***You can mount these volumes as devices on your instances. EBS volumes that are attached to an instance are exposed as storage volumes that persist independently from the life of the instance.***
+- ***We recommend Amazon EBS for data that must be quickly accessible and requires long-term persistence.***
+## Amazon S3 (Simple Storage Service)
 - Source: https://en.wikipedia.org/wiki/Amazon_S3
 - Amazon S3 or Amazon Simple Storage Service is a service offered by Amazon Web Services (AWS) that provides object storage through a web service interface. Amazon S3 can be employed to store any type of object, which allows for uses like storage for Internet applications, backup and recovery, disaster recovery, data archives, data lakes for analytics, and hybrid cloud storage.
-### Amazon SageMaker
+## Amazon SageMaker
 - Source: https://en.wikipedia.org/wiki/Amazon_SageMaker
 - Amazon SageMaker is a cloud machine-learning platform that was launched in November 2017. SageMaker enables developers to create, train, and deploy machine-learning (ML) models in the cloud.
 - SageMaker enables developers to operate at a number of levels of abstraction when training and deploying machine learning models. ***At its highest level of abstraction, SageMaker provides pre-trained ML models that can be deployed as-is. In addition, SageMaker provides a number of built-in ML algorithms that developers can train on their own data.*** Further, SageMaker provides managed instances of TensorFlow and Apache MXNet, where developers can create their own ML algorithms from scratch. Regardless of which level of abstraction is used, ***a developer can connect their SageMaker-enabled ML models to other AWS services, such as the Amazon DynamoDB database for structured data storage, AWS Batch for offline batch processing, or Amazon Kinesis for real-time processing.***
 ### Amazon DynamoDB
 - Source: https://en.wikipedia.org/wiki/Amazon_DynamoDB
 - Amazon DynamoDB is a fully managed proprietary NoSQL database service that supports key–value and document data structures.
-### Amazon Batch
-### Amazon Kinesis
-### Amazon EMR (Elastic MapReduce)
+## Amazon Batch
+## Amazon Kinesis
+## Amazon EMR (Elastic MapReduce)
 - Source: https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-what-is-emr.html
 - ***Amazon EMR (previously called Amazon Elastic MapReduce) is a managed cluster platform that simplifies running big data frameworks, such as Apache Hadoop and Apache Spark, on AWS to process and analyze vast amounts of data.*** Using these frameworks and related open-source projects, you can process data for analytics purposes and business intelligence workloads. Amazon EMR also lets you transform and move large amounts of data into and out of other AWS data stores and databases, such as Amazon Simple Storage Service (Amazon S3) and Amazon DynamoDB.
-### Amazon RDS (Relational Database Service)
+## Amazon RDS (Relational Database Service)
 - Amazon Relational Database Service (Amazon RDS) is a web service that makes it easier to set up, operate, and scale a relational database in the AWS Cloud. It provides cost-efficient, resizable capacity for an industry-standard relational database and manages common database administration tasks.
-### CloudFront
-## 지역 서비스
-- 특정 리전 기반.
-## AWS Region
-- ***Amazon cloud computing resources are housed in highly available data center facilities in different areas of the world (for example, North America, Europe, or Asia).*** Each data center location is called an AWS Region.
-- ***Each Amazon EC2 Region is designed to be isolated from the other Amazon EC2 Regions. This achieves the greatest possible fault tolerance and stability.***
-- ***When you view your resources, you see only the resources that are tied to the Region that you specified. This is because Regions are isolated from each other, and we don't automatically replicate resources across Regions.***
-### Availability Zone (AZ)
-- Availability Zones are multiple, isolated locations within each Region.
-- Each AWS Region contains multiple distinct locations called Availability Zones, or AZs. Each Availability Zone is engineered to be isolated from failures in other Availability Zones. Each is engineered to provide inexpensive, low-latency network connectivity to other Availability Zones in the same AWS Region. By launching instances in separate Availability Zones, you can protect your applications from the failure of a single location.
-## Edge Location
-- 임시 데이터 저장소. 속도 빨라짐.
-## Amazon Resource Name (ARN)
-- 모든 리소스의 고유 아이디.
+## CloudFront

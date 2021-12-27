@@ -556,6 +556,7 @@ DATEADD(<<Interval>>, <<Number>>, <<Date>>)
 DATEDIFF(YEAR, 0, GETDATE())
 ```
 - `0` means the default date of `1900-01-01 00:00:00.000`
+## `LAST_YEAR`, `THIS_YEAR`, `NEXT_YEAR`, `LAST_MONTH`, `THIS_MONTH`, `NEXT_MONTH`, `YESTERDAY`, `TODAY`, `TOMORROW` (Salesforce Object Query Language)
 
 # Data Type Conversion Functions
 ## `CAST(AS)`
@@ -722,7 +723,7 @@ WHERE A.<<Column1>>(+) = B.<<Column2>>
 ## Equi Join
 - Source: https://www.w3resource.com/sql/joins/perform-an-equi-join.php
 - Equi join performs a join against equality or matching column(s) values of the associated tables. ***An equal sign(`=`) is used as comparison operator in the where clause to refer equality.***
-- Salesforce에서는 Equi join만 사용 가능합니다.
+- Salesforce Object Query Language에서는 Equi join만 사용 가능합니다.
 ## Non-Equi Join
 - Source: https://learnsql.com/blog/illustrated-guide-sql-non-equi-join/
 - `!=`, `<`, `<=`, `>`, `>=`, `BETWEEN AND`

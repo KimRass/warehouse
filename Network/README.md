@@ -6,6 +6,12 @@
 - ***The Internet protocol suite, commonly known as TCP/IP, is the set of communications protocols used in the Internet and similar computer networks. The current foundational protocols in the suite are the Transmission Control Protocol (TCP) and the Internet Protocol (IP).***
 ### Internet Layer
 #### IP (Internet Protocol)
+- Source: https://phoenixnap.com/blog/ipv4-vs-ipv6?utm_term=&utm_campaign=&utm_source=adwords&utm_medium=ppc&hsa_ad=545481684602&hsa_kw=&hsa_cam=14630707084&hsa_grp=127504961735&hsa_net=adwords&hsa_mt=&hsa_ver=3&hsa_tgt=dsa-410675953091&hsa_src=g&hsa_acc=2931804872&gclid=Cj0KCQiAwqCOBhCdARIsAEPyW9kZfHueBP3LaktZigCwbk7CJJiOsS9WfYEGuXAZnRgNbfdvMXI9IK4aAh6oEALw_wcB
+- IPv4 and IPv6
+	- *Even with 4.3 billion possible addresses, that’s not nearly enough to accommodate all of the currently connected devices.* Device types are far more than just desktops. Now there are smartphones, hotspots, IoT, smart speakers, cameras, etc.
+	- IPv4 addresses are set to finally run out, making IPv6 deployment the only viable solution left for the long-term growth of the Internet.
+	- IPv6 is considered as an enhanced version of the older IPv4 protocol, as it supports a significantly larger number of nodes than the latter.
+	- IPv4: 32-bit number, IPv6: 128-bit number
 ##### IP Address
 - ***An IP address, or Internet Protocol address, is a complex string of numbers that acts as a binary identifier for devices across the Internet. In short, an IP address is the address that computers, servers and other devices use to identify one another online. The vast majority of IP addresses are arranged into four sets of digits – i.e., 12.34.56.78.***
 ### Transport Layer
@@ -53,6 +59,17 @@
 # Network
 - Source: https://fcit.usf.edu/network/chap1/chap1.htm
 - ***A network consists of two or more computers that are linked in order to share resources (such as printers and CDs), exchange files, or allow electronic communications.*** The computers on a network may be linked through cables, telephone lines, radio waves, satellites, or infrared light beams.
+## Network Traffic
+- Source: https://www.fortinet.com/resources/cyberglossary/network-traffic
+- *Network traffic is the amount of data moving across a computer network at any given time. Network traffic, also called data traffic, is broken down into data packets and sent over a network before being reassembled by the receiving device or computer.*
+- *Network traffic has two directional flows, north-south and east-west. Traffic affects network quality because an unusually high amount of traffic can mean slow download speeds or spotty Voice over Internet Protocol (VoIP) connections. Traffic is also related to security because an unusually high amount of traffic could be the sign of an attack.*
+## North-South Traffic
+- *North-south traffic refers to client-to-server traffic that moves between the data center and the rest of the network (i.e., a location outside of the data center).* 
+## East-West Traffic
+- *East-west traffic refers to traffic within a data center, also known as server-to-server traffic.*
+## Data Packets
+- *When data travels over a network or over the internet, it must first be broken down into smaller batches so that larger files can be transmitted efficiently.* The network breaks down, organizes, and bundles the data into data packets so that they can be sent reliably through the network and then opened and read by another user in the network. Each packet takes the best route possible to spread network traffic evenly. 
+
 ## LAN (Local Area Network)
 - Source: https://www.cisco.com/c/en/us/products/switches/what-is-a-lan-local-area-network.html
 - A local area network (LAN) is a collection of devices connected together in one physical location, such as a building, office, or home. A LAN can be small or large, ranging from a home network with one user to an enterprise network with thousands of users and devices in an office or school.

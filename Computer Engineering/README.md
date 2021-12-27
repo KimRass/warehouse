@@ -156,3 +156,19 @@
 	- Data is separated by commas.
 	- Curly braces hold objects.
 	- Square brackets hold arrays.
+
+# Binary Prefixes
+- The binary prefixes include kibi, mebi, gibi, tebi, pebi, exbi, zebi and yobi.
+- One gibibyte equals 2^30 or 1,073,741,824 bytes.
+- The International Electrotechnical Commission (IEC) created these prefixes in 1998. Prior to that, the metric prefixes in the International System of Units (SI) were used across the board to refer to both the decimal system's power-of-10 multipliers and the binary system's power-of-two multipliers. The prefixes used in the SI system include kilo, mega, giga, tera, peta, exa, zetta and yotta.
+
+# Hard-Coding
+- Source: https://www.quora.com/What-does-hard-coding-mean-in-programming
+- Hard-coding is the practice of embedding data directly into the source code of a program. Like you fix the size of the array instead of dynamic memory allocation. You put in static elements(It’s like static initialization’s). Hard-coding passwords mean putting non-encrypted plain text passwords and other secret data into the source code. A programmer should not hard-code unless needed otherwise.
+
+# Input/Output (I/O)
+- Source: https://en.wikipedia.org/wiki/Input/output
+- In computing, input/output (I/O, or informally io or IO) is the communication between an information processing system, such as a computer, and the outside world, possibly a human or another information processing system. Inputs are the signals or data received by the system and outputs are the signals or data sent from it. The term can also be used as part of an action; to "perform I/O" is to perform an input or output operation.
+## IOPS (Input/Output operations Per Second)
+- Source: https://en.wikipedia.org/wiki/IOPS
+- Input/output operations per second (IOPS, pronounced eye-ops) is an input/output performance measurement used to characterize computer storage devices like HDD and SDD.
