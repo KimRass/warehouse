@@ -4,39 +4,52 @@
 - Standardized protocols are like a common language that computers can use, similar to how two people from different parts of the world may not understand each other's native languages, but they can communicate using a shared third language. If one computer uses the Internet Protocol (IP) and a second computer does as well, they will be able to communicate — just as the United Nations relies on its 6 official languages to communicate amongst representatives from all over the globe. But if one computer uses IP and the other does not know this protocol, they will be unable to communicate.
 ## Internet Protocol Suite (= TCP/IP)
 - ***The Internet protocol suite, commonly known as TCP/IP, is the set of communications protocols used in the Internet and similar computer networks. The current foundational protocols in the suite are the Transmission Control Protocol (TCP) and the Internet Protocol (IP).***
-### Internet Layer
-#### IP (Internet Protocol)
+### IP (Internet Protocol)
 - Source: https://phoenixnap.com/blog/ipv4-vs-ipv6?utm_term=&utm_campaign=&utm_source=adwords&utm_medium=ppc&hsa_ad=545481684602&hsa_kw=&hsa_cam=14630707084&hsa_grp=127504961735&hsa_net=adwords&hsa_mt=&hsa_ver=3&hsa_tgt=dsa-410675953091&hsa_src=g&hsa_acc=2931804872&gclid=Cj0KCQiAwqCOBhCdARIsAEPyW9kZfHueBP3LaktZigCwbk7CJJiOsS9WfYEGuXAZnRgNbfdvMXI9IK4aAh6oEALw_wcB
 - IPv4 and IPv6
 	- *Even with 4.3 billion possible addresses, that’s not nearly enough to accommodate all of the currently connected devices.* Device types are far more than just desktops. Now there are smartphones, hotspots, IoT, smart speakers, cameras, etc.
 	- IPv4 addresses are set to finally run out, making IPv6 deployment the only viable solution left for the long-term growth of the Internet.
 	- IPv6 is considered as an enhanced version of the older IPv4 protocol, as it supports a significantly larger number of nodes than the latter.
-	- IPv4: 32-bit number, IPv6: 128-bit number
-##### IP Address
+	- IPv4: 32-bit number (2^32 = 4,294,967,296), IPv6: 128-bit number
+#### IP Address
 - ***An IP address, or Internet Protocol address, is a complex string of numbers that acts as a binary identifier for devices across the Internet. In short, an IP address is the address that computers, servers and other devices use to identify one another online. The vast majority of IP addresses are arranged into four sets of digits – i.e., 12.34.56.78.***
-### Transport Layer
-#### TCP (Transmission Control Protocol)
+- Source: https://www.techtarget.com/searchnetworking/definition/port-number
+- Localhost is the default name used to establish a connection with a computer. The IP address is usually 127.0.0.1.
+##### Public IP Address(= External IP Address)
+- Source: https://www.avast.com/c-ip-address-public-vs-private#gref
+- ***A public IP address is an IP address that can be accessed directly over the internet and is assigned to your network router by your internet service provider (ISP). Your personal device also has a private IP that remains hidden when you connect to the internet through your router’s public IP.***
+- *Public IP addresses can be traced back to your ISP, which can potentially reveal your general geographical location.*
+- *Websites also use IP tracking to analyze online behavior patterns, making it easier for them to determine if the same individual visits the site repeatedly. Websites can then use these patterns to predict your preferences.*
+##### Private IP Address(= Internal IP Address, Local IP Address)
+- Source: https://www.avast.com/c-ip-address-public-vs-private#gref
+- ***A private IP address is the address your network router assigns to your device. Each device within the same network is assigned a unique private IP address — this is how devices on the same internal network talk to each other.***
+- ***Private IP addresses let devices connected to the same network communicate with one another without connecting to the entire internet. By making it more difficult for an external host or user to establish a connection, private IPs help bolster security within a specific network, like in your home or office. This is why you can print documents via wireless connection to your printer at home, but your neighbor can’t send their files to your printer accidentally.***
+- ***Your private IP address exists within specific private IP address ranges reserved by the Internet Assigned Numbers Authority (IANA) and should never appear on the internet.*** There are millions of private networks across the globe, all of which include devices assigned private IP addresses within these ranges:
+	- Class A: 10.0.0.0 — 10.255.255.255
+	- Class B: 172.16.0.0 — 172.31.255.255 
+	- Class C: 192.168.0.0 — 192.168.255.255 
+- ***These might not seem like wide ranges, but they don’t really need to be. Because these IP addresses are reserved for private network use only, they can be reused on different private networks all over the world — without consequence or confusion.***
+### TCP (Transmission Control Protocol)
 - The Transmission Control Protocol (TCP) is one of the main protocols of the Internet protocol suite
-#### UDP (User Datagram Protocol)
+### UDP (User Datagram Protocol)
 - UDP is a faster but less reliable alternative to TCP at the transport layer. It is often used in services like video streaming and gaming, where fast data delivery is paramount.
-### Application Layer
-#### HTTP (HyperText Transfer Protocol)
+### HTTP (HyperText Transfer Protocol)
 - ***HTTP is the foundation of the World Wide Web, the Internet that most users interact with.***
-##### HTTPS (HTTP Secure)
+#### HTTPS (HTTP Secure)
 - ***The problem with HTTP is that it is not encrypted — any attacker who intercepts an HTTP message can read it. HTTPS corrects this by encrypting HTTP messages.***
 - HTTPS is the secure and encrypted version of HTTP. 
 - Source: https://namu.wiki/w/TLS#s-1.2
 - TLS를 사용해 암호화된 연결을 하는 HTTP를 HTTPS(HTTP Secure)라고 하며, 당연히 웹사이트 주소 역시 "http://"가 아닌 "https://"로 시작된다. 기본 포트는 80번이 아닌 443번을 쓴다.
 - 흔히 TLS와 HTTPS를 혼동하는 경우가 많은데, 둘은 유사하긴 하지만 엄연히 다른 개념임을 알아두자. TLS는 다양한 종류의 보안 통신을 하기 위한 프로토콜이며, HTTPS는 TLS 위에 HTTP 프로토콜을 얹어 보안된 HTTP 통신을 하는 프로토콜이다. 다시 말해 TLS는 HTTP뿐만이 아니라 FTP, SMTP와 같은 여타 프로토콜에도 적용할 수 있으며, HTTPS는 TLS와 HTTP가 조합된 프로토콜만을 가리킨다.
 - HTTP는 HTTPS와 달리 암호화되지 않았으며, 중간자 공격 또는 도청의 가능성이 높으므로 HTTPS만큼 안전하지 않다.
-#### TLS (Transport Layer Security)/SSL (Secure Sockets Layer)
+### TLS (Transport Layer Security)/SSL (Secure Sockets Layer)
 - ***TLS is the protocol HTTPS uses for encryption.*** TLS used to be called SSL.
 - Source: https://namu.wiki/w/TLS#s-1.2
 - 인터넷에서의 정보를 암호화해서 송수신하는 프로토콜. 넷스케이프 커뮤니케이션스사가 개발한 SSL(Secure Sockets Layer)에 기반한 기술로, 국제 인터넷 표준화 기구에서 표준으로 인정받은 프로토콜이다. TCP 443 포트를 사용한다. 표준에 명시된 정식 명칭은 TLS지만 아직도 SSL이라는 용어가 많이 사용되고 있다.
 - 인터넷을 사용한 통신에서 보안을 확보하려면 두 통신 당사자가 서로가 신뢰할 수 있는 자임을 확인할 수 있어야 하며, 서로간의 통신 내용이 제 3자에 의해 도청되는 것을 방지해야 한다. 따라서 서로 자신을 신뢰할 수 있음을 알리기 위해 전자 서명이 포함된 인증서를 사용하며, 도청을 방지하기 위해 통신 내용을 암호화한다. 이러한 통신 규약을 묶어 정리한 것이 바로 TLS. 주요 웹브라우저 주소창에 자물쇠 아이콘이 뜨는 것으로 TLS의 적용 여부를 확인할 수 있다.
 - 예를 들어 인터넷 뱅킹을 하기 위해 은행의 사이트에 방문했을 때, 고객은 그 사이트가 정말 은행의 사이트가 맞는지 아니면 해커가 만든 가짜 피싱 사이트인지 확인할 수 있어야 하며, 은행 역시 자신의 서비스에 접속한자가 해당 고객이 맞는지 아니면 고객의 컴퓨터와 서버 사이에서 내용을 가로채고자 하는 해커인지 확인할 수 있어야 한다. 그리고 은행과 고객 간의 통신 내용이 다른 해커에게 도청되지 않도록 내용을 숨겨야 한다. 이럴 때 바로 은행과 고객 간에 TLS를 사용한 연결을 맺어 안전하게 통신을 할 수 있다.
 - 쉽게 요약해서, 먼저 서로가 어떤 TLS 버전을 사용 가능한지를 확인하고, 인증서를 사용해 서로를 믿을 수 있는지 확인한 뒤, 서로간의 통신에 쓸 암호를 교환하는 것이다. 그 다음부터는 서로 교환한 암호를 사용해 제3자가 도청할 수 없는 암호화된 통신을 하면 된다.
-#### SSH (Secure SHell)
+### SSH (Secure SHell)
 - Source: https://www.ucl.ac.uk/isd/what-ssh-and-how-do-i-use-it
 - SSH or Secure Shell is a network communication protocol that enables two computers to communicate (c.f http or hypertext transfer protocol, which is the protocol used to transfer hypertext such as web pages) and share data. An inherent feature of ssh is that the communication between the two computers is encrypted meaning that it is suitable for use on insecure networks.
 - Source: https://www.ssh.com/academy/ssh/protocol
@@ -68,12 +81,15 @@
 ## East-West Traffic
 - *East-west traffic refers to traffic within a data center, also known as server-to-server traffic.*
 ## Data Packets
-- *When data travels over a network or over the internet, it must first be broken down into smaller batches so that larger files can be transmitted efficiently.* The network breaks down, organizes, and bundles the data into data packets so that they can be sent reliably through the network and then opened and read by another user in the network. Each packet takes the best route possible to spread network traffic evenly. 
+- *When data travels over a network or over the internet, it must first be broken down into smaller batches so that larger files can be transmitted efficiently. The network breaks down, organizes, and bundles the data into data packets so that they can be sent reliably through the network and then opened and read by another user in the network.* Each packet takes the best route possible to spread network traffic evenly. 
 
 ## LAN (Local Area Network)
 - Source: https://www.cisco.com/c/en/us/products/switches/what-is-a-lan-local-area-network.html
-- A local area network (LAN) is a collection of devices connected together in one physical location, such as a building, office, or home. A LAN can be small or large, ranging from a home network with one user to an enterprise network with thousands of users and devices in an office or school.
+- ***A local area network (LAN) is a collection of devices connected together in one physical location, such as a building, office, or home.*** A LAN can be small or large, ranging from a home network with one user to an enterprise network with thousands of users and devices in an office or school.
 - Regardless of size, a LAN's single defining characteristic is that it connects devices that are in a single, limited area. In contrast, a wide area network (WAN) or metropolitan area network (MAN) covers larger geographic areas. Some WANs and MANs connect many LANs together.
+- Source: https://www.cloudflare.com/ko-kr/learning/network-layer/what-is-a-router/
+- There are several types of routers, but most routers pass data between LANs (local area networks) and WANs (wide area networks). A LAN is a group of connected devices restricted to a specific geographic area. A LAN usually requires a single router.
+
 ## VPN(Virtual Private Network)
 - Source: https://en.wikipedia.org/wiki/Virtual_private_network
 - A virtual private network (VPN) extends a private network across a public network and enables users to send and receive data across shared or public networks as if their computing devices were directly connected to the private network. The benefits of a VPN include increases in functionality, security, and management of the private network. It provides access to resources inaccessible on the public network and is typically used for telecommuting workers. Encryption is common, although not an inherent part of a VPN connection
@@ -83,6 +99,8 @@
 	- Encryption stops hackers from seeing sensitive information that you enter into websites, like your passwords. This is especially important if you’re using public WiFi because it’s easy for cybercriminals to monitor your connection on public networks. But a VPN makes sure that even if someone stole your data, they wouldn’t be able to decrypt it or even understand it.
 - Your VPN also protects your privacy
 	- Websites and services use your IP to determine your location. When you connect to a VPN server, your IP address won’t be visible. Because they can no longer see your real IP, they can’t see where you’re located.
+- Source: https://www.avast.com/c-ip-address-public-vs-private#gref
+- To browse the internet more anonymously, you can hide your IP address by connecting through a security protocol: a proxy server, a VPN, or the Tor browser.
 	
 # DNS (Domain Name System)
 - Source: https://whatismyipaddress.com/dns
@@ -125,6 +143,7 @@
 ### Apache HTTP Server
 - Source: https://www.wpbeginner.com/glossary/apache/
 - Apache is the most widely used web server software. Developed and maintained by Apache Software Foundation, Apache is an open source software available for free. It runs on 67% of all webservers in the world. It is fast, reliable, and secure. It can be highly customized to meet the needs of many different environments by using extensions and modules.
+### Nginx
 ## WAS (Web Application Server)
 - Source: https://www.infoworld.com/article/2077354/app-server-web-server-what-s-the-difference.html
 - ***While a Web server mainly deals with sending HTML for display in a Web browser, an application server provides access to business logic for use by client application programs.***
@@ -167,10 +186,13 @@
 - Source: https://www.cloudflare.com/ko-kr/learning/network-layer/what-is-a-computer-port/
 - Vastly different types of data flow to and from a computer over the same network connection. ***The use of ports helps computers understand what to do with the data they receive.***
 - Suppose Bob transfers an MP3 audio recording to Alice using the File Transfer Protocol (FTP). If Alice's computer passed the MP3 file data to Alice's email application, the email application would not know how to interpret it. ***But because Bob's file transfer uses the port designated for FTP (port 21), Alice's computer is able to receive and store the file. Meanwhile, Alice's computer can simultaneously load HTTP webpages using port 80, even though both the webpage files and the MP3 sound file flow to Alice's computer over the same WiFi connection.***
+- In total , the system has 65535 ports to be used for providing services.
 - Some of the most commonly used ports, along with their associated networking protocol, are:
 	- Port 22: SSH
-	- ***Port 80: HTTP
+	- ***Port 80: The common standard port for HTTP.
 	- ***Port 443: HTTPS. All HTTPS web traffic goes to port 443. Network services that use HTTPS for encryption, such as DNS over HTTPS, also connect at this port.***
+	- Source: https://www.techtarget.com/searchnetworking/definition/port-number
+	- ***Port 8080: Port number 8080 is usually used for web servers.*** When a port number is added to the end of the domain name, it drives traffic to the web server. However, users can not reserve port 8080 for secondary web servers.
 ## Port Forwarding
 - Source: https://stevessmarthomeguide.com/understanding-port-forwarding/
 - ***Port forwarding is a technique that is used to allow external devices access to computers services on private networks. It does this by mapping an external port to an internal IP address and port.***
