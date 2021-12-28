@@ -418,7 +418,7 @@ WHERE height > ANY(
 ## `ALL()`
 - Return TRUE if all of the subquery values meet the condition.
 - Used with `SELECT`, `WHERE` and `HAVING` statements.
-## `IN()`
+## `IN()`, `NOT IN()`
 ```sql
 SELECT name, addr
 FROM usertbl

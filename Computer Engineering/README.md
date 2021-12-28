@@ -1,6 +1,21 @@
+# OS (Operating System)
+- Examples: Windows, Linux, MacOS, Android, iOS
+- Privileged Instruction: 시스템 요소들과 소통하는 명령.
+- 하나의 하드웨어 시스템당 OS는 1개만 돌아갈 수 있음.
+- 일반 프로그램들은 특권 명령이 필요 없어 여러 개를 동시에 수행 가능
+## DOS (Disk Operating System)
+## UNIX-based Operating Systems
+### Linux
+#### CentOS (Community ENTerprise Operating System)
+- Source: https://en.wikipedia.org/wiki/CentOS
+- CentOS (/ˈsɛntɒs/) is a Linux distribution that provides a free and open-source community-supported computing platform.
+### MacOS
+## Microsoft Windows
+## Ubuntu
+
 # SoC (System on Chip)
 - Source: https://en.wikipedia.org/wiki/System_on_a_chip
-- A system on a chip is an integrated circuit (also known as a "chip") that integrates all or most components of a computer or other electronic system. These components almost always include a central processing unit (CPU), memory, input/output ports and secondary storage, often alongside other components such as radio modems and a graphics processing unit (GPU) – all on a single substrate or microchip.
+- ***A system on a chip is an integrated circuit (also known as a "chip") that integrates all or most components of a computer or other electronic system.*** These components almost always include a central processing unit (CPU), memory, input/output ports and secondary storage, often alongside other components such as radio modems and a graphics processing unit (GPU) – all on a single substrate or microchip.
 
 # Semiconductor
 ## Memory Chip
@@ -39,9 +54,6 @@
 - Source: https://en.wikipedia.org/wiki/Filename_extension
 - A filename extension, file extension or file type is an identifier specified as a suffix to the name of a computer file (.txt, .docx, .ppt, etc.). The extension indicates a characteristic of the file contents or its intended use. A filename extension is typically delimited from the filename with a full stop (period).
 
-# Terminal
-- Source: https://itconnect.uw.edu/learn/workshops/online-tutorials/web-publishing/what-is-a-terminal/
-- Terminals, also known as command lines or consoles, allow us to accomplish and automate tasks on a computer without the use of a graphical user interface.
 
 # Compile and Debug
 ## Compile
@@ -162,9 +174,10 @@
 - One gibibyte equals 2^30 or 1,073,741,824 bytes.
 - The International Electrotechnical Commission (IEC) created these prefixes in 1998. Prior to that, the metric prefixes in the International System of Units (SI) were used across the board to refer to both the decimal system's power-of-10 multipliers and the binary system's power-of-two multipliers. The prefixes used in the SI system include kilo, mega, giga, tera, peta, exa, zetta and yotta.
 
-# Hard-Coding
+# Hard-Coding and Soft-Coding
+## Hard-Coding
 - Source: https://www.quora.com/What-does-hard-coding-mean-in-programming
-- Hard-coding is the practice of embedding data directly into the source code of a program. Like you fix the size of the array instead of dynamic memory allocation. You put in static elements(It’s like static initialization’s). Hard-coding passwords mean putting non-encrypted plain text passwords and other secret data into the source code. A programmer should not hard-code unless needed otherwise.
+- ***Hard-coding is the practice of embedding data directly into the source code of a program. Like you fix the size of the array instead of dynamic memory allocation. You put in static elements(It’s like static initialization’s). Hard-coding passwords mean putting non-encrypted plain text passwords and other secret data into the source code. A programmer should not hard-code unless needed otherwise.***
 
 # Input/Output (I/O)
 - Source: https://en.wikipedia.org/wiki/Input/output
@@ -172,3 +185,26 @@
 ## IOPS (Input/Output operations Per Second)
 - Source: https://en.wikipedia.org/wiki/IOPS
 - Input/output operations per second (IOPS, pronounced eye-ops) is an input/output performance measurement used to characterize computer storage devices like HDD and SDD.
+
+# Interface
+## UI (User Interface)
+### GUI (Graphical User Interface)
+### CLI (Command-Line Interface)
+- Source: https://www.techtarget.com/searchwindowsserver/definition/command-line-interface-CLI
+- ***A command-line interface (CLI) is a text-based user interface (UI) used to run programs, manage computer files and interact with the computer.*** Command-line interfaces are also called command-line user interfaces, console user interfaces and character user interfaces.
+#### Shell
+- In computing, *a shell program provides access to an operating system's components. The shell gives users (or other programs) a way to get "inside" the system to run programs or manage configurations.* The shell defines the boundary between inside and outside.
+- *Two well-known CLI shells are PowerShell for Windows and Bash for Linux and macOS.*
+- *Microsoft Windows includes the Command Prompt app as well as the PowerShell application, both of which can be used to interact directly with the computer.*
+- *Linux and other Unix-based operating systems usually provide the Bourne-Again Shell (bash) as the default shell.* Other shells, including the C shell, Z shell and others, can be configured as the default system shell.
+## API (Application Programming Interface)
+- Source: https://rapidapi.com/blog/api-vs-gui/
+- ***APIs allow applications to interact and communicate with an external server using some simple commands.*** Using APIs, developers can create streamlined processes that don’t keep re-inventing the wheel or building functionalities that already in existence.
+- ***While an API permits the communication between two programs, GUI allows interaction between a human and a computer program.***
+### REST API (REpresentational State Transfer API)
+
+# Batch File
+- Source: https://www.techtarget.com/searchwindowsserver/definition/batch-file
+- ***A batch file is a text file that contains a sequence of commands for a computer operating system. It's called a batch file because it batches (bundles or packages) into a single file a set of commands that would otherwise have to be presented to the system interactively from a keyboard one at a time. A batch file is usually created for command sequences for which a user has a repeated need. Commonly needed batch files are often delivered as part of an operating system.*** You initiate the sequence of commands in the batch file by simply entering the name of the batch file on a command line.
+- ***In UNIX-based operating systems, a batch file is called a shell script.***
+- ***In the Disk Operating System (DOS), a batch file has the file name extension ".BAT".***

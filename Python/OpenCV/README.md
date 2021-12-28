@@ -13,4 +13,4 @@
 
 # AI Upscaling
 - Source: https://blogs.nvidia.com/blog/2020/02/03/what-is-ai-upscaling/
-- Traditional upscaling starts with a low-resolution image and tries to improve its visual quality at higher resolutions. AI upscaling takes a different approach: Given a low-resolution image, a deep learning model predicts a high-resolution image that would downscale to look like the original, low-resolution image.
+- Traditional upscaling starts with a low-resolution image and tries to improve its visual quality at higher resolutions. ***AI upscaling takes a different approach: Given a low-resolution image, a deep learning model predicts a high-resolution image that would downscale to look like the original, low-resolution image.***

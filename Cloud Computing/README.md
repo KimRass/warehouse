@@ -18,18 +18,6 @@
 - ***This way, containers enable developers and IT professionals to deploy applications across environments with little or no modification.***
 - ***Since containers share the host OS, they don’t need to boot an OS or load libraries. This enables containers to be much more efficient and lightweight.*** Containerized applications can start in seconds, and many more instances of the application can fit onto the machine as compared to a VM scenario. The shared OS approach has the added benefit of reduced overhead when it comes to maintenance, such as patching and updates.
 - ***Though containers are portable, they’re constrained to the operating system they’re defined for. For example, a container for Linux can’t run on Windows, and vice versa.***
-## OS (Operating System)
-- Examples: Windows, Linux, MacOS, Android, iOS
-- Privileged Instruction: 시스템 요소들과 소통하는 명령.
-- 하나의 하드웨어 시스템당 OS는 1개만 돌아갈 수 있음.
-- 일반 프로그램들은 특권 명령이 필요 없어 여러 개를 동시에 수행 가능
-### Microsoft Windows
-### Linux
-#### `sudo`
-#### Terminal
-### MacOS
-### centOS
-### Ubuntu
 ## IaaS
 - Virtualization, Servers, Storage, Networking
 - Examples: AWS EC2
