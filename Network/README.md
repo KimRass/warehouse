@@ -76,11 +76,11 @@
 - Source: https://www.fortinet.com/resources/cyberglossary/network-traffic
 - *Network traffic is the amount of data moving across a computer network at any given time. Network traffic, also called data traffic, is broken down into data packets and sent over a network before being reassembled by the receiving device or computer.*
 - *Network traffic has two directional flows, north-south and east-west. Traffic affects network quality because an unusually high amount of traffic can mean slow download speeds or spotty Voice over Internet Protocol (VoIP) connections. Traffic is also related to security because an unusually high amount of traffic could be the sign of an attack.*
-## North-South Traffic
+### North-South Traffic
 - *North-south traffic refers to client-to-server traffic that moves between the data center and the rest of the network (i.e., a location outside of the data center).* 
-## East-West Traffic
+### East-West Traffic
 - *East-west traffic refers to traffic within a data center, also known as server-to-server traffic.*
-## Data Packets
+### Data Packets
 - *When data travels over a network or over the internet, it must first be broken down into smaller batches so that larger files can be transmitted efficiently. The network breaks down, organizes, and bundles the data into data packets so that they can be sent reliably through the network and then opened and read by another user in the network.* Each packet takes the best route possible to spread network traffic evenly. 
 
 ## LAN (Local Area Network)

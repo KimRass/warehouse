@@ -21,3 +21,8 @@
 - Source: https://mixpanel.com/blog/power-users/
 - ***Power users are the individuals that interact with your product the most when compared to other customers.*** The definition of a power user will vary by industry and company for example, a Finance company may define their power user as someone who logs in 2x a week, while a consumer tech app may expect their powers users to sign in multiple times a day.
 - But power users are at their most impactful when they make their network your network. They are usually the first to sing your praises and leave a glowing review or recommend your business to their Twitter feed, family, or friends. Their enthusiasm becomes a powerful source of new business.
+
+# Agile
+- Source: https://www.atlassian.com/agile
+- Agile is an iterative approach to project management and software development that helps teams deliver value to their customers faster and with fewer headaches. Instead of betting everything on a "big bang" launch, an agile team delivers work in small, but consumable, increments. *Requirements, plans, and results are evaluated continuously so teams have a natural mechanism for responding to change quickly.*
+- *Open communication, collaboration, adaptation, and trust amongst team members are at the heart of agile.*
