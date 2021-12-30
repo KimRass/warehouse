@@ -124,10 +124,9 @@ Written by KimRass
 	- Data redundancy necessitates more storage.
 ## Partition
 - Source: https://en.wikipedia.org/wiki/Partition_(database)
-### Partitioning Methods
-#### Horizontal Partitioning
+### Horizontal Partitioning
 - Involves putting different rows into different tables. For example, customers with ZIP codes less than 50000 are stored in CustomersEast, while customers with ZIP codes greater than or equal to 50000 are stored in CustomersWest. The two partition tables are then CustomersEast and CustomersWest, while a view with a union might be created over both of them to provide a complete view of all customers.
-#### Vertical Partitioning
+### Vertical Partitioning
 - Involves creating tables with fewer columns and using additional tables to store the remaining columns. Generally, this practice is known as normalization. However, vertical partitioning extends further and partitions columns even when already normalized.
 - Distinct physical machines might be used to realize vertical partitioning: Storing infrequently used or very wide columns, taking up a significant amount of memory, on a different machine, for example, is a method of vertical partitioning.
 - A common form of vertical partitioning is to split static data from dynamic data, since the former is faster to access than the latter, particularly for a table where the dynamic data is not used as often as the static.
@@ -138,21 +137,21 @@ Written by KimRass
 - Round-robin partitioning
 - Hash partitioning
 - Composite partitioning
-## Partition Index
-### Global Partition Index
+### Partition Index
+#### Global Partition Index
 - A global partitioned index is an index on a partitioned or non-partitioned table that is partitioned independently, i.e. using a different partitioning key from the table.
-- Table partition key와 Index partition key가 서로 다르다.
+- Table partition key와 Index partition key가 서로 다릅니다.
 - ***Partition key에 대해 생성한 Index.***
-#### Global Prefixed Index
-#### Global Non-Prefixed Index
-### Local Partition Index
+##### Global Prefixed Index
+##### Global Non-Prefixed Index
+#### Local Partition Index
 - A local index on a partitioned table is created where the index is partitioned in exactly the same manner as the underlying partitioned table. That is, the local index inherits the partitioning method of the table. This is known as equi-partitioning.
 - The table and local index are either partitioned in exactly the same manner, or have the same partition key because the local indexes are automatically maintained, can offer higher availability.
-- - Table partition key와 Index partition key가 서로 같다.
-#### Local Prefixed Index
-#### Local Non-Prefixed Index
-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 같다.
-Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다.
+- Table partition key와 Index partition key가 서로 같습니다.
+##### Local Prefixed Index
+- 인덱스 첫번째 컬럼이 인덱스 파티션 키와 같습니다.
+##### Local Non-Prefixed Index
+- 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다릅니다.
 ### Non-Partition Index
 ## Adding Columns
 ### Adding Redundant Columns
@@ -162,28 +161,6 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 - Adding derived columns can help eliminate joins and reduce the time needed to produce aggregate values.
 ## Combining Tables
 - If most users need to see the full set of joined data from two tables, collapsing the two tables into one can improve performance by eliminating the join.
-
-# Wireframe & Storyboard
-## Wireframe
-- Source: https://balsamiq.com/learn/articles/what-are-wireframes/
-- ![image]( https://balsamiq.com/assets/learn/articles/all-controls-split-r.png)
-- A wireframe is a schematic or blueprint that is useful for helping you, your programmers and designers think and communicate about the structure of the software or website you're building.
-- Doing this work now, before any code is written and before the visual design is finalized, will save you lots of time and painful adjustment work later.
-- Wireframes make it clear that no code has been written yet. If your customer or stakeholder received some screens that looked like screenshots of the final app, instead of a wireframe, they might assume that all the code behind those screenshots had already been written. This is most often not the case. Wireframes don't have this danger.
-- Source: http://www.differencebetween.net/technology/difference-between-wireframe-and-storyboard/
-- Wireframe is a page schematic, a sketch of your website before any kind of development or design element goes into it. It is basically a visual representation of the layout of your website without the fancy elements such as colors, fonts, shading, or just any other design element that makes your website visually appealing and interactive.
-- A wireframe is a linear representation of a website or web page structure, kind of a mock up screen of what the actual thing will look like.
-## Storyboard
-- 요청하는 고객이 작성해야만 하며 기획자가 대신 작성해주지 못함.
-- 버전 이력 관리가 필요.
-- 사용자 화면과 관리자 화면이 모두 있어야 함.
-- Source: http://www.differencebetween.net/technology/difference-between-wireframe-and-storyboard/
-- Storyboard is kind of advanced wireframing created on a piece of paper using a pencil or using a graphics program on a computer.
-- A storyboard is a more detailed representation, a high level outline including descriptions of what happens as user goes further inside the application. Storyboards are more dynamic in structure in terms of grouping and ordering.
-
-# Customer Segmentation(Market Segmentation)
-- Source: https://openviewpartners.com/blog/customer-segmentation/#.YU6EJZpByHs
-- the division of potential customers in a given market into discrete groups.
 
 # ERD(Entity Relationship Diagram)
 - Mandatory, Optional.
@@ -406,4 +383,31 @@ Non-Prefixed: 인덱스 첫번째 컬럼이 인덱스 파티션 키와 다르다
 
 # ETL (Extract, Transform, Load)
 - Source: https://www.ibm.com/topics/etl
-- ETL is a process that extracts, transforms, and loads data from multiple sources to a data warehouse or other unified data repository. 
+- ***ETL is a process that extracts, transforms, and loads data from multiple sources to a data warehouse or other unified data repository.***
+
+# NoSQL
+- Source: https://www.mongodb.com/nosql-explained
+- *NoSQL databases store data in a format other than relational tables.*
+- NoSQL databases allow developers to store huge amounts of unstructured data, giving them a lot of flexibility.
+- Types of NoSQL Databases
+## Document Databases
+- A document database stores data in JSON, BSON , or XML documents (not Word documents or Google docs, of course). In a document database, documents can be nested. Particular elements can be indexed for faster querying.
+- Documents can be stored and retrieved in a form that is much closer to the data objects used in applications, which means less translation is required to use the data in an application. SQL data must often be assembled and disassembled when moving back and forth between applications and storage.
+- ***Document databases are popular with developers because they have the flexibility to rework their document structures as needed to suit their application, shaping their data structures as their application requirements change over time.*** This flexibility speeds development because in effect data becomes like code and is under the control of developers.
+- The most widely adopted document databases are usually implemented with a scale-out architecture, providing a clear path to scalability of both data volumes and traffic.
+- In order to retrieve all of the information about a user and their hobbies, a single document can be retrieved from the database. ***No joins are required, resulting in faster queries.***
+- *NoSQL databases can store relationship data — they just store it differently than relational databases do.*
+- Note that the way data is modeled in NoSQL databases can eliminate the need for multi-record transactions in many use cases. Consider the earlier example where we stored information about a user and their hobbies in both a relational database and a document database. *In order to ensure information about a user and their hobbies was updated together in a relational database, we'd need to use a transaction to update records in two tables. In order to do the same in a document database, we could update a single document — no multi-record transaction required.*
+### MongoDB
+## Key-Value Databases
+- The simplest type of NoSQL database is a key-value store. Every data element in the database is stored as a key value pair consisting of an attribute name (or "key") and a value. In a sense, ***a key-value store is like a relational database with only two columns: the key or attribute name (such as state) and the value (such as Alaska).***
+### Amazon DynamoDB
+### Redis
+## Column-Oriented Databases
+- While a relational database stores data in rows and reads data row by row, a column store is organized as a set of columns. This means that when you want to run analytics on a small number of columns, you can read those columns directly without consuming memory with the unwanted data. Columns are often of the same type and benefit from more efficient compression, ***making reads even faster. Columnar databases can quickly aggregate the value of a given column (adding up the total sales for the year, for example).***
+- Unfortunately there is no free lunch, which means that ***while columnar databases are great for analytics, the way in which they write data makes it very difficult for them to be strongly consistent as writes of all the columns require multiple write events on disk. Relational databases don't suffer from this problem as row data is written contiguously to disk.***
+### Cassandra
+### HBase
+## Graph Databases
+- A graph database focuses on the relationship between data elements. Each element is stored as a node (such as a person in a social media graph). The connections between elements are called links or relationships. In a graph database, connections are first-class elements of the database, stored directly.
+- *A graph database is optimized to capture and search the connections between data elements, overcoming the overhead associated with JOINing multiple tables in SQL.*

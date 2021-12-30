@@ -5,3 +5,7 @@
 # Ray Tracing
 - Source: https://www.techradar.com/news/ray-tracing
 - Ray tracing is an advanced and lifelike way of rendering light and shadows in a scene. However, because ray tracing works by simulating and tracking every ray of light produced by a source of lighting, it kind of takes a lot of horsepower to actually render.
+
+# Teaser (= Teaser Trailer)
+- Source: https://www.dictionary.com/browse/teaser
+- *A short, edited promotional video to generate interest in an upcoming film and announce its release date.*

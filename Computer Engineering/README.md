@@ -208,3 +208,6 @@
 - ***A batch file is a text file that contains a sequence of commands for a computer operating system. It's called a batch file because it batches (bundles or packages) into a single file a set of commands that would otherwise have to be presented to the system interactively from a keyboard one at a time. A batch file is usually created for command sequences for which a user has a repeated need. Commonly needed batch files are often delivered as part of an operating system.*** You initiate the sequence of commands in the batch file by simply entering the name of the batch file on a command line.
 - ***In UNIX-based operating systems, a batch file is called a shell script.***
 - ***In the Disk Operating System (DOS), a batch file has the file name extension ".BAT".***
+
+# OA (Office Automation)
+- Office automation refers to the varied computer machinery and software used to digitally create, collect, store, manipulate, and relay office information needed for accomplishing basic tasks.

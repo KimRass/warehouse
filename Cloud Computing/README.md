@@ -97,6 +97,8 @@
 ### Amazon DynamoDB
 - Source: https://en.wikipedia.org/wiki/Amazon_DynamoDB
 - Amazon DynamoDB is a fully managed proprietary NoSQL database service that supports key–value and document data structures.
+- Partition key: The partition key is part of the table's primary key. *It is a hash value that is used to retrieve items from your table.*
+- Sort key (optional): You can use a sort key as the second part of a table's primary key. *The sort key allows you to sort or search among all items sharing the same partition key.*
 ## Amazon Batch
 ## Amazon Kinesis
 ## Amazon EMR (Elastic MapReduce)
@@ -104,4 +106,10 @@
 - ***Amazon EMR (previously called Amazon Elastic MapReduce) is a managed cluster platform that simplifies running big data frameworks, such as Apache Hadoop and Apache Spark, on AWS to process and analyze vast amounts of data.*** Using these frameworks and related open-source projects, you can process data for analytics purposes and business intelligence workloads. Amazon EMR also lets you transform and move large amounts of data into and out of other AWS data stores and databases, such as Amazon Simple Storage Service (Amazon S3) and Amazon DynamoDB.
 ## Amazon RDS (Relational Database Service)
 - Amazon Relational Database Service (Amazon RDS) is a web service that makes it easier to set up, operate, and scale a relational database in the AWS Cloud. It provides cost-efficient, resizable capacity for an industry-standard relational database and manages common database administration tasks.
+- Engine types: Amazon Aurora, MySQL, MariaDB, PostgreSQL, Oracle, Microsoft SQL Server
+- *Multi-AZ deployments: This option will has Amazon RDS maintain a synchronous standby replica in a different Availability Zone than the DB instance. Amazon RDS will automatically fail over to the standby in the case of a planned or unplanned outage of the primary.*
+- Subnet group: Subnet group defines which subnets and IP ranges the DB instance can use in the Virtual Private Cloud (VPC) you chose.
+- Public Access
+	- Yes: *Amazon EC2 instances and devices outside the VPC can connect to your database. Choose one or more VPC security groups that specify which EC2 instances and devices inside the VPC can connect to the database.*
+	- No: RDS will not assign a public IP address to the database. *Only Amazon EC2 instances and devices inside the VPC can connect to your database.*
 ## CloudFront
