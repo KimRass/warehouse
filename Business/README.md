@@ -70,3 +70,8 @@
 - Source: http://www.differencebetween.net/technology/difference-between-wireframe-and-storyboard/
 - Storyboard is kind of advanced wireframing created on a piece of paper using a pencil or using a graphics program on a computer.
 - A storyboard is a more detailed representation, a high level outline including descriptions of what happens as user goes further inside the application. Storyboards are more dynamic in structure in terms of grouping and ordering.
+
+# MOU (Memorandum Of Understanding)
+- Source: https://legalvision.com.au/memorandum-of-understanding/
+- *A memorandum of understanding (MOU) falls somewhere between a written contract and a handshake deal. It is a preliminary written agreement, outlining the framework or key terms they will later include in a formal contract.* An MOU is a useful tool because it helps ensure all parties are on the same page. Generally speaking, the document is not legally binding. However, if its content resembles that of a contract, it may be legally binding and therefore enforceable.
+- *An MOU is often used in commercial partnerships to establish mutual goals and expectations. It sets out the rights and obligations of each party, which they incorporate into a formal contract at a later date.*
