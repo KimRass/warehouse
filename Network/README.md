@@ -35,6 +35,10 @@
 - UDP is a faster but less reliable alternative to TCP at the transport layer. It is often used in services like video streaming and gaming, where fast data delivery is paramount.
 ### HTTP (HyperText Transfer Protocol)
 - ***HTTP is the foundation of the World Wide Web, the Internet that most users interact with.***
+#### HTTP Response Status Codes
+-  404 Not Found
+	- Source: https://en.wikipedia.org/wiki/HTTP_404
+	- This error message is to indicate that *the browser was able to communicate with a given server, but the server could not find what was requested.*
 #### HTTPS (HTTP Secure)
 - ***The problem with HTTP is that it is not encrypted — any attacker who intercepts an HTTP message can read it. HTTPS corrects this by encrypting HTTP messages.***
 - HTTPS is the secure and encrypted version of HTTP. 
@@ -196,3 +200,20 @@
 ## Port Forwarding
 - Source: https://stevessmarthomeguide.com/understanding-port-forwarding/
 - ***Port forwarding is a technique that is used to allow external devices access to computers services on private networks. It does this by mapping an external port to an internal IP address and port.***
+
+# Cookie (= HTTP Cookie, Web Cookie, Internet Cookie, Browser Cookie)
+- Source: https://en.wikipedia.org/wiki/HTTP_cookie
+- ***HTTP cookies are small blocks of data created by a web server while a user is browsing a website and placed on the user's computer or other device by the user’s web browser. Cookies are placed on the device used to access a website, and more than one cookie may be placed on a user’s device during a session.
+- ***Cookies serve useful and sometimes essential functions on the web. They enable web servers to store stateful information (such as items added in the shopping cart in an online store) on the user’s device or to track the user's browsing activity (including clicking particular buttons, logging in, or recording which pages were visited in the past). They can also be used to save for subsequent use information that the user previously entered into form fields, such as names, addresses, passwords, and payment card numbers.***
+	- *In information technology and computer science, a system is described as stateful if it is designed to remember preceding events or user interactions; the remembered information is called the state of the system.*
+- Authentication cookies are commonly used by web servers to authenticate that a user is logged in, and with which account they are logged in. *Without the cookie, users would need to authenticate themselves by logging in on each page containing sensitive information that they wish to access.* The security of an authentication cookie generally depends on the security of the issuing website and the user's web browser, and on whether the cookie data is encrypted. Security vulnerabilities may allow a cookie's data to be read by an attacker, used to gain access to user data, or used to gain access (with the user's credentials) to the website to which the cookie belongs.
+- Another popular use of cookies is for logging into websites. When the user visits a website's login page, the web server typically sends the client a cookie containing a unique session identifier. When the user successfully logs in, the server remembers that that particular session identifier has been authenticated and grants the user access to its services.
+## Session cookie
+- A session cookie (also known as an in-memory cookie, transient cookie or non-persistent cookie) exists only in temporary memory while the user navigates a website. *Session cookies expire or are deleted when the user closes the web browser.* Session cookies are identified by the browser by the absence of an expiration date assigned to them.
+- ***Cookies can be used to remember information about the user in order to show relevant content to that user over time.*** For example, a web server might send a cookie containing the username that was last used to log into a website, so that it may be filled in automatically the next time the user logs in.
+- ***Many websites use cookies for personalization based on the user's preferences.*** *Users select their preferences by entering them in a web form and submitting the form to the server. The server encodes the preferences in a cookie and sends the cookie back to the browser. This way, every time the user accesses a page on the website, the server can personalize the page according to the user's preferences.* For example, the Google search engine once used cookies to allow users (even non-registered ones) to decide how many search results per page they wanted to see. Also, DuckDuckGo uses cookies to allow users to set the viewing preferences like colors of the web page.
+
+# Credential
+- Source: https://en.wikipedia.org/wiki/Digital_credential
+- Digital credentials are the digital equivalent of paper-based credentials. *Just as a paper-based credential could be a passport, a driver's license, a membership certificate or some kind of ticket to obtain some service, such as a cinema ticket or a public transport ticket, a digital credential is a proof of qualification, competence, or clearance that is attached to a person.* Also, digital credentials prove something about their owner.
+- Sometimes passwords or other means of authentication are referred to as credentials.

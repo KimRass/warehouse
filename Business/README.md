@@ -75,3 +75,18 @@
 - Source: https://legalvision.com.au/memorandum-of-understanding/
 - *A memorandum of understanding (MOU) falls somewhere between a written contract and a handshake deal. It is a preliminary written agreement, outlining the framework or key terms they will later include in a formal contract.* An MOU is a useful tool because it helps ensure all parties are on the same page. Generally speaking, the document is not legally binding. However, if its content resembles that of a contract, it may be legally binding and therefore enforceable.
 - *An MOU is often used in commercial partnerships to establish mutual goals and expectations. It sets out the rights and obligations of each party, which they incorporate into a formal contract at a later date.*
+
+# Online marketplace
+- Source: https://en.wikipedia.org/wiki/Online_marketplace
+- An online marketplace (or online e-commerce marketplace) is a type of e-commerce website *where product or service information is provided by multiple third parties.* Online marketplaces are the primary type of multichannel ecommerce and can be a way to streamline the production process.
+- *In an online marketplace, consumer transactions are processed by the marketplace operator and then delivered and fulfilled by the participating retailers or wholesalers. These type of websites allow users to register and sell single items to many items for a "post-selling" fee.*
+- Some online marketplaces have a wide variety of general interest products that cater to almost all the needs of the consumers, others are consumer specific and cater to a particular segment.
+
+# Crowdfunding
+- Source: https://learning.candid.org/resources/knowledge-base/what-is-crowdfunding/
+- *Crowdfunding is a way to raise funds for a specific cause or project by asking a large number of people to donate money, usually in small amounts, and usually during a relatively short period of time, such as a few months. Crowdfunding is done online, often with social networks, which make it easy for supporters to share a cause or project cause with their social networks.*
+
+# M&A (Mergers and Acquisitions)
+- Source: https://en.wikipedia.org/wiki/Mergers_and_acquisitions
+- In corporate finance, mergers and acquisitions (M&A) are transactions in which the ownership of companies, other business organizations, or their operating units are transferred or consolidated with other entities. As an aspect of strategic management, M&A can allow enterprises to grow or downsize, and change the nature of their business or competitive position.
+- From a legal point of view, a* merger is a legal consolidation of two entities into one, whereas an acquisition occurs when one entity takes ownership of another entity's share capital, equity interests or assets.*
