@@ -1230,11 +1230,11 @@ acc = tf.math.reduce_mean(tf.cast(tf.math.equal(pred, labels), dtype=tf.float32)
 ```
 ### `tf.math.sigmoid()`
 ### `tf.math.reduce_sum()`, `tf.math.reduce_mean()`
-- source : https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
-- `axis=None` : 모든 elements에 대해 연산합니다.
-- `axis=0` : reduces along the 1st dimension. dimension이 1만큼 감소합니다.
-- `axis=1` : reduces along the 2nd dimension. dimension이 1만큼 감소합니다.
-- `keepdims=True` : dimension이 감소하지 않습니다.
+- Source: https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
+- `axis=None`: 모든 elements에 대해 연산합니다.
+- `axis=0`: reduces along the 1st dimension. dimension이 1만큼 감소합니다.
+- `axis=1`: reduces along the 2nd dimension. dimension이 1만큼 감소합니다.
+- `keepdims=True`: dimension이 감소하지 않습니다.
 ## `tf.random`
 ### `tf.random.set_seed()`
 ### `tf.random.normal()`
@@ -2768,17 +2768,17 @@ weights = [cnt["weight"] for (_, _, cnt) in g.edges(data=True)]
 ```
 
 # `MeCab`
-```python
-!git clone https://github.com/SOMJANG/Mecab-ko-for-Google-Colab.git
-%cd Mecab-ko-for-Google-Colab
-!bash install_mecab-ko_on_colab190912.sh
-```
-- Google Colab에 설치
-```python
-!pip install mecab_python-0.996_ko_0.9.2_msvc-cp37-cp37m-win_amd64.whl
-```
-- Windows에 설치
-- source : https://cleancode-ws.tistory.com/97, https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
+- Install on Google Colab
+	```python
+	!git clone https://github.com/SOMJANG/Mecab-ko-for-Google-Colab.git
+	%cd Mecab-ko-for-Google-Colab
+	!bash install_mecab-ko_on_colab190912.sh
+	```
+- Install on Microsoft Windows
+	- Source: https://cleancode-ws.tistory.com/97, https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
+	```python
+	!pip install mecab_python-0.996_ko_0.9.2_msvc-cp37-cp37m-win_amd64.whl
+	```
 ```python
 import MeCab
 ```
