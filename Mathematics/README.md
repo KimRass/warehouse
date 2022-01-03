@@ -8,8 +8,8 @@
 	(a**(p - 1))%p == 1
 	```
 	
-# Sequence
-## Arithmetic Progression(AP)
+# Sequence (= 수열)
+## Arithmetic Progression (AP) (= 등차수열)
 - Common Difference
 
 # Gemometry
@@ -60,14 +60,13 @@
 - The Euclidean algorithm is based on the principle that **the greatest common divisor of two numbers does not change if the larger number is replaced by its difference with the smaller number.** For example, 21 is the GCD of 252 and 105 (as 252 = 21 × 12 and 105 = 21 × 5), and the same number 21 is also the GCD of 105 and 252 − 105 = 147. **Since this replacement reduces the larger of the two numbers, repeating this process gives successively smaller pairs of numbers until the two numbers become equal. When that occurs, they are the GCD of the original two numbers.**
 
 # Fraction
+- Numerator: 분자, Denominator: 분모
 ## Coprime Integers
 - Source: https://en.wikipedia.org/wiki/Coprime_integers
 - In mathematics, two integers `a` and `b` are coprime, relatively prime or mutually prime if the only positive integer that is a divisor of both of them is `1`.
 ## Irreducible Fraction(= 기약분수)
 - Source: https://en.wikipedia.org/wiki/Irreducible_fraction
 - An irreducible fraction is a fraction in which the numerator and denominator are integers that have no other common divisors than `1` (and `−1`, when negative numbers are considered). In other words, a fraction `a/b` is irreducible if and only if `a` and `b` are coprime, that is, if `a` and `b` have a greatest common divisor of `1`.
-## Numerator: 분자
-## Denominator: 분모
 
 ## Whole Number: 0과 자연수
 ## Natural Number: 자연수
@@ -83,3 +82,20 @@
 - In mathematics, a monotonic function (or monotone function) is a function between ordered sets that preserves or reverses the given order.
 ### Increasing Function
 ### Decreasing Function
+
+# Statistics
+## Correlation
+## Casuality
+## Mutually Exclusive
+## Population
+### Population Scale Test
+## Sample
+### Sample Scale Test
+## Descriptive Statistics
+## Statistical Interence
+## Alternative Hypothesis H1 (= 대립 가설)
+## Null Hypothesis H0 (= 귀무 가설)
+- Source: https://en.wikipedia.org/wiki/Null_hypothesis
+- The null hypothesis is that the observed difference is due to chance alone.
+- Examples: Are boys taller than girls at age eight? The null hypothesis is "they are the same average height."
+- The null hypothesis is a characteristic arithmetic theory suggesting that no statistical relationship and significance exists in a set of given, single, observed variables between two sets of observed data and measured phenomena.
