@@ -416,3 +416,70 @@ E## Experimental Errors
 # MLOps
 - Source: https://en.wikipedia.org/wiki/MLOps
 - MLOps or ML Ops is a set of practices that aims to deploy and maintain machine learning models in production reliably and efficiently.[1] The word is a compound of "machine learning" and the continuous development practice of DevOps in the software field. Machine learning models are tested and developed in isolated experimental systems. When an algorithm is ready to be launched, MLOps is practiced between Data Scientists, DevOps, and Machine Learning engineers to transition the algorithm to production systems.
+
+# Google Colab
+## Mount Google Drive
+```python
+from google.colab import drive
+import os
+import sys
+from IPython.display import HTML, display
+
+drive.mount("/content/drive", force_remount=True)
+try:
+    my_path = "/content/notebooks"
+    os.symlink("/content/drive/MyDrive/ColabNotebooks/my_env", my_path)
+    sys.path.insert(0, my_path)
+except:
+    print("Failed!")
+os.chdir(my_path)
+```
+## Display Hangul
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+%config InlineBackend.figure_format = "retina"
+!apt -qq -y install fonts-nanum
+fpath = "/usr/share/fonts/truetype/nanum/NanumBarunGothic.ttf"
+fpath = "/NanumBarunGothic.ttf"
+font = mpl.font_manager.FontProperties(fname=fpath, size=9)
+plt.rc("font", family="NanumBarunGothic") 
+mpl.font_manager._rebuild()
+mpl.rcParams["axes.unicode_minus"] = False
+```
+## Prevent from Disconnecting.
+```
+function ClickConnect(){
+    console.log("코랩 연결 끊김 방지");
+	document.querySelector("colab-toolbar-button#connect").click()}
+setInterval(ClickConnect, 60*1000)
+```
+## Install Libraries Permanently
+```python
+!pip install --target=$my_path LIBRARY_NAME
+```
+## Use TPU
+```python
+resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu="grpc://" + os.environ["COLAB_TPU_ADDR"])
+tf.config.experimental_connect_to_cluster(resolver)
+tf.tpu.experimental.initialize_tpu_system(resolver)
+```
+```python
+strategy = tf.distribute.experimental.TPUStrategy(resolver)
+with strategy.scope():
+    model = create_model()
+    hist = model.fit()
+```
+## Install `khaiii`
+```python
+!git clone https://github.com/kakao/khaiii.git
+!pip install cmake
+!mkdir build
+!cd build && cmake /content/khaiii
+!cd /content/build/ && make all
+!cd /content/build/ && make resource
+!cd /content/build && make install
+!cd /content/build && make package_python
+!pip install /content/build/package_python
+```
