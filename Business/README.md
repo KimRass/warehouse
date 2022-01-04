@@ -39,6 +39,8 @@
 - Though CRM systems have traditionally been used as sales and marketing tools, ***customer service teams are seeing great benefits in using them. Today’s customer might raise an issue in one channel — say, Twitter — and then switch to email or telephone to resolve it in private. A CRM platform lets you manage the inquiry across channels without losing track, and gives sales, service, and marketing a single view of the customer.***
 - ***Your customers may be contacting you on a range of different platforms including phone, email, or social media — asking questions, following up on orders, or contacting you about an issue. Without a common platform for customer interactions, communications can be missed or lost in the flood of information — leading to a slow or unsatisfactory response.***
 
+# SCM
+
 # Sales
 - Source: https://blog.hubspot.com/sales/what-is-sales
 - *Sales refers to all activities involved in selling a product or service to a consumer or business.*
@@ -90,3 +92,7 @@
 - Source: https://en.wikipedia.org/wiki/Mergers_and_acquisitions
 - In corporate finance, mergers and acquisitions (M&A) are transactions in which the ownership of companies, other business organizations, or their operating units are transferred or consolidated with other entities. As an aspect of strategic management, M&A can allow enterprises to grow or downsize, and change the nature of their business or competitive position.
 - From a legal point of view, a* merger is a legal consolidation of two entities into one, whereas an acquisition occurs when one entity takes ownership of another entity's share capital, equity interests or assets.*
+
+# Value Chain
+
+# Fast Fashion

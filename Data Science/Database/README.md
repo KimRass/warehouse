@@ -411,3 +411,6 @@ Written by KimRass
 ## Graph Databases
 - A graph database focuses on the relationship between data elements. Each element is stored as a node (such as a person in a social media graph). The connections between elements are called links or relationships. In a graph database, connections are first-class elements of the database, stored directly.
 - *A graph database is optimized to capture and search the connections between data elements, overcoming the overhead associated with JOINing multiple tables in SQL.*
+
+# Data Warehouse (DW)
+## Data Mart (DM)
