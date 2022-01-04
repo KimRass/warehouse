@@ -9,6 +9,8 @@
 - Source: https://en.wikipedia.org/wiki/Panel_data
 - panel data is both multi-dimensional data involving measurements over time. *Time series and cross-sectional data can be thought of as special cases of panel data that are in one dimension only (one panel member or individual for the former, one time point for the latter).*
 
+# White Noise
+
 # Characteristics of Time Series Data
 ## Trend
 - Trend is a pattern in data that shows the movement of a series to relatively higher or lower values over a long period of time.
@@ -27,29 +29,27 @@
 
 # Test
 ## Stationarity Test
-### Augmented Dickey-Fuller(ADF) Test, ADF-GLS Test, Phillips-Perron(PP) Test
-- Null Hypothesis $H_0$: The residuals are non-stationary.(p-value >= Criterion)
-- Alternative Hypothesis $H_1$: The residuals are stationary.(p-value < Criterion)
-   
-### Kwiatkowski Phillips Schmidt Shin(KPSS) Test 
-- Null Hypothesis $H_0$: The residuals are non-stationary.(p-value < Criterion)
-- Alternative Hypothesis $H_1$: The residuals are stationary.(p-value >= Criterion)
+### ADF (Augmented Dickey-Fuller) Test, ADF-GLS Test, PP (Phillips-Perron) Test
+- Null hypothesis: The residuals are non-stationary.(p-value >= Criterion)
+- Alternative hypothesis: The residuals are stationary.(p-value < Criterion)
+### KPSS (Kwiatkowski Phillips Schmidt Shin) Test 
+- Null hypothesis: The residuals are non-stationary.(p-value < Criterion)
+- Alternative hypothesis: The residuals are stationary.(p-value >= Criterion)
 ## Normality Test
 ### Shapiro–Wilk Test, Kolmogorov–Smirnov Test, Lilliefors Test, Anderson-Darling Test, Jarque-Bera Test, Pearsons's chi-squared Test, D'Agostino's K-squared Test
-- Null Hypothesis $H_0$: The residuals are normally distributed.(p-value >= Criterion)
-- Alternative Hypothesis $H_1$: The residualts are not normaly distributed.(p-value < Criterion)
+- Null hypothesis: The residuals are normally distributed.(p-value >= Criterion)
+- Alternative hypothesis: The residualts are not normaly distributed.(p-value < Criterion)
 ## Autocorrelation Test
 ### Ljung–Box Test, Portmanteau Test, Breusch–Godfrey Test
-- Null Hypothesis $H_0$: Autocorrelation is absent.(p-value >= Criterion)
-- Alternative Hypothesis $H_1$: Autocorrelation is present.(p-value < Criterion)
-
+- Null hypothesis: Autocorrelation is absent.(p-value >= Criterion)
+- Alternative hypothesis: Autocorrelation is present.(p-value < Criterion)
 ### Durbin–Watson Statistic
-- Null Hypothesis $H_0$: Autocorrelation is absent.(Test Statistic is near at 2)
-- Alternative Hypothesis $H_1$: Autocorrelation is present.(Test Statistic is near at 0(Positive) or 4(Negative))
+- Null hypothesis: Autocorrelation is absent.(Test Statistic is near at 2)
+- Alternative hypothesis: Autocorrelation is present.(Test Statistic is near at 0(Positive) or 4(Negative))
 ## Homoscedasticity Test
 ### Goldfeld–Quandt Test, Breusch–Pagan Test, Bartlett's Test
-- Null Hypothesis $H_0$: The residuals are homoscedasticity.(p-value >= Criterion)
-- Alternative Hypothesis $H_1$: The residuals are heteroscedasticity.(p-value < Criterion)
+- Null hypothesis: The residuals are homoscedasticity.(p-value >= Criterion)
+- Alternative hypothesis: The residuals are heteroscedasticity.(p-value < Criterion)
 
 # Feature Scaling
 ## Standard Scaler

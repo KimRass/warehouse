@@ -85,17 +85,50 @@
 
 # Statistics
 ## Correlation
-## Casuality
+## Casuality (= Cause and Effect)
+- Source: https://en.wikipedia.org/wiki/Causality
+- *Causality is influence by which one event, process, state or object (a cause) contributes to the production of another event, process, state or object (an effect) where the cause is partly responsible for the effect, and the effect is partly dependent on the cause.*
+- ***In general, a process has many causes, which are also said to be causal factors for it, and all lie in its past. An effect can in turn be a cause of, or causal factor for, many other effects, which all lie in its future.***
 ## Mutually Exclusive
-## Population
-### Population Scale Test
-## Sample
-### Sample Scale Test
-## Descriptive Statistics
-## Statistical Interence
-## Alternative Hypothesis H1 (= 대립 가설)
-## Null Hypothesis H0 (= 귀무 가설)
+## Population (= 모집단) and Sample (= 표본)
+- Source: https://www.scribbr.com/methodology/population-vs-sample/
+- A population is the entire group that you want to draw conclusions about.
+- *A sample is the specific group that you will collect data from.* The size of the sample is always less than the total size of the population.
+### Sampling
+- ***Ideally, a sample should be randomly selected and representative of the population. Using  probability sampling methods (such as simple random sampling or stratified sampling) reduces the risk of sampling bias and enhances both internal and external validity.***
+- For practical reasons, researchers often use non-probability sampling methods. Non-probability samples are chosen for specific criteria; they may be more convenient or cheaper to access. Because of non-random selection methods, any statistical inferences about the broader population will be weaker than with a probability sample.
+- Reasons for sampling
+	- Sometimes it’s simply not possible to study the whole population due to its size or inaccessibility.
+	- It’s easier and more efficient to collect data from a sample.
+	- There are fewer participant, laboratory, equipment, and researcher costs involved.
+	- Storing and running statistical analyses on smaller datasets is easier and reliable.
+#### Probability Sampling
+- It involves random selection, allowing you to make strong statistical inferences about the whole group.
+#### Non-Probability Sampling
+- It involves non-random selection based on convenience or other criteria, allowing you to easily collect data.
+#### Sampling Error (= 표본 오차)
+- A sampling error is the difference between a population parameter and a sample statistic. In your study, the sampling error is the difference between the mean political attitude rating of your sample and the true mean political attitude rating of all undergraduate students in the Netherlands.
+- *Sampling errors happen even when you use a randomly selected sample. This is because random samples are not identical to the population in terms of numerical measures like means and standard deviations.*
+- *Because the aim of scientific research is to generalize findings from the sample to the population, you want the sampling error to be low. You can reduce sampling error by increasing the sample size.*
+### Parameter (= 모수) and Statistic (= 통계량)
+- When you collect data from a population or a sample, there are various measurements and numbers you can calculate from the data. ***A parameter is a measure that describes the whole population. A statistic is a measure that describes the sample.***
+- You can use estimation or hypothesis testing to estimate how likely it is that a sample statistic differs from the population parameter.
+#### Test Statistic (= 검정 통계량)
+- Source: https://en.wikipedia.org/wiki/Test_statistic
+- *A test statistic is a statistic (a quantity derived from the sample) used in statistical hypothesis testing. A hypothesis test is typically specified in terms of a test statistic, considered as a numerical summary of a data-set that reduces the data to one value that can be used to perform the hypothesis test. In general, a test statistic is selected or defined in such a way as to quantify, within observed data, behaviors that would distinguish the null from the alternative hypothesis, where such an alternative is prescribed, or that would characterize the null hypothesis if there is no explicitly stated alternative hypothesis.*
+## Descriptive Statistics (= 기술 통계학) and Inferential Statistics (= 추론 통계학)
+- Descriptive statistics are typically distinguished from inferential statistics. ***With descriptive statistics you are simply describing what the data shows. With inferential statistics, you are trying to reach conclusions that extend beyond the immediate data alone. For instance, we use inferential statistics to try to infer from the sample data what the population might think. Or, we use inferential statistics to make judgments of the probability that an observed difference between groups is a dependable one or one that might have happened by chance in this study. Thus, we use inferential statistics to make inferences from our data to more general conditions; we use descriptive statistics simply to describe what’s going on in our data.***
+## Hypothesis
+### Null Hypothesis H0 (= 귀무 가설)
 - Source: https://en.wikipedia.org/wiki/Null_hypothesis
 - The null hypothesis is that the observed difference is due to chance alone.
 - Examples: Are boys taller than girls at age eight? The null hypothesis is "they are the same average height."
 - The null hypothesis is a characteristic arithmetic theory suggesting that no statistical relationship and significance exists in a set of given, single, observed variables between two sets of observed data and measured phenomena.
+### Alternative Hypothesis H1 (= 대립 가설)
+- *An alternative hypothesis is an opposing theory in relation to the null hypothesis.* When you create a null hypothesis, you make an educated guess whether something is true, or whether there is any relation between two phenomena.
+- The alternative hypothesis always takes the opposite stance of a null hypothesis. If the null hypothesis estimates something to be true, then the alternative hypothesis estimates it to be false. The alternative hypothesis is usually the statement that you are testing when attempting to disprove the null hypothesis. *If you can gather enough data to support the alternative hypothesis, then it will replace the null hypothesis.*
+## Confidence Interval (CI) (= 신뢰 구간) and Confidence Level (= 신뢰 수준)
+- Source: https://en.wikipedia.org/wiki/Confidence_interval
+- ***In statistics, a confidence interval (CI) is a range of estimates for an unknown parameter, defined as an interval with a lower bound and an upper bound. The interval is computed at a designated confidence level. The 95% confidence level is most common, but other levels (such as 90% or 99%) are sometimes used. The confidence level represents the long-run frequency of confidence intervals that contain the true value of the parameter. In other words, 95% of confidence intervals computed at the 95% confidence level contain the parameter, and likewise for other confidence levels.***
+- ***The factors affecting the width of the CI include the confidence level, the sample size, and the variability in the sample. Larger samples produce narrower confidence intervals when all other factors are equal. Greater variability in the sample produces wider confidence intervals when all other factors are equal. A higher confidence level produces wider confidence intervals when all other factors are equal.***
+- Source: https://www.scribbr.com/statistics/confidence-interval/
