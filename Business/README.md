@@ -31,15 +31,9 @@
 - Enterprise resource planning (ERP) refers to a type of software that organizations use to manage day-to-day business activities such as accounting, procurement, project management, risk management and compliance, and supply chain operations.
 - ERP systems tie together a multitude of business processes and enable the flow of data between them. By collecting an organization’s shared transactional data from multiple sources, ERP systems eliminate data duplication and provide data integrity with a single source of truth.
 
-# CRM (Customer Relationship 
-- Source: https://www.salesforce.com/ap/crm/what-is-crm/
-- ***Customer relationship management (CRM) is a technology for managing all your company’s relationships and interactions with customers and potential customers.***
-- *A CRM solution helps you focus on your organization’s relationships with individual people* — including customers, service users, colleagues, or suppliers — throughout your lifecycle with them, including finding new customers, winning their business, and providing support and additional services throughout the relationship.
-- ***Everyone in your company can see how customers have been communicated with, what they’ve bought, when they last purchased, what they paid, and so much more.***
-- Though CRM systems have traditionally been used as sales and marketing tools, ***customer service teams are seeing great benefits in using them. Today’s customer might raise an issue in one channel — say, Twitter — and then switch to email or telephone to resolve it in private. A CRM platform lets you manage the inquiry across channels without losing track, and gives sales, service, and marketing a single view of the customer.***
-- ***Your customers may be contacting you on a range of different platforms including phone, email, or social media — asking questions, following up on orders, or contacting you about an issue. Without a common platform for customer interactions, communications can be missed or lost in the flood of information — leading to a slow or unsatisfactory response.***
-
 # SCM
+- Source: https://www.ibm.com/topics/supply-chain-management
+- *Supply chain management is the handling of the entire production flow of a good or service — starting from the raw components all the way to delivering the final product to the consumer. A company creates a network of suppliers (“links” in the chain) that move the product along from the suppliers of raw materials to those organizations that deal directly with users.*
 
 # Sales
 - Source: https://blog.hubspot.com/sales/what-is-sales
@@ -94,8 +88,30 @@
 - From a legal point of view, a* merger is a legal consolidation of two entities into one, whereas an acquisition occurs when one entity takes ownership of another entity's share capital, equity interests or assets.*
 
 # Value Chain
+- Source: https://en.wikipedia.org/wiki/Value_chain
+- A value chain is a set of activities that a firm operating in a specific industry performs in order to deliver a valuable product (i.e., good and/or service) to the end customer.
 
 # Fast Fashion
+- Source: https://en.wikipedia.org/wiki/Fast_fashion
+- Fast fashion is a term used to describe a highly profitable and exploitative business model based on replicating catwalk trends and high-fashion designs, mass-producing them at low cost. Oftentimes, this entails exploiting workers in inhumane conditions. The term fast fashion is also used to generically describe the products of the fast fashion business model. Some of these retailers, like Primark, H&M and Zara, became large multinationals using business models based on high turnover of inexpensive clothing from the efficient production lines, to create more seasonal and trendy designs that are aggressively marketed to fashion-conscious consumers. Fast fashion applies an extreme version of planned obsolescence to clothing. Because these designs are changing so quickly and are so cheap, consumers buy more clothing than they would previously, so expectations for those clothes to last decrease. Stealing designs is also common.
 
-# Business Intelligence
+# BI (Business Intelligence)
+- Source: https://www.datawarehouse4u.info/What-is-Business-Intelligence.html
+- ***Technology infrastructure for gaining maximum information from available data for the purpose of improving business processes. Typical BI infrastructure components are as follows: software solution for gathering, cleansing, integrating, analyzing and sharing data. Business Intelligence produces analysis and provides believable information to help making effective and high quality business decisions.***
+- The most common kinds of Business Intelligence systems are:
+	- EIS (Executive Information Systems)
+	- DSS (Decision Support Systems)
+	- MIS (Management Information Systems)
+	- GIS (Geographic Information Systems)
+	- OLAP (Online Analytical Processing and multidimensional analysis)
+	- CRM (Customer Relationship Management)
 ## EIS
+- Source: https://www.techopedia.com/definition/1016/executive-information-system-eis
+- ***An executive information system (EIS) is a decision support system (DSS) used to assist senior executives in the decision-making process. It does this by providing easy access to important data needed to achieve strategic goals in an organization. An EIS normally features graphical displays on an easy-to-use interface.***
+## CRM (Customer Relationship 
+- Source: https://www.salesforce.com/ap/crm/what-is-crm/
+- ***Customer relationship management (CRM) is a technology for managing all your company’s relationships and interactions with customers and potential customers.***
+- *A CRM solution helps you focus on your organization’s relationships with individual people* — including customers, service users, colleagues, or suppliers — throughout your lifecycle with them, including finding new customers, winning their business, and providing support and additional services throughout the relationship.
+- ***Everyone in your company can see how customers have been communicated with, what they’ve bought, when they last purchased, what they paid, and so much more.***
+- Though CRM systems have traditionally been used as sales and marketing tools, ***customer service teams are seeing great benefits in using them. Today’s customer might raise an issue in one channel — say, Twitter — and then switch to email or telephone to resolve it in private. A CRM platform lets you manage the inquiry across channels without losing track, and gives sales, service, and marketing a single view of the customer.***
+- ***Your customers may be contacting you on a range of different platforms including phone, email, or social media — asking questions, following up on orders, or contacting you about an issue. Without a common platform for customer interactions, communications can be missed or lost in the flood of information — leading to a slow or unsatisfactory response.***
