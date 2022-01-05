@@ -96,3 +96,6 @@
 # Value Chain
 
 # Fast Fashion
+
+# Business Intelligence
+## EIS
