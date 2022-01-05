@@ -54,7 +54,6 @@
 - Source: https://en.wikipedia.org/wiki/Filename_extension
 - A filename extension, file extension or file type is an identifier specified as a suffix to the name of a computer file (.txt, .docx, .ppt, etc.). The extension indicates a characteristic of the file contents or its intended use. A filename extension is typically delimited from the filename with a full stop (period).
 
-
 # Compile and Debug
 ## Compile
 - Compile is the process of turning code into machine instructions (or some kind of intermediate language, or bytecode, etc). A tool that does this is called a compiler.
