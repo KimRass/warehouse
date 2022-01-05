@@ -31,6 +31,20 @@
 # NLG
 
 # TF-IDF(Term Frequency-Inverse Document Frequency)
+## `TfidfVectorizer()`
+```python
+from sklearn.feature_extraction.text import TfidfVectorizer
+```
+## `tkn.texts_to_matrix()`
+```python
+tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"], mode="count"))
+```
+- `mode`: (`"count"`, `"binary"`, `"tfidf"`, `"freq"`)
+- `num_words`가 적용됩니다.
+## `gensim.models.TfidfModel()`
+```python
+tfidf = gensim.models.TfidfModel(dtm)[dtm]
+```
 - Source: https://wikidocs.net/31698
 - TF-IDF는 특정 문서에서 자주 등장하는 단어는 그 문서 내에서 중요한 단어로 판단
 ## tf(d, t)
@@ -40,10 +54,27 @@
 - 특정 단어 t가 등장한 문서 d의 수.
 - 여기서 특정 단어가 각 문서, 또는 문서들에서 몇 번 등장했는지는 관심가지지 않으며 오직 등장한 문서의 수에만 관심을 가집니다.
 ## idf(d, t)
-- ![image.png](/wikis/2670857615939396646/files/2805180087290841767)
 - n: 문서의 전체 개수.
 
 # Latent Dirichlet Allocation
+## `gensim.models.ldamodel.Ldamodel()`
+```python
+model = gensim.models.ldamodel.LdaModel(dtm, num_topics=n_topics, id2word=id2word, alpha="auto", eta="auto")
+```
+## `pyLDAvis`
+```python
+import pyLDAvis
+```
+## `pyLDAvis.enable_notebook()`
+- `pyLDAvis`를 Jupyter Notebook에서 실행할 수 있게 활성화합니다.
+## `pyLDAvis.gensim`
+```python
+import pyLDAvis.gensim
+```
+### `pyLDAvis.gensim.prepare()`
+```python
+pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
+```
 - Source: https://wikidocs.net/30708
 - 도수 기반의 표현 방법인 BoW의 행렬 DTM 또는 TF-IDF 행렬을 입력으로 함.
 ## LDA의 가정

@@ -50,16 +50,3 @@
 ### Goldfeld–Quandt Test, Breusch–Pagan Test, Bartlett's Test
 - Null hypothesis: The residuals are homoscedasticity.(p-value >= Criterion)
 - Alternative hypothesis: The residuals are heteroscedasticity.(p-value < Criterion)
-
-# Feature Scaling
-```python
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, Normalizer
-```
-```python
-sc = StandardScaler()
-```
-#### `sc.fit()`, `sc.transform()`, `sc.fit_transform()`
-## Standard Scaler
-## Min-Max Scaler
-## Robust Scaler
-## Normalizer

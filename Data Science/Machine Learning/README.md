@@ -1,3 +1,145 @@
+# Feature Scaling
+- Source: https://en.wikipedia.org/wiki/Feature_scaling
+- Feature scaling is a method used to normalize the range of independent variables or features of data. In data processing, it is also known as data normalization and is generally performed during the data preprocessing step.
+- ***Since the range of values of raw data varies widely, in some machine learning algorithms, objective functions will not work properly without normalization. For example, many classifiers calculate the distance between two points by the Euclidean distance. If one of the features has a broad range of values, the distance will be governed by this particular feature. Therefore, the range of all features should be normalized so that each feature contributes approximately proportionately to the final distance.***
+- ***Another reason why feature scaling is applied is that gradient descent converges much faster with feature scaling than without it.***
+- It's also important to apply feature scaling if regularization is used as part of the loss function (so that coefficients are penalized appropriately).
+```python
+sc.fit()
+sc.transform()
+sc.fit_transform()
+```
+## Min-Max Scaling
+- Min-max scaling is the simplest method and consists in rescaling the range of features to scale the range in [0, 1].
+```python
+x_new = (x - min(X))/(max(X) - min(X))
+```
+```python
+from sklearn.preprocessing import MinMaxScaler
+
+sc = MinMaxScaler()
+```
+## Standard Scaling
+```python
+import numpy as np
+
+x_new = (x - np.mean(X))/np.std(X)
+```
+```python
+from sklearn.preprocessing import StandardScaler
+
+sc = StandardScaler()
+```
+## Robust Scaler
+```python
+from sklearn.preprocessing import RobustScaler
+
+sc = RobustScaler()
+```
+## Normalizer
+```python
+from sklearn.preprocessing import Normalizer
+
+sc = Normalizer()
+```
+
+# PCA (Principle Component Analysis)
+```python
+from sklearn.decomposition import PCA
+```
+```python
+pca = PCA(n_components=2)
+```
+```python
+pca_mat = pca.fit_transform(user_emb_df)
+```
+
+# Parameter
+## Hyperparameter
+- Source: https://en.wikipedia.org/wiki/Artificial_neural_network
+- A hyperparameter is a constant parameter whose value is set before the learning process begins. The values of parameters are derived via learning.
+
+# Learning
+- Source: https://en.wikipedia.org/wiki/Artificial_neural_network
+- Learning is the adaptation of the network to better handle a task by considering sample observations. *Learning involves adjusting the weights (and optional thresholds) of the network to improve the accuracy of the result. This is done by minimizing the observed errors. Learning is complete when examining additional observations does not usefully reduce the error rate. Even after learning, the error rate typically does not reach 0.* If after learning, the error rate is too high, the network typically must be redesigned. Practically this is done by defining a cost function that is evaluated periodically during learning. *As long as its output continues to decline, learning continues.*
+## Learning Rate
+- *The learning rate defines the size of the corrective steps that the model takes to adjust for errors in each observation. A high learning rate shortens the training time, but with lower ultimate accuracy, while a lower learning rate takes longer, but with the potential for greater accuracy. In order to avoid oscillation inside the network such as alternating connection weights, and to improve the rate of convergence, refinements use an adaptive learning rate that increases or decreases as appropriate. The concept of momentum allows the balance between the gradient and the previous change to be weighted such that the weight adjustment depends to some degree on the previous change. A momentum close to 0 emphasizes the gradient, while a value close to 1 emphasizes the last change.*
+
+# Convergence
+- Source: https://en.wikipedia.org/wiki/Artificial_neural_network
+- ***Models may not consistently converge on a single solution, firstly because local minima may exist, depending on the cost function and the model. Secondly, the optimization method used might not guarantee to converge when it begins far from any local minimum. Thirdly, for sufficiently large data or parameters, some methods become impractical.***
+
+# MLOps
+- Source: https://en.wikipedia.org/wiki/MLOps
+- MLOps or ML Ops is a set of practices that aims to deploy and maintain machine learning models in production reliably and efficiently.[1] The word is a compound of "machine learning" and the continuous development practice of DevOps in the software field. Machine learning models are tested and developed in isolated experimental systems. When an algorithm is ready to be launched, MLOps is practiced between Data Scientists, DevOps, and Machine Learning engineers to transition the algorithm to production systems.
+
+# Google Colab
+## Mount Google Drive
+```python
+from google.colab import drive
+import os
+import sys
+from IPython.display import HTML, display
+
+drive.mount("/content/drive", force_remount=True)
+try:
+    my_path = "/content/notebooks"
+    os.symlink("/content/drive/MyDrive/ColabNotebooks/my_env", my_path)
+    sys.path.insert(0, my_path)
+except:
+    print("Failed!")
+os.chdir(my_path)
+```
+## Display Hangul
+```python
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+
+%config InlineBackend.figure_format = "retina"
+!apt -qq -y install fonts-nanum
+fpath = "/usr/share/fonts/truetype/nanum/NanumBarunGothic.ttf"
+fpath = "/NanumBarunGothic.ttf"
+font = mpl.font_manager.FontProperties(fname=fpath, size=9)
+plt.rc("font", family="NanumBarunGothic") 
+mpl.font_manager._rebuild()
+mpl.rcParams["axes.unicode_minus"] = False
+```
+## Prevent from Disconnecting.
+```
+function ClickConnect(){
+    console.log("코랩 연결 끊김 방지");
+	document.querySelector("colab-toolbar-button#connect").click()}
+setInterval(ClickConnect, 60*1000)
+```
+## Install Libraries Permanently
+```python
+!pip install --target=$my_path LIBRARY_NAME
+```
+## Use TPU
+```python
+resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu="grpc://" + os.environ["COLAB_TPU_ADDR"])
+tf.config.experimental_connect_to_cluster(resolver)
+tf.tpu.experimental.initialize_tpu_system(resolver)
+```
+```python
+strategy = tf.distribute.experimental.TPUStrategy(resolver)
+with strategy.scope():
+    model = create_model()
+    hist = model.fit()
+```
+## Install `khaiii`
+```python
+!git clone https://github.com/kakao/khaiii.git
+!pip install cmake
+!mkdir build
+!cd build && cmake /content/khaiii
+!cd /content/build/ && make all
+!cd /content/build/ && make resource
+!cd /content/build && make install
+!cd /content/build && make package_python
+!pip install /content/build/package_python
+```
+
 # Activation Function
 - Source: https://leedakyeong.tistory.com/entry/%EB%B0%91%EB%B0%94%EB%8B%A5%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-%EB%94%A5%EB%9F%AC%EB%8B%9D-%ED%99%9C%EC%84%B1%ED%99%94%ED%95%A8%EC%88%98%EB%9E%80-What-is-activation-function?category=845638
 - 활성화함수는 꼭 비선형 함수이어야 한다. 선형 함수를 사용하면 신경망의 층을 깊게 쌓는 것에 의미가 없어지기 때문이다. 그 이유는 예를 들어, 활성화 함수를 h(x) = cx 라는 선형함수라 해보자. 층으로 구성된 네트워크라 할 때, y(x) = h(h((x))) = c\*c\*c\*x = c^3\*x이다. 이는 곧 y = ax에서 a=c^3과 같다. 즉, 기껏 3층이나 쌓았지만 1층만 쌓은 네트워크와 같아진다. 이것이 바로 활성함수의 역할이다.
@@ -31,7 +173,6 @@ error 0.6을 0.6, 0.4를 곱하니  위 노드에는 error가 0.36이, 아래 �
 이러한 문제를 피하기 위해서는 서로 다른 초기값으로 주어 산을 내려가게 하는 방법으로 신경망의 경우에서는 weight의 초기 값을 다르게 주면서 경사하강법을 활용해본다는 의미이다.
 ## Updating Weights
 - Source: https://wikidocs.net/37406
-
 
 # Categorical Variables
 - Sources: https://homeproject.tistory.com/4, http://blog.naver.com/PostView.nhn?blogId=choco_9966&logNo=221374544814&parentCategoryNo=&categoryNo=77&viewDate=&isShowPopularPosts=false&from=postView, https://dailyheumsi.tistory.com/120, https://towardsdatascience.com/all-about-categorical-variable-encoding-305f3361fd02
@@ -412,74 +553,3 @@ E## Experimental Errors
 
 # Sparse Respresentation, Dense Representation
 - Source: https://dreamgonfly.github.io/blog/word2vec-explained/
-
-# MLOps
-- Source: https://en.wikipedia.org/wiki/MLOps
-- MLOps or ML Ops is a set of practices that aims to deploy and maintain machine learning models in production reliably and efficiently.[1] The word is a compound of "machine learning" and the continuous development practice of DevOps in the software field. Machine learning models are tested and developed in isolated experimental systems. When an algorithm is ready to be launched, MLOps is practiced between Data Scientists, DevOps, and Machine Learning engineers to transition the algorithm to production systems.
-
-# Google Colab
-## Mount Google Drive
-```python
-from google.colab import drive
-import os
-import sys
-from IPython.display import HTML, display
-
-drive.mount("/content/drive", force_remount=True)
-try:
-    my_path = "/content/notebooks"
-    os.symlink("/content/drive/MyDrive/ColabNotebooks/my_env", my_path)
-    sys.path.insert(0, my_path)
-except:
-    print("Failed!")
-os.chdir(my_path)
-```
-## Display Hangul
-```python
-import matplotlib as mpl
-import matplotlib.pyplot as plt
-
-%config InlineBackend.figure_format = "retina"
-!apt -qq -y install fonts-nanum
-fpath = "/usr/share/fonts/truetype/nanum/NanumBarunGothic.ttf"
-fpath = "/NanumBarunGothic.ttf"
-font = mpl.font_manager.FontProperties(fname=fpath, size=9)
-plt.rc("font", family="NanumBarunGothic") 
-mpl.font_manager._rebuild()
-mpl.rcParams["axes.unicode_minus"] = False
-```
-## Prevent from Disconnecting.
-```
-function ClickConnect(){
-    console.log("코랩 연결 끊김 방지");
-	document.querySelector("colab-toolbar-button#connect").click()}
-setInterval(ClickConnect, 60*1000)
-```
-## Install Libraries Permanently
-```python
-!pip install --target=$my_path LIBRARY_NAME
-```
-## Use TPU
-```python
-resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu="grpc://" + os.environ["COLAB_TPU_ADDR"])
-tf.config.experimental_connect_to_cluster(resolver)
-tf.tpu.experimental.initialize_tpu_system(resolver)
-```
-```python
-strategy = tf.distribute.experimental.TPUStrategy(resolver)
-with strategy.scope():
-    model = create_model()
-    hist = model.fit()
-```
-## Install `khaiii`
-```python
-!git clone https://github.com/kakao/khaiii.git
-!pip install cmake
-!mkdir build
-!cd build && cmake /content/khaiii
-!cd /content/build/ && make all
-!cd /content/build/ && make resource
-!cd /content/build && make install
-!cd /content/build && make package_python
-!pip install /content/build/package_python
-```
