@@ -54,7 +54,7 @@
 - Source: https://en.wikipedia.org/wiki/Filename_extension
 - A filename extension, file extension or file type is an identifier specified as a suffix to the name of a computer file (.txt, .docx, .ppt, etc.). The extension indicates a characteristic of the file contents or its intended use. A filename extension is typically delimited from the filename with a full stop (period).
 
-# Compile and Debug
+# Compile & Debug
 ## Compile
 - Compile is the process of turning code into machine instructions (or some kind of intermediate language, or bytecode, etc). A tool that does this is called a compiler.
 - Source: https://www.computerhope.com/jargon/c/compile.htm
@@ -62,6 +62,7 @@
 ### Compiler
 - Source: https://en.wikipedia.org/wiki/Compiler
 - In computing, a compiler is a computer program that translates computer code written in one programming language (the source language) into another language (the target language). The name "compiler" is primarily used for programs that translate source code from a high-level programming language to a lower level language (e.g. assembly language, object code, or machine code) to create an executable program.
+### Assembler
 ### Compliled Language
 - Source: https://www.geeksforgeeks.org/difference-between-compiled-and-interpreted-language/
 - A compiled language is a programming language whose implementations are typically compilers and not interpreters.
@@ -81,6 +82,16 @@
 - A program written in an interpreted language is not compiled, it is interpreted.
 - This language delivers relatively slower performance.
 - Examples: JavaScript, Perl, Python, BASIC, etc.
+### Assembly Language (or Assembler Language)
+- Source: https://en.wikipedia.org/wiki/Assembly_language
+- In computer programming, assembly language (or assembler language), sometimes abbreviated asm, is any low-level programming language in which there is a very strong correspondence between the instructions in the language and the architecture's machine code instructions. *Assembly language usually has one statement per machine instruction (1:1), but constants, comments, assembler directives, symbolic labels of, e.g., memory locations, registers, and macros are generally also supported.*
+- *Assembly code is converted into executable machine code by a utility program referred to as an assembler. The conversion process is referred to as assembly, as in assembling the source code. The computational step when an assembler is processing a program is called assembly time.*
+### Machine Code
+- *In computer programming, machine code is any low-level programming language, consisting of machine language instructions, which are used to control a computer's central processing unit (CPU). Each instruction causes the CPU to perform a very specific task, such as a load, a store, a jump, or an arithmetic logic unit (ALU) operation on one or more units of data in the CPU's registers or memory.*
+- Machine code is a strictly numerical language which is designed to run as fast as possible, and may be considered as the lowest-level representation of a compiled or assembled computer program or as a primitive and hardware-dependent programming language. While it is possible to write programs directly in machine code, managing individual bits and calculating numerical addresses and constants manually is tedious and error-prone. For this reason, programs are very rarely written directly in machine code in modern contexts, but may be done for low level debugging, program patching (especially when assembler source is not available) and assembly language disassembly.
+- *The majority of practical programs today are written in higher-level languages or assembly language. The source code is then translated to executable machine code by utilities such as compilers, assemblers, and linkers, with the important exception of interpreted programs,[nb 1] which are not translated into machine code. However, the interpreter itself, which may be seen as an executor or processor performing the instructions of the source code, typically consists of directly executable machine code (generated from assembly or high-level language source code).*
+- Machine code is by definition the lowest level of programming detail visible to the programmer, but internally many processors use microcode or optimise and transform machine code instructions into sequences of micro-ops. This is not generally considered to be a machine code.
+- ***The source code is often transformed by an assembler or compiler into binary machine code that can be executed by the computer.***
 ## Debug
 - Debug is the act of finding out where in the code the application is going wrong. (= Get rid of bugs)
 
@@ -219,3 +230,12 @@
 - Source: https://economictimes.indiatimes.com/definition/pseudocode
 - *Pseudocode is an informal way of programming description that does not require any strict programming language syntax or underlying technology considerations. It is used for creating an outline or a rough draft of a program. Pseudocode summarizes a program’s flow, but excludes underlying details.* System designers write pseudocode to ensure that programmers understand a software project's requirements and align code accordingly.
 - *Pseudocode is not an actual programming language. So it cannot be compiled into an executable program. It uses short terms or simple English language syntaxes to write code for programs before it is actually converted into a specific programming language.* This is done to identify top level flow errors, and understand the programming data flows that the final program is going to use. This definitely helps save time during actual programming as conceptual errors have been already corrected. Firstly, program description and functionality is gathered and then pseudocode is used to create statements to achieve the required results for a program. Detailed pseudocode is inspected and verified by the designer’s team or programmers to match design specifications. *Catching errors or wrong program flow at the pseudocode stage is beneficial for development as it is less costly than catching them later.* Once the pseudocode is accepted by the team, it is rewritten using the vocabulary and syntax of a programming language. *The purpose of using pseudocode is an efficient key principle of an algorithm. It is used in planning an algorithm with sketching out the structure of the program before the actual coding takes place.*
+
+# Encoding
+## Base64
+- Source: https://base64.guru/learn/what-is-base64
+- *Base64 is a encoding algorithm that allows you to transform any characters into an alphabet which consists of Latin letters, digits, plus, and slash. Thanks to it, you can convert Chinese characters, emoji, and even images into a “readable” string, which can be saved or transferred anywhere.*
+- To figuratively understand why Base64 was invented, imagine that during a phone call Alice wants to send an image to Bob. The first problem is that she cannot simply describe how the image looks, because Bob needs an exact copy. In this case, *Alice may convert the image into the binary system and dictate to Bob the binary digits (bits), after that he will be able to convert them back to the original image.* The second problem is that the tariffs for phone calls are too expensive and dictate each byte *as 8 binary digits will last too long. To reduce costs, Alice and Bob agree to use a more efficient data transfer method by using a special alphabet, which replaces every “six digits” with one “letter”.*
+- To realize the difference, check out a 5x5 image converted to binary digits: 010001 110100 100101 000110 001110 000011 011101 100001 000000 010000 000000 000001 000000 001111 000000 000000 000000 001111 111100 000000 000000 000000 000000 000000 000000 000010 110000 000000 000000 000000 000000 000000 000000 010000 000000 000001 000000 000000 000000 000010 000000 100100 010000 000001 000000 000011 001011
+- Although the same image converted to Base64 looks like this: R0lGODdhAQABAPAAAP8AAAAAACwAAAAAAQABAAACAkQBADs
+- I think the difference is obvious. *Even if you remove spaces or padding zeros from binary digits, the Base64 string will still be shorter.* I grouped bits only to show that each group meets each character of the Base64 string.

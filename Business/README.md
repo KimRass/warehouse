@@ -115,3 +115,7 @@
 - ***Everyone in your company can see how customers have been communicated with, what they’ve bought, when they last purchased, what they paid, and so much more.***
 - Though CRM systems have traditionally been used as sales and marketing tools, ***customer service teams are seeing great benefits in using them. Today’s customer might raise an issue in one channel — say, Twitter — and then switch to email or telephone to resolve it in private. A CRM platform lets you manage the inquiry across channels without losing track, and gives sales, service, and marketing a single view of the customer.***
 - ***Your customers may be contacting you on a range of different platforms including phone, email, or social media — asking questions, following up on orders, or contacting you about an issue. Without a common platform for customer interactions, communications can be missed or lost in the flood of information — leading to a slow or unsatisfactory response.***
+
+# Technology Stack
+- https://mixpanel.com/blog/what-is-a-technology-stack/
+A technology stack, also called a solutions stack, technology infrastructure, or a data ecosystem, is a list of all the technology services used to build and run one single application. The social site Facebook, for example, is composed of a combination of coding frameworks and languages including JavaScript, HTML, CSS, PHP, and ReactJS. This is Facebook’s ‘tech stack.’

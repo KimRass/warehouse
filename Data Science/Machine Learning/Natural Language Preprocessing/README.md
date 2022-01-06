@@ -1,3 +1,12 @@
+# Text
+- Source: https://en.wikipedia.org/wiki/Text_(literary_theory)
+- In literary theory, *a text is any object that can be "read", whether this object is a work of literature, a street sign, an arrangement of buildings on a city block, or styles of clothing.*
+## Corpus (plural Corpora)
+- Source: https://21centurytext.wordpress.com/home-2/special-section-window-to-corpus/what-is-corpus/
+- *A corpus is a collection of texts, written or spoken, usually stored in a computer database.* A corpus may be quite small, for example, containing only 50,000 words of text, or very large, containing many millions of words.
+- *Written texts in corpora might be drawn from books, newspapers, or magazines that have been scanned or downloaded electronically. Other written corpora might contain works of literature, or all the writings of one author (e.g., William Shakespeare).* Such corpora help us to see how language is used in contemporary society, how our use of language has changed over time, and how language is used in different situations.
+- People build corpora of different sizes for specific reasons. For example, a very large corpus would be required to help in the preparation of a dictionary. It might contain tens of millions of words – because it has to include many examples of all the words and expressions that are used in the language. A medium-sized corpus might contain transcripts of lectures and seminars and could be used to write books for learners who need academic language for their studies. Such corpora range in size from a million words to five or ten million words. Other corpora are more specialized and much smaller. These might contain the transcripts of business meetings, for instance, and could be used to help writers design materials for teaching business language.
+
 # Language Model (LM)
 ## Statistical Language Model
 - Source: https://en.wikipedia.org/wiki/Language_model
@@ -6,9 +15,19 @@
 ## Bidirectional Language Model
 - Bidirectional representations condition on both pre- and post- context (e.g., words) in all layers.
 
+# Part-of-Speech
+## Part-of-Speech Tagging
+- Source: https://en.wikipedia.org/wiki/Text_corpus
+- A corpus may contain texts in a single language (monolingual corpus) or text data in multiple languages (multilingual corpus).
+- In order to make the corpora more useful for doing linguistic research, they are often subjected to a process known as annotation. *An example of annotating a corpus is part-of-speech tagging, or POS-tagging, in which information about each word's part of speech (verb, noun, adjective, etc.) is added to the corpus in the form of tags. Another example is indicating the lemma (base) form of each word. When the language of the corpus is not a working language of the researchers who use it, interlinear glossing is used to make the annotation bilingual.*
+
 # Word Embedding
 - In natural language processing (NLP), word embedding is a term used for the representation of words for text analysis, ***typically in the form of a real-valued vector that encodes the meaning of the word such that the words that are closer in the vector space are expected to be similar in meaning.*** Word embeddings can be obtained using a set of language modeling and feature learning techniques where words or phrases from the vocabulary are mapped to vectors of real numbers. ***Conceptually it involves the mathematical embedding from space with many dimensions per word to a continuous vector space with a much lower dimension.***
 - Word and phrase embeddings, when used as the underlying input representation, have been shown to boost the performance in NLP tasks such as syntactic parsing and sentiment analysis.
+## Word2Vec
+## FastText
+## GloVe
+## SGNS (Skip-Gram with Negative Sampling)
 
 # Syntactic & Semantic Analysis
 - Source: https://builtin.com/data-science/introduction-nlp
@@ -21,14 +40,62 @@
 - Basically, stemming is the process of reducing words to their word stem. A "stem" is the part of a word that remains after the removal of all affixes. For example, the stem for the word "touched" is "touch." "Touch" is also the stem of "touching," and so on.
 - You may be asking yourself, why do we even need the stem? Well, *the stem is needed because we're going to encounter different variations of words that actually have the same stem and the same meaning.*Now, imagine all the English words in the vocabulary with all their different fixations at the end of them. To store them all would require a huge database containing many words that actually have the same meaning. This is solved by focusing only on a word’s stem. Popular algorithms for stemming include the Porter stemming algorithm from 1979, which still works well.
 
+# Tasks
 ## NER (Named Entity Recognition)
 - Source: https://builtin.com/data-science/introduction-nlp
 - *Named entity recognition (NER) concentrates on determining which items in a text (i.e. the "named entities") can be located and classified into pre-defined categories. These categories can range from the names of persons, organizations and locations to monetary values and percentages.*
 ## Sentiment Analysis
 - *With sentiment analysis we want to determine the attitude (i.e. the sentiment) of a speaker or writer with respect to a document, interaction or event. Therefore it is a natural language processing problem where text needs to be understood in order to predict the underlying intent. The sentiment is mostly categorized into positive, negative and neutral categories.*
 
+# 너무 짧은 문장 자르기
+```python
+lens = sorted([len(doc) for doc in train_X])
+ratio = 0.99
+max_len = int(np.quantile(lens, ratio))
+print(f"가장 긴 문장의 길이는 {np.max(lens)}입니다.")
+print(f"길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
+```
+
 # NLU
 # NLG
+
+# Bag-of-Words Model
+- Source: https://en.wikipedia.org/wiki/Bag-of-words_model
+- The bag-of-words model is a simplifying representation used in natural language processing and information retrieval (IR). In this model, ***a text (such as a sentence or a document) is represented as the bag (multiset) of its words, disregarding grammar and even word order but keeping multiplicity.***
+- *The bag-of-words model is commonly used in methods of document classification where the (frequency of) occurrence of each word is used as a feature for training a classifier.*
+```python
+corpora = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"]
+```
+## Implementation
+```python
+tkn2idx = {}
+bow = []
+i = 0
+for corpus in corpora:
+    for tkn in corpus.split(" "):
+        if tkn not in tkn2idx:
+            tkn2idx[tkn] = i
+            i += 1
+            bow.append(1)
+        else:
+            bow[tkn2idx[tkn]] += 1
+```
+## Using `sklearn.feature_extraction.text.CountVectorizer`
+```python
+from sklearn.feature_extraction.text import CountVectorizer
+
+vect = CountVectorizer()
+```
+```python
+vect.fit(corpora)
+mat = vect.transform(corpora).toarray()
+```
+```python
+mat = vect.fit_transform(corpora).toarray())
+```
+```python
+tkn2id = vect.vocabulary_
+```
 
 # TF-IDF(Term Frequency-Inverse Document Frequency)
 ## `TfidfVectorizer()`

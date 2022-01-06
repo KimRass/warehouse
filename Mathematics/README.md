@@ -83,6 +83,13 @@
 ### Increasing Function
 ### Decreasing Function
 
+# Multiset
+- Source: https://en.wikipedia.org/wiki/Multiset
+- In mathematics, ***a multiset (or bag, or mset) is a modification of the concept of a set that, unlike a set, allows for multiple instances for each of its elements. The number of instances given for each element is called the multiplicity of that element in the multiset.***
+- In the multiset {a, a, b}, the element a has multiplicity 2, and b has multiplicity 1.
+- *As with sets, and in contrast to tuples, order does not matter in discriminating multisets, so {a, a, b} and {a, b, a} denote the same multiset.*
+- *The cardinality of a multiset is constructed by summing up the multiplicities of all its elements. For example, in the multiset {a, a, b, b, b, c} the multiplicities of the members a, b, and c are respectively 2, 3, and 1, and therefore the cardinality of this multiset is 6.*
+
 # Statistics
 ## Correlation
 ## Casuality (= Cause and Effect)
