@@ -64,65 +64,75 @@ print(f"길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지�
 - The bag-of-words model is a simplifying representation used in natural language processing and information retrieval (IR). In this model, ***a text (such as a sentence or a document) is represented as the bag (multiset) of its words, disregarding grammar and even word order but keeping multiplicity.***
 - *The bag-of-words model is commonly used in methods of document classification where the (frequency of) occurrence of each word is used as a feature for training a classifier.*
 ```python
-corpora = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"]
+corpus = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"]
 ```
-## Implementation
-```python
-tkn2idx = {}
-bow = []
-i = 0
-for corpus in corpora:
-    for tkn in corpus.split(" "):
-        if tkn not in tkn2idx:
-            tkn2idx[tkn] = i
-            i += 1
-            bow.append(1)
-        else:
-            bow[tkn2idx[tkn]] += 1
-```
-## Using `sklearn.feature_extraction.text.CountVectorizer`
-```python
-from sklearn.feature_extraction.text import CountVectorizer
+- Implementation
+	```python
+	token2idx = {}
+	bow = []
+	i = 0
+	for sent in corpus:
+		for token in sent.split(" "):
+			if token not in token2idx:
+				token2idx[token] = i
+				i += 1
+				bow.append(1)
+			else:
+				bow[token2idx[token]] += 1
+	```
+- Using `sklearn.feature_extraction.text.CountVectorizer`
+	```python
+	from sklearn.feature_extraction.text import CountVectorizer
 
-vect = CountVectorizer()
-```
-```python
-vect.fit(corpora)
-mat = vect.transform(corpora).toarray()
-```
-```python
-mat = vect.fit_transform(corpora).toarray())
-```
-```python
-tkn2id = vect.vocabulary_
-```
+	vect = CountVectorizer()
+	```
+	```python
+	vect.fit(corpus)
+	mat = vect.transform(corpus).toarray()
+	```
+	```python
+	mat = vect.fit_transform(corpus).toarray())
+	```
+	```python
+	token2id = vect.vocabulary_
+	```
 
 # TF-IDF(Term Frequency-Inverse Document Frequency)
-## `TfidfVectorizer()`
+- Source: https://en.wikipedia.org/wiki/Tf%E2%80%93idf
+- ***TF-IDF, short for term frequency–inverse document frequency, is a numerical statistic that is intended to reflect how important a word is to a document in a collection or corpus. It is often used as a weighting factor in searches of information retrieval, text mining, and user modeling. The tf–idf value increases proportionally to the number of times a word appears in the document and is offset by the number of documents in the corpus that contain the word, which helps to adjust for the fact that some words appear more frequently in general.***
+## Term Frequency
+- Suppose we have a set of English text documents and wish to rank them by which document is more relevant to the query, "the brown cow". A simple way to start out is by eliminating documents that do not contain all three words "the", "brown", and "cow", but this still leaves many documents. To further distinguish them, we might count the number of times each term occurs in each document; *the number of times a term occurs in a document is called its term frequency. However, in the case where the length of documents varies greatly, adjustments are often made (see definition below
+## Inverse Document Frequency
+- ***Because the term "the" is so common, term frequency will tend to incorrectly emphasize documents which happen to use the word "the" more frequently, without giving enough weight to the more meaningful terms "brown" and "cow". The term "the" is not a good keyword to distinguish relevant and non-relevant documents and terms, unlike the less-common words "brown" and "cow". Hence, an inverse document frequency factor is incorporated which diminishes the weight of terms that occur very frequently in the document set and increases the weight of terms that occur rarely.***
 ```python
-from sklearn.feature_extraction.text import TfidfVectorizer
+corpus = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"]
 ```
-## `tkn.texts_to_matrix()`
-```python
-tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"], mode="count"))
-```
-- `mode`: (`"count"`, `"binary"`, `"tfidf"`, `"freq"`)
-- `num_words`가 적용됩니다.
-## `gensim.models.TfidfModel()`
-```python
-tfidf = gensim.models.TfidfModel(dtm)[dtm]
-```
-- Source: https://wikidocs.net/31698
-- TF-IDF는 특정 문서에서 자주 등장하는 단어는 그 문서 내에서 중요한 단어로 판단
-## tf(d, t)
-- 특정 문서 d에서의 특정 단어 t의 등장 횟수.
-- tf를 이어 붙인 것은 DTM과 같다.
-## df(t)
-- 특정 단어 t가 등장한 문서 d의 수.
-- 여기서 특정 단어가 각 문서, 또는 문서들에서 몇 번 등장했는지는 관심가지지 않으며 오직 등장한 문서의 수에만 관심을 가집니다.
-## idf(d, t)
-- n: 문서의 전체 개수.
-
+- Implementation
+	```python
+	tf = doc.count(term)
+	df = len([True for doc in corpus if term in doc])
+	idf = log(len(corpus)/(1 + df))
+	
+	tfidf = tf*idf
+	```
+- Using `sklearn.feature_extraction.text.TfidfVectorizer()`
+	```python
+	from sklearn.feature_extraction.text import TfidfVectorizer
+	```
+- Using `tf.keras.preprocessing.text.Tokenizer().texts_to_matrix(mode="tfidf")`
+	```python
+	import tensorflow as tf
+	
+	tokenizer = tf.keras.preprocessing.text.Tokenizer()
+	tokenizer.fit_on_texts(corpus)
+	
+	# word2idx = tokenizer.word_index
+	tfidf = tokenizer.texts_to_matrix(corpus, mode="tfidf").round(3)
+	```
+- Using `gensim.models.TfidfModel()`
+	```python
+	tfidf = gensim.models.TfidfModel(dtm)[dtm]
+	```
 # Latent Dirichlet Allocation
 ## `gensim.models.ldamodel.Ldamodel()`
 ```python

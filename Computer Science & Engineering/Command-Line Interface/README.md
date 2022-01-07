@@ -134,4 +134,8 @@ git reset HEAD~1
 ## `cat ~/.ssh/id_rsa.pub`
 ## `ssh -T git@github.com`
 
-# Ubuntu
+# Anaconda Prompt
+## Upgrade pip
+```
+pip install --upgrade --user pip
+```

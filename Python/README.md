@@ -1699,7 +1699,7 @@ train_X = pad_sequences([tokenizer.convert_tokens_to_ids(tokens) for tokens in t
 ```python
 tkn = tf.keras.preprocessing.text.Tokenizer(num_words=vocab_size+2, oov_token="UNK", lower=True)
 ```
-- `lower=False` : 대문자를 유지합니다.
+- `lower=False`: 대문자를 유지합니다.
 ##### `tkn.fit_on_texts()`
 ```python
 tkn.fit_on_texts(["나랑 점심 먹으러 갈래 점심 메뉴는 햄버거 갈래 갈래 햄버거 최고야"])
