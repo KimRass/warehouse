@@ -4113,3 +4113,5 @@ with server.auth.sign_in(tableau_auth):
 req_opts = TSC.RequestOptions(pagesize=1000)
 ```
 #### `TSC.UserItem.Roles.Creator`, `TSC.UserItem.Roles.Explorer`, `TSC.UserItem.Roles.ExplorerCanPublish`, `TSC.UserItem.Roles.ServerAdministrator`, `TSC.UserItem.Roles.SiteAdministratorCreator`, `TSC.UserItem.Roles.Unlicensed`, `TSC.UserItem.Roles.ReadOnly`, `TSC.UserItem.Roles.Viewer`
+
+# `pmdarima`

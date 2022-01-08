@@ -65,6 +65,14 @@ pca_mat = pca.fit_transform(user_emb_df)
 ## Learning Rate
 - *The learning rate defines the size of the corrective steps that the model takes to adjust for errors in each observation. A high learning rate shortens the training time, but with lower ultimate accuracy, while a lower learning rate takes longer, but with the potential for greater accuracy. In order to avoid oscillation inside the network such as alternating connection weights, and to improve the rate of convergence, refinements use an adaptive learning rate that increases or decreases as appropriate. The concept of momentum allows the balance between the gradient and the previous change to be weighted such that the weight adjustment depends to some degree on the previous change. A momentum close to 0 emphasizes the gradient, while a value close to 1 emphasizes the last change.*
 
+# Discriminative & Generative Model
+- Source: https://analyticsindiamag.com/what-are-discriminative-generative-models-how-do-they-differ/
+- *Discriminative models draw boundaries in the data space, while generative ones model how data is placed throughout the space. Mathematically speaking, a discriminative machine learning trains a model by learning parameters that maximize the conditional probability P(Y|X), but a generative model learns parameters by maximizing the joint probability P(X,Y).*
+## Discriminative Model
+- ***The discriminative model is used particularly for supervised machine learning. Also called a conditional model, it learns the boundaries between classes or labels in a dataset. It creates new instances using probability estimates and maximum likelihood. However, they are not capable of generating new data points. The ultimate goal of discriminative models is to separate one class from another.***
+## Generative Model
+- ***Generative models are a class of statistical models that generate new data instances. These models are used in unsupervised machine learning to perform tasks such as probability and likelihood estimation, modelling data points, and distinguishing between classes using these probabilities. Generative models rely on the Bayes theorem to find the joint probability.***
+
 # Convergence
 - Source: https://en.wikipedia.org/wiki/Artificial_neural_network
 - ***Models may not consistently converge on a single solution, firstly because local minima may exist, depending on the cost function and the model. Secondly, the optimization method used might not guarantee to converge when it begins far from any local minimum. Thirdly, for sufficiently large data or parameters, some methods become impractical.***
@@ -79,7 +87,6 @@ pca_mat = pca.fit_transform(user_emb_df)
 from google.colab import drive
 import os
 import sys
-from IPython.display import HTML, display
 
 drive.mount("/content/drive", force_remount=True)
 try:
@@ -553,3 +560,8 @@ E## Experimental Errors
 
 # Sparse Respresentation, Dense Representation
 - Source: https://dreamgonfly.github.io/blog/word2vec-explained/
+
+# Anomaly
+
+- 단순한 문제는 단순한 모델로 풀어야 함
+- 시간의 흐름에 따라 관측치가 변하는 데이터
