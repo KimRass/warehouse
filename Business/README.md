@@ -119,3 +119,17 @@
 # Technology Stack
 - https://mixpanel.com/blog/what-is-a-technology-stack/
 A technology stack, also called a solutions stack, technology infrastructure, or a data ecosystem, is a list of all the technology services used to build and run one single application. The social site Facebook, for example, is composed of a combination of coding frameworks and languages including JavaScript, HTML, CSS, PHP, and ReactJS. This is Facebook’s ‘tech stack.’
+
+# Prequel & Sequel
+## Prequel
+- https://en.m.wikipedia.org/wiki/Prequel
+- *A prequel is a literary, dramatic or cinematic work whose story precedes that of a previous work, by focusing on events that occur before the original narrative.*
+## Sequel
+- https://en.m.wikipedia.org/wiki/Sequel
+- *A sequel is a work of literature, film, theatre, television, music or video game that continues the story of, or expands upon, some earlier work. In the common context of a narrative work of fiction, a sequel portrays events set in the same fictional universe as an earlier work, usually chronologically following the events of that work.*
+
+# Reboot
+- https://en.m.wikipedia.org/wiki/Reboot_(fiction)
+- *In serial fiction, the term "reboot" signifies a new start to an established fictional universe, work, or series. A reboot discards continuity to re-create its characters, plotlines and backstory from the beginning. It has been described as a way to "rebrand" or "restart an entertainment universe that has already been established".*
+
+# MBA

@@ -28,6 +28,10 @@
 - Source: https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc442.htm#:~:text=A%20common%20assumption%20in%20many,do%20not%20change%20over%20time.&text=If%20the%20data%20contain%20a,the%20residuals%20from%20that%20fit.
 - ***A stationary process has the property that the mean, variance and autocorrelation structure do not change over time. Stationarity can be defined in precise mathematical terms, but for our purpose we mean a flat looking series, without trend, constant variance over time, a constant autocorrelation structure over time and no periodic fluctuations.***
 
+# Datasets
+## `AirPassengers.csv`
+## `BikeSharingDemand`
+
 # Preprocessing
 ## Set Frequency
 ```
@@ -36,7 +40,9 @@ data = data.asfreq()
 ## Variable Transformation
 ### Log Transformation
 ```python
-data["var_log"] = data["var"].map(np.log())
+import numpy as np
+
+data["var_log"] = np.log(data["var"])
 ```
 ### Difference Transformation
 ```python
@@ -47,7 +53,7 @@ data["var_diff"] = data["var"].diff(n)
 ```python
 data[["var"]].rolling(window).mean()
 ```
-## Decomposition
+## Time Series Decomposition
 ```python
 import statsmodels.api as sm
 
@@ -63,8 +69,56 @@ y_resid = decomp.resid
 ```python
 import statsmodels.api as sm
 
+# `lags`:
 fig = sm.graphics.tsa.plot_acf(ax=axes[0], x=resid_tr["resid"].iloc[1:], lags=100, use_vlines=True)
 ```
+## Partial-Autocorrelation
+```python
+import statsmodels.api as sm
+
+fig = sm.graphics.tsa.plot_pacf(ax=axes[0], x=resid_tr["resid"].iloc[1:], lags=100, use_vlines=True)
+```
+
+# ARIMA (AutoRegressive Integrated Moving Average)
+- Source: https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average
+- In statistics and econometrics, and in particular in time series analysis, an autoregressive integrated moving average (ARIMA) model is a generalization of an autoregressive moving average (ARMA) model. Both of these models are fitted to time series data either to better understand the data or to predict future points in the series (forecasting). ARIMA models are applied in some cases where data show evidence of non-stationarity in the sense of mean (but not variance/autocovariance), where an initial differencing step (corresponding to the "integrated" part of the model) can be applied one or more times to eliminate the non-stationarity of the mean function (i.e., the trend).[1] When the seasonality shows in a time series, the seasonal-differencing[2] could be applied to eliminate the seasonal component. Since the ARMA model, according to the Wold's decomposition theorem,[3][4][5] is theoretically sufficient to describe a regular (a.k.a. purely nondeterministic[5]) wide-sense stationary time series, we are motivated to make stationary a non-stationary time series, e.g., by using differencing, before we can use the ARMA model.[6] Note that if the time series contains a predictable sub-process (a.k.a. pure sine or complex-valued exponential process[4]), the predictable component is treated as a non-zero-mean but periodic (i.e., seasonal) component in the ARIMA framework so that it is eliminated by the seasonal differencing.
+
+The AR part of ARIMA indicates that the evolving variable of interest is regressed on its own lagged (i.e., prior) values. The MA part indicates that the regression error is actually a linear combination of error terms whose values occurred contemporaneously and at various times in the past.[7] The I (for "integrated") indicates that the data values have been replaced with the difference between their values and the previous values (and this differencing process may have been performed more than once). The purpose of each of these features is to make the model fit the data as well as possible.
+
+Non-seasonal ARIMA models are generally denoted ARIMA(p,d,q) where parameters p, d, and q are non-negative integers, p is the order (number of time lags) of the autoregressive model, d is the degree of differencing (the number of times the data have had past values subtracted), and q is the order of the moving-average model. Seasonal ARIMA models are usually denoted ARIMA(p,d,q)(P,D,Q)m, where m refers to the number of periods in each season, and the uppercase P,D,Q refer to the autoregressive, differencing, and moving average terms for the seasonal part of the ARIMA model.[8][2]
+
+When two out of the three terms are zeros, the model may be referred to based on the non-zero parameter, dropping "AR", "I" or "MA" from the acronym describing the model. For example, {\displaystyle {\text{ARIMA}}(1,0,0)}{\displaystyle {\text{ARIMA}}(1,0,0)} is AR(1), {\displaystyle {\text{ARIMA}}(0,1,0)}{\displaystyle {\text{ARIMA}}(0,1,0)} is I(1), and {\displaystyle {\text{ARIMA}}(0,0,1)}{\displaystyle {\text{ARIMA}}(0,0,1)} is MA(1).
+
+ARIMA models can be estimated following the Box–Jenkins approach.
+```python
+from pmdarima.arima import auto_arima
+
+model = auto_arima(diff_train_data, start_p=1, start_q=1, max_p=3, max_q=3, m=12, seasonal=True, d=1, D=1, max_P=3, max_Q=3, trace=True, error_action="ignore")
+```
+## Seasonal ARIMA
+```python
+model = SARIMAX(y, order=(1, 0, 0), seasonal_order=(1, 0, 0, 12))
+fit = model.fit()
+fit.summary()
+
+pred = fit.get_forecast()
+pred.predicted_mean
+# Lower bound
+pred.conf_int()[:, 0]
+# Upper bound
+pred.conf_int()[:, 1]
+```
+
+# Evaluation Metrics
+## AIC (Akaike Information Criterion)
+- Source: https://en.wikipedia.org/wiki/Akaike_information_criterion
+- The Akaike information criterion (AIC) is an estimator of prediction error and thereby relative quality of statistical models for a given set of data.[1][2][3] Given a collection of models for the data, AIC estimates the quality of each model, relative to each of the other models. Thus, AIC provides a means for model selection.
+
+AIC is founded on information theory. When a statistical model is used to represent the process that generated the data, the representation will almost never be exact; so some information will be lost by using the model to represent the process. AIC estimates the relative amount of information lost by a given model: the less information a model loses, the higher the quality of that model.
+
+In estimating the amount of information lost by a model, AIC deals with the trade-off between the goodness of fit of the model and the simplicity of the model. In other words, AIC deals with both the risk of overfitting and the risk of underfitting.
+
+The Akaike information criterion is named after the Japanese statistician Hirotugu Akaike, who formulated it. It now forms the basis of a paradigm for the foundations of statistics and is also widely used for statistical inference.
 
 # Tests (Not important)
 ## Stationarity Test
