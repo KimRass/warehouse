@@ -31,6 +31,9 @@ detrend = data["passengers"] - decomp.trend
 ## Stationarity
 - Source: https://www.itl.nist.gov/div898/handbook/pmc/section4/pmc442.htm#:~:text=A%20common%20assumption%20in%20many,do%20not%20change%20over%20time.&text=If%20the%20data%20contain%20a,the%20residuals%20from%20that%20fit.
 - ***A stationary process has the property that the mean, variance and autocorrelation structure do not change over time. Stationarity can be defined in precise mathematical terms, but for our purpose we mean a flat looking series, without trend, constant variance over time, a constant autocorrelation structure over time and no periodic fluctuations.***
+### Wide-Sense Stationarity
+- Source: https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average
+- *For a wide-sense stationary time series, the mean and the variance/autocovariance keep constant over time.*
 
 # Datasets
 ## `Air Passengers`
@@ -40,7 +43,7 @@ detrend = data["passengers"] - decomp.trend
 
 # Preprocessing
 ## Set Frequency
-- `freq`: (`"M"` (Month), "W"` (Week), `"D"` (Day), `"H"` (Hour), `"T"` (Minute), `"S"` (Second))
+- `freq`: (`"YS"` (year start), `"Y"` (year end), `"QS"` (quarter start), `"Q"` (quarter end), `"MS"` (month start), `"M"` (month end), "W"` (week), `"D"` (day), `"H"` (hour), `"T"` (minute), `"S"` (second))
 - `method="ffill"`: Forawd fill.
 - `method="bfill"`: Backward fill.
 ```python
@@ -55,15 +58,18 @@ import numpy as np
 
 data["var_log"] = np.log(data["var"])
 ```
-### Difference Transformation
+### Differencing
 - Source: https://machinelearningmastery.com/remove-trends-seasonality-difference-transform-python/
 - ***Differencing can help stabilize the mean of the time series by removing changes in the level of a time series, and so eliminating (or reducing) trend and seasonality.***
+- Some temporal structure may still exist after performing a differencing operation, such as in the case of a nonlinear trend. As such, *the process of differencing can be repeated more than once until all temporal dependence has been removed. The number of times that differencing is performed is called the difference order.*
+- Source: https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average
+- ***Differencing in statistics is a transformation applied to a non-stationary time-series in order to make it stationary in the mean sense (viz., to remove the non-constant trend), but having nothing to do with the non-stationarity of the variance or autocovariance. Likewise, the seasonal differencing is applied to a seasonal time-series to remove the seasonal component.***
 ```python
 data["var_diff"] = data["var"].diff(n)
 ```
-- Some temporal structure may still exist after performing a differencing operation, such as in the case of a nonlinear trend. As such, the process of differencing can be repeated more than once until all temporal dependence has been removed. The number of times that differencing is performed is called the difference order.
+- Sometimes it may be necessary to difference the data a second time to obtain a stationary time series, which is referred to as second-order differencing.
 ### Lagged Variable
-## Moving Average
+### Moving Average
 ```python
 data[["var"]].rolling(window).mean()
 ```
@@ -120,24 +126,23 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 
 # ARIMA (AutoRegressive Integrated Moving Average)
 - Source: https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average
-- In statistics and econometrics, and in particular in time series analysis, an autoregressive integrated moving average (ARIMA) model is a generalization of an autoregressive moving average (ARMA) model. Both of these models are fitted to time series data either to better understand the data or to predict future points in the series (forecasting). ARIMA models are applied in some cases where data show evidence of non-stationarity in the sense of mean (but not variance/autocovariance), where an initial differencing step (corresponding to the "integrated" part of the model) can be applied one or more times to eliminate the non-stationarity of the mean function (i.e., the trend).[1] When the seasonality shows in a time series, the seasonal-differencing[2] could be applied to eliminate the seasonal component. Since the ARMA model, according to the Wold's decomposition theorem,[3][4][5] is theoretically sufficient to describe a regular (a.k.a. purely nondeterministic[5]) wide-sense stationary time series, we are motivated to make stationary a non-stationary time series, e.g., by using differencing, before we can use the ARMA model.[6] Note that if the time series contains a predictable sub-process (a.k.a. pure sine or complex-valued exponential process[4]), the predictable component is treated as a non-zero-mean but periodic (i.e., seasonal) component in the ARIMA framework so that it is eliminated by the seasonal differencing.
-
-The AR part of ARIMA indicates that the evolving variable of interest is regressed on its own lagged (i.e., prior) values. The MA part indicates that the regression error is actually a linear combination of error terms whose values occurred contemporaneously and at various times in the past.[7] The I (for "integrated") indicates that the data values have been replaced with the difference between their values and the previous values (and this differencing process may have been performed more than once). The purpose of each of these features is to make the model fit the data as well as possible.
-
-Non-seasonal ARIMA models are generally denoted ARIMA(p,d,q) where parameters p, d, and q are non-negative integers, p is the order (number of time lags) of the autoregressive model, d is the degree of differencing (the number of times the data have had past values subtracted), and q is the order of the moving-average model. Seasonal ARIMA models are usually denoted ARIMA(p,d,q)(P,D,Q)m, where m refers to the number of periods in each season, and the uppercase P,D,Q refer to the autoregressive, differencing, and moving average terms for the seasonal part of the ARIMA model.[8][2]
-
-When two out of the three terms are zeros, the model may be referred to based on the non-zero parameter, dropping "AR", "I" or "MA" from the acronym describing the model. For example, {\displaystyle {\text{ARIMA}}(1,0,0)}{\displaystyle {\text{ARIMA}}(1,0,0)} is AR(1), {\displaystyle {\text{ARIMA}}(0,1,0)}{\displaystyle {\text{ARIMA}}(0,1,0)} is I(1), and {\displaystyle {\text{ARIMA}}(0,0,1)}{\displaystyle {\text{ARIMA}}(0,0,1)} is MA(1).
-
-ARIMA models can be estimated following the Box–Jenkins approach.
-- Source: https://statisticsbyjim.com/time-series/moving-averages-smoothing/
-
+- *An autoregressive integrated moving average (ARIMA) model is a generalization of an autoregressive moving average (ARMA) model.* Both of these models are fitted to time series data either to better understand the data or to predict future points in the series (forecasting). ***ARIMA models are applied in some cases where data show evidence of non-stationarity in the sense of mean (but not variance/autocovariance), where an initial differencing step (corresponding to the "integrated" part of the model) can be applied one or more times to eliminate the non-stationarity of the mean function (i.e., the trend).*** When the seasonality shows in a time series, the seasonal-differencing could be applied to eliminate the seasonal component.
+- ***The AR part of ARIMA indicates that the evolving variable of interest is regressed on its own lagged (i.e., prior) values. The MA part indicates that the regression error is actually a linear combination of error terms whose values occurred contemporaneously and at various times in the past. The I (for "integrated") indicates that the data values have been replaced with the difference between their values and the previous values (and this differencing process may have been performed more than once).***
+- ***Non-seasonal ARIMA models are generally denoted ARIMA(p,d,q) where parameters p, d, and q are non-negative integers, p is the order (number of time lags) of the autoregressive model, d is the degree of differencing (the number of times the data have had past values subtracted), and q is the order of the moving-average model.***
+<img src="https://render.githubusercontent.com/render/math?math=e^{i \pi} = -1">
+- 
+When two out of the three terms are zeros, the model may be referred to based on the non-zero parameter, dropping "AR", "I" or "MA" from the acronym describing the model. For example, ARIMA(1, 0, 0) is AR(1), ARIMA(0, 1, 0) is I(1), and ARIMA(0, 0, 1) is MA(1).
+- ARIMA models can be estimated following the Box–Jenkins approach.
 ```python
 from pmdarima.arima import auto_arima
 
 model = auto_arima(diff_train_data, start_p=1, start_q=1, max_p=3, max_q=3, m=12, seasonal=True, d=1, D=1, max_P=3, max_Q=3, trace=True, error_action="ignore")
 ```
 ## Seasonal ARIMA
+- ***Seasonal ARIMA models are usually denoted ARIMA(p,d,q)(P,D,Q)s, where m refers to the number of periods in each season, and the uppercase P,D,Q refer to the autoregressive, differencing, and moving average terms for the seasonal part of the ARIMA model.***
 ```python
+from statsmodels.tsa.statespace.sarimax import SARIMAX
+
 model = SARIMAX(y, order=(1, 0, 0), seasonal_order=(1, 0, 0, 12))
 fit = model.fit()
 fit.summary()

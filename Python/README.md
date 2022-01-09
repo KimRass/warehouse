@@ -641,12 +641,6 @@ for i, value in raw_data["quarter2"].items():
 ```
 - Iterate over (index, value) tuples.
 ## `DataFrame.asfreq()`
-```python
-raw_data = raw_data.asfreq("H", method="ffill")
-```
-- `freq`: (`"M"` (Month), "W"` (Week), `"D"` (Day), `"H"` (Hour), `"T"` (Minute), `"S"` (Second))
-- `method="ffill"`: Forawd fill.
-- `method="bfill"`: Backward fill.
 ## `DataFrame.rolling()`
 ```python
 raw_all[["count"]].rolling(window=24, center=False).mean()
@@ -3282,16 +3276,7 @@ fig = sm.qqplot(ax=axes[0], data=data["value"], fit=True, line="45")
 ```
 ### `sm.tsa`
 #### `sm.tsa.seasonal_decompose()`
-```python
-sm.tsa.seasonal_decompose(raw_all["count"], model="additive").plot()
-```
-- `model="additive"`
-- `model="multiplicative"`
-##### `sm.tsa.seasonal_decompose().observed`
-##### `sm.tsa.seasonal_decompose().trend`
-##### `sm.tsa.seasonal_decompose().seasonal`
-##### `sm.tsa.seasonal_decompose().resid`
-- When `model="additive"`, `sm.tsa.seasonal_decompose().observed` is same as `sm.tsa.seasonal_decompose().trend` + `sm.tsa.seasonal_decompose().seasonal` + `sm.tsa.seasonal_decompose().resid`
+##### `sm.tsa.seasonal_decompose().observed`, `sm.tsa.seasonal_decompose().trend`, `sm.tsa.seasonal_decompose().seasonal`, `sm.tsa.seasonal_decompose().resid`
 #### `sm.tsa.stattools`
 ##### `sm.tsa.stattools.adfuller()`
 ```python
