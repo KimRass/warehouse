@@ -43,12 +43,12 @@ detrend = data["passengers"] - decomp.trend
 
 # Preprocessing
 ## Set Frequency
-- `freq`: (`"YS"` (year start), `"Y"` (year end), `"QS"` (quarter start), `"Q"` (quarter end), `"MS"` (month start), `"M"` (month end), `"W"` (week), `"D"` (day), `"H"` (hour), `"T"` (minute), `"S"` (second))
-- `method="ffill"`: Forawd fill.
-- `method="bfill"`: Backward fill.
 ```python
 data = data.asfreq()
 ```
+- `freq`: (`"YS"` (year start), `"Y"` (year end), `"QS"` (quarter start), `"Q"` (quarter end), `"MS"` (month start), `"M"` (month end), `"W"` (week), `"D"` (day), `"H"` (hour), `"T"` (minute), `"S"` (second))
+- `method="ffill"`: Forawd fill.
+- `method="bfill"`: Backward fill.
 ## Data Transformation
 ### Log Transformation
 - Source: https://cadmus.eui.eu/handle/1814/11150
