@@ -17,6 +17,10 @@
 ## Trend
 - Source: https://www.geeksforgeeks.org/what-is-a-trend-in-time-series/
 - Trend is a pattern in data that shows the movement of a series to relatively higher or lower values over a long period of time. In other words, *a trend is observed when there is an increasing or decreasing slope in the time series. Trend usually happens for some time and then disappears, it does not repeat.* For example, some new song comes, it goes trending for a while, and then disappears. There is fairly any chance that it would be trending again.
+## Detrend
+```python
+detrend = data["passengers"] - decomp.trend
+```
 ## Seasonality
 - Source: https://en.wikipedia.org/wiki/Seasonality
 - In time series data, *seasonality is the presence of variations that occur at specific regular intervals less than a year, such as weekly, monthly, or quarterly.* Seasonality may be caused by various factors, such as weather, vacation, and holidays and consists of periodic, repetitive, and generally regular and predictable patterns in the levels of a time series.*
@@ -29,25 +33,35 @@
 - ***A stationary process has the property that the mean, variance and autocorrelation structure do not change over time. Stationarity can be defined in precise mathematical terms, but for our purpose we mean a flat looking series, without trend, constant variance over time, a constant autocorrelation structure over time and no periodic fluctuations.***
 
 # Datasets
-## `AirPassengers.csv`
-## `BikeSharingDemand`
+## `Air Passengers`
+- Source: https://www.kaggle.com/rakannimer/air-passengers
+## `Bike Sharing Demand`
+- Source: https://www.kaggle.com/c/bike-sharing-demand
 
 # Preprocessing
 ## Set Frequency
-```
+- `freq`: (`"M"` (Month), "W"` (Week), `"D"` (Day), `"H"` (Hour), `"T"` (Minute), `"S"` (Second))
+- `method="ffill"`: Forawd fill.
+- `method="bfill"`: Backward fill.
+```python
 data = data.asfreq()
 ```
-## Variable Transformation
+## Data Transformation
 ### Log Transformation
+- Source: https://cadmus.eui.eu/handle/1814/11150
+- ***In time series analysis log transformation is often considered to stabilize the variance of a series.***
 ```python
 import numpy as np
 
 data["var_log"] = np.log(data["var"])
 ```
 ### Difference Transformation
+- Source: https://machinelearningmastery.com/remove-trends-seasonality-difference-transform-python/
+- ***Differencing can help stabilize the mean of the time series by removing changes in the level of a time series, and so eliminating (or reducing) trend and seasonality.***
 ```python
 data["var_diff"] = data["var"].diff(n)
 ```
+- Some temporal structure may still exist after performing a differencing operation, such as in the case of a nonlinear trend. As such, the process of differencing can be repeated more than once until all temporal dependence has been removed. The number of times that differencing is performed is called the difference order.
 ### Lagged Variable
 ## Moving Average
 ```python
@@ -60,23 +74,48 @@ import statsmodels.api as sm
 decomp = sm.tsa.seasonal_decompose(data["var"], model="additive")
 # decomp = sm.tsa.seasonal_decompose(data["var"], model="multiplicative")
 
-y_observ = decomp.observed
-y_trend = decomp.trend
-y_season = decomp.seasonal
-y_resid = decomp.resid
+y_observ = decomp.observed # `pandas.Series`
+y_trend = decomp.trend # `pandas.Series`
+y_season = decomp.seasonal # `pandas.Series`
+y_resid = decomp.resid # `pandas.Series`
 ```
+
+# Splitting Dataset
+- Overfitting would be a major concern since your training data could contain information from the future. ***It is important that all your training data happens before your test data.*** One way of validating time series data is by using k-fold CV and making sure that ***in each fold the training data takes place before the test data.***
+- Using `sklearn.model_selection.train_test_split(shuffle=False)`
+```python
+from sklearn.model_selection import train_test_split
+
+data_tr, data_te = train_test_split(data, test_size=0.2, shuffle=False)
+```
+
 # Autocorrelation
+- Source: https://statisticsbyjim.com/time-series/autocorrelation-partial-autocorrelation/
+- Autocorrelation is the correlation between two observations at different points in a time series. For example, values that are separated by an interval might have a strong positive or negative correlation. ***When these correlations are present, they indicate that past values influence the current value.***
+- *Analysts record time-series data by measuring a characteristic at evenly spaced intervals—such as daily, monthly, or yearly. *The number of intervals between the two observations is the lag. This lag can be days, quarters, or years depending on the nature of the data.
+## ACF (AutoCorrelation Function)
+- The autocorrelation function (ACF) assesses the correlation between observations in a time series for a set of lags.
+- In an ACF plot, *each bar represents the size and direction of the correlation. Bars that extend across the red line are statistically significant.*
+- ***Stationarity: The autocorrelation function declines to near zero rapidly for a stationary time series. In contrast, the ACF drops slowly for a non-stationary time series.***
+- ***Trend: When trends are present in a time series, shorter lags typically have large positive correlations because observations closer in time tend to have similar values. The correlations taper off slowly as the lags increase.***
+- ***Seasonality: When seasonal patterns are present, the autocorrelations are larger for lags at multiples of the seasonal frequency than for other lags.***
+- When a time series has both a trend and seasonality, the ACF plot displays a mixture of both effects.
 ```python
 import statsmodels.api as sm
 
-# `lags`:
-fig = sm.graphics.tsa.plot_acf(ax=axes[0], x=resid_tr["resid"].iloc[1:], lags=100, use_vlines=True)
+sm.graphics.tsa.plot_acf(x=data["var"], lags=50);
 ```
-## Partial-Autocorrelation
+### White Noise
+- ***For random data, autocorrelations should be near zero for all lags. Analysts also refer to this condition as white noise. Non-random data have at least one significant lag.***
+## PACF (Partial AutoCorrelation Function)
+- *The partial autocorrelation function is similar to the ACF except that it displays only the correlation between two observations that the shorter lags between those observations do not explain. For example, the partial autocorrelation for lag 3 is only the correlation that lags 1 and 2 do not explain. In other words, the partial correlation for each lag is the unique correlation between those two observations after partialling out the intervening correlations.*
+- As you saw, the autocorrelation function helps assess the properties of a time series. In contrast, *the partial autocorrelation function (PACF) is more useful during the specification process for an autoregressive model. Analysts use partial autocorrelation plots to specify regression models with time series data and Auto Regressive Integrated Moving Average (ARIMA) models.*
+- Typically, you will use the ACF to determine whether an autoregressive model is appropriate. If it is, you then use the PACF to help you choose the model terms.
+- ***On the graph, the partial autocorrelations for lags 1 and 2 are statistically significant. The subsequent lags are nearly significant. Consequently, this PACF suggests fitting either a second or third-order autoregressive model.***
 ```python
 import statsmodels.api as sm
 
-fig = sm.graphics.tsa.plot_pacf(ax=axes[0], x=resid_tr["resid"].iloc[1:], lags=100, use_vlines=True)
+sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 ```
 
 # ARIMA (AutoRegressive Integrated Moving Average)
@@ -90,6 +129,8 @@ Non-seasonal ARIMA models are generally denoted ARIMA(p,d,q) where parameters p,
 When two out of the three terms are zeros, the model may be referred to based on the non-zero parameter, dropping "AR", "I" or "MA" from the acronym describing the model. For example, {\displaystyle {\text{ARIMA}}(1,0,0)}{\displaystyle {\text{ARIMA}}(1,0,0)} is AR(1), {\displaystyle {\text{ARIMA}}(0,1,0)}{\displaystyle {\text{ARIMA}}(0,1,0)} is I(1), and {\displaystyle {\text{ARIMA}}(0,0,1)}{\displaystyle {\text{ARIMA}}(0,0,1)} is MA(1).
 
 ARIMA models can be estimated following the Box–Jenkins approach.
+- Source: https://statisticsbyjim.com/time-series/moving-averages-smoothing/
+
 ```python
 from pmdarima.arima import auto_arima
 

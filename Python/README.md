@@ -644,7 +644,7 @@ for i, value in raw_data["quarter2"].items():
 ```python
 raw_data = raw_data.asfreq("H", method="ffill")
 ```
-- `freq`: (`"D"`, "W"`)
+- `freq`: (`"M"` (Month), "W"` (Week), `"D"` (Day), `"H"` (Hour), `"T"` (Minute), `"S"` (Second))
 - `method="ffill"`: Forawd fill.
 - `method="bfill"`: Backward fill.
 ## `DataFrame.rolling()`
@@ -2520,6 +2520,10 @@ fig, axes = plt.subplots(2, 1, figsize=(16, 12))
 #### `fig.colorbar()`
 ```python
 cbar = fig.colorbar(ax=ax, mappable=scatter)
+```
+#### `fig.set_size_inches()`
+```python
+fig.set_size_inches(10, 10)
 ```
 ##### `cbar.set_label()`
 ```python
