@@ -141,11 +141,13 @@ model = auto_arima(diff_train_data, start_p=1, start_q=1, max_p=3, max_q=3, m=12
 ```python
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
-model = SARIMAX(y, order=(1, 0, 0), seasonal_order=(1, 0, 0, 12))
-fit = model.fit()
-fit.summary()
+model = SARIMAX(endog=data["var"], order=(p, d, q), seasonal_order=(P, D, Q, s))
+hist = model.fit()
 
-pred = fit.get_forecast()
+hist.summary()
+hist.aic
+
+pred = hist.get_forecast()
 pred.predicted_mean
 # Lower bound
 pred.conf_int()[:, 0]
@@ -187,8 +189,6 @@ The Akaike information criterion is named after the Japanese statistician Hirotu
 ### Goldfeld–Quandt Test, Breusch–Pagan Test, Bartlett's Test
 - Null hypothesis: The residuals are homoscedasticity.(p-value >= Criterion)
 - Alternative hypothesis: The residuals are heteroscedasticity.(p-value < Criterion)
-- 일반적인 데이터와 전혀 다른 특성
-- 일반적인 데이터를 다루는 모델에 적용할 경우 원하는 결과 얻지 못할 가능성이 높다.
 
 # Horizon
 # Stage
