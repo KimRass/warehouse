@@ -43,7 +43,7 @@ detrend = data["passengers"] - decomp.trend
 
 # Preprocessing
 ## Set Frequency
-- `freq`: (`"YS"` (year start), `"Y"` (year end), `"QS"` (quarter start), `"Q"` (quarter end), `"MS"` (month start), `"M"` (month end), "W"` (week), `"D"` (day), `"H"` (hour), `"T"` (minute), `"S"` (second))
+- `freq`: (`"YS"` (year start), `"Y"` (year end), `"QS"` (quarter start), `"Q"` (quarter end), `"MS"` (month start), `"M"` (month end), `"W"` (week), `"D"` (day), `"H"` (hour), `"T"` (minute), `"S"` (second))
 - `method="ffill"`: Forawd fill.
 - `method="bfill"`: Backward fill.
 ```python
