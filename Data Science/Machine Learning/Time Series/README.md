@@ -136,6 +136,7 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 - ***Seasonal ARIMA models are usually denoted ARIMA(p,d,q)(P,D,Q)[m], where m refers to the number of periods in each season, and the uppercase P, D, Q refer to the autoregressive, differencing, and moving average terms for the seasonal part of the ARIMA model.***
 - Hyperparameter Tunning
 	- Implementation
+		- Reference: https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.arima.auto_arima.html
 		```python
 		import math
 		import itertools
@@ -163,19 +164,21 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 		model = SARIMAX(data_tr["passengers_log"], order=model.order, seasonal_order=model.seasonal_order)
 		res = model.fit()
 		```
-```python
-from statsmodels.tsa.statespace.sarimax import SARIMAX
+- Reference: https://www.statsmodels.org/dev/generated/statsmodels.tsa.statespace.sarimax.SARIMAX.html?highlight=sarimax#statsmodels.tsa.statespace.sarimax.SARIMAX
+- Modeling & Prediction
+	```python
+	from statsmodels.tsa.statespace.sarimax import SARIMAX
 
-model = SARIMAX(endog=data["var"], order=(p, d, q), seasonal_order=(P, D, Q, m))
-res = model.fit()
-res.summary()
-res.aic
+	model = SARIMAX(endog=data["var"], order=(p, d, q), seasonal_order=(P, D, Q, m))
+	res = model.fit()
+	res.summary()
+	# res.aic
 
-pred_res = res.get_forecast(len(data_te))
-preds = np.exp(pred_res.predicted_mean)
-preds_lb = np.exp(pred.conf_int().iloc[:, 0])
-preds_ub = np.exp(pred.conf_int().iloc[:, 1])
-```
+	pred_res = res.get_forecast(len(data_te))
+	preds = np.exp(pred_res.predicted_mean)
+	preds_lb = np.exp(pred.conf_int().iloc[:, 0])
+	preds_ub = np.exp(pred.conf_int().iloc[:, 1])
+	```
 - Visualization
 	```python
 	fig = plt.figure(figsize=(12, 6))
