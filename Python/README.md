@@ -2645,7 +2645,7 @@ raw_data.boxplot(column="count", by="season", grid=False, figsize=(12,5))
 ```python
 fig = ax.axhline(y=mean, color="r", ls=":", lw=2)
 ```
-- Returns `Line2D`
+#### `hlines()`, `vlines()`
 #### `ax.text()`
 ```python
 for _, row in ml_gby_ax.iterrows():
@@ -2653,7 +2653,7 @@ for _, row in ml_gby_ax.iterrows():
 ```
 #### `ax.fill_between()`
 ```python
-ax.fill_between(x=range(sgd_loss_mean.shape[0]), y1=sgd_loss_mean + sgd_loss_std, y2=sgd_loss_mean - sgd_loss_std, alpha=0.3)
+ax.fill_between(x, y1, y2, ...)
 ```
 
 # `seaborn`

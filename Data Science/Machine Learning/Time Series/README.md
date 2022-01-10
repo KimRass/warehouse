@@ -34,6 +34,7 @@ detrend = data["passengers"] - decomp.trend
 ### Wide-Sense Stationarity
 - Source: https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average
 - *For a wide-sense stationary time series, the mean and the variance/autocovariance keep constant over time.*
+### Strict-Sense Stationarity
 
 # Datasets
 ## `Air Passengers`
@@ -131,29 +132,60 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 - ***Non-seasonal ARIMA models are generally denoted ARIMA(p,d,q) where parameters p, d, and q are non-negative integers, p is the order (number of time lags) of the autoregressive model, d is the degree of differencing (the number of times the data have had past values subtracted), and q is the order of the moving-average model.***
 - When two out of the three terms are zeros, the model may be referred to based on the non-zero parameter, dropping "AR", "I" or "MA" from the acronym describing the model. For example, ARIMA(1, 0, 0) is AR(1), ARIMA(0, 1, 0) is I(1), and ARIMA(0, 0, 1) is MA(1).
 - ARIMA models can be estimated following the Box–Jenkins approach.
-```python
-from pmdarima.arima import auto_arima
-
-model = auto_arima(diff_train_data, start_p=1, start_q=1, max_p=3, max_q=3, m=12, seasonal=True, d=1, D=1, max_P=3, max_Q=3, trace=True, error_action="ignore")
-```
 ## Seasonal ARIMA
-- ***Seasonal ARIMA models are usually denoted ARIMA(p,d,q)(P,D,Q)s, where m refers to the number of periods in each season, and the uppercase P,D,Q refer to the autoregressive, differencing, and moving average terms for the seasonal part of the ARIMA model.***
+- ***Seasonal ARIMA models are usually denoted ARIMA(p,d,q)(P,D,Q)[m], where m refers to the number of periods in each season, and the uppercase P, D, Q refer to the autoregressive, differencing, and moving average terms for the seasonal part of the ARIMA model.***
+- Hyperparameter Tunning
+	- Implementation
+		```python
+		import math
+		import itertools
+		from statsmodels.tsa.statespace.sarimax import SARIMAX
+		
+		minim = math.inf
+		for params in itertools.product(range(0, max_p + 1), range(0, max_d + 1), range(0, max_q + 1)):
+			model = SARIMAX(endog=data_tr["passengers_log"], order=params)
+			res = model.fit()
+			aic = res.aic
+			if aic < minim:
+				minim = aic
+				best_params = params
+		print(best_params)
+
+		model = SARIMAX(data_tr["passengers_log"], order=best_params)
+		res = model.fit()
+		```
+	- Using `pmdarima.arima.auto_arima()`
+		```python
+		from pmdarima.arima import auto_arima
+
+		model = auto_arima(data_tr["passengers_log"], start_p=1, max_p=3, d=1, start_q=1, max_q=3, seasonal=True, max_P=3, D=1, max_Q=3, m=12, trace=True, error_action="ignore")
+
+		model = SARIMAX(data_tr["passengers_log"], order=model.order, seasonal_order=model.seasonal_order)
+		res = model.fit()
+		```
 ```python
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 
-model = SARIMAX(endog=data["var"], order=(p, d, q), seasonal_order=(P, D, Q, s))
-hist = model.fit()
+model = SARIMAX(endog=data["var"], order=(p, d, q), seasonal_order=(P, D, Q, m))
+res = model.fit()
+res.summary()
+res.aic
 
-hist.summary()
-hist.aic
-
-pred = hist.get_forecast()
-pred.predicted_mean
-# Lower bound
-pred.conf_int()[:, 0]
-# Upper bound
-pred.conf_int()[:, 1]
+pred_res = res.get_forecast(len(data_te))
+preds = np.exp(pred_res.predicted_mean)
+preds_lb = np.exp(pred.conf_int().iloc[:, 0])
+preds_ub = np.exp(pred.conf_int().iloc[:, 1])
 ```
+- Visualization
+	```python
+	fig = plt.figure(figsize=(12, 6))
+	data["var"].plot.line();
+	preds.plot.line(label="Prediction");
+	plt.axvline(x=forecast_boundary, linestyle="--", color="r", label="forecast boundary");
+	plt.fill_between(x=data_te.index, y1=preds_lb, y2=preds_ub, color="b", alpha=0.3, label="95% Confidence Interval");
+	plt.legend(loc="upper left");
+	print(f"r2_score: {r2_score(data_te['var'], preds)}")
+	```
 
 # Evaluation Metrics
 ## AIC (Akaike Information Criterion)
