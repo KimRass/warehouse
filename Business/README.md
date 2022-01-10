@@ -133,3 +133,7 @@ A technology stack, also called a solutions stack, technology infrastructure, or
 - *In serial fiction, the term "reboot" signifies a new start to an established fictional universe, work, or series. A reboot discards continuity to re-create its characters, plotlines and backstory from the beginning. It has been described as a way to "rebrand" or "restart an entertainment universe that has already been established".*
 
 # MBA
+
+# Man-Month
+- Source: https://en.wiktionary.org/wiki/man-month#:~:text=Noun,consumed%20to%20perform%20some%20task.
+- One person's working time for a month, or the equivalent, used as a measure of how much work or labor is required or consumed to perform some task.
