@@ -1,3 +1,21 @@
+# Types of Data
+## Explicit Data
+## Implicit Data
+
+# Collaborative Filtering (CF)
+# Association Analysis
+# BPR (Bayesian Personalizaed Ranking)
+# Matrix Factorization
+# Factorization Machine
+# DeepFM
+# A/B Test
+# Multi-Armed Bandit
+
+# Evaluation Metrics
+## MAP(Mean Average Precision)
+- 하지만 사용자에 따라서 실제로 소비한 아이템의 수가 천 개, 2천개까지 늘어날 수 있습니다. 이 경우 recall이 1이 되는 지점까지 고려하는 것은 무리이므로 최대 n개까지만 고려하여 mAP를 계산하며, 이 경우 mAP@n 으로 표기합니다.
+## nDCG(normalized Discounted Cumulative Gain)
+
 # 1. 신규 고객(고객에 대한 정보 없음) : 
 ## 1-1. 비개인화 추천(Non-personalized Recommendation)
 ### (1) 신규 아이템 추천

@@ -201,7 +201,7 @@ In estimating the amount of information lost by a model, AIC deals with the trad
 
 The Akaike information criterion is named after the Japanese statistician Hirotugu Akaike, who formulated it. It now forms the basis of a paradigm for the foundations of statistics and is also widely used for statistical inference.
 
-# Tests (Not important)
+# Tests (not important)
 ## Stationarity Test
 ### ADF (Augmented Dickey-Fuller) Test, ADF-GLS Test, PP (Phillips-Perron) Test
 - Null hypothesis: The residuals are non-stationary.(p-value >= Criterion)

@@ -20,6 +20,23 @@ sw = {i for i in string.punctuation}
 - A corpus may contain texts in a single language (monolingual corpus) or text data in multiple languages (multilingual corpus).
 - In order to make the corpora more useful for doing linguistic research, they are often subjected to a process known as annotation. *An example of annotating a corpus is part-of-speech tagging, or POS-tagging, in which information about each word's part of speech (verb, noun, adjective, etc.) is added to the corpus in the form of tags. Another example is indicating the lemma (base) form of each word. When the language of the corpus is not a working language of the researchers who use it, interlinear glossing is used to make the annotation bilingual.*
 
+# Datasets
+## `sklearn.datasets.fetch_20newsgroups()`
+## Steam Reviews
+- Source: https://github.com/bab2min/corpus/tree/master/sentiment
+## Naver Shopping
+- Source: https://github.com/bab2min/corpus/tree/master/sentiment
+## NLP Challenge
+## fra-eng
+- Source: https://www.kaggle.com/myksust/fra-eng/activity
+## IMDb
+## Annotated Corpus for NER
+## Chatbot Data for Korean
+- Source: https://github.com/songys/Chatbot_data
+## Natural Language Understanding benchmark
+## NSMC
+## TED
+
 # Bag-of-Words Model
 - Source: https://en.wikipedia.org/wiki/Bag-of-words_model
 - The bag-of-words model is a simplifying representation used in natural language processing and information retrieval (IR). In this model, ***a text (such as a sentence or a document) is represented as the bag (multiset) of its words, disregarding grammar and even word order but keeping multiplicity.***
@@ -152,6 +169,17 @@ text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as ch
 	morphs = okt.morphs() # kkm.morphs(), kmr.morphs(), hnn.morphs()
 	pos = okt.pos() # kkm.pos(), kmr.pos(), hnn.pos()
 	```
+- Using `tensorflow.keras.preprocessing.text.Tokenizer()`
+	```python
+	tokenizer = tf.keras.preprocessing.text.Tokenizer(oov_token="UNK")
+	tokenizer.fit_on_texts(corpus)
+
+	token2idx = tokenizer.word_index
+	idx2token = tokenizer.index_word
+	tokenizer.word_counts
+	tokenizer.texts_to_sequences()
+	tokenizer.sequences_to_texts()
+	```
 ### Sentence Tokenization
 - Using `nltk.tokenize.sent_tokenize()`
 	```python
@@ -226,6 +254,14 @@ sent_div = spacing(text)
 	
 	sw = stopwords.words("english")
 	```
+## Padding
+```python
+tr_X = tf.keras(preprocessing.sequence.pad_sequences(tr_X, padding="post", maxlen_max_len)
+tr_y = tf.keras(preprocessing.sequence.pad_sequences(tr_y, padding="post", maxlen_max_len)
+
+# tr_X = tf.keras.utils.to_categorical(tr_X)
+# tr_y = tf.keras.utils.to_categorical(tr_y)
+```
 
 # Word Embedding
 - In natural language processing (NLP), word embedding is a term used for the representation of words for text analysis, ***typically in the form of a real-valued vector that encodes the meaning of the word such that the words that are closer in the vector space are expected to be similar in meaning.*** Word embeddings can be obtained using a set of language modeling and feature learning techniques where words or phrases from the vocabulary are mapped to vectors of real numbers. ***Conceptually it involves the mathematical embedding from space with many dimensions per word to a continuous vector space with a much lower dimension.***
@@ -281,8 +317,7 @@ sent_div = spacing(text)
 lens = sorted([len(doc) for doc in train_X])
 ratio = 0.99
 max_len = int(np.quantile(lens, ratio))
-print(f"가장 긴 문장의 길이는 {np.max(lens)}입니다.")
-print(f"길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
+print(f"길이가 가장 긴 문장의 길이는 {np.max(lens)}이고 길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
 ```
 
 # NLU
@@ -337,3 +372,26 @@ pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
 - ***Data sparsity is a major problem in building language models. Most possible word sequences are not observed in training. One solution is to make the assumption that the probability of a word only depends on the previous n words. This is known as an n-gram model or unigram model when n equals to 1. The unigram model is also known as the bag of words model.***
 ## Bidirectional Language Model
 - Bidirectional representations condition on both pre- and post- context (e.g., words) in all layers.
+
+# seq2seq
+- - seq2seq는 크게 두 개로 구성된 아키텍처로 구성되는데, 바로 인코더와 디코더입니다. 인코더는 입력 문장의 모든 단어들을 순차적으로 입력받은 뒤에 마지막에 이 모든 단어 정보들을 압축해서 하나의 벡터로 만드는데, 이를 컨텍스트 벡터(context vector)라고 합니다. 입력 문장의 정보가 하나의 컨텍스트 벡터로 모두 압축되면 인코더는 컨텍스트 벡터를 디코더로 전송합니다. 디코더는 컨텍스트 벡터를 받아서 번역된 단어를 한 개씩 순차적으로 출력합니다.
+- 디코더는 초기 입력으로 문장의 시작을 의미하는 심볼 `<sos>`가 들어갑니다. 디코더는 `<sos>`가 입력되면, 다음에 등장할 확률이 높은 단어를 예측합니다. 첫번째 시점(time step)의 디코더 RNN 셀은 다음에 등장할 단어로 je를 예측하였습니다. 첫번째 시점의 디코더 RNN 셀은 예측된 단어 je를 다음 시점의 RNN 셀의 입력으로 입력합니다. 그리고 두번째 시점의 디코더 RNN 셀은 입력된 단어 je로부터 다시 다음에 올 단어인 suis를 예측하고, 또 다시 이것을 다음 시점의 RNN 셀의 입력으로 보냅니다. 디코더는 이런 식으로 기본적으로 다음에 올 단어를 예측하고, 그 예측한 단어를 다음 시점의 RNN 셀의 입력으로 넣는 행위를 반복합니다. 이 행위는 문장의 끝을 의미하는 심볼인 `<eos>`가 다음 단어로 예측될 때까지 반복됩니다. 지금 설명하는 것은 테스트 과정 동안의 이야기입니다.
+## Character-Level seq2seq
+
+# Bidirectional LSTM Sentiment Analysis
+```python
+model = Sequential()
+model.add(Embedding(input_dim=vocab_size+2, output_dim=64))
+hidden_size = 128
+model.add(Bidirectional(LSTM(units=hidden_size)))
+model.add(Dense(units=1, activation="sigmoid"))
+
+es = EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=2)
+model_path = "steam_reviews_bilstm.h5"
+mc = ModelCheckpoint(filepath=model_path, monitor="val_binary_accuracy", mode="auto", verbose=1, save_best_only=True)
+
+model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["binary_accuracy"])
+
+batch_size = 256
+hist = model.fit(x=tr_X, y=tr_y, validation_split=0.2, batch_size=batch_size, epochs=10, verbose=1, callbacks=[es, mc])
+```
