@@ -90,6 +90,9 @@
 - *As with sets, and in contrast to tuples, order does not matter in discriminating multisets, so {a, a, b} and {a, b, a} denote the same multiset.*
 - *The cardinality of a multiset is constructed by summing up the multiplicities of all its elements. For example, in the multiset {a, a, b, b, b, c} the multiplicities of the members a, b, and c are respectively 2, 3, and 1, and therefore the cardinality of this multiset is 6.*
 
+# Pareto Distribution
+- Source: https://en.wikipedia.org/wiki/Pareto_distribution
+
 # Statistics
 ## Correlation
 ## Casuality (= Cause and Effect)

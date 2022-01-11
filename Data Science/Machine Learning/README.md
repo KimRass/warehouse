@@ -1,3 +1,7 @@
+# Data Density (or Sparsity)
+- Source: https://datascience.foundation/discussion/data-science/data-sparsity
+- In a database, sparsity and density describe the number of cells in a table that are empty (sparsity) and that contain information (density), though sparse cells are not always technically empty—they often contain a “0” digit.
+
 # Feature Scaling
 - Source: https://en.wikipedia.org/wiki/Feature_scaling
 - Feature scaling is a method used to normalize the range of independent variables or features of data. In data processing, it is also known as data normalization and is generally performed during the data preprocessing step.

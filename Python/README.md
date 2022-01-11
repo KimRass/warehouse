@@ -608,6 +608,11 @@ def cos_sim(x, y):
 ```python
 retail[retail["CustomerID"].notna()]
 ```
+## `DataFrame.insert()`
+```python
+asso_rules.insert(1, "antecedents_title", asso_rules["antecedents"].apply(lambda x : id2title[list(x)[0]]))
+```
+## `DataFrame.drop()`
 ## `DataFrame.dropna()`
 ```python
 data = data.dropna(subset=["id"])
@@ -2631,7 +2636,7 @@ data["label"].value_counts().plot.bar()
 ```python
 ax.barh(y=ipark["index"], width=ipark["가경4단지 84.8743A"], height=0.2, alpha=0.5, color="red", label="가경4단지 84.8743A", edgecolor="black", linewidth=1)
 ```
-#### `ax.hist()`, `DataFrame.hist()`, `Series.hist()`
+#### `ax.hist()`, `DataFrame.plot.hist()`, `Series.plot.hist()`
 ```python
 ax.hist(cnt_genre["genre"], bins=30)
 ```
