@@ -331,6 +331,7 @@ data = pd.read_csv("fra.txt", names=["src", "tar", "CC"], sep="\t")
 - `skiprows`
 - `error_bad_lines=False`
 - `names`: List of column names to use.
+- `index_col`
 ## `pd.read_excel()`
 ## `pd.read_table()`
 ```python

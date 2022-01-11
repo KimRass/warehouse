@@ -145,24 +145,24 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 		minim = math.inf
 		for params in itertools.product(range(0, max_p + 1), range(0, max_d + 1), range(0, max_q + 1)):
 			model = SARIMAX(endog=data_tr["passengers_log"], order=params)
-			res = model.fit()
-			aic = res.aic
+			hist = model.fit()
+			aic = hist.aic
 			if aic < minim:
 				minim = aic
 				best_params = params
 		print(best_params)
 
 		model = SARIMAX(data_tr["passengers_log"], order=best_params)
-		res = model.fit()
+		hist = model.fit()
 		```
 	- Using `pmdarima.arima.auto_arima()`
 		```python
-		from pmdarima.arima import auto_arima
-
 		model = auto_arima(data_tr["passengers_log"], start_p=1, max_p=3, d=1, start_q=1, max_q=3, seasonal=True, max_P=3, D=1, max_Q=3, m=12, trace=True, error_action="ignore")
 
-		model = SARIMAX(data_tr["passengers_log"], order=model.order, seasonal_order=model.seasonal_order)
-		res = model.fit()
+		pred_res = model.predict(len(data_te), return_conf_int=True)
+		preds = pd.Series(np.exp(pred_res[0]), index=data_te.index)
+		preds_lb = pd.Series(np.exp(pred_res[1])[:, 0], index=data_te.index)
+		preds_ub = pd.Series(np.exp(pred_res[1])[:, 1], index=data_te.index)
 		```
 - Reference: https://www.statsmodels.org/dev/generated/statsmodels.tsa.statespace.sarimax.SARIMAX.html?highlight=sarimax#statsmodels.tsa.statespace.sarimax.SARIMAX
 - Modeling & Prediction
@@ -170,11 +170,11 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 	from statsmodels.tsa.statespace.sarimax import SARIMAX
 
 	model = SARIMAX(endog=data["var"], order=(p, d, q), seasonal_order=(P, D, Q, m))
-	res = model.fit()
-	res.summary()
-	# res.aic
+	hist = model.fit()
+	hist.summary()
+	# hist.aic
 
-	pred_res = res.get_forecast(len(data_te))
+	pred_res = hist.get_forecast(len(data_te))
 	preds = np.exp(pred_res.predicted_mean)
 	preds_lb = np.exp(pred.conf_int().iloc[:, 0])
 	preds_ub = np.exp(pred.conf_int().iloc[:, 1])

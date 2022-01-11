@@ -2,8 +2,54 @@
 ## Explicit Data
 ## Implicit Data
 
+# Datasets
+## MovieLens
+## Last.fm
+
 # Collaborative Filtering (CF)
-# Association Analysis
+
+# Association Rule Learning (= Association Analysis)
+- Source: https://en.wikipedia.org/wiki/Association_rule_learning, https://livebook.manning.com/book/machine-learning-in-action/chapter-11/51
+- Association rule learning is a rule-based machine learning method for discovering interesting relations between variables in large databases. It is intended to identify strong rules discovered in databases using some measures of interestingness. In any given transaction with a variety of items, association rules are meant to discover the rules that determine how or why certain items are connected.
+- For example, the rule {onions, potatoes} -> {burger} found in the sales data of a supermarket would indicate that if a customer buys onions and potatoes together, they are likely to also buy hamburger meat. Such information can be used as the basis for decisions about marketing activities such as, e.g., promotional pricing or product placements.
+- In contrast with sequence mining, *association rule learning typically does not consider the order of items either within a transaction or across transactions.*
+- Association rules are made by searching data for frequent if-then patterns and by using a certain criterion under Support and Confidence to define what the most important relationships are. *Support is the evidence of how frequent an item appears in the data given, as Confidence is defined by how many times the if-then statements are found true. However, there is a third criteria that can be used, it is called Lift and it can be used to compare the expected Confidence and the actual Confidence. Lift will show how many times the if-then statement is expected to be found to be true.
+- *Looking at items commonly purchased together can give stores an idea of customers’ purchasing behavior.* This knowledge, extracted from the sea of data, can be used for pricing, marketing promotions, inventory management, and so on. Looking for hidden relationships in large datasets is known as association analysis. Brute-force solutions aren’t capable of solving this problem, so a more intelligent approach is required to find frequent itemsets in a reasonable amount of time.
+- Association analysis is the task of finding interesting relationships in large datasets. These interesting relationships can take two forms: frequent item sets or association rules. *Frequent item sets are a collection of items that frequently occur together.* The second way to view interesting relationships is association rules. *Association rules suggest that a strong relationship exists between two items.*
+- From the dataset we can also find an association rule such as diapers → wine. *This means that if someone buys diapers, there’s a good chance they’ll buy wine.* With the frequent item sets and association rules, retailers have a much better understanding of their customers. Although common examples of association analysis are from the retail industry, it can be applied to a number of other industries, such as website traffic analysis and medicine.
+## Support
+- (Number of transactions containing the itemset)/(Total number of transactions)
+- Support is an indication of how frequently the itemset appears in the dataset.
+- When using antecedents and consequents, it allows a data miner to determine the support of multiple items being bought together in comparison to the whole data set. For example, Table 2 shows that if milk is bought, then bread is bought has a support of 0.4 or 40%. This because in 2 out 5 of the transactions, milk as well as bread are bought. In smaller data sets like this example, it is harder to see a strong correlation when there are few samples, but when the data set grows larger, support can be used to find correlation between two or more products in the supermarket example.
+- Minimum support thresholds are useful for determining which itemsets are preferred or interesting.
+- *Minimum threshold is used to remove samples where there is not a strong enough support or confidence to deem the sample as important or interesting in the dataset.*
+## Confidence
+- (Number of transactions containing X and Y)/(Number of transactions containing X)
+- Confidence is the percentage of all transactions satisfying X that also satisfy Y. The confidence value of an association rule, often denoted as X -> Y, is the ratio of transactions containing both X and Y to the total amount of X values present, where X is the antecedent and Y is the consequent.
+## Lift
+```python
+def lift(x, y):
+    return confidence(x, y)/support(y)
+```
+- ***If the rule had a lift of 1, it would imply that the probability of occurrence of the antecedent and that of the consequent are independent of each other. When two events are independent of each other, no rule can be drawn involving those two events.***
+- ***If the lift is > 1, that lets us know the degree to which those two occurrences are dependent on one another, and makes those rules potentially useful for predicting the consequent in future data sets. 전체 사용자들 중 아이템 y를 좋아하는 비율(Support)보다 아이템 x를 좋아하는 사용자들 중 아이템 y도 좋아하는 비율(Confidence)가 매우 크다면 아이템 x와 y는 매우 연관 관계가 높을 것입니다.***
+- ***If the lift is < 1, that lets us know the items are substitute to each other. This means that presence of one item has negative effect on presence of other item and vice versa. 전체 사용자들 중 아이템 y를 좋아하는 비율(support)보다 아이템 x를 좋아하는 사용자들 중 아이템 y도 좋아하는 비율(confidence)이 매우 작다면 아이템 x와 y는 매우 연관 관계가 낮을 것입니다.***
+- 즉 어떤 사용자가 아이템 x를 좋아한다는 사실이 아이템 y를 좋아할 가능성이 높인다는 의미입니다.
+## Frequent Itemsets
+- *Frequent item sets are lists of items that commonly appear together.*
+### Apriori
+- Many algorithms for generating association rules have been proposed. *Some well-known algorithms are Apriori, Eclat and FP-Growth, but they only do half the job, since they are algorithms for mining frequent itemsets. Another step needs to be done after to generate rules from frequent itemsets found in a database.*
+- Apriori is for frequent itemset mining and association rule learning. *It proceeds by identifying the frequent individual items in the database and extending them to larger and larger item sets as long as those itemsets appear sufficiently often.*
+- The control flow diagram for the Apriori algorithm
+Overview: Apriori uses a "bottom up" approach, where frequent subsets are extended one item at a time (a step known as candidate generation), and groups of candidates are tested against the data. The algorithm terminates when no further successful extensions are found. Apriori uses breadth-first search and a Hash tree structure to count candidate item sets efficiently. It generates candidate item sets of length  from item sets of length . Then it prunes the candidates which have an infrequent sub pattern. According to the downward closure lemma, the candidate set contains all frequent -length item sets. After that, it scans the transaction database to determine frequent item sets among the candidates.
+
+Example: Assume that each row is a cancer sample with a certain combination of mutations labeled by a character in the alphabet. For example a row could have {a, c} which means it is affected by mutation 'a' and mutation 'c'.
+- Using `mlxtend`
+	```python
+	import mlxtend
+	from mlxtend.preprocessing import TransactionEncoder
+	from mlxtend.frequent_patterns import apriori, association_rules
+	```
 # BPR (Bayesian Personalizaed Ranking)
 # Matrix Factorization
 # Factorization Machine
