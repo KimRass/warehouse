@@ -34,8 +34,46 @@ ui = pd.pivot_table(data, index="user", columns="item", values="preferences")
 	item_bias = ui.mean(axis=0) - avg_rating
 	adj_ui = ui.sub(user_bias, axis=0).sub(item_bias, axis=1)
 	```
-- Step 2: Similarity Measure
-	- As discussed in content-based filtering, we find the similarities between two vectors a and b as the ratio between their dot product and the product of their magnitudes.
+- Step 2: Similarity measure
+	- Cosine similarity
+		- Using `numpy`
+			```python
+			adj_ui = adj_ui.fillna(0)
+			# Vector Normalization
+			norm_item = np.linalg.norm(adj_ui, axis=0, ord=2)
+			adj_ui_norm = adj_ui.div(norm_item, axis=1)
+			titles = [id2title[int(i)] for i in adj_ui.columns]
+			cos_sim_item = pd.DataFrame(np.dot(adj_ui_norm.T, adj_ui_norm), index=titles, columns=titles)
+			```
+		- Using `sklearn.metrics.pairwise.cosine_similarity()`
+			```python
+			titles = [id2title[int(i)] for i in adj_ui.columns]
+			cos_sim_item = pd.DataFrame(cosine_similarity(adj_ui.T), index=titles, columns=titles)
+			```
+	- Eculidean similarity
+		- Using `numpy`
+			```python
+			adj_ui = adj_ui.fillna(0)
+			square = np.array(np.square(adj_ui).sum(axis=0))
+			square = np.add.outer(square, square)
+			dot = np.dot(adj_ui.T, adj_ui)
+			euc_dist_item = np.sqrt(square - 2*dot)
+			# titles = [id2title[int(i)] for i in adj_ui.columns]
+			euc_sim_item = 1/(1 + euc_dist_item)
+			np.fill_diagonal(euc_sim_item, 1)
+			euc_sim_item = pd.DataFrame(euc_sim_item, index=titles, columns=titles)
+			```
+		- Using `sklearn.metrics.pairwise.euclidean_distances()`
+			```python
+			euc_dist_item = euclidean_distances(adj_ui.T)
+			euc_sim_item = pd.DataFrame(1/(1 + euc_dist_item), index=titles, columns=titles)
+			```
+- Step 3: Recommendation
+	```python
+	title = "Toy Story"
+	display(cos_sim_item[title].sort_values(ascending=False)[1:6])
+	display(euc_sim_item[title].sort_values(ascending=False)[1:6])
+	```
 ### Memory-Based
 #### User-Based
 #### Item-Based
