@@ -36,8 +36,11 @@ ui = pd.pivot_table(data, index="user", columns="item", values="preferences")
 	```
 - Step 2: Similarity measure
 	- Cosine similarity
-		- Using `numpy`
+		- Implementation
 			```python
+			import pandas as pd
+			import numpy as np
+			
 			adj_ui = adj_ui.fillna(0)
 			# Vector Normalization
 			norm_item = np.linalg.norm(adj_ui, axis=0, ord=2)
@@ -47,12 +50,17 @@ ui = pd.pivot_table(data, index="user", columns="item", values="preferences")
 			```
 		- Using `sklearn.metrics.pairwise.cosine_similarity()`
 			```python
+			from sklearn.metrics.pairwise import cosine_similarity
+			
 			titles = [id2title[int(i)] for i in adj_ui.columns]
 			cos_sim_item = pd.DataFrame(cosine_similarity(adj_ui.T), index=titles, columns=titles)
 			```
 	- Eculidean similarity
-		- Using `numpy`
+		- Implementation
 			```python
+			import pandas as pd
+			import numpy as np
+			
 			adj_ui = adj_ui.fillna(0)
 			square = np.array(np.square(adj_ui).sum(axis=0))
 			square = np.add.outer(square, square)
@@ -65,6 +73,8 @@ ui = pd.pivot_table(data, index="user", columns="item", values="preferences")
 			```
 		- Using `sklearn.metrics.pairwise.euclidean_distances()`
 			```python
+			from sklearn.metrics.pairwise import euclidean_distances
+			
 			euc_dist_item = euclidean_distances(adj_ui.T)
 			euc_sim_item = pd.DataFrame(1/(1 + euc_dist_item), index=titles, columns=titles)
 			```
@@ -78,6 +88,11 @@ ui = pd.pivot_table(data, index="user", columns="item", values="preferences")
 #### User-Based
 #### Item-Based
 ### Model-Based
+#### Matrix Factorization (MF)
+- Source: https://www.mygreatlearning.com/blog/matrix-factorization-explained/
+##### BPR (Bayesian Personalizaed Ranking)
+- BPR은 implicit data에 사용 가능한 matrix factorization 알고리즘 중 하나입니다.
+- Source: https://towardsdatascience.com/recommender-system-bayesian-personalized-ranking-from-implicit-feedback-78684bfcddf6
 
 # Association Rule Learning (= Association Analysis)
 - Source: https://en.wikipedia.org/wiki/Association_rule_learning, https://livebook.manning.com/book/machine-learning-in-action/chapter-11/51
@@ -115,6 +130,8 @@ def lift(x, y):
 - Support와 Confidence의 최소 기준을 정하여 그 기준에 미달하는 연관 관계를 제거합니다. Support와 Confidence가 너무 작으면 Lift의 의미가 왜곡되어 해석될 수 있기 때문입니다.
 - Using `mlxtend.frequent_patterns.apriori()`
 	```python
+	import os
+	import pickle as ps
 	import mlxtend
 	from mlxtend.preprocessing import TransactionEncoder
 	from mlxtend.frequent_patterns import apriori, association_rules
@@ -148,13 +165,6 @@ def lift(x, y):
 	asso_rules = asso_rules.drop(["leverage", "conviction"], axis=1)
 	```
 ### FP-Growth (Frequent Pattern-Growth)
-# Matrix Factorization (MF)
-- Source: https://www.mygreatlearning.com/blog/matrix-factorization-explained/
-
-
-How does the System make recommendations?
-Let us take an example. To purchase a car, in addition to the brand name, people check for features available in the car, most common ones being safety, mileage, or aesthetic value. Few buyers consider the automatic gearbox, while others opt for a combination of two or more features. To understand this concept, let us consider a two-dimensional vector with the features of safety and mileage.
-## BPR (Bayesian Personalizaed Ranking)
 # Factorization Machine
 # DeepFM
 # A/B Test
@@ -364,3 +374,23 @@ SVD를 비롯한 MF에서 목적함수는, Predicted rating을 구하는 Matrix 
 ## 분류
 - 추천의 타입은 크게 3가지로 분류된다. 먼저 유저의 정보에 기반하여 자동으로 아이템 리스트를 추려주는 Personalized recommender(개인화 추천), 그리고 rating 기반의 인기 상품이나 현재 상품 기준 AR(Association Rule. 이하 AR) 순위 상품을 추천해주는 Non-personalized recommender 방법이 있다. 이 방법은 주로 Cold Start Problem(개인화 추천 모델링을 위한 유저정보 혹은 아이템 정보가 부족한 상황)이 발생하는 상황이나 개인화추천이 잘 적용되지 않는 추천 영역에 사용된다. 그리고 마지막으로 Attribute-based recommender 방법이 있다. 아이템 자체가 가지고 있는 정보, 즉 Contents 정보를 활용하여 추천하는 방법으로 Cold Start 문제를 해결하는 조금 더 세련된 방법이라고 할 수 있다. 뒤에 설명할 CF(Collaborative Filtering. 이하 CF)와 상호 보완적인 알고리즘인 Content-based approach 라고도 불린다.
 위의 세 가지 타입에 매칭되는 대표적인 알고리즘은 Personalized recommender - CF, Non-personalized recommender - AR, Attribute-based recommender - Content based approach 라고 할 수 있다. 
+
+# `implicit`
+```python
+conda install -c conda-forge implicit
+```
+## `implicit.bpr`
+### `BayesianPersonalizedRanking`
+```python
+from implicit.bpr import BayesianPersonalizedRanking as BPR
+```
+```python
+model = BPR(factors=60)
+
+model.fit(inputs)
+```
+#### `model.user_factors`, `model.item_factors`
+```python
+user_embs = model.user_factors
+item_embs = model.item_factors
+```

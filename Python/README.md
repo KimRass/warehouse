@@ -911,9 +911,9 @@ np.random.randint(1, 100, size=(2, 3, 4))
 np.random.choice(5, size=(2, 3, 4))
 ```
 ### `np.random.normal()`
-```python
-np.random.normal(mean, std, size=(3, 4))	
-```
+- `loc`: Mean.
+- `scale`: Standard deviation.
+- `size`: Output shape.
 ## `np.digitize()`
 ```python		
 bins=range(0, 55000, 5000)
@@ -3382,32 +3382,11 @@ x, y = stats.boxcox_normplot(data["value"], la=-3, lb=3)
 y_trans, l_opt = stats.boxcox(data["value"])
 ```
 
-# `implicit`
-```python
-conda install -c conda-forge implicit
-```
-## `implicit.bpr`
-### `BayesianPersonalizedRanking`
-```python
-from implicit.bpr import BayesianPersonalizedRanking as BPR
-```
-```python
-model = BPR(factors=60)
-
-model.fit(inputs)
-```
-#### `model.user_factors`, `model.item_factors`
-```python
-user_embs = model.user_factors
-item_embs = model.item_factors
-```
-
 # `annoy`
-- https://github.com/spotify/annoy
 ```python
-!pip install "C:\Users\5CG7092POZ\annoy-1.16.3-cp37-cp37m-win_amd64.whl"
+!pip install "D:/annoy-1.17.0-cp38-cp38-win_amd64.whl"
 ```
-- source : https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
+- Source: https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
 ## `AnnoyIndex`
 ```python
 from annoy import AnnoyIndex

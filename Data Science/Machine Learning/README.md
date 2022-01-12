@@ -163,6 +163,11 @@ with strategy.scope():
 - Source: 
 http://blog.naver.com/PostView.nhn?blogId=wideeyed&logNo=221017173808
 - 2개를 분류하는 문제일 때는 Vanishing Gradient Problem때문에 sigmoid는 잘 사용하지 않고 ReLU와 그 변형된 활성화함수를 주로 이용한다. 3개 이상을 분류할 때 주로 Softmax와 그 변형된 활성화함수를 주로 이용한다.
+## Sigmoid Function
+```python
+def sigmoid(x):
+    return 1/(1 + np.exp(-x))
+```
 ## Softmax
 - Source: http://blog.naver.com/PostView.nhn?blogId=wideeyed&logNo=221021710286&parentCategoryNo=&categoryNo=&viewDate=&isShowPopularPosts=false&from=postView
 ## Categorical Cross-Entropy Loss
