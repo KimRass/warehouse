@@ -92,7 +92,46 @@ ui = pd.pivot_table(data, index="user", columns="item", values="preferences")
 - Source: https://www.mygreatlearning.com/blog/matrix-factorization-explained/
 ##### BPR (Bayesian Personalizaed Ranking)
 - BPR은 implicit data에 사용 가능한 matrix factorization 알고리즘 중 하나입니다.
+- 베이지안 개인화 랭킹 알고리즘은 모델을 학습시킬 때 긍정 아이템(예: 유저가 들어본 아티스트)과 부정 아이템(예: 유저가 들어보지 않은 아티스트) 사이의 랭킹을 목적함수로 두고, 그 차이가 커지는 방향으로 임베딩 변수 값을 갱신하는 것이죠.
 - Source: https://towardsdatascience.com/recommender-system-bayesian-personalized-ranking-from-implicit-feedback-78684bfcddf6
+- *The personalized ranking provides customers with item recommendations of a ranked list of items. The article would focus on recommending customers with a personalized ranked list of items from users’ implicit behavior derived from the past purchase data.*
+- ***For the implicit feedback systems, it is able to detect the positive dataset like bought history. For the remaining data, it is a mixture of actually negative and missing values. Nevertheless, machine learning models are unable to learn the missing data.***
+
+```python
+likes["user_id"] = pd.Categorical(likes["user_id"])
+likes["artist_id"] = pd.Categorical(likes["artist_id"])
+
+vals = likes["plays"]
+rows = likes["artist_id"].cat.codes.values
+cols = likes["user_id"].cat.codes.values
+
+ui_sparse = csr_matrix((vals, (rows, cols)))
+
+file = "D:/bpr_model_implicit.pkl"
+gdd.download_file_from_google_drive(file_id="1wymLSbx0jFecHUmI_EDLNNF0sP_T_y-3", dest_path=file)
+if os.path.exists(file):
+    print("Loading...")
+    with open(file, "rb") as f:
+        model = pk.load(f)
+else:
+    with open(file, "wb") as f:
+        # Embedding vector에는 마지막에 bias가 하나씩 붙어서 크기가 `factors + 1`이 됩니다.
+        model = BPR(factors=60)
+        model.fit(ui_sparse)
+        print("Saving...")
+        pk.dump(model, f)
+print("completed!")
+
+user_embs = model.user_factors
+item_embs = model.item_factors
+
+id2name = {row["artist_id"]:row["artist_name"] for _, row in artists.iterrows()}
+
+item_embs = pd.DataFrame(item_embs, index=[id2name[i] for i in likes["artist_id"].cat.categories])
+user_embs = pd.DataFrame(user_embs, index=likes["user_id"].cat.categories)
+```
+##### ALS (Alternating Least Squares)
+##### Logistic Matrix Factorization
 
 # Association Rule Learning (= Association Analysis)
 - Source: https://en.wikipedia.org/wiki/Association_rule_learning, https://livebook.manning.com/book/machine-learning-in-action/chapter-11/51

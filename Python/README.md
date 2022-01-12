@@ -136,7 +136,9 @@ A = list(map(int, in "A를 차례대로 입력 : ").split()))
 - Returns the character that represents the specified unicode code.
 ## `Variable.data`
 ### `Variable.data.nbytes`
-- 변수에 할당된 메모리 크기 리턴
+```python
+print(f"{sparse_mat.data.nbytes:,}Bytes"
+```
 ## List
 - Mutable.
 - Unhashable.
@@ -391,9 +393,9 @@ raw_all["temp_group"] = pd.cut(raw_all["temp"], 10)
 ## `pd.Categorical()`
 ```python
 results["lat"] = pd.Categorical(results["lat"], categories=order)
-results_ordered=results.sort_values(by="lat")
+results_ordered = results.sort_values(by="lat")
 ```
-- dtype을 category로 변환.
+- dtype을 `category`로 변환.
 - `ordered`: (Bool, deafult `False`): category들 간에 대소 부여.
 - Reference: https://kanoki.org/2020/01/28/sort-pandas-dataframe-and-series/
 ## `pd.get_dummies()`
@@ -732,7 +734,7 @@ ser.cat.set_categories([2, 3, 1], ordered=True)
 for cat in cats:
     data[cat] = data[cat].cat.codes
 ```
-- label encoding을 시행합니다.
+- Perform label encoding.
 ## `Series.items()`
 ```python
 for k, v in target.items():
@@ -1006,11 +1008,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 ```
 ## `sklearn.preprocessing`
 ### `LabelEncoder()`
+#### `le.fit()`, `le.transform()`, `le.fit_transform()`, `le.inverse_transform()`
+#### `le.classes_`
 ```python
-from sklearn.preprocessing import LabelEncoder
-```
-```python
-le = LabelEncoder()
+label2idx = dict(zip(le.classes_, set(label_train)))
 ```
 ### `StandardScaler()`, `MinMaxScaler()`, `RobustScaler()`, `Normalizer()`
 ```python
@@ -1030,17 +1031,6 @@ pca = PCA(n_components=2)
 ```
 ```python
 pca_mat = pca.fit_transform(user_emb_df)
-```
-## `sklearn.preprocessing`
-### `sklearn.preprocessing.LabelEncoder()`
-```python
-le = LabelEncoder()
-```
-#### `le.fit()`, `le.transform()`, `le.fit_transform()`
-#### `le.inverse_transform()`
-#### `le.classes_`
-```python
-label2idx = dict(zip(le.classes_, set(label_train)))
 ```
 ## `sklearn.pipeline`
 ### `Pipeline()`
@@ -3187,6 +3177,7 @@ names = random.sample(list(set(data.index)), 20)
 ```
 ## `random.shuffle()`
 - In-place function
+## `random.choice()`
 
 # `re`
 ```python

@@ -104,6 +104,21 @@ np.random.normal(mean, std, size)
 ## Pareto Distribution
 - Source: https://en.wikipedia.org/wiki/Pareto_distribution
 
+# Similarities
+## Cosine Similarity
+```python
+import numpy as np
+
+cos_sim = np.dot(vec1, vec2)/(np.linalg.norm(vec1, ord=2)*np.linalg.norm(vec2, ord=2))
+```
+## Euclidean Similarity
+```python
+import numpy as np
+
+euc_dist = np.linalg.norm(vec1 - vec2, ord=2)
+euc_sim = 1/(1 + euc_dist)
+```
+
 # Statistics
 ## Correlation
 ## Casuality (= Cause and Effect)

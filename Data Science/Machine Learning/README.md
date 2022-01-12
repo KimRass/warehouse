@@ -2,6 +2,20 @@
 - Source: https://datascience.foundation/discussion/data-science/data-sparsity
 - In a database, sparsity and density describe the number of cells in a table that are empty (sparsity) and that contain information (density), though sparse cells are not always technically empty—they often contain a “0” digit.
 
+# Sparse Matrix & Dense Matrix
+- Source: https://en.wikipedia.org/wiki/Sparse_matrix
+- ***A sparse matrix or sparse array is a matrix in which most of the elements are zero.*** *There is no strict definition regarding the proportion of zero-value elements for a matrix to qualify as sparse but a common criterion is that the number of non-zero elements is roughly equal to the number of rows or columns.* ***By contrast, if most of the elements are non-zero, the matrix is considered dense. The number of zero-valued elements divided by the total number of elements is sometimes referred to as the sparsity of the matrix.***
+## Compressed Sparse Row (CSR)
+- *The compressed sparse row (CSR) or compressed row storage (CRS) or Yale format represents a matrix M by three (one-dimensional) arrays, that respectively contain nonzero values, the extents of rows, and column indices.*
+```python
+from scipy.sparse import csr_matrix
+
+vals = [2, 4, 3, 4, 1, 1, 2]
+rows = [0, 1, 2, 2, 3, 4, 4]
+cols = [0, 2, 5, 6, 14, 0, 1]
+sparse_mat = csr_matrix((vals,  (rows,  cols)))
+dense_mat = sparse_mat.todense()
+```
 # Feature Scaling
 - Source: https://en.wikipedia.org/wiki/Feature_scaling
 - Feature scaling is a method used to normalize the range of independent variables or features of data. In data processing, it is also known as data normalization and is generally performed during the data preprocessing step.
@@ -168,6 +182,11 @@ http://blog.naver.com/PostView.nhn?blogId=wideeyed&logNo=221017173808
 def sigmoid(x):
     return 1/(1 + np.exp(-x))
 ```
+### Derivative of Sigmoid Function
+```python
+def deriv_sigmoid(x):
+	return sigmoid(x)(1 - sigmoid(x))
+```
 ## Softmax
 - Source: http://blog.naver.com/PostView.nhn?blogId=wideeyed&logNo=221021710286&parentCategoryNo=&categoryNo=&viewDate=&isShowPopularPosts=false&from=postView
 ## Categorical Cross-Entropy Loss
@@ -212,6 +231,25 @@ error 0.6을 0.6, 0.4를 곱하니  위 노드에는 error가 0.36이, 아래 �
 - One major issue with this approach is there is no relation or order between these classes, but the algorithm might consider them as some order, or there is some relationship.
 - pandas factorize는 NAN값을 자동으로 -1로 채우는데 반해 scikitlearn Label Encoder는 에러를 발생.
 - Categorical 값들은 순서개념이 없음에도, 모델은 순서개념을 전제하여 학습하게 된다.
+- Using `pandas`
+	```python
+	data["var"] = pd.Categorical(data["var"])
+	
+	vars = data["var"].cat.categories
+	vars_enc = data["var"].cat.codes
+	```
+- Using `sklearn.preprocessing.LabelEncoder()`
+	```python
+	from sklearn.preprocessing import LabelEncoder
+	
+	enc = LabelEncoder()
+
+	enc.fit()
+	enc.transform()
+	enc.fit_transform()
+	enc.inverse_transform()
+	enc.classes_
+	```
 ## Ordinal Encoding
 - We do Ordinal encoding to ensure the encoding of variables retains the ordinal nature of the variable. This is reasonable only for ordinal variables, as I mentioned at the beginning of this article. This encoding looks almost similar to Label Encoding but slightly different as Label coding would not consider whether variable is ordinal or not and it will assign sequence of integers
 - If we consider in the temperature scale as the order, then the ordinal value should from cold to “Very Hot. “ Ordinal encoding will assign values as ( Cold(1) <Warm(2)<Hot(3)<”Very Hot(4)). Usually, we Ordinal Encoding is done starting from 1.
