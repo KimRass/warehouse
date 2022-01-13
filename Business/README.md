@@ -137,3 +137,10 @@ A technology stack, also called a solutions stack, technology infrastructure, or
 # Man-Month
 - Source: https://en.wiktionary.org/wiki/man-month#:~:text=Noun,consumed%20to%20perform%20some%20task.
 - One person's working time for a month, or the equivalent, used as a measure of how much work or labor is required or consumed to perform some task.
+
+# A/B Testing (= Bucket Testing, Split-Run Testing)
+- A/B testing is a user experience research methodology. A/B tests consist of a randomized experiment with two variants, A and B. *A/B testing is a way to compare two versions of a single variable, typically by testing a subject's response to variant A against variant B, and determining which of the two variants is more effective.*
+- A/B testing is a shorthand for a simple randomized controlled experiment, in which two samples (A and B) of a single variable are compared. *These values are similar except for one variation which might affect a user's behavior.*
+- *A/B tests are useful for understanding user engagement and satisfaction of online features like a new feature or product. Large social media sites like LinkedIn, Facebook, and Instagram use A/B testing to make user experiences more successful and as a way to streamline their services.*
+- *Version A might be a version used at present (thus forming the control group(= 대조군)), while version B is modified in some respect vs. A (thus forming the treatment group(= 실험군)).*
+- Multivariate testing or multinomial testing is similar to A/B testing, but may test more than two versions at the same time or use more controls.
