@@ -10,14 +10,29 @@
 ## MovieLens
 ## Last.fm
 
+# Cold Start
+- Source: https://en.wikipedia.org/wiki/Cold_start_(recommender_systems)
+- *It concerns the issue that the system cannot draw any inferences for users or items about which it has not yet gathered sufficient information.*
+- The cold start problem is a well known and well researched problem for recommender systems. *Typically, a recommender system compares the user's profile to some reference characteristics. These characteristics may be related to item characteristics (content-based filtering) or the user's social environment and past behavior (collaborative filtering). Depending on the system, the user can be associated to various kinds of interactions: ratings, bookmarks, purchases, likes, number of page visits etc.*
+- Cases of cold start
+	- New item
+		- The item cold-start problem refers to when items added to the catalogue have either none or very little interactions. ***This constitutes a problem mainly for collaborative filtering algorithms due to the fact that they rely on the item's interactions to make recommendations. If no interactions are available then a pure collaborative algorithm cannot recommend the item. In case only a few interactions are available, although a collaborative algorithm will be able to recommend it, the quality of those recommendations will be poor. This arises another issue, which is not anymore related to new items, but rather to unpopular items. In some cases (e.g. movie recommendations) it might happen that a handful of items receive an extremely high number of interactions, while most of the items only receive a fraction of them. This is referred to as popularity bias.*** (e.g., Number of user interactions associated to each item in a Movielens dataset. Few items have a very high number of interactions, more than 5000, while most of the others have less than 100.)
+		- In the context of cold-start items the popularity bias is important because it might happen that many items, even if they have been in the catalogue for months, received only a few interactions. ***This creates a negative loop in which unpopular items will be poorly recommended, therefore will receive much less visibility than popular ones, and will struggle to receive interactions.*** While it is expected that some items will be less popular than others, this issue specifically refers to the fact that the recommender has not enough collaborative information to recommend them in a meaningful and reliable way.
+	- New user
+		- A new user registers and has not provided any interaction yet, therefore it is not possible to provide personalized recommendations.
+	- New community
+		- The new community problem, or systemic bootstrapping, refers to the startup of the system, when virtually no information the recommender can rely upon is present. This case presents the disadvantages of both the New user and the New item case, as all items and users are new. Due to this some of the techniques developed to deal with those two cases are not applicable to the system bootstrapping.
+
 # Content-Based Filtering & Collaborative Filtering (CF)
+- Source: https://www.mygreatlearning.com/blog/matrix-factorization-explained/
 ## Content-Based Filtering
 - *This approach recommends items based on user preferences. It matches the requirement, considering the past actions of the user, patterns detected, or any explicit feedback provided by the user, and accordingly, makes a recommendation.* Example: If you prefer the chocolate flavor and purchase a chocolate ice cream, the next time you raise a query, the system shall scan for options related to chocolate, and then, recommend you to try a chocolate cake.
 - *The model can capture specific interests of a user, and can recommend niche items that very few other users are interested in.*
 - *Since the feature representation of the items are hand-engineered to some extent, this technique requires a lot of domain knowledge. Therefore, the model can only be as good as the hand-engineered features.*
 - The model can only make recommendations based on existing interests of the user. In other words, the model has limited ability to expand on the users’ existing interests.
+- Source: https://en.wikipedia.org/wiki/Cold_start_(recommender_systems)
+- ***Content-based filtering algorithms, on the other hand, are in theory much less prone to the new item problem. Since content based recommenders choose which items to recommend based on the feature the items possess, even if no interaction for a new item exist, still its features will allow for a recommendation to be made.*** Consider the case of so-called editorial features (e.g. director, cast, title, year), those are always known when the item, in this case movie, is added to the catalogue. However, other kinds of attributes might not be e.g. features extracted from user reviews and tags. *Content-based algorithms relying on user provided features suffer from the cold-start item problem as well.
 ## Collaborative Filtering (CF)
-- Source: https://www.mygreatlearning.com/blog/matrix-factorization-explained/
 - *This approach uses similarities between users and items simultaneously, to provide recommendations. It is the idea of recommending an item or making a prediction, depending on other like-minded individuals.* Example: Suppose Persons A and B both like the chocolate flavor and have them have tried the ice-cream and cake, then if Person A buys chocolate biscuits, the system will recommend chocolate biscuits to Person B.
 - In collaborative filtering, *we do not have the rating of individual preferences and car preferences. We only have the overall rating, given by the individuals for each car. As usual, the data is sparse, implying that the person either does not know about the car or is not under the consideration list for buying the car, or has forgotten to give the rating.*
 ```python
@@ -433,3 +448,37 @@ model.fit(inputs)
 user_embs = model.user_factors
 item_embs = model.item_factors
 ```
+
+# `annoy`
+- Source: https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
+```python
+!pip install "D:/annoy-1.17.0-cp38-cp38-win_amd64.whl"
+```
+- Source: https://github.com/spotify/annoy
+- Tree Building
+	```python
+	from annoy import AnnoyIndex
+
+	dim = 61
+	# `metric`: (`"angular"`, `"euclidean"`, `"manhattan"`, `"hamming"`, `"dot"`)
+	for i, value in enumerate(item_embs.values):
+		tree.add_item(i, value)
+	# Builds a forest of `n_trees` trees. More trees gives higher precision when querying. After calling `build()`, no more items can be added. `n_jobs` specifies the number of threads used to build the trees. `n_jobs=-1` uses all available CPU cores.
+	tree.build(n_trees=20)
+	```
+- Item-Item Similarity Measure
+	```python
+	artist = "beyoncé"
+	item_vec = item_embs.loc[artist].values
+
+	res = tree.get_nns_by_vector(vector=item_vec, n=11, include_distances=True)
+	display(pd.Series(res[1][1:], index=[id2name[i] for i in res[0][1:]]))
+	```
+- User-Item Similarity Measure
+	```python
+	user = 209
+	user_vec = user_embs.loc[user].values
+
+	res = tree.get_nns_by_vector(vector=user_vec, n=10, include_distances=True)
+	display(pd.Series(res[1], index=[id2name[i] for i in res[0]]))
+	```

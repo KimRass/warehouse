@@ -3373,33 +3373,6 @@ x, y = stats.boxcox_normplot(data["value"], la=-3, lb=3)
 y_trans, l_opt = stats.boxcox(data["value"])
 ```
 
-# `annoy`
-```python
-!pip install "D:/annoy-1.17.0-cp38-cp38-win_amd64.whl"
-```
-- Source: https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
-## `AnnoyIndex`
-```python
-from annoy import AnnoyIndex
-```
-```python
-n_facts = 61
-tree = AnnoyIndex(n_facts, "dot")
-```
-### `tree.add_item()`
-```python
-for idx, value in enumerate(art_embs_df.values):
-    tree.add_item(idx, value)
-```
-### `tree.build()`
-```python
-tree.build(20)
-```
-### `tree.get_nns_by_vector()`
-```python
-print([art_id2name[art] for art in tree.get_nns_by_vector(user_embs_df.loc[user_id], 10)])
-```
-
 # `pygame`
 ```python
 import pygame

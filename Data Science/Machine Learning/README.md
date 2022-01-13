@@ -64,12 +64,10 @@ sc = Normalizer()
 # PCA (Principle Component Analysis)
 ```python
 from sklearn.decomposition import PCA
-```
-```python
+
 pca = PCA(n_components=2)
-```
-```python
-pca_mat = pca.fit_transform(user_emb_df)
+user_embs_pca = pca.fit_transform(user_embs)
+user_embs_pca = pd.DataFrame(user_embs_pca, index=user_embs.index, columns=["x", "y"])
 ```
 
 # Parameter
@@ -235,7 +233,7 @@ error 0.6을 0.6, 0.4를 곱하니  위 노드에는 error가 0.36이, 아래 �
 	```python
 	data["var"] = pd.Categorical(data["var"])
 	
-	vars = data["var"].cat.categories
+	vars = data["var"]
 	vars_enc = data["var"].cat.codes
 	```
 - Using `sklearn.preprocessing.LabelEncoder()`
