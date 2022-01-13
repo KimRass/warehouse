@@ -217,6 +217,10 @@ The Akaike information criterion is named after the Japanese statistician Hirotu
 ### Ljung–Box Test, Portmanteau Test, Breusch–Godfrey Test
 - Null hypothesis: Autocorrelation is absent.(p-value >= Criterion)
 - Alternative hypothesis: Autocorrelation is present.(p-value < Criterion)
+- Ljung–Box Test
+	```python
+	sm.stats.diagnostic.acorr_ljungbox()
+	```
 ### Durbin–Watson Statistic
 - Null hypothesis: Autocorrelation is absent.(Test Statistic is near at 2)
 - Alternative hypothesis: Autocorrelation is present.(Test Statistic is near at 0(Positive) or 4(Negative))
@@ -224,6 +228,12 @@ The Akaike information criterion is named after the Japanese statistician Hirotu
 ### Goldfeld–Quandt Test, Breusch–Pagan Test, Bartlett's Test
 - Null hypothesis: The residuals are homoscedasticity.(p-value >= Criterion)
 - Alternative hypothesis: The residuals are heteroscedasticity.(p-value < Criterion)
+- Goldfeld–Quandt Test
+	```python
+	sm.stats.diagnostic.het_goldfeldquandt()
+	```
+		- `alternative`: Specity the alternative for the p-value calculation.
+
 
 # Horizon
 # Stage

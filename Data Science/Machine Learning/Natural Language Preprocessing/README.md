@@ -13,6 +13,7 @@ import string
 
 sw = {i for i in string.punctuation}
 ```
+- Output: `"!"#$%&'()*+, -./:;<=>?@[\]^_`{|}~"`
 	
 # Part-of-Speech
 ## Part-of-Speech Tagging
@@ -198,13 +199,17 @@ text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as ch
 	sent_tokens = kss.split_sentences(text)
 	```
 ## Word Divider
-```python
-from pykospacing import spacing
+- Using `pykospacing.spacing()`
+	```python
+	!pip install git+https://github.com/haven-jeon/PyKoSpacing.git --user
+	```
+	```python
+	from pykospacing import spacing
 
-text = "오지호는극중두얼굴의사나이성준역을맡았다.성준은국내유일의태백권전승자를가리는결전의날을앞두고20년간동고동락한사형인진수(정의욱분)를찾으러속세로내려온인물이다."
+	text = "오지호는극중두얼굴의사나이성준역을맡았다.성준은국내유일의태백권전승자를가리는결전의날을앞두고20년간동고동락한사형인진수(정의욱분)를찾으러속세로내려온인물이다."
 
-sent_div = spacing(text)
-```
+	sent_div = spacing(text)
+	```
 ## Stemming & Lemmatization
 ### Stemming
 - Source: https://builtin.com/data-science/introduction-nlp
@@ -237,6 +242,9 @@ sent_div = spacing(text)
 	```
 ## Check Spelling
 - Using `hanspell.spell_checker.check()`
+	```python
+	!pip install git+https://github.com/ssut/py-hanspell.git
+	```
 	```python
 	from hanspell import spell_checker
 	
@@ -394,4 +402,456 @@ model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["binary_
 
 batch_size = 256
 hist = model.fit(x=tr_X, y=tr_y, validation_split=0.2, batch_size=batch_size, epochs=10, verbose=1, callbacks=[es, mc])
+```
+
+# `tokenization_kobert`
+```python
+urllib.request.urlretrieve("https://raw.githubusercontent.com/monologg/KoBERT-NER/master/tokenization_kobert.py", filename="tokenization_kobert.py")
+```
+## `KoBertTokenizer`
+```python
+from tokenization_kobert import KoBertTokenizer
+```
+- `KoBertTokenizer` 파일 안에 `from transformers import PreTrainedTokenizer`가 이미 되어있습니다.
+### `KoBertTokenizer.from_pretrained()`
+```python
+tokenizer = KoBertTokenizer.from_pretrained("monologg/kobert")
+```
+#### `tokenier.tokenize()`
+```python
+tokenizer.tokenize("보는내내 그대로 들어맞는 예측 카리스마 없는 악역")
+```
+#### `tokenizer.encode()`
+```python
+tokenizer.encode("보는내내 그대로 들어맞는 예측 카리스마 없는 악역")
+```
+- `max_length`
+- `padding="max_length"`
+#### `tokenizer.convert_tokens_to_ids()`
+```python
+tokenizer.convert_tokens_to_ids("[CLS]")
+```
+- Unknown Token: `0`, `"[PAD]"`: `1`, `"[CLS]"`: `2`, `"[SEP]"`: `3`
+
+# `transformers`
+```python
+!pip install --target=$my_path transformers==3.5.0
+```
+## `BertModel`
+```python
+from transformers import BertModel
+```
+```python
+model = BertModel.from_pretrained("monologg/kobert")
+```
+## `TFBertModel`
+```python
+from transformers import TFBertModel
+```
+### `TFBertModel.from_pretrained()`
+```python
+model = TFBertModel.from_pretrained("monologg/kobert", from_pt=True,
+                                    num_labels=len(tag2idx), output_attentions=False,
+                                    output_hidden_states = False)
+```
+```python
+bert_outputs = model([token_inputs, mask_inputs])
+```
+#### `model.save()`
+```python
+model.save("kobert_navermoviereview.h5", save_format="tf")
+```
+### `BertModel.from_pretrained()`
+```python
+model = BertModel.from_pretrained("monologg/kobert")
+```
+
+# `pyLDAvis`
+```python
+import pyLDAvis
+```
+## `pyLDAvis.enable_notebook()`
+- `pyLDAvis`를 Jupyter Notebook에서 실행할 수 있게 활성화합니다.
+## `pyLDAvis.gensim`
+```python
+import pyLDAvis.gensim
+```
+### `pyLDAvis.gensim.prepare()`
+```python
+pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
+```
+
+# `soynlp`
+## `soynlp.normalizer`
+```python
+from soynlp.normalizer import *
+```
+### `emoticon_normalize()`
+```python
+emoticon_normalize("앜ㅋㅋㅋㅋ이영화존잼쓰ㅠㅠㅠㅠㅠ", num_repeats=2)
+```
+### `repeat_normalize()`
+```python
+repeat_normalize("와하하하하하하하하하핫", num_repeats=2)
+```
+
+# `khaiii`
+## `KhaiiiApi`
+```python
+from khaiii import KhaiiiApi
+```
+```python
+api = KhaiiiApi()
+```
+### `api.analyze()`
+#### `word.morphs`
+##### `morph.lex`
+##### `morph.tag`
+```python
+morphs = []
+sentence = "하스스톤 전장이 새로 나왔는데 재밌어요!"
+for word in api.analyze(sentence):
+    for morph in word.morphs:
+        morphs.append((morph.lex, morph.tag))
+```
+
+# `nltk`
+```python
+import nltk
+```
+## `nltk.tokenize`
+### `nltk.tokenize.word_tokenize()`
+```python
+nltk.tokenize.word_tokenize("Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as cheery as cheery goes for a pastry shop.")
+```
+### `nltk.tokenize.sent_tokenize()`
+```python
+nltk.tokenize.sent_tokenize("I am actively looking for Ph.D. students and you are a Ph.D student.")
+```
+### `WordPunctTokenizer()`
+```python
+from nltk.tokenize import WordPunctTokenizer
+```
+#### `WordPunctTokenizer().tokenize()`
+```python
+WordPunctTokenizer().tokenize("Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as cheery as cheery goes for a pastry shop.")
+```
+### `TreebankWordTokenizer()`
+```python
+from nltk.tokenize import TreebankWordTokenizer
+```
+#### `TreebankWordTokenizer().tokenize()`
+```python
+TreebankWordTokenizer().tokenize("Starting a home-based restaurant may be an ideal. it doesn't have a food chain or restaurant of their own.")
+```
+- Penn Treebank Tokenization.
+## `nltk.stem`
+### `PorterStemmer()`
+```python
+from nltk.stem import PorterStemmer
+```
+```python
+ps = PorterStemmer()
+```
+#### `ps.stem()`
+```python
+[ps.stem(word) for word in ["formalize", "allowance", "electricical"]]
+```
+### `WordNetLemmatizer()`
+```python
+from nltk.stem import WordNetLemmatizer
+```
+```python
+wnl = WordNetLemmatizer()
+```
+#### `wnl.lemmatize()`
+```python
+wnl.lemmatize("watched", "v")
+```
+## `nltk.Text()`
+```python
+text = nltk.Text(total_tokens, name="NMSC")
+```
+### `text.tokens`
+### `text.vocab()`
+- Returns frequency distribution
+#### `text.vocab().most_common()`
+```python
+text.vocab().most_common(10)
+```
+### `text.plot()`
+## `nltk.download()`
+- (`"punkt"`, `"wordnet"`, `"stopwords"`, `"movie_reviews"`)
+## `nltk.corpus`
+### `stopwords`
+```python
+from nltk.corpus import stopwords
+```
+#### `stopwords.words()`
+```python
+stopwords.words("english")
+```
+### `movie_reviews`
+```python
+from nltk.corpus import movie_reviews
+```
+#### `movie_reviews.sents()`
+```python
+sentences = [sent for sent in movie_reviews.sents()]
+```
+### `nltk.corpus.treebank`
+#### `nltk.corpus.treebank.tagged_sents()`
+```python
+tagged_sents = nltk.corpus.treebank.tagged_sents()
+```
+## `nltk.translate`
+### `nltk.translate.bleu_score`
+```python
+from nltk.translate.bleu_score import sentence_bleu, corpus_bleu, SmoothingFunction
+```
+#### `sentence_bleu()`
+```python
+ref = [["this", "is", "a", "test"], ["this", "is" "test"]]
+cand = ["this", "is", "a", "test"]
+score = nltk.translate.bleu_score.sentence_bleu(ref, cand)
+```
+- `weights`: e.g., `(1/2, 1/2, 0, 0)`
+#### `corpus_bleu()`
+```python
+refs = [[["this", "is", "a", "test"], ["this", "is" "test"]]]
+cands = [["this", "is", "a", "test"]]
+score = nltk.translate.bleu_score.corpus_bleu(refs, cands)
+```
+- `weights`=(1/2, 1/2, 0, 0)
+#### `SmoothingFunction()`
+## `nltk.ngrams()`
+```python
+nltk.ngrams("I am a boy", 3)
+```
+
+# `MeCab`
+- Install on Google Colab
+	```python
+	!git clone https://github.com/SOMJANG/Mecab-ko-for-Google-Colab.git
+	%cd Mecab-ko-for-Google-Colab
+	!bash install_mecab-ko_on_colab190912.sh
+	```
+- Install on Microsoft Windows
+	- Source: https://cleancode-ws.tistory.com/97, https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
+	```python
+	!pip install mecab_python-0.996_ko_0.9.2_msvc-cp37-cp37m-win_amd64.whl
+	```
+```python
+import MeCab
+```
+```python
+class Mecab:
+    def pos(self, text):
+        p = re.compile(".+\t[A-Z]+")
+        return [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
+    
+    def morphs(self, text):
+        p = re.compile(".+\t[A-Z]+")
+        return [p.match(line).group().split("\t")[0] for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
+    
+    def nouns(self, text):
+        p = re.compile(".+\t[A-Z]+")
+        temp = [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
+        nouns=[]
+        for word in temp:
+            if word[1] in ["NNG", "NNP", "NNB", "NNBC", "NP", "NR"]:
+                nouns.append(word[0])
+        return nouns
+    
+mcb = Mecab()
+```
+
+# `sentencepiece`
+```python
+import sentencepiece as sp
+```
+## `sp.SentencePieceTrainer`
+### `sp.SentencePieceTrainer.Train()`
+```python
+sp.SentencePieceTrainer.Train("--input=naver_review.txt --model_prefix=naver --vocab_size=5000 --model_type=bpe")
+```
+- `input` : 학습시킬 파일
+- `model_prefix` : 만들어질 모델 이름
+- `vocab_size` : 단어 집합의 크기
+- `model_type` : 사용할 모델 (unigram(default), bpe, char, word)
+- `max_sentence_length`: 문장의 최대 길이
+- `pad_id`, `pad_piece`: pad token id, 값
+- `unk_id`, `unk_piece`: unknown token id, 값
+- `bos_id`, `bos_piece`: begin of sentence token id, 값
+- `eos_id`, `eos_piece`: end of sequence token id, 값
+- `user_defined_symbols`: 사용자 정의 토큰
+- `.model`, `.vocab` 파일 두개가 생성 됩니다.
+## `sp.SentencePieceProcessor()`
+```python
+spp = sp.SentencePieceProcessor()
+```
+### `spp.load()`
+```python
+spp.load("imdb.model")
+```
+### `spp.GetPieceSize()`
+- 단어 집합의 크기를 확인합니다.
+### `spp.encode_as_ids()`
+- 원래 문장 -> index
+### `spp.encode_as_pieces()`
+- 원래 문장 -> subword
+### `spp.IdToPiece()`
+```python
+spp.IdToPiece(4)
+```
+- index -> subword
+### `spp.DecodeIds()`
+```python
+sp.DecodeIds([54, 200, 821, 85])
+```
+- index -> 원래 문장
+### `spp.PieceToId()`
+```python
+spp.PieceToId("영화")
+```
+- subword -> index
+### `spp.DecodePieces()`
+```python
+sp.DecodePieces(["▁진짜", "▁최고의", "▁영화입니다", "▁ᄏᄏ"])
+```
+- subword -> 원래 문장
+### `spp.encode()`
+- `out_type=str`: `spp.encode_as_pieces()`와 동일합니다.
+- `out_type=int`: `spp.encode_as_ids()`와 동일합니다.
+- `enable_sampling=True`: drop-out을 적용합니다.
+- `alpha=0.1`: 해당 확률로 drop-out을 적용합니다.
+- `nbest_size=-1`
+
+# `konlpy`
+## `konlpy.tag`
+```python
+from konlpy.tag import *
+
+okt = Okt()
+kkm = Kkma()
+kmr = Komoran()
+hnn = Hannanum()
+```
+#### `okt.nouns()`, `kkm.nouns()`, `kmr.nouns()`, `hnn.nouns()`
+#### `okt.morphs()`, `kkm.morphs()`, `kmr.morphs()`, `hnn.morphs()`
+- `stem`: (bool)
+- `norm`: (bool)
+#### `okt.pos()`, `kkm.pos()`, `kmr.pos()`, `hnn.pos()`
+- `stem`: (bool)
+- `norm`: (bool)
+
+# `ckonlpy`
+```python
+!pip install customized_konlpy
+```
+```python
+from ckonlpy.tag import Twitter
+
+twt = Twitter()
+```
+## `twt.add_dictionary()`
+```python
+twt.add_dictionary("은경이", "Noun")
+```
+
+# `glove`
+```python
+!pip install glove_python
+```
+### `glove.Corpus`
+### `glove.Glove`
+
+# `gensim`
+```python
+import gensim
+```
+## `gensim.corpora`
+### `gensim.corpora.Dictionary()`
+```python
+id2word = gensim.corpora.Dictionary(docs_tkn)
+```
+#### `id2word.id2token`
+- `dict(id2word)` is same as `dict(id2word.id2token)`
+#### `id2word.token2id`
+#### `id2word.doc2bow()`
+```python
+dtm = [id2word.doc2bow(doc) for doc in docs_tkn]
+```
+#### `gensim.corpora.Dictionary.load()`
+```python
+id2word = gensim.corpora.Dictionary.load("kakaotalk id2word")
+```
+### `gensim.corpora.BleiCorpus`
+#### `gensim.corpora.BleiCorpus.serizalize()`
+```python
+gensim.corpora.BleiCorpus.serialize("kakotalk dtm", dtm)
+```
+### `gensim.corpora.bleicorpus`
+#### `gensim.corpora.bleicorpus.BleiCorpus()`
+```python
+dtm = gensim.corpora.bleicorpus.BleiCorpus("kakaotalk dtm")
+```
+## `gensim.models`
+### `gensim.models.TfidfModel()`
+```python
+tfidf = gensim.models.TfidfModel(dtm)[dtm]
+```
+### `gensim.models.AuthorTopicModel()`
+```python
+model = gensim.models.AuthorTopicModel(corpus=dtm, id2word=id2word, num_topics=n_topics, author2doc=aut2doc, passes=1000)
+```
+#### `gensim.models.AuthorTopicModel.load()`
+```python
+model = gensim.models.AuthorTopicModel.load("kakaotalk model")
+```
+## `gensim.models.ldamodel.Ldamodel()`
+```python
+model = gensim.models.ldamodel.LdaModel(dtm, num_topics=n_topics, id2word=id2word, alpha="auto", eta="auto")
+```
+## `gensim.models.Word2Vec()`
+```python
+model = gensim.models.Word2Vec(result, size=100, window=5, min_count=5, workers=4, sg=0)
+```
+- `size` : 임베딩 벡터의 차원.
+- `min_count` : 단어 최소 빈도 수(빈도가 적은 단어들은 학습하지 않는다)
+- `workers` : 학습을 위한 프로세스 수  
+- `sg=0` :cBoW
+- `sg=1` : Skip-gram.  
+### `gensim.models.FastText()`
+```python
+model = gensim.models.FastText(sentences, min_count=5, sg=1, size=300, workers=4, min_n=2, max_n=7, alpha=0.05, iter=10, window=7)
+```
+### `gensim.models.KeyedVectors`
+### `gensim.models.KeyedVectors.load_word2vect_format()`
+```python
+model = gensim.models.KeyedVectors.load_word2vec_format("eng_w2v")
+```
+```python
+model_google = gensim.models.KeyedVectors.load_word2vec_format("GoogleNews-vectors-negative300.bin.gz", binary=True)  
+```
+- Loads a model.
+#### `model.vectors`
+#### `model.save()`
+```python
+model.save("kakaotalk model")
+```
+#### `model.show_topic()`
+```python
+model.show_topic(1, topn=20)
+```
+- Arguments : (the index of the topic, number of words to print)
+#### `model.wv`
+##### `model.wv.vecotrs`
+##### `model.wv.most_similar()`
+```python
+model.wv.most_similar("안성기")
+```
+##### `model.wv.Save_word2vec_format()`
+```python
+model.wv.save_word2vec_format("eng_w2v")
 ```

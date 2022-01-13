@@ -299,6 +299,12 @@ import heqpq as hq
 hq.heappush(<<Heap Object>>, -<<Element>>)
 hq.heqppop(<<Heap Object>>)
 ```
+```python
+hq.nsmallest()
+hq.nlargest()
+# Transform a list into a heap in linear time. s(In-place function)
+hq.heapify()
+```
 #### Quadtree
 - Source: https://en.wikipedia.org/wiki/Quadtree
 - A quadtree is a tree data structure in which each internal node has exactly four children. Quadtrees are the two-dimensional analog of octrees and are most often used to partition a two-dimensional space by recursively subdividing it into four quadrants or regions.

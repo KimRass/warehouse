@@ -420,3 +420,54 @@ Written by KimRass
 - A Data Warehouse collects and manages data from varied sources to provide meaningful business insights. *It is a collection of data which is separate from the operational systems and supports the decision making of the company.*
 ## Data Mart (DM)
 - It is subject-oriented, and it is designed to meet the needs of a specific group of users.
+
+# Python Libraries
+# `pymssql`, `pymysql`, `psycopg2`
+## `pymssql.connect()`, `pymysql.connect()`, `psycopg2.connect()`
+```python
+conn = pymssql.connect(server="125.60.68.233", database="eiparkclub", user="myhomie", password="homie2021!@#", charset="utf8")
+```
+### `conn.cursor()`
+```python
+cur = conn.cursor()
+```
+#### `cur.excute()`
+```python
+cur.excute(query)
+```
+#### `cur.fetchall()`
+```python
+result = cur.fetchall() 
+```
+#### `cur.close()`
+#### `cur.description`
+```python
+salary = pd.DataFrame(result, columns=[col[0] for col in cur.description])
+```
+
+# `psycopg2`
+## `psycopg2.extras`
+### `RealDictCursor`
+```python
+from psycopg2.extras import RealDictCursor
+```
+## `psycopg2.connect()`
+### `conn.cursor()`
+```python
+cur = conn.cursor(cursor_factory=RealDictCursor)
+```
+
+# `traceback`
+```python
+import traceback
+```
+## `traceback.format_exec()`
+```python
+try:            
+    cur.execute(query)            
+    result = cur.fetchall()        
+except Exception as e:            
+    msg = traceback.format_exc()            
+    msg += "\n\n Query: \n" + query            
+    print(msg)  
+```

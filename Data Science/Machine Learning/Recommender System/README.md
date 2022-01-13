@@ -482,3 +482,39 @@ item_embs = model.item_factors
 	res = tree.get_nns_by_vector(vector=user_vec, n=10, include_distances=True)
 	display(pd.Series(res[1], index=[id2name[i] for i in res[0]]))
 	```
+	
+# `mlxtend`
+```python
+import mlxtend
+```
+## `mlxtend.preprocessing`
+### `TransactionEncoder`
+```python
+from mlxtend.preprocessing import TransactionEncoder
+```
+```python
+te = TransactionEncoder()
+```
+#### `te.fit_transform()`
+```python
+baskets_te = te.fit_transform(baskets)
+```
+#### `te.columns_`
+```python
+baskets_df = pd.DataFrame(baskets_te, index=baskets.index, columns=te.columns_)
+```
+## `mlxtend.frequent_patterns`
+### `apriori`
+```python
+from mlxtend.frequent_patterns import apriori
+```
+```python
+freq_sets_df = apriori(baskets_df_over5000.sample(frac=0.05), min_support=0.01, max_len=2, use_colnames=True, verbose=1)
+```
+### `association_rules`
+```python
+from mlxtend.frequent_patterns import association_rules
+```
+```python
+asso_rules = association_rules(sups, metric="support", min_threshold=0.01)
+```
