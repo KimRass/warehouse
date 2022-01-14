@@ -110,7 +110,7 @@ np.random.normal(mean, std, size)
 - Probability Density Function (PDF)
 	- ![formula](https://render.githubusercontent.com/render/math?math=\f(x; α, β)=\frac{1}{B(α, β)}x^{(α−1)}(1−x)^{(β−1)})
 - Mean
-	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\E(X)=\dfrac{\alpha}{\alpha+\beta})
+	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\E(X)=\displaystyle\frac{\alpha}{\alpha+\beta})
 - Variance
 	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\var(x)=\frac{αβ}{(α+β)^{2}(α+β+1)})
 - Mode
