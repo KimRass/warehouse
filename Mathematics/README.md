@@ -103,6 +103,18 @@ np.random.normal(mean, std, size)
 
 ## Pareto Distribution
 - Source: https://en.wikipedia.org/wiki/Pareto_distribution
+## Beta Distribution
+- Source: https://en.wikipedia.org/wiki/Beta_distribution
+- In probability theory and statistics, the beta distribution is a family of continuous probability distributions defined on the interval [0, 1] parameterized by two positive shape parameters, denoted by α and β, that appear as exponents of the random variable and control the shape of the distribution. The generalization to multiple variables is called a Dirichlet distribution.
+
+The beta distribution has been applied to model the behavior of random variables limited to intervals of finite length in a wide variety of disciplines.
+
+In Bayesian inference, the beta distribution is the conjugate prior probability distribution for the Bernoulli, binomial, negative binomial and geometric distributions. The beta distribution is a suitable model for the random behavior of percentages and proportions.
+
+The formulation of the beta distribution discussed here is also known as the beta distribution of the first kind, whereas beta distribution of the second kind is an alternative name for the beta prime distribution.
+- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\f(x)=sin(x))
+- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\f(x)=sin(x))
+![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\f(x)=sin(x))
 
 # Similarities
 ## Cosine Similarity

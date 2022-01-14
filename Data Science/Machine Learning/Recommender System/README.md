@@ -22,6 +22,19 @@
 		- A new user registers and has not provided any interaction yet, therefore it is not possible to provide personalized recommendations.
 	- New community
 		- The new community problem, or systemic bootstrapping, refers to the startup of the system, when virtually no information the recommender can rely upon is present. This case presents the disadvantages of both the New user and the New item case, as all items and users are new. Due to this some of the techniques developed to deal with those two cases are not applicable to the system bootstrapping.
+		
+# Multi-Armed Bandit (Problem)
+- Source: https://en.wikipedia.org/wiki/Multi-armed_bandit
+- In probability theory and machine learning, *the multi-armed bandit problem is a problem in which a fixed limited set of resources must be allocated between competing (alternative) choices in a way that maximizes their expected gain, when each choice's properties are only partially known at the time of allocation, and may become better understood as time passes or by allocating resources to the choice.* This is a classic reinforcement learning problem that exemplifies the exploration–exploitation tradeoff dilemma. *The name comes from imagining a gambler at a row of slot machines (sometimes known as "one-armed bandits"), who has to decide which machines to play, how many times to play each machine and in which order to play them, and whether to continue with the current machine or try a different machine.*
+- *In the problem, each machine provides a random reward from a probability distribution specific to that machine, that is not known a-priori. The objective of the gambler is to maximize the sum of rewards earned through a sequence of lever pulls.* ***The crucial tradeoff the gambler faces at each trial is between "exploitation" of the machine that has the highest expected payoff and "exploration" to get more information about the expected payoffs of the other machines.***
+## Thompson Sampling
+- Source: https://en.wikipedia.org/wiki/Thompson_sampling
+Thompson sampling is a heuristic for choosing actions that addresses the exploration-exploitation dilemma in the multi-armed bandit problem. It consists of choosing the action that maximizes the expected reward with respect to a randomly drawn belief.
+- 다양한 추천 시스템 모델을 동시에 사용할 때, 추천을 제공하는 매 순간마다 어떤 모델을 사용하는 것이 적절한지를 알려주는 알고리즘입니다.
+
+# Click-Through Rate (CTR)
+- Source: https://en.wikipedia.org/wiki/Click-through_rate
+- *Click-through rate (CTR) is the ratio of users who click on a specific link to the number of total users who view a page, email, or advertisement. It is commonly used to measure the success of an online advertising campaign for a particular website as well as the effectiveness of email campaigns.*
 
 # Content-Based Filtering & Collaborative Filtering (CF)
 - Source: https://www.mygreatlearning.com/blog/matrix-factorization-explained/
