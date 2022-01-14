@@ -105,17 +105,16 @@ np.random.normal(mean, std, size)
 - Source: https://en.wikipedia.org/wiki/Pareto_distribution
 ## Beta Distribution
 - Source: https://en.wikipedia.org/wiki/Beta_distribution
-- In probability theory and statistics, the beta distribution is a family of continuous probability distributions defined on the interval [0, 1] parameterized by two positive shape parameters, denoted by α and β, that appear as exponents of the random variable and control the shape of the distribution. The generalization to multiple variables is called a Dirichlet distribution.
+- In probability theory and statistics, the beta distribution is a family of continuous probability distributions defined on the interval [0, 1] parameterized by two positive shape parameters, denoted by \alpha and \beta, that appear as exponents of the random variable and control the shape of the distribution. The generalization to multiple variables is called a Dirichlet distribution.
 - The formulation of the beta distribution discussed here is also known as the beta distribution of the first kind, whereas beta distribution of the second kind is an alternative name for the beta prime distribution.
 - Probability Density Function (PDF)
-	- ![formula](https://render.githubusercontent.com/render/math?math=\f(x; α, β)=\frac{1}{B(α, β)}x^{(α−1)}(1−x)^{(β−1)})
+	- ![formula](https://render.githubusercontent.com/render/math?math=\f(x; \alpha, \beta)=\frac{1}{B(\alpha, \beta)}x^{(\alpha−1)}(1−x)^{(\beta−1)})
 - Mean
-	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\E(X)=\textstyle\frac{\alpha}{\alpha+\beta})
+	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\E(X)=\frac{\alpha}{\alpha+\beta})
 - Variance
-	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\var(x)=\frac{αβ}{(α+β)^{2}(α+β+1)})
+	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\var(x)=\frac{\alpha\beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)})
 - Mode
-	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\\frac{α−1}{α+β−2})
-- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\E(X)=\dfrac{a}{b})
+	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\\frac{\alpha−1}{\alpha+\beta−2})
 
 ## Dirichlet Distribution
 
