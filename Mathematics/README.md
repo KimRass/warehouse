@@ -118,6 +118,9 @@ np.random.normal(mean, std, size)
 ![Figure](https://latex.codecogs.com/png.image?\dpi{110}&space;\bg_white&space;F=P(1+\frac{i}{n})^{nt})
 ![Figure](https://latex.codecogs.com/png.image?\dpi{110}&space;\bg_black&space;F=P(1+\frac{i}{n})^{nt})
 ![Figure](https://latex.codecogs.com/png.image?\dpi{110}&space;F=P(1+\frac{i}{n})^{nt})
+![Figure](https://latex.codecogs.com/png.image?F=P(1+\frac{i}{n})^{nt})
+https://latex.codecogs.com/svg.image?\lim_{x%20\to%200}%20f(x)%20=%208
+![Figure](https://latex.codecogs.com/svg.image?\lim_{x%20\to%200}%20f(x)%20=%208)
 
 ## Dirichlet Distribution
 
