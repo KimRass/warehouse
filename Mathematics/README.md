@@ -97,9 +97,9 @@ import numpy as np
 
 np.random.normal(mean, std, size)
 ```
-	- `loc`: Mean.
-	- `scale`: Standard deviation.
-	- `size`: Output shape.
+- `loc`: Mean.
+- `scale`: Standard deviation.
+- `size`: Output shape.
 
 ## Pareto Distribution
 - Source: https://en.wikipedia.org/wiki/Pareto_distribution
@@ -108,13 +108,13 @@ np.random.normal(mean, std, size)
 - In probability theory and statistics, the beta distribution is a family of continuous probability distributions defined on the interval [0, 1] parameterized by two positive shape parameters, denoted by \alpha and \beta, that appear as exponents of the random variable and control the shape of the distribution. The generalization to multiple variables is called a Dirichlet distribution.
 - The formulation of the beta distribution discussed here is also known as the beta distribution of the first kind, whereas beta distribution of the second kind is an alternative name for the beta prime distribution.
 - Probability Density Function (PDF)
-	<img src="https://latex.codecogs.com/svg.image?f(x;\alpha,\beta)=\frac{1}{B(\alpha,\beta)}x^{\alpha-1}(1-x)^{(\beta-1)}"/>
+	- <img src="https://latex.codecogs.com/svg.image?f(x;\alpha,\beta)=\frac{1}{B(\alpha,\beta)}x^{\alpha-1}(1-x)^{(\beta-1)}"/>
 - Mean
-	<img src="https://latex.codecogs.com/svg.image?E(X)=\frac{\alpha}{\alpha+\beta}"/>
+	- <img src="https://latex.codecogs.com/svg.image?E(X)=\frac{\alpha}{\alpha+\beta}"/>
 - Variance
-	<img src="https://latex.codecogs.com/svg.image?var(x)=\frac{\alpha\beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)}"/>
+	- <img src="https://latex.codecogs.com/svg.image?var(x)=\frac{\alpha\beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)}"/>
 - Mode
-	<img src="https://latex.codecogs.com/svg.image?mode(x)=\frac{\alpha-1}{\alpha+\beta-2}"/>
+	- <img src="https://latex.codecogs.com/svg.image?mode(x)=\frac{\alpha-1}{\alpha+\beta-2}"/>
 
 ## Dirichlet Distribution
 
