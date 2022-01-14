@@ -35,6 +35,24 @@ Thompson sampling is a heuristic for choosing actions that addresses the explora
 # Click-Through Rate (CTR)
 - Source: https://en.wikipedia.org/wiki/Click-through_rate
 - *Click-through rate (CTR) is the ratio of users who click on a specific link to the number of total users who view a page, email, or advertisement. It is commonly used to measure the success of an online advertising campaign for a particular website as well as the effectiveness of email campaigns.*
+- 10번 중 2번 클릭이 발생한 것과 100번 중 20번 클릭이 발생한 것은 둘 다 CTR이 0.2입니다. 그러나 전자보다 후자가 시행횟수가 많으므로 0.2라는 값에 대한 확신이 더 크다고 할 수 있습니다.
+```python
+# case 1) 사용자에게 10번의 추천을 했을 때 2번 클릭한 경우
+# case 2) 사용자에게 100번의 추천을 했을 때 20번 클릭한 경우
+# case 3) 사용자에게 1000번의 추천을 했을 때 200번 클릭한 경우
+fig, ax = plt.subplots(figsize=(10, 8))
+for n_recs, n_clicks in zip([10, 100, 1000], [2, 20, 200]):
+    #alpha, beta 대신에 a, b를 사용하겠습니다.
+    a = n_clicks + 1
+    b = n_recs - n_clicks + 1
+
+    ctr = (a - 1)/(a + b - 2) #mode
+    var = (a*b)/((a + b)**2*(a + b + 1)) #var
+
+    xs = np.linspace(0, 1, 200)
+    ys = stats.beta.pdf(xs, a, b)
+    sb.lineplot(ax=ax, x=xs, y=ys, label=f"n_recs : {n_recs:<5d} n_clicks : {n_clicks:<5d}")
+```
 
 # Content-Based Filtering & Collaborative Filtering (CF)
 - Source: https://www.mygreatlearning.com/blog/matrix-factorization-explained/
@@ -121,43 +139,39 @@ ui = pd.pivot_table(data, index="user", columns="item", values="preferences")
 ##### BPR (Bayesian Personalizaed Ranking)
 - BPR은 implicit data에 사용 가능한 matrix factorization 알고리즘 중 하나입니다.
 - 베이지안 개인화 랭킹 알고리즘은 모델을 학습시킬 때 긍정 아이템(예: 유저가 들어본 아티스트)과 부정 아이템(예: 유저가 들어보지 않은 아티스트) 사이의 랭킹을 목적함수로 두고, 그 차이가 커지는 방향으로 임베딩 변수 값을 갱신하는 것이죠.
+- BPR의 핵심 아이디어는 바로 고객이 본 영화에 대한 선호도가 보지 않은 영화에 대한 선호도보다 항상 높다는 것입니다.
 - Source: https://towardsdatascience.com/recommender-system-bayesian-personalized-ranking-from-implicit-feedback-78684bfcddf6
 - *The personalized ranking provides customers with item recommendations of a ranked list of items. The article would focus on recommending customers with a personalized ranked list of items from users’ implicit behavior derived from the past purchase data.*
 - ***For the implicit feedback systems, it is able to detect the positive dataset like bought history. For the remaining data, it is a mixture of actually negative and missing values. Nevertheless, machine learning models are unable to learn the missing data.***
+- Implementation
+	```python
+	```
+- Using `implicit.bpr.BayesianPersonalizedRanking()`
+	```python
+	likes["user_id"] = pd.Categorical(likes["user_id"])
+	likes["artist_id"] = pd.Categorical(likes["artist_id"])
 
-```python
-likes["user_id"] = pd.Categorical(likes["user_id"])
-likes["artist_id"] = pd.Categorical(likes["artist_id"])
+	vals = likes["plays"]
+	rows = likes["artist_id"].cat.codes.values
+	cols = likes["user_id"].cat.codes.values
 
-vals = likes["plays"]
-rows = likes["artist_id"].cat.codes.values
-cols = likes["user_id"].cat.codes.values
+	ui_sparse = csr_matrix((vals, (rows, cols)))
 
-ui_sparse = csr_matrix((vals, (rows, cols)))
+	# Embedding vector에는 마지막에 bias가 하나씩 붙어서 크기가 `factors + 1`이 됩니다.
+	model = BPR(factors=60)
+	model.fit(ui_sparse)
 
-file = "D:/bpr_model_implicit.pkl"
-gdd.download_file_from_google_drive(file_id="1wymLSbx0jFecHUmI_EDLNNF0sP_T_y-3", dest_path=file)
-if os.path.exists(file):
-    print("Loading...")
-    with open(file, "rb") as f:
-        model = pk.load(f)
-else:
-    with open(file, "wb") as f:
-        # Embedding vector에는 마지막에 bias가 하나씩 붙어서 크기가 `factors + 1`이 됩니다.
-        model = BPR(factors=60)
-        model.fit(ui_sparse)
-        print("Saving...")
-        pk.dump(model, f)
-print("completed!")
+	user_embs = model.user_factors
+	item_embs = model.item_factors
 
-user_embs = model.user_factors
-item_embs = model.item_factors
+	id2name = {row["artist_id"]:row["artist_name"] for _, row in artists.iterrows()}
 
-id2name = {row["artist_id"]:row["artist_name"] for _, row in artists.iterrows()}
-
-item_embs = pd.DataFrame(item_embs, index=[id2name[i] for i in likes["artist_id"].cat.categories])
-user_embs = pd.DataFrame(user_embs, index=likes["user_id"].cat.categories)
-```
+	item_embs = pd.DataFrame(item_embs, index=[id2name[i] for i in likes["artist_id"].cat.categories])
+	user_embs = pd.DataFrame(user_embs, index=likes["user_id"].cat.categories)
+	```
+- Using `tensorflow`
+	```python
+	```
 ##### ALS (Alternating Least Squares)
 ##### Logistic Matrix Factorization
 
@@ -237,10 +251,69 @@ def lift(x, y):
 # A/B Test
 # Multi-Armed Bandit
 
-# Evaluation Metrics
+# K-Core Pruning
+- For Last.fm
+	```python
+	# `plays`가 전체 `plays`의 하위 10% 초과인 레코드만 남깁니다. 이 경우에만 각 사용자가 각 아시트를 좋아한다고 판단하는 것입니다.
+	likes = plays[plays["plays"]>plays["plays"].quantile(0.1)]
+
+	thr = 5
+	len_prev = -1
+	len_next = -2
+	while len_prev != len_next:
+		len_prev = len(likes)
+		print(f"len(likes): {len(likes):,}")
+		
+		# `thr`명보다 많은 수의 아티스트의 음악을 들은 사용자
+		user_n_artists = likes["user_id"].value_counts()
+		users_ = user_n_artists[user_n_artists>thr].index
+		
+		# `thr`명보다 많은 수의 사용자가 음악을 들은 아티스트
+		artist_n_users = likes["artist_id"].value_counts()
+		artists_ = artist_n_users[artist_n_users>thr].index
+
+		likes = likes[(likes["user_id"].isin(users_)) & (likes["artist_id"].isin(artists_))]
+		len_next = len(likes)
+	print("Finished!")
+	```
+- For MovieLens 100k
+	```python
+	thr = 5
+	len_prev = -1
+	len_next = -2
+	while len_prev != len_next:
+		len_prev = len(ratings)
+		print(f"len(ratings): {len(ratings):,}")
+		
+		user_n_ratings = ratings["user_id"].value_counts()
+		users_ = user_n_ratings[user_n_ratings>thr].index
+		
+		item_n_ratings = ratings["item_id"].value_counts()
+		items_ = item_n_ratings[item_n_ratings>thr].index
+
+		ratings = ratings[(ratings["user_id"].isin(users_)) & (ratings["item_id"].isin(items_))]
+		len_next = len(ratings)
+	print("Finished!")
+	```
+
+# Evaluation Metrices
+## Hit Rate
+- Source: https://towardsdatascience.com/evaluating-a-real-life-recommender-system-error-based-and-ranking-based-84708e3285b
+- Let’s see how good our top-10 recommendations are. To evaluate top-10, we use hit rate, that is, ***if a user rated one of the top-10 we recommended, we consider it is a "hit"***.
+- The process of compute hit rate for a single user:
+	1. Find all items in this user’s history in the training data.
+	2. Intentionally remove one of these items (Leave-One-Out CV).
+	3. Use all other items to feed the recommender and ask for top 10 recommendations.
+	4. If the removed item appear in the top 10 recommendations, it is a hit. If not, it’s not a hit.
+- ***The whole hit rate of the system is the count of hits, divided by the test user count.***
+## HR (Hit Ratio)
+- Source: https://towardsdatascience.com/ranking-evaluation-metrics-for-recommender-systems-263d0a66ef54
+- ***The number of users for which the correct answer is included in the top L recommendation list, divided by the total number of users in the test dataset.***
 ## MAP(Mean Average Precision)
 - 하지만 사용자에 따라서 실제로 소비한 아이템의 수가 천 개, 2천개까지 늘어날 수 있습니다. 이 경우 recall이 1이 되는 지점까지 고려하는 것은 무리이므로 최대 n개까지만 고려하여 mAP를 계산하며, 이 경우 mAP@n 으로 표기합니다.
+- Source: https://towardsdatascience.com/ranking-evaluation-metrics-for-recommender-systems-263d0a66ef54
 ## nDCG(normalized Discounted Cumulative Gain)
+- Source: https://towardsdatascience.com/ranking-evaluation-metrics-for-recommender-systems-263d0a66ef54
 
 # 1. 신규 고객(고객에 대한 정보 없음) : 
 ## 1-1. 비개인화 추천(Non-personalized Recommendation)
@@ -445,21 +518,6 @@ SVD를 비롯한 MF에서 목적함수는, Predicted rating을 구하는 Matrix 
 # `implicit`
 ```python
 conda install -c conda-forge implicit
-```
-## `implicit.bpr`
-### `BayesianPersonalizedRanking`
-```python
-from implicit.bpr import BayesianPersonalizedRanking as BPR
-```
-```python
-model = BPR(factors=60)
-
-model.fit(inputs)
-```
-#### `model.user_factors`, `model.item_factors`
-```python
-user_embs = model.user_factors
-item_embs = model.item_factors
 ```
 
 # `annoy`

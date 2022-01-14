@@ -13,7 +13,7 @@ Written by KimRass
 ### `TypeError: unhashable type: '<<Data Type>>'`
 - The unhashable objects are not allowed in set or dictionary key. The dictionary or set hashes the object and uses the hash value as a primary reference to the key.
 ### `TypeError: '<<Data Type>>' object is not subscriptable`
-- "Subscriptable" means that the object contain, or can contain, other objects.
+- ***"Subscriptable" means that the object contain, or can contain, other objects.***
 ### `TypeError: sequence index must be integer, not 'slice'`
 - This error raises because `collections.deque()` cannot be sliced.
 ### `TypeError: '<<Data Type>>' object is not iterable`
@@ -628,12 +628,12 @@ data = data.fillna(method="ffill")
 ```
 - `method="ffill"`: Propagate last valid observation forward to next valid backfill.
 ## `DataFrame.sample()`, `Series.sample()`
-```python
-baskets_df.sample(frac=0.05)
-```
-```python
-set(n_per_movie_unseen.sample(n=100, replace=False, weights=n_per_movie).index)
-```
+- `replace`: (bool) Allow or disallow sampling of the same row more than once.
+- `weights`
+	- *Default `None` results in equal probability weighting.*
+	- If passed a Series, will align with target object on index. Index values in weights not found in sampled object will be ignored and index values in sampled object not in weights will be assigned weights of zero.
+	- If called on a DataFrame, will accept the name of a column when axis = 0. Unless weights are a Series, weights must be same length as axis being sampled.
+	- *If weights do not sum to 1, they will be normalized to sum to 1. Missing values in the weights column will be treated as zero. Infinite values not allowed.*
 - `random_state`: (Int)
 ## `DataFrame.iterrows()`
 - Iterate over DataFrame rows as (index, Series) pairs.
@@ -891,31 +891,6 @@ intersected_movie_ids = np.concatenate([json.loads(row) for row in rd.mget(queri
 idx_drop = [idx for idx, doc in enumerate(X_train) if len(doc) == 0]
 X_train = np.delete(X_train, idx_drop, axis=0)
 ```
-## `np.random`
-### `np.random.seed()`
-```python
-np.random.seed(23)
-```
-### `np.random.random()`
-```python
-np.random.random((2, 3, 4))
-```
-- Create an Array of the given shape and populate it with random samples from a uniform distribution over \[0, 1).
-- Similar with `np.random.rand()`
-### `np.random.randint()`
-```python
-np.random.randint(1, 100, size=(2, 3, 4))	
-```
-### `np.random.choice()`
-- Generates a random sample from a given 1-D array.
-- If an ndarray, a random sample is generated from its elements. If an int, the random sample is generated as if a were np.arange(a).
-```python
-np.random.choice(5, size=(2, 3, 4))
-```
-### `np.random.normal()`
-- `loc`: Mean.
-- `scale`: Standard deviation.
-- `size`: Output shape.
 ## `np.digitize()`
 ```python		
 bins=range(0, 55000, 5000)
@@ -1674,20 +1649,38 @@ img_colors.default_color=[0.6, 0.6, 0.6]
 from wordcloud import STOPWORDS
 ```
 
-# `random`
-```python
-import random
-```
+# `random`, `np.random`
 ## `random.seed()`
+## `np.random.seed()`
+```python
+np.random.seed(23)
+```
 ## `random.random()`
 - Returns a random number in [0, 1).
 ## `random.sample()`
 ```python
 names = random.sample(list(set(data.index)), 20)
 ```
+## `random.choices()`
+- `k`
+- `weights`
+## `np.random.choice()`
+- Generates a random sample from a given 1-D array.
+- `size`
+- `replace`: (bool)
+- `p`: The probabilities associated with each entry in `a`. If not given, the sample assumes a uniform distribution over all entries in `a`
 ## `random.shuffle()`
 - In-place function
-## `random.choice()`
+### `np.random.random()`
+```python
+np.random.random((2, 3, 4))
+```
+- Create an Array of the given shape and populate it with random samples from a uniform distribution over \[0, 1).
+- Similar with `np.random.rand()`
+### `np.random.randint()`
+```python
+np.random.randint(1, 100, size=(2, 3, 4))	
+```
 
 # `re`
 ```python

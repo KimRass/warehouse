@@ -98,7 +98,6 @@ user_embs_pca = pd.DataFrame(user_embs_pca, index=user_embs.index, columns=["x",
 - Batch normalization (also known as batch norm) is a method used to make artificial neural networks faster and more stable through normalization of the layers' inputs by re-centering and re-scaling. It was proposed by Sergey Ioffe and Christian Szegedy in 2015.[1]
 While the effect of batch normalization is evident, the reasons behind its effectiveness remain under discussion. It was believed that it can mitigate the problem of internal covariate shift, where parameter initialization and changes in the distribution of the inputs of each layer affect the learning rate of the network.[1] Recently, some scholars have argued that batch normalization does not reduce internal covariate shift, but rather smooths the objective function, which in turn improves the performance.[2] However, at initialization, batch normalization in fact induces severe gradient explosion in deep networks, which is only alleviated by skip connections in residual networks.[3] Others sustain that batch normalization achieves length-direction decoupling, and thereby accelerates neural networks.[4] More recently a normalize gradient clipping technique and smart hyperparameter tuning has been introduced in Normalizer-Free Nets, so called "NF-Nets" which mitigates the need for batch normalization.[5][6
 
-
 # MLOps
 - Source: https://en.wikipedia.org/wiki/MLOps
 - MLOps or ML Ops is a set of practices that aims to deploy and maintain machine learning models in production reliably and efficiently.[1] The word is a compound of "machine learning" and the continuous development practice of DevOps in the software field. Machine learning models are tested and developed in isolated experimental systems. When an algorithm is ready to be launched, MLOps is practiced between Data Scientists, DevOps, and Machine Learning engineers to transition the algorithm to production systems.
@@ -206,12 +205,9 @@ error 0.6을 0.6, 0.4를 곱하니  위 노드에는 error가 0.36이, 아래 �
 - Source: https://sacko.tistory.com/39?category=632408
 - 지난 오차역전파 관련 포스팅에서는 오차역전파법이 순전파(foward propagation)로 가중치 학습이 되고 이를 갱신하기 위해서 오차를 반영하여 반대 방향에서 다시 가중치를 업데이트 한다는 식으로만 설명을 했다. 역전파를 사용하는 또 다른 중요한 이유는 역전파를 통해서 '미분'을 효율적으로 계산할 수 있다는 것이다.
 
-# Gradient Descending
-- Source: https://sacko.tistory.com/19
-- 또 다른 문제는 엉뚱한 최저점을 찾을 수 있다는 것이다. 만약 차원이 여러개라고 한다면 위에서 본 것처럼 단순한 2차함수 형태가 되지는 않을 것이다. 아래의 그림과 같이 여러 개의 계곡이 있고 발을 잘못 디딛으면 엉뚱한 계곡으로 갈 수도 있다.
-이러한 문제를 피하기 위해서는 서로 다른 초기값으로 주어 산을 내려가게 하는 방법으로 신경망의 경우에서는 weight의 초기 값을 다르게 주면서 경사하강법을 활용해본다는 의미이다.
-## Updating Weights
-- Source: https://wikidocs.net/37406
+# Gradient Descent
+- Source: https://en.wikipedia.org/wiki/Gradient_descent
+- ***Gradient descent is a first-order iterative optimization algorithm for finding a local minimum of a differentiable function. The idea is to take repeated steps in the opposite direction of the gradient (or approximate gradient) of the function at the current point, because this is the direction of steepest descent.*** Conversely, stepping in the direction of the gradient will lead to a local maximum of that function; the procedure is then known as gradient ascent.
 
 # Categorical Variables
 - Sources: https://homeproject.tistory.com/4, http://blog.naver.com/PostView.nhn?blogId=choco_9966&logNo=221374544814&parentCategoryNo=&categoryNo=77&viewDate=&isShowPopularPosts=false&from=postView, https://dailyheumsi.tistory.com/120, https://towardsdatascience.com/all-about-categorical-variable-encoding-305f3361fd02
@@ -273,14 +269,46 @@ error 0.6을 0.6, 0.4를 곱하니  위 노드에는 error가 0.36이, 아래 �
 However, what if one subset of our data only have people of a certain age or income levels? This is typically referred to as a sampling bias:
 Sampling bias is systematic error due to a non-random sample of a population, causing some members of the population to be less likely to be included than others, resulting in a biased sample.
 - If only use a train/test split, then I would advise comparing the distributions of your train and test sets. If they differ significantly, then you might run into problems with generalization. Use Facets to easily compare their distributions.
+- Using `sklearn.model_selection.train_test_split()`
+	```python
+	from sklearn.model_selection import train_test_split
+
+	tr_X, te_X, tr_y, te_y = train_test_split(X, y, test_size=0.2, shuffle=True, random_state=3)
+	```
+	- `stratif`: If not None, data is split in a stratified fashion, using this as the class labels.
+	
+# Cross Validation (CV)
 ## Holdout Set
 - When optimizing the hyperparameters of your model, you might overfit your model if you were to optimize using the train/test split.
 Why? Because the model searches for the hyperparameters that fit the specific train/test you made.
 ## K-Fold CV
 - We typically choose either i=5 or k=10 as they find a nice balance between computational complexity and validation accuracy:
+```python
+from sklearn.model_selection import KFold
+```
+### Stratified K-Fold CV
+```python
+from sklearn.model_selection import StratifiedKFold
+```
+## Group K-Fold CV
+```python
+from sklearn.model_selection import GroupKFold
+```
+### Stratified Group K-Fold CV
+```python
+from sklearn.model_selection import StratifiedGroupKFold
+```
 ## Leave-One-Out CV
 - This variant is identical to k-fold CV when k = n (number of observations).
+```python
+from sklearn.model_selection import LeaveOneOut
+
+loo = LeaveOneOut()
+```
 ## Leave-One-Group-Out CV
+```python
+from sklearn.model_selection import LeaveOneGroupOut
+```
 ## Nested CV
 - When you are optimizing the hyperparameters of your model and you use the same k-Fold CV strategy to tune the model and evaluate performance you run the risk of overfitting. You do not want to estimate the accuracy of your model on the same split that you found the best hyperparameters for.
 - Instead, we use a Nested Cross-Validation strategy allowing to separate the hyperparameter tuning step from the error estimation step.
@@ -621,18 +649,6 @@ def plot_tree(model, filename, rankdir="UT"):
         f.write(data)
 ```
 
-# `sklearn`
-```python
-from sklearn import *
-```
-## `sklearn.model_selection`
-```python
-from sklearn.model_selection import train_test_split
-```
-### `train_test_split`
-```python
-train_X, val_X, train_y, val_y = train_test_split(train_val_X, train_val_y, train_size=0.8, shuffle=True, random_state=3)
-```
 ## `sklearn.feature_extraction.text`
 ### `CountVectorizer()`
 ```python

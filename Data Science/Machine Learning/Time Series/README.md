@@ -90,12 +90,17 @@ y_resid = decomp.resid # `pandas.Series`
 # Splitting Dataset
 - Overfitting would be a major concern since your training data could contain information from the future. ***It is important that all your training data happens before your test data.*** One way of validating time series data is by using k-fold CV and making sure that ***in each fold the training data takes place before the test data.***
 - Using `sklearn.model_selection.train_test_split(shuffle=False)`
-```python
-from sklearn.model_selection import train_test_split
+	```python
+	from sklearn.model_selection import train_test_split
 
-data_tr, data_te = train_test_split(data, test_size=0.2, shuffle=False)
-```
-
+	data_tr, data_te = train_test_split(data, test_size=0.2, shuffle=False)
+	```
+- Using `sklearn.model_selection.TimeSeriesSplit()`
+	```python
+	from sklearn.model_selection import TimeSeriesSplit
+	
+	tscv = TimeSeriesSplit(n_splits=3)
+	```
 # Autocorrelation
 - Source: https://statisticsbyjim.com/time-series/autocorrelation-partial-autocorrelation/
 - Autocorrelation is the correlation between two observations at different points in a time series. For example, values that are separated by an interval might have a strong positive or negative correlation. ***When these correlations are present, they indicate that past values influence the current value.***
