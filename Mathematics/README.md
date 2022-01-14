@@ -114,7 +114,7 @@ np.random.normal(mean, std, size)
 - Variance
 	- <img src="https://latex.codecogs.com/svg.image?var(x)=\frac{\alpha\beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)}"/>
 - Mode
-	- <img src="https://latex.codecogs.com/svg.image?mode\frac{\alpha-1}{\alpha+\beta-2}"/>
+	- <img src="https://latex.codecogs.com/png.image?\frac{\alpha-1}{\alpha+\beta-2}"/>
 
 ## Dirichlet Distribution
 
