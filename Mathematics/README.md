@@ -115,6 +115,10 @@ np.random.normal(mean, std, size)
 	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\var(x)=\frac{\alpha\beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)})
 - Mode
 	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\\frac{\alpha−1}{\alpha+\beta−2})
+$$\frac{a}{b}$$
+```math
+SE = \frac{\sigma}{\sqrt{n}}
+```
 
 ## Dirichlet Distribution
 
