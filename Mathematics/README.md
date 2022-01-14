@@ -108,19 +108,13 @@ np.random.normal(mean, std, size)
 - In probability theory and statistics, the beta distribution is a family of continuous probability distributions defined on the interval [0, 1] parameterized by two positive shape parameters, denoted by \alpha and \beta, that appear as exponents of the random variable and control the shape of the distribution. The generalization to multiple variables is called a Dirichlet distribution.
 - The formulation of the beta distribution discussed here is also known as the beta distribution of the first kind, whereas beta distribution of the second kind is an alternative name for the beta prime distribution.
 - Probability Density Function (PDF)
-	- ![formula](https://render.githubusercontent.com/render/math?math=\f(x; \alpha, \beta)=\frac{1}{B(\alpha, \beta)}x^{(\alpha−1)}(1−x)^{(\beta−1)})
+	- <img src="https://latex.codecogs.com/svg.image?f(x;\alpha,\beta)=\frac{1}{B(\alpha,\beta)}x^{\alpha-1}(1-x)^{(\beta-1)}"/>
 - Mean
-	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\E(X)=\frac{\alpha}{\alpha%2B\beta})
+	- <img src="https://latex.codecogs.com/svg.image?E(X)=\frac{\alpha}{\alpha+\beta}"/>
 - Variance
-	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\Large\var(x)=\frac{\alpha\beta}{(\alpha%2B\beta)^{2}(\alpha%2B\beta%2B1)})
+	- <img src="https://latex.codecogs.com/svg.image?var(x)=\frac{\alpha\beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)}"/>
 - Mode
-	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\\frac{\alpha−1}{\alpha%2B\beta\−2})
-![Figure](https://latex.codecogs.com/png.image?\dpi{110}&space;\bg_white&space;F=P(1+\frac{i}{n})^{nt})
-![Figure](https://latex.codecogs.com/png.image?\dpi{110}&space;\bg_black&space;F=P(1+\frac{i}{n})^{nt})
-![Figure](https://latex.codecogs.com/png.image?\dpi{110}&space;F=P(1+\frac{i}{n})^{nt})
-![Figure](https://latex.codecogs.com/png.image?F=P(1+\frac{i}{n})^{nt})
-https://latex.codecogs.com/svg.image?\lim_{x%20\to%200}%20f(x)%20=%208
-![Figure](https://latex.codecogs.com/svg.image?\lim_{x%20\to%200}%20f(x)%20=%208)
+	- <img src="https://latex.codecogs.com/svg.image?mode\frac{\alpha-1}{\alpha+\beta-2}"/>
 
 ## Dirichlet Distribution
 
