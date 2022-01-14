@@ -110,11 +110,11 @@ np.random.normal(mean, std, size)
 - Probability Density Function (PDF)
 	- ![formula](https://render.githubusercontent.com/render/math?math=\f(x; \alpha, \beta)=\frac{1}{B(\alpha, \beta)}x^{(\alpha−1)}(1−x)^{(\beta−1)})
 - Mean
-	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\E(X)=\frac{\alpha}{\alpha + \beta})
+	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\E(X)=\frac{\alpha}{\alpha+\beta})
 - Variance
-	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\var(x)=\frac{\alpha\beta}{(\alpha + \beta)^{2}(\alpha + \beta + 1)})
+	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\var(x)=\frac{\alpha\beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)})
 - Mode
-	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\\frac{\alpha − 1}{\alpha + \beta − 2})
+	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\\frac{\alpha\−1}{\alpha\+\beta\−2})
 
 ## Dirichlet Distribution
 
