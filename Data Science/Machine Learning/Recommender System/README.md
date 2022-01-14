@@ -248,8 +248,6 @@ def lift(x, y):
 ### FP-Growth (Frequent Pattern-Growth)
 # Factorization Machine
 # DeepFM
-# A/B Test
-# Multi-Armed Bandit
 
 # K-Core Pruning
 - For Last.fm
@@ -386,35 +384,7 @@ confidence(StarWars2→Titanic)<support(Titanic)
 lift(StarWars2→Y)=confidence(StarWars2→Y)support(Y)
 - 리프트가 1보다 크면 전자의 상황을, 1보다 작으면 후자의 상황을 뜻하는 것이죠. 스타워즈2를 재미있게 보았다는 정보를 얻고 나니 대상 영화Y를 재미있게 볼 확률이 기본 확률값(지지도)에 비해 높아졌는지, 낮아졌는지 확인하는 것이죠. '리프트'라는 지표의 이름은 "어떤 증거가 신뢰도를 높여주는가?"라는 의미에서 나온 것입니다.
 - Source: https://yamalab.tistory.com/86?category=747907
-- Association Rule은 고객들의 상품 묶음 정보를 규칙으로 표현하는 가장 기본적인 알고리즘이다. 흔히 장바구니 분석이라고도 불린다. 데이터마이닝 같은 수업을 들었다면 한번 쯤 들어봤을 법한 알고리즘이다. 이 알고리즘은 기초적인 확률론에 기반한 방법으로, 전체 상품중에 고객이 함께 주문한 내역을 살펴본 뒤 상품간의 연관성을 수치화하여 나타내는 알고리즘이다. 매우 직관적이고 구현하기도 쉽지만, 그렇다고 현재로서 성능이 매우 떨어지는 알고리즘도 아니다. 추천 시스템에서 여전히 가장 중요한 알고리즘으로 분류되며 Association Rule에서 파생된 다양한 알고리즘들이 존재한다.
-# Multi Armed Bandit
-- source: https://brunch.co.kr/@chris-song/62
-- N개의 슬롯머신이 있다. 각각의 슬롯머신은 수익률이 다르다. 그런데, 당장 나는 각 슬롯머신의 수익률을 알지는 못한다. 여기서 내 돈을 어느 슬롯머신에 걸고 슬롯머신의 암(손잡이)을 내려야 돈을 제일 많이 벌 수 있을까? 여기서 슬롯머신이 밴딧(Bandit)이고, 슬롯머신의 손잡이가 암(Arm)이다.  다양한 슬롯머신이 있는데 내 돈을 어디에 걸고 손잡이를 내려야 하나? 마지막으로, 카지노에는 여러 개의 슬롯머신이 있기 때문에, 이 문제의 이름은 Multi-Armed Bandits가 된다.
-## 탐색과 활용(Exploration and Exploitation)
-### 전략 1. Greedy
-- 한 번씩 플레이 한 후, 점수 좋은 슬롯 머신에 몰빵
-- 여기서 문제는 무엇일까? 한 번씩만 테스트 했다는 점이다. 탐험(Exploration)이 충분히 이루어지지 않았다.
-### 전략 2. e-Greedy
-- 동전을 던져서 윗면이 나오면 점수 좋았던 슬롯머신, 뒷면이 나오면 랜덤으로 선택
-- 여기서 동전의 앞면이 나올 50%의 확률이 입실론(epsilon)이라는 하이퍼파라미터다.
-### 전략 3. UCB(Upper-Confidence-Bound)
-- 좋은 수익률을 보이며 최적의 선택이 될 가능성이 있는 슬롯머신을 선택한다.
-## Thompson Sampling
-- source: https://brunch.co.kr/@chris-song/66
-- 톰슨 샘플링은 배너를 클릭할 확률을 베타 분포로 표현을 했습니다. 
-- 어떻게 배너를 클릭할 확률을 베타 분포로 표현할 수 있을까요? 우리에게 필요한 숫자는 두가지입니다. 하나는 배너를 보고 클릭한 횟수, 그리고 배너를 보고 클릭하지 않은 횟수입니다.
-- Beta(배너를 클릭한 횟수 + 1, 배너를 클릭하지 않은 횟수 + 1)
-- greedy 알고리즘: 경험상 가장 성능이 좋았던 선택지만을 활용하기 때문에 banner1을 선택합니다.
-- e-greedy 알고리즘: 확률적으로 경험상 가장 성능이 좋았던 선택지만을 활용하기 때문에 banner1을 선택하거나 랜덤 선택지를 선택합니다.
-- 톰슨 샘플링에서는 3개의 분포에서 임의의 점을 샘플링해보겠습니다.
-- 3개 배너의 베타 분포에서 그래프 하단의 밑 면의 넓이는 모두 1입니다. 
-- 특정 x값에 해당하는 분포의 y값이 클 수록 발생할 확률이 높다는 의미입니다. 
-## A/B Test
-- A/B 테스트를 하면 몇 가지 문제가 있다. 
-  - 테스트를 하는 데 오래걸리고 비용이 많이 든다.
-  - A/B 테스트를 할 때 A안이 훨씬 좋았다면 테스트 기간 동안엔 B안으로 인해 결국 손해를 보게 된다.
-  - A/B 테스트를 할 때는 A안이 좋았는데 일주일 지나니 B안 반응률이 더 좋아졌다.
-- 이런 문제들에 멀티암드밴딧을 사용하면 문제가 말끔이 해결된다. 일일이 설명하지는 않겠다.
+- Association Rule은 고객들의 상품 묶음 정보를 규칙으로 표현하는 가장 기본적인 알고리즘이다. 흔히 장바구니 분석이라고도 불린다. 데이터마이닝 같은 수업을 들었다면 한번 쯤 들어봤을 법한 알고리즘이다. 이 알고리즘은 기초적인 확률론에 기반한 방법으로, 전체 상품중에 고객이 함께 주문한 내역을 살펴본 뒤 상품간의 연관성을 수치화하여 나타내는 알고리즘이다. 매우 직관적이고 구현하기도 쉽지만, 그렇다고 현재로서 성능이 매우 떨어지는 알고리즘도 아니다. 추천 시스템에서 여전히 가장 중요한 알고리즘으로 분류되며 Association Rule에서 파생된 다양한 알고리즘들이 존재한다. 
 
 # Redis
 - sources: https://medium.com/@jyejye9201/%EB%A0%88%EB%94%94%EC%8A%A4-redis-%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80-2b7af75fa818, https://hwigyeom.ntils.com/entry/Windows-%EC%97%90-Redis-%EC%84%A4%EC%B9%98%ED%95%98%EA%B8%B0-1
@@ -553,39 +523,3 @@ conda install -c conda-forge implicit
 	res = tree.get_nns_by_vector(vector=user_vec, n=10, include_distances=True)
 	display(pd.Series(res[1], index=[id2name[i] for i in res[0]]))
 	```
-	
-# `mlxtend`
-```python
-import mlxtend
-```
-## `mlxtend.preprocessing`
-### `TransactionEncoder`
-```python
-from mlxtend.preprocessing import TransactionEncoder
-```
-```python
-te = TransactionEncoder()
-```
-#### `te.fit_transform()`
-```python
-baskets_te = te.fit_transform(baskets)
-```
-#### `te.columns_`
-```python
-baskets_df = pd.DataFrame(baskets_te, index=baskets.index, columns=te.columns_)
-```
-## `mlxtend.frequent_patterns`
-### `apriori`
-```python
-from mlxtend.frequent_patterns import apriori
-```
-```python
-freq_sets_df = apriori(baskets_df_over5000.sample(frac=0.05), min_support=0.01, max_len=2, use_colnames=True, verbose=1)
-```
-### `association_rules`
-```python
-from mlxtend.frequent_patterns import association_rules
-```
-```python
-asso_rules = association_rules(sups, metric="support", min_threshold=0.01)
-```
