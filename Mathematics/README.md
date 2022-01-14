@@ -115,6 +115,7 @@ np.random.normal(mean, std, size)
 	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\var(x)=\frac{αβ}{(α+β)^{2}(α+β+1)})
 - Mode
 	- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\\frac{α−1}{α+β−2})
+- ![formula](https://render.githubusercontent.com/render/math?math=\color{white}\large\E(X)=\dfrac{a}{b})
 
 ## Dirichlet Distribution
 
