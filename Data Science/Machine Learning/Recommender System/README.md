@@ -1,3 +1,5 @@
+https://brunch.co.kr/@kakao-it/72
+
 # Types of Data
 - Source: https://blog.mirumee.com/the-difference-between-implicit-and-explicit-data-for-business-351f70ff3fbf
 ## Explicit Data
@@ -8,6 +10,10 @@
 
 # Datasets
 ## MovieLens
+## MovieLens 100k
+```python
+plt.hist(sorted(ratings.groupby(["user_id"]).size().values), bins=50);
+```
 ## Last.fm
 
 # Cold Start

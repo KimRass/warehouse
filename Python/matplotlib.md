@@ -26,18 +26,44 @@ mpl.rc("axes", unicode_minus=False)
 - `xlim`, `ylim`
 - `figsize`
 - `grid`
-## `plt.plot()`, `ax.plot()`
-## `DataFrame.plot.line()`, `Series.plot.line()`
+- `marker`
+	- `"o"`: Circle
+	- `"*"`: Star
+- `linestyle`
+	- `"-"`: Solid line
+	- `"--"`: Dashed line
+	- `"-."`: Dash-dot line
+	- `":"`: Dotted line
+- `color`
+	- `"b"`: Blue
+	- `"g"`: Green
+	- `"r"`: Red
+	- `"c"`: Cyan
+	- `"m"`: Magenta
+	- `"y"`: Yellow
+	- `"k"` black
+	- `"w"`: White
+## Line Chart
+### `plt.plot();`
 ```python
-fig = raw_all[["count"]].rolling(24).mean().plot.line(ax=axes, lw=3, fontsize=20, xlim=("2012-01-01", "2012-06-01"), ylim=(0,  1000))
+plot([arg1], arg2, [arg3], ...)
+```python
+plot("Column for x", "Column for y", data=pandas.DataFrame);
 ```
-## `DataFrame.plot.pie()`, `Series.plot.pie()`
-- startangle
-## `plt.scatter()`, `ax.scatter()`
+### `DataFrame.plot.line()`, `Series.plot.line()`
+```python
+data.plot.line(style=["k--", "bo-", "r*"], figsize=(20, 10));
+```
+- `style`
+## Pie Chart
+### `DataFrame.plot.pie()`, `Series.plot.pie()`
+- `startangle`
+## Scatter Plot
+### `plt.scatter()`, `ax.scatter()`
 ```python
 ax.scatter(gby["0.5km 내 교육기관 개수"], gby["실거래가"], s=70, c=gby["전용면적(m²)"], cmap="RdYlBu", alpha=0.7, edgecolors="black", linewidth=0.5)
 ```
-## `DataFrame.plot.scatter()`
+### `DataFrame.plot.scatter()`
 ```python
 data[data.workingday == 0].plot.scatter(y="count", x="hour", c="temp", grid=False, figsize=(12, 5), cmap="Blues")
 ```
@@ -45,34 +71,38 @@ data[data.workingday == 0].plot.scatter(y="count", x="hour", c="temp", grid=Fals
 - `cmap`: ("RdYlBu")
 - `alpha`
 - `edgecolors`
-## `ax.bar()`, `DataFrame.plot.bar()`, `Series.plot.bar()`
+## Bar Chart
+### `ax.bar()`, `DataFrame.plot.bar()`, `Series.plot.bar()`
 ```python
 ax.bar(x=nby_genre.index, height=nby_genre["movie_id"])
 ```
 ```python
 data["label"].value_counts().plot.bar()
 ```
-## `ax.barh()`, `DataFrame.plot.barh()`, `Series.plot.barh()`
+### `ax.barh()`, `DataFrame.plot.barh()`, `Series.plot.barh()`
 ```python
 ax.barh(y=ipark["index"], width=ipark["가경4단지 84.8743A"], height=0.2, alpha=0.5, color="red", label="가경4단지 84.8743A", edgecolor="black", linewidth=1)
 ```
-## `ax.hist()`, `DataFrame.plot.hist()`, `Series.plot.hist()`
+## Histogram
+### `ax.hist()`, `DataFrame.plot.hist()`, `Series.plot.hist()`
 ```python
 ax.hist(cnt_genre["genre"], bins=30)
 ```
 ```python
 raw_data.hist(bins=20, grid=True, figsize=(16,12))
 ```
-## `ax.boxplot()`, `DataFrame.boxplot()`, `Series.boxplot()`
+## Box Plot
+### `ax.boxplot()`, `DataFrame.boxplot()`, `Series.boxplot()`
 ```python
 raw_data.boxplot(column="count", by="season", grid=False, figsize=(12,5))
 ```
-## `ax.axhline()`, `ax.axvline()`
+## Horizontal Line & Vertical Line
+### `ax.axhline()`, `ax.axvline()`
 ```python
 fig = ax.axhline(y=mean, color="r", ls=":", lw=2)
 ```
 - `y`
-## `hlines()`, `vlines()`
+### `hlines()`, `vlines()`
 ## `ax.text()`
 ```python
 for _, row in ml_gby_ax.iterrows():
@@ -165,8 +195,12 @@ ax.set_xlabel("xAxis", size=15)
 plt.plot(xs, ys, label=label)
 plt.legend()
 ```
+- `loc`: (`"best"`, `"center"`, `"upper left"`, `"upper right"`, `"lower left"`, `"lower right"`, `"upper center"`, `"lower center"`, `"center left"`, `"center right"`)
+- `bbox_to_anchor`: Box that is used to position the legend in conjunction with `loc`. This argument allows arbitrary placement of the legend.
+- `fancybox`: Whether round edges should be enabled.
+- `shadow`: Whether to draw a shadow behind the legend.
+- `ncol`: The number of columns that the legend has.
 - `fontsize`
-- `loc`: (`"best"`, `"upper right"`)
 
 # Color Bar
 ## `fig.colorbar()`
@@ -184,23 +218,28 @@ cbar.set_label(label="전용면적(m²)", size=15)
 fig.savefig("means_plot_200803.png", bbox_inches="tight")
 ```
 
-### `plt.subplot()`
+# Subplots
+## `plt.subplot()`
 ```python
 for i in range(9):
 	ax = plt.subplot(3, 3, i + 1)
 ```
-### `plt.subplots()`
+## `plt.subplots()`
 ```python
-fig, axes = plt.subplots(2, 1, figsize=(16, 12))
+fig, axes = plt.subplots(nrows, ncols, ...)
 ```
-### `plt.setp()`
-### `plt.show()`
-#### `fig.tight_layout()`
-#### `ax.imshow()`
+- `figsize`
+- `sharex`, `sharey`: (bool) Controls sharing of properties among x (`sharex`) or y (`sharey`) axes.
+
+# Options
+## `plt.setp()`
+## `plt.show()`
+## `fig.tight_layout()`
+## `ax.imshow()`
 ```python
 ax.imshow(image.numpy().reshape(3,3), cmap="Greys")
 ```
-#### `ax.set()`
+## `ax.set()`
 ```python
 ax.set(title="Example", xlabel="xAxis", ylabel="yAxis", xlim=[0, 1], ylim=[-0.5, 2.5], xticks=data.index, yticks=[1, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3])
 ```

@@ -1,11 +1,10 @@
 # Data Density (or Sparsity)
 - Source: https://datascience.foundation/discussion/data-science/data-sparsity
 - In a database, sparsity and density describe the number of cells in a table that are empty (sparsity) and that contain information (density), though sparse cells are not always technically empty—they often contain a “0” digit.
-
-# Sparse Matrix & Dense Matrix
+## Sparse Matrix & Dense Matrix
 - Source: https://en.wikipedia.org/wiki/Sparse_matrix
 - ***A sparse matrix or sparse array is a matrix in which most of the elements are zero.*** *There is no strict definition regarding the proportion of zero-value elements for a matrix to qualify as sparse but a common criterion is that the number of non-zero elements is roughly equal to the number of rows or columns.* ***By contrast, if most of the elements are non-zero, the matrix is considered dense. The number of zero-valued elements divided by the total number of elements is sometimes referred to as the sparsity of the matrix.***
-## Compressed Sparse Row (CSR)
+### Compressed Sparse Row (CSR)
 - *The compressed sparse row (CSR) or compressed row storage (CRS) or Yale format represents a matrix M by three (one-dimensional) arrays, that respectively contain nonzero values, the extents of rows, and column indices.*
 ```python
 from scipy.sparse import csr_matrix
@@ -16,6 +15,23 @@ cols = [0, 2, 5, 6, 14, 0, 1]
 sparse_mat = csr_matrix((vals,  (rows,  cols)))
 dense_mat = sparse_mat.todense()
 ```
+
+# Real Data & Test Data
+
+# Datasets
+## `mnist`
+```python
+(X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
+```
+## `reuters`
+```python
+(X_train, y_train), (X_test, y_test) = reuters.load_data(num_words=None, test_split=0.2)
+```
+## `cifar10`
+```python
+(x_tr, y_tr), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+```
+
 # Feature Scaling
 - Source: https://en.wikipedia.org/wiki/Feature_scaling
 - Feature scaling is a method used to normalize the range of independent variables or features of data. In data processing, it is also known as data normalization and is generally performed during the data preprocessing step.
@@ -179,6 +195,9 @@ http://blog.naver.com/PostView.nhn?blogId=wideeyed&logNo=221017173808
 def sigmoid(x):
     return 1/(1 + np.exp(-x))
 ```
+```python
+tf.keras.activations.sigmoid(logits)
+```
 ### Derivative of Sigmoid Function
 ```python
 def deriv_sigmoid(x):
@@ -190,6 +209,8 @@ def deriv_sigmoid(x):
 - Source : https://wordbe.tistory.com/entry/ML-Cross-entropyCategorical-Binary의-이해
 - Softmax activation 뒤에 Cross-Entropy loss를 붙인 형태로 주로 사용하기 때문에 Softmax loss 라고도 불립니다. → Multi-class classification에 사용됩니다.
 우리가 분류문제에서 주로 사용하는 활성화함수와 로스입니다. 분류 문제에서는 MSE(mean square error) loss 보다 CE loss가 더 빨리 수렴한 다는 사실이 알려져있습니다. 따라서 multi class에서 하나의 클래스를 구분할 때 softmax와 CE loss의 조합을 많이 사용합니다.
+## `tf.keras.activations.linear()`
+## `tf.keras.activations.relu()`(= `"relu"`)
 
 # Back Propogation
 - Source: https://sacko.tistory.com/19
@@ -218,6 +239,9 @@ error 0.6을 0.6, 0.4를 곱하니  위 노드에는 error가 0.36이, 아래 �
 - features 내 값의 종류가 많을 경우(High Cardinaliry), 매우 많은 Feature 들을 만들어 낸다. 이는, 모델 훈련의 속도를 낮추고 훈련에 더 많은 데이터를 필요로 하게 한다.(차원의 저주 문제)
 - 단순히 0과 1로만 결과를 내어 큰 정보이득 없이 Tree 의 depth 만 깊게 만든다. 중요한건, Tree Depth 를 증가시키는 것에 비해, 2가지 경우로만 트리를 만들어 나간다는 것이다.
 - Random Forest 와 같이, 일부 Feature 만 Sampling 하여 트리를 만들어나가는 경우, One-hot Feature 로 생성된 Feature 의 수가 많기 때문에 이 features가 다른 features보다 더 많이 쓰인다.
+```python
+tf.keras.utils.to_categorical([2, 5, 1, 6, 3, 7])
+```
 ## Label Encoding
 - just mapping randomly to ints often works very well, especially if there aren’t to many.
 - Another way is to map them to their frequency in the dataset. If you’re afraid of collisions, map to counts + a fixed (per category) small random perturbation.
@@ -261,6 +285,20 @@ error 0.6을 0.6, 0.4를 곱하니  위 노드에는 error가 0.36이, 아래 �
 ## Grouping
 - you’ll need to do some exploratory data analysis to do some feature engineering like grouping categories or tactfully assigning appropriate integer values to match the relation of the variable with the output.
 - if you know something about the categories you can perhaps group them and add an additional feature group id then order them by group id.
+# `category_encoders`
+```python
+!pip install --upgrade category_encoders
+```
+```python
+import category_encoders as ce
+```
+## `ce.target_encoder`
+### `ce.target_encoder.TargetEncoder()`
+```python
+encoder = ce.target_encoder.TargetEncoder(cols=["company1"])
+encoder.fit(data["company1"], data["money"]);
+data["company1_label"] = encoder.transform(data["company1"]).round(0)
+```
 
 # Splitting Dataset
 - Source: https://developers.google.com/machine-learning/crash-course/training-and-test-sets/splitting-data
@@ -585,6 +623,7 @@ While both types of models can fit curvature, nonlinear regression is much more 
 Similar case Imputation: In this case, we calculate average for gender “Male” (29.75) and “Female” (25) individually of non missing values then replace the missing value based on gender. For “Male“, we will replace missing values of manpower with 29.75 and for “Female” with 25.
 ### Prediction
 - In this case, we divide our data set into two sets: One set with no missing values for the variable and another one with missing values. First data set become training data set of the model while second data set with missing values is test data set and variable with missing values is treated as target variable.
+### Interpolation
 ### K-Nearest Neighbors Imputation
 - KNN algorithm is very time-consuming in analyzing large database. It searches through all the dataset looking for the most similar instances.
 - Choice of k-value is very critical. Higher value of k would include attributes which are significantly different from what we need whereas lower value of k implies missing out of significant attributes. 
@@ -632,6 +671,9 @@ E## Experimental Errors
 
 - 단순한 문제는 단순한 모델로 풀어야 함
 - 시간의 흐름에 따라 관측치가 변하는 데이터
+
+# Autoencoder
+- Source: https://en.wikipedia.org/wiki/Autoencoder
 
 # `graphviz`
 ```python
@@ -781,23 +823,161 @@ print(sklearn.metrics.classification_report(y_pred, y_test))
 # `tensorflow`
 ```python
 import tensorflow as tf
+from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
 from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D
+from tensorflow.keras.optimizers import SGD, Adam, Adagrad
+from tensorflow.keras.metrics import RootMeanSquaredError, BinaryCrossentropy, SparseCategoricalAccuracy
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-from tensorflow.keras import Input, Model, Sequential
+from tensorflow.keras.activations import linear, sigmoid, relu
 ```
-## `@tf.function`
-- 자동 그래프 생성
-- 함수 정의문 직전에 사용
-## `tensor.shape`
+## Layers
+## 레이어간 연산
+### `Add()`
 ```python
-lstm, for_h_state, for_c_state, back_h_state, back_c_state = Bidirectional(LSTM(units=64, dropout=0.5, return_sequences=True, return_state=True))(z)
-
-print(lstm.shape, for_h_state.shape, back_h_state.shape)
+logits = Add()([logits_mlr, logits_fm, logits_dfm])
 ```
+- It takes as input a list of tensors, all of the same shape, and returns a single tensor (also of the same shape).
+### `Dot(axes)`
+```python
+pos_score = Dot(axes=(1, 1))([z1, z2])
+```
+- `axes` : (integer, tuple of integers) Axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
+### `Multiply()`
+```python
+def se_block(x, c, r):
+	z = GlobalAveragePooling2D()(x)
+	z = Dense(units=c//r, activation="relu")(z)
+	z = Dense(units=c, activation="sigmoid")(z)
+	z = Reshape(target_shape=(1, 1, c))(z)
+	z = Multiply()([x, z])
+	return z
+```
+## `Reshape()`
+```python
+z = Reshape(target_shape=(1, 1, ch))(z)
+```
+### `Concatenate()`
+```python
+Concatenate(axis=1)(embs_fm)
+```
+- tf.concat()와 동일합니다.
+## `Activation()`
+```python
+x = Activation("relu")(x)
+```
+## Transforms Tensor Shape
+### `Flatten()`
+- 입력되는 tensor의 row를 펼쳐서 일렬로 만듭니다.
+- 학습되는 weights는 없고 데이터를 변환하기만 합니다.
+```python
+model.add(Flatten(input_shape=(28, 28)))
+```
+## `Input(shape, [name], [dtype], ...)`
+- `shape`
+	- ***A shape tuple (integers), not including the batch size***. For instance, shape=(32,) indicates that the expected input will be batches of 32-dimensional vectors.
+	- ***Elements of this tuple can be None; "None" elements represent dimensions where the shape is not known.***
+## `Embedding(input_dim, output_dim, [mask_zero], [input_length], [name], ...)`
+- Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Embedding
+- `input_dim`: Size of the vocabulary.
+- `output_dim`: Dimension of the dense embedding.
+- `input_length`: Length of input sequences, when it is constant. This argument is required if you are going to connect Flatten then Dense layers upstream.
+- `mask_zero=True`: Whether or not the input value 0 is a special "padding" value that should be masked out. This is useful when using recurrent layers which may take variable length input. If `mask_zero` is set to `True`, as a consequence, index 0 cannot be used in the vocabulary (`input_dim` should equal (Size of vocabulary + 1)).
+- Input shape: `(batch_size, input_length)`
+- Output shape: `(batch_size, input_length, output_dim)`
+## `Dense()`
+```python
+Dense(units=52, input_shape=(13,), activation="relu")
+```
+- units: 해당 은닉층에서 활동하는 뉴런의 수(출력 값의 크기)
+- activation: 활성화함수, 해당 은닉층의 가중치와 편향의 연산 결과를 어느 함수에 적합하여 출력할 것인가?
+- input_shape : 입력 벡터의 크기. 여기서 13은 해당 데이터 프레임의 열의 수를 나타낸다. 데이터의 구조(이미지, 영상)에 따라 달라질 수 있다. 첫 번째 은닉층에서만 정의해준다.
+## `Dropout()`
+- rate : dropout을 적용할 perceptron의 비율
+## `BatchNormalization()`
+- usually used before activation function layers.
+## `Conv1D()`
+```python
+Conv1D(filters=n_kernels, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
+```
+- `strides` : basically equals to 1
+## `Conv2D()`
+```python
+conv2d = Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padding="same")(image)
+```
+- `image`: (batch, height of image, width of image, number of channels)
+- `kernel`: (height of filter, width of filter, number of channels, number of kernels)
+- `convolution`: (batch, height of convolution, width of convolution, number of kernels)
+- number of channels와 number of kernels는 서로 동일합니다.
+- `kernal_size`: window_size
+- `padding="valid"`: No padding. There can be a loss of information. The size of the output image is smaller than the size of the input image.
+- `padding="same"`: Normally, padding is set to same while training the model.
+- `data_format`: (`"channels_last"`)
+- `input_shape`: 처음에만 설정해 주면 됩니다.
+- `activation`: (`"tanh"`)
+## Pooling Layers
+### `MaxPool1D()`, `MaxPooling1D()`
+- `strides` : basically equals to 2
+### `MaxPool2D()`, `MaxPooling2D()`
+```python
+pool = MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="channels_last")(image)
+```
+### `GlobalMaxPool1D()`, `GlobalMaxPooling1D()`
+- Shape changes from (a, b, c, d) to (a, d).
+### `GlobalMaxPool2D()`, `GlobalMaxPooling2D()`
+- Downsamples the input representation by taking the maximum value over the time dimension.
+- Shape changes from (a, b, c) to (b, c).
+### `AveragePooling1D()`
+### `AveragePooling2D([pool_size], [strides], [padding])`
+### `GlobalAveragePooling1D()`
+### `GlobalAveragePooling2D()`
+### `ZeroPadding2D`
+```python
+z = ZeroPadding2D(padding=((1, 0), (1, 0)))(x)
+```
+- `padding`:
+	- Int: the same symmetric padding is applied to height and width.
+	- Tuple of 2 ints: interpreted as two different symmetric padding values for height and width: `(symmetric_height_pad, symmetric_width_pad)`.
+	- Tuple of 2 tuples of 2 ints: interpreted as `((top_pad, bottom_pad), (left_pad, right_pad))`.
+## `SimpleRNNCell()`
+## `RNN()`
+## `SimpleRNN()`, `GRU()`
+```python
+outputs, hidden_states = SimpleRNN(units=hidden_size)(x_data), input_shape=(timesteps, input_dim), return_sequences=True, return_state=True)(x_date)
+```
+- `SimpleRNN()` = `SimpleRNNCell()` + `RNN()`
+- `batch_input_shape=(batch_size, timesteps, input_dim)`
+- `return_sequences=False` : (default)time step의 마지막에서만 아웃풋을 출력합니다.(shape of output : (batch_size, hidden_size))
+- `return_sequences=True` : 모든 time step에서 아웃풋을 출력합니다. many to many 문제를 풀거나 LSTM 레이어를 여러개로 쌓아올릴 때는 이 옵션을 사용합니다.(shape of output : (batch_size, timesteps, hidden_size))
+- `return_state=True` : hidden state를 출력합니다.(shape of hidden state : (batch_size, hidden_size))
+```python
+GRU(units=hidden_size, input_shape=(timesteps, input_dim))
+```
+## `LSTM()`
+```python
+_, hidden_state, cell_state = LSTM(units=256, return_state=True)(inputs_enc)
+```
+- `tf.keras.layers.SimpleRNN()`과 문법이 동일합니다.
+- `return_state=True` : hidden state와 cell state를 출력합니다.
+## `Bidirectional()`
+```python
+Bidirectional(tf.keras.layers.SimpleRNN(hidden_size, return_sequences=True), input_shape=(timesteps, input_dim))
+```
+## `TimeDistributed()`
+```python
+model.add(TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
+```
+- TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다.
+- In keras - while building a sequential model - usually the second dimension (one after sample dimension) - is related to a time dimension. This means that if for example, your data is 5-dim with (sample, time, width, length, channel) you could apply a convolutional layer using TimeDistributed (which is applicable to 4-dim with (sample, width, length, channel)) along a time dimension (applying the same layer to each time slice) in order to obtain 5-d output.
+#### `tf.keras.layers.Layer`
+- custom layer를 만들려면 `tf.keras.layers.Layer` 클래스를 상속하고 다음 메서드를 구현합니다
+    - __init__: 이 층에서 사용되는 하위 층을 정의할 수 있습니다. instance 생성 시에 호출됩니다.
+    - build: 층의 가중치를 만듭니다. add_weight 메서드를 사용해 가중치를 추가합니다.
+    - call: forward feeding 단계에서 호출됩니다. 입력 값을 이용해서 결과를 계산한 후 반환하면 됩니다.
+
 ## `tf.identity()`
 ## `tf.constant()`
 ```python
@@ -923,14 +1103,75 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_x, test_y)).shuffle(len(
 ```python
 model = Sequential()
 ```
-### `Input()`
+
+## Build Model
+### `model = Model(inputs, ouputs, [name])`
+#### `model.summary()`
+#### `model.trainable_variables`
+#### `model.save()`
+#### `model.input`
+#### `model.layers`
 ```python
-input_tokens = Input(shape=(max_len,), name="input_tokens", dtype=tf.int32)
+for layer in model.layers[1:]:
 ```
-### `Model`
+#### `model.get_layer()`
 ```python
-model = Model(inputs=inputs, outputs=logits, name="lr")
+model.get_layer("conv2d_22")
 ```
+##### `layer.name`
+##### `layers.output`
+##### `layer.input_shape`
+##### `layer.output_shape`
+##### `layer.get_weights()`
+```python
+weight = layer.get_weights()[0]
+bias = layer.get_weights()[1]
+```
+## Compile
+```python
+model.compile(optimizer, loss, metrics, [loss_weights])
+```
+- `optimizer`: (`"sgd"`, `"adam"`, `"rmsprop"`)
+- `loss`: (`"mse"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
+- `metrics`: (`["mse"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
+- `loss_weights`
+## Fit
+### `EarlyStopping(monitor, mode, verbose, patience)`
+- `mode`: (`"auto"`, `"min"`, `"max"`). In min mode, training will stop when the quantity monitored has stopped decreasing; in "max" mode it will stop when the quantity monitored has stopped increasing; in "auto" mode, the direction is automatically inferred from the name of the monitored quantity.
+- `patience` : Number of epochs with no improvement after which training will be stopped.
+### `ModelCheckpoint(filepath, monitor, mode, verbose, save_best_only)`
+- `save_best_only=True` : `monitor` 기준으로 가장 좋은 값으로 모델이 저장됩니다.
+- `save_best_only=False` : 매 epoch마다 모델이 filepath{epoch}으로 저장됩니다.
+- `save_weights_only=True` : 모델의 weights만 저장됩니다.
+- `save_weights_only=False` : 모델 레이어 및 weights 모두 저장됩니다.
+- `verbose=1` : 모델이 저장 될 때 '저장되었습니다' 라고 화면에 표시됩니다.
+- `verbose=0` : 화면에 표시되는 것 없이 그냥 바로 모델이 저장됩니다.
+```python
+hist = model.fit(x, y, validation_split, batch_size, epochs, verbose, shuffle, callbacks)
+```
+- `x`
+- `y`
+- `validation_split`
+```python
+hist = model.fit(train_ds, validation_data=val_ds, epochs=epochs)
+```
+```python
+hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
+```
+### `hist.history`
+```python
+hist.history["accuracy"]
+```
+- (`"accuracy"`, `"val_accuracy"`, `"loss"`, `"val_loss"`)
+## Evaluate Model
+```python
+score = model.evaluate(x_test, y_test, batch_size=128, verbose=0)
+```
+## Predict
+```python
+preds = model.predict(x.values)
+```
+
 ### `tf.keras.utils`
 #### `tf.keras.utils.get_file()`
 ```python
@@ -941,37 +1182,9 @@ movie_df = pd.read_csv(movies_path)
 ```
 - 인터넷의 파일을 로컬 컴퓨터의 홈 디렉토리 아래 `.keras/datasets` 디렉토리로 다운로드합니다.
 - `untar=True`
-#### `tf.keras.utils.to_categorical()`
-```python
-tf.keras.utils.to_categorical([2, 5, 1, 6, 3, 7])
-```
-- Performs OHE.
 ### `tf.keras.backend`
 #### `tf.keras.backend.clear_session()`
 - Resets all state generated by Keras.
-### `tf.keras.datasets`
-#### `tf.keras.datasets.mnist`
-##### `tf.keras.datasets.mnist.load_data()`
-```python
-(X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
-```
-#### `tf.keras.datasets.reuters`
-##### `tf.keras.datasets.reuters.load_data()`
-```python
-(X_train, y_train), (X_test, y_test) = reuters.load_data(num_words=None, test_split=0.2)
-```
-#### `tf.keras.datasets.cifar10`
-##### `tf.keras.datasets.cifar10.load_data()`
-```python
-(x_tr, y_tr), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-```
-### `tf.keras.optimizers`
-#### `tf.keras.optimizers.SGD()`
-```python
-opt = tf.keras.optimizers.SGD(lr=0.01)
-```
-#### `tf.keras.optimizers.Adam()`(= `"adam"`)
-#### `tf.keras.optimizers.Adagrad()`
 #### `optimizer.apply_gradients()`
 ```python
 opt.apply_gradients(zip([dW, db], [W, b]))
@@ -999,151 +1212,6 @@ def loss_fn(model, x, y):
     return tf.reduce_mean(tf.keras.losses.sparse_categorical_crossentropy(y_true=y, y_pred=model(x), from_logits=True))
 ```
 - 정답 레이블이 one-hot vector가 아닐 경우 사용합니다.
-### `tf.keras.metrics`
-#### `tf.keras.metrics.RootMeanSquaredError()`(= `"rmse"`)
-#### `tf.keras.metrics.BinaryCrossentropy()`(= `"binary_accuracy"`)
-#### `tf.keras.metrics.SparseCategoricalAccuracy()`(= `"sparse_categorical_accuracy"`)
-### `tf.keras.layers`
-#### `Add()`
-```python
-logits = Add()([logits_mlr, logits_fm, logits_dfm])
-```
-- It takes as input a list of tensors, all of the same shape, and returns a single tensor (also of the same shape).
-#### `Dot()`
-```python
-pos_score = Dot(axes=(1, 1))([user_embedding, pos_item_embedding])
-```
-- `axes` : Integer or tuple of integers, axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
-#### `Multiply()`
-```python
-def se_block(x, c, r):
-	z = GlobalAveragePooling2D()(x)
-	z = Dense(units=c//r, activation="relu")(z)
-	z = Dense(units=c, activation="sigmoid")(z)
-	z = Reshape(target_shape=(1, 1, c))(z)
-	z = Multiply()([x, z])
-	return z
-```
-#### `Reshape()`
-```python
-z = Reshape(target_shape=(1, 1, ch))(z)
-```
-#### `Concatenate()`
-```python
-Concatenate(axis=1)(embs_fm)
-```
-- tf.concat()와 동일합니다.
-#### `Activation()`
-```python
-x = Activation("relu")(x)
-```
-#### `Flatten()`
-- 입력되는 tensor의 row를 펼쳐서 일렬로 만듭니다.
-- 학습되는 weights는 없고 데이터를 변환하기만 합니다.
-```python
-model.add(Flatten(input_shape=(28, 28)))
-```
-#### `Dense()`
-```python
-Dense(units=52, input_shape=(13,), activation="relu")
-```
-- units: 해당 은닉층에서 활동하는 뉴런의 수(출력 값의 크기)
-- activation: 활성화함수, 해당 은닉층의 가중치와 편향의 연산 결과를 어느 함수에 적합하여 출력할 것인가?
-- input_shape : 입력 벡터의 크기. 여기서 13은 해당 데이터 프레임의 열의 수를 나타낸다. 데이터의 구조(이미지, 영상)에 따라 달라질 수 있다. 첫 번째 은닉층에서만 정의해준다.
-#### `Dropout()`
-* rate : dropout을 적용할 perceptron의 비율
-#### `BatchNormalization()`
-- usually used before activation function layers.
-#### `Conv1D()`
-```python
-Conv1D(filters=n_kernels, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
-```
-- `strides` : basically equals to 1
-#### `Conv2D()`
-```python
-conv2d = Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padding="same")(image)
-```
-- `image`: (batch, height of image, width of image, number of channels)
-- `kernel`: (height of filter, width of filter, number of channels, number of kernels)
-- `convolution`: (batch, height of convolution, width of convolution, number of kernels)
-- number of channels와 number of kernels는 서로 동일합니다.
-- `kernal_size`: window_size
-- `padding="valid"`: No padding. There can be a loss of information. The size of the output image is smaller than the size of the input image.
-- `padding="same"`: Normally, padding is set to same while training the model.
-- `data_format`: (`"channels_last"`)
-- `input_shape`: 처음에만 설정해 주면 됩니다.
-- `activation`: (`"tanh"`)
-- MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D
-#### `MaxPool1D()`, `MaxPooling1D()`
-- `strides` : basically equals to 2
-#### `MaxPool2D()`, `MaxPooling2D()`
-```python
-pool = MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="channels_last")(image)
-```
-#### `GlobalMaxPool1D()`, `GlobalMaxPooling1D()`
-- Shape changes from (a, b, c, d) to (a, d).
-#### `GlobalMaxPool2D()`, `GlobalMaxPooling2D()`
-- Downsamples the input representation by taking the maximum value over the time dimension.
-- Shape changes from (a, b, c) to (b, c).
-#### `AveragePooling1D()`
-#### `AveragePooling2D()`
-```python
-model.add(AveragePooling2D(pool_size=(2, 2), strides=(2, 2), padding="valid")
-```
-#### `GlobalAveragePooling1D()`
-#### `GlobalAveragePooling2D()`
-#### `ZeroPadding2D`
-```python
-z = ZeroPadding2D(padding=((1, 0), (1, 0)))(x)
-```
-- `padding`:
-	- Int: the same symmetric padding is applied to height and width.
-	- Tuple of 2 ints: interpreted as two different symmetric padding values for height and width: `(symmetric_height_pad, symmetric_width_pad)`.
-	- Tuple of 2 tuples of 2 ints: interpreted as `((top_pad, bottom_pad), (left_pad, right_pad))`.
-#### `SimpleRNNCell()`
-#### `RNN()`
-#### `SimpleRNN()`, `GRU()`
-```python
-outputs, hidden_states = SimpleRNN(units=hidden_size)(x_data), input_shape=(timesteps, input_dim), return_sequences=True, return_state=True)(x_date)
-```
-- `SimpleRNN()` = `SimpleRNNCell()` + `RNN()`
-- `batch_input_shape=(batch_size, timesteps, input_dim)`
-- `return_sequences=False` : (default)time step의 마지막에서만 아웃풋을 출력합니다.(shape of output : (batch_size, hidden_size))
-- `return_sequences=True` : 모든 time step에서 아웃풋을 출력합니다. many to many 문제를 풀거나 LSTM 레이어를 여러개로 쌓아올릴 때는 이 옵션을 사용합니다.(shape of output : (batch_size, timesteps, hidden_size))
-- `return_state=True` : hidden state를 출력합니다.(shape of hidden state : (batch_size, hidden_size))
-```python
-GRU(units=hidden_size, input_shape=(timesteps, input_dim))
-```
-#### `LSTM()`
-```python
-_, hidden_state, cell_state = LSTM(units=256, return_state=True)(inputs_enc)
-```
-- `tf.keras.layers.SimpleRNN()`과 문법이 동일합니다.
-- `return_state=True` : hidden state와 cell state를 출력합니다.
-#### `Bidirectional()`
-```python
-Bidirectional(tf.keras.layers.SimpleRNN(hidden_size, return_sequences=True), input_shape=(timesteps, input_dim))
-```
-#### `Embedding()`
-```python
-Embedding(input_dim=vocab_size+2, output_dim=emb_dim)
-```
-- `input_length=max_len` : 입력 sequence의 길이
-- `mask_zero=True` : If mask_zero is set to True, as a consequence, index 0 cannot be used in the vocabulary. so input_dim should equal to size of vocabulary + 1
-- `weights=[emb_mat]`
-- `trainable=False` : 학습할지 아니면 초기 가중치 값을 그대로 사용할지 여부를 결정합니다.
-#### `TimeDistributed()`
-```python
-model.add(TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
-```
-- TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다.
-- In keras - while building a sequential model - usually the second dimension (one after sample dimension) - is related to a time dimension. This means that if for example, your data is 5-dim with (sample, time, width, length, channel) you could apply a convolutional layer using TimeDistributed (which is applicable to 4-dim with (sample, width, length, channel)) along a time dimension (applying the same layer to each time slice) in order to obtain 5-d output.
-#### `tf.keras.layers.Layer`
-- custom layer를 만들려면 `tf.keras.layers.Layer` 클래스를 상속하고 다음 메서드를 구현합니다
-    - __init__: 이 층에서 사용되는 하위 층을 정의할 수 있습니다. instance 생성 시에 호출됩니다.
-    - build: 층의 가중치를 만듭니다. add_weight 메서드를 사용해 가중치를 추가합니다.
-    - call: forward feeding 단계에서 호출됩니다. 입력 값을 이용해서 결과를 계산한 후 반환하면 됩니다.
-#### `tf.keras.layers.experimental`
 ##### `tf.keras.layers.experimental.preprocessing`
 ###### `Rescaling`
 ```python
@@ -1173,80 +1241,6 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram
 #### `tf.keras.initializers.glorot_uniform()`
 #### `tf.keras.initializers.he_uniform()`
 #### `tf.keras.initializers.Constant()`
-### `tf.keras.activations`
-#### `tf.keras.activations.linear()`, `tf.keras.activations.sigmoid()`(= `"sigmoid"`), `tf.keras.activations.relu()`(= `"relu"`)
-````python
-outputs = tf.keras.activations.sigmoid(logits)
-````
-#### `model.summary()`
-#### `model.trainable_variables`
-#### `model.save()`
-#### `model.input`
-#### `model.layers`
-```python
-for layer in model.layers[1:]:
-```
-#### `model.get_layer()`
-```python
-model.get_layer("conv2d_22")
-```
-##### `layer.name`
-##### `layers.output`
-##### `layer.input_shape`
-##### `layer.output_shape`
-##### `layer.get_weights()`
-```python
-weight = layer.get_weights()[0]
-bias = layer.get_weights()[1]
-```
-#### `model.compile()`
-```python
-model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", loss_weights=[0.3, 0.3, 1], metrics=["accuracy"]) 
-```
-- `optimizer`: (`"sgd"`, `"adam"`, `"rmsprop"`)
-- `loss`: (`"mse"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
-- `metrics`: (`["mse"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
-#### `model.fit()`
-```python
-hist = model.fit(x=X_train, y=y_train, validation_split=0.2, batch_size=64, epochs=10, verbose=1, shuffle=True, callbacks=[es, mc])
-```
-```python
-hist = model.fit(train_ds, validation_data=val_ds, epochs=epochs)
-```
-#### `model.fit_generator()`
-```python
-hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
-```
-##### `hist.history`
-```python
-hist.history["accuracy"]
-```
-- (`"accuracy"`, `"val_accuracy"`, `"loss"`, `"val_loss"`)
-#### `model.evaluate()`
-```python
-score = model.evaluate(x_test, y_test, batch_size=128, verbose=0)
-```
-#### `model.predict()`
-```python
-preds = model.predict(x.values)
-```
-### `tf.keras.callbacks`
-#### `EarlyStopping()`
-```python
-es = EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=4)
-```
-- `mode`: (`"auto"`, `"min"`, `"max"`). In min mode, training will stop when the quantity monitored has stopped decreasing; in "max" mode it will stop when the quantity monitored has stopped increasing; in "auto" mode, the direction is automatically inferred from the name of the monitored quantity.
-- `patience` : Number of epochs with no improvement after which training will be stopped.
-#### `ModelCheckpoint()`
-```python
-mc = ModelCheckpoint(filepath=model_path, monitor="val_binary_accuracy", mode="auto", verbose=1, save_best_only=True)
-```
-- `save_best_only=True` : `monitor` 기준으로 가장 좋은 값으로 모델이 저장됩니다.
-- `save_best_only=False` : 매 epoch마다 모델이 filepath{epoch}으로 저장됩니다.
-- `save_weights_only=True` : 모델의 weights만 저장됩니다.
-- `save_weights_only=False` : 모델 레이어 및 weights 모두 저장됩니다.
-- `verbose=1` : 모델이 저장 될 때 '저장되었습니다' 라고 화면에 표시됩니다.
-- `verbose=0` : 화면에 표시되는 것 없이 그냥 바로 모델이 저장됩니다.
 ### `tf.keras.preprocessing`
 #### `tf.keras.preprocessing.image`
 ##### `load_img()`
@@ -1559,4 +1553,14 @@ model.n_jobs=5
 ### `model.fit()`
 ```python
 model.fit(train_X, train_y, eval_set=[(train_X, train_y), (val_X, val_y)], early_stopping_rounds=50, verbose=True)
+```
+
+# `seqeval`
+## `seqeval.metrics`
+### `precision_score`
+### `recall_score`
+### `f1_score`
+### `classification_report`
+```python
+from seqeval.metrics import classification_report
 ```

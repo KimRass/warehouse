@@ -217,3 +217,161 @@
 - Source: https://en.wikipedia.org/wiki/Digital_credential
 - Digital credentials are the digital equivalent of paper-based credentials. *Just as a paper-based credential could be a passport, a driver's license, a membership certificate or some kind of ticket to obtain some service, such as a cinema ticket or a public transport ticket, a digital credential is a proof of qualification, competence, or clearance that is attached to a person.* Also, digital credentials prove something about their owner.
 - Sometimes passwords or other means of authentication are referred to as credentials.
+
+# `bs4`
+## `BeautifulSoup()`
+```python
+from bs4 import BeautifulSoup as bs
+```
+```python
+soup = bs(xml,"lxml")
+```
+### `soup.find_all()`
+#### `soup.find_all().find()`
+#### `soup.find_all().find().get_text()`
+```python
+features = ["bjdcode", "codeaptnm", "codehallnm", "codemgrnm", "codesalenm", "dorojuso", "hocnt", "kaptacompany", "kaptaddr", "kaptbcompany",  "kaptcode", "kaptdongcnt", "kaptfax", "kaptmarea", "kaptmarea",  "kaptmparea_136", "kaptmparea_135", "kaptmparea_85", "kaptmparea_60",  "kapttarea", "kapttel", "kapturl", "kaptusedate", "kaptdacnt", "privarea"]
+for item in soup.find_all("item"):
+    for feature in features:
+        try:
+            kapt_data.loc[index, feature] = item.find(feature).get_text()
+        except:
+            continue
+```
+
+# `selenium`
+## `webdriver`
+```python
+from selenium import webdriver
+```
+```python
+driver = webdriver.Chrome("chromedriver.exe")
+```
+### `driver.get()`
+```python
+driver.get("https://www.google.co.kr/maps/")
+```
+### `driver.find_element_by_css_selector()`, `driver.find_element_by_tag_name()`, `driver.find_element_by_class_name()`, `driver.find_element_by_id()`, `driver.find_element_by_xpath()`,
+#### `driver.find_element_by_*().text`
+```python
+df.loc[index, "배정초"]=driver.find_element_by_xpath("//\*[@id='detailContents5']/div/div[1]/div[1]/h5").text
+```
+#### `driver.find_element_by_*().get_attribute()`
+```python
+driver.find_element_by_xpath("//*[@id='detailTab" +str(j) + "']").get_attribute("text")
+```
+#### `driver.find_element_by_*().click()`
+#### `driver.find_element_by_*().clear()`
+```python
+driver.find_element_by_xpath('//*[@id="searchboxinput"]').clear()
+```
+#### `driver.find_element_by_*().send_keys()`
+```python
+driver.find_element_by_xpath('//*[@id="searchboxinput"]').send_keys(qeury)
+```
+```python
+driver.find_element_by_name('username').send_keys(id)
+driver.find_element_by_name('password').send_keys(pw)
+```
+```python
+driver.find_element_by_xpath('//*[@id="wpPassword1"]').send_keys(Keys.ENTER)
+```
+### `driver.execute_script()`
+```python
+for j in [4,3,2]:
+    button = driver.find_element_by_xpath("//\*[@id='detailTab"+str(j)+"']")
+    driver.execute_script("arguments[0].click();", button)
+```
+### `driver.implicitly_wait()`
+```python
+driver.implicitly_wait(1)
+```
+### `driver.current_url`
+### `driver.save_screenshot()`
+```python
+driver.save_screenshot(screenshot_title)
+```
+## `WebDriverWait()`
+### `WebDriverWait().until()`
+```python
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+```
+```python
+WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, "//\*[@id='detailContents5']/div/div[1]/div[1]/h5")))
+```
+- `By.ID`, `By.XPATH`
+## `ActionChains()`
+```python
+from selenium.webdriver import ActionChains
+```
+```python
+module=["MDM","사업비","공사","외주","자재","노무","경비"]
+
+for j in module:
+    module_click=driver.find_element_by_xpath("//div[text()='"+str(j)+"']")
+    actions=ActionChains(driver)
+    actions.click(module_click)
+    actions.perform()
+```
+### `actions.click()`, `actions.double_click()`
+
+# `urllib`
+```python
+import urllib
+```
+## `urllib.request`
+### `urllib.request.urlopen()`
+```python
+xml = urllib.request.urlopen(full_url).read().decode("utf-8")
+```
+### `urllib.request.urlretrieve()`
+```python
+urllib.request.urlretrieve("https://raw.githubusercontent.com/e9t/nsmc/master/ratings_train.txt", filename="ratings_train.txt")
+```
+- 해당 URL에 연결된 파일을 다운로드합니다.
+
+# `urllib3`
+```python
+import urllib3
+```
+## `urllib3.PoolManager()`
+### `urllib3.PoolManager().request()`
+```python
+urllib3.PoolManager().request("GET", url, preload_content=False)
+```
+
+# `pathlib`
+```python
+import pathlib
+```
+## `pathlib.Path()`
+```python
+data_dir = pathlib.Path(data_dir)
+```
+
+# `requests`
+```python
+import requests
+```
+## `requests.get()`
+```python
+req = requests.get("https://github.com/euphoris/datasets/raw/master/imdb.zip")
+```
+### `req.content`
+
+# `wget`
+````python
+import wget
+````
+## `wget.download()`
+
+# `requests`
+```python
+import requests
+```
+## `requests.get()`
+```python
+req = requests.get(url)
+```

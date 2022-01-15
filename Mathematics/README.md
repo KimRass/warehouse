@@ -100,6 +100,9 @@ np.random.normal(mean, std, size)
 - `loc`: Mean.
 - `scale`: Standard deviation.
 - `size`: Output shape.
+```python
+stats.norm
+```
 
 ## Pareto Distribution
 - Source: https://en.wikipedia.org/wiki/Pareto_distribution

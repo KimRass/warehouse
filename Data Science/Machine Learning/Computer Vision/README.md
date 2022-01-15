@@ -111,3 +111,134 @@ This loss term is only computed for the detectors that are not responsible for d
 - The previous section described what happens to detectors that are not responsible for finding objects. The only thing they can do wrong is find an object where there is none.
 - YOLO v3 and SSD take a different approach. They don’t see this as a multi-class classification problem but as a multi-label problem. Hence they don’t use softmax (which always chooses a single label to be the winner) but a logistic sigmoid, which allows multiple labels to be chosen. They use a standard binary cross-entropy to compute this loss term.
 - The scale factor coord_scale is used to make the loss from the bounding box coordinate predictions count more heavily than the other loss terms. A typical value for this hyperparameter is 5.
+
+# Selective Search
+```python
+_, regions = selectivesearch.selective_search(img_rgb, scale=100, min_size=2000)
+```
+```python
+img_recs = cv2.rectangle(img=img_rgb_copy, pt1=(rect[0], rect[1]),
+                                 pt2=(rect[0]+rect[2], rect[1]+rect[3]),
+                                 color=green_rgb, thickness=2)
+```
+
+# `cv2`
+```python
+!pip install opencv-python
+```
+```python
+import cv2
+```
+## `cv2.waitKey()`
+```python
+k = cv2.waitKey(5) & 0xFF
+    if k == 27:
+        break
+```
+## `cv2.VideoCapture()`
+```python
+cap = cv2.VideoCapture(0)
+```
+## `cv2.destroyAllWindows()`
+## `cv2.rectangle()`
+```python
+for i, rect in enumerate(rects_selected):
+    cv2.rectangle(img=img, pt1=(rect[0], rect[1]), pt2=(rect[0]+rect[2], rect[1]+rect[3]), color=(0, 0, 255), thickness=2)
+```
+## `cv2.circle()`
+```python
+for i, rect in enumerate(rects_selected):
+    cv2.circle(img, (rect[0]+1, rect[1]-12), 12, (0, 0, 255), 2))
+```
+## `cv2.getTextSize()`
+```python
+(text_width, text_height), baseline = cv2.getTextSize(text=label, fontFace=cv2.FONT_HERSHEY_COMPLEX_SMALL,
+                                                                  fontScale=font_scale, thickness=bbox_thick)
+```
+## `cv2.puttext()`
+```python
+cv2.putText(img=img, text=label, org=(x1, y1-4), fonFace=cv2.FONT_HERSHEY_COMPLEX_SMALL, fontScale=font_scale, color=text_colors, thickness=bbox_thick, lineType=cv2.LINE_AA)
+```
+## `cv2.resize()`
+```python
+img_resized = cv2.resize(img, dsize=(640, 480), interpolation=cv2.INTER_AREA)
+```
+- `dsize` : (new_width, new_height)
+## `cv2.cvtColor()`
+```python
+img_gray = cv2.cvtColor(img_resized, cv2.COLOR_BGR2GRAY)
+```
+## `cv2.imread()`
+```python
+img = cv2.imread("300.jpg")
+```
+## `cv2.imwrite()`
+```python
+cv2.imwrite("/content/drive/My Drive/Computer Vision/fire hydrants.png", ori_img)
+```
+## `cv2.imshow()`
+```python
+cv2.imshow("img_resized", img_resized)
+```
+## `cv2.findContours()`
+```python
+mask = cv2.inRange(hsv,lower_blue,upper_blue)
+contours, hierachy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+```
+## `cv2.TERM_CRITERIA_EPS`, `cv2.TERM_CRITERIA_MAX_ITER`
+```python
+criteria = (type, max_iter, epsilon)
+```
+## `CV2.KMEANS_RANDOM_CENTERS`
+```python
+flags = cv2.KMEANS_RANDOM_CENTERS
+```
+- 초기 중심점을 랜덤으로 설정.
+```python
+compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
+```
+
+# `Image`
+```python
+from PIL import Image
+```
+## `Image.open()`
+```python
+img = Image.open("20180312000053_0640 (2).jpg")
+```
+### `img.size`
+### `img.save()`
+### `img.thumbnail()`
+```python
+img.thumbnail((64, 64))
+```
+### `img.crop()`
+```python
+img_crop = img.crop((100, 100, 150, 150))	
+```
+### `img.resize()`
+```python
+img = img.resize((600, 600))
+```
+### `img.convert()`
+```python
+img.convert("L")
+```
+- (`"RGB"`, `"RGBA"`, `"CMYK"`, `"L"`, `"1"`)
+### `img.paste()`
+```python
+img1.paste(img2, (20,20,220,220))
+```
+- img2.size와 동일하게 두 번째 parameter 설정.	
+## `Image.new()`
+```python
+mask = Image.new("RGB", icon.size, (255, 255, 255))
+```
+
+# `colorsys`
+## `colorsys.hsv_to_rgb()`
+```python
+hsv_tuples = [(idx/n_clss, 1, 1) for idx in idx2cls.keys()]
+colors = list(map(lambda x: colorsys.hsv_to_rgb(*x), hsv_tuples))
+colors = list(map(lambda x: (int(x[0]*255), int(x[1]*255), int(x[2]*255)), colors))
+```

@@ -32,6 +32,10 @@ Written by KimRass
 ## `ZeroDivisionError`
 ### `ZeroDivisionError: division by zero`
 ## `SyntaxError`
+### `SyntaxError: positional argument follows keyword argument`
+- Source: https://www.geeksforgeeks.org/how-to-fix-syntaxerror-positional-argument-follows-keyword-argument-in-python/
+- There are two kind of arguments, namely, keyword and positional. As the name suggests, the keyword argument is identified by a function based on some key whereas the positional argument is identified based on its position in the function definition.
+- Positional arguments can be written in the beginning before any keyword argument is passed.
 ### `SyntaxError: unexpected EOF while parsing`
 ### `SyntaxError: invalid syntax`
 ### `SyntaxError: unmatched ')', SyntaxError: unmatched ']'`
@@ -406,21 +410,6 @@ data = pd.get_dummies(data, columns=["heating", "company1", "company2", "element
 - `dop_first`: Whether to get k-1 dummies out of k categorical levels by removing the first level.
 - `dummy_na`: Add a column to indicate NaNs, if False NaNs are ignored.
 - 결측값이 있는 경우 `drop_first`, `dummy_na` 중 하나만 `True`로 설정해야 함
-## `pd.to_datetime()`
-```python
-ratings_df["rated_at"] = pd.to_datetime(ratings_df["rated_at"], unit="s")
-```
-### `pd.to_datetime().dt`
-#### `pd.to_datetime().dt.hour`, `pd.to_datetime().dt.day`,  `pd.to_datetime().dt.week`,  `pd.to_datetime().dt.dayofweek`, `pd.to_datetime().dt.month`, `pd.to_datetime().dt.quarter`, `pd.to_datetime().dt.year`
-#### `pd.to_datetime().dt.normalize()`
-```python
-appo["end"] = appo["end"].dt.normalize()
-```
-## `pd.date_range()`
-```python
-raw.time = pd.date_range(start="1974-01-01", periods=len(raw), freq="M")
-```
-- Return a fixed frequency DatetimeIndex.
 ## `pd.merge()`
 ```python
 data = pd.merge(data, start_const, on=["지역구분", "입찰년월"], how="left")
@@ -432,10 +421,6 @@ pd.merge(df1, df2, left_on="id", right_on="movie_id")
 floor_data = pd.merge(floor_data, df_conv, left_index=True, right_index=True, how="left")
 ```
 - `how`: (`"left"`, `"right"`, `"outer"`, `"inner"`, `"cross"` default `"inner"`)
-## `pd.Grouper()`
-```python
-n_tasks_month = tasks.groupby(pd.Grouper(key="task_date", freq="M")).size()
-```
 ## `pd.MultiIndex`
 ### `pd.MultiIndex.from_tuples()`
 ```python
@@ -745,34 +730,17 @@ for k, v in target.items():
 ```python
 import numpy as np
 ```
+## `np.set_printoptions()`
+```python
+np.set_printoptions(precision=3)
+```
+- Go back to the default options.
 ## `Array.size`
 ## `Array.astype()`
 ```python
 x_train = x_train.astype("float32")
 ```
-## `Array.ravel()`
-```python
-arr.ravel(order="F")	
-```
-- `order="C"` : row 기준
-- `order="F"` : column 기준
-## `Array.flatten()`
-- 복사본 반환
-## `Array.T`
-## `Array.shape`
-## `Array.transpose()`, `np.transpose()`
-```python
-conv_weights = np.fromfile(f, dtype=np.float32, count=np.prod(conv_shape)).reshape(conv_shape).transpose((2, 3, 1, 0))
-```
 ## `np.inf`
-## `np.set_printoptions()`
-```python
-np.set_printoptions(precision=3)
-```
-```python
-np.set_printoptions(edgeitems=3, infstr="inf", linewidth=75, nanstr="nan", precision=8, suppress=False, threshold=1000, formatter=None)
-```
-- Go back to the default options.
 ## `np.load()`
 ```python
 intent_train = np.load("train_text.npy").tolist()
@@ -785,32 +753,6 @@ mask = np.logical_or((pred_bbox[:, 0] > pred_bbox[:, 2]), (pred_bbox[:, 1] > pre
 ```python
 np.array_equal(arr1, arr2)
 ```
-## `np.arange()`
-```python	
-np.arange(5, 101, 5)
-```
-- `start`: Start of interval. The interval includes this value. The default start value is 0.
-- `stop`: End of interval. The interval does not include this value, except in some cases where step is not an integer and floating point round-off affects the length of out.
-- `step`
-## `np.zeros()`, `np.ones()`
-```python
-np.ones(shape=(2, 3, 4))
-```
-## `np.empty()`
-## `np.full()`
-```python
-img_paded = np.full(shape=(tar_height, tar_width, 3), fill_value=128.)
-```
-## `np.eye()`
-```python
-np.eye(4)
-```
-## `np.log()`
-```python
-np.log(data)
-```
-## `np.ones_like()`, `np.zeros_like()`
-- `a`: (Array-like)
 ## `np.linspace()`
 ```python
 np.linspace(-5, 5, 100)
@@ -821,52 +763,95 @@ xs = np.linspace(0, output_size-1, output_size)
 ys = np.linspace(0, output_size-1, output_size)
 x, y = np.meshgrid(xs, ys)
 ```
-## `np.any()`
+## `np.isin()`
 ```python
-np.any(arr>0)
+data[np.isin(data["houses"], list)]
 ```
+## `np.digitize()`
+```python		
+bins=range(0, 55000, 5000)
+data["price_range"]=np.digitize(data["money"], bins)
+```
+## `np.reshape()`, `Array.reshape()`
+```python
+bn_weights = np.reshape(bn_weights, newshape=(4, filters))[[1, 0, 2, 3]]
+```
+```python
+bn_weights = bn_weights.reshape((4, filters))[[1, 0, 2, 3]]
+```
+## `np.unique()`
+```python
+items, counts = np.unique(intersected_movie_ids, return_counts=True)
+```
+## `np.fromfile()`
+- `count`: Number of items to read. `-1` means all items (i.e., the complete file).
+
+# Array 생성 함수
+## `np.full(shape, fill_value)`
+## `np.eye(a)`
+- `a`: (Array-like)
+## `np.ones_like()`, `np.zeros_like()`
+## `np.zeros(shape)`, `np.ones(shape)`
+## `np.arange([start], stop, [step])`
+- `start`: (default 0) Start of interval. The interval includes this value.
+- `stop`: End of interval. The interval does not include this value, except in some cases where step is not an integer and floating point round-off affects the length of out.
+- `step`: (default 1)
+
+
+## `np.sqrt()`
+## `np.power()`
+## `np.exp()`
+## `np.isnan()`
+## `np.nanmean()`
+## `np.sort()`
+## `np.any()`
 ## `np.all()`
 ## `np.where()`
 ```python
 np.min(np.where(cumsum >= np.cumsum(cnts)[-1]*ratio))
 ```
 ## `np.tanh()`
-```python
-temp = np.tanh(np.dot(Wh, h_t) + np.dot(Wx, x_t) + b)
-```
 ## `np.shape()`
+## `np.empty()`
+
+# Functions for Manipulating Matrices
+## `np.add.outer()`, `np.multiply.outer()`
 ```python
-np.shape(hidden_states)
-```	
-## `np.isin()`
-```python
-data[np.isin(data["houses"], list)]
+euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))
 ```
-## `np.prod()`
+## Diagonal
+### `np.fill_diagonal()`
+### `np.diag(v, k=0)`
+- If `v` is a 2-D array, returns a copy of its `k`-th diagonal.
+- If `v` is a 1-D array, returns a 2-D array with `v` on the `k`-th diagonal.
+
+## Linear Algebra
+### `np.linalg.norm()`
 ```python
-conv_shape = (filters, in_dim, kernel_size, kernel_size)
-conv_weights = np.fromfile(f, dtype=np.float32, count=np.product(conv_shape))
+np.linalg.norm(x, axis=1, ord=2)
 ```
-- Return the product of Array elements over a given axis.
-- `axis`
+- `ord=1`: L1 normalization.
+- `ord=2`: L2 normalization.
+
+## 모양 변화
+### `np.expand_dims()`
+```python
+np.expand_dims(mh_df.values, axis=1)
+```
+## `np.einsum()`
+## `np.concatenate()`
+## `np.stack()`
+## `np.delete()`
 ## `np.argmax()`
 ## `np.swapaxes()`
-```python
-feature_maps = np.transpose(conv2d, (3, 1, 2, 0))
-```
-```python
-feature_maps = np.swapaxes(conv2d, 0, 3)
-```
 ## `np.max()`, `np.min()`
-```python
-np.max(axis=-1)
-```
 ## `np.maximum()`, `np.minimum()`
 - Element-wise minimum(maximum) of Array elements.
 ## `np.cumsum()`
-```python
-np.cumsum(cnt)
-```
+- `axis`
+## `np.prod()`
+- Return the product of Array elements over a given axis.
+- `axis`
 ## `np.quantile()`
 ```python
 lens = sorted([len(doc) for doc in train_X])
@@ -875,406 +860,17 @@ max_len = int(np.quantile(lens, ratio))
 print(f"가장 긴 문장의 길이는 {np.max(lens)}입니다.")
 print(f"길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
 ```
-## `np.einsum()`
+## `Array.ravel()`
 ```python
-def get_p_pi(self, policy):
-	p_pi = np.einsum("ik, kij -> ij", policy, self.P)
-	return p_pi
+arr.ravel(order="F")	
 ```
-## `np.concatenate()`
+- `order="C"` : row 기준
+- `order="F"` : column 기준
+## `Array.flatten()`
+- 복사본 반환
+## `Array.transpose()`
 ```python
-intersected_movie_ids = np.concatenate([json.loads(row) for row in rd.mget(queries)], axis=None)
-```
-## `np.stack()`
-## `np.delete()`
-```python
-idx_drop = [idx for idx, doc in enumerate(X_train) if len(doc) == 0]
-X_train = np.delete(X_train, idx_drop, axis=0)
-```
-## `np.digitize()`
-```python		
-bins=range(0, 55000, 5000)
-data["price_range"]=np.digitize(data["money"], bins)
-```
-## `np.isnan()`
-## `np.nanmean()`
-## `np.sort()`
-## `np.reshape()`, `Array.reshape()`
-```python
-bn_weights = np.reshape(bn_weights, newshape=(4, filters))[[1, 0, 2, 3]]
-```
-```python
-bn_weights = bn_weights.reshape((4, filters))[[1, 0, 2, 3]]
-```
-## `np.expand_dims()`
-```python
-np.expand_dims(mh_df.values, axis=1)
-```
-## `np.newaxis`(= `None`)
-```python
-iou = calculate_iou(best_bbox[None, :4], bboxes_cls[:, :4])
-```
-## `np.unique()`
-```python
-items, counts = np.unique(intersected_movie_ids, return_counts=True)
-```
-## `np.linalg`
-### `np.linalg.norm()`
-```python
-np.linalg.norm(x, axis=1, ord=2)
-```
-- `ord=1`: L1 normalization.
-- `ord=2`: L2 normalization.
-### `np.linalg.solve()`
-### `np.linalg.cond()`
-### `np.linalg.hilbert()`
-## `np.sqrt()`
-## `np.power()`
-## `np.exp()`
-```python
-def sig(x):
-    return 1 / (1 + np.exp(-x))
-```
-## `np.add.outer()`, `np.multiply.outer()`
-```python
-euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))
-```
-## `np.fill_diagonal()`
-```python
-np.fill_diagonal(cos_sim_item, 0	
-```
-## `np.fromfile()`
-- `count`: Number of items to read. `-1` means all items (i.e., the complete file).
-
-# `bs4`
-## `BeautifulSoup()`
-```python
-from bs4 import BeautifulSoup as bs
-```
-```python
-soup = bs(xml,"lxml")
-```
-### `soup.find_all()`
-#### `soup.find_all().find()`
-#### `soup.find_all().find().get_text()`
-```python
-features = ["bjdcode", "codeaptnm", "codehallnm", "codemgrnm", "codesalenm", "dorojuso", "hocnt", "kaptacompany", "kaptaddr", "kaptbcompany",  "kaptcode", "kaptdongcnt", "kaptfax", "kaptmarea", "kaptmarea",  "kaptmparea_136", "kaptmparea_135", "kaptmparea_85", "kaptmparea_60",  "kapttarea", "kapttel", "kapturl", "kaptusedate", "kaptdacnt", "privarea"]
-for item in soup.find_all("item"):
-    for feature in features:
-        try:
-            kapt_data.loc[index, feature] = item.find(feature).get_text()
-        except:
-            continue
-```
-
-# `selenium`
-## `webdriver`
-```python
-from selenium import webdriver
-```
-```python
-driver = webdriver.Chrome("chromedriver.exe")
-```
-### `driver.get()`
-```python
-driver.get("https://www.google.co.kr/maps/")
-```
-### `driver.find_element_by_css_selector()`, `driver.find_element_by_tag_name()`, `driver.find_element_by_class_name()`, `driver.find_element_by_id()`, `driver.find_element_by_xpath()`,
-#### `driver.find_element_by_*().text`
-```python
-df.loc[index, "배정초"]=driver.find_element_by_xpath("//\*[@id='detailContents5']/div/div[1]/div[1]/h5").text
-```
-#### `driver.find_element_by_*().get_attribute()`
-```python
-driver.find_element_by_xpath("//*[@id='detailTab" +str(j) + "']").get_attribute("text")
-```
-#### `driver.find_element_by_*().click()`
-#### `driver.find_element_by_*().clear()`
-```python
-driver.find_element_by_xpath('//*[@id="searchboxinput"]').clear()
-```
-#### `driver.find_element_by_*().send_keys()`
-```python
-driver.find_element_by_xpath('//*[@id="searchboxinput"]').send_keys(qeury)
-```
-```python
-driver.find_element_by_name('username').send_keys(id)
-driver.find_element_by_name('password').send_keys(pw)
-```
-```python
-driver.find_element_by_xpath('//*[@id="wpPassword1"]').send_keys(Keys.ENTER)
-```
-### `driver.execute_script()`
-```python
-for j in [4,3,2]:
-    button = driver.find_element_by_xpath("//\*[@id='detailTab"+str(j)+"']")
-    driver.execute_script("arguments[0].click();", button)
-```
-### `driver.implicitly_wait()`
-```python
-driver.implicitly_wait(1)
-```
-### `driver.current_url`
-### `driver.save_screenshot()`
-```python
-driver.save_screenshot(screenshot_title)
-```
-## `WebDriverWait()`
-### `WebDriverWait().until()`
-```python
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
-```
-```python
-WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, "//\*[@id='detailContents5']/div/div[1]/div[1]/h5")))
-```
-- `By.ID`, `By.XPATH`
-## `ActionChains()`
-```python
-from selenium.webdriver import ActionChains
-```
-```python
-module=["MDM","사업비","공사","외주","자재","노무","경비"]
-
-for j in module:
-    module_click=driver.find_element_by_xpath("//div[text()='"+str(j)+"']")
-    actions=ActionChains(driver)
-    actions.click(module_click)
-    actions.perform()
-```
-### `actions.click()`, `actions.double_click()`
-
-# `urllib`
-```python
-import urllib
-```
-## `urllib.request`
-### `urllib.request.urlopen()`
-```python
-xml = urllib.request.urlopen(full_url).read().decode("utf-8")
-```
-### `urllib.request.urlretrieve()`
-```python
-urllib.request.urlretrieve("https://raw.githubusercontent.com/e9t/nsmc/master/ratings_train.txt", filename="ratings_train.txt")
-```
-- 해당 URL에 연결된 파일을 다운로드합니다.
-
-# `urllib3`
-```python
-import urllib3
-```
-## `urllib3.PoolManager()`
-### `urllib3.PoolManager().request()`
-```python
-urllib3.PoolManager().request("GET", url, preload_content=False)
-```
-
-# `pathlib`
-```python
-import pathlib
-```
-## `pathlib.Path()`
-```python
-data_dir = pathlib.Path(data_dir)
-```
-
-# `requests`
-```python
-import requests
-```
-## `requests.get()`
-```python
-req = requests.get("https://github.com/euphoris/datasets/raw/master/imdb.zip")
-```
-### `req.content`
-
-# `wget`
-````python
-import wget
-````
-## `wget.download()`
-
-# `category_encoders`
-```python
-!pip install --upgrade category_encoders
-```
-```python
-import category_encoders as ce
-```
-## `ce.target_encoder`
-### `ce.target_encoder.TargetEncoder()`
-```python
-encoder = ce.target_encoder.TargetEncoder(cols=["company1"])
-encoder.fit(data["company1"], data["money"]);
-data["company1_label"] = encoder.transform(data["company1"]).round(0)
-```
-
-# `cv2`
-```python
-!pip install opencv-python
-```
-```python
-import cv2
-```
-## `cv2.waitKey()`
-```python
-k = cv2.waitKey(5) & 0xFF
-    if k == 27:
-        break
-```
-## `cv2.VideoCapture()`
-```python
-cap = cv2.VideoCapture(0)
-```
-## `cv2.destroyAllWindows()`
-## `cv2.rectangle()`
-```python
-for i, rect in enumerate(rects_selected):
-    cv2.rectangle(img=img, pt1=(rect[0], rect[1]), pt2=(rect[0]+rect[2], rect[1]+rect[3]), color=(0, 0, 255), thickness=2)
-```
-## `cv2.circle()`
-```python
-for i, rect in enumerate(rects_selected):
-    cv2.circle(img, (rect[0]+1, rect[1]-12), 12, (0, 0, 255), 2))
-```
-## `cv2.getTextSize()`
-```python
-(text_width, text_height), baseline = cv2.getTextSize(text=label, fontFace=cv2.FONT_HERSHEY_COMPLEX_SMALL,
-                                                                  fontScale=font_scale, thickness=bbox_thick)
-```
-## `cv2.puttext()`
-```python
-cv2.putText(img=img, text=label, org=(x1, y1-4), fonFace=cv2.FONT_HERSHEY_COMPLEX_SMALL, fontScale=font_scale, color=text_colors, thickness=bbox_thick, lineType=cv2.LINE_AA)
-```
-## `cv2.resize()`
-```python
-img_resized = cv2.resize(img, dsize=(640, 480), interpolation=cv2.INTER_AREA)
-```
-- `dsize` : (new_width, new_height)
-## `cv2.cvtColor()`
-```python
-img_gray = cv2.cvtColor(img_resized, cv2.COLOR_BGR2GRAY)
-```
-## `cv2.imread()`
-```python
-img = cv2.imread("300.jpg")
-```
-## `cv2.imwrite()`
-```python
-cv2.imwrite("/content/drive/My Drive/Computer Vision/fire hydrants.png", ori_img)
-```
-## `cv2.imshow()`
-```python
-cv2.imshow("img_resized", img_resized)
-```
-## `cv2.findContours()`
-```python
-mask = cv2.inRange(hsv,lower_blue,upper_blue)
-contours, hierachy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-```
-## `cv2.TERM_CRITERIA_EPS`, `cv2.TERM_CRITERIA_MAX_ITER`
-```python
-criteria = (type, max_iter, epsilon)
-```
-## `CV2.KMEANS_RANDOM_CENTERS`
-```python
-flags = cv2.KMEANS_RANDOM_CENTERS
-```
-- 초기 중심점을 랜덤으로 설정.
-```python
-compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
-```
-
-# `selectivesearch`
-## `selectivesearch.selective_search()`
-```python
-_, regions = selectivesearch.selective_search(img_rgb, scale=100, min_size=2000)
-```
-```python
-img_recs = cv2.rectangle(img=img_rgb_copy, pt1=(rect[0], rect[1]),
-                                 pt2=(rect[0]+rect[2], rect[1]+rect[3]),
-                                 color=green_rgb, thickness=2)
-```
-
-# `datetime`
-## `datetime.today()`
-## `datetime.datetime()`, `datetime.date()`
-```python
-datetime.datetime(2018, 5, 19)
-```
-- Require three parameters in sequence to create a date; year, month, day
-### `datetime.datetime.now()`
-### `datetime.datetime.strptime()`
-```python
-datetime.datetime.strptime(<<Date String>>, <<Format>>)
-```
-- Returns a datetime corresponding to <<Date String>>, parsed according to <<Format>>.
-- `format`:
-	- `"%Y"`: Year with century as a decimal number.
-	- `"%y"`: Year without century as a zero-padded decimal number.
-	- `"%m"`: Month as a zero-padded decimal number.
-	- `"%d"`: Day of the month as a zero-padded decimal number.
-	- `"%H"`: Hour (24-hour clock) as a zero-padded decimal number.
-	- `"%I"`: Hour (12-hour clock) as a zero-padded decimal number.
-	- `"%M"`: Minute as a zero-padded decimal number.
-	- `"%S"`: Second as a zero-padded decimal number
-	- `"%A"`: Weekday as locale’s full name.
-	- `"%B"`: Month as locale’s full name.
-	- `"%b"`: Month as locale’s abbreviated name.
-### `datetime.datetime.strftime()`
-```python
-datetime.datetime.strftime(format)
-```
-- Returns a string representing the date and time, controlled by an explicit format string
-```python
-gby_month["ym"] = gby_month["date_created"].apply(lambda x:datetime.datetime.strftime(x, "%m"))
-```
-## `datetime.timedelta`
-```python
-day = start + datetime.timedelta(days=1)
-```
-### `datetime.timedelta.days`
-### `datetime.timedelta.total_seconds()`
-```python
-(t2 - t1).total_seconds()
-```
-
-# `dateutil`
-## `dateutil.relativedelta`
-### `relativedelta`
-```python
-from dateutil.relativedelta import relativedelta
-```
-```python
-data["년-월"] = data["년-월"].apply(lambda x:x + relativedelta(months=1) - datetime.timedelta(days=1))
-```
-
-# `time`
-```python
-import time
-```
-## `time.time()`
-```python
-time_before=round(time.time())
-```
-```python
-print("{}초 경과".format(round(time.time())-time_before))
-```
-## `time.localtime()`
-## `time.strftime()`
-```python
-time.strftime("%Y%m%d", time.localtime(time.time()))
-```
-
-# `seqeval`
-## `seqeval.metrics`
-### `precision_score`
-### `recall_score`
-### `f1_score`
-### `classification_report`
-```python
-from seqeval.metrics import classification_report
+conv_weights = np.fromfile(f, dtype=np.float32, count=np.prod(conv_shape)).reshape(conv_shape).transpose((2, 3, 1, 0))
 ```
 
 # `mapboxgl`
@@ -1743,15 +1339,6 @@ p = re.compile(".+\t[A-Z]+")
 ```
 - 이후 `p.search()`, `p.match()` 등의 형태로 사용합니다.
 
-# `requests`
-```python
-import requests
-```
-## `requests.get()`
-```python
-req = requests.get(url)
-```
-
 # `statsmodels`
 ## `statsmodels.stats`
 ### `statsmodels.stats.outliers_influence`
@@ -1816,12 +1403,6 @@ import scipy
 ## `stats`
 ```python
 from scipy import stats
-```
-### `stats.norm`
-### `stats.beta`
-#### `stats.beta.pdf()`
-```python
-ys = stats.beta.pdf(xs, a, b)
 ```
 ### `stats.shapiro()`
 ```python
@@ -2062,22 +1643,6 @@ elif platform.system() == "Windows":
 from pprint import pprint
 ```
 
-# `google`
-## `google.colab`
-### `google.colab.patches`
-#### `cv2_imshow()`
-```python
-from google.colab.patches import cv2_imshow
-```
-
-# `colorsys`
-## `colorsys.hsv_to_rgb()`
-```python
-hsv_tuples = [(idx/n_clss, 1, 1) for idx in idx2cls.keys()]
-colors = list(map(lambda x: colorsys.hsv_to_rgb(*x), hsv_tuples))
-colors = list(map(lambda x: (int(x[0]*255), int(x[1]*255), int(x[2]*255)), colors))
-```
-
 # `zipfile`
 ```python
 import zipfile
@@ -2182,43 +1747,6 @@ with open(path, "r", encoding="utf-8") as f:
 ```python
 with open(f"{model_path}_hist", "r") as f:
 	hist.history = json.load(f)
-```
-
-# `Image`
-```python
-from PIL import Image
-```
-## `Image.open()`
-```python
-img = Image.open("20180312000053_0640 (2).jpg")
-```
-### `img.size`
-### `img.save()`
-### `img.thumbnail()`
-```python
-img.thumbnail((64, 64))
-```
-### `img.crop()`
-```python
-img_crop = img.crop((100, 100, 150, 150))	
-```
-### `img.resize()`
-```python
-img = img.resize((600, 600))
-```
-### `img.convert()`
-```python
-img.convert("L")
-```
-- (`"RGB"`, `"RGBA"`, `"CMYK"`, `"L"`, `"1"`)
-### `img.paste()`
-```python
-img1.paste(img2, (20,20,220,220))
-```
-- img2.size와 동일하게 두 번째 parameter 설정.	
-## `Image.new()`
-```python
-mask = Image.new("RGB", icon.size, (255, 255, 255))
 ```
 
 # `datasketch`

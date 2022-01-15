@@ -139,3 +139,15 @@ git reset HEAD~1
 ```
 pip install --upgrade --user pip
 ```
+## Create Virtual Environment
+```
+conda create --name tf2.3 python=3.7
+```
+## Install Jupyter Notebook
+```
+conda install jupyter
+```
+## Install nbextensions
+```
+!pip install jupyter_contrib_nbextensions && jupyter contrib nbextension install
+```

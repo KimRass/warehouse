@@ -36,6 +36,13 @@ detrend = data["passengers"] - decomp.trend
 - *For a wide-sense stationary time series, the mean and the variance/autocovariance keep constant over time.*
 ### Strict-Sense Stationarity
 
+# Random Walk
+- Source: https://www.investopedia.com/terms/r/randomwalktheory.asp
+- Random walk theory suggests that changes in stock prices have the same distribution and are independent of each other. Therefore, *it assumes the past movement or trend of a stock price or market cannot be used to predict its future movement. In short, random walk theory proclaims that stocks take a random and unpredictable path that makes all methods of predicting stock prices futile in the long run.*
+```python
+np.cumsum(np.random.normal(size=200))
+```
+
 # Datasets
 ## `Air Passengers`
 - Source: https://www.kaggle.com/rakannimer/air-passengers
@@ -74,6 +81,38 @@ data["var_diff"] = data["var"].diff(n)
 ```python
 data[["var"]].rolling(window).mean()
 ```
+- `min_periods`: Minimum number of observations in window required to have a value (otherwise result is NA).
+## Treating Missing Values
+### Imputation
+- Imputation with Mean
+	```python
+	data["mean_imputation"] = data["var"].fillna(data["var"].mean())
+	```
+- Median Imputation with 
+	```python
+	data["median_imputation"] = data["var"].fillna(data["var"].median())
+	```
+- LOCF (Last Observation Carried Forward)
+	```python
+	data["LOCF"] = data["var"].fillna(data["var"].shift(1))
+	```
+- NOCB (Next Observation Carried Backward)
+	```python
+	data["LOCF"] = data["var"].fillna(data["var"].shift(-1))
+	```
+- Imputation with Moving Average
+	```python
+	data["moving_avg"] = data["tar"].fillna(data["tar"].rolling(24, min_periods=1).mean())
+	```
+### Interpolation
+```python
+data["interpolation"] = data["var"].interpolate(method)
+```
+- `method`
+	- "linear", "time", "quadratic", "cubic", "slinear", "akima"
+	- "polynomial", "spline" (Require that you specify `order`)
+		- Source: https://en.wikipedia.org/wiki/Spline_(mathematics)
+		- In mathematics, *a spline is a special function defined piecewise by polynomials.* In interpolating problems, spline interpolation is often preferred to polynomial interpolation because it yields similar results, even when using low degree polynomials, while avoiding Runge's phenomenon for higher degrees.
 ## Time Series Decomposition
 ```python
 import statsmodels.api as sm
@@ -85,6 +124,32 @@ y_observ = decomp.observed # `pandas.Series`
 y_trend = decomp.trend # `pandas.Series`
 y_season = decomp.seasonal # `pandas.Series`
 y_resid = decomp.resid # `pandas.Series`
+```
+## Denoising
+### Denoising with Moving Average
+- 노이즈가 간혹 발생하는 경우 효과적입니다.
+### Gaussian Filter
+### Bilateral Filter
+### Kalman Filter
+- 노이즈가 매우 많은 경우 효과적입니다.
+```python
+kf = simdkalman.KalmanFilter(state_transition=np.array([[1, 1], [0, 1]]), process_noise = np.diag([0.1, 0.01]), observation_model=np.array([[1, 0]]), observation_noise=1.0)
+kf = kf.em(data, n_iter=10)
+
+smoothed = kf.smooth(data)
+pred = kf.predict(data, n_test=15)
+
+smoothed_mean = smoothed.observations.mean
+smoothed_std = np.sqrt(smoothed.observations.cov)
+
+pred_mean = pred.observations.mean
+pred_std = np.sqrt(pred.observations.cov)
+
+trend = smoothed.states.mean[:, 1]
+trend_std = np.sqrt(smoothed.states.cov[:, 1, 1])
+
+trend_pred = pred.states.mean[:, 1]
+trend_pred_std = np.sqrt(pred.states.cov[:, 1, 1])
 ```
 
 # Splitting Dataset
@@ -101,6 +166,13 @@ y_resid = decomp.resid # `pandas.Series`
 	
 	tscv = TimeSeriesSplit(n_splits=3)
 	```
+## Cross Validation (CV)
+### Rolling Basis
+### Blocking
+```python
+from pmdarima import model_selection
+```
+
 # Autocorrelation
 - Source: https://statisticsbyjim.com/time-series/autocorrelation-partial-autocorrelation/
 - Autocorrelation is the correlation between two observations at different points in a time series. For example, values that are separated by an interval might have a strong positive or negative correlation. ***When these correlations are present, they indicate that past values influence the current value.***
@@ -118,7 +190,11 @@ import statsmodels.api as sm
 sm.graphics.tsa.plot_acf(x=data["var"], lags=50);
 ```
 ### White Noise
-- ***For random data, autocorrelations should be near zero for all lags. Analysts also refer to this condition as white noise. Non-random data have at least one significant lag.***
+- *For random data, autocorrelations should be near zero for all lags. Analysts also refer to this condition as white noise. Non-random data have at least one significant lag.*
+- Source: https://medium.com/@kothawadegs/noise-in-time-series-data-63c5450e10f9
+- The expectation of each element is 0.
+- The variance of each element is ﬁnite.
+- The elements are uncorrelated.
 ## PACF (Partial AutoCorrelation Function)
 - *The partial autocorrelation function is similar to the ACF except that it displays only the correlation between two observations that the shorter lags between those observations do not explain. For example, the partial autocorrelation for lag 3 is only the correlation that lags 1 and 2 do not explain. In other words, the partial correlation for each lag is the unique correlation between those two observations after partialling out the intervening correlations.*
 - As you saw, the autocorrelation function helps assess the properties of a time series. In contrast, *the partial autocorrelation function (PACF) is more useful during the specification process for an autoregressive model. Analysts use partial autocorrelation plots to specify regression models with time series data and Auto Regressive Integrated Moving Average (ARIMA) models.*
@@ -255,5 +331,76 @@ The Akaike information criterion is named after the Japanese statistician Hirotu
 - 변환 시 로그 -> 차분 순서로 해서 음수 값이 나오지 않도록 함.
 - Seasonality는 정의에 의해 자동으로 Statinary.
 
-`Log Likelihood`: 높을수록 좋다.
-`AIC`: 낮을수록 좋다
+# Libararies for Time Series
+- `format`:
+	- `"%Y"`: Year with century as a decimal number.
+	- `"%y"`: Year without century as a zero-padded decimal number.
+	- `"%m"`: Month as a zero-padded decimal number.
+	- `"%d"`: Day of the month as a zero-padded decimal number.
+	- `"%H"`: Hour (24-hour clock) as a zero-padded decimal number.
+	- `"%I"`: Hour (12-hour clock) as a zero-padded decimal number.
+	- `"%M"`: Minute as a zero-padded decimal number.
+	- `"%S"`: Second as a zero-padded decimal number
+	- `"%A"`: Weekday as locale’s full name.
+	- `"%B"`: Month as locale’s full name.
+	- `"%b"`: Month as locale’s abbreviated name.
+## `pd.to_datetime()`
+- `unit`
+- `format`: The strftime to parse time.
+### `pd.to_datetime().dt`
+#### `pd.to_datetime().dt.hour`, `pd.to_datetime().dt.day`,  `pd.to_datetime().dt.week`,  `pd.to_datetime().dt.dayofweek`, `pd.to_datetime().dt.month`, `pd.to_datetime().dt.quarter`, `pd.to_datetime().dt.year`
+#### `pd.to_datetime().dt.normalize()`
+```python
+appo["end"] = appo["end"].dt.normalize()
+```
+## `pd.date_range()`
+```python
+raw.time = pd.date_range(start="1974-01-01", periods=len(raw), freq="M")
+```
+- Return a fixed frequency DatetimeIndex.
+## `pd.Grouper()`
+```python
+n_tasks_month = tasks.groupby(pd.Grouper(key="task_date", freq="M")).size()
+```
+## `datetime.today()`
+## `datetime.datetime()`, `datetime.date()`
+```python
+datetime.datetime(year, month, day)
+```
+- Require three parameters in sequence to create a date; `year`, `month`, `day`
+### `datetime.datetime.now()`
+### `datetime.datetime.strptime()`
+```python
+datetime.datetime.strptime(<<Date String>>, format)
+```
+- Returns a datetime corresponding to <<Date String>>, parsed according to `format`.
+- `format`
+### `datetime.datetime.strftime()`
+```python
+datetime.datetime.strftime(format)
+```
+- Returns a string representing the date and time, controlled by an explicit format string.
+```python
+gby_month["ym"] = gby_month["date_created"].apply(lambda x:datetime.datetime.strftime(x, "%m"))
+```
+## `datetime.timedelta`
+```python
+day = start + datetime.timedelta(days=1)
+```
+### `datetime.timedelta.days`
+### `datetime.timedelta.total_seconds()`
+```python
+(t2 - t1).total_seconds()
+```
+## `relativedelta`
+```python
+from dateutil.relativedelta import relativedelta
+
+data["년-월"] = data["년-월"].apply(lambda x:x + relativedelta(months=1) - datetime.timedelta(days=1))
+```
+## `time.time()`
+## `time.localtime()`
+## `time.strftime()`
+```python
+time.strftime("%Y%m%d", time.localtime(time.time()))
+```
