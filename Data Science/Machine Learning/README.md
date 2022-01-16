@@ -1,3 +1,8 @@
+# Dataset & Data Set
+- Source: https://english.stackexchange.com/questions/2120/which-is-correct-dataset-or-data-set
+- Dataset for certain datasets
+- Data set for any set for data in general.
+
 # Data Density (or Sparsity)
 - Source: https://datascience.foundation/discussion/data-science/data-sparsity
 - In a database, sparsity and density describe the number of cells in a table that are empty (sparsity) and that contain information (density), though sparse cells are not always technically empty—they often contain a “0” digit.
@@ -194,6 +199,9 @@ http://blog.naver.com/PostView.nhn?blogId=wideeyed&logNo=221017173808
 ```python
 def sigmoid(x):
     return 1/(1 + np.exp(-x))
+```
+```python
+tf.math.sigmoid()
 ```
 ```python
 tf.keras.activations.sigmoid(logits)
@@ -885,7 +893,7 @@ model.add(Flatten(input_shape=(28, 28)))
 - `input_dim`: Size of the vocabulary.
 - `output_dim`: Dimension of the dense embedding.
 - `input_length`: Length of input sequences, when it is constant. This argument is required if you are going to connect Flatten then Dense layers upstream.
-- `mask_zero=True`: Whether or not the input value 0 is a special "padding" value that should be masked out. This is useful when using recurrent layers which may take variable length input. If `mask_zero` is set to `True`, as a consequence, index 0 cannot be used in the vocabulary (`input_dim` should equal (Size of vocabulary + 1)).
+- `mask_zero=True`: Whether or not the input value 0 is a special "padding" value that should be masked out. This is useful when using recurrent layers which may take variable length input. If `mask_zero` is set to `True`, as a consequence, index 0 cannot be used in the vocabulary (`input_dim` should equal to (Size of vocabulary + 1)).
 - Input shape: `(batch_size, input_length)`
 - Output shape: `(batch_size, input_length, output_dim)`
 ## `Dense()`
