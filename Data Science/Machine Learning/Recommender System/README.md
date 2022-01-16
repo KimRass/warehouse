@@ -142,6 +142,7 @@ ui = pd.pivot_table(data, index="user", columns="item", values="preferences")
 ### Model-Based
 #### Matrix Factorization (MF)
 - Source: https://www.mygreatlearning.com/blog/matrix-factorization-explained/
+- Matrix Factoriation은 쉽게 Overfitting이 발생합니다.
 ##### BPR (Bayesian Personalizaed Ranking)
 - BPR은 implicit data에 사용 가능한 matrix factorization 알고리즘 중 하나입니다.
 - 베이지안 개인화 랭킹 알고리즘은 모델을 학습시킬 때 긍정 아이템(예: 유저가 들어본 아티스트)과 부정 아이템(예: 유저가 들어보지 않은 아티스트) 사이의 랭킹을 목적함수로 두고, 그 차이가 커지는 방향으로 임베딩 변수 값을 갱신하는 것이죠.
@@ -233,16 +234,9 @@ def lift(x, y):
 	user_likes_ohe = pd.DataFrame(user_likes_enc, index=user_likes.index, columns=enc.columns_)
 	
 	# The entries in the `itemsets` column are of type `frozenset`
-	file = "./frequent_sets.pkl"
-	if os.path.exists(file):
-		with open(file, "rb") as f:
-			freq_sets = pk.load(f)
-	else:
-		with open(file, "wb") as f:
-			# `max_len`: (default `None`) Maximum length of the itemsets generated.
-			# `low_memory`: Note that while `True` should only be used for large dataset if memory resources are limited, because this implementation is approx. 3-6x slower than the default.
-			freq_sets = apriori(user_likes_ohe, min_support=0.01, max_len=2, use_colnames=True, verbose=1)
-			pk.dump(freq_sets, f)
+	# `max_len`: (default `None`) Maximum length of the itemsets generated.
+	# [`low_memory`]: Note that while `True` should only be used for large dataset if memory resources are limited, because this implementation is approx. 3-6x slower than the default.
+	freq_sets = apriori(user_likes_ohe, min_support=0.01, max_len=2, use_colnames=True, verbose=1)
 			
 	# `df`: DataFrame of frequent itemsets with columns `['support', 'itemsets']`.
 	# `metric` (`"support"`, `"confidence"`, `"lift"`) Metric to evaluate if a rule is of interest.
@@ -253,6 +247,13 @@ def lift(x, y):
 	```
 ### FP-Growth (Frequent Pattern-Growth)
 # Factorization Machine
+- Sources: https://zzaebok.github.io/machine_learning/factorization_machines/, https://greeksharifa.github.io/machine_learning/2019/12/21/FM/
+- 반면 Factorization Machine은 이에 인구통계학적 정보(Demographic data)나 과거 이력 등 user의 특성 데이터와 상품에 대한 설명, 이미지, 인지도 등 상품의 특성 데이터를 모두 활용하여 추천 시스템을 만드는 것이 가능합니다.
+- matrix factorization에서 row index는 각 user를, column index는 각 item을 나타내고 각 value rating을 의미했습니다.
+- 그러나 factorization machine에서는 일반적인 regression과 본질적으로 같은 방식으로 row index는 각 sample을, columns index는 각 feature를 나타내며 rating을 나타내는 별도의 column이 존재합니다.
+- 따라서 rating 값을 target으로 하는 regression이기 때문에 metadata와 같은 여러 feature를 추가할 수 있다는 장점이 있습니다.
+- 나이라는 특성과 성별이라는 특성의 상호 작용을 고려하여, 나이가 20대 후반일때의 학생과 50대 초반일때의 학생의 예상 평점을 예측해보면 다를 수 있다는 것입니다.
+- Dimension of embedding vectors를 매우 큰 값으로 잡으면 FM 모델은 가능한 모든 상호작용 관계에 대한 가중치를 표현하는 임베딩 행렬을 만들 것입니다. 하지만 복잡한 상호작용 관계를 추정하기에 데이터가 충분히 크지 않다면 작은 수준으로 제한해줘야 보다 일반화가 가능한 안정적인 FM모델을 만들 수 있습니다.
 # DeepFM
 
 # K-Core Pruning
@@ -404,9 +405,6 @@ lift(StarWars2→Y)=confidence(StarWars2→Y)support(Y)
 이번에는 Apriori 알고리즘을 사용하겠습니다. Apriori 알고리즘은 모든 가능한 조합의 개수를 줄이는 전략을 사용합니다.아래 이미지를 보면, 5가지 아이템이 있다고 할 때, 이 5가지를 이용해 나올 수 있는 가능한 조합은 총  25−1=31 개 입니다.아이템 수가 늘어날수록 아이템 조합 역시 급격하게 늘어날 것입니다.
 Apriori는 각 조합의 지지도를 구하면서 조합의 아이템 수를 늘리며 내려가면서 어떤 조합의 지지도가 일정 기준 이하로 떨어지면, 그 아래로 내려가도(즉, 조합의 아이템 수를 늘리더라도) 빈발집합이라고 볼 수 없다 판단하여 더 이상 가지를 따라 내려가지 않고 쳐내는 식으로 빈발집합을 탐색합니다.
 - <img src="https://i.imgur.com/pZ75IjW.png">
-
-# Factorization Machine
-- sources: https://zzaebok.github.io/machine_learning/factorization_machines/, https://greeksharifa.github.io/machine_learning/2019/12/21/FM/
 
 # DeepFM
 - source: https://greeksharifa.github.io/machine_learning/2020/04/07/DeepFM/

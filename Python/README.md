@@ -14,6 +14,7 @@ Written by KimRass
 - The unhashable objects are not allowed in set or dictionary key. The dictionary or set hashes the object and uses the hash value as a primary reference to the key.
 ### `TypeError: '<<Data Type>>' object is not subscriptable`
 - ***"Subscriptable" means that the object contain, or can contain, other objects.***
+- The subscripting is nothing but indexing in Python.
 ### `TypeError: sequence index must be integer, not 'slice'`
 - This error raises because `collections.deque()` cannot be sliced.
 ### `TypeError: '<<Data Type>>' object is not iterable`
@@ -146,6 +147,7 @@ print(f"{sparse_mat.data.nbytes:,}Bytes"
 ## List
 - Mutable.
 - Unhashable.
+- Subscriptable.
 ### `List.index()`
 ### `List.append()`
 - Adds the argument as a single element to the end of a List. 
@@ -191,6 +193,7 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 - Mutable.
 - Unhashable.
 - No order.
+- Not subscriptable.
 ### `<<Set1>> & <<Set2>>`
 - Returns the union of `<<Set1>>` and `<<Set2>>`.
 ### `<<Set1>> | <<Set2>>`
@@ -209,6 +212,7 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 ## `Dictionary`
 - Mutable.
 - Unhashable.
+- Subscriptable.
 ### `Dictionary[]`, `Dictionary.get()`
 - key를 입력받아 value를 반환합니다.
 ### `Dictionary.items()`
@@ -238,6 +242,7 @@ min_dists = {i:0 if i == start else math.inf for i in range(1, V + 1)}
 ```
 ## String
 - Immutable.
+- Subscriptable.
 ### `String.format()`
 ### `String.ljust()`, `String.rjust()`
 ```python
@@ -585,11 +590,14 @@ df = df.drop_duplicates(["col1"], keep="first")
 ```python
 df1.mul(df2)
 ```
-## `DataFrame.dot()`
-```python
-def cos_sim(x, y):
-    return x.dot(y)/(np.linalg.norm(x, axis=1, ord=2)*np.linalg.norm(y, ord=2))
-```
+## `dot()`
+### `DataFrame.dot(other)`
+- other: DataFrame
+	- Computes the matrix multiplication between the DataFrame and other DataFrame.
+- other: Series or Array
+	- Computes the inner product, instead of the matrix product here.
+### `DataFrame.dot(Series)`
+
 ## `DataFrame.isna()`
 ## `DataFrame.notna()`
 ```python
@@ -612,15 +620,18 @@ df.loc[~df.index.isin(df.dropna().index)]
 data = data.fillna(method="ffill")
 ```
 - `method="ffill"`: Propagate last valid observation forward to next valid backfill.
-## `DataFrame.sample()`, `Series.sample()`
+## `sample([replace], [weights], [frac], [random_state])`
 - `replace`: (bool) Allow or disallow sampling of the same row more than once.
 - `weights`
 	- *Default `None` results in equal probability weighting.*
 	- If passed a Series, will align with target object on index. Index values in weights not found in sampled object will be ignored and index values in sampled object not in weights will be assigned weights of zero.
 	- If called on a DataFrame, will accept the name of a column when axis = 0. Unless weights are a Series, weights must be same length as axis being sampled.
 	- *If weights do not sum to 1, they will be normalized to sum to 1. Missing values in the weights column will be treated as zero. Infinite values not allowed.*
-- `random_state`: (Int)
-## `DataFrame.iterrows()`
+## `iterrows()`
+```python
+for name, row in Data.iterrows():
+	...
+```
 - Iterate over DataFrame rows as (index, Series) pairs.
 ## `DataFrame.iteritems()`, `DataFrame.items()`
 ```python
@@ -730,11 +741,7 @@ for k, v in target.items():
 ```python
 import numpy as np
 ```
-## `np.set_printoptions()`
-```python
-np.set_printoptions(precision=3)
-```
-- Go back to the default options.
+## `np.set_printoptions([edgeitems], [infstr], [linewidth], [nanstr], [precision], [suppress], [threshold], [formatter])`
 ## `Array.size`
 ## `Array.astype()`
 ```python
@@ -796,7 +803,6 @@ items, counts = np.unique(intersected_movie_ids, return_counts=True)
 - `start`: (default 0) Start of interval. The interval includes this value.
 - `stop`: End of interval. The interval does not include this value, except in some cases where step is not an integer and floating point round-off affects the length of out.
 - `step`: (default 1)
-
 
 ## `np.sqrt()`
 ## `np.power()`
@@ -1245,34 +1251,33 @@ img_colors.default_color=[0.6, 0.6, 0.6]
 from wordcloud import STOPWORDS
 ```
 
-# `random`, `np.random`
-## `random.seed()`
-## `np.random.seed()`
-```python
-np.random.seed(23)
-```
-## `random.random()`
+# `random`, `np.random`, `tf.random`
+## Seed
+### `random.seed()`
+### `np.random.seed()`
+### `tf.random.set_seed()`
+### `tf.random.normal()`
+## Sample
+### `random.random()`
 - Returns a random number in [0, 1).
-## `random.sample()`
-```python
-names = random.sample(list(set(data.index)), 20)
-```
-## `random.choices()`
-- `k`
-- `weights`
-## `np.random.choice()`
-- Generates a random sample from a given 1-D array.
-- `size`
-- `replace`: (bool)
-- `p`: The probabilities associated with each entry in `a`. If not given, the sample assumes a uniform distribution over all entries in `a`
-## `random.shuffle()`
-- In-place function
 ### `np.random.random()`
 ```python
 np.random.random((2, 3, 4))
 ```
-- Create an Array of the given shape and populate it with random samples from a uniform distribution over \[0, 1).
-- Similar with `np.random.rand()`
+- Create an Array of the given shape and populate it with random samples from a uniform distribution over [0, 1).
+### `np.random.rand()`
+### `random.sample()`
+```python
+names = random.sample(list(set(data.index)), 20)
+```
+### `random.choices(sequence, k, [weights])`
+### `np.random.choice(size, [replace], [p])`
+- Generates a random sample from a given 1-D array.
+- `replace`: (bool)
+- `p`: The probabilities associated with each entry in `a`. If not given, the sample assumes a uniform distribution over all entries in `a`
+## Shuffle
+### `random.shuffle()`
+- In-place function
 ### `np.random.randint()`
 ```python
 np.random.randint(1, 100, size=(2, 3, 4))	

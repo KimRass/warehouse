@@ -23,6 +23,13 @@ dense_mat = sparse_mat.todense()
 
 # Real Data & Test Data
 
+# Embedding
+- Source: https://analyticsindiamag.com/machine-learning-embedding/#:~:text=An%20embedding%20is%20a%20low,of%20a%20high%2Ddimensional%20vector.&text=Embedding%20is%20the%20process%20of,the%20two%20are%20semantically%20similar.
+- *Embedding is the process of converting high-dimensional data to low-dimensional data in the form of a vector in such a way that the two are semantically similar.*
+- Embeddings of neural networks are advantageous because they can lower the dimensionality of categorical variables and represent them meaningfully in the altered space.
+- Source: https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture
+- An embedding is a relatively low-dimensional space into which you can translate high-dimensional vectors. Embeddings make it easier to do machine learning on large inputs like sparse vectors representing words. Ideally, an embedding captures some of the semantics of the input by placing semantically similar inputs close together in the embedding space. An embedding can be learned and reused across models.
+
 # Datasets
 ## `mnist`
 ```python
@@ -237,6 +244,21 @@ error 0.6을 0.6, 0.4를 곱하니  위 노드에는 error가 0.36이, 아래 �
 # Gradient Descent
 - Source: https://en.wikipedia.org/wiki/Gradient_descent
 - ***Gradient descent is a first-order iterative optimization algorithm for finding a local minimum of a differentiable function. The idea is to take repeated steps in the opposite direction of the gradient (or approximate gradient) of the function at the current point, because this is the direction of steepest descent.*** Conversely, stepping in the direction of the gradient will lead to a local maximum of that function; the procedure is then known as gradient ascent.
+## Optimizers
+### Stochastic Gradient Descent (SGD)
+```python
+from tensorflow.keras.optimizers import SGD
+```
+### Adam
+```python
+from tensorflow.keras.optimizers import Adam
+```
+### Adagrad
+```python
+from tensorflow.keras.optimizers import Adagrad
+```
+- Source: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adagrad
+- *Adagrad tends to benefit from higher initial learning rate values compared to other optimizers.*
 
 # Categorical Variables
 - Sources: https://homeproject.tistory.com/4, http://blog.naver.com/PostView.nhn?blogId=choco_9966&logNo=221374544814&parentCategoryNo=&categoryNo=77&viewDate=&isShowPopularPosts=false&from=postView, https://dailyheumsi.tistory.com/120, https://towardsdatascience.com/all-about-categorical-variable-encoding-305f3361fd02
@@ -248,6 +270,8 @@ error 0.6을 0.6, 0.4를 곱하니  위 노드에는 error가 0.36이, 아래 �
 - 단순히 0과 1로만 결과를 내어 큰 정보이득 없이 Tree 의 depth 만 깊게 만든다. 중요한건, Tree Depth 를 증가시키는 것에 비해, 2가지 경우로만 트리를 만들어 나간다는 것이다.
 - Random Forest 와 같이, 일부 Feature 만 Sampling 하여 트리를 만들어나가는 경우, One-hot Feature 로 생성된 Feature 의 수가 많기 때문에 이 features가 다른 features보다 더 많이 쓰인다.
 ```python
+import tensorflow as tf
+
 tf.keras.utils.to_categorical([2, 5, 1, 6, 3, 7])
 ```
 ## Label Encoding
@@ -538,7 +562,7 @@ impurity-based importances are computed on training set statistics and therefore
 - Source: https://towardsdatascience.com/explaining-feature-importance-by-example-of-a-random-forest-d9166011959e
 ## On Train Set or Test Set?
 - Source: https://christophm.github.io/interpretable-ml-book/feature-importance.html
-### On Test Sett
+### On Test Set
 - Really, it is one of the first things you learn in machine learning: If you measure the model error (or performance) on the same data on which the model was trained, the measurement is usually too optimistic, which means that the model seems to work much better than it does in reality. And since the permutation feature importance relies on measurements of the model error, we should use unseen test data. The feature importance based on training data makes us mistakenly believe that features are important for the predictions, when in reality the model was just overfitting and the features were not important at all.
 
 # Feature Engineering
@@ -835,15 +859,31 @@ from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
-from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D
+from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D
 from tensorflow.keras.optimizers import SGD, Adam, Adagrad
 from tensorflow.keras.metrics import RootMeanSquaredError, BinaryCrossentropy, SparseCategoricalAccuracy
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.activations import linear, sigmoid, relu
 ```
+## Create Tensors
+### `tf.Variable(initial_value, [shape=None], [trainable=True], [validate_shape=True], [dtype], [name])`
+- Source: https://www.tensorflow.org/api_docs/python/tf/Variable
+- `initial_value`: This initial value defines the type and shape of the variable. After construction, the type and shape of the variable are fixed.
+- [`shape`]: The shape of this variable. If `None`, the shape of `initial_value` will be used.
+- `validate_shape`: If `False`, allows the variable to be initialized with a value of unknown shape. If `True`, the default, the shape of `initial_value` must be known.
+- [`dtype`]: If set, `initial_value` will be converted to the given type. If `None`, either the datatype will be kept (if `initial_value` is a Tensor), or `convert_to_tensor()` will decide.
+### `tf.zeros()`
+```python
+W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
+```
 ## Layers
-## 레이어간 연산
+## Computation between Tensors
+### `tf.stack(values, axis, [name])`
+- Source: https://www.tensorflow.org/api_docs/python/tf/stack
+- Stacks a list of tensors of rank R into one tensor of rank (R + 1).
+- `axis`: The axis to stack along.
+- Same syntax as `np.stack()`
 ### `Add()`
 ```python
 logits = Add()([logits_mlr, logits_fm, logits_dfm])
@@ -995,11 +1035,6 @@ image = tf.constant([[[[1], [2], [3]], [[4], [5], [6]], [[7], [8], [9]]]], dtype
 ```python
 img = tf.convert_to_tensor(img)
 ```
-## `tf.Variable()`
-## `tf.zeros()`
-```python
-W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
-```
 ## `tf.transpose()`
 ## `tf.cast()`
 ```python
@@ -1012,13 +1047,6 @@ pred = tf.cast(h > 0.5, dtype=tf.float32)
 layer3 = tf.concat([layer1, layer2], axis=1)
 ```
 - 지정한 axis의 dimension이 유지됩니다.
-- `np.stack()`와 동일한 문법입니다.
-## `tf.stack()`
-```python
-x = tf.stack(x, axis=0)
-```
-- 지정한 axis의 dimension이 +1됩니다.
-- 동일한 shape을 가진 tensors에만 적용할 수 있습니다.
 ## `tf.shape()`
 ```python
 batch_size = tf.shape(conv_output)[0]
@@ -1050,12 +1078,10 @@ dW, db = tape.gradient(loss, [W, b])
 ```
 ## `tf.math`
 ### `tf.math.add()`, `tf.math.subtract()`, `tf.math.multiply()`, `tf.math.divide()`
-### `tf.math.add_n()`
-```python
-logits = tf.math.add_n(x) + self.w0
-```
+- Adds, substract, multiply or divide two input tensors element-wise.
+### `tf.math.add_n(inputs)`
 - Adds all input tensors element-wise.
-- inputs : A list of tf.Tensor, each with the same shape and type.
+- `inputs`: A list of Tensors, each with the same shape and type.
 ### `tf.math.square()`
 - Compute square of x element-wise.
 ### `tf.math.argmax()`
@@ -1072,19 +1098,12 @@ tf.math.sign(tf.math.reduce_sum(self.w * x) + self.b)
 ```python
 acc = tf.math.reduce_mean(tf.cast(tf.math.equal(pred, labels), dtype=tf.float32))
 ```
-### `tf.math.sigmoid()`
 ### `tf.math.reduce_sum()`, `tf.math.reduce_mean()`
 - Source: https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
 - `axis=None`: 모든 elements에 대해 연산합니다.
 - `axis=0`: reduces along the 1st dimension. dimension이 1만큼 감소합니다.
 - `axis=1`: reduces along the 2nd dimension. dimension이 1만큼 감소합니다.
 - `keepdims=True`: dimension이 감소하지 않습니다.
-## `tf.random`
-### `tf.random.set_seed()`
-### `tf.random.normal()`
-```python
-x = tf.Variable(tf.random.normal([784, 200], 1, 0.35))
-```
 ## `tf.nn`
 ### `tf.nn.softmax()`
 ```python
@@ -1113,53 +1132,41 @@ model = Sequential()
 ```
 
 ## Build Model
-### `model = Model(inputs, ouputs, [name])`
-#### `model.summary()`
-#### `model.trainable_variables`
-#### `model.save()`
-#### `model.input`
-#### `model.layers`
 ```python
-for layer in model.layers[1:]:
-```
-#### `model.get_layer()`
-```python
-model.get_layer("conv2d_22")
-```
-##### `layer.name`
-##### `layers.output`
-##### `layer.input_shape`
-##### `layer.output_shape`
-##### `layer.get_weights()`
-```python
-weight = layer.get_weights()[0]
-bias = layer.get_weights()[1]
+model = Model(inputs, ouputs, [name])
 ```
 ## Compile
 ```python
+# `optimizer`: (`"sgd"`, `"adam"`, `"rmsprop"`)
+# `loss`: (`"mse"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
+# `metrics`: (`["mse"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
+# `loss_weights`
 model.compile(optimizer, loss, metrics, [loss_weights])
+
+model.summary()
 ```
-- `optimizer`: (`"sgd"`, `"adam"`, `"rmsprop"`)
-- `loss`: (`"mse"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
-- `metrics`: (`["mse"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
-- `loss_weights`
 ## Fit
-### `EarlyStopping(monitor, mode, verbose, patience)`
-- `mode`: (`"auto"`, `"min"`, `"max"`). In min mode, training will stop when the quantity monitored has stopped decreasing; in "max" mode it will stop when the quantity monitored has stopped increasing; in "auto" mode, the direction is automatically inferred from the name of the monitored quantity.
-- `patience` : Number of epochs with no improvement after which training will be stopped.
-### `ModelCheckpoint(filepath, monitor, mode, verbose, save_best_only)`
-- `save_best_only=True` : `monitor` 기준으로 가장 좋은 값으로 모델이 저장됩니다.
-- `save_best_only=False` : 매 epoch마다 모델이 filepath{epoch}으로 저장됩니다.
-- `save_weights_only=True` : 모델의 weights만 저장됩니다.
-- `save_weights_only=False` : 모델 레이어 및 weights 모두 저장됩니다.
-- `verbose=1` : 모델이 저장 될 때 '저장되었습니다' 라고 화면에 표시됩니다.
-- `verbose=0` : 화면에 표시되는 것 없이 그냥 바로 모델이 저장됩니다.
+- Source: https://keras.io/api/models/model_training_apis/
 ```python
-hist = model.fit(x, y, validation_split, batch_size, epochs, verbose, shuffle, callbacks)
+# `mode`: (`"auto"`, `"min"`, `"max"`).
+	# `"min"`: Training will stop when the quantity monitored has stopped decreasing;
+	# `"max"`: It will stop when the quantity monitored has stopped increasing;
+	# `"auto"`: The direction is automatically inferred from the name of the monitored quantity.
+# `patience`: Number of epochs with no improvement after which training will be stopped.
+es = EarlyStopping(monitor="val_loss", mode="auto", verbose, patience)
+model_path = "model_path.h5"
+# `verbose=1`: 모델이 저장 될 때 '저장되었습니다' 라고 화면에 표시됩니다.
+# `save_best_only=True`: `monitor` 기준으로 가장 좋은 값으로 모델이 저장됩니다.
+# `save_best_only=False`: 매 epoch마다 모델이 filepath{epoch}으로 저장됩니다.
+# `save_weights_only=True`: 모델의 weights만 저장됩니다.
+# `save_weights_only=False`: 모델 레이어 및 weights 모두 저장됩니다.
+mc = ModelCheckpoint(filepath=model_path, monitor="val_acc", mode, verbose=1, [save_best_only])
+# `x`
+# `y`
+# `validation_split`
+# `verbose=2`: One line per epoch. recommended.
+hist = model.fit(x=X, y=y, validation_split=0.2, batch_size, epochs, verbose=2, shuffle=True, callbacks=[es, mc])
 ```
-- `x`
-- `y`
-- `validation_split`
 ```python
 hist = model.fit(train_ds, validation_data=val_ds, epochs=epochs)
 ```
@@ -1179,6 +1186,24 @@ score = model.evaluate(x_test, y_test, batch_size=128, verbose=0)
 ```python
 preds = model.predict(x.values)
 ```
+## 가중치 확인
+```python
+for layer in model.layers:
+	...
+```
+```python
+layer = model.get_layer("layer_name")
+
+name = layer.name
+output = layer.output
+input_shape = layer.input_shape
+output_shape = layer.output_shape
+weight = layer.get_weights()[0]
+bias = layer.get_weights()[1]
+```
+#### `model.trainable_variables`
+#### `model.save()`
+#### `model.input`
 
 ### `tf.keras.utils`
 #### `tf.keras.utils.get_file()`
@@ -1204,12 +1229,6 @@ opt.apply_gradients(zip(grads, model.trainable_variables))
 #### `tf.keras.losses.MeanSquaredError()`(= `"mse"`)
 #### `tf.keras.losses.BinaryCrossentropy()`(= `"binary_crossentropy"`)
 #### `tf.keras.losses.categorical_crossentropy()`
-```python
-def loss_fn(model, images, labels):
-    logits = model(images, training=True)
-    loss = tf.reduce_mean(tf.keras.losses.categorical_crossentropy(y_true=labels, y_pred=logits, from_logits=True))
-    return loss
-```
 - Source: [https://hwiyong.tistory.com/335](https://hwiyong.tistory.com/335)
 - 딥러닝에서 쓰이는 logit은 매우 간단합니다. 모델의 출력값이 문제에 맞게 normalize 되었느냐의 여부입니다. 예를 들어, 10개의 이미지를 분류하는 문제에서는 주로 softmax 함수를 사용하는데요. 이때, 모델이 출력값으로 해당 클래스의 범위에서의 확률을 출력한다면, 이를 logit=False라고 표현할 수 있습니다(이건 저만의 표현인 점을 참고해서 읽어주세요). 반대로 모델의 출력값이 sigmoid 또는 linear를 거쳐서 만들어지게 된다면, logit=True라고 표현할 수 있습니다.
 - 클래스 분류 문제에서 softmax 함수를 거치면 `from_logits=False`(default값), 그렇지 않으면 `from_logits=True`(numerically stable)
