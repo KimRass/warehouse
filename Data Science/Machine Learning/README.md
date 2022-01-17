@@ -220,12 +220,19 @@ def deriv_sigmoid(x):
 ```
 ## Softmax
 - Source: http://blog.naver.com/PostView.nhn?blogId=wideeyed&logNo=221021710286&parentCategoryNo=&categoryNo=&viewDate=&isShowPopularPosts=false&from=postView
+```python
+tf.nn.softmax()
+```
 ## Categorical Cross-Entropy Loss
 - Source : https://wordbe.tistory.com/entry/ML-Cross-entropyCategorical-Binary의-이해
 - Softmax activation 뒤에 Cross-Entropy loss를 붙인 형태로 주로 사용하기 때문에 Softmax loss 라고도 불립니다. → Multi-class classification에 사용됩니다.
 우리가 분류문제에서 주로 사용하는 활성화함수와 로스입니다. 분류 문제에서는 MSE(mean square error) loss 보다 CE loss가 더 빨리 수렴한 다는 사실이 알려져있습니다. 따라서 multi class에서 하나의 클래스를 구분할 때 softmax와 CE loss의 조합을 많이 사용합니다.
 ## `tf.keras.activations.linear()`
-## `tf.keras.activations.relu()`(= `"relu"`)
+## Relu
+```python
+tf.nn.relu
+tf.keras.activations.relu()
+```
 
 # Back Propogation
 - Source: https://sacko.tistory.com/19
@@ -388,11 +395,31 @@ the outer loop for estimating accuracy.
 
 # Evaluation Metrics
 ## Regression Problem
-### MSE(Mean Squared Error)
-### RMSE(Root Mean Squared Error)
-### MAE(Mean Absolute Error)
-### MPE(Mean Percentage Error)
-### MAPE(Mean Absolute Percentage Error)
+### MSE (Mean Squared Error)
+```python
+from tensorflow.keras.metrics import MeanSquaredError
+
+mse = MeanSquaredError()().numpy()
+```
+### RMSE (Root Mean Squared Error)
+```python
+from tensorflow.keras.metrics import RootMeanSquaredError
+
+rmse = RootMeanSquaredError()().numpy()
+```
+### MAE (Mean Absolute Error)
+```python
+from tensorflow.keras.metrics import MeanAbsoluteError
+
+mae = MeanAbsoluteError()().numpy()
+```
+### MPE (Mean Percentage Error)
+### MAPE (Mean Absolute Percentage Error)
+```python
+from tensorflow.keras.metrics import MeanAbsolutePercentageError
+
+mape = MeanAbsolutePercentageError()().numpy()
+```
 ### R-Squared
 - Source: https://statisticsbyjim.com/regression/r-squared-invalid-nonlinear-regression/
 - Explained variance + Error variance = Total variance.
@@ -405,11 +432,21 @@ If you use R-squared to pick the best model, it leads to the proper model only 2
 ### RMSLE(Root Mean Squared Logarithmic Error)
 - Source: https://shryu8902.github.io/machine%20learning/error/
 ## Classification Problem
+```python
+from tensorflow.keras.metrics import BinaryCrossentropy
+
+bc = BinaryCrossentropy()
+```
+```python
+from tensorflow.keras.metrics import SparseCategoricalCrossentropy
+
+scc = SparseCategoricalCrossentropy()
+```
 ### Confusion Matrix
 - Source: https://datascienceschool.net/view-notebook/731e0d2ef52c41c686ba53dcaf346f32/
 - 정답 클래스와 예측 클래스의 일치 여부를 센 결과. 정답 클래스는 행(row)으로 예측한 클래스는 열(column)로 나타낸다.
 ### Binary Classification Problem
-- A, B 클래스 중 B 클래스를 맞히는 문제라고 가정했을 때
+- 
 ### Accuracy(정확도)
 - 전체 샘플 중 A 또는 B라고 맞게 예측한 샘플 수의 비율
 ### Precision(정밀도)
@@ -861,10 +898,11 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
 from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D
 from tensorflow.keras.optimizers import SGD, Adam, Adagrad
-from tensorflow.keras.metrics import RootMeanSquaredError, BinaryCrossentropy, SparseCategoricalAccuracy
+from tensorflow.keras.metrics import MeanSquaredError, RootMeanSquaredError, MeanAbsoluteError, MeanAbsolutePercentageError, BinaryCrossentropy, CategoricalCrossentropy, SparseCategoricalCrossentropy, CosineSimilarity
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.activations import linear, sigmoid, relu
+from tensorflow.keras.initializers import RandomNormal, glorot_uniform, he_uniform, Constant
 ```
 ## Create Tensors
 ### `tf.Variable(initial_value, [shape=None], [trainable=True], [validate_shape=True], [dtype], [name])`
@@ -877,7 +915,6 @@ from tensorflow.keras.activations import linear, sigmoid, relu
 ```python
 W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
 ```
-## Layers
 ## Computation between Tensors
 ### `tf.stack(values, axis, [name])`
 - Source: https://www.tensorflow.org/api_docs/python/tf/stack
@@ -917,7 +954,7 @@ Concatenate(axis=1)(embs_fm)
 ```python
 x = Activation("relu")(x)
 ```
-## Transforms Tensor Shape
+## Layers
 ### `Flatten()`
 - 입력되는 tensor의 row를 펼쳐서 일렬로 만듭니다.
 - 학습되는 weights는 없고 데이터를 변환하기만 합니다.
@@ -1020,12 +1057,77 @@ model.add(TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
 ```
 - TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다.
 - In keras - while building a sequential model - usually the second dimension (one after sample dimension) - is related to a time dimension. This means that if for example, your data is 5-dim with (sample, time, width, length, channel) you could apply a convolutional layer using TimeDistributed (which is applicable to 4-dim with (sample, width, length, channel)) along a time dimension (applying the same layer to each time slice) in order to obtain 5-d output.
-#### `tf.keras.layers.Layer`
-- custom layer를 만들려면 `tf.keras.layers.Layer` 클래스를 상속하고 다음 메서드를 구현합니다
-    - __init__: 이 층에서 사용되는 하위 층을 정의할 수 있습니다. instance 생성 시에 호출됩니다.
-    - build: 층의 가중치를 만듭니다. add_weight 메서드를 사용해 가중치를 추가합니다.
-    - call: forward feeding 단계에서 호출됩니다. 입력 값을 이용해서 결과를 계산한 후 반환하면 됩니다.
+## Build Model
+```python
+model = Model(inputs, ouputs, [name])
+```
+## Compile
+```python
+# `optimizer`: (`"sgd"`, `"adam"`, `"rmsprop"`, Adagrad(lr)]
+# `loss`: (`"mse"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
+# `metrics`: (`["mse"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
+# `loss_weights`
+model.compile(optimizer, loss, metrics, [loss_weights])
 
+model.summary()
+```
+## Fit
+- Source: https://keras.io/api/models/model_training_apis/
+```python
+# `mode`: (`"auto"`, `"min"`, `"max"`).
+	# `"min"`: Training will stop when the quantity monitored has stopped decreasing;
+	# `"max"`: It will stop when the quantity monitored has stopped increasing;
+	# `"auto"`: The direction is automatically inferred from the name of the monitored quantity.
+# `patience`: Number of epochs with no improvement after which training will be stopped.
+es = EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=2)
+model_path = "model_path.h5"
+# `save_best_only=True`: `monitor` 기준으로 가장 좋은 값으로 모델이 저장됩니다.
+# `save_best_only=False`: 매 epoch마다 모델이 filepath{epoch}으로 저장됩니다.
+# `save_weights_only`: If `True`, then only the model's weights will be saved (`model.save_weights(filepath)`), else the full model is saved (`model.save(filepath)`).
+mc = ModelCheckpoint(filepath=model_path, monitor="val_acc", mode="auto", verbose=1, save_best_only=True)
+# `x`
+# `y`
+# `validation_split`
+# `verbose=2`: One line per epoch. recommended.
+hist = model.fit(x=X, y=y, validation_split=0.2, batch_size, epochs, verbose=2, shuffle=True, callbacks=[es, mc])
+```
+```python
+hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
+```
+```python
+plt.plot(hist.history["loss"], label="loss");
+plt.plot(hist.history["val_loss"], label="val_loss");
+plt.legend();
+```
+## Evaluate Model
+```python
+score = model.evaluate(x_test, y_test, batch_size=128, verbose=0)
+```
+## Predict
+```python
+preds = model.predict(x.values)
+```
+## 가중치 확인
+```python
+for layer in model.layers:
+	...
+```
+```python
+layer = model.get_layer("layer_name")
+
+name = layer.name
+output = layer.output
+input_shape = layer.input_shape
+output_shape = layer.output_shape
+weight = layer.get_weights()[0]
+bias = layer.get_weights()[1]
+```
+## model Methods
+```python
+model.trainable_variables
+model.save()
+model.inputs
+```
 ## `tf.identity()`
 ## `tf.constant()`
 ```python
@@ -1053,8 +1155,7 @@ batch_size = tf.shape(conv_output)[0]
 ```
 ## `tf.reshape()`
 ```python
-conv_output = tf.reshape(conv_output, shape=(batch_size, output_size, output_size, 3,
-                                                 5 + n_clss))
+conv_output = tf.reshape(conv_output, shape=(batch_size, output_size, output_size, 3, 5 + n_clss))
 ```
 ## `tf.range()`
 ```python
@@ -1104,13 +1205,6 @@ acc = tf.math.reduce_mean(tf.cast(tf.math.equal(pred, labels), dtype=tf.float32)
 - `axis=0`: reduces along the 1st dimension. dimension이 1만큼 감소합니다.
 - `axis=1`: reduces along the 2nd dimension. dimension이 1만큼 감소합니다.
 - `keepdims=True`: dimension이 감소하지 않습니다.
-## `tf.nn`
-### `tf.nn.softmax()`
-```python
-h = tf.nn.softmax(tf.matmul(train_X, W) + b)
-```
-### `tf.nn.relu`
-## `tf.data`
 ### `tf.data.Dataset`
 #### `tf.data.Dataset.from_tensor_slices()`
 ```python
@@ -1126,85 +1220,11 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_x, test_y)).shuffle(len(
 ## `tf.train`
 ### `tf.train.Checkpoint()`
 ## `tf.keras`
-### `Sequential()`
+
+# Sequential
 ```python
 model = Sequential()
 ```
-
-## Build Model
-```python
-model = Model(inputs, ouputs, [name])
-```
-## Compile
-```python
-# `optimizer`: (`"sgd"`, `"adam"`, `"rmsprop"`)
-# `loss`: (`"mse"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
-# `metrics`: (`["mse"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
-# `loss_weights`
-model.compile(optimizer, loss, metrics, [loss_weights])
-
-model.summary()
-```
-## Fit
-- Source: https://keras.io/api/models/model_training_apis/
-```python
-# `mode`: (`"auto"`, `"min"`, `"max"`).
-	# `"min"`: Training will stop when the quantity monitored has stopped decreasing;
-	# `"max"`: It will stop when the quantity monitored has stopped increasing;
-	# `"auto"`: The direction is automatically inferred from the name of the monitored quantity.
-# `patience`: Number of epochs with no improvement after which training will be stopped.
-es = EarlyStopping(monitor="val_loss", mode="auto", verbose, patience)
-model_path = "model_path.h5"
-# `verbose=1`: 모델이 저장 될 때 '저장되었습니다' 라고 화면에 표시됩니다.
-# `save_best_only=True`: `monitor` 기준으로 가장 좋은 값으로 모델이 저장됩니다.
-# `save_best_only=False`: 매 epoch마다 모델이 filepath{epoch}으로 저장됩니다.
-# `save_weights_only=True`: 모델의 weights만 저장됩니다.
-# `save_weights_only=False`: 모델 레이어 및 weights 모두 저장됩니다.
-mc = ModelCheckpoint(filepath=model_path, monitor="val_acc", mode, verbose=1, [save_best_only])
-# `x`
-# `y`
-# `validation_split`
-# `verbose=2`: One line per epoch. recommended.
-hist = model.fit(x=X, y=y, validation_split=0.2, batch_size, epochs, verbose=2, shuffle=True, callbacks=[es, mc])
-```
-```python
-hist = model.fit(train_ds, validation_data=val_ds, epochs=epochs)
-```
-```python
-hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
-```
-### `hist.history`
-```python
-hist.history["accuracy"]
-```
-- (`"accuracy"`, `"val_accuracy"`, `"loss"`, `"val_loss"`)
-## Evaluate Model
-```python
-score = model.evaluate(x_test, y_test, batch_size=128, verbose=0)
-```
-## Predict
-```python
-preds = model.predict(x.values)
-```
-## 가중치 확인
-```python
-for layer in model.layers:
-	...
-```
-```python
-layer = model.get_layer("layer_name")
-
-name = layer.name
-output = layer.output
-input_shape = layer.input_shape
-output_shape = layer.output_shape
-weight = layer.get_weights()[0]
-bias = layer.get_weights()[1]
-```
-#### `model.trainable_variables`
-#### `model.save()`
-#### `model.input`
-
 ### `tf.keras.utils`
 #### `tf.keras.utils.get_file()`
 ```python
@@ -1225,206 +1245,18 @@ opt.apply_gradients(zip([dW, db], [W, b]))
 ```python
 opt.apply_gradients(zip(grads, model.trainable_variables))
 ```
-### `tf.keras.losses`
-#### `tf.keras.losses.MeanSquaredError()`(= `"mse"`)
-#### `tf.keras.losses.BinaryCrossentropy()`(= `"binary_crossentropy"`)
-#### `tf.keras.losses.categorical_crossentropy()`
-- Source: [https://hwiyong.tistory.com/335](https://hwiyong.tistory.com/335)
-- 딥러닝에서 쓰이는 logit은 매우 간단합니다. 모델의 출력값이 문제에 맞게 normalize 되었느냐의 여부입니다. 예를 들어, 10개의 이미지를 분류하는 문제에서는 주로 softmax 함수를 사용하는데요. 이때, 모델이 출력값으로 해당 클래스의 범위에서의 확률을 출력한다면, 이를 logit=False라고 표현할 수 있습니다(이건 저만의 표현인 점을 참고해서 읽어주세요). 반대로 모델의 출력값이 sigmoid 또는 linear를 거쳐서 만들어지게 된다면, logit=True라고 표현할 수 있습니다.
-- 클래스 분류 문제에서 softmax 함수를 거치면 `from_logits=False`(default값), 그렇지 않으면 `from_logits=True`(numerically stable)
-- 정답 레이블이 one-hot encoding 형태일 경우 사용합니다.
-#### `tf.keras.losses.sparse_categorical_crossentropy()`
-```python
-def loss_fn(model, x, y):
-    return tf.reduce_mean(tf.keras.losses.sparse_categorical_crossentropy(y_true=y, y_pred=model(x), from_logits=True))
-```
-- 정답 레이블이 one-hot vector가 아닐 경우 사용합니다.
-##### `tf.keras.layers.experimental.preprocessing`
-###### `Rescaling`
-```python
-model.add(Rescaling(1/255, input_shape=(img_height, img_width, 3)))
-```
-```python
-from tensorflow.keras.layers.experimental.preprocessing import RandomFlip, RandomRotation, RandomZoom
-```
-###### `RandomFlip`
-```python
-data_aug.add(RandomFlip("horizontal", input_shape=(img_height, img_width, 3)))
-```
-###### `RandomRotation`
-```python
-data_aug.add(RandomRotation(0.1))
-```
-###### `RandomZoom()`
-```python
-data_aug.add(RandomZoom(0.1))
-```
-```python
-log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-```
-### `tf.keras.initializers`
-#### `tf.keras.initializers.RandomNormal()`
-#### `tf.keras.initializers.glorot_uniform()`
-#### `tf.keras.initializers.he_uniform()`
-#### `tf.keras.initializers.Constant()`
-### `tf.keras.preprocessing`
-#### `tf.keras.preprocessing.image`
-##### `load_img()`
-```python
-from tensorflow.keras.preprocessing.image import load_img
-```
-```python
-img = load_img(fpath, target_size=(img_height, img_width))
-```
-##### `img_to_array()`
-```python
-from tensorflow.keras.preprocessing.image import img_to_array
-```
-```python
-img_array = img_to_array(img)
-```
-#### `image_dataset_from_directory()`
-```python
-from tf.keras.preprocessing import image_dataset_from_directory
-```
-```python
-train_ds = image_dataset_from_directory(data_dir, validation_split=0.2, subset="training",
-                                        image_size=(img_height, img_width), seed=1, batch_size=batch_size)
-```
-```python
-for image_batch, labels_batch in train_ds:
-    print(image_batch.shape)
-    print(labels_batch.shape)
-    break
-```
-##### `ds.class_names`
-```python
-train_ds.class_names
-```
-##### `ds.take()`
-```python
-plt.figure(figsize=(10, 10))
-for images, labels in train_ds.take(1):
-    for i in range(9):
-        ax = plt.subplot(3, 3, i + 1)
-        ax.imshow(images[i].numpy().astype("uint8"))
-        ax.set_title(cls_names[labels[i]])
-        ax.axis("off")
-```
-##### `ImageDataGenerator`
-```python
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
-```
-```python
-gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True)
-```
-- `validation_split`
-- `shear_range` : float. Shear Intensity (Shear angle in counter-clockwise direction as radians)
-- `zoom_range` : Float or [lower, upper]. Range for random zoom. If a float, [lower, upper] = [1-zoom_range, 1+zoom_range]
-- `horizontal_flip` : Boolean. Randomly flip inputs horizontally.
-- `rescale` : rescaling factor. Defaults to None. If None or 0, no rescaling is applied, otherwise we multiply the data by the value provided (before applying any other transformation).
-- `rotation_range`
-- `width_shift_range`: (Float) Fraction of total width if < 1 or pixels if >= 1. (1-D Array-like) Random elements from the Array. (Int) Pixels from interval (-`width_shift_range`, `width_shift_range`)
-- `height_shift_range`
-- `brightness_range` : Tuple or List of two Floats. Range for picking a brightness shift value from.
-- `zoom_range`
-- `horizontal_flip`
-- `vertical_flip`
-- transformation은 이미지에 변화를 주어서 학습 데이터를 많게 해서 성능을 높이기 위해 하는 것이기 때문에 train set만 해주고, test set에는 해 줄 필요가 없다. 그러나 주의할 것은 Rescale은 train, test 모두 해 주어야 한다.
-- References: https://m.blog.naver.com/PostView.nhn?blogId=isu112600&logNo=221582003889&proxyReferer=https:%2F%2Fwww.google.com%2F
-###### `gen.fit()`
-- Only required if `featurewise_center` or `featurewise_std_normalization` or `zca_whitening` are set to True.
-###### `gen.flow()`
-```python
-hist = model.fit(gen.flow(x_tr, y_tr, batch_size=32), validation_data=gen.flow(x_val, y_val, batch_size=32),
-                 epochs=10)
-```
-###### `gen.flow_from_directory()`
-```python
-gen = ImageDataGenerator()
-datagen_tr = gen.flow_from_directory(directory="./dogsandcats", target_size=(224, 224))
-```
-- `batch_size=batch_size`
-- `target_size`: the dimensions to which all images found will be resized.
-- `class_mode`: (`"binary"`, `"categorical"`, `"sparse"`, `"input"`, `None`)
-- `class_mode="binary"`: for binary classification.
-- `class_mode="categorical"`: for multi-class classification(OHE).
-- `class_mode="sparse"`: for multi-class classification(no OHE).
-- `class_mode="input"`
-- `class_mode=None`: Returns no label.
-- `subset`: (`"training"`, `"validation"`) Subset of data if `validation_split` is set in ImageDataGenerator().
-- `shuffle`
 #### `tf.keras.preprocessing.sequence`
-##### `pad_sequences()`
-```python
-train_X = pad_sequences(train_X, maxlen=max_len)
-```
-```python
-X_char = [pad_sequences([[char2idx[char] if char in chars else 1 for char in word] for word in sent]) for sent in corpus]
-```
-```python
-train_X = pad_sequences([tokenizer.convert_tokens_to_ids(tokens) for tokens in tokens_lists], 
-                        maxlen=max_len, value=tokenizer.convert_tokens_to_ids("[PAD]"),
-                        truncating="post", padding="post")
-```
-- `padding`: (`"pre"`, `"post"`)
-- `truncating`: (`"pre"`, `"post"`)
-- `value=` : padding에 사용할 value를 지정합니다.
-#### `tf.keras.preprocessing.text`
-##### `tf.keras.preprocessing.text.Tokenizer()`
-```python
-tkn = tf.keras.preprocessing.text.Tokenizer(num_words=vocab_size+2, oov_token="UNK", lower=True)
-```
-- `lower=False`: 대문자를 유지합니다.
-##### `tkn.fit_on_texts()`
-```python
-tkn.fit_on_texts(["나랑 점심 먹으러 갈래 점심 메뉴는 햄버거 갈래 갈래 햄버거 최고야"])
-```
-##### `tkn.word_index`
-```python
-word2idx = tkn.word_index
-```
-##### `tkn.index_word`
-##### `tkn.word_counts`
-```python
-word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
-
-cnts = list(word2cnt.values())
-
-for vocab_size, value in enumerate(np.cumsum(cnts)/np.sum(cnts)):
-    if value >= ratio:
-        break
-
-print(f"{vocab_size:,}개의 단어로 전체 data의 {ratio:.0%}를 표현할 수 있습니다.")
-print(f"{len(word2idx):,}개의 단어 중 {vocab_size/len(word2idx):.1%}에 해당합니다.")
-```
-##### `tkn.texts_to_sequences()`
-```python
-train_X = tkn.texts_to_sequences(train_X)
-```
-- `num_words`가 적용됩니다.
-##### `tkn.sequences_to_texts()`
-##### `tkn.texts_to_matrix()`
-```python
-tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"], mode="count"))
-```
-- `mode`: (`"count"`, `"binary"`, `"tfidf"`, `"freq"`)
-- `num_words`가 적용됩니다.
 ### `tf.keras.models`
 #### `tf.keras.models.load_model()`
 ```python
 model = tf.keras.models.load_model(model_path)
 ```
-### `tf.keras.applications`
-#### `tf.keras.applications.VGG16()`
-```python
-vgg = tf.keras.applications.VGG16(input_shape=(224, 224, 3), include_top=False, weights="imagenet")
-```
-##### `vgg.trainable`
-```python
-vgg.trainable=Flase
-```
+
+# Custom Layer
+- custom layer를 만들려면 `tf.keras.layers.Layer` 클래스를 상속하고 다음 메서드를 구현합니다
+    - __init__: 이 층에서 사용되는 하위 층을 정의할 수 있습니다. instance 생성 시에 호출됩니다.
+    - build: 층의 가중치를 만듭니다. add_weight 메서드를 사용해 가중치를 추가합니다.
+    - call: forward feeding 단계에서 호출됩니다. 입력 값을 이용해서 결과를 계산한 후 반환하면 됩니다.
 
 # `tensorflow_addons`
 ```python
@@ -1434,40 +1266,6 @@ import tensorflow_addons as tfa
 ### `tfa.optimizers.RectifiedAdam()`
 ```python
 opt = tfa.optimizers.RectifiedAdam(lr=5.0e-5, total_steps = 2344*4, warmup_proportion=0.1, min_lr=1e-5, epsilon=1e-08, clipnorm=1.0)
-```
-
-# `tensorflow_hub`
-```python
-import tensorflow_hub as hub
-```
-## `hub.Module()`
-```python
-elmo = hub.Module("https://tfhub.dev/google/elmo/3", trainable=True)
-```
-### `elmo()`
-```python
-embeddings = elmo(["the cat is on the mat", "dogs are in the fog"], signature="default", as_dict=True)["elmo"]
-```
-
-# `tensorflow_datasets`
-```python
-import tensorflow_datasets as tfds
-```
-## `tfds.deprecated`
-### `tfds.deprecated.text`
-#### `tfds.deprecated.text.SubwordTextEncoder`
-##### `tfds.deprecated.text.SubwordTextEncoder.build_from_corpus()`
-```python
-tkn = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(train_data["document"], target_vocab_size=2**13)
-```
-##### `tkn.subwords`
-##### `tkn.encode()`
-```python
-tkn.encode(train_data["document"][20])
-```
-##### `tkn.decode()`
-```python
-tkn.decode(tkn.encode(sample))
 ```
 
 # `torch`

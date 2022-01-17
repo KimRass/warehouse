@@ -633,11 +633,11 @@ for name, row in Data.iterrows():
 	...
 ```
 - Iterate over DataFrame rows as (index, Series) pairs.
-## `DataFrame.iteritems()`, `DataFrame.items()`
+## `iteritems()`
 ```python
-{k:v for k, v in x_train.iteritems()}
+{name:ser for name, ser in x_train.iteritems()}
 ```
-- Iterate over the DataFrame columns, returning a tuple with the column name and the content as a Series.
+- ***Iterate over the DataFrame columns, returning a tuple with the column name and the content as a Series.***
 ## `Series.iteritems()`, `Series.items()`
 ```python
 for i, value in raw_data["quarter2"].items():

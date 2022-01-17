@@ -242,3 +242,125 @@ hsv_tuples = [(idx/n_clss, 1, 1) for idx in idx2cls.keys()]
 colors = list(map(lambda x: colorsys.hsv_to_rgb(*x), hsv_tuples))
 colors = list(map(lambda x: (int(x[0]*255), int(x[1]*255), int(x[2]*255)), colors))
 ```
+
+## `Rescaling`
+```python
+model.add(Rescaling(1/255, input_shape=(img_height, img_width, 3)))
+```
+```python
+from tensorflow.keras.layers.experimental.preprocessing import RandomFlip, RandomRotation, RandomZoom
+```
+## `RandomFlip`
+```python
+data_aug.add(RandomFlip("horizontal", input_shape=(img_height, img_width, 3)))
+```
+## `RandomRotation`
+```python
+data_aug.add(RandomRotation(0.1))
+```
+## `RandomZoom()`
+```python
+data_aug.add(RandomZoom(0.1))
+```
+```python
+log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
+```
+
+### `tf.keras.preprocessing`
+#### `tf.keras.preprocessing.image`
+##### `load_img()`
+```python
+from tensorflow.keras.preprocessing.image import load_img
+```
+```python
+img = load_img(fpath, target_size=(img_height, img_width))
+```
+##### `img_to_array()`
+```python
+from tensorflow.keras.preprocessing.image import img_to_array
+```
+```python
+img_array = img_to_array(img)
+```
+#### `image_dataset_from_directory()`
+```python
+from tf.keras.preprocessing import image_dataset_from_directory
+```
+```python
+train_ds = image_dataset_from_directory(data_dir, validation_split=0.2, subset="training",
+                                        image_size=(img_height, img_width), seed=1, batch_size=batch_size)
+```
+```python
+for image_batch, labels_batch in train_ds:
+    print(image_batch.shape)
+    print(labels_batch.shape)
+    break
+```
+##### `ds.class_names`
+```python
+train_ds.class_names
+```
+##### `ds.take()`
+```python
+plt.figure(figsize=(10, 10))
+for images, labels in train_ds.take(1):
+    for i in range(9):
+        ax = plt.subplot(3, 3, i + 1)
+        ax.imshow(images[i].numpy().astype("uint8"))
+        ax.set_title(cls_names[labels[i]])
+        ax.axis("off")
+```
+##### `ImageDataGenerator`
+```python
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
+```
+```python
+gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True)
+```
+- `validation_split`
+- `shear_range` : float. Shear Intensity (Shear angle in counter-clockwise direction as radians)
+- `zoom_range` : Float or [lower, upper]. Range for random zoom. If a float, [lower, upper] = [1-zoom_range, 1+zoom_range]
+- `horizontal_flip` : Boolean. Randomly flip inputs horizontally.
+- `rescale` : rescaling factor. Defaults to None. If None or 0, no rescaling is applied, otherwise we multiply the data by the value provided (before applying any other transformation).
+- `rotation_range`
+- `width_shift_range`: (Float) Fraction of total width if < 1 or pixels if >= 1. (1-D Array-like) Random elements from the Array. (Int) Pixels from interval (-`width_shift_range`, `width_shift_range`)
+- `height_shift_range`
+- `brightness_range` : Tuple or List of two Floats. Range for picking a brightness shift value from.
+- `zoom_range`
+- `horizontal_flip`
+- `vertical_flip`
+- transformation은 이미지에 변화를 주어서 학습 데이터를 많게 해서 성능을 높이기 위해 하는 것이기 때문에 train set만 해주고, test set에는 해 줄 필요가 없다. 그러나 주의할 것은 Rescale은 train, test 모두 해 주어야 한다.
+- References: https://m.blog.naver.com/PostView.nhn?blogId=isu112600&logNo=221582003889&proxyReferer=https:%2F%2Fwww.google.com%2F
+###### `gen.fit()`
+- Only required if `featurewise_center` or `featurewise_std_normalization` or `zca_whitening` are set to True.
+###### `gen.flow()`
+```python
+hist = model.fit(gen.flow(x_tr, y_tr, batch_size=32), validation_data=gen.flow(x_val, y_val, batch_size=32),
+                 epochs=10)
+```
+###### `gen.flow_from_directory()`
+```python
+gen = ImageDataGenerator()
+datagen_tr = gen.flow_from_directory(directory="./dogsandcats", target_size=(224, 224))
+```
+- `batch_size=batch_size`
+- `target_size`: the dimensions to which all images found will be resized.
+- `class_mode`: (`"binary"`, `"categorical"`, `"sparse"`, `"input"`, `None`)
+- `class_mode="binary"`: for binary classification.
+- `class_mode="categorical"`: for multi-class classification(OHE).
+- `class_mode="sparse"`: for multi-class classification(no OHE).
+- `class_mode="input"`
+- `class_mode=None`: Returns no label.
+- `subset`: (`"training"`, `"validation"`) Subset of data if `validation_split` is set in ImageDataGenerator().
+- `shuffle`
+
+### `tf.keras.applications`
+#### `tf.keras.applications.VGG16()`
+```python
+vgg = tf.keras.applications.VGG16(input_shape=(224, 224, 3), include_top=False, weights="imagenet")
+```
+##### `vgg.trainable`
+```python
+vgg.trainable=Flase
+```

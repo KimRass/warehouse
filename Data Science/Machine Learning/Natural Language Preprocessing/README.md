@@ -855,3 +855,92 @@ model.wv.most_similar("안성기")
 ```python
 model.wv.save_word2vec_format("eng_w2v")
 ```
+
+##### `pad_sequences()`
+```python
+train_X = pad_sequences(train_X, maxlen=max_len)
+```
+```python
+X_char = [pad_sequences([[char2idx[char] if char in chars else 1 for char in word] for word in sent]) for sent in corpus]
+```
+```python
+train_X = pad_sequences([tokenizer.convert_tokens_to_ids(tokens) for tokens in tokens_lists], 
+                        maxlen=max_len, value=tokenizer.convert_tokens_to_ids("[PAD]"),
+                        truncating="post", padding="post")
+```
+- `padding`: (`"pre"`, `"post"`)
+- `truncating`: (`"pre"`, `"post"`)
+- `value=` : padding에 사용할 value를 지정합니다.
+#### `tf.keras.preprocessing.text`
+##### `tf.keras.preprocessing.text.Tokenizer()`
+```python
+tkn = tf.keras.preprocessing.text.Tokenizer(num_words=vocab_size+2, oov_token="UNK", lower=True)
+```
+- `lower=False`: 대문자를 유지합니다.
+##### `tkn.fit_on_texts()`
+```python
+tkn.fit_on_texts(["나랑 점심 먹으러 갈래 점심 메뉴는 햄버거 갈래 갈래 햄버거 최고야"])
+```
+##### `tkn.word_index`
+```python
+word2idx = tkn.word_index
+```
+##### `tkn.index_word`
+##### `tkn.word_counts`
+```python
+word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
+
+cnts = list(word2cnt.values())
+
+for vocab_size, value in enumerate(np.cumsum(cnts)/np.sum(cnts)):
+    if value >= ratio:
+        break
+
+print(f"{vocab_size:,}개의 단어로 전체 data의 {ratio:.0%}를 표현할 수 있습니다.")
+print(f"{len(word2idx):,}개의 단어 중 {vocab_size/len(word2idx):.1%}에 해당합니다.")
+```
+##### `tkn.texts_to_sequences()`
+```python
+train_X = tkn.texts_to_sequences(train_X)
+```
+- `num_words`가 적용됩니다.
+##### `tkn.sequences_to_texts()`
+##### `tkn.texts_to_matrix()`
+```python
+tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"], mode="count"))
+```
+- `mode`: (`"count"`, `"binary"`, `"tfidf"`, `"freq"`)
+- `num_words`가 적용됩니다.
+# `tensorflow_hub`
+```python
+import tensorflow_hub as hub
+```
+## `hub.Module()`
+```python
+elmo = hub.Module("https://tfhub.dev/google/elmo/3", trainable=True)
+```
+### `elmo()`
+```python
+embeddings = elmo(["the cat is on the mat", "dogs are in the fog"], signature="default", as_dict=True)["elmo"]
+```
+
+# `tensorflow_datasets`
+```python
+import tensorflow_datasets as tfds
+```
+## `tfds.deprecated`
+### `tfds.deprecated.text`
+#### `tfds.deprecated.text.SubwordTextEncoder`
+##### `tfds.deprecated.text.SubwordTextEncoder.build_from_corpus()`
+```python
+tkn = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(train_data["document"], target_vocab_size=2**13)
+```
+##### `tkn.subwords`
+##### `tkn.encode()`
+```python
+tkn.encode(train_data["document"][20])
+```
+##### `tkn.decode()`
+```python
+tkn.decode(tkn.encode(sample))
+```
