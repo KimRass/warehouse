@@ -371,21 +371,9 @@ data.to_csv("D:/☆디지털혁신팀/☆실거래가 분석/☆데이터/실거
 pd.crosstab(index=data["count"], columns=data["weather"], margins=True)
 ```
 ## `pd.concat()`
-```python
-data_without = pd.concat([data_without, data_subset], axis=0)
-```
-```python
-dfs = []
-for filename in filenames:
-    dfs.append(pd.read_csv(filename))
-data = pd.concat(dfs, ignore_index=True, axis=0)
-```
 - `join`: (`"inner"`, `"outer"`, default `"outer"`)
 - `ignore_index`: If `True`, do not use the index values along the concatenation axis. The resulting axis will be labeled `0`, …, `n - 1`.
-## `pd.pivot_table()`
-```python
-pivot = pd.pivot_table(uses_df[["daytime", "weekday", "cnt"]], index="daytime", columns="weekday", values="cnt", aggfunc=np.sum)
-```
+## `pd.pivot_table(data, values, index, columns, [aggfunc], [fill_value], [drop_na], [margins], [margins_name])`
 ## `pd.melt()`
 ```python
 n_post = pd.melt(n_post, id_vars="Date", var_name="Emp", value_name="NPost", ignore_index=False)
@@ -1105,72 +1093,6 @@ for _, row in ml_gby_ax.iterrows():
 #### `ax.fill_between()`
 ```python
 ax.fill_between(x, y1, y2, ...)
-```
-
-# `seaborn`
-```python
-import seaborn as sb
-```
-### `sb.set()`
-- `palette`: (`"muted"`)
-- `color_codes`: If `True` and `palette` is a seaborn palette, remap the shorthand color codes (e.g. `"b"`, `"g"`, `"r"`, etc.) to the colors from this palette.
-- `font_scale`: (float)
-### `sb.lmplot()`
-```python
-sb.lmplot(data=resid_tr.iloc[1:], x="idx", y="resid", fit_reg=True, line_kws={"color": "red"}, size=5.2, aspect=2, ci=99, sharey=True)
-```
-- `data`: (DataFrame)
-- `fit_reg`: (bool) If `True`, estimate and plot a regression model relating the x and y variables.
-- `ci`: (int in [0, 100] or None, optional) Size of the confidence interval for the regression estimate. This will be drawn using translucent bands around the regression line. The confidence interval is estimated using a bootstrap; for large datasets, it may be advisable to avoid that computation by setting this parameter to None.
-- `aspect`: Aspect ratio of each facet, so that aspect\*height gives the width of each facet in inches.
-### `sb.distplot()`
-```python
-fig, axes = plt.subplots(1, 1, figsize=(7, 5))
-fig = sb.distplot(ax=axes, a=resid_tr["resid"].iloc[1:], norm_hist=True, fit=stats.norm)
-```
-- `a`: (Series, 1d-Array, or List)
-- `norm_hist`: (bool, optional) If `True`, the histogram height shows a density rather than a count. This is implied if a KDE or fitted density is plotted.
-### `sb.scatterplot()`
-```python
-sb.scatterplot(ax=ax, data=df, x="ppa", y="error", hue="id", hue_norm=(20000, 20040), palette="RdYlGn", s=70, alpha=0.5)
-```
-### `sb.lineplot()`
-```python
-ax = sb.lineplot(x=data.index, y=data["ppa_ratio"], linewidth=3, color="red", label="흥덕구+서원구 아파트 평균")
-```
-### `sb.barplot()`
-```python
-sb.barplot(ax=ax, x=area_df["ft_cut"], y=area_df[0], color="brown", edgecolor="black", orient="v")
-```
-### `sb.countplot()`
-```python
-sb.countplot(ax=ax, data=cmts202011, x="dep")
-```
-- DataFrame
-```python
-sb.countplot(ax=ax, x=label_train)
-```
-- `x`: (Array, List of Arrays)
-### `sb.replot()`
-```python
-ax = sb.replot(x="total_bill", y="tip", col="time", hue="day", style="day", kind="scatter", data=tips)
-```
-### `sb.kedplot()`
-```python
-sb.kdeplot(ax=ax, data=data["ppa_root"])
-```
-### `sb.stripplot()`
-```python
-ax = sb.stripplot(x=xx, y=yy, data=results_order, jitter=0.4, edgecolor="gray", size=4)
-```
-### `sb.pairtplot()`
-```python
-ax = sb.pairplot(data_for_corr)
-```
-### `sb.heatmap()`
-- Reference: http://seaborn.pydata.org/generated/seaborn.heatmap.html
-```python
-sb.heatmap(ax=ax, data=gby_occup_genre, annot=True, annot_kws={"size": 10}, fmt=".2f", linewidths=0.2, center=3, cmap="RdBu")
 ```
 
 # `networkx`

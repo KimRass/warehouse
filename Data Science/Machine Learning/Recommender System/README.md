@@ -1,6 +1,6 @@
 https://brunch.co.kr/@kakao-it/72
 
-# Types of Data
+# Explicit & Implicit Data
 - Source: https://blog.mirumee.com/the-difference-between-implicit-and-explicit-data-for-business-351f70ff3fbf
 ## Explicit Data
 - *Explicit data is much harder to collect.* Let’s look at Spotify. Simply listening to a song is not explicit data in itself. The system does not know for sure that the user likes that song. Actual explicit data is when the user adds a specific tune to a playlist or hits the heart icon to say that they enjoy listening to it. In such cases, there is exponentially more implicit than explicit data being created by user activity.
@@ -18,15 +18,12 @@ plt.hist(sorted(ratings.groupby(["user_id"]).size().values), bins=50);
 ## Frappe
 - Reference: https://arxiv.org/pdf/1505.03014v1.pdf
 - 2015년 5월에 컨텍스트 인지 모바일 앱 추천 시스템을 위해 공개된 현실 데이터입니다. 유저의 앱에 대한 사용 카운트가 96,200여개의 로그로 구성되어 있습니다.
-- daytime : 시간대("afternoon", "evening", "morning", "night", "noon", "sunrise", "sunset")
-- weekday : 요일
-- isweekend : 주중/주말("workday"/"weekend")
-- homework : 업무 중/가정("work"/"home"/"unknown")
-- cost : 유료/무료("paid"/"free")
-- weather : 날씨("cloudy", "drizzle", "foggy", "rainy", "sleet", "snowy", "stormy", "sunny", "unknown")
-- country : 국가
-- city : 도시(0~1087)
-- cnt : 카운트(1~28752)
+- `daytime`: `['morning', 'afternoon', 'evening', 'sunset', 'night', 'sunrise', 'noon']`
+- `weekday`: `['sunday', 'friday', 'tuesday', 'wednesday', 'saturday', 'monday', 'thursday']`
+- `isweekend`: `["workday", "weekend"]`
+- `homework`: `['unknown', 'home', 'work']`
+- `cost`: `['free', 'paid']`
+- `weather`: `['sunny', 'cloudy', 'drizzle', 'rainy', 'unknown', 'foggy', 'stormy', 'snowy', 'sleet']`
 
 # Cold Start
 - Source: https://en.wikipedia.org/wiki/Cold_start_(recommender_systems)
@@ -275,7 +272,6 @@ def lift(x, y):
 (CARS) is one RS trying to adapt their recommendations to users' specific contextual situations, since users usually make different decisions in different situations. For example, users may choose a romantic movie to watch with partner, but probably a cartoon if he or she is going to watch
 it with kids. Companion, either partner or kid, in this example, is one influential context factor. Other examples of the contexts could be time, location, weather, and so forth. Due to that users' preferences and decisions vary from situations to situations, it is necessary to take context into consideration when providing recommendations to the end users.*
 - There are two typical recommendation tasks involved when context is taken into account: one is context-aware recommendation (CAR) and another one is context recommendation (CR). *The topics in CAR are focused on how to build context-aware recommendation algorithms to recommend items to users in a specific situations. For example, which restaurant I should choose if I am going to have a formal business dinner with a company director. By contrast, context recommendation is a novel research direction emerged in recent years, where it aims to suggest appropriate contexts for the users to consume the item. For example, which could be the best contexts for me to watch the movie "Titanic"? Potential answers could be seeing it in a theater with your partner at weekend.*
-
 
 # K-Core Pruning
 - For Last.fm

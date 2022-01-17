@@ -23,6 +23,10 @@ dense_mat = sparse_mat.todense()
 
 # Real Data & Test Data
 
+# Metadata
+- Source: https://en.wikipedia.org/wiki/Metadata
+- Metadata is "data that provides information about other data", but not the content of the data, such as the text of a message or the image itself.
+
 # Embedding
 - Source: https://analyticsindiamag.com/machine-learning-embedding/#:~:text=An%20embedding%20is%20a%20low,of%20a%20high%2Ddimensional%20vector.&text=Embedding%20is%20the%20process%20of,the%20two%20are%20semantically%20similar.
 - *Embedding is the process of converting high-dimensional data to low-dimensional data in the form of a vector in such a way that the two are semantically similar.*
