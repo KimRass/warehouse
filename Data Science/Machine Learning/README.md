@@ -903,6 +903,7 @@ from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.activations import linear, sigmoid, relu
 from tensorflow.keras.initializers import RandomNormal, glorot_uniform, he_uniform, Constant
+from tensorflow.keras.models import load_model
 ```
 ## Create Tensors
 ### `tf.Variable(initial_value, [shape=None], [trainable=True], [validate_shape=True], [dtype], [name])`
@@ -1095,9 +1096,10 @@ hist = model.fit(x=X, y=y, validation_split=0.2, batch_size, epochs, verbose=2, 
 hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
 ```
 ```python
-plt.plot(hist.history["loss"], label="loss");
-plt.plot(hist.history["val_loss"], label="val_loss");
-plt.legend();
+fig, axes = plt.subplots(figsize=(8, 8))
+axes.plot(hist.history["loss"][1:], label="loss");
+axes.plot(hist.history["val_loss"][1:], label="val_loss");
+axes.legend();
 ```
 ## Evaluate Model
 ```python
@@ -1245,14 +1247,26 @@ opt.apply_gradients(zip([dW, db], [W, b]))
 ```python
 opt.apply_gradients(zip(grads, model.trainable_variables))
 ```
-#### `tf.keras.preprocessing.sequence`
-### `tf.keras.models`
-#### `tf.keras.models.load_model()`
+
+# Load and Save Models
+- Source: https://www.tensorflow.org/tutorials/keras/save_and_load
+## Load Weights
 ```python
-model = tf.keras.models.load_model(model_path)
+model.compile(...)
+...
+model.load_weights(model_path)
+```
+- As long as two models share the same architecture you can share weights between them. So, when restoring a model from weights-only, create a model with the same architecture as the original model and then set its weights.
+## Save Model
+```python
+model.save(model_path)
+```
+## Load Model
+```python
+model = load_model(model_path)
 ```
 
-# Custom Layer
+# Tensorflow Custom Layer
 - custom layer를 만들려면 `tf.keras.layers.Layer` 클래스를 상속하고 다음 메서드를 구현합니다
     - __init__: 이 층에서 사용되는 하위 층을 정의할 수 있습니다. instance 생성 시에 호출됩니다.
     - build: 층의 가중치를 만듭니다. add_weight 메서드를 사용해 가중치를 추가합니다.

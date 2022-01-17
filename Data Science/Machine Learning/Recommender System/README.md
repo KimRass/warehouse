@@ -15,6 +15,18 @@ https://brunch.co.kr/@kakao-it/72
 plt.hist(sorted(ratings.groupby(["user_id"]).size().values), bins=50);
 ```
 ## Last.fm
+## Frappe
+- Reference: https://arxiv.org/pdf/1505.03014v1.pdf
+- 2015년 5월에 컨텍스트 인지 모바일 앱 추천 시스템을 위해 공개된 현실 데이터입니다. 유저의 앱에 대한 사용 카운트가 96,200여개의 로그로 구성되어 있습니다.
+- daytime : 시간대("afternoon", "evening", "morning", "night", "noon", "sunrise", "sunset")
+- weekday : 요일
+- isweekend : 주중/주말("workday"/"weekend")
+- homework : 업무 중/가정("work"/"home"/"unknown")
+- cost : 유료/무료("paid"/"free")
+- weather : 날씨("cloudy", "drizzle", "foggy", "rainy", "sleet", "snowy", "stormy", "sunny", "unknown")
+- country : 국가
+- city : 도시(0~1087)
+- cnt : 카운트(1~28752)
 
 # Cold Start
 - Source: https://en.wikipedia.org/wiki/Cold_start_(recommender_systems)
@@ -255,6 +267,15 @@ def lift(x, y):
 - 나이라는 특성과 성별이라는 특성의 상호 작용을 고려하여, 나이가 20대 후반일때의 학생과 50대 초반일때의 학생의 예상 평점을 예측해보면 다를 수 있다는 것입니다.
 - Dimension of embedding vectors를 매우 큰 값으로 잡으면 FM 모델은 가능한 모든 상호작용 관계에 대한 가중치를 표현하는 임베딩 행렬을 만들 것입니다. 하지만 복잡한 상호작용 관계를 추정하기에 데이터가 충분히 크지 않다면 작은 수준으로 제한해줘야 보다 일반화가 가능한 안정적인 FM모델을 만들 수 있습니다.
 # DeepFM
+
+# Context-Aware Recommender System (CARS)
+- Source: https://www.sigapp.org/sac/sac2016/T6.pdf
+- Context is defined as "any information that can be used to characterize the situation of an entity".
+- *Context-aware recommender system
+(CARS) is one RS trying to adapt their recommendations to users' specific contextual situations, since users usually make different decisions in different situations. For example, users may choose a romantic movie to watch with partner, but probably a cartoon if he or she is going to watch
+it with kids. Companion, either partner or kid, in this example, is one influential context factor. Other examples of the contexts could be time, location, weather, and so forth. Due to that users' preferences and decisions vary from situations to situations, it is necessary to take context into consideration when providing recommendations to the end users.*
+- There are two typical recommendation tasks involved when context is taken into account: one is context-aware recommendation (CAR) and another one is context recommendation (CR). *The topics in CAR are focused on how to build context-aware recommendation algorithms to recommend items to users in a specific situations. For example, which restaurant I should choose if I am going to have a formal business dinner with a company director. By contrast, context recommendation is a novel research direction emerged in recent years, where it aims to suggest appropriate contexts for the users to consume the item. For example, which could be the best contexts for me to watch the movie "Titanic"? Potential answers could be seeing it in a theater with your partner at weekend.*
+
 
 # K-Core Pruning
 - For Last.fm
