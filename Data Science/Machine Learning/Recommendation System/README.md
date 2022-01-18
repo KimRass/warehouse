@@ -124,6 +124,19 @@ for n_recs, n_clicks in zip([10, 100, 1000], [2, 20, 200]):
 		len_next = len(ratings)
 	print("Finished!")
 	```
+	
+# Negative Sampling
+```python
+def negative_sampling(df, ratio=3):
+    neg_sampling = pd.concat([df]*ratio)
+    neg_sampling["item"] = df["item"].sample(n=len(neg_sampling), replace=True).values
+    # "네거티브 데이터"는 카운트가 존재하지 않음
+    neg_sampling["cnt"] = 0
+
+    sampling = pd.concat([df, neg_sampling])
+    sampling = sampling.drop_duplicates(sampling.columns.drop("cnt"))
+    return sampling
+```
 		
 # Association Rule Learning (= Association Analysis)
 - Source: https://en.wikipedia.org/wiki/Association_rule_learning, https://livebook.manning.com/book/machine-learning-in-action/chapter-11/51

@@ -35,7 +35,7 @@ sw = {i for i in string.punctuation}
 ## Chatbot Data for Korean
 - Source: https://github.com/songys/Chatbot_data
 ## Natural Language Understanding benchmark
-## NSMC
+## Naver Sentiment Movie Corpus
 ## TED
 
 # Bag-of-Words Model
@@ -328,6 +328,88 @@ max_len = int(np.quantile(lens, ratio))
 print(f"길이가 가장 긴 문장의 길이는 {np.max(lens)}이고 길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
 ```
 
+# Subword Tokenizer
+- Using `sentencepiece`
+	- Reference: https://pypi.org/project/sentencepiece/
+	- 사전 토큰화 작업(pretokenization)없이 전처리를 하지 않은 데이터(raw data)에 바로 단어 분리 토크나이저를 사용할 수 있다면, 이 토크나이저는 그 어떤 언어에도 적용할 수 있는 토크나이저가 될 것입니다. 센텐스피스는 이 이점을 살려서 구현되었습니다. 센텐스피스는 사전 토큰화 작업없이 단어 분리 토큰화를 수행하므로 언어에 종속되지 않습니다.
+	- Sentencepiece의 학습 데이터로는 빈 칸이 포함되지 않은 문서 집합이어야 합니다.
+	```python
+	import sentencepiece as sp
+	```
+	
+	- `input` : 학습시킬 파일
+	- `model_prefix` : 만들어질 모델 이름
+	- `vocab_size` : 단어 집합의 크기
+	- `model_type` : 사용할 모델 (unigram(default), bpe, char, word)
+	- `max_sentence_length`: 문장의 최대 길이
+	- `pad_id`, `pad_piece`: pad token id, 값
+	- `unk_id`, `unk_piece`: unknown token id, 값
+	- `bos_id`, `bos_piece`: begin of sentence token id, 값
+	- `eos_id`, `eos_piece`: end of sequence token id, 값
+	- `user_defined_symbols`: 사용자 정의 토큰
+	- `.model`, `.vocab` 파일 두개가 생성 됩니다.
+	sp.SentencePieceTrainer.Train("--input=naver_review.txt --model_prefix=naver --vocab_size=5000 --model_type=bpe")
+	
+	spp = sp.SentencePieceProcessor()
+	
+	spp.load("imdb.model")
+	
+	# 단어 집합의 크기를 확인합니다.
+	spp.GetPieceSize()
+	
+	spp.encode_as_ids()
+	- 원래 문장 -> index
+	spp.encode_as_pieces()
+	- 원래 문장 -> subword
+	### `spp.IdToPiece()`
+	```python
+	spp.IdToPiece(4)
+	```
+	- index -> subword
+	### `spp.DecodeIds()`
+	```python
+	sp.DecodeIds([54, 200, 821, 85])
+	```
+	- index -> 원래 문장
+	### `spp.PieceToId()`
+	```python
+	spp.PieceToId("영화")
+	```
+	- subword -> index
+	### `spp.DecodePieces()`
+	```python
+	sp.DecodePieces(["▁진짜", "▁최고의", "▁영화입니다", "▁ᄏᄏ"])
+	```
+	- subword -> 원래 문장
+	### `spp.encode()`
+	- `out_type=str`: `spp.encode_as_pieces()`와 동일합니다.
+	- `out_type=int`: `spp.encode_as_ids()`와 동일합니다.
+	- `enable_sampling=True`: drop-out을 적용합니다.
+	- `alpha=0.1`: 해당 확률로 drop-out을 적용합니다.
+	- `nbest_size=-1`
+- Using `tfds.deprecated.text.SubwordTextEncoder`
+	- Reference: https://www.tensorflow.org/datasets/api_docs/python/tfds/deprecated/text/SubwordTextEncoder
+	```python
+	import tensorflow_datasets as tfds
+
+	# Build
+	enc = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(corpus_generator, target_vocab_size=2**15)
+	# Load
+	enc = tfds.deprecated.text.SubwordTextEncoder.load_from_file(vocab_fname)
+
+	subwords = enc.subwords
+	# Encodes text into a list of integers.
+	encoded = enc.encode(s)
+	# Decodes a list of integers into text.
+	decoded = enc.decode(ids)
+
+	# Save the vocabulary to a file.
+	enc.save_to_file(filename_prefix)
+
+	# Extracts list of subwords from file.
+	enc.load_from_file(filename_prefix)
+	```
+
 # NLU
 # NLG
 
@@ -382,7 +464,7 @@ pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
 - Bidirectional representations condition on both pre- and post- context (e.g., words) in all layers.
 
 # seq2seq
-- - seq2seq는 크게 두 개로 구성된 아키텍처로 구성되는데, 바로 인코더와 디코더입니다. 인코더는 입력 문장의 모든 단어들을 순차적으로 입력받은 뒤에 마지막에 이 모든 단어 정보들을 압축해서 하나의 벡터로 만드는데, 이를 컨텍스트 벡터(context vector)라고 합니다. 입력 문장의 정보가 하나의 컨텍스트 벡터로 모두 압축되면 인코더는 컨텍스트 벡터를 디코더로 전송합니다. 디코더는 컨텍스트 벡터를 받아서 번역된 단어를 한 개씩 순차적으로 출력합니다.
+- seq2seq는 크게 두 개로 구성된 아키텍처로 구성되는데, 바로 인코더와 디코더입니다. 인코더는 입력 문장의 모든 단어들을 순차적으로 입력받은 뒤에 마지막에 이 모든 단어 정보들을 압축해서 하나의 벡터로 만드는데, 이를 컨텍스트 벡터(context vector)라고 합니다. 입력 문장의 정보가 하나의 컨텍스트 벡터로 모두 압축되면 인코더는 컨텍스트 벡터를 디코더로 전송합니다. 디코더는 컨텍스트 벡터를 받아서 번역된 단어를 한 개씩 순차적으로 출력합니다.
 - 디코더는 초기 입력으로 문장의 시작을 의미하는 심볼 `<sos>`가 들어갑니다. 디코더는 `<sos>`가 입력되면, 다음에 등장할 확률이 높은 단어를 예측합니다. 첫번째 시점(time step)의 디코더 RNN 셀은 다음에 등장할 단어로 je를 예측하였습니다. 첫번째 시점의 디코더 RNN 셀은 예측된 단어 je를 다음 시점의 RNN 셀의 입력으로 입력합니다. 그리고 두번째 시점의 디코더 RNN 셀은 입력된 단어 je로부터 다시 다음에 올 단어인 suis를 예측하고, 또 다시 이것을 다음 시점의 RNN 셀의 입력으로 보냅니다. 디코더는 이런 식으로 기본적으로 다음에 올 단어를 예측하고, 그 예측한 단어를 다음 시점의 RNN 셀의 입력으로 넣는 행위를 반복합니다. 이 행위는 문장의 끝을 의미하는 심볼인 `<eos>`가 다음 단어로 예측될 때까지 반복됩니다. 지금 설명하는 것은 테스트 과정 동안의 이야기입니다.
 ## Character-Level seq2seq
 
@@ -666,67 +748,6 @@ class Mecab:
 mcb = Mecab()
 ```
 
-# `sentencepiece`
-```python
-import sentencepiece as sp
-```
-## `sp.SentencePieceTrainer`
-### `sp.SentencePieceTrainer.Train()`
-```python
-sp.SentencePieceTrainer.Train("--input=naver_review.txt --model_prefix=naver --vocab_size=5000 --model_type=bpe")
-```
-- `input` : 학습시킬 파일
-- `model_prefix` : 만들어질 모델 이름
-- `vocab_size` : 단어 집합의 크기
-- `model_type` : 사용할 모델 (unigram(default), bpe, char, word)
-- `max_sentence_length`: 문장의 최대 길이
-- `pad_id`, `pad_piece`: pad token id, 값
-- `unk_id`, `unk_piece`: unknown token id, 값
-- `bos_id`, `bos_piece`: begin of sentence token id, 값
-- `eos_id`, `eos_piece`: end of sequence token id, 값
-- `user_defined_symbols`: 사용자 정의 토큰
-- `.model`, `.vocab` 파일 두개가 생성 됩니다.
-## `sp.SentencePieceProcessor()`
-```python
-spp = sp.SentencePieceProcessor()
-```
-### `spp.load()`
-```python
-spp.load("imdb.model")
-```
-### `spp.GetPieceSize()`
-- 단어 집합의 크기를 확인합니다.
-### `spp.encode_as_ids()`
-- 원래 문장 -> index
-### `spp.encode_as_pieces()`
-- 원래 문장 -> subword
-### `spp.IdToPiece()`
-```python
-spp.IdToPiece(4)
-```
-- index -> subword
-### `spp.DecodeIds()`
-```python
-sp.DecodeIds([54, 200, 821, 85])
-```
-- index -> 원래 문장
-### `spp.PieceToId()`
-```python
-spp.PieceToId("영화")
-```
-- subword -> index
-### `spp.DecodePieces()`
-```python
-sp.DecodePieces(["▁진짜", "▁최고의", "▁영화입니다", "▁ᄏᄏ"])
-```
-- subword -> 원래 문장
-### `spp.encode()`
-- `out_type=str`: `spp.encode_as_pieces()`와 동일합니다.
-- `out_type=int`: `spp.encode_as_ids()`와 동일합니다.
-- `enable_sampling=True`: drop-out을 적용합니다.
-- `alpha=0.1`: 해당 확률로 drop-out을 적용합니다.
-- `nbest_size=-1`
-
 # `konlpy`
 ## `konlpy.tag`
 ```python
@@ -922,25 +943,4 @@ elmo = hub.Module("https://tfhub.dev/google/elmo/3", trainable=True)
 ### `elmo()`
 ```python
 embeddings = elmo(["the cat is on the mat", "dogs are in the fog"], signature="default", as_dict=True)["elmo"]
-```
-
-# `tensorflow_datasets`
-```python
-import tensorflow_datasets as tfds
-```
-## `tfds.deprecated`
-### `tfds.deprecated.text`
-#### `tfds.deprecated.text.SubwordTextEncoder`
-##### `tfds.deprecated.text.SubwordTextEncoder.build_from_corpus()`
-```python
-tkn = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(train_data["document"], target_vocab_size=2**13)
-```
-##### `tkn.subwords`
-##### `tkn.encode()`
-```python
-tkn.encode(train_data["document"][20])
-```
-##### `tkn.decode()`
-```python
-tkn.decode(tkn.encode(sample))
 ```

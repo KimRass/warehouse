@@ -1068,6 +1068,7 @@ model = Model(inputs, ouputs, [name])
 # `optimizer`: (`"sgd"`, `"adam"`, `"rmsprop"`, Adagrad(lr)]
 # `loss`: (`"mse"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
 # `metrics`: (`["mse"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
+# When you pass the strings "accuracy" or "acc", we convert this to one of ``BinaryAccuracy()`, ``CategoricalAccuracy()`, `SparseCategoricalAccuracy()` based on the loss function used and the model output shape.
 # `loss_weights`
 model.compile(optimizer, loss, metrics, [loss_weights])
 
@@ -1087,9 +1088,6 @@ model_path = "model_path.h5"
 # `save_best_only=False`: 매 epoch마다 모델이 filepath{epoch}으로 저장됩니다.
 # `save_weights_only`: If `True`, then only the model's weights will be saved (`model.save_weights(filepath)`), else the full model is saved (`model.save(filepath)`).
 mc = ModelCheckpoint(filepath=model_path, monitor="val_acc", mode="auto", verbose=1, save_best_only=True)
-# `x`
-# `y`
-# `validation_split`
 # `verbose=2`: One line per epoch. recommended.
 hist = model.fit(x=X, y=y, validation_split=0.2, batch_size, epochs, verbose=2, shuffle=True, callbacks=[es, mc])
 ```

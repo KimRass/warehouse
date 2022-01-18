@@ -553,10 +553,8 @@ data = data.drop(["Unnamed: 0", "address1", "address2"], axis=1)
 ```python
 data = data.drop(data.loc[:, "unknown":"Western"].columns, axis=1)
 ```
-## `DataFrame.duplicated()`
-```python
-df.duplicated(keep="first)
-```
+## `duplicated([keep])`
+## `drop_duplicates(subset, [keep])`
 ## `DataFrame.columns`
 ```python
 concat.columns = ["n_rating", "cumsum"]
@@ -569,10 +567,6 @@ uses_df.columns.drop("cnt")
 ### `DataFrame.columns.droplevel`
 ```python
 df.columns = df.columns.droplevel([0, 1])
-```
-## `DataFrame.drop_duplicates()`
-```python
-df = df.drop_duplicates(["col1"], keep="first")
 ```
 ## `DataFrame.mul()`
 ```python
@@ -1601,9 +1595,6 @@ with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
 import os
 ```
 ## `os.getcwd()`
-```python
-cur_dir = os.getcwd()
-```
 ## `os.makedirs()`
 ```python
 os.makedirs(ckpt_dir, exist_ok=True)
