@@ -23,6 +23,10 @@ dense_mat = sparse_mat.todense()
 
 # Real Data & Test Data
 
+# Categories of Variables
+- Continuous
+- Categorical
+
 # Metadata
 - Source: https://en.wikipedia.org/wiki/Metadata
 - Metadata is "data that provides information about other data", but not the content of the data, such as the text of a message or the image itself.
@@ -271,8 +275,7 @@ from tensorflow.keras.optimizers import Adagrad
 - Source: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adagrad
 - *Adagrad tends to benefit from higher initial learning rate values compared to other optimizers.*
 
-# Categorical Variables
-- Sources: https://homeproject.tistory.com/4, http://blog.naver.com/PostView.nhn?blogId=choco_9966&logNo=221374544814&parentCategoryNo=&categoryNo=77&viewDate=&isShowPopularPosts=false&from=postView, https://dailyheumsi.tistory.com/120, https://towardsdatascience.com/all-about-categorical-variable-encoding-305f3361fd02
+# Variable Encoding
 ## One-hot Encoding
 - One-Hot encoding should not be performed if the number of categories are high. This would result in a sparse data.
 - Decision trees does not require doing one-hot encoding. Since xgboost, AFAIK, is a boosting of decision trees, I assume the encoding is not required.
@@ -354,9 +357,10 @@ Sampling bias is systematic error due to a non-random sample of a population, ca
 	```python
 	from sklearn.model_selection import train_test_split
 
-	tr_X, te_X, tr_y, te_y = train_test_split(X, y, test_size=0.2, shuffle=True, random_state=3)
+	tr_X, te_X, tr_y, te_y = train_test_split(arrays, test_size, [shuffle=True], [stratify], [random_state])
 	```
-	- `stratif`: If not None, data is split in a stratified fashion, using this as the class labels.
+	- [`test_size`]: If float, should be between 0.0 and 1.0 and represent the proportion of the dataset to include in the train split. If int, represents the absolute number of train samples. 
+	- [`stratify`]: If not None, data is split in a stratified fashion, using this as the class labels.
 	
 # Cross Validation (CV)
 ## Holdout Set
@@ -909,58 +913,35 @@ from tensorflow.keras.activations import linear, sigmoid, relu
 from tensorflow.keras.initializers import RandomNormal, glorot_uniform, he_uniform, Constant
 from tensorflow.keras.models import load_model
 ```
-## Create Tensors
-### `tf.Variable(initial_value, [shape=None], [trainable=True], [validate_shape=True], [dtype], [name])`
+
+# Create Tensors
+## `tf.Variable(initial_value, [shape=None], [trainable=True], [validate_shape=True], [dtype], [name])`
 - Source: https://www.tensorflow.org/api_docs/python/tf/Variable
 - `initial_value`: This initial value defines the type and shape of the variable. After construction, the type and shape of the variable are fixed.
 - [`shape`]: The shape of this variable. If `None`, the shape of `initial_value` will be used.
 - `validate_shape`: If `False`, allows the variable to be initialized with a value of unknown shape. If `True`, the default, the shape of `initial_value` must be known.
 - [`dtype`]: If set, `initial_value` will be converted to the given type. If `None`, either the datatype will be kept (if `initial_value` is a Tensor), or `convert_to_tensor()` will decide.
-### `tf.zeros()`
+## `tf.zeros()`
 ```python
 W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
 ```
-## Computation between Tensors
-### `tf.stack(values, axis, [name])`
+
+# 가중치가 없는 Layers
+## `tf.stack(values, axis, [name])`
 - Source: https://www.tensorflow.org/api_docs/python/tf/stack
 - Stacks a list of tensors of rank R into one tensor of rank (R + 1).
 - `axis`: The axis to stack along.
 - Same syntax as `np.stack()`
-### `Add()`
-```python
-logits = Add()([logits_mlr, logits_fm, logits_dfm])
-```
+## `Add()()`
 - It takes as input a list of tensors, all of the same shape, and returns a single tensor (also of the same shape).
-### `Dot(axes)`
+## `Multiply()()`
+## `Dot(axes)`
 ```python
 pos_score = Dot(axes=(1, 1))([z1, z2])
 ```
 - `axes` : (integer, tuple of integers) Axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
-### `Multiply()`
-```python
-def se_block(x, c, r):
-	z = GlobalAveragePooling2D()(x)
-	z = Dense(units=c//r, activation="relu")(z)
-	z = Dense(units=c, activation="sigmoid")(z)
-	z = Reshape(target_shape=(1, 1, c))(z)
-	z = Multiply()([x, z])
-	return z
-```
-## `Reshape()`
-```python
-z = Reshape(target_shape=(1, 1, ch))(z)
-```
-### `Concatenate()`
-```python
-Concatenate(axis=1)(embs_fm)
-```
-- tf.concat()와 동일합니다.
-## `Activation()`
-```python
-x = Activation("relu")(x)
-```
-## Layers
-### `Flatten()`
+## `Concatenate([axis])()` (= `tf.concat(values, [axis], [name])`)
+## `Flatten()`
 - 입력되는 tensor의 row를 펼쳐서 일렬로 만듭니다.
 - 학습되는 weights는 없고 데이터를 변환하기만 합니다.
 ```python
@@ -970,6 +951,23 @@ model.add(Flatten(input_shape=(28, 28)))
 - `shape`
 	- ***A shape tuple (integers), not including the batch size***. For instance, shape=(32,) indicates that the expected input will be batches of 32-dimensional vectors.
 	- ***Elements of this tuple can be None; "None" elements represent dimensions where the shape is not known.***
+## `Dropout(rate)`
+- Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dropout
+- `rate`
+	- The Dropout layer randomly sets input units to 0 with a frequency of `rate` at each step during training time, which helps prevent overfitting. Inputs not set to 0 are scaled up by 1/(1 - `rate`) such that the sum over all inputs is unchanged.
+	- Note that the `Dropout` layer only applies when `training` is set to `True` such that no values are dropped during inference. When using `model.fit`, `training` will be appropriately set to `True` automatically, and in other contexts, you can set the kwarg explicitly to `True` when calling the layer.
+## `BatchNormalization()`
+- usually used before activation function layers.
+## `Reshape()`
+```python
+z = Reshape(target_shape=(1, 1, ch))(z)
+```
+## `Activation()`
+```python
+x = Activation("relu")(x)
+```
+
+# 가중치가 있는 Layers
 ## `Embedding(input_dim, output_dim, [mask_zero], [input_length], [name], ...)`
 - Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Embedding
 - `input_dim`: Size of the vocabulary.
@@ -978,17 +976,14 @@ model.add(Flatten(input_shape=(28, 28)))
 - `mask_zero=True`: Whether or not the input value 0 is a special "padding" value that should be masked out. This is useful when using recurrent layers which may take variable length input. If `mask_zero` is set to `True`, as a consequence, index 0 cannot be used in the vocabulary (`input_dim` should equal to (Size of vocabulary + 1)).
 - Input shape: `(batch_size, input_length)`
 - Output shape: `(batch_size, input_length, output_dim)`
-## `Dense()`
-```python
-Dense(units=52, input_shape=(13,), activation="relu")
-```
-- units: 해당 은닉층에서 활동하는 뉴런의 수(출력 값의 크기)
-- activation: 활성화함수, 해당 은닉층의 가중치와 편향의 연산 결과를 어느 함수에 적합하여 출력할 것인가?
-- input_shape : 입력 벡터의 크기. 여기서 13은 해당 데이터 프레임의 열의 수를 나타낸다. 데이터의 구조(이미지, 영상)에 따라 달라질 수 있다. 첫 번째 은닉층에서만 정의해준다.
-## `Dropout()`
-- rate : dropout을 적용할 perceptron의 비율
-## `BatchNormalization()`
-- usually used before activation function layers.
+## `Dense(units, activation)`
+- Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense
+- `units`: Dimensionality of the output space.
+- [`input_shape`]: 
+- [`activation`]: Activation function to use. If you don't specify anything, no activation is applied (ie. "linear" activation)
+- Input Shape: `(batch_size, ..., input_dim)` (e.g., `(batch_size, input_dim)` for a 2-D input)
+- Output Shape: `(batch_size, ..., units)` (e.g., `(batch_size, units)` for a 2-D input)
+- Note that after the first layer, you don't need to specify the size of the input anymore.
 ## `Conv1D()`
 ```python
 Conv1D(filters=n_kernels, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
@@ -1062,6 +1057,8 @@ model.add(TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
 ```
 - TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다.
 - In keras - while building a sequential model - usually the second dimension (one after sample dimension) - is related to a time dimension. This means that if for example, your data is 5-dim with (sample, time, width, length, channel) you could apply a convolutional layer using TimeDistributed (which is applicable to 4-dim with (sample, width, length, channel)) along a time dimension (applying the same layer to each time slice) in order to obtain 5-d output.
+
+# Modeling
 ## Build Model
 ```python
 model = Model(inputs, ouputs, [name])
@@ -1150,11 +1147,6 @@ pred = tf.cast(h > 0.5, dtype=tf.float32)
 ```
 - 조건이 True면 1, False면 0 반환.
 - 혹은 단순히 Tensor의 자료형 변환.
-## `tf.concat()`(= `tf.keras.layers.Concatenate()`)
-```python
-layer3 = tf.concat([layer1, layer2], axis=1)
-```
-- 지정한 axis의 dimension이 유지됩니다.
 ## `tf.shape()`
 ```python
 batch_size = tf.shape(conv_output)[0]

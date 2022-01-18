@@ -184,3 +184,27 @@ A technology stack, also called a solutions stack, technology infrastructure, or
 - The GIF is in normal use limited to an 8-bit palette, or 256 colors (while 24-bit color depth is technically possible). *GIF is most suitable for storing graphics with few colors, such as simple diagrams, shapes, logos, and cartoon style images, as it uses LZW lossless compression, which is more effective when large areas have a single color, and less effective for photographic or dithered images. Due to GIF's simplicity and age, it achieved almost universal software support. Due to its animation capabilities, it is still widely used to provide image animation effects, despite its low compression ratio compared to modern video formats.*
 ## PNG (Portable Network Graphics)
 - Compared to JPEG, PNG excels when the image has large, uniformly colored areas. Even for photographs – where JPEG is often the choice for final distribution since its compression technique typically yields smaller file sizes – *PNG is still well-suited to storing images during the editing process because of its lossless compression.*
+
+# Data Governance
+- Source: https://en.wikipedia.org/wiki/Data_governance
+- Here the focus is on an individual company. Here data governance is a data management concept concerning the capability that enables an organization to ensure that high data quality exists throughout the complete lifecycle of the data, and data controls are implemented that support business objectives. The key focus areas of data governance include availability, usability, consistency,[2] data integrity and data security and includes establishing processes to ensure effective data management throughout the enterprise such as accountability for the adverse effects of poor data quality and ensuring that the data which an enterprise has can be used by the entire organization.
+
+A data steward is a role that ensures that data governance processes are followed and that guidelines enforced, as well as recommending improvements to data governance processes.
+
+Data governance encompasses the people, processes, and information technology required to create a consistent and proper handling of an organization's data across the business enterprise. It provides all data management practices with the necessary foundation, strategy, and structure needed to ensure that data is managed as an asset and transformed into meaningful information.[3] Goals may be defined at all levels of the enterprise and doing so may aid in acceptance of processes by those who will use them. Some goals include
+
+Increasing consistency and confidence in decision making
+Decreasing the risk of regulatory fines
+Improving data security, also defining and verifying the requirements for data distribution policies[4]
+Maximizing the income generation potential of data
+Designating accountability for information quality
+Enable better planning by supervisory staff
+Minimizing or eliminating re-work
+Optimize staff effectiveness
+Establish process performance baselines to enable improvement efforts
+Acknowledge and hold all gain
+These goals are realized by the implementation of data governance programs, or initiatives using change management techniques.
+
+When companies desire, or are required, to gain control of their data, they empower their people, set up processes and get help from technology to do it.[5]
+
+According to one vendor, data governance is a quality control discipline for assessing, managing, using, improving, monitoring, maintaining, and protecting organizational information. It is a system of decision rights and accountabilities for information-related processes, executed according to agreed-upon models which describe who can take what actions with what information, and when, under what circumstances, using what methods.[6]
