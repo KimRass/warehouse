@@ -36,6 +36,7 @@ sw = {i for i in string.punctuation}
 - Source: https://github.com/songys/Chatbot_data
 ## Natural Language Understanding benchmark
 ## Naver Sentiment Movie Corpus
+- Source: https://raw.githubusercontent.com/e9t/nsmc/master/ratings.txt
 ## TED
 
 # Bag-of-Words Model
@@ -330,63 +331,46 @@ print(f"길이가 가장 긴 문장의 길이는 {np.max(lens)}이고 길이가 
 
 # Subword Tokenizer
 - Using `sentencepiece`
-	- Reference: https://pypi.org/project/sentencepiece/
+	- Reference: https://pypi.org/project/sentencepiece/, https://github.com/google/sentencepiece
 	- 사전 토큰화 작업(pretokenization)없이 전처리를 하지 않은 데이터(raw data)에 바로 단어 분리 토크나이저를 사용할 수 있다면, 이 토크나이저는 그 어떤 언어에도 적용할 수 있는 토크나이저가 될 것입니다. 센텐스피스는 이 이점을 살려서 구현되었습니다. 센텐스피스는 사전 토큰화 작업없이 단어 분리 토큰화를 수행하므로 언어에 종속되지 않습니다.
 	- Sentencepiece의 학습 데이터로는 빈 칸이 포함되지 않은 문서 집합이어야 합니다.
-	```python
-	import sentencepiece as sp
-	```
-	
-	- `input` : 학습시킬 파일
-	- `model_prefix` : 만들어질 모델 이름
-	- `vocab_size` : 단어 집합의 크기
-	- `model_type` : 사용할 모델 (unigram(default), bpe, char, word)
-	- `max_sentence_length`: 문장의 최대 길이
-	- `pad_id`, `pad_piece`: pad token id, 값
-	- `unk_id`, `unk_piece`: unknown token id, 값
-	- `bos_id`, `bos_piece`: begin of sentence token id, 값
-	- `eos_id`, `eos_piece`: end of sequence token id, 값
-	- `user_defined_symbols`: 사용자 정의 토큰
-	- `.model`, `.vocab` 파일 두개가 생성 됩니다.
-	sp.SentencePieceTrainer.Train("--input=naver_review.txt --model_prefix=naver --vocab_size=5000 --model_type=bpe")
-	
-	spp = sp.SentencePieceProcessor()
-	
-	spp.load("imdb.model")
-	
-	# 단어 집합의 크기를 확인합니다.
-	spp.GetPieceSize()
-	
-	spp.encode_as_ids()
-	- 원래 문장 -> index
-	spp.encode_as_pieces()
-	- 원래 문장 -> subword
-	### `spp.IdToPiece()`
-	```python
-	spp.IdToPiece(4)
-	```
-	- index -> subword
-	### `spp.DecodeIds()`
-	```python
-	sp.DecodeIds([54, 200, 821, 85])
-	```
-	- index -> 원래 문장
-	### `spp.PieceToId()`
-	```python
-	spp.PieceToId("영화")
-	```
-	- subword -> index
-	### `spp.DecodePieces()`
-	```python
-	sp.DecodePieces(["▁진짜", "▁최고의", "▁영화입니다", "▁ᄏᄏ"])
-	```
-	- subword -> 원래 문장
-	### `spp.encode()`
-	- `out_type=str`: `spp.encode_as_pieces()`와 동일합니다.
-	- `out_type=int`: `spp.encode_as_ids()`와 동일합니다.
-	- `enable_sampling=True`: drop-out을 적용합니다.
-	- `alpha=0.1`: 해당 확률로 drop-out을 적용합니다.
-	- `nbest_size=-1`
+	- Training
+		```python
+		# `--input` : 학습시킬 파일
+		# `--model_type` : (`"unigram"`, `"bpe"`, `"char"`, `"word"`, default `"unigram"`). The input sentence must be pretokenized when using `word`.
+		# `--character_coverage`: Amount of characters covered by the model, good defaults are: `0.9995` for languages with rich character set like Japanese or Chinese and `1.0` for other languages with small character set.
+		# `--model_prefix.model` and `--model_prefix.vocab` are generated.
+		input_ = "./NSMC_document.txt"
+		model_prefix = "NSMC"
+		vocab_size = 5000
+		model_type = "bpe"
+		spm.SentencePieceTrainer.train(f"--input={input_} --model_prefix={model_prefix} --vocab_size={vocab_size} --model_type={model_type}")
+		
+		# By default, `sentencepiece` uses Unknown (`"<unk>"`), BOS (`"<s>"`) and EOS (`"</s>"`) tokens which have the ids of `0`, `1`, and `2` respectively.
+		subwords = pd.read_csv("--model_prefix.vocab", sep="\t", header=None, quoting=csv.QUOTE_NONE)
+		```
+	- Segmentation
+		```python
+		import sentencepiece as sp
+		
+		sp = spm.SentencePieceProcessor(model_file="--model_prefix.model")
+		
+		piece_size = sp.get_piece_size()
+		
+		# `enable_sampling=True`: Applys Drop-out. `sents` are segmented differently on each `encode()` calls.
+		# `alpha`: Drop-out rate
+		ids = sp.encode(sents, out_type=int, enable_sampling=True, alpha=0.1, nbest_size=-1)
+		# ids = spp.encode_as_ids(sents)
+		pieces = sp.encode(sents, out_type=str)
+		# pieces = spp.encode_as_pieces(sents)
+		
+		sents = sp.decode(ids)
+		sents = sp.decode(pieces)
+		
+		pieces = sp.id_to_piece(ids)
+		ids = sp.piece_to_id(pieces)
+		# ids = sp[pieces]
+		```
 - Using `tfds.deprecated.text.SubwordTextEncoder`
 	- Reference: https://www.tensorflow.org/datasets/api_docs/python/tfds/deprecated/text/SubwordTextEncoder
 	```python
@@ -399,9 +383,9 @@ print(f"길이가 가장 긴 문장의 길이는 {np.max(lens)}이고 길이가 
 
 	subwords = enc.subwords
 	# Encodes text into a list of integers.
-	encoded = enc.encode(s)
+	encoded = enc.encode(sents)
 	# Decodes a list of integers into text.
-	decoded = enc.decode(ids)
+	sents = enc.decode(decoded)
 
 	# Save the vocabulary to a file.
 	enc.save_to_file(filename_prefix)
