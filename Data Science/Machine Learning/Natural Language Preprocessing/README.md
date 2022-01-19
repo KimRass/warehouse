@@ -123,6 +123,12 @@ corpus = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바�
 	```python
 	tfidf = gensim.models.TfidfModel(dtm)[dtm]
 	```
+	
+# BLEU Score
+- BLEU는 기계 번역 결과와 사람이 직접 번역한 결과가 얼마나 유사한지 비교하여 번역에 대한 성능을 측정하는 방법입니다. 측정 기준은 n-gram에 기반합니다.
+- 번역된 문장을 `cand`(candidate), 완벽한 번역 문장을 `ref`(Reference)라고 하겠습니다.
+- Using `nltk.translate.bleu_score.sentence_bleu()`
+- Brevity Penalty
 
 # Preprocessing
 ## Tokenization
