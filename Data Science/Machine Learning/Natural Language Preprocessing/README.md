@@ -1,3 +1,21 @@
+# Datasets
+## `sklearn.datasets.fetch_20newsgroups()`
+## Steam Reviews
+- Source: https://github.com/bab2min/corpus/tree/master/sentiment
+## Naver Shopping
+- Source: https://github.com/bab2min/corpus/tree/master/sentiment
+## NLP Challenge
+## fra-eng
+- Source: https://www.kaggle.com/myksust/fra-eng/activity
+## IMDb
+## Annotated Corpus for NER
+## Chatbot Data for Korean
+- Source: https://github.com/songys/Chatbot_data
+## Natural Language Understanding benchmark
+## Naver Sentiment Movie Corpus
+- Source: https://raw.githubusercontent.com/e9t/nsmc/master/ratings.txt
+## TED
+
 # Text
 - Source: https://en.wikipedia.org/wiki/Text_(literary_theory)
 - In literary theory, *a text is any object that can be "read", whether this object is a work of literature, a street sign, an arrangement of buildings on a city block, or styles of clothing.*
@@ -21,23 +39,8 @@ sw = {i for i in string.punctuation}
 - A corpus may contain texts in a single language (monolingual corpus) or text data in multiple languages (multilingual corpus).
 - In order to make the corpora more useful for doing linguistic research, they are often subjected to a process known as annotation. *An example of annotating a corpus is part-of-speech tagging, or POS-tagging, in which information about each word's part of speech (verb, noun, adjective, etc.) is added to the corpus in the form of tags. Another example is indicating the lemma (base) form of each word. When the language of the corpus is not a working language of the researchers who use it, interlinear glossing is used to make the annotation bilingual.*
 
-# Datasets
-## `sklearn.datasets.fetch_20newsgroups()`
-## Steam Reviews
-- Source: https://github.com/bab2min/corpus/tree/master/sentiment
-## Naver Shopping
-- Source: https://github.com/bab2min/corpus/tree/master/sentiment
-## NLP Challenge
-## fra-eng
-- Source: https://www.kaggle.com/myksust/fra-eng/activity
-## IMDb
-## Annotated Corpus for NER
-## Chatbot Data for Korean
-- Source: https://github.com/songys/Chatbot_data
-## Natural Language Understanding benchmark
-## Naver Sentiment Movie Corpus
-- Source: https://raw.githubusercontent.com/e9t/nsmc/master/ratings.txt
-## TED
+# Out of Vocabulary (OOV) Problem
+- Used in computational linguistics and natural language processing for terms encountered in input which are not present in a system's dictionary or database of known terms.
 
 # Bag-of-Words Model
 - Source: https://en.wikipedia.org/wiki/Bag-of-words_model
@@ -124,11 +127,24 @@ corpus = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바�
 	tfidf = gensim.models.TfidfModel(dtm)[dtm]
 	```
 	
-# BLEU Score
-- BLEU는 기계 번역 결과와 사람이 직접 번역한 결과가 얼마나 유사한지 비교하여 번역에 대한 성능을 측정하는 방법입니다. 측정 기준은 n-gram에 기반합니다.
-- 번역된 문장을 `cand`(candidate), 완벽한 번역 문장을 `ref`(Reference)라고 하겠습니다.
+# BLEU (BiLingual Evaluation Understudy)
+- Sources: https://en.wikipedia.org/wiki/BLEU, https://towardsdatascience.com/bleu-bilingual-evaluation-understudy-2b4eab9bcfd1
+- ***BLEU is an algorithm for evaluating the quality of text which has been machine-translated from one natural language to another. Quality is considered to be the correspondence between a machine's output and that of a human: "the closer a machine translation is to a professional human translation, the better it is" – this is the central idea behind BLEU.*** BLEU was one of the first metrics to claim a high correlation with human judgements of quality, and remains one of the most popular automated and inexpensive metrics.
+- ***Scores are calculated for individual translated segments—generally sentences—by comparing them with a set of good quality reference translations. Those scores are then averaged over the whole corpus to reach an estimate of the translation's overall quality. Intelligibility or grammatical correctness are not taken into account.***
+- Unigram precision: (Number of unigrams from the cadidate found in any of the reference)/(The total number of unigrams in the candidate)
+- Modified unigram precision: min(Number of unigrams from the candidate found in any of the reference, Maximum total count of unigrams in any of the reference)/(The total number of unigrams in the candidate)
+- *In practice, however, using individual words as the unit of comparison is not optimal. Instead, BLEU computes the same modified precision metric using n-grams. The length which has the "highest correlation with monolingual human judgements" was found to be four.*
+- *To produce a score for the whole corpus, the modified precision scores for the segments are combined using the geometric mean multiplied by a brevity penalty to prevent very short candidates from receiving too high a score.* Let `r` be the total length of the reference corpus, and `c` the total length of the translation corpus. If `c<=r`, the brevity penalty applies, defined to be `np.exp(1 - r/c)`. (In the case of multiple reference sentences, `r` is taken to be the sum of the lengths of the sentences whose lengths are closest to the lengths of the candidate sentences.)
+- The closest reference sentence length is the "best match length".
 - Using `nltk.translate.bleu_score.sentence_bleu()`
-- Brevity Penalty
+	- Reference: https://www.nltk.org/_modules/nltk/translate/bleu_score.html
+	```python
+	from nltk.translate.bleu_score import sentence_bleu
+	
+	# The default BLEU calculates a score for up to 4-grams using uniform
+    weights (this is called BLEU-4).
+	score = sentence_bleu(refs, cands)
+	```
 
 # Preprocessing
 ## Tokenization
@@ -387,6 +403,8 @@ print(f"길이가 가장 긴 문장의 길이는 {np.max(lens)}이고 길이가 
 	# Load
 	enc = tfds.deprecated.text.SubwordTextEncoder.load_from_file(vocab_fname)
 
+	vocab_size = enc.vocab_size
+
 	subwords = enc.subwords
 	# Encodes text into a list of integers.
 	encoded = enc.encode(sents)
@@ -399,6 +417,7 @@ print(f"길이가 가장 긴 문장의 길이는 {np.max(lens)}이고 길이가 
 	# Extracts list of subwords from file.
 	enc.load_from_file(filename_prefix)
 	```
+## Byte Pair Encoding (BPE)
 
 # NLU
 # NLG
@@ -474,6 +493,39 @@ model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["binary_
 
 batch_size = 256
 hist = model.fit(x=tr_X, y=tr_y, validation_split=0.2, batch_size=batch_size, epochs=10, verbose=1, callbacks=[es, mc])
+```
+
+# Split Hangul Syllables
+```python
+import re
+
+# 유니코드 한글 시작 : 44032, 끝 : 55199
+a, b, c = 44032, 588, 28
+
+onsets = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
+nuclei = ["ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"]
+codas = ["", "ㄱ", "ㄲ", "ㄳ", "ㄴ", "ㄵ", "ㄶ", "ㄷ", "ㄹ", "ㄺ", "ㄻ", "ㄼ", "ㄽ", "ㄾ", "ㄿ", "ㅀ", "ㅁ", "ㅂ", "ㅄ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
+
+def split(string):
+    res = ""
+    for char in string:
+     # 한글 여부 check 후 분리
+        if re.match(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*", char) != None:
+            code = ord(char) - a
+            # 초성1
+            onset_idx = int(code/b)
+            res += onsets[onset_idx]
+
+            # 중성
+            nucleus_idx = int((code - (onset_idx*b)) / c)
+            res += nuclei[nucleus_idx]
+
+            # 종성
+            coda_idx = int((code - (b*onset_idx) - (c*nucleus_idx)))
+            res += codas[coda_idx]
+        else:
+            res += char
+    return res
 ```
 
 # `tokenization_kobert`
