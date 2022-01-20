@@ -131,8 +131,43 @@ corpus = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바�
 - Sources: https://en.wikipedia.org/wiki/BLEU, https://towardsdatascience.com/bleu-bilingual-evaluation-understudy-2b4eab9bcfd1
 - ***BLEU is an algorithm for evaluating the quality of text which has been machine-translated from one natural language to another. Quality is considered to be the correspondence between a machine's output and that of a human: "the closer a machine translation is to a professional human translation, the better it is" – this is the central idea behind BLEU.*** BLEU was one of the first metrics to claim a high correlation with human judgements of quality, and remains one of the most popular automated and inexpensive metrics.
 - ***Scores are calculated for individual translated segments—generally sentences—by comparing them with a set of good quality reference translations. Those scores are then averaged over the whole corpus to reach an estimate of the translation's overall quality. Intelligibility or grammatical correctness are not taken into account.***
-- Unigram precision: (Number of unigrams from the cadidate found in any of the reference)/(The total number of unigrams in the candidate)
-- Modified unigram precision: min(Number of unigrams from the candidate found in any of the reference, Maximum total count of unigrams in any of the reference)/(The total number of unigrams in the candidate)
+- Unigram precision
+	- (Number of unigrams from the cadidate found in any of the reference)/(The total number of unigrams in the candidate)
+	```python
+	def ngram_precision(cand, refs, n):
+		ngrams_refs = Counter()
+		for ref in refs:
+			ngrams_refs += simple_count(ref, n)
+		
+		ngrams_cand = simple_count(cand, n)
+		tot_cnt = 0
+		for ngram, cnt in ngrams_cand.items():
+			if ngram in ngrams_refs:
+				tot_cnt += cnt 
+		return tot_cnt/len(cand) - n + 1
+	```
+- Modified unigram precision
+	- min(Number of unigrams from the candidate found in any of the reference, Maximum total count of unigrams in any of the reference)/(The total number of unigrams in the candidate)
+	```python
+	def modified_ngram_precision(cand, refs, n):
+    def get_count_clip(ngram, cand, refs, n):
+        def get_max_ref_count(ngram, refs, n):
+            temp = list()
+            for ref in refs:
+                ngram2cnt_ref = simple_count(ref, n)
+                temp.append(ngram2cnt_ref[ngram])
+            return max(temp)    
+
+        def get_count(ngram, cand, n):
+            return simple_count(cand, 1)[ngram]
+
+        return min(get_count(ngram, cand, n), get_max_ref_count(ngram, refs, n))
+    
+    sum_countclip = 0
+    for ngram, cnt in simple_count(cand, n).items():
+        sum_countclip += get_count_clip(ngram, cand, refs, n)
+    return sum_countclip/len(cand) - n + 1
+	```
 - *In practice, however, using individual words as the unit of comparison is not optimal. Instead, BLEU computes the same modified precision metric using n-grams. The length which has the "highest correlation with monolingual human judgements" was found to be four.*
 - *To produce a score for the whole corpus, the modified precision scores for the segments are combined using the geometric mean multiplied by a brevity penalty to prevent very short candidates from receiving too high a score.* Let `r` be the total length of the reference corpus, and `c` the total length of the translation corpus. If `c<=r`, the brevity penalty applies, defined to be `np.exp(1 - r/c)`. (In the case of multiple reference sentences, `r` is taken to be the sum of the lengths of the sentences whose lengths are closest to the lengths of the candidate sentences.)
 - The closest reference sentence length is the "best match length".
@@ -143,7 +178,16 @@ corpus = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바�
 	
 	# The default BLEU calculates a score for up to 4-grams using uniform
     weights (this is called BLEU-4).
-	score = sentence_bleu(refs, cands)
+	score = sentence_bleu(refs, cand, [weights=(0.25, 0.25, 0.25, 0.25)])
+	```
+- Using `nltk.translate.bleu_score.corpus_bleu()`
+	- Reference: https://www.nltk.org/_modules/nltk/translate/bleu_score.html
+	```python
+	from nltk.translate.bleu_score import corpus_bleu()
+	
+	# The default BLEU calculates a score for up to 4-grams using uniform
+    weights (this is called BLEU-4).
+	score = corpus_bleu([refs], [cand], [weights=(0.25, 0.25, 0.25, 0.25)])
 	```
 
 # Preprocessing
