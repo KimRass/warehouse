@@ -48,6 +48,7 @@ np.cumsum(np.random.normal(size=200))
 - Source: https://www.kaggle.com/rakannimer/air-passengers
 ## `Bike Sharing Demand`
 - Source: https://www.kaggle.com/c/bike-sharing-demand
+## `pmdarima.datasets.load_wineind()`
 
 # Preprocessing
 ## Set Frequency
@@ -171,6 +172,11 @@ trend_pred_std = np.sqrt(pred.states.cov[:, 1, 1])
 ### Blocking
 ```python
 from pmdarima import model_selection
+
+tr, te = model_selection.train_test_split(data, train_size=165)
+
+cv = model_selection.SlidingWindowForecastCV(window_size=100, step=24, h=1)
+scores = model_selection.cross_val_score(model1, tr, scoring="smape", cv=cv, verbose=2)
 ```
 
 # Autocorrelation
