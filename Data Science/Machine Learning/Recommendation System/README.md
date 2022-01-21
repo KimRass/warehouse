@@ -126,6 +126,7 @@ for n_recs, n_clicks in zip([10, 100, 1000], [2, 20, 200]):
 	```
 	
 # Negative Sampling
+- Source: https://medium.com/mlearning-ai/overview-negative-sampling-on-recommendation-systems-230a051c6cd7#:~:text=In%20the%20negative%20sampling%20of,interacted%20are%20all%20negative%20examples.
 ```python
 def negative_sampling(df, ratio=3):
     neg_sampling = pd.concat([df]*ratio)
