@@ -1,3 +1,17 @@
+# Datasets
+## `mnist`
+```python
+(X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
+```
+## `reuters`
+```python
+(X_train, y_train), (X_test, y_test) = reuters.load_data(num_words=None, test_split=0.2)
+```
+## `cifar10`
+```python
+(x_tr, y_tr), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
+```
+
 # Dataset & Data Set
 - Source: https://english.stackexchange.com/questions/2120/which-is-correct-dataset-or-data-set
 - Dataset for certain datasets
@@ -21,7 +35,10 @@ sparse_mat = csr_matrix((vals,  (rows,  cols)))
 dense_mat = sparse_mat.todense()
 ```
 
-# Real Data & Test Data
+# Prediction & Forecasting
+- Source: https://www.datascienceblog.net/post/machine-learning/forecasting_vs_prediction/#:~:text=Prediction%20is%20concerned%20with%20estimating%20the%20outcomes%20for%20unseen%20data.&text=Forecasting%20is%20a%20sub%2Ddiscipline,we%20consider%20the%20temporal%20dimension.
+- *Prediction is concerned with estimating the outcomes for unseen data.*
+- *Forecasting is a sub-discipline of prediction in which we are making predictions about the future, on the basis of time-series data.* Thus, the only difference between prediction and forecasting is that we consider the temporal dimension.
 
 # Categories of Variables
 - Continuous
@@ -37,20 +54,6 @@ dense_mat = sparse_mat.todense()
 - Embeddings of neural networks are advantageous because they can lower the dimensionality of categorical variables and represent them meaningfully in the altered space.
 - Source: https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture
 - An embedding is a relatively low-dimensional space into which you can translate high-dimensional vectors. Embeddings make it easier to do machine learning on large inputs like sparse vectors representing words. Ideally, an embedding captures some of the semantics of the input by placing semantically similar inputs close together in the embedding space. An embedding can be learned and reused across models.
-
-# Datasets
-## `mnist`
-```python
-(X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
-```
-## `reuters`
-```python
-(X_train, y_train), (X_test, y_test) = reuters.load_data(num_words=None, test_split=0.2)
-```
-## `cifar10`
-```python
-(x_tr, y_tr), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-```
 
 # Feature Scaling
 - Source: https://en.wikipedia.org/wiki/Feature_scaling
@@ -428,6 +431,9 @@ from tensorflow.keras.metrics import MeanAbsolutePercentageError
 
 mape = MeanAbsolutePercentageError()().numpy()
 ```
+### SMAPE (Symmetric Mean Absolute Percentage Error)
+- Source: https://en.wikipedia.org/wiki/Symmetric_mean_absolute_percentage_error
+- The absolute difference between the actual value and forecast value is divided by half the sum of absolute values of the actual value and the forecast value. The value of this calculation is summed for every fitted point and divided again by the number of fitted points.
 ### R-Squared
 - Source: https://statisticsbyjim.com/regression/r-squared-invalid-nonlinear-regression/
 - Explained variance + Error variance = Total variance.

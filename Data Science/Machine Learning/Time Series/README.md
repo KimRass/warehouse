@@ -1,3 +1,10 @@
+# Datasets
+## `Air Passengers`
+- Source: https://www.kaggle.com/rakannimer/air-passengers
+## `Bike Sharing Demand`
+- Source: https://www.kaggle.com/c/bike-sharing-demand
+## `pmdarima.datasets.load_wineind()`
+
 # Time Series
 - Source: https://www.geeksforgeeks.org/what-is-a-trend-in-time-series/
 - Time series data is a sequence of data points that measure some variable over ordered period of time.
@@ -36,19 +43,16 @@ detrend = data["passengers"] - decomp.trend
 - *For a wide-sense stationary time series, the mean and the variance/autocovariance keep constant over time.*
 ### Strict-Sense Stationarity
 
+# Forecast Horizon
+- Source: https://ec.europa.eu/eurostat/statistics-explained/index.php?title=Glossary:Forecast_horizon#:~:text=The%20forecast%20horizon%20is%20the,(more%20than%20two%20years).
+- *The forecast horizon is the length of time into the future for which forecasts are to be prepared.* These generally vary from short-term forecasting horizons (less than three months) to long-term horizons (more than two years).
+
 # Random Walk
 - Source: https://www.investopedia.com/terms/r/randomwalktheory.asp
 - Random walk theory suggests that changes in stock prices have the same distribution and are independent of each other. Therefore, *it assumes the past movement or trend of a stock price or market cannot be used to predict its future movement. In short, random walk theory proclaims that stocks take a random and unpredictable path that makes all methods of predicting stock prices futile in the long run.*
 ```python
 np.cumsum(np.random.normal(size=200))
 ```
-
-# Datasets
-## `Air Passengers`
-- Source: https://www.kaggle.com/rakannimer/air-passengers
-## `Bike Sharing Demand`
-- Source: https://www.kaggle.com/c/bike-sharing-demand
-## `pmdarima.datasets.load_wineind()`
 
 # Preprocessing
 ## Set Frequency
@@ -170,14 +174,28 @@ trend_pred_std = np.sqrt(pred.states.cov[:, 1, 1])
 ## Cross Validation (CV)
 ### Rolling Basis
 ### Blocking
-```python
-from pmdarima import model_selection
+- Using `pmdarima.model_selection.SlidingWindowForecastCV()`
+	- References: https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.SlidingWindowForecastCV.html, https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.cross_val_score.html
+	```python
+	import pmdarima as pm
+	from pmdarima import model_selection
+	from pmdarima.model_selection import SlidingWindowForecastCV
+	from pmdarima.model_selection import cross_val_score
 
-tr, te = model_selection.train_test_split(data, train_size=165)
+	tr, te = model_selection.train_test_split(data, train_size=165)
 
-cv = model_selection.SlidingWindowForecastCV(window_size=100, step=24, h=1)
-scores = model_selection.cross_val_score(model1, tr, scoring="smape", cv=cv, verbose=2)
-```
+	# This approach to CV slides a window over the training samples while using several future samples as a test set. While similar to the `RollingForecastCV()`, it differs in that the train set does not grow, but rather shifts.
+	# `h`: The forecasting horizon, or the number of steps into the future after the last training sample for the test set.
+	# `step`: The size of step taken to slide both training samples and test samples.
+	# `window_size`: The size of the rolling window to use. If `None`, a rolling window of size `n_samples//5` will be used.
+	cv = SlidingWindowForecastCV(h, stemp, window_size)
+	# Generate indices to split data into training and test sets.
+	# cv_gen = cv.split()
+	# next(cv_gen)
+	
+	# `scoring`: (`"smape"`, `"mean_absolute_error"`, `"mean_squared_error"`)
+	scores = cross_val_score(estimator=model, y=tr, scoring="smape", cv=cv, verbose=2)
+	```
 
 # Autocorrelation
 - Source: https://statisticsbyjim.com/time-series/autocorrelation-partial-autocorrelation/
@@ -253,19 +271,26 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 		```
 - Reference: https://www.statsmodels.org/dev/generated/statsmodels.tsa.statespace.sarimax.SARIMAX.html?highlight=sarimax#statsmodels.tsa.statespace.sarimax.SARIMAX
 - Modeling & Prediction
-	```python
-	from statsmodels.tsa.statespace.sarimax import SARIMAX
+	- Using `statsmodels.tsa.statespace.sarimax.SARIMAX()`
+		```python
+		from statsmodels.tsa.statespace.sarimax import SARIMAX
 
-	model = SARIMAX(endog=data["var"], order=(p, d, q), seasonal_order=(P, D, Q, m))
-	hist = model.fit()
-	hist.summary()
-	# hist.aic
+		model = SARIMAX(endog=data["var"], order=(p, d, q), seasonal_order=(P, D, Q, m))
+		hist = model.fit()
+		hist.summary()
+		# hist.aic
 
-	pred_res = hist.get_forecast(len(data_te))
-	preds = np.exp(pred_res.predicted_mean)
-	preds_lb = np.exp(pred.conf_int().iloc[:, 0])
-	preds_ub = np.exp(pred.conf_int().iloc[:, 1])
-	```
+		pred_res = hist.get_forecast(len(data_te))
+		preds = np.exp(pred_res.predicted_mean)
+		preds_lb = np.exp(pred.conf_int().iloc[:, 0])
+		preds_ub = np.exp(pred.conf_int().iloc[:, 1])
+		```
+	- Using
+		```python
+		import pmdarima as pm
+		
+		model = pm.ARIMA(order=(p, d, q), seasonal_order=(P, D, Q, m), suppress_warnings=True)
+		```
 - Visualization
 	```python
 	fig = plt.figure(figsize=(12, 6))
@@ -280,13 +305,29 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 # Evaluation Metrics
 ## AIC (Akaike Information Criterion)
 - Source: https://en.wikipedia.org/wiki/Akaike_information_criterion
-- The Akaike information criterion (AIC) is an estimator of prediction error and thereby relative quality of statistical models for a given set of data.[1][2][3] Given a collection of models for the data, AIC estimates the quality of each model, relative to each of the other models. Thus, AIC provides a means for model selection.
+- *The Akaike information criterion (AIC) is an estimator of prediction error and thereby relative quality of statistical models for a given set of data. Given a collection of models for the data, AIC estimates the quality of each model, relative to each of the other models. Thus, AIC provides a means for model selection.*
+- *AIC estimates the relative amount of information lost by a given model: the less information a model loses, the higher the quality of that model.*
+- In estimating the amount of information lost by a model, AIC deals with the trade-off between the goodness of fit of the model and the simplicity of the model. In other words, AIC deals with both the risk of overfitting and the risk of underfitting.
+- Source: https://www.scribbr.com/statistics/akaike-information-criterion/
+- ***AIC is calculated from:***
+	- ***The number of independent variables used to build the model.***
+	- ***The maximum likelihood estimate of the model (how well the model reproduces the data).***
+- ***The best-fit model according to AIC is the one that explains the greatest amount of variation using the fewest possible independent variables.***
+- *In statistics, AIC is most often used for model selection. By calculating and comparing the AIC scores of several possible models, you can choose the one that is the best fit for the data.*
+- When testing a hypothesis, you might gather data on variables that you aren’t certain about, especially if you are exploring a new idea. You want to know which of the independent variables you have measured explain the variation in your dependent variable.
+- Once you’ve created several possible models, you can use AIC to compare them. *Lower AIC scores are better, and AIC penalizes models that use more parameters. So if two models explain the same amount of variation, the one with fewer parameters will have a lower AIC score and will be the better-fit model.*
+```python
+import math
 
-AIC is founded on information theory. When a statistical model is used to represent the process that generated the data, the representation will almost never be exact; so some information will be lost by using the model to represent the process. AIC estimates the relative amount of information lost by a given model: the less information a model loses, the higher the quality of that model.
-
-In estimating the amount of information lost by a model, AIC deals with the trade-off between the goodness of fit of the model and the simplicity of the model. In other words, AIC deals with both the risk of overfitting and the risk of underfitting.
-
-The Akaike information criterion is named after the Japanese statistician Hirotugu Akaike, who formulated it. It now forms the basis of a paradigm for the foundations of statistics and is also widely used for statistical inference.
+aic = 2*K - 2*math.exp(L)
+```
+- `K` is the number of independent variables used and `L` is the log-likelihood estimate (a.k.a. the likelihood that the model could have produced your observed y-values). The default `K` is always 2, so if your model uses one independent variable your `K` will be 3.
+- Using `statsmodels.tsa.statespace.sarimax.SARIMAX().fit().aic`
+	```python
+	model = SARIMAX()
+	hist = model.fit()
+	aic = hist.aic
+	```
 
 # Tests (not important)
 ## Stationarity Test
@@ -320,11 +361,6 @@ The Akaike information criterion is named after the Japanese statistician Hirotu
 	sm.stats.diagnostic.het_goldfeldquandt()
 	```
 		- `alternative`: Specity the alternative for the p-value calculation.
-
-
-# Horizon
-# Stage
-# Robust? 강건하다
 
 # Seq2Seq-Based
 ## MQ-RNN
