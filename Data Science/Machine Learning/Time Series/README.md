@@ -172,8 +172,16 @@ trend_pred_std = np.sqrt(pred.states.cov[:, 1, 1])
 	tscv = TimeSeriesSplit(n_splits=3)
 	```
 ## Cross Validation (CV)
-### Rolling Basis
-### Blocking
+### Time Series Splits CV
+- Source: https://hub.packtpub.com/cross-validation-strategies-for-time-series-forecasting-tutorial/
+- The idea for time series splits is to divide the training set into two folds at each iteration on condition that the validation set is always ahead of the training split. At the first iteration, one trains the candidate model on the closing prices from January to March and validates on April’s data, and for the next iteration, train on data from January to April, and validate on May’s data, and so on to the end of the training set. This way dependence is respected.
+
+Blocking Time Series Split Cross-Validation
+
+However, this may introduce leakage from future data to the model. The model will observe future patterns to forecast and try to memorize them. That’s why blocked cross-validation was introduced.  It works by adding margins at two positions. The first is between the training and validation folds in order to prevent the model from observing lag values which are used twice, once as a regressor and another as a response. The second is between the folds used at each iteration in order to prevent the model from memorizing patterns from an iteration to the next.
+- `from sklearn.model_selection import TimeSeriesSplit`
+### Blocked CV
+- Source: https://hub.packtpub.com/cross-validation-strategies-for-time-series-forecasting-tutorial/
 - Using `pmdarima.model_selection.SlidingWindowForecastCV()`
 	- References: https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.SlidingWindowForecastCV.html, https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.cross_val_score.html
 	```python
@@ -367,11 +375,6 @@ aic = 2*K - 2*math.exp(L)
 ## DeepAR
 
 # RCGAN 시계열 생성
-
-# Time Series Decomposition
-- 정상화: Trend 제거 -> Statinary -> 평균이 일정 -> 일반적인 모델 적용 가능
-- 변환 시 로그 -> 차분 순서로 해서 음수 값이 나오지 않도록 함.
-- Seasonality는 정의에 의해 자동으로 Statinary.
 
 # Libararies for Time Series
 - `format`:
