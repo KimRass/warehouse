@@ -157,6 +157,57 @@ trend_pred = pred.states.mean[:, 1]
 trend_pred_std = np.sqrt(pred.states.cov[:, 1, 1])
 ```
 
+<<<<<<< HEAD
+=======
+# Splitting Dataset
+- Overfitting would be a major concern since your training data could contain information from the future. ***It is important that all your training data happens before your test data.*** One way of validating time series data is by using k-fold CV and making sure that ***in each fold the training data takes place before the test data.***
+- Using `sklearn.model_selection.train_test_split(shuffle=False)`
+	```python
+	from sklearn.model_selection import train_test_split
+
+	data_tr, data_te = train_test_split(data, test_size=0.2, shuffle=False)
+	```
+- Using `sklearn.model_selection.TimeSeriesSplit()`
+	```python
+	from sklearn.model_selection import TimeSeriesSplit
+	
+	tscv = TimeSeriesSplit(n_splits=3)
+	```
+## Cross Validation (CV)
+### Time Series Splits CV
+- Source: https://hub.packtpub.com/cross-validation-strategies-for-time-series-forecasting-tutorial/
+- The idea for time series splits is to divide the training set into two folds at each iteration on condition that the validation set is always ahead of the training split. At the first iteration, one trains the candidate model on the closing prices from January to March and validates on April’s data, and for the next iteration, train on data from January to April, and validate on May’s data, and so on to the end of the training set. This way dependence is respected.
+
+Blocking Time Series Split Cross-Validation
+
+However, this may introduce leakage from future data to the model. The model will observe future patterns to forecast and try to memorize them. That’s why blocked cross-validation was introduced.  It works by adding margins at two positions. The first is between the training and validation folds in order to prevent the model from observing lag values which are used twice, once as a regressor and another as a response. The second is between the folds used at each iteration in order to prevent the model from memorizing patterns from an iteration to the next.
+- `from sklearn.model_selection import TimeSeriesSplit`
+### Blocked CV
+- Source: https://hub.packtpub.com/cross-validation-strategies-for-time-series-forecasting-tutorial/
+- Using `pmdarima.model_selection.SlidingWindowForecastCV()`
+	- References: https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.SlidingWindowForecastCV.html, https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.cross_val_score.html
+	```python
+	import pmdarima as pm
+	from pmdarima import model_selection
+	from pmdarima.model_selection import SlidingWindowForecastCV
+	from pmdarima.model_selection import cross_val_score
+
+	tr, te = model_selection.train_test_split(data, train_size=165)
+
+	# This approach to CV slides a window over the training samples while using several future samples as a test set. While similar to the `RollingForecastCV()`, it differs in that the train set does not grow, but rather shifts.
+	# `h`: The forecasting horizon, or the number of steps into the future after the last training sample for the test set.
+	# `step`: The size of step taken to slide both training samples and test samples.
+	# `window_size`: The size of the rolling window to use. If `None`, a rolling window of size `n_samples//5` will be used.
+	cv = SlidingWindowForecastCV(h, stemp, window_size)
+	# Generate indices to split data into training and test sets.
+	# cv_gen = cv.split()
+	# next(cv_gen)
+	
+	# `scoring`: (`"smape"`, `"mean_absolute_error"`, `"mean_squared_error"`)
+	scores = cross_val_score(estimator=model, y=tr, scoring="smape", cv=cv, verbose=2)
+	```
+
+>>>>>>> 76a0b763042046d2adf2907edda9a09f64656bc6
 # Autocorrelation
 - Source: https://statisticsbyjim.com/time-series/autocorrelation-partial-autocorrelation/
 - Autocorrelation is the correlation between two observations at different points in a time series. For example, values that are separated by an interval might have a strong positive or negative correlation. ***When these correlations are present, they indicate that past values influence the current value.***
