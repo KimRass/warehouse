@@ -279,18 +279,23 @@ from tensorflow.keras.optimizers import Adagrad
 - *Adagrad tends to benefit from higher initial learning rate values compared to other optimizers.*
 
 # Variable Encoding
-## One-hot Encoding
-- One-Hot encoding should not be performed if the number of categories are high. This would result in a sparse data.
+## One-Hot Encoding
+- One-hot encoding should not be performed if the number of categories are high. This would result in a sparse data.
 - Decision trees does not require doing one-hot encoding. Since xgboost, AFAIK, is a boosting of decision trees, I assume the encoding is not required.
 - 피처내 값들이 서로 분리 되어있기 때문에, 우리가 모를 수 있는 어떤 관계나 영향을 주지 않는다.
 - features 내 값의 종류가 많을 경우(High Cardinaliry), 매우 많은 Feature 들을 만들어 낸다. 이는, 모델 훈련의 속도를 낮추고 훈련에 더 많은 데이터를 필요로 하게 한다.(차원의 저주 문제)
 - 단순히 0과 1로만 결과를 내어 큰 정보이득 없이 Tree 의 depth 만 깊게 만든다. 중요한건, Tree Depth 를 증가시키는 것에 비해, 2가지 경우로만 트리를 만들어 나간다는 것이다.
 - Random Forest 와 같이, 일부 Feature 만 Sampling 하여 트리를 만들어나가는 경우, One-hot Feature 로 생성된 Feature 의 수가 많기 때문에 이 features가 다른 features보다 더 많이 쓰인다.
-```python
-import tensorflow as tf
+- Using `tensorflow.keras.utils.to_categorical()`
+	```python
+	from tensorflow.keras.utils import to_categorical
 
-tf.keras.utils.to_categorical([2, 5, 1, 6, 3, 7])
-```
+	to_categorical([2, 5, 1, 6, 3, 7])
+	```
+- Using `sklearn.preprocessing.OneHotEncoder()`
+	```python
+	from sklearn.preprocessing import OneHotEncoder
+	```
 ## Label Encoding
 - just mapping randomly to ints often works very well, especially if there aren’t to many.
 - Another way is to map them to their frequency in the dataset. If you’re afraid of collisions, map to counts + a fixed (per category) small random perturbation.
@@ -320,6 +325,10 @@ tf.keras.utils.to_categorical([2, 5, 1, 6, 3, 7])
 ## Ordinal Encoding
 - We do Ordinal encoding to ensure the encoding of variables retains the ordinal nature of the variable. This is reasonable only for ordinal variables, as I mentioned at the beginning of this article. This encoding looks almost similar to Label Encoding but slightly different as Label coding would not consider whether variable is ordinal or not and it will assign sequence of integers
 - If we consider in the temperature scale as the order, then the ordinal value should from cold to “Very Hot. “ Ordinal encoding will assign values as ( Cold(1) <Warm(2)<Hot(3)<”Very Hot(4)). Usually, we Ordinal Encoding is done starting from 1.
+- Using `sklearn.preprocessing.OrdinalEncoder()`
+	```python
+	from sklearn.preprocessing import OrdinalEncoder
+	```
 ## Mean Encoding
 - 일반적인 방법인 category를 label encoding으로 얻은 숫자는 머신러닝 모델이 오해하기 쉽다.
 - target value의 더 큰 값에 해당하는 범주가 더 큰 숫자로 인코딩 되게 하는 것이다.
@@ -907,8 +916,10 @@ print(sklearn.metrics.classification_report(y_pred, y_test))
 ```python
 import tensorflow as tf
 from tensorflow.keras import Input, Model, Sequential
+from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
 from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D
 from tensorflow.keras.optimizers import SGD, Adam, Adagrad
@@ -1009,23 +1020,19 @@ conv2d = Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padd
 - `data_format`: (`"channels_last"`)
 - `input_shape`: 처음에만 설정해 주면 됩니다.
 - `activation`: (`"tanh"`)
-## Pooling Layers
-### `MaxPool1D()`, `MaxPooling1D()`
-- `strides` : basically equals to 2
-### `MaxPool2D()`, `MaxPooling2D()`
-```python
-pool = MaxPool2D(pool_size=(2, 2), strides=1, padding="valid", data_format="channels_last")(image)
-```
-### `GlobalMaxPool1D()`, `GlobalMaxPooling1D()`
+## `MaxPool1D(strides)` (= `MaxPooling1D()`)
+- `strides`: (default 2)
+## `MaxPool2D(pool_size, strides, padding, data_format)` (= `MaxPooling2D()`)
+## `GlobalMaxPool1D()` (= `GlobalMaxPooling1D()`)
 - Shape changes from (a, b, c, d) to (a, d).
-### `GlobalMaxPool2D()`, `GlobalMaxPooling2D()`
+## `GlobalMaxPool2D()` (= `GlobalMaxPooling2D()`)
 - Downsamples the input representation by taking the maximum value over the time dimension.
 - Shape changes from (a, b, c) to (b, c).
-### `AveragePooling1D()`
-### `AveragePooling2D([pool_size], [strides], [padding])`
-### `GlobalAveragePooling1D()`
-### `GlobalAveragePooling2D()`
-### `ZeroPadding2D`
+## `AveragePooling1D()`
+## `AveragePooling2D([pool_size], [strides], [padding])`
+## `GlobalAveragePooling1D()`
+## `GlobalAveragePooling2D()`
+## `ZeroPadding2D(padding)`
 ```python
 z = ZeroPadding2D(padding=((1, 0), (1, 0)))(x)
 ```
@@ -1033,34 +1040,19 @@ z = ZeroPadding2D(padding=((1, 0), (1, 0)))(x)
 	- Int: the same symmetric padding is applied to height and width.
 	- Tuple of 2 ints: interpreted as two different symmetric padding values for height and width: `(symmetric_height_pad, symmetric_width_pad)`.
 	- Tuple of 2 tuples of 2 ints: interpreted as `((top_pad, bottom_pad), (left_pad, right_pad))`.
-## `SimpleRNNCell()`
 ## `RNN()`
-## `SimpleRNN()`, `GRU()`
+## `GRU(units, input_shape)`
+## `LSTM(units, return_sequences, return_state)`
 ```python
-outputs, hidden_states = SimpleRNN(units=hidden_size)(x_data), input_shape=(timesteps, input_dim), return_sequences=True, return_state=True)(x_date)
+_, hidden_state, cell_state = LSTM(units=256, return_state=True)(inputs_enc)
 ```
-- `SimpleRNN()` = `SimpleRNNCell()` + `RNN()`
 - `batch_input_shape=(batch_size, timesteps, input_dim)`
 - `return_sequences=False` : (default)time step의 마지막에서만 아웃풋을 출력합니다.(shape of output : (batch_size, hidden_size))
 - `return_sequences=True` : 모든 time step에서 아웃풋을 출력합니다. many to many 문제를 풀거나 LSTM 레이어를 여러개로 쌓아올릴 때는 이 옵션을 사용합니다.(shape of output : (batch_size, timesteps, hidden_size))
 - `return_state=True` : hidden state를 출력합니다.(shape of hidden state : (batch_size, hidden_size))
-```python
-GRU(units=hidden_size, input_shape=(timesteps, input_dim))
-```
-## `LSTM()`
-```python
-_, hidden_state, cell_state = LSTM(units=256, return_state=True)(inputs_enc)
-```
-- `tf.keras.layers.SimpleRNN()`과 문법이 동일합니다.
 - `return_state=True` : hidden state와 cell state를 출력합니다.
-## `Bidirectional()`
-```python
-Bidirectional(tf.keras.layers.SimpleRNN(hidden_size, return_sequences=True), input_shape=(timesteps, input_dim))
-```
+## `Bidirectional(input_shape)`
 ## `TimeDistributed()`
-```python
-model.add(TimeDistributed(tf.keras.layers.Dropout(rate=0.2)))
-```
 - TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다.
 - In keras - while building a sequential model - usually the second dimension (one after sample dimension) - is related to a time dimension. This means that if for example, your data is 5-dim with (sample, time, width, length, channel) you could apply a convolutional layer using TimeDistributed (which is applicable to 4-dim with (sample, width, length, channel)) along a time dimension (applying the same layer to each time slice) in order to obtain 5-d output.
 
@@ -1076,7 +1068,7 @@ model = Model(inputs, ouputs, [name])
 # `metrics`: (`["mse"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
 # When you pass the strings "accuracy" or "acc", we convert this to one of ``BinaryAccuracy()`, ``CategoricalAccuracy()`, `SparseCategoricalAccuracy()` based on the loss function used and the model output shape.
 # `loss_weights`
-model.compile(optimizer, loss, metrics, [loss_weights])
+model.compile(optimizer, loss, [metrics], [loss_weights])
 
 model.summary()
 ```

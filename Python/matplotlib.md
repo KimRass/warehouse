@@ -123,6 +123,11 @@ sb.heatmap([ax], data, [annot=True], [annot_kws={"size"}], [fmt=".2f"], [linewid
 ```
 - [`center`]: The value at which to center the colormap when plotting divergant data. Using this parameter will change the default `cmap` if none is specified.
 - [`mask`]: If passed, data will not be shown in cells where `mask` is True. Cells with missing values are automatically masked.
+## `sb.countplot(ax, [data], [x], [y], [hue], [orient])`
+- Reference: https://seaborn.pydata.org/generated/seaborn.countplot.html
+- Show the counts of observations in each categorical bin using bars.
+- [`data`]: (DataFrame)
+- [`orient`]: (`"v"`, `"h"`)
 
 # Grid
 #### `ax.grid()`
@@ -172,10 +177,8 @@ ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter("{x:,.0f}"))
 
 # Tick
 ## `ax.set_xticks()`, `ax.set_yticks()`
-## `ax.tick_params()`
-```python
-ax.tick_params(axis="x", labelsize=20, labelcolor="red", labelrotation=45, grid_linewidth=3)
-```
+## `ax.tick_params(axis, [labelsize], [labelcolor], [labelrotation], [grid_linewidth])`
+- `axis`: (`"x"`, `"y"`)
 ## `ax.set_xticks()`, `ax.set_yticks()`
 ```python
 ax.set_yticks(np.arange(1, 1.31, 0.05))
@@ -290,15 +293,6 @@ ax = sb.lineplot(x=data.index, y=data["ppa_ratio"], linewidth=3, color="red", la
 ```python
 sb.barplot(ax=ax, x=area_df["ft_cut"], y=area_df[0], color="brown", edgecolor="black", orient="v")
 ```
-### `sb.countplot()`
-```python
-sb.countplot(ax=ax, data=cmts202011, x="dep")
-```
-- DataFrame
-```python
-sb.countplot(ax=ax, x=label_train)
-```
-- `x`: (Array, List of Arrays)
 ### `sb.replot()`
 ```python
 ax = sb.replot(x="total_bill", y="tip", col="time", hue="day", style="day", kind="scatter", data=tips)

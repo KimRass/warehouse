@@ -157,46 +157,6 @@ trend_pred = pred.states.mean[:, 1]
 trend_pred_std = np.sqrt(pred.states.cov[:, 1, 1])
 ```
 
-# Splitting Dataset
-- Overfitting would be a major concern since your training data could contain information from the future. ***It is important that all your training data happens before your test data.*** One way of validating time series data is by using k-fold CV and making sure that ***in each fold the training data takes place before the test data.***
-- Using `sklearn.model_selection.train_test_split(shuffle=False)`
-	```python
-	from sklearn.model_selection import train_test_split
-
-	data_tr, data_te = train_test_split(data, test_size=0.2, shuffle=False)
-	```
-- Using `sklearn.model_selection.TimeSeriesSplit()`
-	```python
-	from sklearn.model_selection import TimeSeriesSplit
-	
-	tscv = TimeSeriesSplit(n_splits=3)
-	```
-## Cross Validation (CV)
-### Rolling Basis
-### Blocking
-- Using `pmdarima.model_selection.SlidingWindowForecastCV()`
-	- References: https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.SlidingWindowForecastCV.html, https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.cross_val_score.html
-	```python
-	import pmdarima as pm
-	from pmdarima import model_selection
-	from pmdarima.model_selection import SlidingWindowForecastCV
-	from pmdarima.model_selection import cross_val_score
-
-	tr, te = model_selection.train_test_split(data, train_size=165)
-
-	# This approach to CV slides a window over the training samples while using several future samples as a test set. While similar to the `RollingForecastCV()`, it differs in that the train set does not grow, but rather shifts.
-	# `h`: The forecasting horizon, or the number of steps into the future after the last training sample for the test set.
-	# `step`: The size of step taken to slide both training samples and test samples.
-	# `window_size`: The size of the rolling window to use. If `None`, a rolling window of size `n_samples//5` will be used.
-	cv = SlidingWindowForecastCV(h, stemp, window_size)
-	# Generate indices to split data into training and test sets.
-	# cv_gen = cv.split()
-	# next(cv_gen)
-	
-	# `scoring`: (`"smape"`, `"mean_absolute_error"`, `"mean_squared_error"`)
-	scores = cross_val_score(estimator=model, y=tr, scoring="smape", cv=cv, verbose=2)
-	```
-
 # Autocorrelation
 - Source: https://statisticsbyjim.com/time-series/autocorrelation-partial-autocorrelation/
 - Autocorrelation is the correlation between two observations at different points in a time series. For example, values that are separated by an interval might have a strong positive or negative correlation. ***When these correlations are present, they indicate that past values influence the current value.***
@@ -229,6 +189,50 @@ import statsmodels.api as sm
 
 sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 ```
+
+# Splitting Dataset
+- ***Overfitting would be a major concern since your training data could contain information from the future. It is important that all your training data happens before your test data.***
+- Using `sklearn.model_selection.train_test_split(shuffle=False)`
+	```python
+	from sklearn.model_selection import train_test_split
+
+	data_tr, data_te = train_test_split(data, test_size=0.2, shuffle=False)
+	```
+## Cross Validation (CV)
+- Source: https://hub.packtpub.com/cross-validation-strategies-for-time-series-forecasting-tutorial/
+### Time Series Splits CV
+[!tss](https://hub.packtpub.com/wp-content/uploads/2019/05/TimeSeries-Split.png)
+- The idea for time series splits is to divide the training set into two folds at each iteration on condition that the validation set is always ahead of the training split. At the first iteration, one trains the candidate model on the closing prices from January to March and validates on April’s data, and for the next iteration, train on data from January to April, and validate on May’s data, and so on to the end of the training set. This way dependence is respected.
+- ***However, this may introduce leakage from future data to the model. The model will observe future patterns to forecast and try to memorize them. That’s why blocked cross-validation was introduced.***
+- Using `sklearn.model_selection.TimeSeriesSplit()`
+	```python
+	from sklearn.model_selection import TimeSeriesSplit
+	
+	cv = TimeSeriesSplit(n_splits, max_train_size, test_size, gap)
+### Blocked CV
+[!blocked](https://hub.packtpub.com/wp-content/uploads/2019/05/Blocking-Time-Series-Split.png)
+- Using `pmdarima.model_selection.SlidingWindowForecastCV()` for Seasonal ARIMA
+	- References: https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.SlidingWindowForecastCV.html, https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.cross_val_score.html
+	```python
+	import pmdarima as pm
+	from pmdarima import model_selection
+	from pmdarima.model_selection import SlidingWindowForecastCV
+	from pmdarima.model_selection import cross_val_score
+
+	tr, te = model_selection.train_test_split(data, train_size=165)
+
+	# This approach to CV slides a window over the training samples while using several future samples as a test set. While similar to the `RollingForecastCV()`, it differs in that the train set does not grow, but rather shifts.
+	# `h`: The forecasting horizon, or the number of steps into the future after the last training sample for the test set.
+	# `step`: The size of step taken to slide both training samples and test samples.
+	# `window_size`: The size of the rolling window to use. If `None`, a rolling window of size `n_samples//5` will be used.
+	cv = SlidingWindowForecastCV(h, stemp, window_size)
+	# Generate indices to split data into training and test sets.
+	# cv_gen = cv.split()
+	# next(cv_gen)
+	
+	# `scoring`: (`"smape"`, `"mean_absolute_error"`, `"mean_squared_error"`)
+	scores = cross_val_score(estimator=model, y=tr, scoring="smape", cv=cv, verbose=2)
+	```
 
 # ARIMA (AutoRegressive Integrated Moving Average)
 - Source: https://en.wikipedia.org/wiki/Autoregressive_integrated_moving_average
@@ -367,11 +371,6 @@ aic = 2*K - 2*math.exp(L)
 ## DeepAR
 
 # RCGAN 시계열 생성
-
-# Time Series Decomposition
-- 정상화: Trend 제거 -> Statinary -> 평균이 일정 -> 일반적인 모델 적용 가능
-- 변환 시 로그 -> 차분 순서로 해서 음수 값이 나오지 않도록 함.
-- Seasonality는 정의에 의해 자동으로 Statinary.
 
 # Libararies for Time Series
 - `format`:
