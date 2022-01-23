@@ -336,22 +336,17 @@ pd.options.mode.chained_assignment = None
 idf_ser = pd.Series(idf, index=vocab)
 ```
 ## `pd.read_csv()`
-```python
-data = pd.read_csv("fra.txt", names=["src", "tar", "CC"], sep="\t")
-```
 - `thousands=","`
 - `float_precision="round_trip"`
 - `skiprows`
 - `error_bad_lines=False`
 - `names`: List of column names to use.
 - `index_col`
+- `sep`
 ## `pd.read_excel()`
-## `pd.read_table()`
-```python
-ratings_train = pd.read_table("ratings_train.txt", usecols=["document", "label"])
-```
-- `names`: List of column names to use.
+## `pd.read_table([usecols], [names])`
 - `usecols`
+- `names`: List of column names to use.
 ### `pd.read_sql()`
 ```python
 mall = pd.read_sql(query, conn)

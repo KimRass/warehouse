@@ -8,6 +8,10 @@
 ## NLP Challenge
 ## fra-eng
 - Source: https://www.kaggle.com/myksust/fra-eng/activity
+```python
+data = pd.read_table("./Datasets/fra-eng/fra.txt", usecols=[0, 1], names=["src", "tar"])
+# data = pd.read_csv("./Datasets/fra-eng/fra.txt", usecols=[0, 1], names=["src", "tar"], sep="\t")
+```
 ## IMDb
 ## Annotated Corpus for NER
 ## Chatbot Data for Korean
@@ -33,6 +37,13 @@ label_test = np.load("./Datasets/NLU Benchmark/test_label.npy", allow_pickle=Tru
 ```
 ## Naver Sentiment Movie Corpus
 - Source: https://raw.githubusercontent.com/e9t/nsmc/master/ratings.txt
+```python
+ratings_tr = pd.read_table("./Datasets/Naver Sentiment Movie Corpus/ratings_train.txt")
+ratings_te = pd.read_table("./Datasets/Naver Sentiment Movie Corpus/ratings_test.txt")
+
+ratings_tr = ratings_tr.dropna(subset=["document"])
+ratings_te = ratings_te.dropna(subset=["document"])
+```
 ## TED
 
 # Text
@@ -392,8 +403,6 @@ print(f"{len(word2idx):,}개의 단어 중 {vocab_size/len(word2idx):.1%}에 해
 ```python
 # `num_words`: The maximum number of words to keep, based on word frequency. Only the most common `num_words - 1` words will be kept.
 # `filters`: A string where each element is a character that will be filtered from the texts. The default is all punctuation, plus tabs and line breaks, minus the `'` character.
-# `lower`: Whether to convert the texts to lowercase.
-# `char_level`: If `True`, every character will be treated as a token.
 # `oov_token`: If given, it will be added to `word_index` and used to replace out-of-vocabulary words during `texts_to_sequence()` calls
 tokenizer = Tokenizer(num_words=vocab_size + 2, oov_token="UNK")
 tokenizer.fit_on_texts(train_text)
@@ -623,7 +632,26 @@ pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
 # seq2seq
 - seq2seq는 크게 두 개로 구성된 아키텍처로 구성되는데, 바로 인코더와 디코더입니다. 인코더는 입력 문장의 모든 단어들을 순차적으로 입력받은 뒤에 마지막에 이 모든 단어 정보들을 압축해서 하나의 벡터로 만드는데, 이를 컨텍스트 벡터(context vector)라고 합니다. 입력 문장의 정보가 하나의 컨텍스트 벡터로 모두 압축되면 인코더는 컨텍스트 벡터를 디코더로 전송합니다. 디코더는 컨텍스트 벡터를 받아서 번역된 단어를 한 개씩 순차적으로 출력합니다.
 - 디코더는 초기 입력으로 문장의 시작을 의미하는 심볼 `<sos>`가 들어갑니다. 디코더는 `<sos>`가 입력되면, 다음에 등장할 확률이 높은 단어를 예측합니다. 첫번째 시점(time step)의 디코더 RNN 셀은 다음에 등장할 단어로 je를 예측하였습니다. 첫번째 시점의 디코더 RNN 셀은 예측된 단어 je를 다음 시점의 RNN 셀의 입력으로 입력합니다. 그리고 두번째 시점의 디코더 RNN 셀은 입력된 단어 je로부터 다시 다음에 올 단어인 suis를 예측하고, 또 다시 이것을 다음 시점의 RNN 셀의 입력으로 보냅니다. 디코더는 이런 식으로 기본적으로 다음에 올 단어를 예측하고, 그 예측한 단어를 다음 시점의 RNN 셀의 입력으로 넣는 행위를 반복합니다. 이 행위는 문장의 끝을 의미하는 심볼인 `<eos>`가 다음 단어로 예측될 때까지 반복됩니다. 지금 설명하는 것은 테스트 과정 동안의 이야기입니다.
+- Chatbot, NMT, Text Summarization, STT
+- 정상적으로 정수 인코딩이 수행된 것을 볼 수 있습니다. 아직 정수 인코딩을 수행해야 할 데이터가 하나 더 남았습니다. 디코더의 예측값과 비교하기 위한 실제값이 필요합니다. 그런데 이 실제값에는 시작 심볼에 해당되는 `<sos>`가 있을 필요가 없습니다. 이해가 되지 않는다면 이전 페이지의 그림으로 돌아가 Dense와 Softmax 위에 있는 단어들을 다시 보시기 바랍니다. 그래서 이번에는 정수 인코딩 과정에서 `<sos>`를 제거합니다. 즉, 모든 프랑스어 문장의 맨 앞에 붙어있는 '\t'를 제거하도록 합니다
+- 이미 RNN에 대해서 배운 적이 있지만, 다시 복습을 해보도록 하겠습니다. 하나의 RNN 셀은 각각의 Time step마다 두 개의 입력을 받습니다.
+- 현재 Time step을 `t`라고 할 때, RNN 셀은 `t - 1`에서의 Hidden state와 `t`에서의 입력 벡터를 입력으로 받고, `t`에서의 Hidden state를 만듭니다. 이때 `t`에서의 Hidden state는 바로 위에 또 다른 은닉층이나 출력층이 존재할 경우에는 위의 층으로 보내거나, 필요 없으면 값을 무시할 수 있습니다. 그리고 RNN 셀은 다음 시점에 해당하는 `t + 1`의 RNN 셀의 입력으로 현재 `t`에서의 Hidden state를 입력으로 보냅니다.
+- RNN 챕터에서도 언급했지만, 이런 구조에서 현재 시점 `t`에서의 Hidden state는 과거 시점의 동일한 RNN 셀에서의 모든 Hidden state의 값들의 영향을 누적해서 받아온 값이라고 할 수 있습니다. 그렇기 때문에 앞서 우리가 언급했던 Context vector는 사실 인코더에서의 마지막 RNN 셀의 Hidden state값을 말하는 것이며, 이는 입력 문장의 모든 단어 토큰들의 정보를 요약해서 담고있다고 할 수 있습니다.
+- 디코더는 인코더의 마지막 RNN 셀의 Hidden state인 컨텍스트 벡터를 첫번째 Hidden state의 값으로 사용합니다. 디코더의 첫번째 RNN 셀은 이 첫번째 Hidden state의 값과, 현재 `t`에서의 입력값인 `"<SOS>"`로부터, 다음에 등장할 단어를 예측합니다.
+## Teacher Forcing
+- 모델을 설계하기 전에 혹시 의아한 점은 없으신가요? 현재 시점의 디코더 셀의 입력은 오직 이전 디코더 셀의 출력을 입력으로 받는다고 설명하였는데 `dec_input`이 왜 필요할까요?
+- 훈련 과정에서는 이전 시점의 디코더 셀의 출력을 현재 시점의 디코더 셀의 입력으로 넣어주지 않고, 이전 시점의 실제값을 현재 시점의 디코더 셀의 입력값으로 하는 방법을 사용할 겁니다. 그 이유는 이전 시점의 디코더 셀의 예측이 틀렸는데 이를 현재 시점의 디코더 셀의 입력으로 사용하면 현재 시점의 디코더 셀의 예측도 잘못될 가능성이 높고 이는 연쇄 작용으로 디코더 전체의 예측을 어렵게 합니다. 이런 상황이 반복되면 훈련 시간이 느려집니다. 만약 이 상황을 원하지 않는다면 이전 시점의 디코더 셀의 예측값 대신 실제값을 현재 시점의 디코더 셀의 입력으로 사용하는 방법을 사용할 수 있습니다.
 ## Character-Level seq2seq
+- Training
+	```python
+	
+	```
+- Inference
+	- 앞서 seq2seq는 훈련할 때와 동작할 때의 방식이 다르다고 언급한 바 있습니다. 이번에는 입력한 문장에 대해서 기계 번역을 하도록 모델을 조정하고 동작시켜보도록 하겠습니다.
+	- 전체적인 번역 동작 단계를 정리하면 아래와 같습니다.
+		1. 번역하고자 하는 입력 문장이 인코더에 들어가서 Hidden state와 셀 상태를 얻습니다.
+		2. 상태와 `<SOS>`를 디코더로 보냅니다.
+		3. 디코더가 `<EOS>`가 나올 때까지 다음 문자를 예측하는 행동을 반복합니다.
 
 # Bidirectional LSTM Sentiment Analysis
 ```python
@@ -677,6 +705,9 @@ def split(string):
 ```
 
 # `tokenization_kobert`
+```
+pip3 install kobert-transformers
+```
 ```python
 urllib.request.urlretrieve("https://raw.githubusercontent.com/monologg/KoBERT-NER/master/tokenization_kobert.py", filename="tokenization_kobert.py")
 ```
@@ -1007,34 +1038,6 @@ train_X = pad_sequences([tokenizer.convert_tokens_to_ids(tokens) for tokens in t
 - `padding`: (`"pre"`, `"post"`)
 - `truncating`: (`"pre"`, `"post"`)
 - `value=` : padding에 사용할 value를 지정합니다.
-#### `tf.keras.preprocessing.text`
-##### `tf.keras.preprocessing.text.Tokenizer()`
-```python
-tkn = tf.keras.preprocessing.text.Tokenizer(num_words=vocab_size+2, oov_token="UNK", lower=True)
-```
-- `lower=False`: 대문자를 유지합니다.
-##### `tkn.fit_on_texts()`
-```python
-tkn.fit_on_texts(["나랑 점심 먹으러 갈래 점심 메뉴는 햄버거 갈래 갈래 햄버거 최고야"])
-```
-##### `tkn.word_index`
-```python
-word2idx = tkn.word_index
-```
-##### `tkn.index_word`
-##### `tkn.word_counts`
-```python
-word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
-
-cnts = list(word2cnt.values())
-
-for vocab_size, value in enumerate(np.cumsum(cnts)/np.sum(cnts)):
-    if value >= ratio:
-        break
-
-print(f"{vocab_size:,}개의 단어로 전체 data의 {ratio:.0%}를 표현할 수 있습니다.")
-print(f"{len(word2idx):,}개의 단어 중 {vocab_size/len(word2idx):.1%}에 해당합니다.")
-```
 ##### `tkn.texts_to_sequences()`
 ```python
 train_X = tkn.texts_to_sequences(train_X)

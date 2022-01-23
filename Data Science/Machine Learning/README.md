@@ -1008,14 +1008,13 @@ x = Activation("relu")(x)
 ## `RNN()`
 ## `GRU(units, input_shape)`
 ## `LSTM(units, return_sequences, return_state)`
-```python
-_, hidden_state, cell_state = LSTM(units=256, return_state=True)(inputs_enc)
-```
-- `batch_input_shape=(batch_size, timesteps, input_dim)`
-- `return_sequences=False` : (default)time step의 마지막에서만 아웃풋을 출력합니다.(shape of output : (batch_size, hidden_size))
-- `return_sequences=True` : 모든 time step에서 아웃풋을 출력합니다. many to many 문제를 풀거나 LSTM 레이어를 여러개로 쌓아올릴 때는 이 옵션을 사용합니다.(shape of output : (batch_size, timesteps, hidden_size))
-- `return_state=True` : hidden state를 출력합니다.(shape of hidden state : (batch_size, hidden_size))
-- `return_state=True` : hidden state와 cell state를 출력합니다.
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/LSTM
+- `return_sequences`: Whether to return the last output. in the output sequence, or the full sequence.
+	- `True`: 모든 Time step에서 Output을 출력합니다. (Output shape: `(batch_size, timesteps, h_size)`)
+	- `False` (default): Time step의 마지막에서만 Output을 출력합니다. (Output shape: `(batch_size, h_size)`)
+- `return_state`: Whether to return the last state in addition to the output. (`output, h_state, c_state = LSTM(return_state=True)()`)
+- Call arguments
+	- `initial_state`: List of initial state tensors to be passed to the first call of the cell (optional, defaults to `None` which causes creation of zero-filled initial state tensors).
 ## `Bidirectional(input_shape)`
 ## `TimeDistributed()`
 - TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다.
