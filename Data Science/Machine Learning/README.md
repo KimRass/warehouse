@@ -883,33 +883,18 @@ train_acc = np.mean(train_pred == train_y)
     - `penalty="l2"`: The standard regularizer for linear SVM models.
 - `alpha`: Constant that multiplies the regularization term. The higher the value, the stronger the regularization. Also used to compute the learning rate when `learning_rate` is set to `"optimal"`.
 - max_iter`: The maximum number of passes over the training data (aka epochs).
-## `sklearn.ensemble`
 ### `RandomForestRegressor()`, `GradientBoostingRegressor()`, `AdaBoostRegressor()`
 ```python
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor
 ```
-## `sklearn.tree`
 ### `DecisionTreeRegressor()`
 ```python
 from sklearn.tree import DecisionTreeRegressor
 ```
-## `sklearn.datasets`
-### `sklearn.datasets.fetch_20newsgroups()`
-```python
-newsdata = sklearn.datasets.fetch_20newsgroups(subset="train")
-```
-- `subset`: (`"all"`, `"train"`, `"test"`)
 ### `sklearn.datasets.sample_generator`
 #### `make_blobs()`
 ```python
  from sklearn.datasets.sample_generator improt make_blobs
-```
-## `sklearn.metrcis`
-### `sklearn.metrics.pairwise`
-#### `sklearn.metrics.pairwise.cosine_similarity`
-### `sklearn.metrics.classification_report()`
-```python
-print(sklearn.metrics.classification_report(y_pred, y_test))
 ```
 
 # `tensorflow`
@@ -958,12 +943,7 @@ pos_score = Dot(axes=(1, 1))([z1, z2])
 ```
 - `axes` : (integer, tuple of integers) Axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
 ## `Concatenate([axis])()` (= `tf.concat(values, [axis], [name])`)
-## `Flatten()`
-- 입력되는 tensor의 row를 펼쳐서 일렬로 만듭니다.
-- 학습되는 weights는 없고 데이터를 변환하기만 합니다.
-```python
-model.add(Flatten(input_shape=(28, 28)))
-```
+## `Flatten([input_shape])`
 ## `Input(shape, [name], [dtype], ...)`
 - `shape`
 	- ***A shape tuple (integers), not including the batch size***. For instance, shape=(32,) indicates that the expected input will be batches of 32-dimensional vectors.
@@ -973,6 +953,22 @@ model.add(Flatten(input_shape=(28, 28)))
 - `rate`
 	- The Dropout layer randomly sets input units to 0 with a frequency of `rate` at each step during training time, which helps prevent overfitting. Inputs not set to 0 are scaled up by 1/(1 - `rate`) such that the sum over all inputs is unchanged.
 	- Note that the `Dropout` layer only applies when `training` is set to `True` such that no values are dropped during inference. When using `model.fit`, `training` will be appropriately set to `True` automatically, and in other contexts, you can set the kwarg explicitly to `True` when calling the layer.
+## `MaxPool1D(strides)` (= `MaxPooling1D()`), `MaxPool2D(pool_size, strides, padding, data_format)` (= `MaxPooling2D()`)
+## `GlobalMaxPool1D()` (= `GlobalMaxPooling1D()`)
+- Shape changes from (a, b, c, d) to (a, d).
+## `GlobalMaxPool2D()` (= `GlobalMaxPooling2D()`)
+- Downsamples the input representation by taking the maximum value over the time dimension.
+- Shape changes from (a, b, c) to (b, c).
+## `AveragePooling1D([pool_size], [strides], [padding])`, `AveragePooling2D()`
+## `GlobalAveragePooling1D()`, `GlobalAveragePooling2D()`
+## `ZeroPadding2D(padding)`
+```python
+z = ZeroPadding2D(padding=((1, 0), (1, 0)))(x)
+```
+- `padding`:
+	- Int: the same symmetric padding is applied to height and width.
+	- Tuple of 2 ints: interpreted as two different symmetric padding values for height and width: `(symmetric_height_pad, symmetric_width_pad)`.
+	- Tuple of 2 tuples of 2 ints: interpreted as `((top_pad, bottom_pad), (left_pad, right_pad))`.
 ## `BatchNormalization()`
 - usually used before activation function layers.
 ## `Reshape()`
@@ -985,12 +981,14 @@ x = Activation("relu")(x)
 ```
 
 # 가중치가 있는 Layers
-## `Embedding(input_dim, output_dim, [mask_zero], [input_length], [name], ...)`
-- Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Embedding
+## `Embedding(input_dim, output_dim, [mask_zero], [input_length], [name], [weights], [trainable], ...)`
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Embedding
 - `input_dim`: Size of the vocabulary.
 - `output_dim`: Dimension of the dense embedding.
-- `input_length`: Length of input sequences, when it is constant. This argument is required if you are going to connect Flatten then Dense layers upstream.
-- `mask_zero=True`: Whether or not the input value 0 is a special "padding" value that should be masked out. This is useful when using recurrent layers which may take variable length input. If `mask_zero` is set to `True`, as a consequence, index 0 cannot be used in the vocabulary (`input_dim` should equal to (Size of vocabulary + 1)).
+- `input_length`: Length of input sequences, when it is constant. This argument is required if you are going to connect `Flatten()` then `Dense ()` layers upstream.
+- `mask_zero=True`: Whether or not the input value 0 is a special "padding" value that should be masked out. This is useful when using recurrent layers which may take variable length input. If `mask_zero` is set to `True`, as a consequence, index 0 cannot be used in the vocabulary (`input_dim` should equal to `vocab_size + 1`)).
+- `weights`
+- `trainable`
 - Input shape: `(batch_size, input_length)`
 - Output shape: `(batch_size, input_length, output_dim)`
 ## `Dense(units, activation)`
@@ -1001,45 +999,12 @@ x = Activation("relu")(x)
 - Input Shape: `(batch_size, ..., input_dim)` (e.g., `(batch_size, input_dim)` for a 2-D input)
 - Output Shape: `(batch_size, ..., units)` (e.g., `(batch_size, units)` for a 2-D input)
 - Note that after the first layer, you don't need to specify the size of the input anymore.
-## `Conv1D()`
-```python
-Conv1D(filters=n_kernels, kernel_size=kernel_size, padding="same", activation="relu", strides=1)
-```
-- `strides` : basically equals to 1
-## `Conv2D()`
-```python
-conv2d = Conv2D(filters=n_filters, kernel_size=kernel_size, strides=(1, 1), padding="same")(image)
-```
-- `image`: (batch, height of image, width of image, number of channels)
-- `kernel`: (height of filter, width of filter, number of channels, number of kernels)
-- `convolution`: (batch, height of convolution, width of convolution, number of kernels)
-- number of channels와 number of kernels는 서로 동일합니다.
+## `Conv1D(filters, kernel_size, strides, padding, activation, data_format)`, `Conv2D()`
 - `kernal_size`: window_size
-- `padding="valid"`: No padding. There can be a loss of information. The size of the output image is smaller than the size of the input image.
-- `padding="same"`: Normally, padding is set to same while training the model.
-- `data_format`: (`"channels_last"`)
-- `input_shape`: 처음에만 설정해 주면 됩니다.
+- `padding="valid"`: No padding. 
+- `padding="same"`: Results in padding with zeros evenly to the left/right or up/down of the input such that output has the same height/width dimension as the input.
+- `data_format`: (`"channels_last"`, `"channels_first"`)
 - `activation`: (`"tanh"`)
-## `MaxPool1D(strides)` (= `MaxPooling1D()`)
-- `strides`: (default 2)
-## `MaxPool2D(pool_size, strides, padding, data_format)` (= `MaxPooling2D()`)
-## `GlobalMaxPool1D()` (= `GlobalMaxPooling1D()`)
-- Shape changes from (a, b, c, d) to (a, d).
-## `GlobalMaxPool2D()` (= `GlobalMaxPooling2D()`)
-- Downsamples the input representation by taking the maximum value over the time dimension.
-- Shape changes from (a, b, c) to (b, c).
-## `AveragePooling1D()`
-## `AveragePooling2D([pool_size], [strides], [padding])`
-## `GlobalAveragePooling1D()`
-## `GlobalAveragePooling2D()`
-## `ZeroPadding2D(padding)`
-```python
-z = ZeroPadding2D(padding=((1, 0), (1, 0)))(x)
-```
-- `padding`:
-	- Int: the same symmetric padding is applied to height and width.
-	- Tuple of 2 ints: interpreted as two different symmetric padding values for height and width: `(symmetric_height_pad, symmetric_width_pad)`.
-	- Tuple of 2 tuples of 2 ints: interpreted as `((top_pad, bottom_pad), (left_pad, right_pad))`.
 ## `RNN()`
 ## `GRU(units, input_shape)`
 ## `LSTM(units, return_sequences, return_state)`
@@ -1093,10 +1058,14 @@ hist = model.fit(x=X, y=y, validation_split=0.2, batch_size, epochs, verbose=2, 
 hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
 ```
 ```python
-fig, axes = plt.subplots(figsize=(8, 8))
-axes.plot(hist.history["loss"][1:], label="loss");
-axes.plot(hist.history["val_loss"][1:], label="val_loss");
-axes.legend();
+fig, axes = plt.subplots(1, 2, figsize=(12, 8))
+axes[0].plot(hist.history["loss"][1:], label="loss");
+axes[0].plot(hist.history["val_loss"][1:], label="val_loss");
+axes[0].legend();
+
+axes[1].plot(hist.history["acc"][1:], label="acc");
+axes[1].plot(hist.history["val_acc"][1:], label="val_acc");
+axes[1].legend();
 ```
 ## Evaluate Model
 ```python
@@ -1137,12 +1106,9 @@ image = tf.constant([[[[1], [2], [3]], [[4], [5], [6]], [[7], [8], [9]]]], dtype
 img = tf.convert_to_tensor(img)
 ```
 ## `tf.transpose()`
-## `tf.cast()`
-```python
-pred = tf.cast(h > 0.5, dtype=tf.float32)
-```
-- 조건이 True면 1, False면 0 반환.
-- 혹은 단순히 Tensor의 자료형 변환.
+## `tf.cast([dtype])`
+- Casts a tensor to a new type.
+- Returns `1` if `True` else `0`.
 ## `tf.shape()`
 ```python
 batch_size = tf.shape(conv_output)[0]
@@ -1179,10 +1145,7 @@ dW, db = tape.gradient(loss, [W, b])
 - `inputs`: A list of Tensors, each with the same shape and type.
 ### `tf.math.square()`
 - Compute square of x element-wise.
-### `tf.math.argmax()`
-```python
-y_pred = tf.math.argmax(model.predict(X_test), axis=1)
-```
+### `tf.math.argmax(axis)`
 ### `tf.math.sign`
 ```python
 tf.math.sign(tf.math.reduce_sum(self.w * x) + self.b)
@@ -1190,15 +1153,10 @@ tf.math.sign(tf.math.reduce_sum(self.w * x) + self.b)
 ### `tf.math.exp()`
 ### `tf.math.log()`
 ### `tf.math.equal()`
-```python
-acc = tf.math.reduce_mean(tf.cast(tf.math.equal(pred, labels), dtype=tf.float32))
-```
-### `tf.math.reduce_sum()`, `tf.math.reduce_mean()`
-- Source: https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
-- `axis=None`: 모든 elements에 대해 연산합니다.
-- `axis=0`: reduces along the 1st dimension. dimension이 1만큼 감소합니다.
-- `axis=1`: reduces along the 2nd dimension. dimension이 1만큼 감소합니다.
-- `keepdims=True`: dimension이 감소하지 않습니다.
+### `tf.math.reduce_sum([axis])`, `tf.math.reduce_mean()`
+- Reference: https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
+- `axis=None`: Reduces all dimensions.
+- Reduces `input_tensor` along the dimensions given in `axis`. Unless `keepdims=True`, the rank of the tensor is reduced by `1` for each of the entries in `axis`, which must be unique. If `keepdims=True`, the reduced dimensions are retained with length `1`.
 ### `tf.data.Dataset`
 #### `tf.data.Dataset.from_tensor_slices()`
 ```python
@@ -1240,23 +1198,34 @@ opt.apply_gradients(zip([dW, db], [W, b]))
 opt.apply_gradients(zip(grads, model.trainable_variables))
 ```
 
-# Load and Save Models
+# Save or Load Model
 - Source: https://www.tensorflow.org/tutorials/keras/save_and_load
-## Load Weights
+```python
+name = "./name"
+model_path = f"{name}.h5"
+hist_path = f"{name}_hist.npy"
+if os.path.exists(model_path):
+    model = load_model(model_path)
+    hist = np.load(hist_path, allow_pickle="TRUE").item()
+else:
+	...
+	
+	np.save(hist_path, hist.history)
+```
+```python
+model.save(model_path)
+```
+```python
+model = load_model(model_path)
+```
+
+# Save or Load Weights
 ```python
 model.compile(...)
 ...
 model.load_weights(model_path)
 ```
 - As long as two models share the same architecture you can share weights between them. So, when restoring a model from weights-only, create a model with the same architecture as the original model and then set its weights.
-## Save Model
-```python
-model.save(model_path)
-```
-## Load Model
-```python
-model = load_model(model_path)
-```
 
 # Tensorflow Custom Layer
 - custom layer를 만들려면 `tf.keras.layers.Layer` 클래스를 상속하고 다음 메서드를 구현합니다
@@ -1267,10 +1236,7 @@ model = load_model(model_path)
 # `tensorflow_addons`
 ```python
 import tensorflow_addons as tfa
-```
-## `tfa.optimizers`
-### `tfa.optimizers.RectifiedAdam()`
-```python
+
 opt = tfa.optimizers.RectifiedAdam(lr=5.0e-5, total_steps = 2344*4, warmup_proportion=0.1, min_lr=1e-5, epsilon=1e-08, clipnorm=1.0)
 ```
 

@@ -1,5 +1,6 @@
 # Datasets
 ## `sklearn.datasets.fetch_20newsgroups()`
+- `subset`: (`"all"`, `"train"`, `"test"`)
 ## Steam Reviews
 - Source: https://github.com/bab2min/corpus/tree/master/sentiment
 ## Naver Shopping
@@ -387,14 +388,25 @@ print(f"{vocab_size:,}개의 단어로 전체 data의 {ratio:.0%}를 표현할 �
 print(f"{len(word2idx):,}개의 단어 중 {vocab_size/len(word2idx):.1%}에 해당합니다.")
 ```
 ## 너무 짧은 문장 자르기
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/Tokenizer
 ```python
-lens = sorted([len(doc) for doc in tr_X])
-ratio = 0.99
-max_len = int(np.quantile(lens, ratio))
-print(f"길이가 가장 긴 문장의 길이는 {np.max(lens)}이고 길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
+# `num_words`: The maximum number of words to keep, based on word frequency. Only the most common `num_words - 1` words will be kept.
+# `filters`: A string where each element is a character that will be filtered from the texts. The default is all punctuation, plus tabs and line breaks, minus the `'` character.
+# `lower`: Whether to convert the texts to lowercase.
+# `char_level`: If `True`, every character will be treated as a token.
+# `oov_token`: If given, it will be added to `word_index` and used to replace out-of-vocabulary words during `texts_to_sequence()` calls
+tokenizer = Tokenizer(num_words=vocab_size + 2, oov_token="UNK")
+tokenizer.fit_on_texts(train_text)
+word2idx = tokenizer.word_index
+word2cnt = dict(sorted(tokenizer.word_counts.items(), key=lambda x:x[1], reverse=True))
 
-X_tr = pad_sequences(X_tr, maxlen=max_len)
-X_te = pad_sequences(X_te, maxlen=max_len)
+X_tr = tokenizer.texts_to_sequences(train_text)
+X_te = tokenizer.texts_to_sequences(test_text)
+
+lens = sorted([len(doc) for doc in X_tr])
+ratio = 0.99
+max_len = int(np.quantile(lens, 0.99))
+print(f"길이가 가장 긴 문장의 길이는 {np.max(lens)}이고 길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
 ```
 ## Padding
 ```python
@@ -442,7 +454,34 @@ tr_y = pad_sequences(tr_y, padding="post", maxlen=max_len)
 	sim_words = model.wv.most_similar("man")
 	```
 ## FastText
-## GloVe
+## GloVe (Global Vectors for Word Representation)
+- Pre-Trained Word Embedding
+	```python
+	source: "http://nlp.stanford.edu/data/glove.6B.zip"
+	file_name = "D:/glove.6B.zip"
+	if not os.path.exists(file_name):
+		urllib.request.urlretrieve(source, filename=file_name)
+	file_name = "D:/glove.6B.100d.txt"
+	if not os.path.exists(file_name):
+		zipfile.ZipFile(file_name).extractall(path="D:/")
+
+	token2vec = dict()
+	with open(file_name, mode="r", encoding="utf-8") as f:
+		for line in tqdm(f):
+			line = line.split()
+			word = line[0]
+			emb_vec = np.array(line[1:], dtype="float32")
+			token2vec[word] = emb_vec
+		f.close()
+
+	emb_dim = 100
+	emb_mat = np.zeros(shape=(vocab_size + 2, emb_dim))
+	for word, idx in word2idx.items():
+		try:
+			emb_mat[idx] = token2vec[word]
+		except:
+			continue
+	```
 ## SGNS (Skip-Gram with Negative Sampling)
 
 # Syntactic & Semantic Analysis

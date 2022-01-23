@@ -126,11 +126,13 @@ for data in ["tasks", "comments", "projects", "prj_members", "members"]:
 exec(f"{table} = pd.DataFrame(result)")
 ```
 - `exce()` is for statement and return `None`.
-## `open()`
+## `open(file, mode, encoding)`
 ```python
-with open("C:/Users/5CG7092POZ/nsmc-master/ratings_train.txt", "r", encoding="utf-8") as f:
-    train_docs = [line.split("\t") for line in f.read().splitlines()][1:]
+with open() as f:
+    ...
 ```
+- `mode`: (`"r"`, `"rb"`, `"w"`, `"wb"`, ...) 
+
 ## `input()`
 ```python
 A = list(map(int, in "A를 차례대로 입력 : ").split()))
@@ -1568,16 +1570,7 @@ from pprint import pprint
 ```python
 import zipfile
 ```
-## `zipfile.ZipFile()`
-```python
-with zipfile.ZipFile("spa-eng.zip", "r") as f:
-    file = f.open("spa-eng/spa.txt")
-    data = pd.read_csv(file, names=["eng", "spa"], sep="\t")
-```
-### `zipfile.ZipFile().extractall()`
-```python
-zipfile.ZipFile("glove.6B.zip").extractall(cur_dir)
-```
+## `zipfile.ZipFile(file, mode).extractall(path)`
 
 # `lxml`
 ## `etree`
@@ -1633,16 +1626,7 @@ filenames = glob.glob(path + "/*.csv")
 import pickle as pk
 ```
 ## `pk.dump()`
-```python
-with open("filename.pkl", "wb") as f:
-	pk.dump(list, f)
-```
 ## `pk.load()`
-```python
-with open("filename.pkl", "rb") as f:
-	data = pk.load(f)
-```
-- 한 줄씩 load
 
 # `json`
 ```python
@@ -1653,18 +1637,10 @@ import json
 with open(path, "w", encoding="utf-8") as f:
     json.dump(train_data, f, ensure_ascii=False, indent="\t")
 ```
-```python
-with open(f"{model_path}_hist", "w") as f:
-	json.dump(hist.history, f)
-```
 ## `json.load()`
 ```python
 with open(path, "r", encoding="utf-8") as f:
     train_data = json.load(f)
-```
-```python
-with open(f"{model_path}_hist", "r") as f:
-	hist.history = json.load(f)
 ```
 
 # `datasketch`
