@@ -370,16 +370,16 @@ pd.crosstab(index=data["count"], columns=data["weather"], margins=True)
 ## `pd.concat()`
 - `join`: (`"inner"`, `"outer"`, default `"outer"`)
 - `ignore_index`: If `True`, do not use the index values along the concatenation axis. The resulting axis will be labeled `0`, …, `n - 1`.
-## `pd.pivot_table(data, values, index, columns, [aggfunc], [fill_value], [drop_na], [margins], [margins_name])`
+## `pd.pivot_table(data, values, index, columns, [aggfunc], [fill_value], [drop_na], [margins], [margins_name], [sort=True])`
+- Reference: https://pandas.pydata.org/docs/reference/api/pandas.pivot_table.html
+- `aggfunc`: (`"mean"`, `"sum"`)
+- `margins=True`: Add all row / columns (e.g. for subtotal / grand totals).
+```python
+pivot = pd.pivot_table(data, index=["dept", "name"], columns=["lvl1", "lvl2"], values="Number of Records", aggfunc="sum", fill_value=0, margins=True)
+pivot = pivot.sort_values(["All"], ascending=False)
+pivot = pivot.sort_values([("All", "")], axis=1, ascending=False)
+```
 ## `pd.melt()`
-```python
-n_post = pd.melt(n_post, id_vars="Date", var_name="Emp", value_name="NPost", ignore_index=False)
-```
-```python
-data = pd.melt(data, id_vars=basic_cols + money_cols, value_name="date")
-data = pd.melt(data, id_vars=basic_cols + ["date"], var_name="classification", value_name="money")
-```
-- `pd.pivot_table()`의 반대 과정입니다.
 ## `pd.cut()`
 ```python
 raw_all["temp_group"] = pd.cut(raw_all["temp"], 10)
@@ -504,10 +504,7 @@ pivot = pivot.reindex(dep_order)
 ```python
 data.insert(3, "age2", data["age"]*2)
 ```
-## `DataFrame.sort_values()`
-```python
-results_groupby_ordered = results_groupby.sort_values(by=["error"], ascending=True, na_position="first", axis=0)
-```
+## `sort_values(by, [axis=0], [ascending=True])`
 ## `DataFrame.nlargest()`, `DataFrame.nsmallest()`
 ```python
 df.nlargest(3, ["population", "GDP"], keep="all")

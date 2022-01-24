@@ -1,9 +1,10 @@
 # Setting
+## Display Hangul
 ```python
+import matplotlib as mpl
+
 fpath = "C:/Windows/Fonts/malgun.ttf"
 font_name = mpl.font_manager.FontProperties(fname=fpath).get_name()
-```
-```python
 mpl.rc("font", family=font_name)
 ```
 - `family`: (`"NanumBarunGothic"`)
@@ -79,10 +80,14 @@ ax.bar(x=nby_genre.index, height=nby_genre["movie_id"])
 ```python
 data["label"].value_counts().plot.bar()
 ```
-### `ax.barh()`, `DataFrame.plot.barh()`, `Series.plot.barh()`
+### `plt.barh()`
 ```python
 ax.barh(y=ipark["index"], width=ipark["가경4단지 84.8743A"], height=0.2, alpha=0.5, color="red", label="가경4단지 84.8743A", edgecolor="black", linewidth=1)
 ```
+## `DataFrame.plot.barh(x, y, [stacked], [color])`, `Series.plot.barh()`
+- Reference: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.plot.barh.html
+- `x`: If not specified, the index of the DataFrame is used.
+- `y`: If not specified, all numerical columns are used.
 ## Histogram
 ### `ax.hist()`, `DataFrame.plot.hist()`, `Series.plot.hist()`
 ```python
@@ -195,9 +200,7 @@ plt.title()
 
 # Label
 ## `ax.set_xlabel()`, `ax.set_ylabel()`
-```python
-ax.set_xlabel("xAxis", size=15)
-```
+## `ax.set_xticklabels([va])`, `ax.set_yticklabels([ha])`
 
 # Legend
 ## Place a legend

@@ -3,6 +3,16 @@
 - `subset`: (`"all"`, `"train"`, `"test"`)
 ## Steam Reviews
 - Source: https://github.com/bab2min/corpus/tree/master/sentiment
+```python
+urllib.request.urlretrieve("https://raw.githubusercontent.com/bab2min/corpus/master/sentiment/steam.txt", filename="./Datasets/Steam Reviews/steam.txt")
+data = pd.read_table("./Datasets/Steam Reviews/steam.txt", names=["label", "review"])
+
+data["review"] = data["review"].str.replace(f"[{string.punctuation}]", " ")
+data["review"] = data["review"].str.replace(r" +", " ")
+data = data[data["review"]!=" "]
+data = data.dropna(axis=0)
+data = data.drop_duplicates(["review"], keep="first")
+```
 ## Naver Shopping
 - Source: https://github.com/bab2min/corpus/tree/master/sentiment
 ## NLP Challenge
@@ -630,9 +640,14 @@ pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
 - Bidirectional representations condition on both pre- and post- context (e.g., words) in all layers.
 
 # seq2seq
+- Source: https://en.wikipedia.org/wiki/Seq2seq
+- Seq2seq turns one sequence into another sequence (sequence transformation). It does so by use of a recurrent neural network (RNN) or *more often LSTM or GRU to avoid the problem of vanishing gradient.* The context for each item is the output from the previous step. The primary components are one encoder and one decoder network. *The encoder turns each item into a corresponding hidden vector containing the item and its context. The decoder reverses the process, turning the vector into an output item, using the previous output as the input context.*
+- Attention: The input to the decoder is a single vector which stores the entire context. *Attention allows the decoder to look at the input sequence selectively.*
+- Beam Search: *Instead of picking the single output (word) as the output, multiple highly probable choices are retained, structured as a tree (using a Softmax on the set of attention scores). Average the encoder states weighted by the attention distribution.*
+- Bucketing: Variable-length sequences are possible because of padding with 0s, which may be done to both input and output. However, if the sequence length is 100 and the input is just 3 items long, expensive space is wasted. Buckets can be of varying sizes and specify both input and output lengths.
 - seq2seq는 크게 두 개로 구성된 아키텍처로 구성되는데, 바로 인코더와 디코더입니다. 인코더는 입력 문장의 모든 단어들을 순차적으로 입력받은 뒤에 마지막에 이 모든 단어 정보들을 압축해서 하나의 벡터로 만드는데, 이를 컨텍스트 벡터(context vector)라고 합니다. 입력 문장의 정보가 하나의 컨텍스트 벡터로 모두 압축되면 인코더는 컨텍스트 벡터를 디코더로 전송합니다. 디코더는 컨텍스트 벡터를 받아서 번역된 단어를 한 개씩 순차적으로 출력합니다.
 - 디코더는 초기 입력으로 문장의 시작을 의미하는 심볼 `<sos>`가 들어갑니다. 디코더는 `<sos>`가 입력되면, 다음에 등장할 확률이 높은 단어를 예측합니다. 첫번째 시점(time step)의 디코더 RNN 셀은 다음에 등장할 단어로 je를 예측하였습니다. 첫번째 시점의 디코더 RNN 셀은 예측된 단어 je를 다음 시점의 RNN 셀의 입력으로 입력합니다. 그리고 두번째 시점의 디코더 RNN 셀은 입력된 단어 je로부터 다시 다음에 올 단어인 suis를 예측하고, 또 다시 이것을 다음 시점의 RNN 셀의 입력으로 보냅니다. 디코더는 이런 식으로 기본적으로 다음에 올 단어를 예측하고, 그 예측한 단어를 다음 시점의 RNN 셀의 입력으로 넣는 행위를 반복합니다. 이 행위는 문장의 끝을 의미하는 심볼인 `<eos>`가 다음 단어로 예측될 때까지 반복됩니다. 지금 설명하는 것은 테스트 과정 동안의 이야기입니다.
-- Chatbot, NMT, Text Summarization, STT
+- Applications: Chatbot, NMT, Text summarization, STT, Image captioning
 - 정상적으로 정수 인코딩이 수행된 것을 볼 수 있습니다. 아직 정수 인코딩을 수행해야 할 데이터가 하나 더 남았습니다. 디코더의 예측값과 비교하기 위한 실제값이 필요합니다. 그런데 이 실제값에는 시작 심볼에 해당되는 `<sos>`가 있을 필요가 없습니다. 이해가 되지 않는다면 이전 페이지의 그림으로 돌아가 Dense와 Softmax 위에 있는 단어들을 다시 보시기 바랍니다. 그래서 이번에는 정수 인코딩 과정에서 `<sos>`를 제거합니다. 즉, 모든 프랑스어 문장의 맨 앞에 붙어있는 '\t'를 제거하도록 합니다
 - 이미 RNN에 대해서 배운 적이 있지만, 다시 복습을 해보도록 하겠습니다. 하나의 RNN 셀은 각각의 Time step마다 두 개의 입력을 받습니다.
 - 현재 Time step을 `t`라고 할 때, RNN 셀은 `t - 1`에서의 Hidden state와 `t`에서의 입력 벡터를 입력으로 받고, `t`에서의 Hidden state를 만듭니다. 이때 `t`에서의 Hidden state는 바로 위에 또 다른 은닉층이나 출력층이 존재할 경우에는 위의 층으로 보내거나, 필요 없으면 값을 무시할 수 있습니다. 그리고 RNN 셀은 다음 시점에 해당하는 `t + 1`의 RNN 셀의 입력으로 현재 `t`에서의 Hidden state를 입력으로 보냅니다.
@@ -865,13 +880,10 @@ nltk.ngrams("I am a boy", 3)
 	!bash install_mecab-ko_on_colab190912.sh
 	```
 - Install on Microsoft Windows
-	- Source: https://cleancode-ws.tistory.com/97, https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
+	- Source: https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
 	```python
 	!pip install mecab_python-0.996_ko_0.9.2_msvc-cp37-cp37m-win_amd64.whl
 	```
-```python
-import MeCab
-```
 ```python
 class Mecab:
     def pos(self, text):
@@ -890,7 +902,6 @@ class Mecab:
             if word[1] in ["NNG", "NNP", "NNB", "NNBC", "NP", "NR"]:
                 nouns.append(word[0])
         return nouns
-    
 mcb = Mecab()
 ```
 

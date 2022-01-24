@@ -436,6 +436,7 @@ aic = 2*K - 2*math.exp(L)
 	- `"%A"`: Weekday as locale’s full name.
 	- `"%B"`: Month as locale’s full name.
 	- `"%b"`: Month as locale’s abbreviated name.
+	- `"%p"`: `"AM"` or `"PM"`
 ## `pd.to_datetime()`
 - `unit`
 - `format`: The strftime to parse time.
