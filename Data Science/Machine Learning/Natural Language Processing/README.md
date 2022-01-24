@@ -667,6 +667,26 @@ pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
 		1. 번역하고자 하는 입력 문장이 인코더에 들어가서 Hidden state와 셀 상태를 얻습니다.
 		2. 상태와 `<SOS>`를 디코더로 보냅니다.
 		3. 디코더가 `<EOS>`가 나올 때까지 다음 문자를 예측하는 행동을 반복합니다.
+		
+# Greedy Search & Beam Search
+## Greedy Search
+- seq2seq의디코더는기본적으로는RNN 언어모델이다.
+- 디코더(RNN 언어모델)는매시점마다가장높은확률을가지는단어를선택한다.
+- 이를Greedy Decoding이라고한다.
+- Greedy Decoding은매순간에서의최적의선택을한다.
+- 하지만전체적으로봤을때는그순간의선택이최적의선택이아닐수있다.
+- Greedy Decoding은순간잘못된선택을했더라도그결정을취소할수없다.
+## Beam Search
+- 주어진 확률 시퀀스와 빔 크기 k에 대해 빔 탐색을 수행하는 함수를 작성한다.  
+    - 각 후보 시퀀스는 가능한한 모든 다음 스텝들에 대해 확장된다.  
+    - 각 후보는 확률을 곱함으로써 점수가 매겨진다.  
+    - 가장 확률이 높은 k개의 시퀀스가 선택되고, 다른 모든 후보들은 제거된다.  
+    - 위 절차들을 시퀀스가 끝날때까지 반복한다.
+- 매시점마다가장확률이높은k개의다음단어를선택후, 다음시점단어들의확률예측.
+- k * Vocab-size 개의후보군중다시확률이높은k개의후보군만선택하고나머지단어는제거
+- 최종적으로k*k개의후보군중에서가장확률이높은k개의후보군만을유지
+- Beam Search Decoding 또한항상최적해를보장하지는않지만Exhaustive search보다효율적.
+- Greedy Search Decoding이놓칠수있는더나은후보군을유지할수있음.
 
 # Bidirectional LSTM Sentiment Analysis
 ```python
