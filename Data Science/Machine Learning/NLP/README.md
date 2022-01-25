@@ -495,8 +495,7 @@ tr_y = pad_sequences(tr_y, padding="post", maxlen=max_len)
 		model = gensim.models.FastText.load(filename)
 	else:
 		model = gensim.models.FastText(corpus, vector_size=100, window=5, min_count=5, workers=4, sg=1)
-		fname = gensim.test.utils.get_tmpfile(filename)
-		model.save(fname)
+		model.save(filename)
 		
 	emb_mat = model.wv.vectors
 	model.wv.most_similar(token)
