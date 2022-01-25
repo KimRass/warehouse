@@ -1176,10 +1176,7 @@ np.random.random((2, 3, 4))
 ```
 - Create an Array of the given shape and populate it with random samples from a uniform distribution over [0, 1).
 ### `np.random.rand()`
-### `random.sample()`
-```python
-names = random.sample(list(set(data.index)), 20)
-```
+### `random.sample(sequence, k)`
 ### `random.choices(sequence, k, [weights])`
 ### `np.random.choice(size, [replace], [p])`
 - Generates a random sample from a given 1-D array.
@@ -1192,67 +1189,6 @@ names = random.sample(list(set(data.index)), 20)
 ```python
 np.random.randint(1, 100, size=(2, 3, 4))	
 ```
-
-# `re`
-```python
- import re
-```
-- The meta-characters which do not match themselves because they have special meanings are: `.`, `^`, `$`, `*`, `+`, `?`, `{`, `}`, `[`, `]`, `(`, `)`, `\`, `|`.
-- `.`: Match any single character except newline.
-- `\n`: Newline
-- `\r`: Return
-- `\t`: Tab
-- `\f`: Form
-- `\w`, `[a-zA-Z0-9_]`: Match any single "word" character: a letter or digit or underbar. 
-- `\W`, `[^a-zA-Z0-9_]`: Match any single non-word character.
-- `\s`, `[ \n\r\t\f]`: Match any single whitespace character(space, newline, return, tab, form).
-- `\S`: Match any single non-whitespace character.
-- `[ㄱ-ㅣ가-힣]`: 어떤 한글
-- `\d`, `[0-9]`: Match any single decimal digit.
-- `\D`, `[^0-9]`: Match any single non-decimal digit.
-- `\*`: 0개 이상의 바로 앞의 character(non-greedy way)
-- `\+`: 1개 이상의 바로 앞의 character(non-greedy way)
-- `\?`: 1개 이하의 바로 앞의 character
-- `{m, n}`: m개~n개의 바로 앞의 character(생략된 m은 0과 동일, 생략된 n은 무한대와 동일)(non-greedy way)
-- `{n}`: n개의 바로 앞의 character
-- `^`: Match the start of the string.
-- `$`: Match the end of the string.
-## `re.search()`
-```python
-re.search(<<Pattern>>, <<String>>)
-```
-- Scan through string looking for the first location where the regular expression pattern produces a match, and return a corresponding match object. Return None if no position in the string matches the pattern; note that this is different from finding a zero-length match at some point in the string.
-## `re.match()`
-```python
-re.match(<<Pattern>>, <<String>>)
-```
-- If zero or more characters at the beginning of string match the regular expression pattern, return a corresponding match object. Return None if the string does not match the pattern; note that this is different from a zero-length match.
-### `re.search().group()`, `re.match().group()`
-```python
-re.search(r"(\w+)@(.+)", "test@gmail.com").group(0) #test@gmail.com
-re.search(r"(\w+)@(.+)", "test@gmail.com").group(1) #test
-re.search(r"(\w+)@(.+)", "test@gmail.com").group(2) #gmail.com
-```
-```python
-views["apt_name"] = views["pageTitle"].apply(lambda x:re.search(r"(.*)\|(.*)\|(.*)", x).group(2) if "|" in x else x)
-```
-## `re.findall()`
-```python
-re.findall(rf"[ ][a-z]{{{n_wc}}}{chars}[ ]", words)
-```
-- Return all non-overlapping matches of pattern in string, as a list of strings. The string is scanned left-to-right, and matches are returned in the order found. If one or more groups are present in the pattern, return a list of groups; this will be a list of tuples if the pattern has more than one group. Empty matches are included in the result.
-## `re.split()`
-- `maxsplit`
-## `re.sub()`
-```python
-expr = re.sub(rf"[0-9]+[{s}][0-9]+", str(eval(calc)), expr, count=1)
-```
-- count=0 : 전체 치환
-## `re.compile()`
-```python
-p = re.compile(".+\t[A-Z]+")
-```
-- 이후 `p.search()`, `p.match()` 등의 형태로 사용합니다.
 
 # `statsmodels`
 ## `statsmodels.stats`

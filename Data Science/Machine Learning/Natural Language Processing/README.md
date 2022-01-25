@@ -670,23 +670,27 @@ pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
 		
 # Greedy Search & Beam Search
 ## Greedy Search
-- seq2seq의디코더는기본적으로는RNN 언어모델이다.
-- 디코더(RNN 언어모델)는매시점마다가장높은확률을가지는단어를선택한다.
-- 이를Greedy Decoding이라고한다.
-- Greedy Decoding은매순간에서의최적의선택을한다.
-- 하지만전체적으로봤을때는그순간의선택이최적의선택이아닐수있다.
-- Greedy Decoding은순간잘못된선택을했더라도그결정을취소할수없다.
+```python
+def greedy_search(data):
+    return np.argmax(data, axis=1)
+```
 ## Beam Search
-- 주어진 확률 시퀀스와 빔 크기 k에 대해 빔 탐색을 수행하는 함수를 작성한다.  
-    - 각 후보 시퀀스는 가능한한 모든 다음 스텝들에 대해 확장된다.  
-    - 각 후보는 확률을 곱함으로써 점수가 매겨진다.  
-    - 가장 확률이 높은 k개의 시퀀스가 선택되고, 다른 모든 후보들은 제거된다.  
-    - 위 절차들을 시퀀스가 끝날때까지 반복한다.
-- 매시점마다가장확률이높은k개의다음단어를선택후, 다음시점단어들의확률예측.
-- k * Vocab-size 개의후보군중다시확률이높은k개의후보군만선택하고나머지단어는제거
-- 최종적으로k*k개의후보군중에서가장확률이높은k개의후보군만을유지
-- Beam Search Decoding 또한항상최적해를보장하지는않지만Exhaustive search보다효율적.
-- Greedy Search Decoding이놓칠수있는더나은후보군을유지할수있음.
+- Source: https://en.wikipedia.org/wiki/Beam_search, https://towardsdatascience.com/foundations-of-nlp-explained-visually-beam-search-how-it-works-1586b9849a24
+- In computer science, beam search is a heuristic search algorithm that explores a graph by expanding the most promising node in a limited set. Beam search is an optimization of best-first search that reduces its memory requirements. Best-first search is a graph search which orders all partial solutions (states) according to some heuristic. But in beam search, only a predetermined number of best partial solutions are kept as candidates.[1] It is thus a greedy algorithm.
+- Beam search uses breadth-first search to build its search tree. At each level of the tree, it generates all successors of the states at the current level, sorting them in increasing order of heuristic cost.[3] However, it only stores a predetermined number, {\displaystyle \beta }\beta , of best states at each level (called the beam width). Only those states are expanded next. The greater the beam width, the fewer states are pruned. With an infinite beam width, no states are pruned and beam search is identical to breadth-first search. The beam width bounds the memory required to perform the search. Since a goal state could potentially be pruned, beam search sacrifices completeness (the guarantee that an algorithm will terminate with a solution, if one exists). Beam search is not optimal (that is, there is no guarantee that it will find the best solution). [4]
+- A beam search is most often used to maintain tractability in large systems with insufficient amount of memory to store the entire search tree.[5] For example, it has been used in many machine translation systems.[6] (The state of the art now primarily uses neural machine translation based methods.) To select the best translation, each part is processed, and many different ways of translating the words appear. The top best translations according to their sentence structures are kept, and the rest are discarded. The translator then evaluates the translations according to a given criterion, choosing the translation which best keeps the goals. The first use of a beam search was in the Harpy Speech Recognition System, CMU 1976.[7]
+```python
+def beam_search(data, k):
+    seq_score = [[list(), 0]]
+    for probs in data:
+        cands = list()
+        for seq, score in seq_score:
+            for i, prob in enumerate(probs):
+                cands.append([seq + [i], score - np.log(prob)])
+        seq_score.extend(cands)
+        seq_score = sorted(seq_score, key=lambda x:x[1])[:k]
+    return [np.array(i[0]) for i in seq_score]
+```
 
 # Bidirectional LSTM Sentiment Analysis
 ```python
@@ -1093,3 +1097,64 @@ elmo = hub.Module("https://tfhub.dev/google/elmo/3", trainable=True)
 ```python
 embeddings = elmo(["the cat is on the mat", "dogs are in the fog"], signature="default", as_dict=True)["elmo"]
 ```
+
+# Regular Expression
+```python
+ import re
+```
+- The meta-characters which do not match themselves because they have special meanings are: `.`, `^`, `$`, `*`, `+`, `?`, `{`, `}`, `[`, `]`, `(`, `)`, `\`, `|`.
+- `.`: Match any single character except newline.
+- `\n`: Newline
+- `\r`: Return
+- `\t`: Tab
+- `\f`: Form
+- `\w`, `[a-zA-Z0-9_]`: Match any single "word" character: a letter or digit or underbar. 
+- `\W`, `[^a-zA-Z0-9_]`: Match any single non-word character.
+- `\s`, `[ \n\r\t\f]`: Match any single whitespace character(space, newline, return, tab, form).
+- `\S`: Match any single non-whitespace character.
+- `[ㄱ-ㅣ가-힣]`: 어떤 한글
+- `\d`, `[0-9]`: Match any single decimal digit.
+- `\D`, `[^0-9]`: Match any single non-decimal digit.
+- `\*`: 0개 이상의 바로 앞의 character(non-greedy way)
+- `\+`: 1개 이상의 바로 앞의 character(non-greedy way)
+- `\?`: 1개 이하의 바로 앞의 character
+- `{m, n}`: m개~n개의 바로 앞의 character(생략된 m은 0과 동일, 생략된 n은 무한대와 동일)(non-greedy way)
+- `{n}`: n개의 바로 앞의 character
+- `^`: Match the start of the string.
+- `$`: Match the end of the string.
+## `re.search()`
+```python
+re.search(<<Pattern>>, <<String>>)
+```
+- Scan through string looking for the first location where the regular expression pattern produces a match, and return a corresponding match object. Return None if no position in the string matches the pattern; note that this is different from finding a zero-length match at some point in the string.
+## `re.match()`
+```python
+re.match(<<Pattern>>, <<String>>)
+```
+- If zero or more characters at the beginning of string match the regular expression pattern, return a corresponding match object. Return None if the string does not match the pattern; note that this is different from a zero-length match.
+### `re.search().group()`, `re.match().group()`
+```python
+re.search(r"(\w+)@(.+)", "test@gmail.com").group(0) #test@gmail.com
+re.search(r"(\w+)@(.+)", "test@gmail.com").group(1) #test
+re.search(r"(\w+)@(.+)", "test@gmail.com").group(2) #gmail.com
+```
+```python
+views["apt_name"] = views["pageTitle"].apply(lambda x:re.search(r"(.*)\|(.*)\|(.*)", x).group(2) if "|" in x else x)
+```
+## `re.findall()`
+```python
+re.findall(rf"[ ][a-z]{{{n_wc}}}{chars}[ ]", words)
+```
+- Return all non-overlapping matches of pattern in string, as a list of strings. The string is scanned left-to-right, and matches are returned in the order found. If one or more groups are present in the pattern, return a list of groups; this will be a list of tuples if the pattern has more than one group. Empty matches are included in the result.
+## `re.split()`
+- `maxsplit`
+## `re.sub()`
+```python
+expr = re.sub(rf"[0-9]+[{s}][0-9]+", str(eval(calc)), expr, count=1)
+```
+- count=0 : 전체 치환
+## `re.compile()`
+```python
+p = re.compile(".+\t[A-Z]+")
+```
+- 이후 `p.search()`, `p.match()` 등의 형태로 사용합니다.
