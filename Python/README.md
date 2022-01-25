@@ -1557,19 +1557,14 @@ import pickle as pk
 ## `pk.load()`
 
 # `json`
+- Reference: https://docs.python.org/3/library/json.html
 ```python
 import json
 ```
-## `json.dump()`
-```python
-with open(path, "w", encoding="utf-8") as f:
-    json.dump(train_data, f, ensure_ascii=False, indent="\t")
-```
-## `json.load()`
-```python
-with open(path, "r", encoding="utf-8") as f:
-    train_data = json.load(f)
-```
+## `json.dump(obj, fp, [ensure_ascii], [indent])`
+- `ensure_ascii`: If `True` (the default), the output is guaranteed to have all incoming non-ASCII characters escaped. If `False`, these characters will be output as-is.
+- `indent`: If a string (such as `"\t"`), that string is used to indent each level.
+## `json.load(f)`
 
 # `datasketch`
 ## `MinHash`

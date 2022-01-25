@@ -1,19 +1,23 @@
 # Setting
 ## Display Hangul
 ```python
-import matplotlib as mpl
-
-fpath = "C:/Windows/Fonts/malgun.ttf"
-font_name = mpl.font_manager.FontProperties(fname=fpath).get_name()
-mpl.rc("font", family=font_name)
+path = "C:/Windows/Fonts/malgun.ttf"
+if platform.system() == "Darwin":
+    mpl.rc("font", family="AppleGothic")
+elif platform.system() == "Windows":
+    font_name = mpl.font_manager.FontProperties(fname=path).get_name()
+    mpl.rc('font', family=font_name)
 ```
 - `family`: (`"NanumBarunGothic"`)
+## Display Minus Sign
 ```python
 mpl.rc("axes", unicode_minus=False)
 ```
+## Plot Style
 ```python
-- (`"default"`, `"dark_background"`)
+plt.style.use("dark_background")
 ```
+- (`"default"`, `"dark_background"`)
 
 # Charts
 ## Common Arguments
