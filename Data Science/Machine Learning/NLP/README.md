@@ -951,7 +951,7 @@ mcb = Mecab()
 
 # `glove`
 ```python
-!pip install glove_python
+!pip install glove_python_binary
 ```
 ### `glove.Corpus`
 ### `glove.Glove`
