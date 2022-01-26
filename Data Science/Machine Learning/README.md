@@ -208,11 +208,6 @@ with strategy.scope():
 ```
 
 # Activation Function
-- Source: https://leedakyeong.tistory.com/entry/%EB%B0%91%EB%B0%94%EB%8B%A5%EB%B6%80%ED%84%B0-%EC%8B%9C%EC%9E%91%ED%95%98%EB%8A%94-%EB%94%A5%EB%9F%AC%EB%8B%9D-%ED%99%9C%EC%84%B1%ED%99%94%ED%95%A8%EC%88%98%EB%9E%80-What-is-activation-function?category=845638
-- 활성화함수는 꼭 비선형 함수이어야 한다. 선형 함수를 사용하면 신경망의 층을 깊게 쌓는 것에 의미가 없어지기 때문이다. 그 이유는 예를 들어, 활성화 함수를 h(x) = cx 라는 선형함수라 해보자. 층으로 구성된 네트워크라 할 때, y(x) = h(h((x))) = c\*c\*c\*x = c^3\*x이다. 이는 곧 y = ax에서 a=c^3과 같다. 즉, 기껏 3층이나 쌓았지만 1층만 쌓은 네트워크와 같아진다. 이것이 바로 활성함수의 역할이다.
-- Source: 
-http://blog.naver.com/PostView.nhn?blogId=wideeyed&logNo=221017173808
-- 2개를 분류하는 문제일 때는 Vanishing Gradient Problem때문에 sigmoid는 잘 사용하지 않고 ReLU와 그 변형된 활성화함수를 주로 이용한다. 3개 이상을 분류할 때 주로 Softmax와 그 변형된 활성화함수를 주로 이용한다.
 ## Sigmoid Function
 ```python
 def sigmoid(x):
@@ -1021,8 +1016,8 @@ model = Model(inputs, ouputs, [name])
 ## Compile
 ```python
 # `optimizer`: (`"sgd"`, `"adam"`, `"rmsprop"`, Adagrad(lr)]
-# `loss`: (`"mse"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
-# `metrics`: (`["mse"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
+# `loss`: (`"mse"`, `"mae"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
+# `metrics`: (`["mse"]`, `["mae"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
 # When you pass the strings "accuracy" or "acc", we convert this to one of ``BinaryAccuracy()`, ``CategoricalAccuracy()`, `SparseCategoricalAccuracy()` based on the loss function used and the model output shape.
 # `loss_weights`
 model.compile(optimizer, loss, [metrics], [loss_weights])

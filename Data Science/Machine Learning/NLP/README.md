@@ -703,9 +703,9 @@ def greedy_search(data):
 ```
 ## Beam Search
 - Source: https://en.wikipedia.org/wiki/Beam_search, https://towardsdatascience.com/foundations-of-nlp-explained-visually-beam-search-how-it-works-1586b9849a24
-- In computer science, beam search is a heuristic search algorithm that explores a graph by expanding the most promising node in a limited set. Beam search is an optimization of best-first search that reduces its memory requirements. Best-first search is a graph search which orders all partial solutions (states) according to some heuristic. But in beam search, only a predetermined number of best partial solutions are kept as candidates.[1] It is thus a greedy algorithm.
-- Beam search uses breadth-first search to build its search tree. At each level of the tree, it generates all successors of the states at the current level, sorting them in increasing order of heuristic cost.[3] However, it only stores a predetermined number, {\displaystyle \beta }\beta , of best states at each level (called the beam width). Only those states are expanded next. The greater the beam width, the fewer states are pruned. With an infinite beam width, no states are pruned and beam search is identical to breadth-first search. The beam width bounds the memory required to perform the search. Since a goal state could potentially be pruned, beam search sacrifices completeness (the guarantee that an algorithm will terminate with a solution, if one exists). Beam search is not optimal (that is, there is no guarantee that it will find the best solution). [4]
-- A beam search is most often used to maintain tractability in large systems with insufficient amount of memory to store the entire search tree.[5] For example, it has been used in many machine translation systems.[6] (The state of the art now primarily uses neural machine translation based methods.) To select the best translation, each part is processed, and many different ways of translating the words appear. The top best translations according to their sentence structures are kept, and the rest are discarded. The translator then evaluates the translations according to a given criterion, choosing the translation which best keeps the goals. The first use of a beam search was in the Harpy Speech Recognition System, CMU 1976.[7]
+- In computer science, beam search is a heuristic search algorithm that explores a graph by expanding the most promising node in a limited set. Best-first search is a graph search which orders all partial solutions (states) according to some heuristic. But in beam search, *only a predetermined number of best partial solutions are kept as candidates. It is thus a greedy algorithm*.
+- *Beam search uses breadth-first search to build its search tree.* At each level of the tree, it generates all successors of the states at the current level, sorting them in increasing order of heuristic cost. However, it only stores a predetermined number of best states at each level (called the beam width). Only those states are expanded next. The greater the beam width, the fewer states are pruned. With an infinite beam width, no states are pruned and beam search is identical to breadth-first search.* The beam width bounds the memory required to perform the search.
+- For example, *beam search has been used in many machine translation systems.* To select the best translation, each part is processed, and many different ways of translating the words appear. *The top best translations according to their sentence structures are kept, and the rest are discarded. The translator then evaluates the translations according to a given criterion, choosing the translation which best keeps the goals.*
 ```python
 def beam_search(data, k):
     seq_score = [[list(), 0]]
@@ -851,18 +851,11 @@ pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
 ```
 
 # `soynlp`
-## `soynlp.normalizer`
 ```python
 from soynlp.normalizer import *
 ```
-### `emoticon_normalize()`
-```python
-emoticon_normalize("앜ㅋㅋㅋㅋ이영화존잼쓰ㅠㅠㅠㅠㅠ", num_repeats=2)
-```
-### `repeat_normalize()`
-```python
-repeat_normalize("와하하하하하하하하하핫", num_repeats=2)
-```
+## `emoticon_normalize(num_repeats)`
+## `repeat_normalize(num_repeats)`
 
 # `khaiii`
 ## `KhaiiiApi`
@@ -956,38 +949,6 @@ class Mecab:
 mcb = Mecab()
 ```
 
-# `konlpy`
-## `konlpy.tag`
-```python
-from konlpy.tag import *
-
-okt = Okt()
-kkm = Kkma()
-kmr = Komoran()
-hnn = Hannanum()
-```
-#### `okt.nouns()`, `kkm.nouns()`, `kmr.nouns()`, `hnn.nouns()`
-#### `okt.morphs()`, `kkm.morphs()`, `kmr.morphs()`, `hnn.morphs()`
-- `stem`: (bool)
-- `norm`: (bool)
-#### `okt.pos()`, `kkm.pos()`, `kmr.pos()`, `hnn.pos()`
-- `stem`: (bool)
-- `norm`: (bool)
-
-# `ckonlpy`
-```python
-!pip install customized_konlpy
-```
-```python
-from ckonlpy.tag import Twitter
-
-twt = Twitter()
-```
-## `twt.add_dictionary()`
-```python
-twt.add_dictionary("은경이", "Noun")
-```
-
 # `glove`
 ```python
 !pip install glove_python
@@ -1024,11 +985,6 @@ gensim.corpora.BleiCorpus.serialize("kakotalk dtm", dtm)
 #### `gensim.corpora.bleicorpus.BleiCorpus()`
 ```python
 dtm = gensim.corpora.bleicorpus.BleiCorpus("kakaotalk dtm")
-```
-## `gensim.models`
-### `gensim.models.TfidfModel()`
-```python
-tfidf = gensim.models.TfidfModel(dtm)[dtm]
 ```
 ### `gensim.models.AuthorTopicModel()`
 ```python
@@ -1103,38 +1059,11 @@ embeddings = elmo(["the cat is on the mat", "dogs are in the fog"], signature="d
 - `^`: Match the start of the string.
 - `$`: Match the end of the string.
 ## `re.search()`
-```python
-re.search(<<Pattern>>, <<String>>)
-```
 - Scan through string looking for the first location where the regular expression pattern produces a match, and return a corresponding match object. Return None if no position in the string matches the pattern; note that this is different from finding a zero-length match at some point in the string.
 ## `re.match()`
-```python
-re.match(<<Pattern>>, <<String>>)
-```
 - If zero or more characters at the beginning of string match the regular expression pattern, return a corresponding match object. Return None if the string does not match the pattern; note that this is different from a zero-length match.
-### `re.search().group()`, `re.match().group()`
-```python
-re.search(r"(\w+)@(.+)", "test@gmail.com").group(0) #test@gmail.com
-re.search(r"(\w+)@(.+)", "test@gmail.com").group(1) #test
-re.search(r"(\w+)@(.+)", "test@gmail.com").group(2) #gmail.com
-```
-```python
-views["apt_name"] = views["pageTitle"].apply(lambda x:re.search(r"(.*)\|(.*)\|(.*)", x).group(2) if "|" in x else x)
-```
 ## `re.findall()`
-```python
-re.findall(rf"[ ][a-z]{{{n_wc}}}{chars}[ ]", words)
-```
 - Return all non-overlapping matches of pattern in string, as a list of strings. The string is scanned left-to-right, and matches are returned in the order found. If one or more groups are present in the pattern, return a list of groups; this will be a list of tuples if the pattern has more than one group. Empty matches are included in the result.
-## `re.split()`
-- `maxsplit`
-## `re.sub()`
-```python
-expr = re.sub(rf"[0-9]+[{s}][0-9]+", str(eval(calc)), expr, count=1)
-```
-- count=0 : 전체 치환
+## `re.split(maxsplit)`
+## `re.sub(expr, count)`
 ## `re.compile()`
-```python
-p = re.compile(".+\t[A-Z]+")
-```
-- 이후 `p.search()`, `p.match()` 등의 형태로 사용합니다.

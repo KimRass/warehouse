@@ -21,9 +21,7 @@ plt.style.use("dark_background")
 
 # Charts
 ## Common Arguments
-- `ls`: (`"-"`, `"--"`, `"-."`, `":"`)
 - `lw`
-- `c`: Specifies a color.
 - `label`
 - `fontsize`
 - `title`
@@ -34,12 +32,12 @@ plt.style.use("dark_background")
 - `marker`
 	- `"o"`: Circle
 	- `"*"`: Star
-- `linestyle`
+- `linestyle` (= `ls`)
 	- `"-"`: Solid line
 	- `"--"`: Dashed line
 	- `"-."`: Dash-dot line
 	- `":"`: Dotted line
-- `color`
+- `color` (= `c`)
 	- `"b"`: Blue
 	- `"g"`: Green
 	- `"r"`: Red
