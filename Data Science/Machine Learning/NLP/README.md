@@ -510,12 +510,13 @@ tr_y = pad_sequences(tr_y, padding="post", maxlen=max_len)
 - Co-occurence Probability
 	- 동시 등장 확률 P(k|i)는 동시 등장 행렬로부터 특정 단어 `i`의 전체 등장 횟수를 카운트하고, 특정 단어 `i`가 등장했을 때 어떤 단어 `k`가 등장한 횟수를 카운트하여 계산한 조건부 확률입니다.
 	- `i`를 중심 단어(Center Word), `k`를 주변 단어(Context Word)라고 했을 때, 위에서 배운 동시 등장 행렬에서 중심 단어 `i`의 행의 모든 값을 더한 값을 분모로 하고 `i`행 `k`열의 값을 분자로 한 값이라고 볼 수 있겠습니다.
-- GloVe는 Center word와 Context word의 dot product가 log(Co-occurence probability)가 되도록 학습됩니다.
+- GloVe는 Center word와 Context word의 dot product가 log of Co-occurence probability가 되도록 학습됩니다.
 ```python
 corp = Corpus()
 # `corpus`로부터 Co-occurence matrix를 생성합니다.
 corp.fit(corpus, window=5)
 
+# `no_components`: Dimension of embedding vectors.
 model = Glove(no_components=100, learning_rate=0.05)
 model.fit(corp.matrix, epochs=20, no_threads=4, verbose=True)
 model.add_dictionary(corp.dictionary)
