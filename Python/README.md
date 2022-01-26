@@ -1637,18 +1637,14 @@ sys.setrecursionlimit(10**9)
 ```
 
 # `tqdm`
-## `tqdm.notebook`
-### `tqdm`
-```python
-from tqdm.notebook import tqdm
-```
-- for Jupyter Notebook
-## `tqdm.auto`
-### `tqdm`
-```python
-from tqdm.auto import tqdm
-```
-- for Google Colab
+- For Jupyter Notebook
+	```python
+	from tqdm.notebook import tqdm
+	```
+- For Google Colab
+	```python
+	from tqdm.auto import tqdm
+	```
 ## `tqdm.pandas()`
 - `DataFrame.progress_apply()`를 사용하기 위해 필요합니다.
 

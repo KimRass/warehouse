@@ -325,6 +325,8 @@ text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as ch
 - Using `nltk.tokenize.sent_tokenize()`
 	```python
 	from nltk.tokenize import sent_tokenize
+	
+	nltk.download("punkt")
 
 	text = "His barber kept his word. But keeping such a huge secret to himself was driving him crazy. Finally, the barber went up a mountain and almost to the edge of a cliff. He dug a hole in the midst of some reeds. He looked about, to mae sure no one was near."
 	
@@ -501,7 +503,26 @@ tr_y = pad_sequences(tr_y, padding="post", maxlen=max_len)
 	model.wv.most_similar(token)
 	```
 ## GloVe (Global Vectors for Word Representation)
-- Pre-Trained Word Embedding
+- Source: https://wikidocs.net/22885
+- Window based Co-occurrence Matrix
+	- 단어의 동시 등장 행렬은 행과 열을 전체 단어 집합의 단어들로 구성하고, `i` 단어의 윈도우 크기(Window Size) 내에서 `k` 단어가 등장한 횟수를 `i`행 `k`열에 기재한 행렬을 말합니다.
+	- 위 행렬은 행렬을 전치(Transpose)해도 동일한 행렬이 된다는 특징이 있습니다. 그 이유는 `i` 단어의 윈도우 크기 내에서 `k` 단어가 등장한 빈도는 반대로 `k` 단어의 윈도우 크기 내에서 `i` 단어가 등장한 빈도와 동일하기 때문입니다.
+- Co-occurence Probability
+	- 동시 등장 확률 P(k|i)는 동시 등장 행렬로부터 특정 단어 `i`의 전체 등장 횟수를 카운트하고, 특정 단어 `i`가 등장했을 때 어떤 단어 `k`가 등장한 횟수를 카운트하여 계산한 조건부 확률입니다.
+	- `i`를 중심 단어(Center Word), `k`를 주변 단어(Context Word)라고 했을 때, 위에서 배운 동시 등장 행렬에서 중심 단어 `i`의 행의 모든 값을 더한 값을 분모로 하고 `i`행 `k`열의 값을 분자로 한 값이라고 볼 수 있겠습니다.
+- GloVe는 Center word와 Context word의 dot product가 log(Co-occurence probability)가 되도록 학습됩니다.
+```python
+corp = Corpus()
+# `corpus`로부터 Co-occurence matrix를 생성합니다.
+corp.fit(corpus, window=5)
+
+model = Glove(no_components=100, learning_rate=0.05)
+model.fit(corp.matrix, epochs=20, no_threads=4, verbose=True)
+model.add_dictionary(corp.dictionary)
+
+# word2idx = corp.dictionary
+```
+- Pre-trained Word Embedding
 	```python
 	source: "http://nlp.stanford.edu/data/glove.6B.zip"
 	file_name = "D:/glove.6B.zip"
@@ -953,8 +974,6 @@ mcb = Mecab()
 ```python
 !pip install glove_python_binary
 ```
-### `glove.Corpus`
-### `glove.Glove`
 
 # `gensim`
 ```python

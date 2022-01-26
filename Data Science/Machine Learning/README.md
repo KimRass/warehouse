@@ -153,9 +153,10 @@ try:
     my_path = "/content/notebooks"
     os.symlink("/content/drive/MyDrive/ColabNotebooks/my_env", my_path)
     sys.path.insert(0, my_path)
+	print("Connected!")
 except:
     print("Failed!")
-os.chdir(my_path)
+os.chdir("...")
 ```
 ## Display Hangul
 ```python
