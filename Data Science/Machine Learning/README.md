@@ -940,6 +940,7 @@ x = Activation("relu")(x)
 ## Build Model
 ```python
 model = Model(inputs, ouputs, [name])
+model.summary()
 ```
 ## Compile
 ```python
@@ -949,8 +950,6 @@ model = Model(inputs, ouputs, [name])
 # When you pass the strings "accuracy" or "acc", we convert this to one of ``BinaryAccuracy()`, ``CategoricalAccuracy()`, `SparseCategoricalAccuracy()` based on the loss function used and the model output shape.
 # `loss_weights`
 model.compile(optimizer, loss, [metrics], [loss_weights])
-
-model.summary()
 ```
 ## Fit
 - Source: https://keras.io/api/models/model_training_apis/

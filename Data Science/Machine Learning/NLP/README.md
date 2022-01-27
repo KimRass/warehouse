@@ -415,7 +415,7 @@ text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as ch
 	
 	sw = stopwords.words("english")
 	```
-## 너무 적게 등장하는 Token 삭제하기
+## Determine Vocabulary Size
 ```python
 tokenizer = Tokenizer()
 tokenizer.fit_on_texts(tr_X)
@@ -428,7 +428,7 @@ for vocab_size, value in enumerate(np.cumsum(cnts)/np.sum(cnts)):
 print(f"{vocab_size:,}개의 단어로 전체 data의 {ratio:.0%}를 표현할 수 있습니다.")
 print(f"{len(word2idx):,}개의 단어 중 {vocab_size/len(word2idx):.1%}에 해당합니다.")
 ```
-## 너무 짧은 문장 자르기
+## Determine Sequence Length
 - Reference: https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/Tokenizer
 ```python
 # `num_words`: The maximum number of words to keep, based on word frequency. Only the most common `num_words - 1` words will be kept.

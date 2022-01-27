@@ -170,7 +170,7 @@ trend_pred_std = np.sqrt(pred.states.cov[:, 1, 1])
 ## Cross Validation (CV)
 - Source: https://hub.packtpub.com/cross-validation-strategies-for-time-series-forecasting-tutorial/
 ### Time Series Splits CV
-[!tss](https://hub.packtpub.com/wp-content/uploads/2019/05/TimeSeries-Split.png)
+![tss](https://hub.packtpub.com/wp-content/uploads/2019/05/TimeSeries-Split.png)
 - The idea for time series splits is to divide the training set into two folds at each iteration on condition that the validation set is always ahead of the training split. At the first iteration, one trains the candidate model on the closing prices from January to March and validates on April’s data, and for the next iteration, train on data from January to April, and validate on May’s data, and so on to the end of the training set. This way dependence is respected.
 - ***However, this may introduce leakage from future data to the model. The model will observe future patterns to forecast and try to memorize them. That’s why blocked cross-validation was introduced.***
 - Using `sklearn.model_selection.TimeSeriesSplit()`
@@ -179,41 +179,40 @@ trend_pred_std = np.sqrt(pred.states.cov[:, 1, 1])
 	
 	cv = TimeSeriesSplit(n_splits, max_train_size, test_size, gap)
 ### Blocked CV
-[!blocked](https://hub.packtpub.com/wp-content/uploads/2019/05/Blocking-Time-Series-Split.png)
+![blocked](https://hub.packtpub.com/wp-content/uploads/2019/05/Blocking-Time-Series-Split.png)
 - Implementation
 	```python
-	def split_sequence(data, n_steps):
-    X, y = list(), list()
-    for i in range(len(data)):
-        if i + n_steps > len(data) - 1:
-            break
-        else:
-            seq_x, seq_y = data.iloc[i:i + n_steps], data.iloc[i + n_steps]
-            X.append(seq_x)
-            y.append(seq_y)
-    return np.array(X), np.array(y)
+	def blocked_cv(data, window_size, h):
+		X = list()
+		y = list()
+		for i in range(len(data) - window_size - h + 1):
+			X.append(data[i:i + window_size])
+			y.append(data[i + window_size:i + window_size + h])
+		return np.array(X), np.array(y)
+
+	tr_X, tr_y = blocked_cv(data_tr, window_size, h)
 	```
-- Using `pmdarima.model_selection.SlidingWindowForecastCV()` for Seasonal ARIMA
+- Using `pmdarima.model_selection.SlidingWindowForecastCV()`
 	- References: https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.SlidingWindowForecastCV.html, https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.cross_val_score.html
 	```python
-	import pmdarima as pm
-	from pmdarima import model_selection
 	from pmdarima.model_selection import SlidingWindowForecastCV
-	from pmdarima.model_selection import cross_val_score
-
-	tr, te = model_selection.train_test_split(data, train_size=165)
 
 	# This approach to CV slides a window over the training samples while using several future samples as a test set. While similar to the `RollingForecastCV()`, it differs in that the train set does not grow, but rather shifts.
 	# `h`: The forecasting horizon, or the number of steps into the future after the last training sample for the test set.
 	# `step`: The size of step taken to slide both training samples and test samples.
 	# `window_size`: The size of the rolling window to use. If `None`, a rolling window of size `n_samples//5` will be used.
-	cv = SlidingWindowForecastCV(h, stemp, window_size)
+	cv = SlidingWindowForecastCV(h, step, window_size)
 	# Generate indices to split data into training and test sets.
-	# cv_gen = cv.split()
-	# next(cv_gen)
+	cv_gen = cv.split(data)
+
+	tr_X = list()
+	tr_y = list()
+	for i in cv_gen:
+		tr_X.append(data[i[0]])
+		tr_y.append(data[i[1]])
 	
 	# `scoring`: (`"smape"`, `"mean_absolute_error"`, `"mean_squared_error"`)
-	scores = cross_val_score(estimator=model, y=tr, scoring="smape", cv=cv, verbose=2)
+	# scores = cross_val_score(estimator=model, y=tr, scoring="smape", cv=cv, verbose=2)
 	```
 
 # Autocorrelation
