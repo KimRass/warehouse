@@ -13,6 +13,13 @@ data = data[data["review"]!=" "]
 data = data.dropna(axis=0)
 data = data.drop_duplicates(["review"], keep="first")
 ```
+## `tensorflow.keras.datasets.imdb
+```python
+from tensorflow.keras.datasets import imdb
+
+vocab_size = 10000
+(tr_X, tr_y), (te_X, te_y) = imdb.load_data(num_words=vocab_size)
+```
 ## Naver Shopping
 - Source: https://github.com/bab2min/corpus/tree/master/sentiment
 ## NLP Challenge
@@ -741,8 +748,45 @@ def beam_search(data, k):
     return [np.array(i[0]) for i in seq_score]
 ```
 
+# Attention
+- Sources: https://en.wikipedia.org/wiki/Attention_(machine_learning), https://wikidocs.net/22893
+- In neural networks, attention is a technique that mimics cognitive attention. *The effect enhances some parts of the input data while diminishing other parts — the thought being that the network should devote more focus to that small but important part of the data. Learning which part of the data is more important than others depends on the context and is trained by gradient descent.*
+- To build a machine that translates English-to-French, one starts with an Encoder-Decoder and grafts an attention unit to it. *In practice, the attention unit consists of 3 fully connected neural network layers that needs to be trained. The 3 layers are called Query, Key, and Value.*
+## Dot-Product Attention (= Luong Attention)
+## Bahdanau Attention (= Concat Attention)
+- Implementation
+	```python
+	class BahdanauAttention(Model):
+		def __init__(self, units):
+			super(BahdanauAttention, self).__init__()
+			self.W1 = Dense(units)
+			self.W2 = Dense(units)
+			self.V = Dense(1)
+
+		def call(self, values, query): # 단, key와 value는 같음
+			# (batch_size, h_size) -> (batch_size, 1, h_size)
+			# we are doing this to perform addition to calculate the score
+			hidden_with_time_axis = tf.expand_dims(query, 1)
+
+			# After applying self.V shape changes; (batch_size, max_len, units) ->
+			(batch_size, max_len, 1)
+			# we get 1 at the last axis because we are applying score to self.V
+			score = self.V(tf.nn.tanh(self.W1(values) + self.W2(hidden_with_time_axis)))
+
+			# (batch_size, max_len, 1)
+			attention_weights = tf.nn.softmax(score, axis=1)
+
+			context_vector = attention_weights * values
+			# (batch_size, h_size)
+			context_vector = tf.reduce_sum(context_vector, axis=1)
+
+			return context_vector, attention_weights
+	```
+## Self Attention
+## Multi-Headed Attention
+
 # Transformer
-- Source: https://wikidocs.net/31379
+- Source: https://en.wikipedia.org/wiki/Transformer_(machine_learning_model), https://wikidocs.net/31379
 - *A transformer is a deep learning model that adopts the mechanism of self-attention, differentially weighting the significance of each part of the input data. It is used primarily in the field of natural language processing (NLP) and in computer vision (CV).*
 - Like recurrent neural networks (RNNs), transformers are designed to handle sequential input data, such as natural language, for tasks such as translation and text summarization. However, ***unlike RNNs, transformers do not necessarily process the data in order. Rather, the attention mechanism provides context for any position in the input sequence. For example, if the input data is a natural language sentence, the transformer does not need to process the beginning of the sentence before the end. Rather, it identifies the context that confers meaning to each word in the sentence. This feature allows for more parallelization than RNNs and therefore reduces training times.***
 - *The additional training parallelization allows training on larger datasets than was once possible. This led to the development of pretrained systems such as BERT (Bidirectional Encoder Representations from Transformers) and GPT (Generative Pre-trained Transformer), which were trained with large language datasets, such as the Wikipedia Corpus and Common Crawl, and can be fine-tuned for specific tasks.*
@@ -752,26 +796,13 @@ def beam_search(data, k):
 	- These problems were addressed by attention mechanisms. Attention mechanisms let a model draw from the state at any preceding point along the sequence. The attention layer can access all previous states and weigh them according to a learned measure of relevancy, providing relevant information about far-away tokens.*
 	- A clear example of the value of attention is in language translation, where context is essential to assign the meaning of a word in a sentence. In an English-to-French translation system, the first word of the French output most probably depends heavily on the first few words of the English input. *However, in a classic LSTM model, in order to produce the first word of the French output, the model is given only the state vector of the last English word. Theoretically, this vector can encode information about the whole English sentence, giving the model all necessary knowledge. In practice, this information is often poorly preserved by the LSTM. An attention mechanism can be added to address this problem: the decoder is given access to the state vectors of every English input word, not just the last, and can learn attention weights that dictate how much to attend to each English input state vector.*
 - *When added to RNNs, attention mechanisms increase performance. The development of the Transformer architecture revealed that attention mechanisms were powerful in themselves and that sequential recurrent processing of data was not necessary to achieve the quality gains of RNNs with attention. Transformers use an attention mechanism without an RNN, processing all tokens at the same time and calculating attention weights between them in successive layers. Since the attention mechanism only uses information about other tokens from lower layers, it can be computed for all tokens in parallel, which leads to improved training speed.*
-- Encoder-decoder architecture
-	- For each input, attention weighs the relevance of every other input and draws from them to produce the output.[7] Each decoder layer has an additional attention mechanism that draws information from the outputs of previous decoders, before the decoder layer draws information from the encodings.
-	- Both the encoder and decoder layers have a feed-forward neural network for additional processing of the outputs and contain residual connections and layer normalization steps.[7]
+- Scaled dot-product attention
+	- Whenever we are required to calculate the Attention of a target word with respect to the input embeddings, we should use the Query of the target and the Key of the input to calculate a matching score, and these matching scores then act as the weights of the Value vectors during summation.
+- Multi-head attention
+	- One set of {\displaystyle \left(W_{Q},W_{K},W_{V}\right)}{\displaystyle \left(W_{Q},W_{K},W_{V}\right)} matrices is called an attention head, and each layer in a transformer model has multiple attention heads. While each attention head attends to the tokens that are relevant to each token, with multiple attention heads the model can do this for different definitions of "relevance". In addition the influence field representing relevance can become progressively dilated in successive layers. Many transformer attention heads encode relevance relations that are meaningful to humans. For example, attention heads can attend mostly to the next word, while others mainly attend from verbs to their direct objects.[8] The computations for each attention head can be performed in parallel, which allows for fast processing. The outputs for the attention layer are concatenated to pass into the feed-forward neural network layers.
 
-Scaled dot-product attention
-The transformer building blocks are scaled dot-product attention units. When a sentence is passed into a transformer model, attention weights are calculated between every token simultaneously. The attention unit produces embeddings for every token in context that contain information about the token itself along with a weighted combination of other relevant tokens each weighted by its attention weight.
-
-For each attention unit the transformer model learns three weight matrices; the query weights {\displaystyle W_{Q}}{\displaystyle W_{Q}}, the key weights {\displaystyle W_{K}}{\displaystyle W_{K}}, and the value weights {\displaystyle W_{V}}{\displaystyle W_{V}}. For each token {\displaystyle i}i, the input word embedding {\displaystyle x_{i}}x_{i} is multiplied with each of the three weight matrices to produce a query vector {\displaystyle q_{i}=x_{i}W_{Q}}{\displaystyle q_{i}=x_{i}W_{Q}}, a key vector {\displaystyle k_{i}=x_{i}W_{K}}{\displaystyle k_{i}=x_{i}W_{K}}, and a value vector {\displaystyle v_{i}=x_{i}W_{V}}{\displaystyle v_{i}=x_{i}W_{V}}. Attention weights are calculated using the query and key vectors: the attention weight {\displaystyle a_{ij}}a_{ij} from token {\displaystyle i}i to token {\displaystyle j}j is the dot product between {\displaystyle q_{i}}q_{i} and {\displaystyle k_{j}}k_j. The attention weights are divided by the square root of the dimension of the key vectors, {\displaystyle {\sqrt {d_{k}}}}{\displaystyle {\sqrt {d_{k}}}}, which stabilizes gradients during training, and passed through a softmax which normalizes the weights. The fact that {\displaystyle W_{Q}}{\displaystyle W_{Q}} and {\displaystyle W_{K}}{\displaystyle W_{K}} are different matrices allows attention to be non-symmetric: if token {\displaystyle i}i attends to token {\displaystyle j}j (i.e. {\displaystyle q_{i}\cdot k_{j}}{\displaystyle q_{i}\cdot k_{j}} is large), this does not necessarily mean that token {\displaystyle j}j will attend to token {\displaystyle i}i (i.e. {\displaystyle q_{j}\cdot k_{i}}{\displaystyle q_{j}\cdot k_{i}} could be small). The output of the attention unit for token {\displaystyle i}i is the weighted sum of the value vectors of all tokens, weighted by {\displaystyle a_{ij}}a_{ij}, the attention from token {\displaystyle i}i to each token.
-
-The attention calculation for all tokens can be expressed as one large matrix calculation using the softmax function, which is useful for training due to computational matrix operation optimizations that quickly compute matrix operations. The matrices {\displaystyle Q}Q, {\displaystyle K}K and {\displaystyle V}V are defined as the matrices where the {\displaystyle i}ith rows are vectors {\displaystyle q_{i}}q_{i}, {\displaystyle k_{i}}k_{i}, and {\displaystyle v_{i}}v_{i} respectively.
-
-{\displaystyle {\begin{aligned}{\text{Attention}}(Q,K,V)={\text{softmax}}\left({\frac {QK^{\mathrm {T} }}{\sqrt {d_{k}}}}\right)V\end{aligned}}}{\displaystyle {\begin{aligned}{\text{Attention}}(Q,K,V)={\text{softmax}}\left({\frac {QK^{\mathrm {T} }}{\sqrt {d_{k}}}}\right)V\end{aligned}}}
-
-Multi-head attention
-One set of {\displaystyle \left(W_{Q},W_{K},W_{V}\right)}{\displaystyle \left(W_{Q},W_{K},W_{V}\right)} matrices is called an attention head, and each layer in a transformer model has multiple attention heads. While each attention head attends to the tokens that are relevant to each token, with multiple attention heads the model can do this for different definitions of "relevance". In addition the influence field representing relevance can become progressively dilated in successive layers. Many transformer attention heads encode relevance relations that are meaningful to humans. For example, attention heads can attend mostly to the next word, while others mainly attend from verbs to their direct objects.[8] The computations for each attention head can be performed in parallel, which allows for fast processing. The outputs for the attention layer are concatenated to pass into the feed-forward neural network layers.
-
-Encoder
-Each encoder consists of two major components: a self-attention mechanism and a feed-forward neural network. The self-attention mechanism accepts input encodings from the previous encoder and weighs their relevance to each other to generate output encodings. The feed-forward neural network further processes each output encoding individually. These output encodings are then passed to the next encoder as its input, as well as to the decoders.
-
-The first encoder takes positional information and embeddings of the input sequence as its input, rather than encodings. The positional information is necessary for the transformer to make use of the order of the sequence, because no other part of the transformer makes use of this.[1]
+- Encoder
+	- *The first encoder takes positional information and embeddings of the input sequence as its input, rather than encodings. The positional information is necessary for the transformer to make use of the order of the sequence, because no other part of the transformer makes use of this.*
 
 Decoder
 Each decoder consists of three major components: a self-attention mechanism, an attention mechanism over the encodings, and a feed-forward neural network. The decoder functions in a similar fashion to the encoder, but an additional attention mechanism is inserted which instead draws relevant information from the encodings generated by the encoders.[1][7]

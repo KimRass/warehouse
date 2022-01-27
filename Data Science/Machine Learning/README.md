@@ -153,10 +153,10 @@ try:
     my_path = "/content/notebooks"
     os.symlink("/content/drive/MyDrive/ColabNotebooks/my_env", my_path)
     sys.path.insert(0, my_path)
-	print("Connected!")
 except:
     print("Failed!")
-os.chdir("...")
+	
+os.chdir("/content/drive/MyDrive/")
 ```
 ## Display Hangul
 ```python
@@ -521,85 +521,14 @@ The specified relevance values mapped to 1 are considered "minorty" values and a
 - Source: https://wikidocs.net/22886
 - 앞서 배운 신경망들은 전부 은닉층에서 활성화 함수를 지난 값은 오직 출력층 방향으로만 향했습니다. 이와 같은 신경망들을 피드 포워드 신경망(Feed Forward Neural Network)이라고 합니다. 그런데 그렇지 않은 신경망들이 있습니다. RNN(Recurrent Neural Network) 또한 그 중 하나입니다. RNN은 은닉층의 노드에서 활성화 함수를 통해 나온 결과값을 출력층 방향으로도 보내면서, 다시 은닉층 노드의 다음 계산의 입력으로 보내는 특징을 갖고있습니다.
 - 메모리 셀이 출력층 방향 또는 다음 시점인 t+1의 자신에게 보내는 값을 은닉 상태(hidden state) 라고 합니다. 다시 말해 t 시점의 메모리 셀은 t-1 시점의 메모리 셀이 보낸 은닉 상태값을 t 시점의 은닉 상태 계산을 위한 입력값으로 사용합니다.
+## LSTM (Long Short-Term Memory)
+- Source: https://en.wikipedia.org/wiki/Long_short-term_memory
+- *A common LSTM unit is composed of a cell, an input gate, an output gate and a forget gate. The cell remembers values over arbitrary time intervals and the three gates regulate the flow of information into and out of the cell.*
+- ***LSTMs were developed to deal with the vanishing gradient problem that can be encountered when training traditional RNNs. Relative insensitivity to gap length is an advantage of LSTM over RNNs.***
+- In theory, classic (or "vanilla") RNNs can keep track of arbitrary long-term dependencies in the input sequences. The problem with vanilla RNNs is computational (or practical) in nature: *when training a vanilla RNN using back-propagation, the long-term gradients which are back-propagated can "vanish" (that is, they can tend to zero) or "explode" (that is, they can tend to infinity), because of the computations involved in the process, which use finite-precision numbers. RNNs using LSTM units partially solve the vanishing gradient problem, because LSTM units allow gradients to also flow unchanged. However, LSTM networks can still suffer from the exploding gradient problem.*
 ## Bidirectional Recurrent Neural Network
 - 양방향 순환 신경망은 시점 t에서의 출력값을 예측할 때 이전 시점의 입력뿐만 아니라, 이후 시점의 입력 또한 예측에 기여할 수 있다는 아이디어에 기반합니다.
 - 양방향 RNN은 하나의 출력값을 예측하기 위해 기본적으로 두 개의 메모리 셀을 사용합니다. 첫번째 메모리 셀은 앞에서 배운 것처럼 앞 시점의 은닉 상태(Forward States) 를 전달받아 현재의 은닉 상태를 계산합니다. 위의 그림에서는 주황색 메모리 셀에 해당됩니다. 두번째 메모리 셀은 앞에서 배운 것과는 다릅니다. 앞 시점의 은닉 상태가 아니라 뒤 시점의 은닉 상태(Backward States) 를 전달 받아 현재의 은닉 상태를 계산합니다. 입력 시퀀스를 반대 방향으로 읽는 것입니다. 위의 그림에서는 초록색 메모리 셀에 해당됩니다. 그리고 이 두 개의 값 모두가 현재 시점의 출력층에서 출력값을 예측하기 위해 사용됩니다.
-
-# Decision Tree Algorithms
-- Source: https://dailyheumsi.tistory.com/113?category=815369
-## Feature Importance
-- Source: https://stats.stackexchange.com/questions/162162/relative-variable-importance-for-boosting
-- sum up the feature importances of the individual trees, then divide by the total number of trees.
-- return the fmap, which has the counts of each time a  variable was split on
-- How many times was this variable split on?
-## Data Skewness
-- Parametric methods are mainly based on the assumptions on the distribution of the data. They estimate a parameter (usually mean , sd ) from the sample data and is used in the modelling framework.
-Point to ponder - Mean for a normal distribution will be different than mean for a right skewed distribution hence affecting how your model performs.
-In Non Parametric methods no such feature of distribution is used for modelling. Primarily in Decision trees (say CART) it takes into account which variable/split brings in maximum difference in the two branches(eg - Gini) . In such a case , the distribution does not really matter.
-- A positive aspect of using the error ratio instead of the error difference is that the feature importance measurements are comparable across different problems.
-## Ensemble
-- Source: https://lsjsj92.tistory.com/543?category=853217
-## XGBoost
-- Source: https://bcho.tistory.com/1354](https://bcho.tistory.com/1354, https://www.datacamp.com/community/tutorials/xgboost-in-python, https://xgboost.readthedocs.io/en/latest/parameter.html, https://brunch.co.kr/@snobberys/137, https://www.datacamp.com/community/tutorials/xgboost-in-python
-### early_stopping
-- Source: https://xgboost.readthedocs.io/en/latest/python/python_intro.html
-- If there’s more than one metric in the eval_metric parameter given in params, the last metric will be used for early stopping.
-### Customized Objective Function, Customized Metric Function
-- Source: https://xgboost.readthedocs.io/en/latest/tutorials/custom_metric_obj.html
-### Hyperparameters Tunning
-- Source: https://www.analyticsvidhya.com/blog/2016/03/complete-guide-parameter-tuning-xgboost-with-codes-python/
-#### `booster` [default=gbtree]
-- Select the type of model to run at each iteration. It has 2 options:
-gbtree: tree-based models
-gblinear: linear models
-#### `silent` [default=0]:
-- Silent mode is activated is set to 1, i.e. no running messages will be printed. It’s generally good to keep it 0 as the messages might help in understanding the model.
-#### `eta` [default=0.3] (= `learning_rate`)
-- Analogous to learning rate in GBM
-- Makes the model more robust by shrinking the weights on each step
-- Typical final values to be used: 0.01-0.2
-#### `min_child_weight` [default=1]
-- Used to control over-fitting. **Higher values prevent a model from learning relations which might be highly specific to the particular sample selected for a tree.**
-- Too high values can lead to under-fitting hence, **it should be tuned using CV.**
-#### `max_depth` [default=6]
-- Used to control over-fitting as higher depth will allow model to learn relations very specific to a particular sample.
-- ***Should be tuned using CV.***
-#### `max_leaf_nodes`
-- Can be defined in place of max\_depth. Since binary trees are created, a depth of ‘n’ would produce a maximum of 2^n leaves. If this is defined, GBM will ignore max\_depth.
-#### `gamma` [default=0]
-- A node is split only when the resulting split gives a positive reduction in the loss function. Gamma specifies the minimum loss reduction required to make a split.
-- Makes the algorithm conservative. The values can vary depending on the loss function and **should be tuned**.
-#### `max_delta_step` [default=0]
-- In maximum delta step we allow each tree’s weight estimation to be. If the value is set to 0, it means there is no constraint. If it is set to a positive value, it can help making the update step more conservative.
-- Usually this parameter is not needed, but it might help in logistic regression when class is extremely imbalanced.
-This is generally not used but you can explore further if you wish.
-#### `subsample` [default=1]
-- Same as the subsample of GBM. Denotes the fraction of observations to be randomly sampled for each tree.
-- **Lower values make the algorithm more conservative and prevents overfitting but too small values might lead to under-fitting.**
-- Typical values: 0.5-1
-#### `colsample_bytree` [default=1]
-- Similar to max_features in GBM. Denotes the fraction of columns to be randomly sampled for each tree.
-Typical values: 0.5-1
-#### `colsample_bylevel` [default=1]
-- Denotes the subsample ratio of columns for each split, in each level. I don’t use this often because subsample and colsample_bytree will do the job for you. but you can explore further if you feel so.
-#### `lambda` [default=1] (=`reg_lambda`)
-- L2 regularization term on weights (analogous to Ridge regression) .This is used to handle the regularization part of XGBoost. Though many data scientists don’t use it often, **it should be explored to reduce overfitting.**
-#### `alpha` [default=0]==reg_alpha
-- L1 regularization term on weight (analogous to Lasso regression). **Can be used in case of very high dimensionality so that the algorithm runs faster when implemented.**
-#### `scale_pos_weight` [default=1]
-- **A value greater than 0 should be used in case of high class imbalance as it helps in faster convergence.**
-#### `n_jobs`
-- int Number of parallel threads used to run xgboost.
-#### General Approach for Parameter Tuning
-1. Choose a relatively **high learning rate**. Generally a learning rate of 0.1 works but somewhere between 0.05 to 0.3 should work for different problems. Determine the optimum **number of trees for this learning rat**e. XGBoost has a very useful function called as “cv” which performs cross-validation at each boosting iteration and thus returns the optimum number of trees required.
-2. Tune tree-specific parameters (**max\_depth, min\_child\_weight, gamma, subsample, colsample\_bytree**) for decided learning rate and number of trees. Note that we can choose different parameters to define a tree and I’ll take up an example here.
-3. Tune **regularization parameters(lambda, alpha)** for xgboost which can help reduce model complexity and enhance performance.
-4. **Lower the learning rate and decide the optimal parameters**.
-Let us look at a more detailed step by step approach.
-## Random Forest
-- Source: https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance.html?fbclid=IwAR1bPn1xldrpum8FWZEte0M7wPi9kE3BuFjSsyG9B4jSS5Th4oBkujEenNc
-- the impurity-based feature importance of random forests suffers from being computed on statistics derived from the training dataset: the importances can be high even for features that are not predictive of the target variable, as long as the model has the capacity to use them to overfit.
-
 
 # Feature Importance
 ## Permutation Feature Importance
@@ -679,16 +608,6 @@ Consider a feature A, with two possible values {A1, A2}. Let B be a feature with
 ## Collapsing Time
 - The price paid data for 2016 are addressed only (herewithin named ). This accounts for 3669 sales in Coventry. Stage 1 predicts each property’s sale price based on its value on the 1 January 2017 (for time singularity). This process involves each property being assigned some percentage price change based on the date that it was sold and the lower super output area that the property is contained within to produce a value for all 3669 properties at the date 1 January 2017 (). The error for the purposes of this experiment is minimal or nonexistent due to the small temporal and spatial aggregate areas being considered.
 - Figure 2 shows an exact example where the distance between houses  to  is 0.24 mi along the red dotted line which takes a route along “Brownshill Green Road” and is marked as a one-way system, this means that the route  to  must be different, which, in this case, is further; hence, the distance matrix is not symmetric. The same reasoning applies for a travel time matrix
-
-# Time Feature
-- Source https://medium.com/@andrejusb/machine-learning-date-feature-transformation-explained-4feb774c9dbe
-## Splitting Features
-- One of the ways is to split date value into multiple columns with numbers describing the original date (year, quarter, month, week, day of year, day of month, day of week).
-## Date Feature Transformation into a Difference Between Dates
-- We can use date difference as such:
-— Day difference between Payment Due Date and Invoice Date
-— Day difference between Payment Date and Invoice Date
-This should bring clear pattern when there is payment delay — difference between payment date/invoice date will be bigger than between payment due date/invoice date.
 
 # Model Linearity
 ## Difference between Linear and Nonlinear
