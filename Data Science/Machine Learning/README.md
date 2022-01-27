@@ -517,6 +517,14 @@ often also has a positive effect on predictive accuracy. We have demonstrated on
 - The rel_ctrl_pts_rg argument takes a 2d array (matrix). It is used to manually specify the regions of interest or rare "minority" values in y. The first column indicates the y values of interest, the second column indicates a mapped value of relevance, either 0 or 1, where 0 is the least relevant and 1 is the most relevant, and the third column is indicative. It will be adjusted afterwards, use 0 in most cases.
 The specified relevance values mapped to 1 are considered "minorty" values and are over-sampled. The specified relevance values mapped to 0 are considered "majority" values and are under-sampled.
 
+# Recurrent Neural Network
+- Source: https://wikidocs.net/22886
+- 앞서 배운 신경망들은 전부 은닉층에서 활성화 함수를 지난 값은 오직 출력층 방향으로만 향했습니다. 이와 같은 신경망들을 피드 포워드 신경망(Feed Forward Neural Network)이라고 합니다. 그런데 그렇지 않은 신경망들이 있습니다. RNN(Recurrent Neural Network) 또한 그 중 하나입니다. RNN은 은닉층의 노드에서 활성화 함수를 통해 나온 결과값을 출력층 방향으로도 보내면서, 다시 은닉층 노드의 다음 계산의 입력으로 보내는 특징을 갖고있습니다.
+- 메모리 셀이 출력층 방향 또는 다음 시점인 t+1의 자신에게 보내는 값을 은닉 상태(hidden state) 라고 합니다. 다시 말해 t 시점의 메모리 셀은 t-1 시점의 메모리 셀이 보낸 은닉 상태값을 t 시점의 은닉 상태 계산을 위한 입력값으로 사용합니다.
+## Bidirectional Recurrent Neural Network
+- 양방향 순환 신경망은 시점 t에서의 출력값을 예측할 때 이전 시점의 입력뿐만 아니라, 이후 시점의 입력 또한 예측에 기여할 수 있다는 아이디어에 기반합니다.
+- 양방향 RNN은 하나의 출력값을 예측하기 위해 기본적으로 두 개의 메모리 셀을 사용합니다. 첫번째 메모리 셀은 앞에서 배운 것처럼 앞 시점의 은닉 상태(Forward States) 를 전달받아 현재의 은닉 상태를 계산합니다. 위의 그림에서는 주황색 메모리 셀에 해당됩니다. 두번째 메모리 셀은 앞에서 배운 것과는 다릅니다. 앞 시점의 은닉 상태가 아니라 뒤 시점의 은닉 상태(Backward States) 를 전달 받아 현재의 은닉 상태를 계산합니다. 입력 시퀀스를 반대 방향으로 읽는 것입니다. 위의 그림에서는 초록색 메모리 셀에 해당됩니다. 그리고 이 두 개의 값 모두가 현재 시점의 출력층에서 출력값을 예측하기 위해 사용됩니다.
+
 # Decision Tree Algorithms
 - Source: https://dailyheumsi.tistory.com/113?category=815369
 ## Feature Importance
