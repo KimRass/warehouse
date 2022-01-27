@@ -1,5 +1,9 @@
 # Datasets
 ## `sklearn.datasets.fetch_20newsgroups()`
+```python
+data = sklearn.datas.fetch_20newsgroups(shuffle=True, [random_state], remove=("headers", "footers", "quotes"), [subset])
+corpus = data["data"]
+```
 - `subset`: (`"all"`, `"train"`, `"test"`)
 ## Steam Reviews
 - Source: https://github.com/bab2min/corpus/tree/master/sentiment
@@ -519,6 +523,9 @@ tr_y = pad_sequences(tr_y, padding="post", maxlen=max_len)
 	- `i`를 중심 단어(Center Word), `k`를 주변 단어(Context Word)라고 했을 때, 위에서 배운 동시 등장 행렬에서 중심 단어 `i`의 행의 모든 값을 더한 값을 분모로 하고 `i`행 `k`열의 값을 분자로 한 값이라고 볼 수 있겠습니다.
 - GloVe는 Center word와 Context word의 dot product가 log of Co-occurence probability가 되도록 학습됩니다.
 ```python
+from glove import Corpus, Glove
+# pip install glove_python_binary
+
 corp = Corpus()
 # `corpus`로부터 Co-occurence matrix를 생성합니다.
 corp.fit(corpus, window=5)
@@ -557,7 +564,11 @@ model.add_dictionary(corp.dictionary)
 		except:
 			continue
 	```
-## SGNS (Skip-Gram with Negative Sampling)
+## Skip-Gram with Negative Sampling (SGNS)
+- Source: https://wikidocs.net/69141
+- Word2Vec의 출력층에서는 소프트맥스 함수를 지난 단어 집합 크기의 벡터와 실제값인 원-핫 벡터와의 오차를 구하고 이로부터 임베딩 테이블에 있는 모든 단어에 대한 임베딩 벡터 값을 업데이트합니다. 만약 단어 집합의 크기가 수만 이상에 달한다면 이 작업은 굉장히 무거운 작업이므로, Word2Vec은 꽤나 학습하기에 무거운 모델이 됩니다.
+- Word2Vec은 역전파 과정에서 모든 단어의 임베딩 벡터값의 업데이트를 수행하지만, 만약 현재 집중하고 있는 중심 단어와 주변 단어가 '강아지'와 '고양이', '귀여운'과 같은 단어라면, 사실 이 단어들과 별 연관 관계가 없는 '돈가스'나 '컴퓨터'와 같은 수많은 단어의 임베딩 벡터값까지 업데이트하는 것은 비효율적입니다.
+- 네거티브 샘플링은 Word2Vec이 학습 과정에서 전체 단어 집합이 아니라 일부 단어 집합에만 집중할 수 있도록 하는 방법입니다. 가령, 현재 집중하고 있는 주변 단어가 '고양이', '귀여운'이라고 해봅시다. 여기에 '돈가스', '컴퓨터', '회의실'과 같은 단어 집합에서 무작위로 선택된 주변 단어가 아닌 단어들을 일부 가져옵니다. 이렇게 하나의 중심 단어에 대해서 전체 단어 집합보다 훨씬 작은 단어 집합을 만들어놓고 마지막 단계를 이진 분류 문제로 변환합니다. 주변 단어들을 긍정(positive), 랜덤으로 샘플링 된 단어들을 부정(negative)으로 레이블링한다면 이진 분류 문제를 위한 데이터셋이 됩니다. 이는 기존의 단어 집합의 크기만큼의 선택지를 두고 다중 클래스 분류 문제를 풀던 Word2Vec보다 훨씬 연산량에서 효율적입니다.
 
 # Syntactic & Semantic Analysis
 - Source: https://builtin.com/data-science/introduction-nlp
@@ -645,7 +656,11 @@ model.add_dictionary(corp.dictionary)
 # NLU
 # NLG
 
-# Latent Dirichlet Allocation
+# Topic Modeling
+## LSA (Latent Semantic Analysis)
+- Source: https://wikidocs.net/24949
+- LSA는 기본적으로 DTM이나 TF-IDF 행렬에 절단된 SVD(truncated SVD)를 사용하여 차원을 축소시키고, 단어들의 잠재적인 의미를 끌어낸다는 아이디어를 갖고 있습니다.
+## LDA (Latent Dirichlet Allocation)
 ## `gensim.models.ldamodel.Ldamodel()`
 ```python
 model = gensim.models.ldamodel.LdaModel(dtm, num_topics=n_topics, id2word=id2word, alpha="auto", eta="auto")
@@ -656,36 +671,10 @@ import pyLDAvis
 ```
 ## `pyLDAvis.enable_notebook()`
 - `pyLDAvis`를 Jupyter Notebook에서 실행할 수 있게 활성화합니다.
-## `pyLDAvis.gensim`
-```python
-import pyLDAvis.gensim
-```
 ### `pyLDAvis.gensim.prepare()`
 ```python
 pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
 ```
-- Source: https://wikidocs.net/30708
-- 도수 기반의 표현 방법인 BoW의 행렬 DTM 또는 TF-IDF 행렬을 입력으로 함.
-## LDA의 가정
-- 각각의 문서는 다음과 같은 과정을 거쳐서 작성되었다고 가정.
-1. 문서에 사용할 단어의 개수 N을 정합니다.
-    - Ex) 5개의 단어를 정하였습니다.
-2. 문서에 사용할 토픽의 혼합을 확률 분포에 기반하여 결정합니다.
-    - Ex) 위 예제와 같이 토픽이 2개라고 하였을 때 강아지 토픽을 60%, 과일 토픽을 40%와 같이 선택할 수 있습니다.
-3. 문서에 사용할 각 단어를 (아래와 같이) 정합니다.
-	1. 토픽 분포에서 토픽 T를 확률적으로 고릅니다.
-		- Ex) 60% 확률로 강아지 토픽을 선택하고, 40% 확률로 과일 토픽을 선택할 수 있습니다.
-    2. 선택한 토픽 T에서 단어의 출현 확률 분포에 기반해 문서에 사용할 단어를 고릅니다.
-		- Ex) 강아지 토픽을 선택하였다면, 33% 확률로 강아지란 단어를 선택할 수 있습니다. 이제 3)을 반복하면서 문서를 완성합니다.
-## LDA의 수행
-1. 사용자는 알고리즘에게 토픽의 개수 k를 알려줍니다.
-2. 모든 문서의 모든 단어에 대해서 k개 중 하나의 토픽을 랜덤으로 할당.
-랜덤으로 할당하였기 때문에 사실 이 결과는 전부 틀린 상태입니다. 만약 한 단어가 한 문서에서 2회 이상 등장하였다면, 각 단어는 서로 다른 토픽에 할당되었을 수도 있습니다.
-3. 모든 단어에 대해 다음을 반복.
-어떤 문서의 각 단어 w는 자신은 잘못된 토픽에 할당되어져 있지만, 다른 단어들은 전부 올바른 토픽에 할당되어져 있는 상태라고 가정합니다. 이에 따라 단어 w는 아래의 두 가지 기준에 따라서 토픽이 재할당됩니다.
-    - 단어 w가 속한 문서 d에서 어떤 토픽이 가장 큰 비중을 차지하는지.
-    - 전체 문서들 속에서 단어 w가 어떤 토픽에 주로 속하는지.
-- 즉, 단어가 특정 토픽에 존재할 확률과 문서에 특정 토픽이 존재할 확률을 결합확률로 추정하여 토픽을 추출.
 
 # Language Model (LM)
 ## Statistical Language Model
@@ -928,21 +917,6 @@ model.save("kobert_navermoviereview.h5", save_format="tf")
 model = BertModel.from_pretrained("monologg/kobert")
 ```
 
-# `pyLDAvis`
-```python
-import pyLDAvis
-```
-## `pyLDAvis.enable_notebook()`
-- `pyLDAvis`를 Jupyter Notebook에서 실행할 수 있게 활성화합니다.
-## `pyLDAvis.gensim`
-```python
-import pyLDAvis.gensim
-```
-### `pyLDAvis.gensim.prepare()`
-```python
-pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
-```
-
 # `soynlp`
 ```python
 from soynlp.normalizer import *
@@ -1042,16 +1016,10 @@ class Mecab:
 mcb = Mecab()
 ```
 
-# `glove`
-```python
-!pip install glove_python_binary
-```
-
 # `gensim`
 ```python
 import gensim
 ```
-## `gensim.corpora`
 ### `gensim.corpora.Dictionary()`
 ```python
 id2word = gensim.corpora.Dictionary(docs_tkn)
@@ -1067,12 +1035,10 @@ dtm = [id2word.doc2bow(doc) for doc in docs_tkn]
 ```python
 id2word = gensim.corpora.Dictionary.load("kakaotalk id2word")
 ```
-### `gensim.corpora.BleiCorpus`
 #### `gensim.corpora.BleiCorpus.serizalize()`
 ```python
 gensim.corpora.BleiCorpus.serialize("kakotalk dtm", dtm)
 ```
-### `gensim.corpora.bleicorpus`
 #### `gensim.corpora.bleicorpus.BleiCorpus()`
 ```python
 dtm = gensim.corpora.bleicorpus.BleiCorpus("kakaotalk dtm")
@@ -1100,18 +1066,6 @@ model.show_topic(1, topn=20)
 ```
 - Arguments : (the index of the topic, number of words to print)
 
-##### `tkn.texts_to_sequences()`
-```python
-train_X = tkn.texts_to_sequences(train_X)
-```
-- `num_words`가 적용됩니다.
-##### `tkn.sequences_to_texts()`
-##### `tkn.texts_to_matrix()`
-```python
-tkn.texts_to_matrix(["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바나나 바나나", "저는 과일이 좋아요"], mode="count"))
-```
-- `mode`: (`"count"`, `"binary"`, `"tfidf"`, `"freq"`)
-- `num_words`가 적용됩니다.
 # `tensorflow_hub`
 ```python
 import tensorflow_hub as hub
