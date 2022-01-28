@@ -483,7 +483,7 @@ tr_y = pad_sequences(tr_y, padding="post", maxlen=max_len)
 	import gensim
 	
 	if os.path.exists(filename):
-		model = gensim.models.KeyedVectors.load_word2vec_format(filename)
+		model = gensim.models.KeyedVectors.load_word2vec_format(filename, [binary])
 	else:
 		# `vector_size`: Dimensionality of the word vectors.
 		# `window`: Maximum distance between the current and predicted word within a sentence.
@@ -495,6 +495,15 @@ tr_y = pad_sequences(tr_y, padding="post", maxlen=max_len)
 		
 	emb_mat = model.wv.vectors
 	model.wv.most_similar(token)
+	```
+- Pre-trained Word Embedding (GoogleNews)
+	```python
+	file_name = "GoogleNews-vectors-negative300.bin.gz"
+	if not os.path.exists(file_name):
+		urllib.request.urlretrieve(f"https://s3.amazonaws.com/\
+		dl4j-distribution/{file_name}")
+
+	model = gensim.models.KeyedVectors.load_word2vec_format(file_name, binary=True)
 	```
 ## FastText
 - Using `gensim.models.FastText()`
@@ -748,28 +757,23 @@ def beam_search(data, k):
 	class BahdanauAttention(Model):
 		def __init__(self, units):
 			super(BahdanauAttention, self).__init__()
-			self.W1 = Dense(units)
-			self.W2 = Dense(units)
-			self.V = Dense(1)
+			self.W1 = Dense(units=units)
+			self.W2 = Dense(units=units)
+			self.W3 = Dense(units=1)
 
-		def call(self, values, query): # 단, key와 value는 같음
+		# The keys is same as the values 
+		def call(self, values, query):
 			# (batch_size, h_size) -> (batch_size, 1, h_size)
-			# we are doing this to perform addition to calculate the score
-			hidden_with_time_axis = tf.expand_dims(query, 1)
+			query = tf.expand_dims(query, 1)
 
-			# After applying self.V shape changes; (batch_size, max_len, units) ->
-			(batch_size, max_len, 1)
-			# we get 1 at the last axis because we are applying score to self.V
-			score = self.V(tf.nn.tanh(self.W1(values) + self.W2(hidden_with_time_axis)))
+			attention_scores = self.W3(tf.nn.tanh(self.W1(values) + self.W2(query)))
+			attention_weights = tf.nn.softmax(attention_scores, axis=1)
 
-			# (batch_size, max_len, 1)
-			attention_weights = tf.nn.softmax(score, axis=1)
-
-			context_vector = attention_weights * values
+			# Attention value
 			# (batch_size, h_size)
-			context_vector = tf.reduce_sum(context_vector, axis=1)
+			context_vec = tf.reduce_sum(attention_weights*values, axis=1)
 
-			return context_vector, attention_weights
+			return context_vec, attention_weights
 	```
 ## Self Attention
 ## Multi-Headed Attention
@@ -800,24 +804,6 @@ Like the first encoder, the first decoder takes positional information and embed
 
 
 # BERT (Bidirectional Encoder Representations from Transformers)
-
-# Bidirectional LSTM Sentiment Analysis
-```python
-model = Sequential()
-model.add(Embedding(input_dim=vocab_size+2, output_dim=64))
-hidden_size = 128
-model.add(Bidirectional(LSTM(units=hidden_size)))
-model.add(Dense(units=1, activation="sigmoid"))
-
-es = EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=2)
-model_path = "steam_reviews_bilstm.h5"
-mc = ModelCheckpoint(filepath=model_path, monitor="val_binary_accuracy", mode="auto", verbose=1, save_best_only=True)
-
-model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["binary_accuracy"])
-
-batch_size = 256
-hist = model.fit(x=tr_X, y=tr_y, validation_split=0.2, batch_size=batch_size, epochs=10, verbose=1, callbacks=[es, mc])
-```
 
 # Split Hangul Syllables
 ```python
@@ -1112,3 +1098,29 @@ embeddings = elmo(["the cat is on the mat", "dogs are in the fog"], signature="d
 ## `re.split(maxsplit)`
 ## `re.sub(expr, count)`
 ## `re.compile()`
+
+# Install `khaiii` on Google Colab
+```
+!git clone https://github.com/kakao/khaiii.git
+!pip install cmake
+!mkdir build
+!cd build && cmake /content/khaiii
+!cd /content/build/ && make all
+!cd /content/build/ && make resource
+!cd /content/build && make install
+!cd /content/build && make package_python
+!pip install /content/build/package_python
+```
+```
+!git clone https://github.com/kakao/khaiii.git
+!pip install cmake
+!mkdir build
+# !cd build
+!cd build && cmake /content/drive/MyDrive/Libraries/khaiii
+!cd build && make all
+# !cd build && make resource
+# !cd build && make install
+# !cd build && make package_python
+# !cd package_python
+# !cd build/package_python && !pip install package_python
+```

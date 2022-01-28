@@ -1656,3 +1656,9 @@ import warnings
 ```python
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 ```
+
+# Download Files
+- Using `urllib.request.urlretrieve()`
+	```python
+	urllib.request.urlretrieve(url=url, filename=filename)
+	```

@@ -146,17 +146,14 @@ While the effect of batch normalization is evident, the reasons behind its effec
 ```python
 from google.colab import drive
 import os
-import sys
+drive.mount("/content/drive")
+os.chdir("/content/drive/MyDrive/Libraries")
+```
+## Download Files to Local
+```
+from google.colab import files
 
-drive.mount("/content/drive", force_remount=True)
-try:
-    my_path = "/content/notebooks"
-    os.symlink("/content/drive/MyDrive/ColabNotebooks/my_env", my_path)
-    sys.path.insert(0, my_path)
-except:
-    print("Failed!")
-	
-os.chdir("/content/drive/MyDrive/")
+files.download(path)
 ```
 ## Display Hangul
 ```python
@@ -195,18 +192,6 @@ with strategy.scope():
     model = create_model()
     hist = model.fit()
 ```
-## Install `khaiii`
-```python
-!git clone https://github.com/kakao/khaiii.git
-!pip install cmake
-!mkdir build
-!cd build && cmake /content/khaiii
-!cd /content/build/ && make all
-!cd /content/build/ && make resource
-!cd /content/build && make install
-!cd /content/build && make package_python
-!pip install /content/build/package_python
-```
 
 # Activation Function
 ## Sigmoid Function
@@ -226,20 +211,28 @@ def deriv_sigmoid(x):
 	return sigmoid(x)(1 - sigmoid(x))
 ```
 ## Softmax
-- Source: http://blog.naver.com/PostView.nhn?blogId=wideeyed&logNo=221021710286&parentCategoryNo=&categoryNo=&viewDate=&isShowPopularPosts=false&from=postView
-```python
-tf.nn.softmax()
-```
+- Source: https://www.tensorflow.org/api_docs/python/tf/nn/softmax
+- Same as `tf.exp(logits) / tf.reduce_sum(tf.exp(logits), [axis])`
+- Using `tensorflow.nn.softmax([axis])`
+	```python
+	tf.nn.softmax()
+	```
+	- `axis`: The dimension softmax would be performed on. The default is `-1` which indicates the last dimension.
+## Hyperbolic Tangent
+- Using `tensorflow.nn.tanh()`
+	```python
+	tf.nn.tanh()
+	```
 ## Categorical Cross-Entropy Loss
 - Source : https://wordbe.tistory.com/entry/ML-Cross-entropyCategorical-Binary의-이해
 - Softmax activation 뒤에 Cross-Entropy loss를 붙인 형태로 주로 사용하기 때문에 Softmax loss 라고도 불립니다. → Multi-class classification에 사용됩니다.
 우리가 분류문제에서 주로 사용하는 활성화함수와 로스입니다. 분류 문제에서는 MSE(mean square error) loss 보다 CE loss가 더 빨리 수렴한 다는 사실이 알려져있습니다. 따라서 multi class에서 하나의 클래스를 구분할 때 softmax와 CE loss의 조합을 많이 사용합니다.
 ## `tf.keras.activations.linear()`
 ## Relu
-```python
-tf.nn.relu
-tf.keras.activations.relu()
-```
+- Using `tensorflow.nn.relu()`
+	```python
+	tf.nn.relu
+	```
 
 # Back Propogation
 - Source: https://sacko.tistory.com/19
@@ -852,6 +845,7 @@ W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
 - Same syntax as `np.stack()`
 ## `Add()()`
 - It takes as input a list of tensors, all of the same shape, and returns a single tensor (also of the same shape).
+- 마지막 Deminsion만 동일하면 Input으로 주어진 Tensors 중 하나를 옆으로 늘려서 덧셈을 수행합니다.
 ## `Multiply()()`
 ## `Dot(axes)`
 ```python
@@ -897,7 +891,7 @@ x = Activation("relu")(x)
 ```
 
 # 가중치가 있는 Layers
-## `Embedding(input_dim, output_dim, [mask_zero], [input_length], [name], [weights], [trainable], ...)`
+## `Embedding([input_length], input_dim, output_dim, [mask_zero], [name], [weights], [trainable], ...)`
 - Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Embedding
 - `input_dim`: Size of the vocabulary.
 - `output_dim`: Dimension of the dense embedding.
@@ -923,7 +917,7 @@ x = Activation("relu")(x)
 - `activation`: (`"tanh"`)
 ## `RNN()`
 ## `GRU(units, input_shape)`
-## `LSTM(units, return_sequences, return_state)`
+## `LSTM(units, return_sequences, return_state, [dropout])`
 - Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/LSTM
 - `return_sequences`: Whether to return the last output. in the output sequence, or the full sequence.
 	- `True`: 모든 Time step에서 Output을 출력합니다. (Output shape: `(batch_size, timesteps, h_size)`)
@@ -931,7 +925,10 @@ x = Activation("relu")(x)
 - `return_state`: Whether to return the last state in addition to the output. (`output, h_state, c_state = LSTM(return_state=True)()`)
 - Call arguments
 	- `initial_state`: List of initial state tensors to be passed to the first call of the cell (optional, defaults to `None` which causes creation of zero-filled initial state tensors).
-## `Bidirectional(input_shape)`
+## `Bidirectional([input_shape])`
+```python
+z, for_h_state, for_c_state, back_h_state, back_c_state = Bidirectional(LSTM(return_state=True))(z)
+```
 ## `TimeDistributed()`
 - TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다.
 - In keras - while building a sequential model - usually the second dimension (one after sample dimension) - is related to a time dimension. This means that if for example, your data is 5-dim with (sample, time, width, length, channel) you could apply a convolutional layer using TimeDistributed (which is applicable to 4-dim with (sample, width, length, channel)) along a time dimension (applying the same layer to each time slice) in order to obtain 5-d output.
@@ -1061,9 +1058,6 @@ dW, db = tape.gradient(loss, [W, b])
 - Compute square of x element-wise.
 ### `tf.math.argmax(axis)`
 ### `tf.math.sign`
-```python
-tf.math.sign(tf.math.reduce_sum(self.w * x) + self.b)
-```
 ### `tf.math.exp()`
 ### `tf.math.log()`
 ### `tf.math.equal()`
