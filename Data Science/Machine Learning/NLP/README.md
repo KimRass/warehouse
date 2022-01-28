@@ -775,6 +775,35 @@ def beam_search(data, k):
 
 			return context_vec, attention_weights
 	```
+## Scaled Dot-Product Attention
+- Implementation
+	```python
+	def scaled_dot_product_attention(q, k, v, mask=None):
+	  # q shape : (batch_size, seq_len, d_model)
+	  # k shape : (batch_size, seq_len, d_model)
+	  # v shape : (batch_size, seq_len, d_model)
+	  matmul_qk = tf.matmul(q, k, transpose_b = True)
+	  #matmul_qk shape : (batch_size, seq_len, seq_len)                                                
+
+	  dk = tf.cast(tf.shape(k)[-1], tf.float32)
+	  scaled_attention_logits = matmul_qk / tf.math.sqrt(dk)
+
+	  # scaled_attetion_logits shape : (batch_size, seq_len, seq_len)
+
+	  if mask is not None:
+		scaled_attention_logits = scaled_attention_logits + (mask * -1e9)
+
+	  softmax = tf.nn.softmax(scaled_attention_logits, axis=-1)
+
+	  # softmax shape : (batch_size, seq_len, seq_len)
+
+	  output = tf.matmul(softmax, v)
+
+	  # output(attention_value) shape : (batch_size, seq_len, d_model)
+	  # 즉 처음 입력 차원인 (batch_size, seq_len, d_model) 차원을 아웃풋으로 반환
+
+	  return output, softmax
+	```
 ## Self Attention
 ## Multi-Headed Attention
 

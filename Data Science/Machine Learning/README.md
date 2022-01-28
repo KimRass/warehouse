@@ -963,7 +963,7 @@ model_path = "model_path.h5"
 # `save_weights_only`: If `True`, then only the model's weights will be saved (`model.save_weights(filepath)`), else the full model is saved (`model.save(filepath)`).
 mc = ModelCheckpoint(filepath=model_path, monitor="val_acc", mode="auto", verbose=1, save_best_only=True)
 # `verbose=2`: One line per epoch. recommended.
-hist = model.fit(x=X, y=y, validation_split=0.2, batch_size, epochs, verbose=2, shuffle=True, callbacks=[es, mc])
+hist = model.fit(x, y, validation_split, batch_size, epochs, verbose=2, shuffle=True, callbacks=[es, mc])
 ```
 ```python
 hist = model.fit_generator(generator=train_set.shuffle(len(x_train)).batch(batch_size), epochs=n_epochs, validation_data=val_set.batch(batch_size))
