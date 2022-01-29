@@ -169,7 +169,7 @@ plt.rc("font", family="NanumBarunGothic")
 mpl.font_manager._rebuild()
 mpl.rcParams["axes.unicode_minus"] = False
 ```
-## Prevent from Disconnecting.
+## Prevent from Disconnecting
 ```
 function ClickConnect(){
     console.log("코랩 연결 끊김 방지");
@@ -180,7 +180,7 @@ setInterval(ClickConnect, 60*1000)
 ```python
 !pip install --target=$my_path LIBRARY_NAME
 ```
-## Use TPU
+## Use TPU in tensorflow
 ```python
 resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu="grpc://" + os.environ["COLAB_TPU_ADDR"])
 tf.config.experimental_connect_to_cluster(resolver)
@@ -223,7 +223,7 @@ def deriv_sigmoid(x):
 	```python
 	tf.nn.tanh()
 	```
-## Categorical Cross-Entropy Loss
+## Categorical Cross-Entropy
 - Source : https://wordbe.tistory.com/entry/ML-Cross-entropyCategorical-Binary의-이해
 - Softmax activation 뒤에 Cross-Entropy loss를 붙인 형태로 주로 사용하기 때문에 Softmax loss 라고도 불립니다. → Multi-class classification에 사용됩니다.
 우리가 분류문제에서 주로 사용하는 활성화함수와 로스입니다. 분류 문제에서는 MSE(mean square error) loss 보다 CE loss가 더 빨리 수렴한 다는 사실이 알려져있습니다. 따라서 multi class에서 하나의 클래스를 구분할 때 softmax와 CE loss의 조합을 많이 사용합니다.
@@ -234,20 +234,6 @@ def deriv_sigmoid(x):
 	tf.nn.relu
 	```
 
-# Back Propogation
-- Source: https://sacko.tistory.com/19
-- 지난 시간까지는 Input에서 Output으로 가중치를 업데이트하면서 활성화 함수를 통해서 결과값을 가져오는 것까지 배웠다. 이렇게 쭉 오는 것을 순전파(foward)라고 하며 말 그대로 앞쪽으로 input 값을 전파, 보내는 것이라고 보면 된다. 하지만 우리가 임의로 한 번 순전파 했다고 출력 값이 정확하지는 않을 것이다. 우리가 임의로 설정한 가중치 값이 input에 의해서 한 번 업데이트 되긴 했지만 많은 문제가 있을 수 있다.
-역전파 방법은 결과 값을 통해서 다시 역으로 input 방향으로 오차를 다시 보내며 가중치를 재업데이트 하는 것이다. 물론 결과에 영향을 많이 미친 노드(뉴런)에 더 많은 오차를 돌려줄 것이다.
-- 결과값은 오차(error)를 가지게 되는데 역전파는 이 오차(error)를 다시 역방향으로 hidden layer와 input layer로 오차를 다시 보내면서 가중치를 계산하면서 output에서 발생했던 오차를 적용시키는 것이다.
-한 번 돌리는 것을 1 epoch 주기라고 하며 epoch를 늘릴 수록 가중치가 계속 업데이트(학습)되면서 점점 오차가 줄어나가는 방법이다. 
-- 위의 그림을 보면 Output layer에서 나온 결과 값이 가진 오차가 0.6이라고 되어 있다. 이전 노드(뉴런에서) Output layer에 각각 3, 2라는 값을 전달하였기 때문에 Ouput의 Error에 위 노드는 60%, 아래 노드는 40% 영향을 주었다고 볼 수 있다. 균등하게 가중치를 나눠줄 수 있지만 영향을 미친 만큼 오차를 다시 역전파하는게 맞는 것 같다.
-error 0.6을 0.6, 0.4를 곱하니  위 노드에는 error가 0.36이, 아래 노드에는 0.24가 전달된다. 
-오차 역전파는 말 그대로 이렇게 오차를 점점 거슬러 올라가면서 다시 전파하는 것을 의미한다.
-- 앞에서 오차가 역전파되는 것을 알아보았는데 오차를 역전파하여 계속 업데이트 하는 이유는 신경망을 통해 더 나은 결과 값을 내기 위해서 weight를 조정하는데 오차가 영향을 주기 때문이다. 위의 예처럼 간단한 신경망이라면 오차를 계산하는 식은 굉장히 간단할 것이지만 효과적인 신경망은 절대 저렇게 간단하지 않다. 수십, 수백개의 노드(뉴런)이 연결되어서 수많은 가중치의 조합으로 특정 노드의 weight를 계산해야 한다면... 효율적인 방법이 필요할 것이다.
-경사하강법은 너무나 많은 신경망 안의 가중치 조합을 모두 계산하면 시간이 오래걸리기 때문에 효율적으로 이를 하기위해 고안된 방법입이다.
-- Source: https://sacko.tistory.com/39?category=632408
-- 지난 오차역전파 관련 포스팅에서는 오차역전파법이 순전파(foward propagation)로 가중치 학습이 되고 이를 갱신하기 위해서 오차를 반영하여 반대 방향에서 다시 가중치를 업데이트 한다는 식으로만 설명을 했다. 역전파를 사용하는 또 다른 중요한 이유는 역전파를 통해서 '미분'을 효율적으로 계산할 수 있다는 것이다.
-
 # Gradient Descent
 - Source: https://en.wikipedia.org/wiki/Gradient_descent
 - ***Gradient descent is a first-order iterative optimization algorithm for finding a local minimum of a differentiable function. The idea is to take repeated steps in the opposite direction of the gradient (or approximate gradient) of the function at the current point, because this is the direction of steepest descent.*** Conversely, stepping in the direction of the gradient will lead to a local maximum of that function; the procedure is then known as gradient ascent.
@@ -257,18 +243,15 @@ error 0.6을 0.6, 0.4를 곱하니  위 노드에는 error가 0.36이, 아래 �
 When activation functions are used whose derivatives can take on larger values, one risks encountering the related exploding gradient problem.
 - Solutions
 	- Residual networks
-		- One of the newest and most effective ways to resolve the vanishing gradient problem is with residual neural networks,[12] or ResNets (not to be confused with recurrent neural networks). ResNets refer to neural networks where skip connections or residual connections are part of the network architecture. These skip connections allow gradient information to pass through the layers, by creating "highways" of information, where the output of a previous layer/activation is added to the output of a deeper layer. This allows information from the earlier parts of the network to be passed to the deeper parts of the network, helping maintain signal propagation even in deeper networks. Skip connections are a critical component of what allowed successful training of deeper neural networks.
-		- ResNets yielded lower training error (and test error) than their shallower counterparts simply by reintroducing outputs from shallower layers in the network to compensate for the vanishing data.[12] Note that ResNets are an ensemble of relatively shallow nets and do not resolve the vanishing gradient problem by preserving gradient flow throughout the entire depth of the network – rather, they avoid the problem simply by constructing ensembles of many short networks together. (Ensemble by Construction[13])
+		- One of the newest and most effective ways to resolve the vanishing gradient problem is with residual neural networks, or ResNets (not to be confused with recurrent neural networks). ResNets refer to neural networks where skip connections or residual connections are part of the network architecture. *These skip connections allow gradient information to pass through the layers, by creating "highways" of information, where the output of a previous layer/activation is added to the output of a deeper layer. This allows information from the earlier parts of the network to be passed to the deeper parts of the network, helping maintain signal propagation even in deeper networks. Skip connections are a critical component of what allowed successful training of deeper neural networks.* ResNets yielded lower training error (and test error) than their shallower counterparts simply by reintroducing outputs from shallower layers in the network to compensate for the vanishing data.
 	- Other activation functions
-		- Rectifiers such as ReLU suffer less from the vanishing gradient problem, because they only saturate in one direction. Non-monotonic, non-saturating and oscillatory activation functions can alleviate the vanishing gradient problem and reduce training time.[16][14] An example of an oscillatory activation function that improves gradient flow and speeds up training is shown in the figure below.
+		- Rectifiers such as ReLU suffer less from the vanishing gradient problem, because they only saturate in one direction.
+- Source: https://www.analyticsvidhya.com/blog/2021/06/understanding-resnet-and-analyzing-various-models-on-the-cifar-10-dataset/
+- While backpropagating, we follow the chain rule, the derivatives of each layer are multiplied down the network. When we use a lot of deeper layers, and we have hidden layers like sigmoid, we could have derivatives being scaled down below 0.25 for each layer. So when the number of layers derivatives are multiplied the gradient decreases exponentially as we propagate down to the initial layers.
 ## Optimizers
 ### Stochastic Gradient Descent (SGD)
 ```python
 from tensorflow.keras.optimizers import SGD
-```
-### Adam
-```python
-from tensorflow.keras.optimizers import Adam
 ```
 ### Adagrad
 ```python
@@ -276,6 +259,11 @@ from tensorflow.keras.optimizers import Adagrad
 ```
 - Source: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adagrad
 - *Adagrad tends to benefit from higher initial learning rate values compared to other optimizers.*
+### RMSprop (Root Mean Square ...)
+### Adam (ADAptive Moment estimation)
+```python
+from tensorflow.keras.optimizers import Adam
+```
 
 # Variable Encoding
 ## One-Hot Encoding
@@ -647,8 +635,6 @@ E## Experimental Errors
 ### Sampling Errors
 - For instance, we have to measure the height of athletes. By mistake, we include a few basketball players in the sample.
 ### Natural Outliers
-## Outliers Detection
-- Source: https://adataanalyst.com/machine-learning/comprehensive-guide-feature-engineering/
 ## Outliers Treatment
 ### Deleting
 ### Transforming
@@ -661,17 +647,14 @@ E## Experimental Errors
 ### Treating Separately
 - If there are significant number of outliers, we should treat them separately in the statistical model. One of the approach is to treat both groups as two different groups and build individual model for both groups and then combine the output.
 ### Turkey Fences
-- Source: https://cyan91.tistory.com/40, https://lsjsj92.tistory.com/556?category=853217
 ### Z-score
-- Source: https://cyan91.tistory.com/40, https://soo-jjeong.tistory.com/121
 
-# Sparse Respresentation, Dense Representation
-- Source: https://dreamgonfly.github.io/blog/word2vec-explained/
-
-# Anomaly
-
-- 단순한 문제는 단순한 모델로 풀어야 함
-- 시간의 흐름에 따라 관측치가 변하는 데이터
+# K-Nearest Neighbors (KNN)
+```python
+# 초기 중심점을 랜덤으로 설정.
+flags = cv2.KMEANS_RANDOM_CENTERS
+compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
+```
 
 # Autoencoder
 - Source: https://en.wikipedia.org/wiki/Autoencoder
@@ -863,7 +846,10 @@ pos_score = Dot(axes=(1, 1))([z1, z2])
 - `rate`
 	- The Dropout layer randomly sets input units to 0 with a frequency of `rate` at each step during training time, which helps prevent overfitting. Inputs not set to 0 are scaled up by 1/(1 - `rate`) such that the sum over all inputs is unchanged.
 	- Note that the `Dropout` layer only applies when `training` is set to `True` such that no values are dropped during inference. When using `model.fit`, `training` will be appropriately set to `True` automatically, and in other contexts, you can set the kwarg explicitly to `True` when calling the layer.
-## `MaxPool1D(strides)` (= `MaxPooling1D()`), `MaxPool2D(pool_size, strides, padding, data_format)` (= `MaxPooling2D()`)
+## `MaxPool1D(pool_size, strides, padding, [data_format])` (= `MaxPooling1D()`), `MaxPool2D()` (= `MaxPooling2D()`)
+- Output Dimension
+	- When `padding="valid"`: `(input_dim - pool_size)//strides + 1`
+	- When `padding="same"`: `input_dim//strides + 1`
 ## `GlobalMaxPool1D()` (= `GlobalMaxPooling1D()`)
 - Shape changes from (a, b, c, d) to (a, d).
 ## `GlobalMaxPool2D()` (= `GlobalMaxPooling2D()`)
@@ -880,15 +866,10 @@ z = ZeroPadding2D(padding=((1, 0), (1, 0)))(x)
 	- Tuple of 2 ints: interpreted as two different symmetric padding values for height and width: `(symmetric_height_pad, symmetric_width_pad)`.
 	- Tuple of 2 tuples of 2 ints: interpreted as `((top_pad, bottom_pad), (left_pad, right_pad))`.
 ## `BatchNormalization()`
-- usually used before activation function layers.
+- Usually used before activation function layers.
 ## `Reshape()`
-```python
-z = Reshape(target_shape=(1, 1, ch))(z)
-```
-## `Activation()`
-```python
-x = Activation("relu")(x)
-```
+## `Activation(activation)`
+- `activation`: (`"relu"`)
 
 # 가중치가 있는 Layers
 ## `Embedding([input_length], input_dim, output_dim, [mask_zero], [name], [weights], [trainable], ...)`
@@ -915,6 +896,9 @@ x = Activation("relu")(x)
 - `padding="same"`: Results in padding with zeros evenly to the left/right or up/down of the input such that output has the same height/width dimension as the input.
 - `data_format`: (`"channels_last"`, `"channels_first"`)
 - `activation`: (`"tanh"`)
+- Output Dimension
+	- When `padding="valid"`: `(input_dim - kernel_size)//strides + 1`
+	- When `padding="same"`: `input_dim//strides + 1`
 ## `RNN()`
 ## `GRU(units, input_shape)`
 ## `LSTM(units, return_sequences, return_state, [dropout])`
