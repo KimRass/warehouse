@@ -8,6 +8,8 @@ Written by KimRass
 ## COCO (Common Objects in COntext)
 - 83 classes: `"aeroplane"`, `"apple"`, `"backpack"`, `"banana"`, `"baseball bat"`, `"baseball glove"`, `"bear"`, `"bed"`, `"bench"`, `"bicycle"`, `"bird"`, `"boat"`, `"book"`, `"bottle"`, `"bowl"`, `"broccoli"`, `"bus"`, `"cake"`, `"car"`, `"carrot"`, `"cat"`, `"cell phone"`, `"chair"`, `"clock"`, `"cow"`, `"cup"`, `"diningtable"`, `"dog"`, `"dog"`, `"donut"`, `"elephant"`, `"fire hydrant"`, `"fork"`, `"frisbee"`, `"giraffe"`, `"glass"`, `"hair drier"`, `"handbag"`, `"horse"`, `"hot"`, `"keyboard"`, `"kite"`, `"knife"`, `"laptop"`, `"microwave"`, `"motorbike"`, `"mouse"`, `"orange"`, `"oven"`, `"parking meter"`, `"person"`, `"pizza"`, `"pottedplant"`, `"refrigerator"`, `"remote"`, `"sandwich"`, `"scissors"`, `"sheep"`, `"sign"`, `"sink"`, `"skateboard"`, `"skis"`, `"snowboard"`, `"sofa"`, `"spoon"`, `"sports ball"`, `"stop"`, `"suitcase"`, `"surfboard"`, `"teddy bear"`, `"tennis racket"`, `"tie"`, `"toaster"`, `"toilet"`, `"toothbrush"`, `"traffic light"`, `"train"`, `"truck"`, `"tvmonitor"`, `"umbrella"`, `"vase"`, `"wine"`, `"zebra"`
 
+# ILSVRC (ImageNet Large Scale Visual Recognition Challenge)
+
 # Tasks
 ## Image Classification
 ### The Evolution of Image Classification
@@ -19,9 +21,31 @@ Written by KimRass
 ### Object Detection
 - *Object detection is a complex problem that combines the concepts of image localization and classification. Given an image, an object detection algorithm would return bounding boxes around all objects of interest and assign a class to them.*
 
+# Feature Map (= Activation Map)
+- Source: https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/
+- In CNN terminology, the 3×3 matrix is called a "filter" or "kernel" or "feature detector" and the matrix formed by sliding the filter over the image and computing the dot product is called the "Activation Map" or the 
+Feature Map" .It is important to note that filters acts as feature detectors from the original input image.
+- ***It is evident from the animation above that different values of the filter matrix will produce different feature maps for the same input image.
+- In the table below, we can see the effects of convolution of the above image with different filters. As shown, we can perform operations such as edge detection, sharpen and blur just by changing the numeric values of our filter matrix before the convolution operation – this means that different filters can detect different features from an image, for example edges, curves etc.
+- It is important to note that the Convolution operation captures the local dependencies in the original image.
+
 # VGGNet (VGG16)
 
 # GoogLeNet Going Deep with Convolutions
+- Source: https://towardsdatascience.com/deep-learning-understand-the-inception-module-56146866e652
+- The novel architecture was an Inception Network, and a variant of this Network called, GoogLeNet went on to achieve the state of the art performance in the classification computer vision task of the ImageNet LargeScale Visual Recognition Challenge 2014(ILVRC14).
+## Inception Network
+- *An inception network is a deep neural network with an architectural design that consists of repeating components referred to as Inception modules.*
+- Network in Network was a paper published in 2014 by Min Lin et al., and it explored the increase of the representational power of neural networks through the implementation of embedded internal complex structures within networks.
+- ***Highly performant deep neural networks need to be large. For a neural network to be considered large, it had to have several more layers within the network and units within these layers. Convolutional neural networks benefit from extracting features at varying scales. The biological human visual cortex functions by identifying patterns at different scales, which accumulates to form lager perceptions of objects. Therefore multi-scale convnet have the potential to learn more.*** Large networks are prone to overfitting, and chaining multiple convolutional operations together increases the computational cost of the network.
+- 1 x 1 Convolutions
+	- Purpose: Reduce the dimensions of data passing through the network, which provides the additional benefit of an increase in the width and depth of the network.
+	- A 1x1 convolution takes the element-wise product of all pixel values of an image. A convolution operation occurs between the image(input data) and the conv 1x1 filter, to create an output with the dimensions 1 x 1 x n (where n is the number of filters).
+	Although a 1x1 filter does not learn any spatial patterns that occur within the image, it does learn patterns across the depth(cross channel) of the image. Therefore not only do 1x1 convolution filters provide a method dimension reduction, but they also provide the additional benefit of enabling the network to learn more.
+	The input channels are reduced by the 1x1 convolution, creating output with a reduced number of channels. This part of the Inception network is the bottleneck layer (shown in a diagram further down below).
+	Pooling layers downsample (reduce height and width )images as they move through the network. 1x1 convolution provides the additional benefit of reducing both the height, width and the number channels within the image.
+To increase the performance of a neural
+
 ## 1. Architecture
 - ![arch2](https://user-images.githubusercontent.com/25279765/35002702-d5dccb60-fb2d-11e7-88ac-e29d0319f32b.png)
 - 빨간색 동그라미가 쳐져있는 부분은 Inception 모듈을 사용한 곳입니다.
@@ -45,11 +69,12 @@ Written by KimRass
 ## Global Average Pooling
 - A move from FC layers to average pooling improved the top 1 accuracy by about 0.6
 
-# Skip Connection
-- Source: https://en.wikipedia.org/wiki/Residual_neural_network
+# ResNet (Residual Neural Network)
+- Source: https://en.wikipedia.org/wiki/Residual_neural_network, https://www.analyticsvidhya.com/blog/2021/08/all-you-need-to-know-about-skip-connections/#:~:text=Skip%20Connections%20(or%20Shortcut%20Connections,input%20to%20the%20next%20layers.&text=Neural%20networks%20can%20learn%20any,%2Ddimensional%20and%20non%2Dconvex, https://www.analyticsvidhya.com/blog/2021/06/understanding-resnet-and-analyzing-various-models-on-the-cifar-10-dataset/#h2_3
+- Residual Networks were proposed in 2015 to solve the image classification problem. ****In ResNets, the information from the initial layers is passed to deeper layers by matrix addition. This operation doesn’t have any additional parameters as the output from the previous layer is added to the layer ahead.
+3# Skip Connection
 - ***There are two main reasons to add skip connections: to avoid the problem of vanishing gradients, or to mitigate the Degradation (accuracy saturation) problem; where adding more layers to a suitably deep model leads to higher training error.***
 - *Skipping effectively simplifies the network, using fewer layers in the initial training stages. This speeds learning by reducing the impact of vanishing gradients, as there are fewer layers to propagate through.*
-- Source: https://www.analyticsvidhya.com/blog/2021/08/all-you-need-to-know-about-skip-connections/#:~:text=Skip%20Connections%20(or%20Shortcut%20Connections,input%20to%20the%20next%20layers.&text=Neural%20networks%20can%20learn%20any,%2Ddimensional%20and%20non%2Dconvex.
 - *While training deep neural nets, the performance of the model drops down with the increase in depth of the architecture. This is known as the degradation problem.*
 - From this construction, *the deeper network should not produce any higher training error than its shallow counterpart because we are actually using the shallow model’s weight in the deeper network with added identity layers. But experiments prove that the deeper network produces high training error comparing to the shallow one. This states the inability of deeper layers to learn even identity mappings.*
 - The degradation of training accuracy indicates that not all systems are similarly easy to optimize.
@@ -58,17 +83,14 @@ Written by KimRass
 - Skip Connections were introduced to solve different problems in different architectures. In the case of ResNets, skip connections solved the degradation problem that we addressed earlier.
 - As you can see here, the loss surface of the neural network with skip connections is smoother and thus leading to faster convergence than the network without any skip connections.
 - Skip Connections can be used in 2 fundamental ways in Neural Networks: Addition and Concatenation.
-- Source: https://www.analyticsvidhya.com/blog/2021/06/understanding-resnet-and-analyzing-various-models-on-the-cifar-10-dataset/#h2_3
 - One problem that may happen is regarding the dimensions. *Sometimes the dimensions of `x` and `F(x)` may vary and this needs to be solved.* Two approaches can be followed in such situations. *One involves padding the input x with weights such as it now brought equal to that of the value coming out. The second way includes using a convolutional layer from `x` to addition to `F(x)`*.
-## Residual Neural Network (ResNet)
-- Residual Networks were proposed in 2015 to solve the image classification problem. ****In ResNets, the information from the initial layers is passed to deeper layers by matrix addition. This operation doesn’t have any additional parameters as the output from the previous layer is added to the layer ahead.
-### Bottleneck Desing
+## Bottleneck Design
 - Source: https://towardsdatascience.com/review-resnet-winner-of-ilsvrc-2015-image-classification-localization-detection-e39402bfa5d8
 - Since the network is very deep now, the time complexity is high. A bottleneck design is used to reduce the complexity.
 - The 1×1 conv layers are added to the start and end of network. This is a technique suggested in Network In Network and GoogLeNet (Inception-v1). ***It turns out that 1×1 conv can reduce the number of connections (parameters) while not degrading the performance of the network so much. (Please visit my review if interested.)***
 - *With the bottleneck design, 34-layer ResNet become 50-layer ResNet. And there are deeper network with the bottleneck design: ResNet-101 and ResNet-152.*
 - ![ResNet Architecture](https://neurohive.io/wp-content/uploads/2019/01/resnet-architectures-34-101.png)
-- 50-layered ResNet (for CIFAR-10)
+- Implementation of 50-layered ResNet (for CIFAR-10)
 	```python
 	def residual_block(x, filters): 
 		z1 = Conv2D(filters=filters[0], kernel_size=1, strides=1, padding="same")(x) 
@@ -106,7 +128,21 @@ Written by KimRass
 	model = Model(inputs=inputs, outputs=outputs)
 	```
 	
-# Squeeze-and-Excitation Networks (SE Block)
+# SENet (Squeeze-and-Excitation Network)
+- Source: https://towardsdatascience.com/squeeze-and-excitation-networks-9ef5e71eacd7
+- Squeeze-and-Excitation Networks (SENets) introduce a building block for CNNs that improves channel interdependencies at almost no computational cost. ***Besides this huge performance boost, they can be easily added to existing architectures.*** The main idea is this: ***Let’s add parameters to each channel of a convolutional block so that the network can adaptively adjust the weighting of each feature map.***
+- CNNs use their convolutional filters to extract hierarchal information from images. *Lower layers find trivial pieces of context like edges or high frequencies, while upper layers can detect faces, text or other complex geometrical shapes.* They extract whatever is necessary to solve a task efficiently.
+- ***All you need to understand for now is that the network weights each of its channels equally when creating the output feature maps. SENets are all about changing this by adding a content aware mechanism to weight each channel adaptively. In it’s most basic form this could mean adding a single parameter to each channel and giving it a linear scalar how relevant each one is.***
+- *First, they get a global understanding of each channel by squeezing the feature maps to a single numeric value. This results in a vector of size n, where n is equal to the number of convolutional channels. Afterwards, it is fed through a two-layer neural network, which outputs a vector of the same size. These n values can now be used as weights on the original features maps, scaling each channel based on its importance.*
+- ![SENet Architecture](https://miro.medium.com/max/658/1*WNk-atKDUsZPvMddvYL01g.png)
+- Implementation
+	```python
+	def se_block(x, c, r=16):
+		z = GlobalAveragePooling2D()(x)
+        z = Dense(units=c//r, activation="relu")(z)
+        z = Dense(units=c, activation="sigmoid")(z)
+        return z*x
+	```
 
 # IoU (Intersection over Union)
 - To score how well the predicted box matches the ground-truth we can compute the IOU (or intersection-over-union, also known as the Jaccard index) between the two bounding boxes.
