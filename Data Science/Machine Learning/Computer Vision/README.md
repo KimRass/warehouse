@@ -29,9 +29,11 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 - In the table below, we can see the effects of convolution of the above image with different filters. As shown, we can perform operations such as edge detection, sharpen and blur just by changing the numeric values of our filter matrix before the convolution operation – this means that different filters can detect different features from an image, for example edges, curves etc.
 - It is important to note that the Convolution operation captures the local dependencies in the original image.
 
+# AlexNet
+
 # VGGNet (VGG16)
 
-# GoogLeNet Going Deep with Convolutions
+# GoogLeNet
 - Source: https://towardsdatascience.com/deep-learning-understand-the-inception-module-56146866e652
 - The novel architecture was an Inception Network, and a variant of this Network called, GoogLeNet went on to achieve the state of the art performance in the classification computer vision task of the ImageNet LargeScale Visual Recognition Challenge 2014(ILVRC14).
 ## Inception Network
