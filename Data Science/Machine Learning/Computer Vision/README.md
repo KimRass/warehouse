@@ -34,26 +34,84 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 # VGGNet (VGG16)
 
 # GoogLeNet
-- Source: https://towardsdatascience.com/deep-learning-understand-the-inception-module-56146866e652
 - The novel architecture was an Inception Network, and a variant of this Network called, GoogLeNet went on to achieve the state of the art performance in the classification computer vision task of the ImageNet LargeScale Visual Recognition Challenge 2014(ILVRC14).
 ## Inception Network
-- *An inception network is a deep neural network with an architectural design that consists of repeating components referred to as Inception modules.*
-- Network in Network was a paper published in 2014 by Min Lin et al., and it explored the increase of the representational power of neural networks through the implementation of embedded internal complex structures within networks.
-- ***Highly performant deep neural networks need to be large. For a neural network to be considered large, it had to have several more layers within the network and units within these layers. Convolutional neural networks benefit from extracting features at varying scales. The biological human visual cortex functions by identifying patterns at different scales, which accumulates to form lager perceptions of objects. Therefore multi-scale convnet have the potential to learn more.*** Large networks are prone to overfitting, and chaining multiple convolutional operations together increases the computational cost of the network.
-- 1 x 1 Convolutions
-	- Purpose: Reduce the dimensions of data passing through the network, which provides the additional benefit of an increase in the width and depth of the network.
-	- A 1x1 convolution takes the element-wise product of all pixel values of an image. A convolution operation occurs between the image(input data) and the conv 1x1 filter, to create an output with the dimensions 1 x 1 x n (where n is the number of filters).
-	Although a 1x1 filter does not learn any spatial patterns that occur within the image, it does learn patterns across the depth(cross channel) of the image. Therefore not only do 1x1 convolution filters provide a method dimension reduction, but they also provide the additional benefit of enabling the network to learn more.
-	The input channels are reduced by the 1x1 convolution, creating output with a reduced number of channels. This part of the Inception network is the bottleneck layer (shown in a diagram further down below).
-	Pooling layers downsample (reduce height and width )images as they move through the network. 1x1 convolution provides the additional benefit of reducing both the height, width and the number channels within the image.
-To increase the performance of a neural
+- Sources: https://towardsdatascience.com/deep-learning-understand-the-inception-module-56146866e652, https://hacktildawn.com/2016/09/25/inception-modules-explained-and-implemented/
+- An inception network is a deep neural network with an architectural design that consists of repeating components referred to as Inception modules.
+- ***Convolutional neural networks benefit from extracting features at varying scales. The biological human visual cortex functions by identifying patterns at different scales, which accumulates to form lager perceptions of objects. Therefore multi-scale convnet have the potential to learn more.*** Large networks are prone to overfitting, and chaining multiple convolutional operations together increases the computational cost of the network.
+- ***Although a 1x1 filter does not learn any spatial patterns that occur within the image, it does learn patterns across the depth(cross channel) of the image. 1x1 convolutions reduce the dimensions of inputs within the network. 1x1 convolutions are configured to have a reduced amount of filters, so the outputs typically have a reduced amount of channels in comparison to the initial input.***
+- *Within a convnet, different conv filter sizes learn spatial patterns and detect features at varying scales.*
+- 1x1 learns patterns across the depth of the input. 3x3 and 5x5 learns spatial patterns across all dimensional components (height, width and depth) of the input.
+- ***There is an increase in representational power when combining all the patterns learned from the varying filter sizes. The Inception module consists of a concatenation layer, where all the outputs and feature maps from the conv filters are combined into one object to create a single output of the Inception module.***
+- Naive Inception Module
+	- ![Naive Inception Module](https://hackathonprojects.files.wordpress.com/2016/09/naive.png)
+	- Pooling downsamples the input data to create a smaller output with a reduced height and width.
+	- Within an Inception module, we add padding(same) to the max-pooling layer to ensure it maintains the height and width as the other outputs(feature maps) of the convolutional layers within the same Inception module. By doing this, we ensure we can concatenate the outputs of the max-pooling layer with the outputs of the conv layers within the concatenation layer.
+- Inception Module
+	- ![Inception Module](https://hackathonprojects.files.wordpress.com/2016/09/inception_implement.png)
+	- Implementation
+		```python
+		def inception_module(x, filters): 
+			z1 = Conv2D(filters=filters[0], kernel_size=1, strides=1, padding="same", activation="relu")(x)
 
-## 1. Architecture
-- ![arch2](https://user-images.githubusercontent.com/25279765/35002702-d5dccb60-fb2d-11e7-88ac-e29d0319f32b.png)
-- 빨간색 동그라미가 쳐져있는 부분은 Inception 모듈을 사용한 곳입니다.
+			z2 = Conv2D(filters=filters[4], kernel_size=1, strides=1, padding="same", activation="relu")(x)
+			z2 = Conv2D(filters=filters[2], kernel_size=3, strides=1, padding="same", activation="relu")(z2)
+
+			z3 = Conv2D(filters=filters[4], kernel_size=1, strides=1, padding="same", activation="relu")(x)
+			z3 = Conv2D(filters=filters[3], kernel_size=5, strides=1, padding="same", activation="relu")(z3)
+
+			z4 = MaxPool2D(pool_size=3, strides=1, padding="same")(x)
+			z4 = Conv2D(filters=filters[4], kernel_size=1, strides=1, padding="same", activation="relu")(z4)
+			return Concatenate(axis=-1)([z1, z2, z3, z4])
+		```
+- Implementation
+	```python
+	inputs = Input(shape=(x_tr[0].shape))
+
+	# conv랑 batch 사이에 max pooling 들어가야 하나, cifar 데이터에선 크기 너무 줄어들어서 뺐음
+	z = Conv2D(filters=64, kernel_size=7, strides=2, padding="same", activation="relu")(inputs)
+	# z = MaxPool2D(pool_size=3, strides=2, padding="same"(z)
+	z = BatchNormalization()(z)
+	z = Conv2D(filters=192, kernel_size=3, padding="same", activation="relu")(z)
+	# z = MaxPool2D(pool_size=3, strides=2, padding="same"(z)
+	z = BatchNormalization()(z) 
+	z = inception_module(z, [64, 128, 32, 32]) # inception 3a
+	z = inception_module(z, [128, 192, 96, 64]) # inception 3b
+	z = MaxPool2D(pool_size=3, strides=2, padding="same")(z)
+	z = inception_module(z, [192, 208, 48, 64]) # inception 4a
+	aux1 = AveragePooling2D(pool_size=5, strides=3, padding="valid")(z)
+	aux1 = Conv2D(filters=128, kernel_size=1, padding="same", activation="relu")(aux1)
+	aux1 = Flatten()(aux1)
+	aux1 = Dense(units=512, activation="relu")(aux1)
+
+	outputs1 = Dense(units=10, activation="softmax")(aux1)
+
+	z = inception_module(z, [160, 224, 64, 64]) # inception 4b
+	z = inception_module(z, [128, 256, 64, 64]) # inception 4c
+	z = inception_module(z, [112, 288, 64, 64]) # inception 4d
+	aux2 = AveragePooling2D(pool_size=5, strides=3, padding="valid")(z)
+	aux2 = Conv2D(128, kernel_size=1, padding="same", activation="relu")(aux2)
+	aux2 = Flatten()(aux2)
+	aux2 = Dense(units=832, activation="relu")(aux2)
+
+	outputs2 = Dense(units=10, activation="softmax")(aux2)
+
+	z = inception_module(z, [256, 320, 128, 128]) # inception 4e
+	z = MaxPool2D(pool_size=3, strides=2, padding="same")(z)
+	z = inception_module(z, [256, 320, 128, 128]) # inception 5a
+	z = inception_module(z, [384, 384, 128, 128]) # inception 5b
+	z = GlobalAveragePooling2D()(z)
+	# pool_size=(4,4), padding="valid")(x)
+	z = Dropout(rate=0.4)(z)
+	z = Flatten()(z)
+
+	outputs3 = Dense(units=10, activation="softmax")(z)
+
+	model = Model(inputs=inputs, outputs=[outputs1, outputs2, outputs3])
+	```
+
 - 네트워크의 얕은 부분, 입력과 가까운 부분에는 Inception 모듈을 사용하지 않았다는 것입니다. 논문에 따르면 이 부분에는 Inception의 효과가 없었다고 합니다. 따라서 우리가 일반적으로 CNN하면 떠올리는, Conv와 Pooling 연산을 수행합니다.
 - softmax를 통해 결과를 뽑아내는 부분이 맨 끝에만 있는 것이 아니라, 중간 중간에 있다는 점입니다. 이를 논문에서는 auxiliary classifier라고 부릅니다. 엄청나게 깊은 네트워크에서 Vanishing Gradient 문제를 걱정하지 않을 수 없죠. 그래서 auxiliary classifier를 덧붙인 겁니다. Loss를 맨 끝뿐만 아니라 중간 중간에서 구하기 때문에 gradient가 적절하게 역전파된다고 합니다. 대신 지나치게 영향을 주는 것을 막기 위해 auxiliary classifier의 loss는 0.3을 곱했습니다. 물론 실제로 테스트하는 과정에서는 auxiliary classifier를 제거하고 맨 끝, 제일 마지막의 softmax만을 사용하구요.
-- ![GoogLeNet Architecture](http://img1.daumcdn.net/thumb/R1920x0/?fname=http%3A%2F%2Fcfile21.uf.tistory.com%2Fimage%2F995C60355ADFDDDB23007E)
 - GAP의 이점은, 바로 학습 과정이 필요하지 않다는 점입니다. 이는 GAP가 어디까지나 풀링 과정에 지나지 않기 때문에 생겨납니다. 풀링은 학습과정이 아니기 때문에, 어떠한 패러미터도 추가로 발생하지 않습니다. 위의 표를 보시더라도, average pooling에 의해서 네트워크의 depth는 증가하지 않았습니다.
 ## Auxiliary Classifier
 -  Auxiliary Classifier는 깊은 네트워크의 학습에 대한 우려에 의해 추가되었습니다.
@@ -64,12 +122,6 @@ To increase the performance of a neural
 - The loss is added to the total loss, with weight 0.3.
 - It is for combating gradient vanishing problem.
 - It is not Used in testing time.
-## Inception Module
-- Inception module is to have different sizes/types of convolutions for the same input and stacking all the outputs.
-- 1×1 convolution is used as a dimension reduction module to reduce the computation. By reducing the computation bottleneck, depth and width can be increased.
-- Inception module can be built without increasing the number of operations largely compared the one without 1×1 convolution.
-## Global Average Pooling
-- A move from FC layers to average pooling improved the top 1 accuracy by about 0.6
 
 # ResNet (Residual Neural Network)
 - Source: https://en.wikipedia.org/wiki/Residual_neural_network, https://www.analyticsvidhya.com/blog/2021/08/all-you-need-to-know-about-skip-connections/#:~:text=Skip%20Connections%20(or%20Shortcut%20Connections,input%20to%20the%20next%20layers.&text=Neural%20networks%20can%20learn%20any,%2Ddimensional%20and%20non%2Dconvex, https://www.analyticsvidhya.com/blog/2021/06/understanding-resnet-and-analyzing-various-models-on-the-cifar-10-dataset/#h2_3

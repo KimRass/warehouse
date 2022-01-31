@@ -930,7 +930,7 @@ model.summary()
 # `metrics`: (`["mse"]`, `["mae"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
 # When you pass the strings "accuracy" or "acc", we convert this to one of ``BinaryAccuracy()`, ``CategoricalAccuracy()`, `SparseCategoricalAccuracy()` based on the loss function used and the model output shape.
 # `loss_weights`
-model.compile(optimizer, loss, [metrics], [loss_weights])
+model.compile(optimizer, loss, [loss_weights], [metrics], [loss_weights])
 ```
 ## Fit
 - Source: https://keras.io/api/models/model_training_apis/
