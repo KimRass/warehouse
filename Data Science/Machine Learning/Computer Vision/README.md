@@ -577,15 +577,34 @@ hist = model.fit_generator(generator=gen.flow(x, y, batch_size, [subset], [save_
 ```python
 gen.apply_transform()
 ```
-## `gen.flow_from_directory()`
-```python
-gen = ImageDataGenerator()
-datagen_tr = gen.flow_from_directory(directory="./dogsandcats", target_size=(224, 224))
-```
-- `target_size`: the dimensions to which all images found will be resized.
-- `class_mode`: (`"binary"`, `"categorical"`, `"sparse"`, `"input"`, `None`)
-	- `class_mode="binary"`: for binary classification.
-	- `class_mode="categorical"`: for multi-class classification(OHE).
-	- `class_mode="sparse"`: for multi-class classification(no OHE).
-	- `class_mode="input"`
-	- `class_mode=None`: Returns no label.
+- Using `ImageDataGenerator().flow()`
+	- References: https://gist.github.com/swghosh/f728fbba5a26af93a5f58a6db979e33e, https://www.geeksforgeeks.org/keras-fit-and-keras-fit_generator/
+	```python
+	def gen_flow(x, y, subset):
+		gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True, validation_split=0.2)
+		gen.fit(X_tr_val)
+		return gen.flow(x=x, y=y, batch_size, seed, subset=subset)
+	def generator(flow):
+		for xi, yi in flow:
+			yield xi, [yi, yi, yi]
+			
+	flow_tr = gen_flow(X_tr_val, y_tr_val, subset="training")
+	flow_val = gen_flow(X_tr_val, y_tr_val, subset="validation")
+
+	# `steps_per_epoch`: We can calculate the value of `steps_per_epoch` as the total number of samples in your dataset divided by the batch size.
+	# `validation_steps` :Only if the `validation_data` is a generator then only this argument can be used. It specifies the total number of steps taken from the generator before it is stopped at every epoch and its value is calculated as the total number of validation data points in your dataset divided by the validation batch size.
+	es = EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=2)
+	model_path = "googlenet_cifar10.h5"
+	mc = ModelCheckpoint(filepath=model_path, monitor="outputs3_acc", mode="auto", verbose=1, save_best_only=True)
+	hist = model.fit_generator(generator=generator(flow_tr), validation_data=generator(flow_val), epochs=16, steps_per_epoch=len(flow_tr), validation_steps=len(flow_val), callbacks=[es, mc])
+	```
+- Using `ImageDataGenerator().flow_from_directory()`
+	```python
+	# `target_size`: the dimensions to which all images found will be resized.
+	# `class_mode`: (`"binary"`, `"categorical"`, `"sparse"`, `"input"`, `None`)
+		# `"binary"`: for binary classification.
+		# `"categorical"`: for multi-class classification(OHE).
+		# `"sparse"`: for multi-class classification(no OHE).
+		# `"input"`
+		# `None`: Returns no label.
+	```

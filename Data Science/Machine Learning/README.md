@@ -952,20 +952,6 @@ mc = ModelCheckpoint(filepath=model_path, monitor="val_acc", mode="auto", verbos
 # `verbose=2`: One line per epoch. recommended.
 hist = model.fit(x, y, validation_split, batch_size, epochs, verbose=2, shuffle=True, callbacks=[es, mc])
 ```
-```python
-def gen_flow(x, y, subset):
-    gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True, validation_split=0.2)
-    gen.fit(X_tr_val)
-    return gen.flow(x=x, y=y, batch_size, seed, subset=subset)
-def generator(flow):
-    for xi, yi in flow:
-        yield xi, [yi, yi, yi]
-        
-flow_tr = gen_flow(X_tr_val, y_tr_val, subset="training")
-flow_val = gen_flow(X_tr_val, y_tr_val, subset="validation")
-
-hist = model.fit_generator(generator=generator(flow_tr), validation_data=generator(flow_val), epochs, steps_per_epoch=len(flow_tr), callbacks=[es, mc])
-```
 ## Training History
 ```python
 fig, axes = plt.subplots(1, 2, figsize=(12, 8))
