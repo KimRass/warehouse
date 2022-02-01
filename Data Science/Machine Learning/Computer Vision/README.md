@@ -83,19 +83,6 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 - ![GoogLeNet Architecture](https://i.stack.imgur.com/Xqv0n.png)
 - Implementation
 	```python
-	def inception_module(x, filters): 
-		z1 = Conv2D(filters=filters[0], kernel_size=1, strides=1, padding="same", activation="relu")(x)
-
-		z2 = Conv2D(filters=filters[3], kernel_size=1, strides=1, padding="same", activation="relu")(x)
-		z2 = Conv2D(filters=filters[1], kernel_size=3, strides=1, padding="same", activation="relu")(z2)
-
-		z3 = Conv2D(filters=filters[3], kernel_size=1, strides=1, padding="same", activation="relu")(x)
-		z3 = Conv2D(filters=filters[2], kernel_size=5, strides=1, padding="same", activation="relu")(z3)
-
-		z4 = MaxPool2D(pool_size=3, strides=1, padding="same")(x)
-		z4 = Conv2D(filters=filters[3], kernel_size=1, strides=1, padding="same", activation="relu")(z4)
-		return Concatenate(axis=-1)([z1, z2, z3, z4])
-
 	inputs = Input(shape=(224, 224, 3))
 
 	z = Conv2D(filters=64, kernel_size=7, strides=2, padding="same", activation="relu")(inputs)
@@ -485,27 +472,19 @@ from PIL import Image
 ```
 ## `Image.open()`
 ```python
-img = Image.open("20180312000053_0640 (2).jpg")
-```
-### `img.size`
-### `img.save()`
-### `img.thumbnail()`
-```python
+img = Image.open()
+
+img.size
+img.save()
 img.thumbnail((64, 64))
-```
-### `img.crop()`
-```python
+
 img_crop = img.crop((100, 100, 150, 150))	
-```
-### `img.resize()`
-```python
+
 img = img.resize((600, 600))
-```
-### `img.convert()`
-```python
+
+# (`"RGB"`, `"RGBA"`, `"CMYK"`, `"L"`, `"1"`)
 img.convert("L")
 ```
-- (`"RGB"`, `"RGBA"`, `"CMYK"`, `"L"`, `"1"`)
 ### `img.paste()`
 ```python
 img1.paste(img2, (20,20,220,220))
@@ -525,24 +504,6 @@ log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
 ```
 
-## `load_img()`
-```python
-from tensorflow.keras.preprocessing.image import load_img
-```
-```python
-img = load_img(fpath, target_size=(img_height, img_width))
-```
-## `img_to_array()`
-```python
-from tensorflow.keras.preprocessing.image import img_to_array
-```
-```python
-img_array = img_to_array(img)
-```
-## `image_dataset_from_directory()`
-## `ds.class_names`
-## `ds.take()`
-
 # Image Data Augmentation using `ImageDataGenerator()`
 - Source: https://www.geeksforgeeks.org/keras-fit-and-keras-fit_generator/
 - Reference: https://m.blog.naver.com/PostView.nhn?blogId=isu112600&logNo=221582003889&proxyReferer=https:%2F%2Fwww.google.com%2F
@@ -553,8 +514,8 @@ img_array = img_to_array(img)
 ```python
 # `shear_range`: (float). Shear Intensity (Shear angle in counter-clockwise direction as radians)
 # `zoom_range`
-	# (`[lower, upper]`). Range for random zoom.
-	# (float) Range: `[1 - zoom_range, 1 + zoom_range]`
+	# (`[lower, upper]`) Range for random zoom.
+	# (float) Range of `[1 - zoom_range, 1 + zoom_range]`
 # `rotation_range`
 # `brightness_range`: (Tuple or List of two floats) Range for picking a brightness shift value from.
 # `rescale`: rescaling factor. Defaults to None. If None or 0, no rescaling is applied, otherwise we multiply the data by the value provided (before applying any other transformation).
@@ -570,9 +531,6 @@ gen = ImageDataGenerator([shear_range], [zoom_range], [ratation_range], [brightn
 # When `rescale` is set to a value, rescaling is applied to sample data before computing the internal data stats.
 # `x`: Sample data. Should have rank 4
 gen.fit(x, [seed])
-# `subset`: (`"training"`, `"validation"`) If `validation_split` is set in `ImageDataGenerator()`.
-# `save_to_dir`: This allows you to optionally specify a directory to which to save the augmented pictures being generated.
-hist = model.fit_generator(generator=gen.flow(x, y, batch_size, [subset], [save_to_dir]), [validation_data], epochs, [callbacks])
 ```
 ```python
 gen.apply_transform()
@@ -583,6 +541,8 @@ gen.apply_transform()
 	def gen_flow(x, y, subset):
 		gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True, validation_split=0.2)
 		gen.fit(X_tr_val)
+		# `subset`: (`"training"`, `"validation"`) If `validation_split` is set in `ImageDataGenerator()`.
+		# `save_to_dir`: This allows you to optionally specify a directory to which to save the augmented pictures being generated.
 		return gen.flow(x=x, y=y, batch_size, seed, subset=subset)
 	def generator(flow):
 		for xi, yi in flow:
@@ -596,7 +556,7 @@ gen.apply_transform()
 	es = EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=2)
 	model_path = "googlenet_cifar10.h5"
 	mc = ModelCheckpoint(filepath=model_path, monitor="outputs3_acc", mode="auto", verbose=1, save_best_only=True)
-	hist = model.fit_generator(generator=generator(flow_tr), validation_data=generator(flow_val), epochs=16, steps_per_epoch=len(flow_tr), validation_steps=len(flow_val), callbacks=[es, mc])
+	hist = model.fit_generator(generator=generator(flow_tr), validation_data=generator(flow_val), epochs, steps_per_epoch=len(flow_tr), validation_steps=len(flow_val), callbacks=[es, mc])
 	```
 - Using `ImageDataGenerator().flow_from_directory()`
 	```python
