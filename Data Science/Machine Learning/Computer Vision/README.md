@@ -34,7 +34,14 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 # VGGNet (VGG16)
 
 # GoogLeNet
+- Paper: https://www.cs.unc.edu/~wliu/papers/GoogLeNet.pdf
+- Source: https://www.geeksforgeeks.org/understanding-googlenet-model-cnn-architecture/
 - The novel architecture was an Inception Network, and a variant of this Network called, GoogLeNet went on to achieve the state of the art performance in the classification computer vision task of the ImageNet LargeScale Visual Recognition Challenge 2014(ILVRC14).
+- Global Average Pooling (GAP)
+	- *This also decreases the number of trainable parameters to 0 and improves the top-1 accuracy by 0.6%*.
+- Auxiliary Classifier for Training:
+	- ***Inception architecture used some intermediate classifier branches in the middle of the architecture, these branches are used during training only.*** These branches consist of a 5×5 average pooling layer with a stride of 3, a 1×1 convolutions with 128 filters, two fully connected layers of 1024 outputs and 1000 outputs and a softmax classification layer. The generated loss of these layers added to total loss with a weight of 0.3. ***These layers help in combating gradient vanishing problem and also provide regularization.***
+	- Two auxiliary classifier layer connected to the output of Inception (4a) and Inception (4d) layers.
 ## Inception Network
 - Sources: https://towardsdatascience.com/deep-learning-understand-the-inception-module-56146866e652, https://hacktildawn.com/2016/09/25/inception-modules-explained-and-implemented/
 - An inception network is a deep neural network with an architectural design that consists of repeating components referred to as Inception modules.
@@ -47,6 +54,15 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 	- ![Naive Inception Module](https://hackathonprojects.files.wordpress.com/2016/09/naive.png)
 	- Pooling downsamples the input data to create a smaller output with a reduced height and width.
 	- Within an Inception module, we add padding(same) to the max-pooling layer to ensure it maintains the height and width as the other outputs(feature maps) of the convolutional layers within the same Inception module. By doing this, we ensure we can concatenate the outputs of the max-pooling layer with the outputs of the conv layers within the concatenation layer.
+	- Implementation
+		```python
+		def naive_inception_module(x, filters): 
+			z1 = Conv2D(filters=filters[0], kernel_size=1, strides=1, padding="same", activation="relu")(x)
+			z2 = Conv2D(filters=filters[1], kernel_size=3, strides=1, padding="same", activation="relu")(x)
+			z3 = Conv2D(filters=filters[2], kernel_size=5, strides=1, padding="same", activation="relu")(x)
+			z4 = MaxPool2D(pool_size=3, strides=1, padding="same")(x)
+			return Concatenate(axis=-1)([z1, z2, z3, z4])
+		```
 - Inception Module
 	- ![Inception Module](https://hackathonprojects.files.wordpress.com/2016/09/inception_implement.png)
 	- Implementation
@@ -54,79 +70,79 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 		def inception_module(x, filters): 
 			z1 = Conv2D(filters=filters[0], kernel_size=1, strides=1, padding="same", activation="relu")(x)
 
-			z2 = Conv2D(filters=filters[4], kernel_size=1, strides=1, padding="same", activation="relu")(x)
-			z2 = Conv2D(filters=filters[2], kernel_size=3, strides=1, padding="same", activation="relu")(z2)
+			z2 = Conv2D(filters=filters[3], kernel_size=1, strides=1, padding="same", activation="relu")(x)
+			z2 = Conv2D(filters=filters[1], kernel_size=3, strides=1, padding="same", activation="relu")(z2)
 
-			z3 = Conv2D(filters=filters[4], kernel_size=1, strides=1, padding="same", activation="relu")(x)
-			z3 = Conv2D(filters=filters[3], kernel_size=5, strides=1, padding="same", activation="relu")(z3)
+			z3 = Conv2D(filters=filters[3], kernel_size=1, strides=1, padding="same", activation="relu")(x)
+			z3 = Conv2D(filters=filters[2], kernel_size=5, strides=1, padding="same", activation="relu")(z3)
 
 			z4 = MaxPool2D(pool_size=3, strides=1, padding="same")(x)
-			z4 = Conv2D(filters=filters[4], kernel_size=1, strides=1, padding="same", activation="relu")(z4)
+			z4 = Conv2D(filters=filters[3], kernel_size=1, strides=1, padding="same", activation="relu")(z4)
 			return Concatenate(axis=-1)([z1, z2, z3, z4])
 		```
+- ![GoogLeNet Architecture](https://i.stack.imgur.com/Xqv0n.png)
 - Implementation
 	```python
-	inputs = Input(shape=(x_tr[0].shape))
+	def inception_module(x, filters): 
+		z1 = Conv2D(filters=filters[0], kernel_size=1, strides=1, padding="same", activation="relu")(x)
 
-	# conv랑 batch 사이에 max pooling 들어가야 하나, cifar 데이터에선 크기 너무 줄어들어서 뺐음
+		z2 = Conv2D(filters=filters[3], kernel_size=1, strides=1, padding="same", activation="relu")(x)
+		z2 = Conv2D(filters=filters[1], kernel_size=3, strides=1, padding="same", activation="relu")(z2)
+
+		z3 = Conv2D(filters=filters[3], kernel_size=1, strides=1, padding="same", activation="relu")(x)
+		z3 = Conv2D(filters=filters[2], kernel_size=5, strides=1, padding="same", activation="relu")(z3)
+
+		z4 = MaxPool2D(pool_size=3, strides=1, padding="same")(x)
+		z4 = Conv2D(filters=filters[3], kernel_size=1, strides=1, padding="same", activation="relu")(z4)
+		return Concatenate(axis=-1)([z1, z2, z3, z4])
+
+	inputs = Input(shape=(224, 224, 3))
+
 	z = Conv2D(filters=64, kernel_size=7, strides=2, padding="same", activation="relu")(inputs)
-	# z = MaxPool2D(pool_size=3, strides=2, padding="same"(z)
+	z = MaxPool2D(pool_size=3, strides=2, padding="same")(z)
 	z = BatchNormalization()(z)
-	z = Conv2D(filters=192, kernel_size=3, padding="same", activation="relu")(z)
-	# z = MaxPool2D(pool_size=3, strides=2, padding="same"(z)
-	z = BatchNormalization()(z) 
+	z = Conv2D(filters=64, kernel_size=1, strides=1, padding="same", activation="relu")(z)
+	z = Conv2D(filters=192, kernel_size=3, strides=1, padding="same", activation="relu")(z)
+	z = BatchNormalization()(z)
+	z = MaxPool2D(pool_size=3, strides=2, padding="same")(z)
 	z = inception_module(z, [64, 128, 32, 32]) # inception 3a
 	z = inception_module(z, [128, 192, 96, 64]) # inception 3b
 	z = MaxPool2D(pool_size=3, strides=2, padding="same")(z)
 	z = inception_module(z, [192, 208, 48, 64]) # inception 4a
 	aux1 = AveragePooling2D(pool_size=5, strides=3, padding="valid")(z)
-	aux1 = Conv2D(filters=128, kernel_size=1, padding="same", activation="relu")(aux1)
+	aux1 = Conv2D(filters=128, kernel_size=1, strides=1, padding="same", activation="relu")(aux1)
 	aux1 = Flatten()(aux1)
-	aux1 = Dense(units=512, activation="relu")(aux1)
+	aux1 = Dense(units=1024, activation="relu")(aux1)
 
-	outputs1 = Dense(units=10, activation="softmax")(aux1)
+	outputs1 = Dense(units=1000, activation="softmax")(aux1)
 
 	z = inception_module(z, [160, 224, 64, 64]) # inception 4b
 	z = inception_module(z, [128, 256, 64, 64]) # inception 4c
 	z = inception_module(z, [112, 288, 64, 64]) # inception 4d
 	aux2 = AveragePooling2D(pool_size=5, strides=3, padding="valid")(z)
-	aux2 = Conv2D(128, kernel_size=1, padding="same", activation="relu")(aux2)
+	aux2 = Conv2D(filters=128, kernel_size=1, strides=1, padding="same", activation="relu")(aux2)
 	aux2 = Flatten()(aux2)
-	aux2 = Dense(units=832, activation="relu")(aux2)
+	aux2 = Dense(units=1024, activation="relu")(aux2)
 
-	outputs2 = Dense(units=10, activation="softmax")(aux2)
+	outputs2 = Dense(units=1000, activation="softmax")(aux2)
 
 	z = inception_module(z, [256, 320, 128, 128]) # inception 4e
 	z = MaxPool2D(pool_size=3, strides=2, padding="same")(z)
 	z = inception_module(z, [256, 320, 128, 128]) # inception 5a
 	z = inception_module(z, [384, 384, 128, 128]) # inception 5b
 	z = GlobalAveragePooling2D()(z)
-	# pool_size=(4,4), padding="valid")(x)
 	z = Dropout(rate=0.4)(z)
 	z = Flatten()(z)
 
-	outputs3 = Dense(units=10, activation="softmax")(z)
+	outputs3 = Dense(units=1000, activation="softmax")(z)
 
 	model = Model(inputs=inputs, outputs=[outputs1, outputs2, outputs3])
 	```
 
-- 네트워크의 얕은 부분, 입력과 가까운 부분에는 Inception 모듈을 사용하지 않았다는 것입니다. 논문에 따르면 이 부분에는 Inception의 효과가 없었다고 합니다. 따라서 우리가 일반적으로 CNN하면 떠올리는, Conv와 Pooling 연산을 수행합니다.
-- softmax를 통해 결과를 뽑아내는 부분이 맨 끝에만 있는 것이 아니라, 중간 중간에 있다는 점입니다. 이를 논문에서는 auxiliary classifier라고 부릅니다. 엄청나게 깊은 네트워크에서 Vanishing Gradient 문제를 걱정하지 않을 수 없죠. 그래서 auxiliary classifier를 덧붙인 겁니다. Loss를 맨 끝뿐만 아니라 중간 중간에서 구하기 때문에 gradient가 적절하게 역전파된다고 합니다. 대신 지나치게 영향을 주는 것을 막기 위해 auxiliary classifier의 loss는 0.3을 곱했습니다. 물론 실제로 테스트하는 과정에서는 auxiliary classifier를 제거하고 맨 끝, 제일 마지막의 softmax만을 사용하구요.
-- GAP의 이점은, 바로 학습 과정이 필요하지 않다는 점입니다. 이는 GAP가 어디까지나 풀링 과정에 지나지 않기 때문에 생겨납니다. 풀링은 학습과정이 아니기 때문에, 어떠한 패러미터도 추가로 발생하지 않습니다. 위의 표를 보시더라도, average pooling에 의해서 네트워크의 depth는 증가하지 않았습니다.
-## Auxiliary Classifier
--  Auxiliary Classifier는 깊은 네트워크의 학습에 대한 우려에 의해 추가되었습니다.
-- 총 두번의 Auxiliary classification이 합쳐져 신경망 학습이 이루어집니다.
-- 이 Auxiliary classifier는 어디까지나 학습의 용이를 위해 마련되었으므로, 학습이 완료된 후엔 네트워크에서 삭제됩니다. 학습과정에서만 존재할 수 있는 계층인 것이죠.
-- There are some intermediate softmax branches at the middle. These branches are auxiliary classifiers which consist of
-5x5 Average Pooling (stride 3), 1x1 Conv (128 filter), 1024 FC, 1000 FC, Softmax.
-- The loss is added to the total loss, with weight 0.3.
-- It is for combating gradient vanishing problem.
-- It is not Used in testing time.
-
 # ResNet (Residual Neural Network)
 - Source: https://en.wikipedia.org/wiki/Residual_neural_network, https://www.analyticsvidhya.com/blog/2021/08/all-you-need-to-know-about-skip-connections/#:~:text=Skip%20Connections%20(or%20Shortcut%20Connections,input%20to%20the%20next%20layers.&text=Neural%20networks%20can%20learn%20any,%2Ddimensional%20and%20non%2Dconvex, https://www.analyticsvidhya.com/blog/2021/06/understanding-resnet-and-analyzing-various-models-on-the-cifar-10-dataset/#h2_3
 - Residual Networks were proposed in 2015 to solve the image classification problem. ****In ResNets, the information from the initial layers is passed to deeper layers by matrix addition. This operation doesn’t have any additional parameters as the output from the previous layer is added to the layer ahead.
-3# Skip Connection
+## Skip Connection
 - ***There are two main reasons to add skip connections: to avoid the problem of vanishing gradients, or to mitigate the Degradation (accuracy saturation) problem; where adding more layers to a suitably deep model leads to higher training error.***
 - *Skipping effectively simplifies the network, using fewer layers in the initial training stages. This speeds learning by reducing the impact of vanishing gradients, as there are fewer layers to propagate through.*
 - *While training deep neural nets, the performance of the model drops down with the increase in depth of the architecture. This is known as the degradation problem.*
@@ -535,36 +551,41 @@ img_array = img_to_array(img)
 - *For small and less complex datasets it is recommended to use `model.fit()` function whereas while dealing with real-world datasets it is not that simple because real-world datasets are huge in size and are much harder to fit into the computer memory. It is more challenging to deal with those datasets and an important step to deal with those datasets is to perform data augmentation to avoid the overfitting of a model and also to increase the ability of our model to generalize.*
 - Each new batch of our data is randomly adjusting according to the parameters supplied to `ImageDataGenerator()`.
 ```python
-gen = ImageDataGenerator([shear_range], [zoom_range], [ratation_range], [brightness_range], [rescale], [horizontal_flip], [vertical_flip], [width_shift_range], [height_shift_range])
-
-hist = model.fit_generator(gen.flow(x, y, batch_sizet), [validation_data], epochs, [callbacks])
+# `shear_range`: (float). Shear Intensity (Shear angle in counter-clockwise direction as radians)
+# `zoom_range`
+	# (`[lower, upper]`). Range for random zoom.
+	# (float) Range: `[1 - zoom_range, 1 + zoom_range]`
+# `rotation_range`
+# `brightness_range`: (Tuple or List of two floats) Range for picking a brightness shift value from.
+# `rescale`: rescaling factor. Defaults to None. If None or 0, no rescaling is applied, otherwise we multiply the data by the value provided (before applying any other transformation).
+# `horizontal_flip`, `vertical_flip`: (bool). Randomly flip inputs horizontally.
+# `width_shift_range`, `height_shift_range`
+	# (float) Fraction of total width (or height).
+	# (Tuple or List) Random elements from the array.
+	# (int) Pixels from interval (-`width_shift_range`, `width_shift_range`) (or (-`height_shift_range`, `height_shift_range`))
+gen = ImageDataGenerator([shear_range], [zoom_range], [ratation_range], [brightness_range], [rescale], [horizontal_flip], [vertical_flip], [width_shift_range], [height_shift_range], [validation_split])
+# Fits the data generator to some sample data.
+# This computes the internal data stats related to the data-dependent transformations, based on an array of sample data.
+# Only required if `featurewise_center` or `featurewise_std_normalization` or `zca_whitening` are set to True.
+# When `rescale` is set to a value, rescaling is applied to sample data before computing the internal data stats.
+# `x`: Sample data. Should have rank 4
+gen.fit(x, [seed])
+# `subset`: (`"training"`, `"validation"`) If `validation_split` is set in `ImageDataGenerator()`.
+# `save_to_dir`: This allows you to optionally specify a directory to which to save the augmented pictures being generated.
+hist = model.fit_generator(generator=gen.flow(x, y, batch_size, [subset], [save_to_dir]), [validation_data], epochs, [callbacks])
 ```
-- `shear_range`: (float). Shear Intensity (Shear angle in counter-clockwise direction as radians)
-- `zoom_range`
-	- (`[lower, upper]`). Range for random zoom.
-	- (float) Range: `[1 - zoom_range, 1 + zoom_range]`
-- `rotation_range`
-- `brightness_range`: (Tuple or List of two floats) Range for picking a brightness shift value from.
-- `rescale`: rescaling factor. Defaults to None. If None or 0, no rescaling is applied, otherwise we multiply the data by the value provided (before applying any other transformation).
-- `horizontal_flip`, `vertical_flip`: (bool). Randomly flip inputs horizontally.
-- `width_shift_range`, `height_shift_range`
-	- (float) Fraction of total width (or height).
-	- (Tuple or List) Random elements from the array.
-	- (int) Pixels from interval (-`width_shift_range`, `width_shift_range`) (or (-`height_shift_range`, `height_shift_range`))
-- transformation은 이미지에 변화를 주어서 학습 데이터를 많게 해서 성능을 높이기 위해 하는 것이기 때문에 train set만 해주고, test set에는 해 줄 필요가 없다. 그러나 주의할 것은 Rescale은 train, test 모두 해 주어야 한다.
-
-### `gen.flow_from_directory()`
+```python
+gen.apply_transform()
+```
+## `gen.flow_from_directory()`
 ```python
 gen = ImageDataGenerator()
 datagen_tr = gen.flow_from_directory(directory="./dogsandcats", target_size=(224, 224))
 ```
-- `batch_size=batch_size`
 - `target_size`: the dimensions to which all images found will be resized.
 - `class_mode`: (`"binary"`, `"categorical"`, `"sparse"`, `"input"`, `None`)
-- `class_mode="binary"`: for binary classification.
-- `class_mode="categorical"`: for multi-class classification(OHE).
-- `class_mode="sparse"`: for multi-class classification(no OHE).
-- `class_mode="input"`
-- `class_mode=None`: Returns no label.
-- `subset`: (`"training"`, `"validation"`) Subset of data if `validation_split` is set in ImageDataGenerator().
-- `shuffle`
+	- `class_mode="binary"`: for binary classification.
+	- `class_mode="categorical"`: for multi-class classification(OHE).
+	- `class_mode="sparse"`: for multi-class classification(no OHE).
+	- `class_mode="input"`
+	- `class_mode=None`: Returns no label.

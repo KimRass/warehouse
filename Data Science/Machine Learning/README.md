@@ -927,9 +927,12 @@ model.summary()
 ```python
 # `optimizer`: (`"sgd"`, `"adam"`, `"rmsprop"`, Adagrad(lr)]
 # `loss`: (`"mse"`, `"mae"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
+	# If the model has multiple outputs, you can use a different `loss` on each output by passing a dictionary or a list of `loss`es.
+	# `"categorical_crossentropy"`: Produces a one-hot array containing the probable match for each category.
+	# `"sparse_categorical_crossentropy"`: Produces a category index of the most likely matching category.
 # `metrics`: (`["mse"]`, `["mae"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
 # When you pass the strings "accuracy" or "acc", we convert this to one of ``BinaryAccuracy()`, ``CategoricalAccuracy()`, `SparseCategoricalAccuracy()` based on the loss function used and the model output shape.
-# `loss_weights`
+# `loss_weights`: The `loss` value that will be minimized by the model will then be the weighted sum of all individual `loss`es, weighted by the `loss_weights` coefficients. 
 model.compile(optimizer, loss, [loss_weights], [metrics], [loss_weights])
 ```
 ## Fit
