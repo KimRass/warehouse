@@ -42,6 +42,16 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 - Auxiliary Classifier for Training:
 	- ***Inception architecture used some intermediate classifier branches in the middle of the architecture, these branches are used during training only.*** These branches consist of a 5×5 average pooling layer with a stride of 3, a 1×1 convolutions with 128 filters, two fully connected layers of 1024 outputs and 1000 outputs and a softmax classification layer. The generated loss of these layers added to total loss with a weight of 0.3. ***These layers help in combating gradient vanishing problem and also provide regularization.***
 	- Two auxiliary classifier layer connected to the output of Inception (4a) and Inception (4d) layers.
+	- Implementation
+		```python
+		def auxiliary_classifier(x, name):
+			z = AveragePooling2D(pool_size=5, strides=3, padding="valid")(x)
+			z = Conv2D(filters=128, kernel_size=1, strides=1, padding="same", activation="relu")(z)
+			z = Flatten()(z)
+			z = Dense(units=1024, activation="relu")(z)
+			
+			return Dense(units=1000, activation="softmax", name=name)(z)
+		```
 ## Inception Network
 - Sources: https://towardsdatascience.com/deep-learning-understand-the-inception-module-56146866e652, https://hacktildawn.com/2016/09/25/inception-modules-explained-and-implemented/
 - An inception network is a deep neural network with an architectural design that consists of repeating components referred to as Inception modules.
@@ -96,22 +106,14 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 	z = inception_module(z, [128, 192, 96, 64]) # inception 3b
 	z = MaxPool2D(pool_size=3, strides=2, padding="same")(z)
 	z = inception_module(z, [192, 208, 48, 64]) # inception 4a
-	aux1 = AveragePooling2D(pool_size=5, strides=3, padding="valid")(z)
-	aux1 = Conv2D(filters=128, kernel_size=1, strides=1, padding="same", activation="relu")(aux1)
-	aux1 = Flatten()(aux1)
-	aux1 = Dense(units=1024, activation="relu")(aux1)
-
-	outputs1 = Dense(units=1000, activation="softmax")(aux1)
+	
+	outputs1 = auxiliary_classifier(z, "outputs1")
 
 	z = inception_module(z, [160, 224, 64, 64]) # inception 4b
 	z = inception_module(z, [128, 256, 64, 64]) # inception 4c
 	z = inception_module(z, [112, 288, 64, 64]) # inception 4d
-	aux2 = AveragePooling2D(pool_size=5, strides=3, padding="valid")(z)
-	aux2 = Conv2D(filters=128, kernel_size=1, strides=1, padding="same", activation="relu")(aux2)
-	aux2 = Flatten()(aux2)
-	aux2 = Dense(units=1024, activation="relu")(aux2)
-
-	outputs2 = Dense(units=1000, activation="softmax")(aux2)
+	
+	outputs2 = auxiliary_classifier(z, "outputs2")
 
 	z = inception_module(z, [256, 320, 128, 128]) # inception 4e
 	z = MaxPool2D(pool_size=3, strides=2, padding="same")(z)
@@ -360,7 +362,7 @@ detection is done by applying 1 x 1 detection kernels on feature maps of three d
 - large: [None, 13, 13, 255] 
 - medium: [None, 26, 26, 255]
 - small: [None, 52, 52, 255]
-## NMS(Non-Maximum Suppression)
+## Non-Maximum Suppression (NMS)
 - A post-processing step we filter out the boxes whose score falls below a certain threshold.
 - Object Detection 알고리즘은 object 가 있을만한 위치에 많은 Detection 을 수행하는 경향이 강함.
 - NMS 는 Detect 된 object 의 bounding box 중에 비슷한 위치에 있는 box 를 제거하고 가장 적합한 box를 선택하는 기법.
@@ -423,10 +425,9 @@ import cv2
 ```python
 ## `cv2.getTextSize()`
 ```python
-(text_width, text_height), baseline = cv2.getTextSize(text=label, fontFace=cv2.FONT_HERSHEY_COMPLEX_SMALL,
-                                                                  fontScale=font_scale, thickness=bbox_thick)
+(text_width, text_height), baseline = cv2.getTextSize(text=label, fontFace=cv2.FONT_HERSHEY_COMPLEX_SMALL, fontScale=font_scale, thickness=bbox_thick)
 ```
-## `cv2.puttext(img, text, org)`
+## `cv2.puttext(img, text, org, fontFace, fontScale, color, thickness, lineType)`
 ```python
 cv2.putText(img=img, text=label, org=(x1, y1-4), fonFace=cv2.FONT_HERSHEY_COMPLEX_SMALL, fontScale=font_scale, color=text_colors, thickness=bbox_thick, lineType=cv2.LINE_AA)
 ```
@@ -505,11 +506,7 @@ tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram
 ```
 
 # Image Data Augmentation using `ImageDataGenerator()`
-- Source: https://www.geeksforgeeks.org/keras-fit-and-keras-fit_generator/
-- Reference: https://m.blog.naver.com/PostView.nhn?blogId=isu112600&logNo=221582003889&proxyReferer=https:%2F%2Fwww.google.com%2F
-- `model.fit()` is used when the entire training dataset can fit into the memory and no data augmentation is applied.
-- `model.fit_generator()` is used when either we have a huge dataset to fit into our memory or when data augmentation needs to be applied.
-- *For small and less complex datasets it is recommended to use `model.fit()` function whereas while dealing with real-world datasets it is not that simple because real-world datasets are huge in size and are much harder to fit into the computer memory. It is more challenging to deal with those datasets and an important step to deal with those datasets is to perform data augmentation to avoid the overfitting of a model and also to increase the ability of our model to generalize.*
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator, https://m.blog.naver.com/PostView.nhn?blogId=isu112600&logNo=221582003889&proxyReferer=https:%2F%2Fwww.google.com%2F
 - Each new batch of our data is randomly adjusting according to the parameters supplied to `ImageDataGenerator()`.
 ```python
 # `shear_range`: (float). Shear Intensity (Shear angle in counter-clockwise direction as radians)
@@ -535,15 +532,15 @@ gen.fit(x, [seed])
 ```python
 gen.apply_transform()
 ```
-- Using `ImageDataGenerator().flow()`
-	- References: https://gist.github.com/swghosh/f728fbba5a26af93a5f58a6db979e33e, https://www.geeksforgeeks.org/keras-fit-and-keras-fit_generator/
+- Using `ImageDataGenerator().flow()` (for GoogLeNet, for example)
+	- References: https://www.tensorflow.org/api_docs/python/tf/keras/Model, https://gist.github.com/swghosh/f728fbba5a26af93a5f58a6db979e33e
 	```python
 	def gen_flow(x, y, subset):
 		gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True, validation_split=0.2)
 		gen.fit(X_tr_val)
 		# `subset`: (`"training"`, `"validation"`) If `validation_split` is set in `ImageDataGenerator()`.
 		# `save_to_dir`: This allows you to optionally specify a directory to which to save the augmented pictures being generated.
-		return gen.flow(x=x, y=y, batch_size, seed, subset=subset)
+		return gen.flow(x=x, y=y, batch_size=batch_size, seed=seed, subset=subset)
 	def generator(flow):
 		for xi, yi in flow:
 			yield xi, [yi, yi, yi]
@@ -552,11 +549,8 @@ gen.apply_transform()
 	flow_val = gen_flow(X_tr_val, y_tr_val, subset="validation")
 
 	# `steps_per_epoch`: We can calculate the value of `steps_per_epoch` as the total number of samples in your dataset divided by the batch size.
-	# `validation_steps` :Only if the `validation_data` is a generator then only this argument can be used. It specifies the total number of steps taken from the generator before it is stopped at every epoch and its value is calculated as the total number of validation data points in your dataset divided by the validation batch size.
-	es = EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=2)
-	model_path = "googlenet_cifar10.h5"
-	mc = ModelCheckpoint(filepath=model_path, monitor="outputs3_acc", mode="auto", verbose=1, save_best_only=True)
-	hist = model.fit_generator(generator=generator(flow_tr), validation_data=generator(flow_val), epochs, steps_per_epoch=len(flow_tr), validation_steps=len(flow_val), callbacks=[es, mc])
+	# `validation_steps`: Only if the `validation_data` is a generator then only this argument can be used. It specifies the total number of steps taken from the generator before it is stopped at every epoch and its value is calculated as the total number of validation data points in your dataset divided by the validation batch size.
+	hist = model.fit(x=generator(flow_tr), validation_data=generator(flow_val), epochs, steps_per_epoch=len(flow_tr), validation_steps=len(flow_val), callbacks=[es, mc])
 	```
 - Using `ImageDataGenerator().flow_from_directory()`
 	```python
