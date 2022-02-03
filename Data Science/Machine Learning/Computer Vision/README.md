@@ -2,7 +2,16 @@ Written by KimRass
 # Datasets
 ## CIFAR-10
 ```python
+import ssl
+
+ssl._create_default_https_context = ssl._create_unverified_context
+```
+```python
 (X_tr, y_tr), (X_te, y_te) = tf.keras.datasets.cifar10.load_data()
+y_tr_val = to_categorical(y_tr_val)
+y_te = to_categorical(y_te)
+
+classes = ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
 ```
 ## Fashion MNIST
 ## COCO (Common Objects in COntext)
@@ -11,7 +20,7 @@ Written by KimRass
 # ILSVRC (ImageNet Large Scale Visual Recognition Challenge)
 
 # Tasks
-## Image Classification
+## Image Classification (= Object Recognition)
 ### The Evolution of Image Classification
 - Source: https://stanford.edu/~shervine/blog/evolution-image-classification-explained
 - LeNet -> AlexNet -> VGGNet -> GoogLeNet -> ResNet -> DenseNet
@@ -202,6 +211,19 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
         z = Dense(units=c, activation="sigmoid")(z)
         return z*x
 	```
+	
+# Region Proposal
+## Sliding Window Algorithm
+- In the sliding window approach, we slide a box or window over an image to select a patch and classify each image patch covered by the window using the object recognition model. It is an exhaustive search for objects over the entire image. *Not only do we need to search all possible locations in the image, we have to search at different scales.* This is because object recognition models are generally trained at a specific scale (or range of scales). This results into classifying tens of thousands of image patches.
+- The problem doesn’t end here. Sliding window approach is good for fixed aspect ratio objects such as faces or pedestrians. Images are 2D projections of 3D objects. Object features such as aspect ratio and shape vary significantly based on the angle at which image is taken. *The sliding window approach is computationally very expensive when we search for multiple aspect ratios.*
+## Selective Search Algorithm
+- The problems we have discussed so far can be solved using region proposal algorithms. These methods take an image as the input and output bounding boxes corresponding to all patches in an image that are most likely to be objects. *These region proposals can be noisy, overlapping and may not contain the object perfectly but amongst these region proposals, there will be a proposal which will be very close to the actual object in the image. We can then classify these proposals using the object recognition model. The region proposals with the high probability scores are locations of the object.*
+- Region proposal algorithms identify prospective objects in an image using segmentation. *In segmentation, we group adjacent regions which are similar to each other based on some criteria such as color, texture etc. Unlike the sliding window approach where we are looking for the object at all pixel locations and at all scales, region proposal algorithm work by grouping pixels into a smaller number of segments. So the final number of proposals generated are many times less than sliding window approach. This reduces the number of image patches we have to classify. These generated region proposals are of different scales and aspect ratios.*
+- An important property of a region proposal method is to have a very high recall. This is just a fancy way of saying that the regions that contain the objects we are looking have to be in our list of region proposals. To accomplish this our list of region proposals may end up having a lot of regions that do not contain any object. In other words, *It is ok for the region proposal algorithm to produce a lot of false positives so long as it catches all the true positives.* Most of these false positives will be rejected by object recognition algorithm. The time it takes to do the detection goes up when we have more false positives and the accuracy is affected slightly. *But having a high recall is still a good idea because the alternative of missing the regions containing the actual objects severely impacts the detection rate.*
+- Selective Search starts by over-segmenting the image based on intensity of the pixels using a graph-based segmentation method by Felzenszwalb and Huttenlocher. The output of the algorithm is shown below. The image on the right contains segmented regions represented using solid colors.
+- Can we use segmented parts in this image as region proposals? The answer is no and there are two reasons why we cannot do that. Most of the actual objects in the original image contain 2 or more segmented parts. Region proposals for occluded objects such as the plate covered by the cup or the cup filled with coffee cannot be generated using this method.
+- If we try to address the first problem by further merging the adjacent regions similar to each other we will end up with one segmented region covering two objects. Perfect segmentation is not our goal here. We just want to predict many region proposals such that some of them should have very high overlap with actual objects. Selective search uses oversegments from Felzenszwalb and Huttenlocher’s method as an initial seed. An oversegmented image looks like this.
+- *At each iteration, larger segments are formed and added to the list of region proposals. Hence we create region proposals from smaller segments to larger segments in a bottom-up approach.*
 
 # IoU (Intersection over Union)
 - To score how well the predicted box matches the ground-truth we can compute the IOU (or intersection-over-union, also known as the Jaccard index) between the two bounding boxes.
@@ -257,15 +279,14 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 	- AI Model의 학습에 필요한 데이터 셋의 부족
 		- Image를 수집하는 것뿐만 아니라 각각에 대해 Annotation을 만들어야 함.
 ## Two-Stage Detector
-- 정답(Ground Truth) Bounding Box가 될 후보들을 먼저 생성하는 단계 존재(Region Proposal) -> 후보들 중 정답을 판별
-- 다수의 Bounding Box 후보들을 생성하기 위한 연산 때문에 실시간 Object Detection을 구현하기에는 속도가 너무 느림.
 ### R-CNN (Region-based CNN)
-- Region Proposal by Selective Search
+- Selective Search
+- Region proposal by selective search
 - Warping, Croping
 ### Fast R-CNN
 - ROI Pooling
 ### Faster R-CNN
-- Region Proposal by CNN (Region Proposal Network)
+- Region proposal by region proposal network (RPN)
 ## One-Stage Detector
 - Source: https://machinethink.net/blog/object-detection/
 - The model can predict only one bounding box and so it has to choose one of the objects, but instead the box ends up somewhere in the middle. Actually what happens here makes perfect sense: the model knows there are two objects but it has only one bounding box to give away, so it compromises and puts the predicted box in between the two horses. The size of the box is also halfway between the sizes of the two horses.
@@ -421,9 +442,8 @@ import cv2
 ## `cap = cv2.VideoCapture(0)`
 ## `cv2.destroyAllWindows()`
 ## `cv2.rectangle(img, pt1, pt2, color, thickness)`
-## `cv2.circle(img)`
-```python
-## `cv2.getTextSize()`
+## `cv2.circle(img, center, radius, color, [thickness], [lineType], [shift])`
+## `cv2.getTextSize(text, fontFace, fontScale, thickness)`
 ```python
 (text_width, text_height), baseline = cv2.getTextSize(text=label, fontFace=cv2.FONT_HERSHEY_COMPLEX_SMALL, fontScale=font_scale, thickness=bbox_thick)
 ```

@@ -178,7 +178,7 @@ setInterval(ClickConnect, 60*1000)
 ```
 ## Install Libraries Permanently
 ```python
-!pip install --target=$my_path LIBRARY_NAME
+!pip install --target=TARGET_PATH LIBRARY_NAME
 ```
 ## Use TPU in tensorflow
 ```python
@@ -455,23 +455,22 @@ scc = SparseCategoricalCrossentropy()
 ### Confusion Matrix
 - Source: https://datascienceschool.net/view-notebook/731e0d2ef52c41c686ba53dcaf346f32/
 - 정답 클래스와 예측 클래스의 일치 여부를 센 결과. 정답 클래스는 행(row)으로 예측한 클래스는 열(column)로 나타낸다.
-### Binary Classification Problem
-- 
-### Accuracy(정확도)
-- 전체 샘플 중 A 또는 B라고 맞게 예측한 샘플 수의 비율
-### Precision(정밀도)
-- B 클래스에 속한다고 출력한 샘플 중 실제로 B 클래스에 속하는 샘플 수의 비율
-### Recall(재현율)
-- 실제 B 클래스에 속한 표본 중에 B 클래스에 속한다고 출력한 표본의 수의 비율
-### F1 Ccore(정밀도와 재현율의 조화 평균)
-### Fall-out(위양성률)
-- 실제 B 클래스에 속하지 않는 표본 중에 B 클래스에 속한다고 출력한 표본의 비율
-- Source: https://datascienceschool.net/view-notebook/731e0d2ef52c41c686ba53dcaf346f32/
-### ROC(Receiver Operator Characteristic) Curve
-- Source: https://datascienceschool.net/view-notebook/731e0d2ef52c41c686ba53dcaf346f32/
-- 위에서 설명한 각종 평가 점수 중 재현율(recall)과 위양성률(fall-out)은 일반적으로 양의 상관 관계가 있다.
-재현율을 높이기 위해서는 양성으로 판단하는 기준(threshold)을 낮추어 약간의 증거만 있어도 양성으로 판단하도록 하면 된다. 그러나 이렇게 되면 음성임에도 양성으로 판단되는 표본 데이터가 같이 증가하게 되어 위양성율이 동시에 증가한다. 반대로 위양성율을 낮추기 위해 양성을 판단하는 기준을 엄격하게 두게 되면 증거 부족으로 음성 판단을 받는 표본 데이터의 수가 같이 증가하므로 재현율이 떨어진다.
-- 클래스 판별 기준값의 변화에 따른 위양성률(fall-out)과 재현율(recall)의 변화를 시각화한 것이다.
+## Classification Problem
+- Sources: https://en.wikipedia.org/wiki/Accuracy_and_precision, https://en.wikipedia.org/wiki/Precision_and_recall
+- Condition positive (P): The number of real positive cases in the data (= TP + FN)
+- Condition negative (N): The number of real negative cases in the data (= TN + FP)
+- True positive (TP): A test result that correctly indicates the presence of a condition or characteristic
+- True negative (TN): A test result that correctly indicates the absence of a condition or characteristic
+- False positive (FP): A test result which wrongly indicates that a particular condition or attribute is present
+- False negative (FN): A test result which wrongly indicates that a particular condition or attribute is absent
+### Accuracy
+- Equal to (TP + TN)/(P + N) or (TP + TN)/(TP + TN + FP + FN)
+### Precision
+- In the fields of science and engineering, *the accuracy of a measurement system is the degree of closeness of measurements of a quantity to that quantity's true value.*
+- *The precision of a measurement system, related to reproducibility and repeatability, is the degree to which repeated measurements under unchanged conditions show the same results.
+- Equal to TP/(TP + FP)
+### Recall
+- Equal to TP/P or TP/(TP + FN)
 
 # Data Augmentation
 ## DAR

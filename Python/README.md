@@ -1182,13 +1182,15 @@ np.random.random((2, 3, 4))
 - Generates a random sample from a given 1-D array.
 - `replace`: (bool)
 - `p`: The probabilities associated with each entry in `a`. If not given, the sample assumes a uniform distribution over all entries in `a`
+### `random.randint(a, b)`
+- Return a random integer N such that `a` <= N <= `b`.
+- Alias for `randrange(a, b+1)`.
+### `np.random.randint(low, [high], size)`
+- Return random integers from `low` (inclusive) to `high` (exclusive).
+- Return random integers from the "discrete uniform" distribution of the specified dtype in the "half-open" interval [`low`, `high`). If `high` is None (the default), then results are from [`0`, `low`).
 ## Shuffle
 ### `random.shuffle()`
 - In-place function
-### `np.random.randint()`
-```python
-np.random.randint(1, 100, size=(2, 3, 4))	
-```
 
 # `statsmodels`
 ## `statsmodels.stats`
