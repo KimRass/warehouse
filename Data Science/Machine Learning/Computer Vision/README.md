@@ -224,6 +224,17 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 - Can we use segmented parts in this image as region proposals? The answer is no and there are two reasons why we cannot do that. Most of the actual objects in the original image contain 2 or more segmented parts. Region proposals for occluded objects such as the plate covered by the cup or the cup filled with coffee cannot be generated using this method.
 - If we try to address the first problem by further merging the adjacent regions similar to each other we will end up with one segmented region covering two objects. Perfect segmentation is not our goal here. We just want to predict many region proposals such that some of them should have very high overlap with actual objects. Selective search uses oversegments from Felzenszwalb and Huttenlocher’s method as an initial seed. An oversegmented image looks like this.
 - *At each iteration, larger segments are formed and added to the list of region proposals. Hence we create region proposals from smaller segments to larger segments in a bottom-up approach.*
+- Using `selectivesearch.selective_search()`
+	- Reference: https://velog.io/@tataki26/Selective-Search-%EC%8B%A4%EC%8A%B5-%EB%B0%8F-%EC%8B%9C%EA%B0%81%ED%99%94
+	```python
+	from selectivesearch import selective_search
+	# `scale`: Free parameter. Higher means larger clusters in felzenszwalb segmentation.
+	# `sigma` Width of Gaussian kernel for felzenszwalb segmentation.
+    # `min_size` Minimum component size for felzenszwalb segmentation.
+	# `regions`: List of Dictionary such that `{'labels`: 해당 bbox 내에 존재하는 Objects의 고유 ID, 'rect': (left_top_x, left_top_y, width, height), 'size': component_size}`
+	_, regions = selective_search(im_orig, scale, min_size)
+
+	```
 
 # IoU (Intersection over Union)
 - To score how well the predicted box matches the ground-truth we can compute the IOU (or intersection-over-union, also known as the Jaccard index) between the two bounding boxes.
@@ -232,29 +243,29 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 - parametrizes the bounding box x and y coordinates to be offset of a particular grid cell location so they are also bounded between 0 and 1.
 - Implementation
 	```python
-	def compute_giou(bbox1, bbox2):
-		# boxes : (x1, y1, x2, y2)
+	def giou(bbox1, bbox2):
+		# (x1, y1, x2, y2)
 		bbox1 = np.array(bbox1)
 		bbox2 = np.array(bbox2)
 
 		area_bbox1 = (bbox1[2] - bbox1[0])*(bbox1[3] - bbox1[1])
 		area_bbox2 = (bbox2[2] - bbox2[0])*(bbox2[3] - bbox2[1])
 
-		pt1_intersec = np.maximum(bbox1[:2], bbox2[:2])
-		pt2_intersec = np.minimum(bbox1[2:], bbox2[2:])
-		width_intersec, height_intersec = np.maximum(pt2_intersec - pt1_intersec, 0)
-		area_intersec = width_intersec*height_intersec
+		pt1_intsec = np.maximum(bbox1[:2], bbox2[:2])
+		pt2_intsec = np.minimum(bbox1[2:], bbox2[2:])
+		w_intsec, h_intsec = np.maximum(pt2_intsec - pt1_intsec, 0)
+		area_intsec = w_intsec*h_intsec
 
-		area_union = area_bbox1 + area_bbox2 - area_intersec
+		area_union = area_bbox1 + area_bbox2 - area_intsec
 
-		iou = np.maximum(area_intersec/area_union, np.finfo(np.float32).eps)
+		iou = np.maximum(area_intsec/area_union, np.finfo(np.float32).eps)
 
-		pt1_enclose = np.minimum(bbox1[:2], bbox2[:2])
-		pt2_enclose = np.maximum(bbox1[2:], bbox2[2:])
-		width_enclose, height_enclose = np.maximum(pt2_enclose - pt1_enclose, 0)
-		area_enclose = width_enclose*height_enclose
+		pt1_enclosed = np.minimum(bbox1[:2], bbox2[:2])
+		pt2_enclosed = np.maximum(bbox1[2:], bbox2[2:])
+		w_enclosed, h_enclosed = np.maximum(pt2_enclosed - pt1_enclosed, 0)
+		area_enclosed = w_enclosed*h_enclosed
 
-		return iou - (area_enclose - area_union)/area_enclose
+		return iou - (area_enclosed - area_union)/area_enclosed
 	```
 
 # Anchor Box
@@ -421,15 +432,6 @@ detection is done by applying 1 x 1 detection kernels on feature maps of three d
 - Confidence score: Bounding box 안에 object 가 있을 확률이 얼마나 되는지, 그리고 object 가 class 를 정확하게 예측했는지 나타내는 지표
 - Confidence Score가 낮을수록 Bounding Box를 많이 만듦. Precision 감소, Recall 증가.
 
-# Selective Search
-```python
-_, regions = selectivesearch.selective_search(img_rgb, scale=100, min_size=2000)
-```
-```python
-img_recs = cv2.rectangle(img=img_rgb_copy, pt1=(rect[0], rect[1]),
-                                 pt2=(rect[0]+rect[2], rect[1]+rect[3]),
-                                 color=green_rgb, thickness=2)
-```
 
 # `cv2`
 ```python
@@ -438,25 +440,23 @@ img_recs = cv2.rectangle(img=img_rgb_copy, pt1=(rect[0], rect[1]),
 ```python
 import cv2
 ```
-## `cv2.waitKey()`
-## `cap = cv2.VideoCapture(0)`
-## `cv2.destroyAllWindows()`
+## `cv2.imread()`
+## `cv2.imshow()`, `plt.imshow()`
+## `cv2.cvtColor(image, code)`
+- `code`: (`cv2.COLOR_BGR2GRAY`, `cv2.COLOR_BGR2RGB`, `cv2.COLOR_BGR2HSV`)
+## `cv2.resize(img, dsize, interpolation)`
 ## `cv2.rectangle(img, pt1, pt2, color, thickness)`
 ## `cv2.circle(img, center, radius, color, [thickness], [lineType], [shift])`
 ## `cv2.getTextSize(text, fontFace, fontScale, thickness)`
 ```python
 (text_width, text_height), baseline = cv2.getTextSize(text=label, fontFace=cv2.FONT_HERSHEY_COMPLEX_SMALL, fontScale=font_scale, thickness=bbox_thick)
 ```
-## `cv2.puttext(img, text, org, fontFace, fontScale, color, thickness, lineType)`
-```python
-cv2.putText(img=img, text=label, org=(x1, y1-4), fonFace=cv2.FONT_HERSHEY_COMPLEX_SMALL, fontScale=font_scale, color=text_colors, thickness=bbox_thick, lineType=cv2.LINE_AA)
-```
-## `cv2.resize(img, dsize, interpolation)`
-## `cv2.cvtColor()`
-- (`cv2.COLOR_BGR2GRAY`)
-## `cv2.imread()`
-## `cv2.imwrite()`
-## `cv2.imshow()`
+## `cv2.putText(img, text, org, fontFace, fontScale, color, [thickness], [lineType])`
+- Reference: https://docs.opencv.org/4.x/d6/d6e/group__imgproc__draw.html#ga0f9314ea6e35f99bb23f29567fc16e11
+- `text`: Text string to be drawn.
+- `org`: Bottom-left corner of the text string in the image.
+- `fonFace`: (`cv2.FONT_HERSHEY_SIMPLEX`, ...) Font type.
+- `fontScale`: Font scale factor that is multiplied by the font-specific base size.
 
 # Contour Detection
 ```python

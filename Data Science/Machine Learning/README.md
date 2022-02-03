@@ -147,7 +147,8 @@ While the effect of batch normalization is evident, the reasons behind its effec
 from google.colab import drive
 import os
 drive.mount("/content/drive")
-os.chdir("/content/drive/MyDrive/Libraries")
+os.chdir("/content")
+# os.chdir("/content/drive/MyDrive/Libraries")
 ```
 ## Download Files to Local
 ```
@@ -191,6 +192,10 @@ strategy = tf.distribute.experimental.TPUStrategy(resolver)
 with strategy.scope():
     model = create_model()
     hist = model.fit()
+```
+## Substitution for `cv2.imshow()`
+```python
+from google.colab.patches import cv2_imshow
 ```
 
 # Activation Function
