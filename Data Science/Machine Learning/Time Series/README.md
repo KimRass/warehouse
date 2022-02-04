@@ -56,7 +56,7 @@ detrend = data["passengers"] - decomp.trend
 np.cumsum(np.random.normal(size=200))
 ```
 
-# Preprocessing
+# Data Preprocessing
 ## Set Frequency
 ```python
 data = data.asfreq()
@@ -158,62 +158,6 @@ trend_std = np.sqrt(smoothed.states.cov[:, 1, 1])
 trend_pred = pred.states.mean[:, 1]
 trend_pred_std = np.sqrt(pred.states.cov[:, 1, 1])
 ```
-
-# Splitting Dataset
-- ***Overfitting would be a major concern since your training data could contain information from the future. It is important that all your training data happens before your test data.***
-- Using `sklearn.model_selection.train_test_split(shuffle=False)`
-	```python
-	from sklearn.model_selection import train_test_split
-
-	data_tr, data_te = train_test_split(data, test_size=0.2, shuffle=False)
-	```
-## Cross Validation (CV)
-- Source: https://hub.packtpub.com/cross-validation-strategies-for-time-series-forecasting-tutorial/
-### Time Series Splits CV
-![tss](https://hub.packtpub.com/wp-content/uploads/2019/05/TimeSeries-Split.png)
-- The idea for time series splits is to divide the training set into two folds at each iteration on condition that the validation set is always ahead of the training split. At the first iteration, one trains the candidate model on the closing prices from January to March and validates on April’s data, and for the next iteration, train on data from January to April, and validate on May’s data, and so on to the end of the training set. This way dependence is respected.
-- ***However, this may introduce leakage from future data to the model. The model will observe future patterns to forecast and try to memorize them. That’s why blocked cross-validation was introduced.***
-- Using `sklearn.model_selection.TimeSeriesSplit()`
-	```python
-	from sklearn.model_selection import TimeSeriesSplit
-	
-	cv = TimeSeriesSplit(n_splits, max_train_size, test_size, gap)
-### Blocked CV
-![blocked](https://hub.packtpub.com/wp-content/uploads/2019/05/Blocking-Time-Series-Split.png)
-- Implementation
-	```python
-	def blocked_cv(data, window_size, h):
-		X = list()
-		y = list()
-		for i in range(len(data) - window_size - h + 1):
-			X.append(data[i:i + window_size])
-			y.append(data[i + window_size:i + window_size + h])
-		return np.array(X), np.array(y)
-
-	tr_X, tr_y = blocked_cv(data_tr, window_size, h)
-	```
-- Using `pmdarima.model_selection.SlidingWindowForecastCV()`
-	- References: https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.SlidingWindowForecastCV.html, https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.cross_val_score.html
-	```python
-	from pmdarima.model_selection import SlidingWindowForecastCV
-
-	# This approach to CV slides a window over the training samples while using several future samples as a test set. While similar to the `RollingForecastCV()`, it differs in that the train set does not grow, but rather shifts.
-	# `h`: The forecasting horizon, or the number of steps into the future after the last training sample for the test set.
-	# `step`: The size of step taken to slide both training samples and test samples.
-	# `window_size`: The size of the rolling window to use. If `None`, a rolling window of size `n_samples//5` will be used.
-	cv = SlidingWindowForecastCV(h, step, window_size)
-	# Generate indices to split data into training and test sets.
-	cv_gen = cv.split(data)
-
-	tr_X = list()
-	tr_y = list()
-	for i in cv_gen:
-		tr_X.append(data[i[0]])
-		tr_y.append(data[i[1]])
-	
-	# `scoring`: (`"smape"`, `"mean_absolute_error"`, `"mean_squared_error"`)
-	# scores = cross_val_score(estimator=model, y=tr, scoring="smape", cv=cv, verbose=2)
-	```
 
 # Autocorrelation
 - Source: https://statisticsbyjim.com/time-series/autocorrelation-partial-autocorrelation/
@@ -319,6 +263,82 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 	plt.legend(loc="upper left");
 	print(f"r2_score: {r2_score(data_te['var'], preds)}")
 	```
+	
+# DeepAR
+- Source: https://blog.dataiku.com/deep-learning-time-series-forecasting
+- *Forecasts depend not only on past values but on other covariates such as dynamic historical features, static attributes for each series, and known future events. And, yet, as classic approaches learn and predict each time series independently, they do not fully leverage cross-learning possibilities or information that may be valuable given the use case.*
+- In this context, DeepAR has proven to be one of the most efficient state-of-the-art forecasting models. *Released by Amazon and integrated into its ML platform SageMaker, DeepAR stands out for its ability to learn at "scale" using multiple covariates.*
+- It consists of a forecasting methodology based on AR RNNs that learn a global model from historical data of all time series in the dataset and produces accurate probabilistic forecasts.
+- Before diving into how the model works, here are the model's key advantages:
+	- *Probabilistic forecasting. DeepAR does not estimate the time series' future values but their future probability distribution.*
+	- Covariates. DeepAR is able to capture complex and group-dependent relationships by using covariates. It alleviates the efforts and time needed to select and prepare covariates and model section heuristics typically used with classical forecast models.
+	- Cold-start issues. *While traditional methods that predict only one time series at a time fail to provide predictions for items that have little or no history available, DeepAR is able to use learning from similar items to achieve this.*
+- DeepAR relies on one fundamental idea: Instead of fitting separate models for each time series, it aims to create a global model that learns using all time series in the dataset.
+- Architecture
+	- Globally, the model consists of a stack of neural networks models, each of them associated with the time series of given item i, y_i.
+
+	As shown in Figure 4, these models are composed of RNNs parameterized by Θ_i and a likelihood model p(y_i|θ_i).
+
+	The likelihood model should be chosen in accordance with the statistical properties of the data. In the original paper, two likelihood models are considered:
+
+	The Gaussian likelihood parametrized by θ = (μ, σ) where μ is the expected value of the distribution and σ its standard deviation.
+	The Negative Binomial likelihood parametrized by θ = (μ, α) where μ is the mean and α its shape.
+
+# Splitting Dataset
+- ***Overfitting would be a major concern since your training data could contain information from the future. It is important that all your training data happens before your test data.***
+- Using `sklearn.model_selection.train_test_split(shuffle=False)`
+	```python
+	from sklearn.model_selection import train_test_split
+
+	data_tr, data_te = train_test_split(data, test_size=0.2, shuffle=False)
+	```
+## Cross Validation (CV)
+- Source: https://hub.packtpub.com/cross-validation-strategies-for-time-series-forecasting-tutorial/
+### Time Series Splits CV
+![tss](https://hub.packtpub.com/wp-content/uploads/2019/05/TimeSeries-Split.png)
+- The idea for time series splits is to divide the training set into two folds at each iteration on condition that the validation set is always ahead of the training split. At the first iteration, one trains the candidate model on the closing prices from January to March and validates on April's data, and for the next iteration, train on data from January to April, and validate on May's data, and so on to the end of the training set. This way dependence is respected.
+- ***However, this may introduce leakage from future data to the model. The model will observe future patterns to forecast and try to memorize them. That's why blocked cross-validation was introduced.***
+- Using `sklearn.model_selection.TimeSeriesSplit()`
+	```python
+	from sklearn.model_selection import TimeSeriesSplit
+	
+	cv = TimeSeriesSplit(n_splits, max_train_size, test_size, gap)
+### Blocked CV
+![blocked](https://hub.packtpub.com/wp-content/uploads/2019/05/Blocking-Time-Series-Split.png)
+- Implementation
+	```python
+	def blocked_cv(data, window_size, h):
+		X = list()
+		y = list()
+		for i in range(len(data) - window_size - h + 1):
+			X.append(data[i:i + window_size])
+			y.append(data[i + window_size:i + window_size + h])
+		return np.array(X), np.array(y)
+
+	tr_X, tr_y = blocked_cv(data_tr, window_size, h)
+	```
+- Using `pmdarima.model_selection.SlidingWindowForecastCV()`
+	- References: https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.SlidingWindowForecastCV.html, https://alkaline-ml.com/pmdarima/modules/generated/pmdarima.model_selection.cross_val_score.html
+	```python
+	from pmdarima.model_selection import SlidingWindowForecastCV
+
+	# This approach to CV slides a window over the training samples while using several future samples as a test set. While similar to the `RollingForecastCV()`, it differs in that the train set does not grow, but rather shifts.
+	# `h`: The forecasting horizon, or the number of steps into the future after the last training sample for the test set.
+	# `step`: The size of step taken to slide both training samples and test samples.
+	# `window_size`: The size of the rolling window to use. If `None`, a rolling window of size `n_samples//5` will be used.
+	cv = SlidingWindowForecastCV(h, step, window_size)
+	# Generate indices to split data into training and test sets.
+	cv_gen = cv.split(data)
+
+	tr_X = list()
+	tr_y = list()
+	for i in cv_gen:
+		tr_X.append(data[i[0]])
+		tr_y.append(data[i[1]])
+	
+	# `scoring`: (`"smape"`, `"mean_absolute_error"`, `"mean_squared_error"`)
+	# scores = cross_val_score(estimator=model, y=tr, scoring="smape", cv=cv, verbose=2)
+	```
 
 # Evaluation Metrics
 ## AIC (Akaike Information Criterion)
@@ -332,8 +352,8 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 	- ***The maximum likelihood estimate of the model (how well the model reproduces the data).***
 - ***The best-fit model according to AIC is the one that explains the greatest amount of variation using the fewest possible independent variables.***
 - *In statistics, AIC is most often used for model selection. By calculating and comparing the AIC scores of several possible models, you can choose the one that is the best fit for the data.*
-- When testing a hypothesis, you might gather data on variables that you aren’t certain about, especially if you are exploring a new idea. You want to know which of the independent variables you have measured explain the variation in your dependent variable.
-- Once you’ve created several possible models, you can use AIC to compare them. *Lower AIC scores are better, and AIC penalizes models that use more parameters. So if two models explain the same amount of variation, the one with fewer parameters will have a lower AIC score and will be the better-fit model.*
+- When testing a hypothesis, you might gather data on variables that you aren't certain about, especially if you are exploring a new idea. You want to know which of the independent variables you have measured explain the variation in your dependent variable.
+- Once you've created several possible models, you can use AIC to compare them. *Lower AIC scores are better, and AIC penalizes models that use more parameters. So if two models explain the same amount of variation, the one with fewer parameters will have a lower AIC score and will be the better-fit model.*
 ```python
 import math
 
@@ -396,9 +416,9 @@ aic = 2*K - 2*math.exp(L)
 	- `"%I"`: Hour (12-hour clock) as a zero-padded decimal number.
 	- `"%M"`: Minute as a zero-padded decimal number.
 	- `"%S"`: Second as a zero-padded decimal number
-	- `"%A"`: Weekday as locale’s full name.
-	- `"%B"`: Month as locale’s full name.
-	- `"%b"`: Month as locale’s abbreviated name.
+	- `"%A"`: Weekday as locale's full name.
+	- `"%B"`: Month as locale's full name.
+	- `"%b"`: Month as locale's abbreviated name.
 	- `"%p"`: `"AM"` or `"PM"`
 ## `pd.to_datetime()`
 - `unit`
@@ -418,32 +438,26 @@ raw.time = pd.date_range(start="1974-01-01", periods=len(raw), freq="M")
 ```python
 n_tasks_month = tasks.groupby(pd.Grouper(key="task_date", freq="M")).size()
 ```
+```python
+from datetime import datetime, timedelta
+```
 ## `datetime.today()`
-## `datetime.datetime(year, month, day)`
+## `datetime(year, month, day)`
 - Require three parameters in sequence to create a date; `year`, `month`, `day`
 ## `datetime.date()`
-## `datetime.datetime.now()`
-## `datetime.datetime.strptime()`
-```python
-datetime.datetime.strptime(<<Date String>>, format)
-```
-- Returns a datetime corresponding to <<Date String>>, parsed according to `format`.
+## `datetime.now()`
+## `datetime.strptime(date_string, format)`
+- Returns a datetime corresponding to `date_string`, parsed according to `format`.
 - `format`
-## `datetime.datetime.strftime()`
-```python
-datetime.datetime.strftime(format)
-```
-- Returns a string representing the date and time, controlled by an explicit format string.
-```python
-gby_month["ym"] = gby_month["date_created"].apply(lambda x:datetime.datetime.strftime(x, "%m"))
-```
-## `datetime.timedelta([days], [seconds], [minutes], [hours], [weeks])`
+## `datetime.strftime(format)`
+- Returns a string representing the date and time, controlled by an explicit `format` string.
+## `timedelta([days], [seconds], [minutes], [hours], [weeks])`
 ```python
 day = start + datetime.timedelta(days=1)
-```
-### `datetime.timedelta.days`
-### `datetime.timedelta.total_seconds()`
-```python
+
+timedelta.days
+timedelta.total_seconds()
+
 (t2 - t1).total_seconds()
 ```
 ## `relativedelta`
@@ -457,4 +471,8 @@ data["년-월"] = data["년-월"].apply(lambda x:x + relativedelta(months=1) - d
 ## `time.strftime()`
 ```python
 time.strftime("%Y%m%d", time.localtime(time.time()))
+```
+
+```python
+!pip install --upgrade tensorflow-probability
 ```

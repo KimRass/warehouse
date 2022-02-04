@@ -1605,19 +1605,6 @@ rd.delete("A")
 rd.get("A")
 ```
 
-# `google_drive_downloader`
-```python
-!pip install googledrivedownloader
-```
-## `GoogleDriveDownloader`
-```python
-from google_drive_downloader import GoogleDriveDownloader as gdd
-```
-### `gdd.download_file_from_google_drive()`
-```python
-gdd.download_file_from_google_drive(file_id="1uPjBuhv96mJP9oFi-KNyVzNkSlS7U2xY", dest_path="./movies.csv")
-```
-
 # `sys`
 ```python
 import sys
@@ -1653,9 +1640,8 @@ sys.setrecursionlimit(10**9)
 # `warnings`
 ```python
 import warnings
-```
-## `warnings.filterwarnings()`
-```python
+
+# `category`: (`DeprecatingWarning`)
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 ```
 
@@ -1663,4 +1649,13 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 - Using `urllib.request.urlretrieve()`
 	```python
 	urllib.request.urlretrieve(url=url, filename=filename)
+	```
+- Using `google_drive_downloader.GoogleDriveDownloader.download_file_from_google_drive()`
+	```python
+	# Install
+	# !pip install googledrivedownloader
+	
+	from google_drive_downloader import GoogleDriveDownloader as gdd
+
+	gdd.download_file_from_google_drive(file_id, dest_path)
 	```
