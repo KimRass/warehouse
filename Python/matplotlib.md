@@ -124,12 +124,18 @@ for _, row in ml_gby_ax.iterrows():
 ax.fill_between(x, y1, y2, ...)
 ```
 ## Heat Map
-- Reference: http://seaborn.pydata.org/generated/seaborn.heatmap.html
-```python
-sb.heatmap([ax], data, [annot=True], [annot_kws={"size"}], [fmt=".2f"], [linewidths], [linecolor], [center], [cmap], [cbar=True], [mask])
-```
-- [`center`]: The value at which to center the colormap when plotting divergant data. Using this parameter will change the default `cmap` if none is specified.
-- [`mask`]: If passed, data will not be shown in cells where `mask` is True. Cells with missing values are automatically masked.
+- Using `seaborn.heatmap()`
+	- Reference: http://seaborn.pydata.org/generated/seaborn.heatmap.html
+	```python
+	# `center`: The value at which to center the colormap when plotting divergant data. Using this parameter will change the default `cmap` if none is specified.
+	# `mask`: If passed, data will not be shown in cells where `mask` is True. Cells with missing values are automatically masked.
+	sb.heatmap([ax], data, [annot=True], [annot_kws={"size"}], [fmt=".2f"], [linewidths], [linecolor], [center], [cmap], [cbar=True], [mask]);
+	```
+- Using `matplotlib.pyplot.pcolormesh()`
+	```python
+	plt.pcolormesh([cmap]);
+	plt.colorbar();
+	```
 ## `sb.countplot(ax, [data], [x], [y], [hue], [orient])`
 - Reference: https://seaborn.pydata.org/generated/seaborn.countplot.html
 - Show the counts of observations in each categorical bin using bars.
@@ -145,7 +151,10 @@ ax.grid(axis="x", color="White", alpha=0.3, linestyle="--", linewidth=2)
 # Size
 ## Set figure size
 ```python
-fig.set_size_inches(10, 10)
+plt.figure(figsize=(w, h))
+```
+```python
+fig.set_size_inches(w, h)
 ```
 
 # Axis
@@ -180,7 +189,15 @@ ax.yaxis.set_ticks_position("right")
 ```python
 ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter("{x:,.0f}"))
 ```
-## `ax.invert_xaxis()`, `ax.invert_yaxis()`
+## Invert Axis
+```python
+plt.gca().invert_xaxis()
+# plt.gca().invert_yaxis()
+```
+```python
+ax.invert_xaxis()
+# ax.invert_yaxis()`
+```
 
 # Tick
 ## `ax.set_xticks()`, `ax.set_yticks()`

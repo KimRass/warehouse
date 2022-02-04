@@ -766,49 +766,25 @@ def beam_search(data, k):
 			# (batch_size, h_size) -> (batch_size, 1, h_size)
 			query = tf.expand_dims(query, 1)
 
-			attention_scores = self.W3(tf.nn.tanh(self.W1(values) + self.W2(query)))
-			attention_weights = tf.nn.softmax(attention_scores, axis=1)
+			attn_scores = self.W3(tf.nn.tanh(self.W1(values) + self.W2(query)))
+			attn_weights = tf.nn.softmax(attn_scores, axis=1)
 
 			# Attention value
 			# (batch_size, h_size)
-			context_vec = tf.reduce_sum(attention_weights*values, axis=1)
+			context_vec = tf.reduce_sum(attn_weights*values, axis=1)
 
-			return context_vec, attention_weights
+			return context_vec, attn_weights
 	```
 ## Scaled Dot-Product Attention
 - Implementation
 	```python
-	def scaled_dot_product_attention(q, k, v, mask=None):
-	  # q shape : (batch_size, seq_len, d_model)
-	  # k shape : (batch_size, seq_len, d_model)
-	  # v shape : (batch_size, seq_len, d_model)
-	  matmul_qk = tf.matmul(q, k, transpose_b = True)
-	  #matmul_qk shape : (batch_size, seq_len, seq_len)                                                
 
-	  dk = tf.cast(tf.shape(k)[-1], tf.float32)
-	  scaled_attention_logits = matmul_qk / tf.math.sqrt(dk)
-
-	  # scaled_attetion_logits shape : (batch_size, seq_len, seq_len)
-
-	  if mask is not None:
-		scaled_attention_logits = scaled_attention_logits + (mask * -1e9)
-
-	  softmax = tf.nn.softmax(scaled_attention_logits, axis=-1)
-
-	  # softmax shape : (batch_size, seq_len, seq_len)
-
-	  output = tf.matmul(softmax, v)
-
-	  # output(attention_value) shape : (batch_size, seq_len, d_model)
-	  # 즉 처음 입력 차원인 (batch_size, seq_len, d_model) 차원을 아웃풋으로 반환
-
-	  return output, softmax
 	```
-## Self Attention
-## Multi-Headed Attention
+- Self Attention: Query, Key, Value가 서로 동일한 출처를 갖는 경우를 말합니다.
+- Multi-head Attention: Attention을 Parallel하게 수행한다는 의미입니다.
 
 # Transformer
-- Source: https://en.wikipedia.org/wiki/Transformer_(machine_learning_model), https://wikidocs.net/31379
+- Sources: https://en.wikipedia.org/wiki/Transformer_(machine_learning_model), https://wikidocs.net/31379
 - *A transformer is a deep learning model that adopts the mechanism of self-attention, differentially weighting the significance of each part of the input data. It is used primarily in the field of natural language processing (NLP) and in computer vision (CV).*
 - Like recurrent neural networks (RNNs), transformers are designed to handle sequential input data, such as natural language, for tasks such as translation and text summarization. However, ***unlike RNNs, transformers do not necessarily process the data in order. Rather, the attention mechanism provides context for any position in the input sequence. For example, if the input data is a natural language sentence, the transformer does not need to process the beginning of the sentence before the end. Rather, it identifies the context that confers meaning to each word in the sentence. This feature allows for more parallelization than RNNs and therefore reduces training times.***
 - *The additional training parallelization allows training on larger datasets than was once possible. This led to the development of pretrained systems such as BERT (Bidirectional Encoder Representations from Transformers) and GPT (Generative Pre-trained Transformer), which were trained with large language datasets, such as the Wikipedia Corpus and Common Crawl, and can be fine-tuned for specific tasks.*
@@ -822,15 +798,38 @@ def beam_search(data, k):
 	- Whenever we are required to calculate the Attention of a target word with respect to the input embeddings, we should use the Query of the target and the Key of the input to calculate a matching score, and these matching scores then act as the weights of the Value vectors during summation.
 - Multi-head attention
 	- One set of {\displaystyle \left(W_{Q},W_{K},W_{V}\right)}{\displaystyle \left(W_{Q},W_{K},W_{V}\right)} matrices is called an attention head, and each layer in a transformer model has multiple attention heads. While each attention head attends to the tokens that are relevant to each token, with multiple attention heads the model can do this for different definitions of "relevance". In addition the influence field representing relevance can become progressively dilated in successive layers. Many transformer attention heads encode relevance relations that are meaningful to humans. For example, attention heads can attend mostly to the next word, while others mainly attend from verbs to their direct objects.[8] The computations for each attention head can be performed in parallel, which allows for fast processing. The outputs for the attention layer are concatenated to pass into the feed-forward neural network layers.
-
+	- 멀티 헤드 어텐션은 전체 어텐션을 분리하여 병렬적으로 어텐션을 수행하는 기법입니다. 즉 `(batch_size, 50, 64*8)` 의 텐서가 있다면 이것을 `(batch_size, 50, 64)`의 8개의 텐서로 나눈다음에 개별적으로 어텐션을 수행하고, 다시 `(batch_size, 50, 64*8)`의 텐서로 Concat하게 됩니다. 이렇게 하는 이유는, 깊은 차원을 한번에 어텐션을 수행하는 것보다, 병렬로 각각 수행하는 것이 더 심도있는 언어들간의 관계를 학습할 수 있기 때문입니다.
+	- `d_model`을 `n_heads`로 나눈 값을 각 Q, K, V의 차원을 결정합니다.
 - Encoder
 	- *The first encoder takes positional information and embeddings of the input sequence as its input, rather than encodings. The positional information is necessary for the transformer to make use of the order of the sequence, because no other part of the transformer makes use of this.*
+- Decoder
+	- *Each decoder consists of three major components: a self-attention mechanism, an attention mechanism over the encodings, and a feed-forward neural network.* The decoder functions in a similar fashion to the encoder, but an additional attention mechanism is inserted which instead draws relevant information from the encodings generated by the encoders.
+	- *Like the first encoder, the first decoder takes positional information and embeddings of the output sequence as its input, rather than encodings. The transformer must not use the current or future output to predict an output, so the output sequence must be partially masked to prevent this reverse information flow.* The last decoder is followed by a final linear transformation and softmax layer, to produce the output probabilities over the vocabulary.
+- ![Transformer Architecture](https://i.imgur.com/Tl2zsFL.png)
+- Positional Encoding
+	- Implementation
+		```python
+		# `d_model` is the number of dimensions, `seq_len` is the length of input sequence.
+		def positional_encoding_matrix(seq_len, d_model):
+			a, b = np.meshgrid(np.arange(d_model), np.arange(seq_len))
+			pe_mat = b/10000**(2*(a//2)/d_model)
+			pe_mat[:, 0::2] = np.sin(pe_mat[:, 0::2])
+			pe_mat[:, 1::2] = np.cos(pe_mat[:, 1::2])
+			pe_mat = pe_mat[None, :]
+			return pe_mat
+		```
+	- Visualization
+		```python
+		seq_len = 50
+		d_model = 512
+		pe_mat = positional_encoding_matrix(seq_len, d_model)[0]
 
-Decoder
-Each decoder consists of three major components: a self-attention mechanism, an attention mechanism over the encodings, and a feed-forward neural network. The decoder functions in a similar fashion to the encoder, but an additional attention mechanism is inserted which instead draws relevant information from the encodings generated by the encoders.[1][7]
-
-Like the first encoder, the first decoder takes positional information and embeddings of the output sequence as its input, rather than encodings. The transformer must not use the current or future output to predict an output, so the output sequence must be partially masked to prevent this reverse information flow.[1] The last decoder is followed by a final linear transformation and softmax layer, to produce the output probabilities over the vocabulary.
-
+		plt.figure(figsize=(10, 6))
+		plt.pcolormesh(pe_mat, cmap="RdBu");
+		plt.gca().invert_yaxis()
+		plt.colorbar();
+		```
+- 셀프 어텐션은 인코더의 초기 입력인 `d_model`의 차원을 가지는 단어 벡터들을 사용하여 셀프 어텐션을 수행하는 것이 아니라 우선 각 단어 벡터들로부터 Q벡터, K벡터, V벡터를 얻는 작업을 거칩니다. 이때 이 Q벡터, K벡터, V벡터들은 초기 입력인 `d_model`의 차원을 가지는 단어 벡터들보다 더 작은 차원을 가지는데, 논문에서는 512의 차원을 가졌던 각 단어 벡터들을 64의 차원을 가지는 Q벡터, K벡터, V벡터로 변환하였습니다.
 
 # BERT (Bidirectional Encoder Representations from Transformers)
 

@@ -91,19 +91,38 @@
 - *The cardinality of a multiset is constructed by summing up the multiplicities of all its elements. For example, in the multiset {a, a, b, b, b, c} the multiplicities of the members a, b, and c are respectively 2, 3, and 1, and therefore the cardinality of this multiset is 6.*
 
 # Probability Distribution
+## Uniform Distribution
+- Using `numpy.random.uniform()`
+	```python
+	import numpy as np
+	
+	# Draw samples from a uniform distribution.
+	# Samples are uniformly distributed over the half-open interval [`low`, `high`) (includes `low`, but excludes `high`). In other words, any value within the given interval is equally likely to be drawn.
+	np.random.uniform([low=0.0], [high=1.0], size)
+	```
+- Uisng `tensorflow.random.uniform()`
+	```python
+	import tensorflow as tf
+	
+	# Half-open interval [`minval`, `maxval`)
+	tf.random.uniform([minval=0], [maxval=None], shape)
+	```
 ## Normal Distribution
-```python
-import numpy as np
+- Using `numpy.random.normal()`
+	```python
+	import numpy as np
 
-np.random.normal(mean, std, size)
-```
-- `loc`: Mean.
-- `scale`: Standard deviation.
-- `size`: Output shape.
-```python
-stats.norm
-```
+	# `loc`: Mean.
+	# `scale`: Standard deviation.
+	# `size`: Output shape.
+	np.random.normal(mean, std, size)
+	```
+- Using `scipy.stats.norm`
+	```python
+	from scipy import stats
 
+	stats.norm
+	```
 ## Pareto Distribution
 - Source: https://en.wikipedia.org/wiki/Pareto_distribution
 ## Beta Distribution

@@ -1124,11 +1124,31 @@ model.load_weights(model_path)
 ```
 - As long as two models share the same architecture you can share weights between them. So, when restoring a model from weights-only, create a model with the same architecture as the original model and then set its weights.
 
-# Tensorflow Custom Layer
-- custom layer를 만들려면 `tf.keras.layers.Layer` 클래스를 상속하고 다음 메서드를 구현합니다
-    - __init__: 이 층에서 사용되는 하위 층을 정의할 수 있습니다. instance 생성 시에 호출됩니다.
-    - build: 층의 가중치를 만듭니다. add_weight 메서드를 사용해 가중치를 추가합니다.
-    - call: forward feeding 단계에서 호출됩니다. 입력 값을 이용해서 결과를 계산한 후 반환하면 됩니다.
+# TensorFlow Custom Model
+```python
+class MODEL_NAME(Model):
+	def __init__(self, ...):
+		super(MODEL_NAME, self).__init__()
+		self.VAR1 = ...
+		self.VAR2 = ...
+		... 
+	def call(...):
+		...
+		return ...
+```
+
+# TensorFlow Custom Layer
+```python
+class LAYER_NAME(Layer):
+	def __init__(self, ...):
+		super(LAYER_NAME, self).__init__()
+		self.VAR1 = ...
+		self.VAR2 = ...
+		...
+	def call(...):
+		...
+		return ...
+```
 
 # `tensorflow_addons`
 ```python
