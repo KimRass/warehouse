@@ -132,7 +132,8 @@ corpus = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바�
 	```python
 	from sklearn.feature_extraction.text import CountVectorizer
 
-	vect = CountVectorizer()
+	# Ignore if frequency of the token is greater than `max_df` or lower than `min_df`.
+	vect = CountVectorizer(min_df, max_df, max_features)
 	```
 	```python
 	vect.fit(corpus)

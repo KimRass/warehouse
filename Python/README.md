@@ -261,7 +261,7 @@ string.ljust(<<Target Length>>, <<Character to Pad>>)
 - `maxsplit`: How many splits to do.
 ### `String.upper()`, `String.lower()`
 ```python
-orders.columns = orders.columns.str.lower()
+data.columns = data.columns.str.lower()
 ```
 ### `String.isupper()`, `String.islower()`
 ### `String.isalpha()`
@@ -335,14 +335,10 @@ pd.options.mode.chained_assignment = None
 ```python
 idf_ser = pd.Series(idf, index=vocab)
 ```
-## `pd.read_csv()`
-- `thousands=","`
-- `float_precision="round_trip"`
-- `skiprows`
-- `error_bad_lines=False`
+## `pd.read_csv([thousands=","], [float_precision], [skiprows], [error_bad_lines], [index_col], [sep], [names], [parse_dates], [infer_datetime_format], [dayfirst])`
 - `names`: List of column names to use.
-- `index_col`
-- `sep`
+- `parse_dates`: (List of columns names)
+- `infer_datetime_format` (bool) If `True` and `parse_dates` is enabled, pandas will attempt to infer the format of the datetime strings in the columns, and if it can be inferred, switch to a faster method of parsing them.
 ## `pd.read_excel()`
 ## `pd.read_table([usecols], [names])`
 - `usecols`
@@ -510,15 +506,14 @@ data.insert(3, "age2", data["age"]*2)
 df.nlargest(3, ["population", "GDP"], keep="all")
 ```
 - `keep`: (`"first"`, `"last"`, `"all"`)
-## `DataFrame.index`
-### `DataFrame.index.name`, `DataFrame.index.names`
-## `DataFrame.sort_index()`
-## `DataFrame.set_index()`
+## Manipulating Index
 ```python
-data = data.set_index(["id", "name"])
+data.index.name
+# data.index.names
 ```
-- `inplace`: (Bool, default `False`)
-## `DataFrame.reset_index()`
+### `sort_index()`
+### `set_index([drop])`
+### `reset_index([drop], [level])`
 - `drop`: (bool, default False) Reset the index to the default integer index.
 - `level`: Only remove the given levels from the index. Removes all levels by default.
 ## `DataFrame.loc()`
@@ -724,44 +719,18 @@ import numpy as np
 x_train = x_train.astype("float32")
 ```
 ## `np.inf`
-## `np.load()`
-```python
-intent_train = np.load("train_text.npy").tolist()
-```
+## `np.load("file_name.npy")`
 ## `np.logical_and()`, `np.logical_or()`
-```python
-mask = np.logical_or((pred_bbox[:, 0] > pred_bbox[:, 2]), (pred_bbox[:, 1] > pred_bbox[:, 3]))
-```
 ## `np.array_equal()`
-```python
-np.array_equal(arr1, arr2)
-```
 ## `np.linspace()`
-```python
-np.linspace(-5, 5, 100)
-```
 ## `np.meshgrid()`
-```python
-xs = np.linspace(0, output_size-1, output_size)
-ys = np.linspace(0, output_size-1, output_size)
-x, y = np.meshgrid(xs, ys)
-```
 ## `np.isin()`
-```python
-data[np.isin(data["houses"], list)]
-```
 ## `np.digitize()`
 ```python		
 bins=range(0, 55000, 5000)
 data["price_range"]=np.digitize(data["money"], bins)
 ```
-## `np.reshape()`, `Array.reshape()`
-```python
-bn_weights = np.reshape(bn_weights, newshape=(4, filters))[[1, 0, 2, 3]]
-```
-```python
-bn_weights = bn_weights.reshape((4, filters))[[1, 0, 2, 3]]
-```
+## `np.reshape(newshape)`, `Array.reshape(newshape)`
 ## `np.unique()`
 ```python
 items, counts = np.unique(intersected_movie_ids, return_counts=True)
@@ -779,7 +748,9 @@ items, counts = np.unique(intersected_movie_ids, return_counts=True)
 - `start`: (default 0) Start of interval. The interval includes this value.
 - `stop`: End of interval. The interval does not include this value, except in some cases where step is not an integer and floating point round-off affects the length of out.
 - `step`: (default 1)
-
+## `np.split(ary, indices_or_sections, [axis=0])`
+- `indices_or_sections`
+	- (int) `ary` will be divided into `indices_or_sections` equal arrays along `axis`. If such a split is not possible, an error is raised.
 ## `np.sqrt()`
 ## `np.power()`
 ## `np.exp()`

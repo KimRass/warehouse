@@ -365,7 +365,7 @@ Sampling bias is systematic error due to a non-random sample of a population, ca
 	```
 	- [`test_size`]: If float, should be between 0.0 and 1.0 and represent the proportion of the dataset to include in the train split. If int, represents the absolute number of train samples. 
 	- [`stratify`]: If not None, data is split in a stratified fashion, using this as the class labels.
-	
+
 # Cross Validation (CV)
 ## Holdout Set
 - When optimizing the hyperparameters of your model, you might overfit your model if you were to optimize using the train/test split.
@@ -408,11 +408,18 @@ the outer loop for estimating accuracy.
 # Evaluation Metrics
 ## Regression Problem
 ### MSE (Mean Squared Error)
-```python
-from tensorflow.keras.metrics import MeanSquaredError
+- Using `tensorflow.keras.metrics.MeanSquaredError()`
+	```python
+	from tensorflow.keras.metrics import MeanSquaredError
 
-mse = MeanSquaredError()().numpy()
-```
+	mse = MeanSquaredError()().numpy()
+	```
+- Using `sklearn.metrics.mean_squared_error()`
+	```python
+	from sklearn.metrics import mean_squared_error
+	
+	mse = mean_squared_error()
+	```
 ### RMSE (Root Mean Squared Error)
 ```python
 from tensorflow.keras.metrics import RootMeanSquaredError
@@ -476,31 +483,6 @@ scc = SparseCategoricalCrossentropy()
 - Equal to TP/(TP + FP)
 ### Recall
 - Equal to TP/P or TP/(TP + FN)
-
-# Data Augmentation
-## DAR
-- Source: http://faculty.bscb.cornell.edu/~hooker/darpaper.pdf
-- Our motivation for DAR arose from the problem of extrapolation when using machine learning methods for prediction. Methods such as trees and
-neural networks are guaranteed to give predictions in a bounded interval. The variance of these predictions may, nonetheless, be severe in regions far from observed data. 
-## DARE
-- Source: http://faculty.bscb.cornell.edu/~hooker/DARE.pdf
-- The requirement that a function return to a base model away from training data is not easy to implement as part of the learning procedure in a universal approximator. However, we can achieve this behavior by stochastically generating uniform data with response given by the base model and adding it to the training data. The resulting procedure, which we termed Data-Augmented Regression for Extrapolation (DARE) can supplement any regression method.
-- In this paper we have considered the problem of making predictions at points of extrapolation. Few learning procedures are designed to produce stable results at points of extrapolation and we show that even constant extrapolators can exhibit high variance away from training data. In order to stabilize these predictions and recognize their semi-arbitrary nature, we propose that predictions should be shrunk toward a base model in proportion to the density of training points near them. This follows the heuristic argument that as new examples get further away from known examples, our model predictions becomes less informed about the response. In order to carry out this shrinkage, we propose a very simple procedure of generating new uniformly distributed data, giving it the response associated with the base model and augmenting the training set with this data. Unless strong prior knowledge is available that pertains to the whole space, we recommend that an appropriate base model should be constant. This idea has the advantage that it can be applied to any learning method. Viewed from a Bayesian perspective, our method amounts to placing a random field prior on prediction values, basing predictions on a null model unless empirical data – in the form of nearby training data – provides evidence to the contrary. We also show that when linear regression is employed, our method is a stochastic form of ridge regression. The extent to which DARE regularizes will depend on the flexibility of the learner that is employed and the concentration of the training examples in predictor space. These are the factors that also influence the extent of our concern about extrapolation. Regularization
-often also has a positive effect on predictive accuracy. We have demonstrated on simulated and real examples that it is possible to simultaneously improve predictive accuracy on the data distribution and stability at points of extrapolation.
-## SMOGN(Synthetic Minority Over-Sampling Technique for Regression with Gaussian Noise)
-- Source: https://github.com/nickkunz/smogn/blob/master/examples/smogn_example_3_adv.ipynb
-- Here we cover the focus of this example. We call the smoter function from this package (smogn.smoter) and satisfy all of the available arguments for manual operation: data, y, samp_method, drop_na_col, drop_na_row, replace, k, rel_thres, rel_method, rel_ctrl_pts_rg
-- The data argument takes a Pandas DataFrame, which contains the training set split. In this example, we input the previously loaded housing training set with follow input: data = housing
-- The y argument takes a string, which specifies a continuous reponse variable by header name. In this example, we input 'SalePrice' in the interest of predicting the sale price of homes in Ames, Iowa with the following input: y = 'SalePrice'
-- The k argument takes a positive integer less than 𝑛, where 𝑛 is the sample size. k specifies the number of neighbors to consider for interpolation used in over-sampling. In this example, we input 7 to consider 2 additional neighbors (default is 5) with the following input: k = 7
-- The pert argument takes a real number between 0 and 1. It represents the amount of perturbation to apply to the introduction of Gaussian Noise. In this example, we input 0.04 to increase the noise generated by synthetic examples where applicable (default is 0.02). We utilize the following input: pert = 0.04
-- The samp_method argument takes a string, either 'balance' or 'extreme'. If 'balance' is specified, less over/under-sampling is conducted. If 'extreme' is specified, more over/under-sampling is conducted. In this case, we input 'balance' (default is 'balance') with the following input: samp_method = 'balance'
-- The drop_na_col and drop_na_row arguments take a boolean. They specify whether or not to automatically remove features (columns) and observations (rows) that contain missing values (default is True for both). In this example, we make the argument explicit with the following inputs: drop_na_col = True and drop_na_row = True
-- The replace argument takes a boolean. It specifies whether or not to utilize replacement in under-sampling (default is False). In this example, we make the argument explicit with the following input: replace = False
-- The rel_thres argument takes a real number between 0 and 1. It specifies the threshold of rarity. The higher the threshold, the higher the over/under-sampling boundary. The inverse is also true, where the lower the threshold, the lower the over/under-sampling boundary. In this example, we dramatically reduce the boundary to 0.10 (default is 0.50) with the following input: rel_thres = 0.10
-- The rel_method argument takes a string, either 'auto' or 'manual'. It specifies how relevant or rare "minority" values in y are determined. If 'auto' is specified, "minority" values are automatically determined by box plot extremes. If 'manual' is specified, "minority" values are determined by the user. In this example, we input 'manual' with the following input: rel_method = 'manual'
-- The rel_ctrl_pts_rg argument takes a 2d array (matrix). It is used to manually specify the regions of interest or rare "minority" values in y. The first column indicates the y values of interest, the second column indicates a mapped value of relevance, either 0 or 1, where 0 is the least relevant and 1 is the most relevant, and the third column is indicative. It will be adjusted afterwards, use 0 in most cases.
-The specified relevance values mapped to 1 are considered "minorty" values and are over-sampled. The specified relevance values mapped to 0 are considered "majority" values and are under-sampled.
 
 # Recurrent Neural Network
 - Source: https://wikidocs.net/22886
@@ -663,7 +645,7 @@ compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 # Autoencoder
 - Source: https://en.wikipedia.org/wiki/Autoencoder
 
-# `graphviz`
+# Plot Decision Tree
 ```python
 import graphviz
 ```
@@ -677,139 +659,6 @@ def plot_tree(model, filename, rankdir="UT"):
     full_filename = filename
     with open(full_filename, "wb") as f:
         f.write(data)
-```
-
-## `sklearn.feature_extraction.text`
-### `CountVectorizer()`
-```python
-from sklearn.feature_extraction.text import CountVectorizer
-```
-```python
-vect = CountVectorizer(max_df=500, min_df=5, max_features=500)
-```
-- Ignore if frequency of the token is greater than `max_df` or lower than `min_df`.
-#### `vect.fit()`
-#### `vect.transform()`
-- Build document term maxtrix.
-##### `vect.transform().toarray()`
-#### `vect.fit_transform()`
-- `vect.fit()` + `vect.transform()`
-##### `vect.fit_transform().toarray()`
-#### `vect.vocabulary_`
-##### `vect.vocabulary_.get()`
-- Return the index of the argument.
-### `TfidfVectorizer()`
-```python
-from sklearn.feature_extraction.text import TfidfVectorizer
-```
-## `sklearn.preprocessing`
-### `LabelEncoder()`
-#### `le.fit()`, `le.transform()`, `le.fit_transform()`, `le.inverse_transform()`
-#### `le.classes_`
-```python
-label2idx = dict(zip(le.classes_, set(label_train)))
-```
-### `StandardScaler()`, `MinMaxScaler()`, `RobustScaler()`, `Normalizer()`
-```python
-from sklearn.preprocessing import StandardScaler, MinMaxScaler, RobustScaler, Normalizer
-```
-```python
-sc = StandardScaler()
-```
-#### `sc.fit()`, `sc.transform()`, `sc.fit_transform()`
-## `sklearn.decomposition`
-### `PCA()`
-```python
-from sklearn.decomposition import PCA
-```
-```python
-pca = PCA(n_components=2)
-```
-```python
-pca_mat = pca.fit_transform(user_emb_df)
-```
-## `sklearn.pipeline`
-### `Pipeline()`
-```python
-from sklearn.pipeline import Pipeline
-```
-```python
-model = Pipeline([("vect", CountVectorizer()), ("model", SVC(kernel="poly", degree=8))])
-```
-- 파이프라인으로 결합된 모형은 원래의 모형이 가지는 fit, predict 메서드를 가지며 각 메서드가 호출되면 그에 따른 적절한 메서드를 파이프라인의 각 객체에 대해서 호출한다. 예를 들어 파이프라인에 대해 fit 메서드를 호출하면 전처리 객체에는 fit_transform이 내부적으로 호출되고 분류 모형에서는 fit 메서드가 호출된다. 파이프라인에 대해 predict 메서드를 호출하면 전처리 객체에는 transform이 내부적으로 호출되고 분류 모형에서는 predict 메서드가 호출된다.
-## `sklearn.svm`
-### `SVC()`, `SVR()`
-```python
-from sklearn.svm import SVC
-```
-```python
-SVC(kernel="linear")
-```
-- `kernel="linear"`
-- `kernel="poly"`: gamma, coef0, degree
-- `kernel="rbf"`: gamma
-- `kernel="sigmoid"`: gomma, coef0
-## `sklearn.naive_bayes`
-```python
-from sklearn.naive_bayes import MultinomialNB
-```
-## `sklearn.linear_model`
-```python
-from sklearn.linear_model import SGDClassifier
-```
-### `Ridge()`, `Lasso()`, `ElasticNet()`
-```python
-fit = Ridge(alpha=alpha, fit_intercept=True, normalize=True, random_state=123).fit(x, y)
-```
-#### `fit.intercept_`, `fit.coef_`
-### `SGDClassifier`
-```python
-model = SGDClassifier(loss="perceptron", penalty="l2", alpha=1e-4, random_state=42, max_iter=100)
-...
-model.fit(train_x, train_y)
-train_pred = model.pred(train_x)
-train_acc = np.mean(train_pred == train_y)
-```
-- `loss`: The loss function to be used.
-    - `loss="hinge"`: Give a linear SVM.
-    - `loss="log"`: Give logistic regression.
-    - `loss="perceptron"`: The linear loss used by the perceptron algorithm.
-- `penalty`: Regularization term.
-    - `penalty="l1"`
-    - `penalty="l2"`: The standard regularizer for linear SVM models.
-- `alpha`: Constant that multiplies the regularization term. The higher the value, the stronger the regularization. Also used to compute the learning rate when `learning_rate` is set to `"optimal"`.
-- max_iter`: The maximum number of passes over the training data (aka epochs).
-### `RandomForestRegressor()`, `GradientBoostingRegressor()`, `AdaBoostRegressor()`
-```python
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor
-```
-### `DecisionTreeRegressor()`
-```python
-from sklearn.tree import DecisionTreeRegressor
-```
-### `sklearn.datasets.sample_generator`
-#### `make_blobs()`
-```python
- from sklearn.datasets.sample_generator improt make_blobs
-```
-
-# `tensorflow`
-```python
-import tensorflow as tf
-from tensorflow.keras import Input, Model, Sequential
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.preprocessing import image_dataset_from_directory
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
-from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D
-from tensorflow.keras.optimizers import SGD, Adam, Adagrad
-from tensorflow.keras.metrics import MeanSquaredError, RootMeanSquaredError, MeanAbsoluteError, MeanAbsolutePercentageError, BinaryCrossentropy, CategoricalCrossentropy, SparseCategoricalCrossentropy, CosineSimilarity
-from tensorflow.keras.layers.experimental.preprocessing import Rescaling
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
-from tensorflow.keras.activations import linear, sigmoid, relu
-from tensorflow.keras.initializers import RandomNormal, glorot_uniform, he_uniform, Constant
-from tensorflow.keras.models import load_model
 ```
 
 # Create Tensors
@@ -845,6 +694,7 @@ pos_score = Dot(axes=(1, 1))([z1, z2])
 - `shape`
 	- ***A shape tuple (integers), not including the batch size***. For instance, shape=(32,) indicates that the expected input will be batches of 32-dimensional vectors.
 	- ***Elements of this tuple can be None; "None" elements represent dimensions where the shape is not known.***
+	- Note that `shape` does not include the batch dimension.
 ## `Dropout(rate)`
 - Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dropout
 - `rate`
@@ -1277,4 +1127,34 @@ model.fit(train_X, train_y, eval_set=[(train_X, train_y), (val_X, val_y)], early
 ### `classification_report`
 ```python
 from seqeval.metrics import classification_report
+```
+
+# Import Machine Learning Libraries
+## `sklearn`
+```python
+from sklearn.metrics import mean_squared_error
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.model_selection import train_test_split, KFold, GroupKFold, LeaveOneOut, LeaveOneGroupOut
+from sklearn.preprocessing import OneHotEncoder, LabelEncoder, StandardScaler, MinMaxScaler, RobustScaler, Normalizer
+from sklearn.decomposition import PCA
+from sklearn.tree import DecisionTreeRegressor
+from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor
+```
+## `tensorflow`
+```python
+import tensorflow as tf
+from tensorflow.keras import Input, Model, Sequential
+from tensorflow.keras.models import load_model
+from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D, RepeatVector
+from tensorflow.keras.layers.experimental.preprocessing import Rescaling
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.preprocessing import image_dataset_from_directory
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
+from tensorflow.keras.optimizers import SGD, Adam, Adagrad
+from tensorflow.keras.metrics import MeanSquaredError, RootMeanSquaredError, MeanAbsoluteError, MeanAbsolutePercentageError, BinaryCrossentropy, CategoricalCrossentropy, SparseCategoricalCrossentropy, CosineSimilarity
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
+from tensorflow.keras.activations import linear, sigmoid, relu
+from tensorflow.keras.initializers import RandomNormal, glorot_uniform, he_uniform, Constant
 ```

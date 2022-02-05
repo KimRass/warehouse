@@ -6,6 +6,33 @@
 ## `pmdarima.datasets.load_wineind()`
 ## Ethereum
 - Source: https://www.cryptodatadownload.com/
+- Columns
+	- `"Unix Timestamp"`: The unix timestamp or also known as "Epoch Time". Use this to convert to your local timezone.
+	- `"Date"`: UTC Timezone timestamp.
+	- `"Symbol"`: The symbol for which the timeseries data refers.
+	- `"Open"`: The opening price of the time period.
+	- `"High"`: The highest price of the time period.
+	- `"Low"`: The lowest price of the time period.
+	- `"Close"`: The closing price of the time period.
+	- `"Volume"`: The volume in the transacted crypto currency.
+## Household Electric Power Consumption
+- Source: https://www.kaggle.com/uciml/electric-power-consumption-data-set
+- Coulmns
+Global_active_power;Global_reactive_power;Voltage;Global_intensity;Sub_metering_1;Sub_metering_2;Sub_metering_3
+	- `"Global_active_power"`: household global minute-averaged active power (in kilowatt)
+	- `"Global_reactive_power"`: household global minute-averaged reactive power (in kilowatt)
+	- `"Voltage"`: minute-averaged voltage (in volt)
+	- `"Global_intensity"`: household global minute-averaged current intensity (in ampere)
+	- `"Sub_metering_1"`: energy sub-metering No. 1 (in watt-hour of active energy). It corresponds to the kitchen, containing mainly a dishwasher, an oven and a microwave (hot plates are not electric but gas powered).
+	- `"Sub_metering_2"`: energy sub-metering No. 2 (in watt-hour of active energy). It corresponds to the laundry room, containing a washing-machine, a tumble-drier, a refrigerator and a light.
+	- `"Sub_metering_3"`: energy sub-metering No. 3 (in watt-hour of active energy). It corresponds to an electric water-heater and an air-conditioner.
+		- \*Submetering is the installation of metering devices with the ability to measure energy usage after the primary utility meter.
+- `Global_active_power*1000/60` represents the active energy consumed every minute (in watt hour) in the household.
+```python
+gdd.download_file_from_google_drive(file_id="122XXMOwYgMxvgAVrm_VwXnyV42IgBiiC", dest_path="D:/household_power_consumption.csv")
+
+raw_data = pd.read_csv("D:/household_power_consumption.csv", header=0, infer_datetime_format=True, parse_dates=["datetime"], index_col=["datetime"])
+```
 
 # Time Series
 - Source: https://www.geeksforgeeks.org/what-is-a-trend-in-time-series/
@@ -52,18 +79,25 @@ detrend = data["passengers"] - decomp.trend
 # Random Walk
 - Source: https://www.investopedia.com/terms/r/randomwalktheory.asp
 - Random walk theory suggests that changes in stock prices have the same distribution and are independent of each other. Therefore, *it assumes the past movement or trend of a stock price or market cannot be used to predict its future movement. In short, random walk theory proclaims that stocks take a random and unpredictable path that makes all methods of predicting stock prices futile in the long run.*
-```python
-np.cumsum(np.random.normal(size=200))
-```
+- Using `numpy.random.normal()`
+	```python
+	import numpy as np
+	
+	np.cumsum(np.random.normal(size))
+	```
 
 # Data Preprocessing
 ## Set Frequency
 ```python
-data = data.asfreq()
+# `freq`: (`"YS"` (year start), `"Y"` (year end), `"QS"` (quarter start), `"Q"` (quarter end), `"MS"` (month start), `"M"` (month end), `"W"` (week), `"D"` (day), `"H"` (hour), `"T"` (minute), `"S"` (second))
+# `method="ffill"`: Forawd fill.
+# `method="bfill"`: Backward fill.
+data = data.asfreq(freq)
 ```
-- `freq`: (`"YS"` (year start), `"Y"` (year end), `"QS"` (quarter start), `"Q"` (quarter end), `"MS"` (month start), `"M"` (month end), `"W"` (week), `"D"` (day), `"H"` (hour), `"T"` (minute), `"S"` (second))
-- `method="ffill"`: Forawd fill.
-- `method="bfill"`: Backward fill.
+## Resample Time Series Data
+```python
+data = data.resample(freq)
+```
 ## Data Transformation
 ### Log Transformation
 - Source: https://cadmus.eui.eu/handle/1814/11150
@@ -264,6 +298,8 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 	print(f"r2_score: {r2_score(data_te['var'], preds)}")
 	```
 	
+# Deteministic Forecast & Probabilistic Forecast
+
 # DeepAR
 - Source: https://blog.dataiku.com/deep-learning-time-series-forecasting
 - *Forecasts depend not only on past values but on other covariates such as dynamic historical features, static attributes for each series, and known future events. And, yet, as classic approaches learn and predict each time series independently, they do not fully leverage cross-learning possibilities or information that may be valuable given the use case.*
@@ -283,6 +319,13 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 
 	The Gaussian likelihood parametrized by θ = (μ, σ) where μ is the expected value of the distribution and σ its standard deviation.
 	The Negative Binomial likelihood parametrized by θ = (μ, α) where μ is the mean and α its shape.
+	
+# CNN-QR (Quantile Regression)
+- MR-RNN -> CNN-QR 대체
+- Probabilistic forecasting
+
+- Gaussian Likelihood
+- Negative Binomial Likelihood
 
 # Splitting Dataset
 - ***Overfitting would be a major concern since your training data could contain information from the future. It is important that all your training data happens before your test data.***
