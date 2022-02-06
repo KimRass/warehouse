@@ -107,7 +107,8 @@
 	# Half-open interval [`minval`, `maxval`)
 	tf.random.uniform([minval=0], [maxval=None], shape)
 	```
-## Normal Distribution
+## Normal Distribution (= Gaussian Distribution)
+- Mean or expectation of the distribution is also median and mode.
 - Using `numpy.random.normal()`
 	```python
 	import numpy as np
