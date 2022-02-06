@@ -108,6 +108,12 @@
 	tf.random.uniform([minval=0], [maxval=None], shape)
 	```
 ## Normal Distribution (= Gaussian Distribution)
+- Probability Density Function (PDF)
+	```python
+	# Normalization constant
+	Z = sigma*(2*math.pi)**0.5
+	pdf(x; mu, sigma) = math.exp(-0.5*((x - mu)/sigma)**2)/Z
+	```
 - Mean or expectation of the distribution is also median and mode.
 - Using `numpy.random.normal()`
 	```python
@@ -123,6 +129,20 @@
 	from scipy import stats
 
 	stats.norm
+	```
+- Using `tensorflow_probability.tfp.distributions.Normal()`
+	```python
+	import tensorflow_probability as tfp
+	
+	tfd = tfp.distributions
+	dist = tfd.Normal(loc=mu, scale=sigma)
+	# Cumulative distribution function (CDF) at `x`
+	cdf = dist.cdf(x)
+	# Probability density function (PDF) on `x`
+	pdf = dist.prob(x)
+	# # Log probability density function on `x`
+	log_pdf = dist.log_prob(x)
+	sample = dist.sample(sample_shape)
 	```
 ## Pareto Distribution
 - Source: https://en.wikipedia.org/wiki/Pareto_distribution
