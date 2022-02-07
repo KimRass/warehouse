@@ -92,6 +92,11 @@
 
 # Probability Distribution
 ## Uniform Distribution
+- Using `numpy.random.random()`
+	```python
+	# Create an Array of the given shape and populate it with random samples from a uniform distribution over [0, 1).
+	np.random.random(size)
+	```
 - Using `numpy.random.uniform()`
 	```python
 	import numpy as np

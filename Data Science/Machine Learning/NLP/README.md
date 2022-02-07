@@ -364,6 +364,38 @@ text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as ch
 
 	sent_div = spacing(text)
 	```
+## Split Hangul Syllables
+```python
+import re
+
+# 유니코드 한글 시작 : 44032, 끝 : 55199
+a, b, c = 44032, 588, 28
+
+onsets = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
+nuclei = ["ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"]
+codas = ["", "ㄱ", "ㄲ", "ㄳ", "ㄴ", "ㄵ", "ㄶ", "ㄷ", "ㄹ", "ㄺ", "ㄻ", "ㄼ", "ㄽ", "ㄾ", "ㄿ", "ㅀ", "ㅁ", "ㅂ", "ㅄ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
+
+def split(string):
+    res = ""
+    for char in string:
+     # 한글 여부 check 후 분리
+        if re.match(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*", char) != None:
+            code = ord(char) - a
+            # 초성1
+            onset_idx = int(code/b)
+            res += onsets[onset_idx]
+
+            # 중성
+            nucleus_idx = int((code - (onset_idx*b)) / c)
+            res += nuclei[nucleus_idx]
+
+            # 종성
+            coda_idx = int((code - (b*onset_idx) - (c*nucleus_idx)))
+            res += codas[coda_idx]
+        else:
+            res += char
+    return res
+```
 ## Stemming & Lemmatization
 ### Stemming
 - Source: https://builtin.com/data-science/introduction-nlp
@@ -765,25 +797,6 @@ def beam_search(data, k):
 		return context_vec, attn_weights
 	```
 ## Scaled Dot-Product Attention (for Transformer)
-- Reference: https://wikidocs.net/31379
-- ![Scaled Dot-Product Attention](https://wikidocs.net/images/page/31379/transformer16.PNG)
-- Implementation
-	```python
-	dk = d_model//n_heads
-	
-	# `mask`를 사용하는 이유
-		# 패딩한 부분을 어텐션 연산에 참여시키지 않기 위해
-		# Seq2Seq에서는 인코딩 부분과 단어 일부로 다음 단어를 예측하기 때문에 단어 전체가 아닌 일부분만을 학습시키기 위해
-	def scaled_dot_product_attention(queries, keys, values, mask=None):
-		attn_scores = tf.matmul(queries, keys, transpose_b=True)/dk**0.5
-		if mask is not None:
-			attn_scores = attn_scores + (mask*-1e9)
-		# (batch_size, seq_len, seq_len)
-		attn_weights = tf.nn.softmax(attn_scores, axis=-1)
-		# (batch_size, seq_len, dk)
-		context_vec = tf.matmul(attn_weights, values)
-		return context_vec, attn_weights
-	```
 ## Bahdanau Attention (= Concat Attention)
 - Implementation
 	```python
@@ -822,16 +835,67 @@ def beam_search(data, k):
 - *When added to RNNs, attention mechanisms increase performance. The development of the Transformer architecture revealed that attention mechanisms were powerful in themselves and that sequential recurrent processing of data was not necessary to achieve the quality gains of RNNs with attention. Transformers use an attention mechanism without an RNN, processing all tokens at the same time and calculating attention weights between them in successive layers. Since the attention mechanism only uses information about other tokens from lower layers, it can be computed for all tokens in parallel, which leads to improved training speed.*
 - Scaled dot-product attention
 	- Whenever we are required to calculate the Attention of a target word with respect to the input embeddings, we should use the Query of the target and the Key of the input to calculate a matching score, and these matching scores then act as the weights of the Value vectors during summation.
+	- Reference: https://wikidocs.net/31379
+	- ![Scaled Dot-Product Attention](https://wikidocs.net/images/page/31379/transformer16.PNG)
+	- `mask`를 사용하는 이유
+		- 패딩한 부분을 어텐션 연산에 참여시키지 않기 위해
+		- Seq2Seq에서는 인코딩 부분과 단어 일부로 다음 단어를 예측하기 때문에 단어 전체가 아닌 일부분만을 학습시키기 위해
+	- Implementation
+		```python
+		def scaled_dot_product_attention(queries, keys, values, mask=None):
+			attn_scores = tf.matmul(queries, keys, transpose_b=True)/dk**0.5
+			if mask is not None:
+				attn_scores = attn_scores + (mask*-1e9)
+			# (batch_size, seq_len_dec, seq_len_enc)
+			attn_weights = tf.nn.softmax(attn_scores, axis=-1)
+			# (batch_size, seq_len_dec, dk) (Same shape as queries)
+			context_vec = tf.matmul(attn_weights, values)
+			return context_vec, attn_weights
+		```
 - Multi-head attention
 	- One set of {\displaystyle \left(W_{Q},W_{K},W_{V}\right)}{\displaystyle \left(W_{Q},W_{K},W_{V}\right)} matrices is called an attention head, and each layer in a transformer model has multiple attention heads. While each attention head attends to the tokens that are relevant to each token, with multiple attention heads the model can do this for different definitions of "relevance". In addition the influence field representing relevance can become progressively dilated in successive layers. Many transformer attention heads encode relevance relations that are meaningful to humans. For example, attention heads can attend mostly to the next word, while others mainly attend from verbs to their direct objects.[8] The computations for each attention head can be performed in parallel, which allows for fast processing. The outputs for the attention layer are concatenated to pass into the feed-forward neural network layers.
-	- 멀티 헤드 어텐션은 전체 어텐션을 분리하여 병렬적으로 어텐션을 수행하는 기법입니다. 즉 `(batch_size, 50, 64*8)` 의 텐서가 있다면 이것을 `(batch_size, 50, 64)`의 8개의 텐서로 나눈다음에 개별적으로 어텐션을 수행하고, 다시 `(batch_size, 50, 64*8)`의 텐서로 Concat하게 됩니다. 이렇게 하는 이유는, 깊은 차원을 한번에 어텐션을 수행하는 것보다, 병렬로 각각 수행하는 것이 더 심도있는 언어들간의 관계를 학습할 수 있기 때문입니다.
+	- 멀티 헤드 어텐션은 전체 어텐션을 분리하여 병렬적으로 어텐션을 수행하는 기법입니다. 즉 `(batch_size, 50, 64*8)` 의 텐서가 있다면 이것을 `(batch_size, 50, 64)`의 8개의 텐서로 나눈다음에 개별적으로 어텐션을 수행하고 (각각을 Attention head라고 부름), 다시 `(batch_size, 50, 64*8)`의 텐서로 Concat하게 됩니다. 이렇게 하는 이유는, 깊은 차원을 한번에 어텐션을 수행하는 것보다, 병렬로 각각 수행하는 것이 더 심도있는 언어들간의 관계를 학습할 수 있기 때문입니다.
+	- 예를 들어보겠습니다. 앞서 사용한 예문 '그 동물은 길을 건너지 않았다. 왜냐하면 그것은 너무 피곤하였기 때문이다.'를 상기해봅시다. 단어 그것(it)이 쿼리였다고 해봅시다. 즉, it에 대한 Q벡터로부터 다른 단어와의 연관도를 구하였을 때 첫번째 어텐션 헤드는 '그것(it)'과 '동물(animal)'의 연관도를 높게 본다면, 두번째 어텐션 헤드는 '그것(it)'과 '피곤하였기 때문이다(tired)'의 연관도를 높게 볼 수 있습니다. 각 어텐션 헤드는 전부 다른 시각에서 보고있기 때문입니다.
 	- `d_model`을 `n_heads`로 나눈 값을 각 Q, K, V의 차원을 결정합니다.
+	- Implementation
+		```python
+		class MultiheadAttention(Layer):
+			def __init__(self):
+				super().__init__()
+
+			def split_heads(self, x):
+				x = tf.reshape(x, shape=(batch_size, -1, n_heads, dk))
+				return tf.transpose(x, perm=[0, 2, 1, 3])
+
+			def call(self, values, keys, queries, mask):
+				queries = Dense(units=d_model)(queries)
+				keys = Dense(units=d_model)(keys)
+				values = Dense(units=d_model)(values)
+
+				batch_size = tf.shape(queries)[0]
+				# (batch_size, n_heads, seq_len_dec, dk)
+				queries = self.split_heads(queries)
+				# (batch_size, n_heads, seq_len_enc, dk)
+				keys = self.split_heads(keys)
+				# (batch_size, n_heads, seq_len_enc, dk)
+				values = self.split_heads(values)
+
+				# (batch_size, n_heads, seq_len_dec, dk)
+				context_vec, attn_weights = scaled_dot_product_attention(queries, keys, values, mask)
+				# (batch_size, seq_len_dec, n_heads, dk)
+				z = tf.transpose(context_vec, perm=[0, 2, 1, 3])
+				# (batch_size, seq_len_dec, d_model)
+				z = tf.reshape(z, shape=(batch_size, -1, d_model))
+				z = Dense(units=d_model)(z)
+				return z, attn_weights
+		```
 - Encoder
 	- *The first encoder takes positional information and embeddings of the input sequence as its input, rather than encodings. The positional information is necessary for the transformer to make use of the order of the sequence, because no other part of the transformer makes use of this.*
 - Decoder
 	- *Each decoder consists of three major components: a self-attention mechanism, an attention mechanism over the encodings, and a feed-forward neural network.* The decoder functions in a similar fashion to the encoder, but an additional attention mechanism is inserted which instead draws relevant information from the encodings generated by the encoders.
 	- *Like the first encoder, the first decoder takes positional information and embeddings of the output sequence as its input, rather than encodings. The transformer must not use the current or future output to predict an output, so the output sequence must be partially masked to prevent this reverse information flow.* The last decoder is followed by a final linear transformation and softmax layer, to produce the output probabilities over the vocabulary.
 - ![Transformer Architecture](https://i.imgur.com/Tl2zsFL.png)
+- ![Transformer Architecture (2)](https://i.imgur.com/w4n19Rs.png)
 - Positional Encoding
 	- Implementation
 		```python
@@ -846,8 +910,6 @@ def beam_search(data, k):
 		```
 	- Visualization
 		```python
-		seq_len = 50
-		d_model = 512
 		pe_mat = positional_encoding_matrix(seq_len, d_model)[0]
 
 		plt.figure(figsize=(10, 6))
@@ -859,37 +921,12 @@ def beam_search(data, k):
 
 # BERT (Bidirectional Encoder Representations from Transformers)
 
-# Split Hangul Syllables
+# ElMo
 ```python
-import re
+import tensorflow_hub as hub
 
-# 유니코드 한글 시작 : 44032, 끝 : 55199
-a, b, c = 44032, 588, 28
-
-onsets = ["ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ", "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
-nuclei = ["ㅏ", "ㅐ", "ㅑ", "ㅒ", "ㅓ", "ㅔ", "ㅕ", "ㅖ", "ㅗ", "ㅘ", "ㅙ", "ㅚ", "ㅛ", "ㅜ", "ㅝ", "ㅞ", "ㅟ", "ㅠ", "ㅡ", "ㅢ", "ㅣ"]
-codas = ["", "ㄱ", "ㄲ", "ㄳ", "ㄴ", "ㄵ", "ㄶ", "ㄷ", "ㄹ", "ㄺ", "ㄻ", "ㄼ", "ㄽ", "ㄾ", "ㄿ", "ㅀ", "ㅁ", "ㅂ", "ㅄ", "ㅅ", "ㅆ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ"]
-
-def split(string):
-    res = ""
-    for char in string:
-     # 한글 여부 check 후 분리
-        if re.match(".*[ㄱ-ㅎㅏ-ㅣ가-힣]+.*", char) != None:
-            code = ord(char) - a
-            # 초성1
-            onset_idx = int(code/b)
-            res += onsets[onset_idx]
-
-            # 중성
-            nucleus_idx = int((code - (onset_idx*b)) / c)
-            res += nuclei[nucleus_idx]
-
-            # 종성
-            coda_idx = int((code - (b*onset_idx) - (c*nucleus_idx)))
-            res += codas[coda_idx]
-        else:
-            res += char
-    return res
+elmo = hub.Module("https://tfhub.dev/google/elmo/3", trainable=True)
+embeddings = elmo(["the cat is on the mat", "dogs are in the fog"], signature="default", as_dict=True)["elmo"]
 ```
 
 # `tokenization_kobert`
@@ -1105,19 +1142,6 @@ model.save("kakaotalk model")
 model.show_topic(1, topn=20)
 ```
 - Arguments : (the index of the topic, number of words to print)
-
-# `tensorflow_hub`
-```python
-import tensorflow_hub as hub
-```
-## `hub.Module()`
-```python
-elmo = hub.Module("https://tfhub.dev/google/elmo/3", trainable=True)
-```
-### `elmo()`
-```python
-embeddings = elmo(["the cat is on the mat", "dogs are in the fog"], signature="default", as_dict=True)["elmo"]
-```
 
 # Regular Expression
 ```python

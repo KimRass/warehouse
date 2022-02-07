@@ -957,11 +957,6 @@ from wordcloud import STOPWORDS
 ## Sample
 ### `random.random()`
 - Returns a random number in [0, 1).
-### `np.random.random()`
-```python
-np.random.random((2, 3, 4))
-```
-- Create an Array of the given shape and populate it with random samples from a uniform distribution over [0, 1).
 ### `np.random.rand()`
 ### `random.sample(sequence, k)`
 ### `random.choices(sequence, k, [weights])`

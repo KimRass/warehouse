@@ -202,7 +202,7 @@ with strategy.scope():
 from google.colab.patches import cv2_imshow
 ```
 
-# Activation Function
+# Activation Functions
 ## Sigmoid Function
 ```python
 def sigmoid(x):
@@ -242,6 +242,12 @@ def deriv_sigmoid(x):
 	```python
 	tf.nn.relu
 	```
+## `tensorflow_addons.optimizers.RectifiedAdam()`
+```python
+import tensorflow_addons as tfa
+
+tfa.optimizers.RectifiedAdam(lr, total_steps, warmup_proportion, min_lr, epsilon, clipnorm)
+```
 
 # Gradient Descent
 - Source: https://en.wikipedia.org/wiki/Gradient_descent
@@ -718,7 +724,10 @@ W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
 	- Tuple of 2 ints: interpreted as two different symmetric padding values for height and width: `(symmetric_height_pad, symmetric_width_pad)`.
 	- Tuple of 2 tuples of 2 ints: interpreted as `((top_pad, bottom_pad), (left_pad, right_pad))`.
 ## `BatchNormalization()`
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/BatchNormalization
 - Usually used before activation function layers.
+## `LayerNormalization()`
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/LayerNormalization
 ## `Reshape()`
 ## `Activation(activation)`
 - `activation`: (`"relu"`)
@@ -878,12 +887,12 @@ for epoch in range(1, epochs + 1):
 ## `tf.identity()`
 ## `tf.constant()`
 ## `tf.convert_to_tensor()`
-## `tf.transpose()`
 ## `tf.cast([dtype])`
 - Casts a tensor to a new type.
 - Returns `1` if `True` else `0`.
 ## `tf.shape()`
 ## `tf.reshape(shape)`
+## `tf.transpose(a, perm)`
 ## `tf.range()`
 ## `tf.tile()`
 ## `tf.constant_initializer()`
@@ -975,13 +984,6 @@ class LAYER_NAME(Layer):
 	def call(...):
 		...
 		return ...
-```
-
-# `tensorflow_addons`
-```python
-import tensorflow_addons as tfa
-
-opt = tfa.optimizers.RectifiedAdam(lr=5.0e-5, total_steps = 2344*4, warmup_proportion=0.1, min_lr=1e-5, epsilon=1e-08, clipnorm=1.0)
 ```
 
 # `tensorflow_probability`
@@ -1130,7 +1132,7 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, A
 import tensorflow as tf
 from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.models import load_model
-from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D, RepeatVector
+from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, LayerNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D, RepeatVector
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.utils import to_categorical, plot_model
 from tensorflow.keras.preprocessing import image_dataset_from_directory
