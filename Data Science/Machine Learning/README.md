@@ -679,7 +679,7 @@ W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
 
 # 가중치가 없는 Layers
 ## `tf.stack(values, axis, [name])`
-- Source: https://www.tensorflow.org/api_docs/python/tf/stack
+- Reference: https://www.tensorflow.org/api_docs/python/tf/stack
 - Stacks a list of tensors of rank R into one tensor of rank (R + 1).
 - `axis`: The axis to stack along.
 - Same syntax as `np.stack()`
@@ -688,9 +688,6 @@ W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
 - 마지막 Deminsion만 동일하면 Input으로 주어진 Tensors 중 하나를 옆으로 늘려서 덧셈을 수행합니다.
 ## `Multiply()()`
 ## `Dot(axes)`
-```python
-pos_score = Dot(axes=(1, 1))([z1, z2])
-```
 - `axes` : (integer, tuple of integers) Axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
 ## `Concatenate([axis])()` (= `tf.concat(values, [axis], [name])`)
 ## `Flatten([input_shape])`
@@ -716,9 +713,6 @@ pos_score = Dot(axes=(1, 1))([z1, z2])
 ## `AveragePooling1D([pool_size], [strides], [padding])`, `AveragePooling2D()`
 ## `GlobalAveragePooling1D()`, `GlobalAveragePooling2D()`
 ## `ZeroPadding2D(padding)`
-```python
-z = ZeroPadding2D(padding=((1, 0), (1, 0)))(x)
-```
 - `padding`:
 	- Int: the same symmetric padding is applied to height and width.
 	- Tuple of 2 ints: interpreted as two different symmetric padding values for height and width: `(symmetric_height_pad, symmetric_width_pad)`.
@@ -728,6 +722,8 @@ z = ZeroPadding2D(padding=((1, 0), (1, 0)))(x)
 ## `Reshape()`
 ## `Activation(activation)`
 - `activation`: (`"relu"`)
+## `RepeatVector(n)`
+- Repeats the input `n` times.
 
 # 가중치가 있는 Layers
 ## `Embedding([input_length], input_dim, output_dim, [mask_zero], [name], [weights], [trainable], ...)`
@@ -774,14 +770,18 @@ z = ZeroPadding2D(padding=((1, 0), (1, 0)))(x)
 z, for_h_state, for_c_state, back_h_state, back_c_state = Bidirectional(LSTM(return_state=True))(z)
 ```
 ## `TimeDistributed()`
-- TimeDistributed를 이용하면 각 time에서 출력된 아웃풋을 내부에 선언해준 레이어와 연결시켜주는 역할을 합니다.
-- In keras - while building a sequential model - usually the second dimension (one after sample dimension) - is related to a time dimension. This means that if for example, your data is 5-dim with (sample, time, width, length, channel) you could apply a convolutional layer using TimeDistributed (which is applicable to 4-dim with (sample, width, length, channel)) along a time dimension (applying the same layer to each time slice) in order to obtain 5-d output.
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/TimeDistributed
+- This wrapper allows to apply a layer to every temporal slice of an input.
+- For example, consider a batch of 32 video samples, where each sample is a 128x128 RGB image with channels_last data format, across 10 timesteps. The batch input shape is (32, 10, 128, 128, 3). You can then use `TimeDistributed()` to apply the same `Conv2D()` layer to each of the `10` timesteps, independently. Because `TimeDistributed()` applies the same instance of `Conv2D()` to each of the timestamps, the same set of weights are used at each timestamp.
 
 # Modeling
 ## Build Model
 ```python
 model = Model(inputs, ouputs, [name])
 model.summary()
+# `to_file`: File name of the plot image.
+# `show_layer_activations`: Display layer activations
+plot_model(model, [to_file], [show_layer_activations])
 ```
 ## Compile
 ```python
@@ -1151,7 +1151,7 @@ from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D, RepeatVector
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
-from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical, plot_model
 from tensorflow.keras.preprocessing import image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
