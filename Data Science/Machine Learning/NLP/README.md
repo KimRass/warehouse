@@ -751,7 +751,39 @@ def beam_search(data, k):
 - Sources: https://en.wikipedia.org/wiki/Attention_(machine_learning), https://wikidocs.net/22893
 - In neural networks, attention is a technique that mimics cognitive attention. *The effect enhances some parts of the input data while diminishing other parts — the thought being that the network should devote more focus to that small but important part of the data. Learning which part of the data is more important than others depends on the context and is trained by gradient descent.*
 - To build a machine that translates English-to-French, one starts with an Encoder-Decoder and grafts an attention unit to it. *In practice, the attention unit consists of 3 fully connected neural network layers that needs to be trained. The 3 layers are called Query, Key, and Value.*
+- Self Attention: Query, Key, Value의 출처가 서로 동일한 경우를 말합니다.
+- Multi-head Attention: Attention을 Parallel하게 수행한다는 의미입니다.
 ## Dot-Product Attention (= Luong Attention)
+- Implementation
+	```python
+	def dot_product_attention(queries, keys, values, mask=None):
+		attn_scores = tf.matmul(queries, keys, transpose_b=True)
+		# (batch_size, seq_len, seq_len)
+		attn_weights = tf.nn.softmax(attn_scores, axis=-1)
+		# (batch_size, seq_len, dk)
+		context_vec = tf.matmul(attn_weights, values)
+		return context_vec, attn_weights
+	```
+## Scaled Dot-Product Attention (for Transformer)
+- Reference: https://wikidocs.net/31379
+- ![Scaled Dot-Product Attention](https://wikidocs.net/images/page/31379/transformer16.PNG)
+- Implementation
+	```python
+	dk = d_model//n_heads
+	
+	# `mask`를 사용하는 이유
+		# 패딩한 부분을 어텐션 연산에 참여시키지 않기 위해
+		# Seq2Seq에서는 인코딩 부분과 단어 일부로 다음 단어를 예측하기 때문에 단어 전체가 아닌 일부분만을 학습시키기 위해
+	def scaled_dot_product_attention(queries, keys, values, mask=None):
+		attn_scores = tf.matmul(queries, keys, transpose_b=True)/dk**0.5
+		if mask is not None:
+			attn_scores = attn_scores + (mask*-1e9)
+		# (batch_size, seq_len, seq_len)
+		attn_weights = tf.nn.softmax(attn_scores, axis=-1)
+		# (batch_size, seq_len, dk)
+		context_vec = tf.matmul(attn_weights, values)
+		return context_vec, attn_weights
+	```
 ## Bahdanau Attention (= Concat Attention)
 - Implementation
 	```python
@@ -776,13 +808,6 @@ def beam_search(data, k):
 
 			return context_vec, attn_weights
 	```
-## Scaled Dot-Product Attention
-- Implementation
-	```python
-
-	```
-- Self Attention: Query, Key, Value가 서로 동일한 출처를 갖는 경우를 말합니다.
-- Multi-head Attention: Attention을 Parallel하게 수행한다는 의미입니다.
 
 # Transformer
 - Sources: https://en.wikipedia.org/wiki/Transformer_(machine_learning_model), https://wikidocs.net/31379

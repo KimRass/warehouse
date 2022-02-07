@@ -874,39 +874,19 @@ for epoch in range(1, epochs + 1):
 		metrics.reset_states()
 ```
 
+# `tensorflow` Operators
 ## `tf.identity()`
 ## `tf.constant()`
-```python
-image = tf.constant([[[[1], [2], [3]], [[4], [5], [6]], [[7], [8], [9]]]], dtype=tf.float32)
-```
 ## `tf.convert_to_tensor()`
-```python
-img = tf.convert_to_tensor(img)
-```
 ## `tf.transpose()`
 ## `tf.cast([dtype])`
 - Casts a tensor to a new type.
 - Returns `1` if `True` else `0`.
 ## `tf.shape()`
-```python
-batch_size = tf.shape(conv_output)[0]
-```
-## `tf.reshape()`
-```python
-conv_output = tf.reshape(conv_output, shape=(batch_size, output_size, output_size, 3, 5 + n_clss))
-```
+## `tf.reshape(shape)`
 ## `tf.range()`
-```python
-tf.range(3, 18, 3)
-```
 ## `tf.tile()`
-```python
-y = tf.tile(y, multiples=[1, output_size])
-```
 ## `tf.constant_initializer()`
-```
-weight_init = tf.constant_initializer(weight)
-```
 ## `tf.math`
 ### `tf.math.add()`, `tf.math.subtract()`, `tf.math.multiply()`, `tf.math.divide()`
 - Adds, substract, multiply or divide two input tensors element-wise.
@@ -924,6 +904,7 @@ weight_init = tf.constant_initializer(weight)
 - Reference: https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
 - `axis=None`: Reduces all dimensions.
 - Reduces `input_tensor` along the dimensions given in `axis`. Unless `keepdims=True`, the rank of the tensor is reduced by `1` for each of the entries in `axis`, which must be unique. If `keepdims=True`, the reduced dimensions are retained with length `1`.
+## `tf.linalg.matmul(a, b, [transpose_a], [transpose_b])`
 
 # `tf.data.Dataset`
 ## `tf.data.Dataset.from_tensor_slices()`
