@@ -726,8 +726,10 @@ W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
 ## `BatchNormalization()`
 - Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/BatchNormalization
 - Usually used before activation function layers.
-## `LayerNormalization()`
+## `LayerNormalization([epsilon], axis)`
 - Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/LayerNormalization
+- ***Normalize the activations of the previous layer for each given example in a batch independently, rather than across a batch like Batch Normalization. i.e. applies a transformation that maintains the mean activation within each example close to 0 and the activation standard deviation close to 1.***
+- `epsilon`: Small float added to variance to avoid dividing by zero. Defaults to `1e-3`.
 ## `Reshape()`
 ## `Activation(activation)`
 - `activation`: (`"relu"`)

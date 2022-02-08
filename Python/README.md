@@ -774,10 +774,13 @@ euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))
 ```
 ## Diagonal
 ### `np.fill_diagonal()`
-### `np.diag(v, k=0)`
+### `np.diag(v, [k=0])`
 - If `v` is a 2-D array, returns a copy of its `k`-th diagonal.
 - If `v` is a 1-D array, returns a 2-D array with `v` on the `k`-th diagonal.
-
+### `tf.linalg.band_part()`
+- `tf.linalg.band_part(input, 0, -1)`: Upper triangular part.
+- `tf.linalg.band_part(input, -1, 0)`: Lower triangular part.
+- `tf.linalg.band_part(input, 0, 0)`: Diagonal.
 ## Linear Algebra
 ### `np.linalg.norm()`
 ```python
@@ -785,7 +788,6 @@ np.linalg.norm(x, axis=1, ord=2)
 ```
 - `ord=1`: L1 normalization.
 - `ord=2`: L2 normalization.
-
 ## 모양 변화
 ### `np.expand_dims()`
 ```python
