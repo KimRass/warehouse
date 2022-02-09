@@ -17,7 +17,7 @@ data = data[data["review"]!=" "]
 data = data.dropna(axis=0)
 data = data.drop_duplicates(["review"], keep="first")
 ```
-## `tensorflow.keras.datasets.imdb
+## `tensorflow.keras.datasets.imdb`
 ```python
 from tensorflow.keras.datasets import imdb
 
@@ -75,6 +75,65 @@ if not os.path.exists(filename):
 with open(filename, mode="r", encoding="utf-8") as f:
     tree = etree.parse(f)
     raw_data = "\n".join(tree.xpath("//content/text()"))
+```
+## `tensorflow_datasets.load("ted_hrlr_tranlsate_pt_to_en")`
+- Reference: https://www.tensorflow.org/api_docs/python/tf/data/Dataset
+```python
+# `with_info`: If `True`, `tfds.load()` will return the tuple `(tf.data.Dataset, tfds.core.DatasetInfo)`, the latter containing the info associated with the builder.
+# `as_supervised`: If `True`, the returned `tf.data.Dataset` will have a 2-tuple structure `(input, label)` according to `builder.info.supervised_keys`. If `False`, the returned `tf.data.Dataset` will have a dictionary with all the features.
+dataset, metadata = tfds.load("ted_hrlr_translate/pt_to_en", with_info=True, as_supervised=True)
+dataset_tr, dataset_val, dataset_te = dataset["train"], dataset["validation"], dataset["test"]
+
+tokenizer_src = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus((pt.numpy() for pt, en in dataset_tr), target_vocab_size=2**13)
+tokenizer_tar = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus((en.numpy() for pt, en in dataset_tr), target_vocab_size=2**13)
+
+max_len = 40
+buffer_size = tf.data.experimental.cardinality(dataset_tr).numpy()
+batch_size = 64
+
+def encode(lang1, lang2):
+    lang1 = [tokenizer_src.vocab_size] + tokenizer_src.encode(lang1.numpy()) + [tokenizer_src.vocab_size + 1]
+    lang2 = [tokenizer_tar.vocab_size] + tokenizer_tar.encode(lang2.numpy()) + [tokenizer_tar.vocab_size + 1]
+    return lang1, lang2
+
+def tf_encode(pt, en):
+    # `func`: A Python function that accepts `inp` as arguments, and returns a value (or list of values) whose type is described by `Tout`.
+    # `inpt`: Input arguments for func. A list whose elements are Tensors or a single Tensor.
+    result_pt, result_en = tf.py_function(func=encode, inp=[pt, en], Tout=[tf.int64, tf.int64])
+    result_pt.set_shape([None])
+    result_en.set_shape([None])
+    return result_pt, result_en
+
+def filter_max_len(x, y):
+    return tf.logical_and(tf.size(x) <= max_len, tf.size(y) <= max_len)
+
+# This transformation applies `map_func` to each element of this dataset, and returns a new dataset containing the transformed elements, in the same order as they appeared in the input. `map_func` can be used to change both the values and the structure of a dataset's elements.
+dataset_tr = dataset_tr.map(tf_encode)
+# `predicate`: A function mapping a dataset element to a boolean.
+# Returns the dataset containing the elements of this dataset for which `predicate` is `True`.
+dataset_tr = dataset_tr.filter(filter_max_len)
+# The first time the dataset is iterated over, its elements will be cached either in the specified file or in memory. Subsequent iterations will use the cached data.
+# `filename`: When caching to a file, the cached data will persist across runs. Even the first iteration through the data will read from the cache file. Changing the input pipeline before the call to `cache()` will have no effect until the cache file is removed or the `filename` is changed. If a `filename` is not provided, the dataset will be cached in memory.
+dataset_tr = dataset_tr.cache()
+# For perfect shuffling, a `buffer_size` greater than or equal to the full size of the dataset is required.
+# If not, only the first `buffer_size` elements will be selected randomly.
+# `reshuffle_each_iteration` controls whether the shuffle order should be different for each epoch.
+dataset_tr = dataset_tr.shuffle(buffer_size)
+# Pad to the smallest per-`batch size` that fits all elements.
+# Unlike `batch()`, the input elements to be batched may have different shapes, and this transformation will pad each component to the respective shape in `padded_shapes`. The `padded_shapes` argument determines the resulting shape for each dimension of each component in an output element.
+# `padded_shapes`:
+    # If `None`: The dimension is unknown, the component will be padded out to the maximum length of all elements in that dimension.
+    # If not `None`: The dimension is a constant, the component will be padded out to that length in that dimension.
+# `padding_values`
+# `drop_remainder`
+dataset_tr = dataset_tr.padded_batch(batch_size)
+# Most dataset input pipelines should end with a call to prefetch. This allows later elements to be prepared while the current element is being processed. This often improves latency and throughput, at the cost of using additional memory to store prefetched elements.
+# `buffer_size`: The maximum number of elements that will be buffered when prefetching. If the value `tf.data.AUTOTUNE` is used, then the buffer size is dynamically tuned.
+dataset_tr = dataset_tr.prefetch(tf.data.AUTOTUNE)
+
+dataset_val = dataset_val.map(tf_encode)
+dataset_val = dataset_val.filter(filter_max_len)
+dataset_val = dataset_val.padded_batch(batch_size)
 ```
 
 # Text
@@ -829,7 +888,7 @@ def beam_search(data, k):
 - *The additional training parallelization allows training on larger datasets than was once possible. This led to the development of pretrained systems such as BERT (Bidirectional Encoder Representations from Transformers) and GPT (Generative Pre-trained Transformer), which were trained with large language datasets, such as the Wikipedia Corpus and Common Crawl, and can be fine-tuned for specific tasks.*
 - Before transformers, most state-of-the-art NLP systems relied on gated RNNs, such as LSTM and gated recurrent units (GRUs), with added attention mechanisms. *Transformers are built on these attention technologies without using an RNN structure, highlighting the fact that attention mechanisms alone can match the performance of RNNs with attention.*
 - *Sequential processing: Gated RNNs process tokens sequentially, maintaining a state vector that contains a representation of the data seen after every token.* To process the `n`th token, the model combines the state representing the sentence up to token `n - 1` with the information of the new token to create a new state, representing the sentence up to token `n`. Theoretically, the information from one token can propagate arbitrarily far down the sequence, if at every point the state continues to encode contextual information about the token. In practice this mechanism is flawed: ***the vanishing gradient problem leaves the model's state at the end of a long sentence without precise, extractable information about preceding tokens.*** *The dependency of token computations on results of previous token computations also makes it hard to parallelize computation on modern deep learning hardware. This can make the training of RNNs inefficient.*
-- *Attention
+- Attention
 	- These problems were addressed by attention mechanisms. Attention mechanisms let a model draw from the state at any preceding point along the sequence. The attention layer can access all previous states and weigh them according to a learned measure of relevancy, providing relevant information about far-away tokens.*
 	- A clear example of the value of attention is in language translation, where context is essential to assign the meaning of a word in a sentence. In an English-to-French translation system, the first word of the French output most probably depends heavily on the first few words of the English input. *However, in a classic LSTM model, in order to produce the first word of the French output, the model is given only the state vector of the last English word. Theoretically, this vector can encode information about the whole English sentence, giving the model all necessary knowledge. In practice, this information is often poorly preserved by the LSTM. An attention mechanism can be added to address this problem: the decoder is given access to the state vectors of every English input word, not just the last, and can learn attention weights that dictate how much to attend to each English input state vector.*
 - *When added to RNNs, attention mechanisms increase performance. The development of the Transformer architecture revealed that attention mechanisms were powerful in themselves and that sequential recurrent processing of data was not necessary to achieve the quality gains of RNNs with attention. Transformers use an attention mechanism without an RNN, processing all tokens at the same time and calculating attention weights between them in successive layers. Since the attention mechanism only uses information about other tokens from lower layers, it can be computed for all tokens in parallel, which leads to improved training speed.*
