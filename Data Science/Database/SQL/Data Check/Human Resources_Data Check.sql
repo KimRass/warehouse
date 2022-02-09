@@ -32,6 +32,22 @@ FROM DATAMART_DAAV_BASEINFO_MONTH DDBM;
 --- `use_month`: 2011년 3월부터 2019년 9월까지 3개월 단위로만 값 존재. 2019년 10월부터는 1개월 단위로 존재. `use_month`별로 전직원 레코드 포함.
 --- `am_incomesum_month`: 임직원별 인건비
 
+SELECT use_month, ds_tydept_bi, SUM(am_incomesum_month)
+FROM DATAMART_DAAV_BASEINFO_MONTH DDBM
+WHERE LEFT(use_month, 4) = '2019'
+GROUP BY ds_tydept_bi, use_month
+ORDER BY CAST(use_month AS INT) DESC, ds_tydept_bi
+
+SELECT LEFT(use_month, 4), ds_tydept_bi, SUM(am_incomesum_month)
+FROM DATAMART_DAAV_BASEINFO_MONTH DDBM
+GROUP BY ds_tydept_bi, LEFT(use_month, 4)
+ORDER BY LEFT(use_month, 4) DESC, ds_tydept_bi
+
+SELECT LEFT(use_month, 4), SUM(am_incomesum_month)
+FROM DATAMART_DAAV_BASEINFO_MONTH DDBM
+GROUP BY LEFT(use_month, 4)
+ORDER BY LEFT(use_month, 4) DESC
+
 SELECT use_month, ds_tydept_bi, ds_emptype_bi, ds_dept, COUNT(*) 
 FROM DATAMART_DAAV_BASEINFO_MONTH DDBM
 WHERE cd_corp = 'A101'
@@ -41,7 +57,8 @@ SELECT DISTINCT use_month
 FROM DATAMART_DAAV_BASEINFO_MONTH DDBM
 
 SELECT *
-FROM DATAMART_DAAV_BASEINFO_YEAR DDBY;
+FROM DATAMART_DAAV_BASEINFO_YEAR DDBY
+ORDER BY use_month DESC;
 --- 업데이트: 매일 1시
 --- 레코드 추가: 매년 4월 1일, 7월 1일, 10월 1일, 1월 1일에 전달의 말일 기준으로 추가.
 --- 사용 영역: `채용구분별 인건비`, `근무지별 인건비`
@@ -51,8 +68,9 @@ FROM DATAMART_DAAV_BASEINFO_YEAR DDBY;
 
 --## 인건비
 SELECT use_month, CAST(ROUND(am_total/100000000, 0) AS BIGINT)
-FROM datamart_daav_baseinfo_year
-WHERE RIGHT(use_month, 2) IN('03', '06', '09', '12');
+FROM DATAMART_DAAV_BASEINFO_YEAR DDBY
+WHERE RIGHT(use_month, 2) IN('03', '06', '09', '12')
+ORDER BY use_month DESC;
 
 SELECT *
 FROM DATAMART_DAAV_BASEINFO_MONTH_FUTURE DDBMF;
