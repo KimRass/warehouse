@@ -915,6 +915,9 @@ for epoch in range(1, epochs + 1):
 - Reference: https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
 - `axis=None`: Reduces all dimensions.
 - Reduces `input_tensor` along the dimensions given in `axis`. Unless `keepdims=True`, the rank of the tensor is reduced by `1` for each of the entries in `axis`, which must be unique. If `keepdims=True`, the reduced dimensions are retained with length `1`.
+## `tf.math.logical_and()`, `tf.math.logical_or()`
+## `tf.math.logical_not(x)`
+- Returns the truth value of `NOT x` element-wise.
 ## `tf.linalg.matmul(a, b, [transpose_a], [transpose_b])`
 
 # `tf.data.Dataset`
