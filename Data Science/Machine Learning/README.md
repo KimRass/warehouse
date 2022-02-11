@@ -838,10 +838,21 @@ axes[1].legend();
 ```python
 score = model.evaluate(x_test, y_test, batch_size=128, verbose=0)
 ```
-## Predict
+## Inference
 ```python
 preds = model.predict(x.values)
 ```
+- Source: https://www.tensorflow.org/api_docs/python/tf/keras/Model?hl=en#predict, https://stackoverflow.com/questions/60837962/confusion-about-keras-model-call-vs-call-vs-predict-methods
+- `model(x)`
+	- ***For small numbers of inputs that fit in one batch, directly use `__call__()` for faster execution, e.g., `model(x)`, or `model(x, training=False)` if you have layers such as `BatchNormalization()` that behave differently during inference. You may pair the individual model call with a `@tf.function()` for additional performance inside your inner loop.***
+	- ***After `model(x)`, you can use `tf.Tensor.numpy()` to get the numpy array value of an eager tensor.***
+	- Also, note the fact that test loss is not affected by regularization layers like noise and dropout.
+- `model.predict()`
+	- ***Computation is done in batches. This method is designed for batch processing of large numbers of inputs. It is not intended for use inside of loops that iterate over your data and process small numbers of inputs at a time.***
+- `model.predict_on_batch()`
+	- The difference between `model.predict()` and `model.predict_on_batch()` is that the latter runs over a single batch, and the former runs over a dataset that is splitted into batches and the results merged to produce the final `numpy.ndarray` of predictions.
+	- `model(x, training=False)` and `model.predict_on_batch(x)` are equivalent.
+	- Generates output predictions for the input samples.
 ## 가중치 확인
 ```python
 for layer in model.layers:
@@ -1152,3 +1163,6 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.activations import linear, sigmoid, relu
 from tensorflow.keras.initializers import RandomNormal, glorot_uniform, he_uniform, Constant
 ```
+
+# `from_logits`
+- ![from_logits](https://i.imgur.com/cUjg18g.png)
