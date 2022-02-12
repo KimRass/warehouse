@@ -76,7 +76,7 @@ with open(filename, mode="r", encoding="utf-8") as f:
     tree = etree.parse(f)
     raw_data = "\n".join(tree.xpath("//content/text()"))
 ```
-## `tensorflow_datasets.load("ted_hrlr_tranlsate_pt_to_en")`
+## Portuguese-English Translation Dataset from The TED Talks Open Translation Project.
 - Reference: https://www.tensorflow.org/api_docs/python/tf/data/Dataset
 ```python
 # `with_info`: If `True`, `tfds.load()` will return the tuple `(tf.data.Dataset, tfds.core.DatasetInfo)`, the latter containing the info associated with the builder.
@@ -856,6 +856,18 @@ def beam_search(data, k):
 		return context_vec, attn_weights
 	```
 ## Scaled Dot-Product Attention (for Transformer)
+- Implementation
+	```python
+	# 패딩 마스킹을 써야하는 경우에는 스케일드 닷 프로덕트 어텐션 함수에 패딩 마스크를 전달하고
+	# 룩-어헤드 마스킹을 써야하는 경우에는 스케일드 닷 프로덕트 어텐션 함수에 룩-어헤드 마스크를 전달합니다.
+	def scaled_dot_product_attention(queries, keys, values, mask):
+		attn_scores = tf.matmul(queries, keys, transpose_b=True)/dk**0.5
+		if mask is not None:
+			attn_scores = attn_scores + (mask*-1e9)
+		attn_weights = tf.nn.softmax(attn_scores, axis=-1)
+		context_vec = tf.matmul(attn_weights, values)
+		return context_vec, attn_weights
+	```
 ## Bahdanau Attention (= Concat Attention)
 - Implementation
 	```python
@@ -992,6 +1004,8 @@ def beam_search(data, k):
 	- 참고로 패딩은 1로 하겠습니다. 왜냐하면 어텐션 부분에서 mask * (-1e9)를 하는데, 패딩이 1이어야 -1e9가 곱해져서 상당히 음수로 큰 수가 되는 것이고, 이게 소프트 맥스에 들어가면 0이 되기 때문입니다.(지수함수라 지수함수에 -음수는 0으로 수렴)
 
 # BERT (Bidirectional Encoder Representations from Transformers)
+
+# GPT (Generative Pre-trained Transformer)
 
 # ElMo
 ```python

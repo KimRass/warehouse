@@ -337,7 +337,7 @@ idf_ser = pd.Series(idf, index=vocab)
 ```
 ## `pd.read_csv([thousands=","], [float_precision], [skiprows], [error_bad_lines], [index_col], [sep], [names], [parse_dates], [infer_datetime_format], [dayfirst])`
 - `names`: List of column names to use.
-- `parse_dates`: (List of columns names)
+- `parse_dates`: (List of column names)
 - `infer_datetime_format` (bool) If `True` and `parse_dates` is enabled, pandas will attempt to infer the format of the datetime strings in the columns, and if it can be inferred, switch to a faster method of parsing them.
 ## `pd.read_excel()`
 ## `pd.read_table([usecols], [names])`
@@ -615,16 +615,6 @@ for i, value in raw_data["quarter2"].items():
     print(i, value)
 ```
 - Iterate over (index, value) tuples.
-## `DataFrame.asfreq()`
-## `DataFrame.rolling()`
-```python
-raw_all[["count"]].rolling(window=24, center=False).mean()
-```
-## `DataFrame.diff()`, `Series.diff()`
-## `DataFrame.shift()`
-```python
-raw_data["count_lag1"] = raw_data["count"].shift(1)
-```
 ## `DataFrame.mean()`
 ```python
 ui.mean(axis=1)
@@ -1707,7 +1697,7 @@ fig, axes = plt.subplots(nrows, ncols, ...)
 # Options
 ## `plt.setp()`
 ## `plt.show()`
-## `fig.tight_layout()`
+## `plt.gcf().tight_layout()`, `fig.tight_layout()`
 ## `plt.imshow([cmap])`
 ## `plt.set()`
 ```python
