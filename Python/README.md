@@ -1522,10 +1522,7 @@ ax.hist(cnt_genre["genre"], bins=30)
 raw_data.hist(bins=20, grid=True, figsize=(16,12))
 ```
 ## Box Plot
-### `ax.boxplot()`, `DataFrame.boxplot()`, `Series.boxplot()`
-```python
-raw_data.boxplot(column="count", by="season", grid=False, figsize=(12,5))
-```
+### `ax.boxplot()`, `DataFrame.boxplot(column, by, grid, figsize)`, `Series.boxplot()`
 ## Horizontal Line & Vertical Line
 ### `axhline(y, [color], [ls], [lw], [label])`, `axvline()`
 ### `hlines()`, `vlines()`

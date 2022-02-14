@@ -33,6 +33,16 @@ gdd.download_file_from_google_drive(file_id="122XXMOwYgMxvgAVrm_VwXnyV42IgBiiC",
 
 raw_data = pd.read_csv("D:/household_power_consumption.csv", header=0, infer_datetime_format=True, parse_dates=["datetime"], index_col=["datetime"])
 ```
+## NYC Taxi
+- Reference: https://github.com/numenta/NAB/blob/master/data/realKnownCause/nyc_taxi.csv
+- Using `orion`
+	```python
+	from orion.data import load_signal, load_anomalies
+
+	signal = "nyc_taxi"
+	raw_data = load_signal(signal)
+	known_anoms = load_anomalies(signal)
+	```
 
 # Time Series
 - Source: https://www.geeksforgeeks.org/what-is-a-trend-in-time-series/
@@ -326,6 +336,18 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 
 - Gaussian Likelihood
 - Negative Binomial Likelihood
+
+# Autoencoder
+- Source: https://en.wikipedia.org/wiki/Autoencoder
+- An autoencoder is a type of artificial neural network used to learn efficient codings of unlabeled data (unsupervised learning). ***The encoding is validated and refined by attempting to regenerate the input from the encoding. The autoencoder learns a representation (encoding) for a set of data, typically for dimensionality reduction, by training the network to ignore insignificant data (“noise”).***
+Autoencoders are applied to many problems, from facial recognition, feature detection, anomaly detection to acquiring the meaning of words. Autoencoders are also generative models: they can randomly generate new data that is similar to the input data (training data).
+- ***An autoencoder has two main parts: an encoder that maps the input into the code, and a decoder that maps the code to a reconstruction of the input.*** The simplest way to perform the copying task perfectly would be to duplicate the signal. ***Instead, autoencoders are typically forced to reconstruct the input approximately, preserving only the most relevant aspects of the data in the copy. This image h is usually referred to as code, latent variables, or a latent representation. The decoder stage of the autoencoder maps h to the reconstruction x' of the same shape as x.***
+- Anomaly detection
+	- By learning to replicate the most salient features in the training data under some of the constraints described previously, the model is encouraged to learn to precisely reproduce the most frequently observed characteristics. When facing anomalies, the model should worsen its reconstruction performance. *In most cases, only data with normal instances are used to train the autoencoder; in others, the frequency of anomalies is small compared to the observation set so that its contribution to the learned representation could be ignored. After training, the autoencoder will accurately reconstruct "normal" data, while failing to do so with unfamiliar anomalous data. Reconstruction error (the error between the original data and its low dimensional reconstruction) is used as an anomaly score to detect anomalies.*
+	
+# TadGan (Time series Anomaly Detection using Generative Adversarial Networks)
+- Using `orion`
+	- Refrences: https://github.com/sintel-dev/Orion/tree/master/tutorials/tulog
 
 # Splitting Dataset
 - ***Overfitting would be a major concern since your training data could contain information from the future. It is important that all your training data happens before your test data.***
