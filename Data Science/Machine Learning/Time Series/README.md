@@ -372,10 +372,10 @@ Autoencoders are applied to many problems, from facial recognition, feature dete
 ![blocked](https://hub.packtpub.com/wp-content/uploads/2019/05/Blocking-Time-Series-Split.png)
 - Implementation
 	```python
-	def blocked_cv(data, window_size, h):
+	def blocked_cv(data, window_size, h, step=1):
 		X = list()
 		y = list()
-		for i in range(len(data) - window_size - h + 1):
+		for i in range(0, len(data) - window_size - h + 1, step):
 			X.append(data[i:i + window_size])
 			y.append(data[i + window_size:i + window_size + h])
 		return np.array(X), np.array(y)

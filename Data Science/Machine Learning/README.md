@@ -55,7 +55,7 @@ dense_mat = sparse_mat.todense()
 - Source: https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture
 - An embedding is a relatively low-dimensional space into which you can translate high-dimensional vectors. Embeddings make it easier to do machine learning on large inputs like sparse vectors representing words. Ideally, an embedding captures some of the semantics of the input by placing semantically similar inputs close together in the embedding space. An embedding can be learned and reused across models.
 
-# Feature Scaling
+# Feature Scaling (Data Normalization)
 - Source: https://en.wikipedia.org/wiki/Feature_scaling
 - Feature scaling is a method used to normalize the range of independent variables or features of data. In data processing, it is also known as data normalization and is generally performed during the data preprocessing step.
 - ***Since the range of values of raw data varies widely, in some machine learning algorithms, objective functions will not work properly without normalization. For example, many classifiers calculate the distance between two points by the Euclidean distance. If one of the features has a broad range of values, the distance will be governed by this particular feature. Therefore, the range of all features should be normalized so that each feature contributes approximately proportionately to the final distance.***
@@ -76,6 +76,7 @@ sc.fit_transform()
 	```python
 	from sklearn.preprocessing import MinMaxScaler
 
+	# `feature_range`: (default `(0, 1)`) Desired range of transformed data.
 	sc = MinMaxScaler()
 	```
 ## Standard Scaling
@@ -600,16 +601,27 @@ While both types of models can fit curvature, nonlinear regression is much more 
     그런데 만약 회귀 모델의 목적이 해석이 아니라 예측에 있다면 비선형 모델은 대단히 유연하기 때문에 복잡한 패턴을 갖는 데이터에 대해서도 모델링이 가능합니다. 그래서 충분히 많은 데이터를 갖고 있어서 variance error를 충분히 줄일 수 있고 예측 자체가 목적인 경우라면 비선형 모델은 사용할만한 도구입니다. 기계 학습 분야에서는 실제 이런 비선형 모델을 대단히 많이 사용하고 있는데 가장 대표적인 것이 소위 딥 러닝이라고 부르는 뉴럴 네트워크입니다.
 - 정리하자면, 선형 회귀 모델은 파라미터가 선형식으로 표현되는 회귀 모델을 의미합니다. 그리고 이런 선형 회귀 모델은 파라미터를 추정하거나 모델을 해석하기가 비선형 모델에 비해 비교적 쉽기 때문에, 데이터를 적절히 변환하거나 도움이 되는 feature들을 추가하여 선형 모델을 만들 수 있다면 이렇게 하는 것이 적은 개수의 feature로 복잡한 비선형 모델을 만드는 것보다 여러 면에서 유리합니다. 반면 선형 모델은 표현 가능한 모델의 가짓수(파라미터의 개수가 아니라 파라미터의 결합 형태)가 한정되어 있기 때문에 유연성이 떨어집니다. 따라서 복잡한 패턴을 갖고 있는 데이터에 대해서는 정확한 모델링이 불가능한 경우가 있습니다. 그래서 최근에는 모델의 해석보다는 정교한 예측이 중요한 분야의 경우 뉴럴 네트워크와 같은 비선형 모델이 널리 사용되고 있습니다.
 
-# Missing Value
-## Treating Missing Values
+# Treating Missing Values
 - Source: https://adataanalyst.com/machine-learning/comprehensive-guide-feature-engineering/
-### Imputation(Mean, Mode, Median)
-- Generalized Imputation: In this case, we calculate the mean or median for all non missing values of that variable then replace missing value with mean or median. Like in above table, variable “Manpower” is missing so we take average of all non missing values of “Manpower” (28.33) and then replace missing value with it.
-Similar case Imputation: In this case, we calculate average for gender “Male” (29.75) and “Female” (25) individually of non missing values then replace the missing value based on gender. For “Male“, we will replace missing values of manpower with 29.75 and for “Female” with 25.
-### Prediction
+## Data Imputation
+- Using `sklearn.impute.SimpleImputer()`
+	```python
+	# The `SimpleImputer()` class provides basic strategies for imputing missing values. Missing values can be imputed with a provided constant value, or using the statistics (mean, median or most frequent) of each column in which the missing values are located. This class also allows for different missing values encodings.
+	from sklearn.impute import SimpleImputer
+	
+	# `missing_values`: (default `np.nan`)
+	# `strategy`: (`"mean"`, `"median"`, `"most_frequent"`, `"constant"`)
+		# `strategy="most_frequent"`: Can be used with strings or numeric data. If there is more than one such value, only the smallest is returned.
+		# `strategy="constatn"`: Replace missing values with `fill_value`.
+	imp = SimpleImputer(missing_values, strategy, fill_value)
+	imp.fit()
+	# imp.transform()
+	# imp.fit_transform()
+	```
+## Prediction
 - In this case, we divide our data set into two sets: One set with no missing values for the variable and another one with missing values. First data set become training data set of the model while second data set with missing values is test data set and variable with missing values is treated as target variable.
-### Interpolation
-### K-Nearest Neighbors Imputation
+## Interpolation
+## K-Nearest Neighbors Imputation
 - KNN algorithm is very time-consuming in analyzing large database. It searches through all the dataset looking for the most similar instances.
 - Choice of k-value is very critical. Higher value of k would include attributes which are significantly different from what we need whereas lower value of k implies missing out of significant attributes. 
 
@@ -1125,6 +1137,7 @@ from seqeval.metrics import classification_report
 from sklearn.metrics import mean_squared_error
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.model_selection import train_test_split, KFold, GroupKFold, LeaveOneOut, LeaveOneGroupOut
+from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder, LabelEncoder, StandardScaler, MinMaxScaler, RobustScaler, Normalizer
 from sklearn.decomposition import PCA
 from sklearn.tree import DecisionTreeRegressor
