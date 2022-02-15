@@ -347,7 +347,31 @@ Autoencoders are applied to many problems, from facial recognition, feature dete
 	
 # TadGan (Time series Anomaly Detection using Generative Adversarial Networks)
 - Using `orion`
-	- Refrences: https://github.com/sintel-dev/Orion/tree/master/tutorials/tulog
+	- Refrences: https://github.com/sintel-dev/Orion/tree/master/tutorials/tulog, https://sintel.dev/Orion/user_guides/primitives_pipelines/primitives/TadGAN.html
+	```python
+	!pip uninstall -y keras-nightly tensorflow
+	!pip install orion-ml "urllib3>=1.25.4, <1.26"
+	
+	# Restart runtime
+	!pip freeze | grep orion-ml
+
+	%%bash
+	rm -rf Orion
+	rm -rf images
+
+	git clone https://github.com/signals-dev/Orion.git
+	mv Orion/tutorials/tulog/* .
+	exit
+	
+	from orion import Orion
+	from orion.data import load_signal, load_anomalies
+	from orion.primitives.tadgan import TadGAN, score_anomalies
+	from orion.primitives.timeseries_anomalies import find_anomalies
+	from utils import plot, plot_ts, plot_rws, plot_error, unroll_ts
+	from model import hyperparameters
+	import numpy as np
+	import pandas as pd
+	```
 
 # Splitting Dataset
 - ***Overfitting would be a major concern since your training data could contain information from the future. It is important that all your training data happens before your test data.***
