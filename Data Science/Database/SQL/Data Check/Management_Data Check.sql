@@ -1,3 +1,7 @@
+SELECT DISTINCT ym_magam
+FROM DATAMART_DHDT_TOTAL DDT
+ORDER BY ym_magam DESC
+
 SELECT *
 FROM DATAMART_DHDT_TOTAL DDT;
 --- 업데이트: 매달 20일 4시?
@@ -46,12 +50,14 @@ FROM DATAMART_DHDT_TOTAL_GROUP DDTG;
 --- 업데이트: 매달 20일 4시?
 --- 사용 영역: `주요 부문별 매출`, `주요 부문별 매출이익률`
 
---## 그룹, 연도별 매출액
+--## 그룹, 연도별 매출
 SELECT ds_group, LEFT(max_yr, 4) AS yr, sales
 FROM (
 	SELECT DDT.ym_magam, MAX(DDT.ym_magam) OVER(PARTITION BY LEFT(DDT.ym_magam, 4)) AS max_yr, DDTG.ds_group, ROUND(SUM(am_account_wol)/100000000, 0) AS sales
 	FROM DATAMART_DHDT_TOTAL DDT INNER JOIN DATAMART_DHDT_ACNT_GROUP DDAG ON DDT.cd_corp = DDAG.cd_corp AND DDT.cd_dept_acnt = DDAG.cd_dept_acnt INNER JOIN DATAMART_DHDT_TOTAL_GROUP DDTG ON DDAG.cd_group = DDTG.cd_group
-	WHERE LEFT(DDT.cd_trial, 2) = '41' AND ds_group != '기타'
+--	WHERE LEFT(DDT.cd_trial, 2) = '41' AND ds_group != '기타'
+	-- 매출 원가
+	WHERE LEFT(DDT.cd_trial, 2) = '46' AND ds_group != '기타'
 	GROUP BY DDT.ym_magam, DDTG.ds_group) A
 WHERE ym_magam = max_yr
 ORDER BY ds_group, yr;
