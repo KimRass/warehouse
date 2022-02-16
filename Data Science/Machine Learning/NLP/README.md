@@ -785,7 +785,7 @@ pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
 ## Bidirectional Language Model
 - Bidirectional representations condition on both pre- and post- context (e.g., words) in all layers.
 
-# seq2seq
+# Seq2Seq
 - Source: https://en.wikipedia.org/wiki/Seq2seq
 - Seq2seq turns one sequence into another sequence (sequence transformation). It does so by use of a recurrent neural network (RNN) or *more often LSTM or GRU to avoid the problem of vanishing gradient.* The context for each item is the output from the previous step. The primary components are one encoder and one decoder network. *The encoder turns each item into a corresponding hidden vector containing the item and its context. The decoder reverses the process, turning the vector into an output item, using the previous output as the input context.*
 - Attention: The input to the decoder is a single vector which stores the entire context. *Attention allows the decoder to look at the input sequence selectively.*
