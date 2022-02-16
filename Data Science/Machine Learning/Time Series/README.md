@@ -372,6 +372,106 @@ Autoencoders are applied to many problems, from facial recognition, feature dete
 	import numpy as np
 	import pandas as pd
 	```
+	- Modeling & Predict
+		- Using Orion Pipelines
+			```python
+			# The model is specified in `tadgan.json`.
+			# orion = Orion(pipeline="/content/drive/MyDrive/Time Series/tadgan.json")
+			# `pipeline`: (`"arima"`, `"lstm_dynamic_threshold"`, `"dummy"`, `"tadgan"`, `"azure"`)
+			# `hyperparameters`
+			orion = Orion(pipeline="tadgan", hyperparameters)
+			# To train the model on the data, we simply use the `orion.fit()` method.
+			# To do anomaly detection, we use the `orion.detect()` method.
+			# In our case, we want to fit the data and then perform detection; therefore we use the `orion.fit_detect()` method.
+			detected_anoms = orion.fit_detect(raw_data)
+			
+			# Visualization
+			# This function plots time series and highlights anomalous regions.
+			# The first anomaly in `anomalies` is considered the ground truth.
+			plot(raw_data, anomalies=[known_anoms, detected_anoms])
+			
+			# Evaluate
+			scores = orion.evaluate(raw_data, known_anoms)
+			```
+		- Using `orion.primitives`
+			```python
+			tgan = TadGAN(**hyperparameters)
+			tgan.fit(X=X, y=X)
+			
+			# `X_hat`: Predicted values. Same shape as `X`.
+			# `critic`: N-dimensional array containing the critic score for each input sequence.
+			X_hat, critic = tgan.predict(X=X, y=X)
+			# To reassemble or "unroll" the predicted signal `X_hat` we can choose different aggregation methods (e.g., mean, max, etc).
+			# `utils.unroll_ts()` uses the median value.
+			y_hat = unroll_ts(X_hat)
+
+			plot_ts([y, y_hat], labels=["Ground Truth", "Reconstructed"])
+			```
+	- Error Calculation
+		- Implementation
+			```python
+			error = np.zeros(shape=y.shape)
+			length = y.shape[0]
+			for i in range(length):
+			    error[i] = abs(y_hat[i] - y[i])
+
+			fig = plt.figure(figsize=(30, 3))
+			plt.plot(error);
+			```
+		- Using `orion.primitives.tadgan.score_anomalies()`
+			```python
+			# We use `tadgan.score_anomalies` to perform error calculation for us. It is a smoothed error function that uses a window based method to smooth the curve.
+			# `y_hat`: Each timestamp has multiple predictions.
+			# `index`: Time index for each `y` (start position of the window)
+			# `rec_error_type`: (`"point"`, `"area"`, `"dtw"`) The method to compute reconstruction error.
+				# `"area"`: This method captures the general shape of the orignal and reconstructed signal and then compares them together.
+				# `"point"`: This method applies a point-to-point comparison between the original and reconstructed signal. It is considered a strict approach that does not allow for many mistakes.
+				# `"dtw"`: A more lenient method yet very effective is Dynamic Time Warping (DTW). It compares two signals together using any pair-wise distance measure but it allows for one signal to be lagging behind another.
+			# `comb`: (`"mult"`, `"sum"`, `"rec"`) How to combine critic and reconstruction error.
+			# `errors`: Array of anomaly scores. The higher the anomaly score, the more likely it is an anomaly.
+			# `y_true`: Ground truth without last `h` timesteps.
+			errors, _, y_true, y_pred = score_anomalies(y=X, y_hat=X_hat, critic=critic, index=X_index, rec_error_type="dtw", comb="mult")
+			y_pred = np.array(y_pred).mean(axis=2)
+
+			plot_error([[y_true, y_pred], errors])
+			```
+	- Detect Anomalies
+		- Implementation
+			```python
+			def detect_anoms(errors, index, threshold):
+				thr = threshold
+				detected_anoms = list()
+				i = 0
+				max_start = len(errors)
+				while i < max_start:
+					j = i
+					start = index[i]
+					while errors[i] > thr:
+						i += 1
+					end = index[i]
+					if start != end:
+						detected_anoms.append((start, end, np.mean(errors[j: i+1])))
+					i += 1
+				return detected_anoms
+
+			detected_anoms = detect_anoms(errors=errors, index=index, threshold=10)
+			detected_anoms = pd.DataFrame(detected_anoms, columns=["start", "end", "score"])
+
+			plot(raw_data, anomalies=[known_anoms, detected_anoms])
+			```
+		- Using `orion.primitives.timeseries_anomalies.find_anomalies()` (Window-based Method)
+			```python
+			# We find the anomalous sequences in the window by looking at the mean and standard deviation of the errors in the window.
+			# We store the start/stop index pairs that correspond to each sequence, along with its score. 
+			# We then move the window and repeat the procedure. Lastly, we combine overlapping or consecutive sequences.
+			# `window_size`: Size of the window for which a threshold is calculated.
+			# `window_step_size`: Number of steps the window is moved before another threshold is calculated for the new window
+			# `fixes_threshold`: Indicates whether to use fixed or dynamic thresholding
+			detected_anoms = find_anomalies(errors=errors, index=index, window_size_portion=0.33, window_step_size_portion=0.1, fixed_threshold=True)
+			detected_anoms = pd.DataFrame(detected_anoms, columns=["start", "end", "score"])
+
+			plot(raw_data, anomalies=[known_anoms, detected_anoms])
+			```
 
 # Splitting Dataset
 - ***Overfitting would be a major concern since your training data could contain information from the future. It is important that all your training data happens before your test data.***
