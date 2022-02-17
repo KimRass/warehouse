@@ -990,7 +990,8 @@ def beam_search(data, k):
 		plt.colorbar();
 		```
 - 셀프 어텐션은 인코더의 초기 입력인 `d_model`의 차원을 가지는 단어 벡터들을 사용하여 셀프 어텐션을 수행하는 것이 아니라 우선 각 단어 벡터들로부터 Q벡터, K벡터, V벡터를 얻는 작업을 거칩니다. 이때 이 Q벡터, K벡터, V벡터들은 초기 입력인 `d_model`의 차원을 가지는 단어 벡터들보다 더 작은 차원을 가지는데, 논문에서는 512의 차원을 가졌던 각 단어 벡터들을 64의 차원을 가지는 Q벡터, K벡터, V벡터로 변환하였습니다.
-- look_ahead_mask
+- Look-ahead Mask
+	- To prevent the model from peeking at the expected output the model uses a look-ahead mask.
 	- 포르투갈어가 암호화된 것과, 영어 문장 한단어 한단어를 보면서 다음 단어를 예측하게 되기 때문에, look_ahead_mask를 사용하게 됩니다. 만약 영어 문장이 (I love you) 로 이루어져 있다면, look_ahead_mask를 사용하면, (I, 0, 0) -> Love 예측, (I love, 0) -> You 예측, (I love you) -> 단어의 끝인 [SEP] 예측을 합니다.
 	- 즉 look_ahead_mask는 다음 단어를 예측할 때, 전에 있던 단어만으로 예측할수 있도록 앞에 있는 단어는 가리는 것입니다. 이러한 역할을 가능하게 하는 mask가 look_ahead_mask 입니다.
 	- 위 그림과 같이 디코더도 인코더와 동일하게 임베딩 층과 포지셔널 인코딩을 거친 후의 문장 행렬이 입력됩니다. 트랜스포머 또한 seq2seq와 마찬가지로 교사 강요(Teacher Forcing)을 사용하여 훈련되므로 학습 과정에서 디코더는 번역할 문장에 해당되는 <sos> je suis étudiant의 문장 행렬을 한 번에 입력받습니다. 그리고 디코더는 이 문장 행렬로부터 각 시점의 단어를 예측하도록 훈련됩니다.

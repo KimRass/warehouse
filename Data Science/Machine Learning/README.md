@@ -278,7 +278,7 @@ from tensorflow.keras.optimizers import Adagrad
 ### RMSprop (Root Mean Square ...)
 ### Adam (ADAptive Moment estimation)
 ```python
-from tensorflow.keras.optimizers import Adam
+optimizer = Adam(learning_rate, beta_1, beta_2, epsilon, name]
 ```
 
 # Variable Encoding
@@ -421,9 +421,7 @@ the outer loop for estimating accuracy.
 ### MSE (Mean Squared Error)
 - Using `tensorflow.keras.metrics.MeanSquaredError()`
 	```python
-	from tensorflow.keras.metrics import MeanSquaredError
-
-	mse = MeanSquaredError()().numpy()
+	mse = metrics.MeanSquaredError([name])().numpy()
 	```
 - Using `sklearn.metrics.mean_squared_error()`
 	```python
@@ -433,22 +431,16 @@ the outer loop for estimating accuracy.
 	```
 ### RMSE (Root Mean Squared Error)
 ```python
-from tensorflow.keras.metrics import RootMeanSquaredError
-
-rmse = RootMeanSquaredError()().numpy()
+rmse = metrics.RootMeanSquaredError([name])().numpy()
 ```
 ### MAE (Mean Absolute Error)
 ```python
-from tensorflow.keras.metrics import MeanAbsoluteError
-
-mae = MeanAbsoluteError()().numpy()
+mae = metrics.MeanAbsoluteError([name])().numpy()
 ```
 ### MPE (Mean Percentage Error)
 ### MAPE (Mean Absolute Percentage Error)
 ```python
-from tensorflow.keras.metrics import MeanAbsolutePercentageError
-
-mape = MeanAbsolutePercentageError()().numpy()
+mape = metrics.MeanAbsolutePercentageError([name])().numpy()
 ```
 ### SMAPE (Symmetric Mean Absolute Percentage Error)
 - Source: https://en.wikipedia.org/wiki/Symmetric_mean_absolute_percentage_error
@@ -466,14 +458,10 @@ If you use R-squared to pick the best model, it leads to the proper model only 2
 - Source: https://shryu8902.github.io/machine%20learning/error/
 ## Classification Problem
 ```python
-from tensorflow.keras.metrics import BinaryCrossentropy
-
-bc = BinaryCrossentropy()
+bc = metrics.BinaryCrossentropy()
 ```
 ```python
-from tensorflow.keras.metrics import SparseCategoricalCrossentropy
-
-scc = SparseCategoricalCrossentropy()
+scc = metrics.SparseCategoricalCrossentropy()
 ```
 ### Confusion Matrix
 - Source: https://datascienceschool.net/view-notebook/731e0d2ef52c41c686ba53dcaf346f32/
@@ -683,6 +671,45 @@ def plot_tree(model, filename, rankdir="UT"):
         f.write(data)
 ```
 
+# TensorFlow Tensors
+- `tensorflow.python.framework.ops.EagerTensor`
+- `tensorflow.python.framework.ops.Tensor`
+
+# `tensorflow` Operators
+## `tf.identity()`
+## `tf.constant()`
+## `tf.convert_to_tensor()`
+## `tf.cast([dtype])`
+- Casts a tensor to a new type.
+- Returns `1` if `True` else `0`.
+## `tf.shape()` (for `tf.Tensor`), `KerasTensor.shape()` (for KerasTensor)
+## `tf.reshape(shape)`
+## `tf.transpose(a, perm)`
+## `tf.range()`
+## `tf.tile()`
+## `tf.constant_initializer()`
+## `tf.math`
+### `tf.math.add()`, `tf.math.subtract()`, `tf.math.multiply()`, `tf.math.divide()`
+- Adds, substract, multiply or divide two input tensors element-wise.
+### `tf.math.add_n(inputs)`
+- Adds all input tensors element-wise.
+- `inputs`: A list of Tensors, each with the same shape and type.
+### `tf.math.square()`
+- Compute square of x element-wise.
+### `tf.math.argmax(axis)`
+### `tf.math.sign`
+### `tf.math.exp()`
+### `tf.math.log()`
+### `tf.math.equal()`
+### `tf.math.reduce_sum([axis])`, `tf.math.reduce_mean()`
+- Reference: https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
+- `axis=None`: Reduces all dimensions.
+- Reduces `input_tensor` along the dimensions given in `axis`. Unless `keepdims=True`, the rank of the tensor is reduced by `1` for each of the entries in `axis`, which must be unique. If `keepdims=True`, the reduced dimensions are retained with length `1`.
+## `tf.math.logical_and()`, `tf.math.logical_or()`
+## `tf.math.logical_not(x)`
+- Returns the truth value of `NOT x` element-wise.
+## `tf.linalg.matmul(a, b, [transpose_a], [transpose_b])`
+
 # Create Tensors
 ## `tf.Variable(initial_value, [shape=None], [trainable=True], [validate_shape=True], [dtype], [name])`
 - Source: https://www.tensorflow.org/api_docs/python/tf/Variable
@@ -862,7 +889,7 @@ score = model.evaluate(x_test, y_test, batch_size=128, verbose=0)
 - `model.predict_on_batch()`
 	- Returns predictions for a single batch of samples.
 	- The difference between `model.predict()` and `model.predict_on_batch()` is that the latter runs over a single batch, and the former runs over a dataset that is splitted into batches and the results merged to produce the final `numpy.ndarray` of predictions.
-## 가중치 확인
+## Check Model Weights
 ```python
 for layer in model.layers:
 	...
@@ -884,62 +911,105 @@ model.save()
 model.inputs
 ```
 
+# `tf.data.Dataset`
+- Source: https://www.tensorflow.org/api_docs/python/tf/data/Dataset
+- Dataset usage follows a common pattern:
+	- Create a source dataset from your input data.
+	- Apply dataset transformations to preprocess the data.
+	- Iterate over the dataset and process the elements. Iteration happens in a streaming fashion, so the full dataset does not need to fit into memory. (Element: A single output from calling next() on a dataset iterator. Elements may be nested structures containing multiple components.)
+- Source Datasets:
+	- The simplest way to create a dataset is to create it from a python list:
+		```python
+		dataset = tf.data.Dataset.from_tensor_slices(List)
+		```
+- Transformations:
+	```python
+	# This transformation applies `map_func` to each element of this dataset, and returns a new dataset containing the transformed elements, in the same order as they appeared in the input. `map_func` can be used to change both the values and the structure of a dataset's elements.
+	dataset = dataset.map(map_func)
+	```
+## Methods
+- `as_numpy_iterator()`
+	- Returns an iterator which converts all elements of the dataset to numpy.
+	- This will preserve the nested structure of dataset elements.
+	- This method requires that you are running in eager mode and the dataset's element_spec contains only `tf.TensorSpec` components.
+- `batch(batch_size, [drop_remainder=False])`
+	- Combines consecutive elements of this dataset into batches.
+	- The components of the resulting element will have an additional outer dimension, which will be `batch_size` (or `N%batch_size` for the last element if `batch_size` does not divide the number of input elements `N` evenly and `drop_remainder=False`). If your program depends on the batches having the same outer dimension, you should set the `drop_remainder=True` to prevent the smaller batch from being produced.
+- `cache(filename)`
+	- Caches the elements in this dataset.
+	- The first time the dataset is iterated over(e.g., `map()`, `filter()`, etc.), its elements will be cached either in the specified file or in memory. Subsequent iterations will use the cached data.
+	- For the cache to be finalized, the input dataset must be iterated through in its entirety. Otherwise, subsequent iterations will not use cached data.
+	- `filename`: When caching to a file, the cached data will persist across runs. Even the first iteration through the data will read from the cache file. Changing the input pipeline before the call to `cache()` will have no effect until the cache file is removed or the `filename` is changed. If a `filename` is not provided, the dataset will be cached in memory.
+	- `cache()` will produce exactly the same elements during each iteration through the dataset. If you wish to randomize the iteration order, make sure to call `shuffle()` after calling `cache()`.
+	
+	
 # `tf.GradientTape()`
 ```python
 # (`SGD()`, `Adagrad()`, `Adam()`, ...)
 optimizer = ...
-# (`metrics.MeanSquaredError()`, `metrics.RootMeanSquaredError()`, `metrics.MeanAbsoluteError()`, `metrics.MeanAbsolutePercentageError()`, `metrics.BinaryCrossentropy()`, `metrics.CategoricalCrossentropy()`, `metrics.SparseCategoricalCrossentropy()`, `metrics.CosineSimilarity()`, ...)
-metrics = ...
+
+loss_obj = losses....
+def loss_func(y_true, y_pred):
+    ...
+    return ...
+
+def acc_func(real, pred):
+    ...
+    return ...
+
+tr_loss = metrics....
+tr_acc = metrics....
+
+# `input_signature`: A possibly nested sequence of `tf.TensorSpec()` objects specifying the `shape`s and `dtype`s of the Tensors that will be supplied to this function. If `None`, a separate function is instantiated for each inferred `input_signature`. If `input_signature` is specified, every input to func must be a Tensor, and `func` cannot accept `**kwargs`.
+    # The input signature specifies the shape and type of each Tensor argument to the function using a tf.TensorSpec object. More general shapes can be used. This ensures only one ConcreteFunction is created, and restricts the GenericFunction to the specified shapes and types. It is an effective way to limit retracing when Tensors have dynamic shapes.
+# Since TensorFlow matches tensors based on their shape, using a `None` dimension as a wildcard will allow functions to reuse traces for variably-sized input. Variably-sized input can occur if you have sequences of different length, or images of different sizes for each batch.
+# The @tf.function trace-compiles train_step into a TF graph for faster execution. The function specializes to the precise shape of the argument tensors. To avoid re-tracing due to the variable sequence lengths or variable batch sizes (the last batch is smaller), use input_signature to specify more generic shapes.
+# tf.function only allows creating new tf.Variable objects when it is called for the first time:
+@tf.function(input_signature=...)
+def train_step(x, y):
+	...
+    with tf.GradientTape() as tape:
+        y_pred = model(..., training=True)
+        loss = loss_func(y_true, y_pred)
+    grads = tape.gradient(loss, model.trainable_variables)
+    optimizer.apply_gradients(zip(grads, model.trainable_variables))
+
+    tr_loss(loss)
+    tr_acc(acc_func(dec_true, dec_pred))
+    
+ckpt_path = "..."
+# TensorFlow objects may contain trackable state, such as `tf.Variables`, `tf.keras.optimizers.Optimizer` implementations, `tf.data.Dataset` iterators, `tf.keras.Layer` implementations, or `tf.keras.Model` implementations. These are called trackable objects.
+# A `Checkpoint` object can be constructed to save either a single or group of trackable objects to a checkpoint file. It maintains a `save_counter` for numbering checkpoints.
+ckpt = tf.train.Checkpoint(optimizer=optimizer, model=model)
+# Manages multiple checkpoints by keeping some and deleting unneeded ones.
+ckpt_manager = tf.train.CheckpointManager(ckpt, directory=ckpt_path, max_to_keep=...)
+# The prefix of the most recent checkpoint in directory.
+if ckpt_manager.latest_checkpoint:
+    # `save_path`: The path to the checkpoint, as returned by `save` or `tf.train.latest_checkpoint`.
+    ckpt.restore(save_path=ckpt_manager.latest_checkpoint)
+    print ("Latest checkpoint restored!")
+	
+epochs = ...
 for epoch in range(1, epochs + 1):
-	with tf.GradientTape() as tape:
-		model = ...
-		
-		loss = ...
-		
-		grads = tape.gradient(loss, model.trainable_variable)
-		optimizer.apply_gradients(zip(grads, model.trainable_variables))
-		metrics(model(tr_X), tr_y)
-		
-		print(...)
-		# Resets all of the metric state variables.
-		# This function is called between epochs/steps, when a metric is evaluated during training.
-		metrics.reset_state()
+    start = time.time()
+    # Resets all of the metric state variables to a predefined constant (typically 0). This function is called between epochs/steps, when a metric is evaluated during training.
+    tr_loss.reset_states()
+    tr_acc.reset_states()
+    for (batch, (src, tar)) in enumerate(dataset_tr):
+        train_step(src, tar)
+
+        if batch%50 == 0:
+            print(f"Epoch: {epoch:3d} | Batch: {batch:5d} | Loss: {tr_loss.result():5.4f} | Accuracy: {tr_acc.result():5.4f}")
+
+    if epoch%1 == 0:
+        # Every time `ckpt_manager.save()` is called, `save_counter` is increased.
+        # `save_path`: The path to the new checkpoint. It is also recorded in the `checkpoints` and `latest_checkpoint` properties. `None` if no checkpoint is saved.
+        save_path = ckpt_manager.save()
+        print (f"Saving checkpoint for epoch {epoch} at {save_path}")
+        print(f"Epoch: {epoch:3d} | Loss: {tr_loss.result():5.4f} | Accuracy: {tr_acc.result():5.4f}")
+        print (f"Time taken for 1 epoch: {time.time() - start:5.0f} secs\n")
 ```
 
-# `tensorflow` Operators
-## `tf.identity()`
-## `tf.constant()`
-## `tf.convert_to_tensor()`
-## `tf.cast([dtype])`
-- Casts a tensor to a new type.
-- Returns `1` if `True` else `0`.
-## `tf.shape()` (for `tf.Tensor`), `KerasTensor.shape()` (for KerasTensor)
-## `tf.reshape(shape)`
-## `tf.transpose(a, perm)`
-## `tf.range()`
-## `tf.tile()`
-## `tf.constant_initializer()`
-## `tf.math`
-### `tf.math.add()`, `tf.math.subtract()`, `tf.math.multiply()`, `tf.math.divide()`
-- Adds, substract, multiply or divide two input tensors element-wise.
-### `tf.math.add_n(inputs)`
-- Adds all input tensors element-wise.
-- `inputs`: A list of Tensors, each with the same shape and type.
-### `tf.math.square()`
-- Compute square of x element-wise.
-### `tf.math.argmax(axis)`
-### `tf.math.sign`
-### `tf.math.exp()`
-### `tf.math.log()`
-### `tf.math.equal()`
-### `tf.math.reduce_sum([axis])`, `tf.math.reduce_mean()`
-- Reference: https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
-- `axis=None`: Reduces all dimensions.
-- Reduces `input_tensor` along the dimensions given in `axis`. Unless `keepdims=True`, the rank of the tensor is reduced by `1` for each of the entries in `axis`, which must be unique. If `keepdims=True`, the reduced dimensions are retained with length `1`.
-## `tf.math.logical_and()`, `tf.math.logical_or()`
-## `tf.math.logical_not(x)`
-- Returns the truth value of `NOT x` element-wise.
-## `tf.linalg.matmul(a, b, [transpose_a], [transpose_b])`
 
 # Save or Load Model
 - Source: https://www.tensorflow.org/tutorials/keras/save_and_load
@@ -999,6 +1069,20 @@ class LayerName(Layer):
 	def __call__(self, ...):
 		...
 		return ...
+```
+
+# TensorFlow Custom Learning Rate
+```python
+class LearningRate(LearningRateSchedule):
+    def __init__(self, warmup_steps=4000):
+        super(self).__init__()
+
+        self.warmup_steps = warmup_steps
+
+    def __call__(self, step):
+        return (d_model**-0.5)*tf.math.minimum(step**-0.5, step*(self.warmup_steps**-1.5))
+
+lr = LearningRate()
 ```
 
 # `tensorflow_probability`
