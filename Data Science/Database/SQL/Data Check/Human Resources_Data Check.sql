@@ -8,20 +8,20 @@ FROM DATAMART_DAAV_BASEINFO_DETAIL DDBD;
 --- 사용 영역: 카드 지표 전체, `인원 현황`, `평균 연봉`, `보직자 현황`, `전문역량`
 --- `dt_birth`: 끝 1자리: 1900년대생 남자 1 여자 2, 2000년대생 남자 3 여자 4.
 
-SELECT *
-FROM DATAMART_DAAV_BASEINFO_DETAIL DDBD
-WHERE ds_dept IN('상품기획팀', '실시설계팀', '설계그룹', '설계그룹(개발영업)', '상품설계팀', '예산견적팀', '일반견적팀', '견적그룹', '견적그룹(개발영업)') AND ds_retire = '재직' AND ds_emptype = '일반직'
-ORDER BY ds_dept;
+--SELECT *
+--FROM DATAMART_DAAV_BASEINFO_DETAIL DDBD
+--WHERE ds_dept IN('상품기획팀', '실시설계팀', '설계그룹', '설계그룹(개발영업)', '상품설계팀', '예산견적팀', '일반견적팀', '견적그룹', '견적그룹(개발영업)') AND ds_retire = '재직' AND ds_emptype = '일반직'
+--ORDER BY ds_dept;
 
-SELECT ds_dept, COUNT(DISTINCT id_sabun) 
-FROM DATAMART_DAAV_BASEINFO_DETAIL DDBD
-WHERE ds_dept IN('상품기획팀', '실시설계팀', '설계그룹', '설계그룹(개발영업)', '상품설계팀', '예산견적팀', '일반견적팀', '견적그룹', '견적그룹(개발영업)') AND ds_retire = '재직' AND ds_emptype = '일반직'
-GROUP BY ds_dept
-ORDER BY ds_dept;
+--SELECT ds_dept, COUNT(DISTINCT id_sabun) 
+--FROM DATAMART_DAAV_BASEINFO_DETAIL DDBD
+--WHERE ds_dept IN('상품기획팀', '실시설계팀', '설계그룹', '설계그룹(개발영업)', '상품설계팀', '예산견적팀', '일반견적팀', '견적그룹', '견적그룹(개발영업)') AND ds_retire = '재직' AND ds_emptype = '일반직'
+--GROUP BY ds_dept
+--ORDER BY ds_dept;
 
-SELECT *
-FROM DATAMART_DAAV_BASEINFO_DETAIL DDBD
-WHERE ds_dept LIKE '%설계%';
+--SELECT *
+--FROM DATAMART_DAAV_BASEINFO_DETAIL DDBD
+--WHERE ds_dept LIKE '%설계%';
 
 SELECT *
 FROM DATAMART_DAAV_BASEINFO_MONTH DDBM;
@@ -103,16 +103,43 @@ FROM DATAMART_DAAV_ORDER DDO;
 --- 사용 영역: `정규직 입퇴사 추이`, `계약직 입퇴사 추이`, `정규직 입퇴사 추이 (10개년)`
 --- 미래 발령은 제외됨.
 
---## 2021년 현장 man-months 합
+--## 2021년 현장 man-months
 -- 2021.01.01: CAST(DATEADD(YEAR, DATEDIFF(YEAR, 0, GETDATE()), 0) AS DATE),
 -- 2021.12.31: CAST(DATEADD(YEAR, DATEDIFF(YEAR, 0, GETDATE()) + 1, -1) AS DATE)
+SELECT *, DATEDIFF(DAY, dt_start, dt_end) AS days
+FROM (
+	SELECT id_sabun, ds_hname, ds_order1, ds_dept,
+		CAST(CASE WHEN dt_order >= '2021-01-01' THEN dt_order ELSE '2021-01-01' END AS DATE) AS dt_start,
+		CAST(CASE WHEN dt_orderend <= '2022-01-01' THEN dt_orderend ELSE '2022-01-01' END AS DATE) AS dt_end
+	FROM
+		(SELECT id_sabun, ds_hname, ds_order1, ds_dept, CAST(dt_order AS DATE) AS dt_order, CAST(dt_orderend AS DATE) AS dt_orderend
+		FROM DATAMART_DAAV_ORDER DDO
+		WHERE cd_corp = 'A101' AND ds_tydept_bi = '현장' and ds_order1 != '퇴사' and ds_order1 != '유급휴직' and ds_order1 != '무급휴직') A) B
+WHERE dt_start <= dt_end
+ORDER BY id_sabun
+
+SELECT id_sabun, ds_hname, ds_dept, SUM(days)
+FROM (
+	SELECT *, DATEDIFF(DAY, dt_start, dt_end) AS days
+	FROM (
+		SELECT id_sabun, ds_hname, ds_order1, ds_dept,
+			CAST(CASE WHEN dt_order >= '2021-01-01' THEN dt_order ELSE '2021-01-01' END AS DATE) AS dt_start,
+			CAST(CASE WHEN dt_orderend <= '2022-01-01' THEN dt_orderend ELSE '2022-01-01' END AS DATE) AS dt_end
+		FROM
+			(SELECT id_sabun, ds_hname, ds_order1, ds_dept, CAST(dt_order AS DATE) AS dt_order, CAST(dt_orderend AS DATE) AS dt_orderend
+			FROM DATAMART_DAAV_ORDER DDO
+			WHERE cd_corp = 'A101' AND ds_tydept_bi = '현장' and ds_order1 != '퇴사' and ds_order1 != '유급휴직' and ds_order1 != '무급휴직') A) B
+	WHERE dt_start <= dt_end) C
+GROUP BY id_sabun, ds_hname, ds_dept
+ORDER BY id_sabun
+
 SELECT SUM(interv)
 FROM (
     SELECT DATEDIFF(DAY, dt_start, dt_end) AS interv
     FROM ( 
         SELECT
-        	CAST(CASE WHEN dt_order >= DATEADD(YEAR, DATEDIFF(YEAR, 0, GETDATE()), 0) THEN dt_order ELSE DATEADD(YEAR, DATEDIFF(YEAR, 0, GETDATE()), 0) END AS DATE) AS dt_start,
-            CAST(CASE WHEN dt_orderend <= DATEADD(YEAR, DATEDIFF(YEAR, 0, GETDATE()) + 1, -1) THEN dt_orderend ELSE DATEADD(YEAR, DATEDIFF(YEAR, 0, GETDATE()) + 1, -1) END AS DATE) AS dt_end
+        	CAST(CASE WHEN dt_order >= '2021-01-01' THEN dt_order ELSE '2021-01-01' END AS DATE) AS dt_start,
+            CAST(CASE WHEN dt_orderend <= '2021-12-31' THEN dt_orderend ELSE '2021-12-31' END AS DATE) AS dt_end
         FROM 
         	(SELECT cd_corp, ds_tydept_bi, ds_order1, CAST(dt_order AS DATE) AS dt_order, CAST(dt_orderend AS DATE) AS dt_orderend
         	FROM DATAMART_DAAV_ORDER DDO

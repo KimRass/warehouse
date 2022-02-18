@@ -941,8 +941,20 @@ model.inputs
 	- For the cache to be finalized, the input dataset must be iterated through in its entirety. Otherwise, subsequent iterations will not use cached data.
 	- `filename`: When caching to a file, the cached data will persist across runs. Even the first iteration through the data will read from the cache file. Changing the input pipeline before the call to `cache()` will have no effect until the cache file is removed or the `filename` is changed. If a `filename` is not provided, the dataset will be cached in memory.
 	- `cache()` will produce exactly the same elements during each iteration through the dataset. If you wish to randomize the iteration order, make sure to call `shuffle()` after calling `cache()`.
-	
-	
+- `enumerate([start=0])`
+- `filter(predicate)`
+- `from_tensor_slices()`
+- `from_tensors()`
+- `map(map_func)`
+- `prefetch(buffer_size)`
+- `random()`
+- `range()`
+- `repeat()`
+- `shuffle(buffer_size, [seed=None], [reshuffle_each_iteration=None])`
+- `skip(count)`
+- `take(count)`
+- `unique()`
+- `zip()`	
 # `tf.GradientTape()`
 ```python
 # (`SGD()`, `Adagrad()`, `Adam()`, ...)

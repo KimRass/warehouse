@@ -76,10 +76,6 @@ Written by KimRass
 ## Data Requirements Collecting
 - Source: https://www.freetutes.com/systemanalysis/sa7-data-modeling-data-requirements.html
 - Here the database designer interviews database users. By this process they are able to understand their data requirements. Results of this process are clearly documented.
-기능
-인터페이스
-보안
-성능
 ## Conceptual Data Modeling
 - Conceptual models offer a big-picture view of what the system will contain, how it will be organized, and which business rules are involved.
 - They are usually created as part of the process of gathering initial project requirements.
