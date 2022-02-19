@@ -33,6 +33,7 @@ gdd.download_file_from_google_drive(file_id="122XXMOwYgMxvgAVrm_VwXnyV42IgBiiC",
 
 raw_data = pd.read_csv("D:/household_power_consumption.csv", header=0, infer_datetime_format=True, parse_dates=["datetime"], index_col=["datetime"])
 ```
+## CPU Load
 ## NYC Taxi
 - Reference: https://github.com/numenta/NAB/blob/master/data/realKnownCause/nyc_taxi.csv
 - Using `orion`
@@ -43,6 +44,8 @@ raw_data = pd.read_csv("D:/household_power_consumption.csv", header=0, infer_dat
 	raw_data = load_signal(signal)
 	known_anoms = load_anomalies(signal)
 	```
+# Avocado Prices
+- Source: https://www.kaggle.com/neuromusic/avocado-prices
 
 # Time Series
 - Source: https://www.geeksforgeeks.org/what-is-a-trend-in-time-series/
