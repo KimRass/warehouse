@@ -465,13 +465,11 @@ df_pivoted = df.pivot("col1", "col2", "col3")
 ```
 ## `DataFrame.stack()`
 - 열 인덱스 -> 행 인덱스로 변환
-## `DataFrame.unstack()`
-- 행 인덱스 -> 열 인덱스로 변환
-- `pd.pivot_table()`과 동일
-- `level`: index의 계층이 정수로 들어감
-```python
-groupby.unstack(level=-1, fill_value=None)
-```
+## `unstack([level=-1], [fill_value=None])`
+- Reference: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.unstack.html
+- Pivot a level of the (necessarily hierarchical) index labels. Returns a DataFrame having a new level of column labels whose inner-most level consists of the pivoted index labels. If the index is not a MultiIndex, the output will be a Series (the analogue of stack when the columns are not a MultiIndex).
+- `level`: Level(s) of index to unstack, can pass level name.
+- `fill_value`: Replace NaN with this value if the unstack produces missing values.
 ## `DataFrame.append()`
 ```python
 df = df.append({"addr1":addr1, "addr2":addr2, "dist":dist}, ignore_index=True)

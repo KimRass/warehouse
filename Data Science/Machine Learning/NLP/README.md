@@ -1,5 +1,9 @@
 # Datasets
-## `sklearn.datasets.fetch_20newsgroups()`
+## Reuters Newswire Classification Dataset
+```python
+(X_train, y_train), (X_test, y_test) = tf.keras.datasets.reuters.load_data(num_words=None, test_split=0.2)
+```
+## 20 Newsgroups Classification Dataset
 ```python
 data = sklearn.datas.fetch_20newsgroups(shuffle=True, [random_state], remove=("headers", "footers", "quotes"), [subset])
 corpus = data["data"]

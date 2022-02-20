@@ -208,3 +208,9 @@ These goals are realized by the implementation of data governance programs, or i
 When companies desire, or are required, to gain control of their data, they empower their people, set up processes and get help from technology to do it.[5]
 
 According to one vendor, data governance is a quality control discipline for assessing, managing, using, improving, monitoring, maintaining, and protecting organizational information. It is a system of decision rights and accountabilities for information-related processes, executed according to agreed-upon models which describe who can take what actions with what information, and when, under what circumstances, using what methods.[6]
+
+# Ticker Symbol
+- Source: https://en.wikipedia.org/wiki/Ticker_symbol
+- A ticker symbol or stock symbol is an abbreviation used to uniquely identify publicly traded shares of a particular stock on a particular stock market.
+- Examples
+	- AAPL: Alphabet, BA: Boeing, CAT: Caterpilar, DIS: The Walt Disney Company, FB: Meta (Facebook), GE: General Electric, IBM: IBM, KO: The Coca-Cola Company, TSLA: Tesla, Inc.

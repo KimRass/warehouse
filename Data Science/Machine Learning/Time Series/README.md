@@ -44,8 +44,15 @@ raw_data = pd.read_csv("D:/household_power_consumption.csv", header=0, infer_dat
 	raw_data = load_signal(signal)
 	known_anoms = load_anomalies(signal)
 	```
-# Avocado Prices
+## Avocado Prices
 - Source: https://www.kaggle.com/neuromusic/avocado-prices
+## FRED (Federal Reserve Economic Data)
+```python
+# `name`
+	# `"UMCSENT"`: Consumer Sentiment
+	# `"IPGMFN"`: Industrial Production
+data = web.DataReader(name, data_source="fred", start", end)
+```
 
 # Time Series
 - Source: https://www.geeksforgeeks.org/what-is-a-trend-in-time-series/
@@ -179,6 +186,11 @@ y_trend = decomp.trend # `pandas.Series`
 y_season = decomp.seasonal # `pandas.Series`
 y_resid = decomp.resid # `pandas.Series`
 ```
+- Visualization
+	```python
+	fig = decomp.plot()
+	fig.set_size_inches(10, 10)
+	```
 ## Denoising
 ### Denoising with Moving Average
 - 노이즈가 간혹 발생하는 경우 효과적입니다.

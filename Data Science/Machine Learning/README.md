@@ -1,17 +1,3 @@
-# Datasets
-## `mnist`
-```python
-(X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
-```
-## `reuters`
-```python
-(X_train, y_train), (X_test, y_test) = reuters.load_data(num_words=None, test_split=0.2)
-```
-## `cifar10`
-```python
-(x_tr, y_tr), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
-```
-
 # Dataset & Data Set
 - Source: https://english.stackexchange.com/questions/2120/which-is-correct-dataset-or-data-set
 - Dataset for certain datasets
@@ -1233,7 +1219,8 @@ from seqeval.metrics import classification_report
 # Import Machine Learning Libraries
 ## `sklearn`
 ```python
-from sklearn.metrics import mean_squared_error
+from sklearn.manifold import TSNE
+from sklearn.metrics import mean_squared_error, mean_absolute_error
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.model_selection import train_test_split, KFold, GroupKFold, LeaveOneOut, LeaveOneGroupOut
 from sklearn.impute import SimpleImputer
@@ -1247,9 +1234,7 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, A
 import tensorflow as tf
 from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.models import load_model
-from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, LayerNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv1DTranspose
-, Conv2D, Conv2DTranspose
-, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D, RepeatVector
+from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, LayerNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv1DTranspose, Conv2D, Conv2DTranspose, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D, RepeatVector
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
 from tensorflow.keras.utils import to_categorical, plot_model
 from tensorflow.keras.preprocessing import image_dataset_from_directory
