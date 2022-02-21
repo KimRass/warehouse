@@ -1,12 +1,4 @@
 Written by KimRass
-
-# Algorithms
-- 알고리즘 문제 풀이 자료입니다.
-- Sources: `이코테`, `Baekjoon`, `Programmers`
-
-# Syntax
-- Python, SQL, HTML & CSS, Google Colab, Tableau, Anaconda, Git Bash, LaTeX, Ubuntu
-
 # Machine Learning
 ## Recommendation System
 - 안창배님의 "고객데이터와 딥러닝을 활용한 추천 시스템 구현" 강의 내용을 바탕으로 정리한 자료입니다.
@@ -36,18 +28,3 @@ Written by KimRass
 - State Value Function, State-Action Value Function, State Transition Matrix, Policy, Reward, Return
 - Importance Sampling
 - Markov Decision Process, Policy Evaluation, Policy Improvement, Value Iteration, Monte Carlo Method, Temporal Differtence Method, SARSA
-## Time Series
-- 김경원님의 "파이썬을 활용한 시계열 데이터 분석 A to Z" 강의 내용을 바탕으로 정리한 자료입니다.
-- Datasets: Bike Sharing Demand Dataset
-- Libraries: `pandas`, `matplotlib`, `seaborn`, `statsmodels`, `sklearn`
-- Correlation, Casuality, Mutually Exclusive, Population, Sample, Population Scale Test, Sample Scale Test, Parameter, Sampling Error, Null Hypothesis, Alternative Hypothesis, Test Statistics, Confidence Interval, Significance Level, Confidence Level, p-value, Central Limit Theorem, Multicollinearity, Variance Inflation Factor, R-squared
-- Cross Sectional, Panel, Seasonality, Frequency, Trend, Cycle, Residual, Lagged Variables, Residual Diagnostics, Stationarity, Normality, Autocorrelation, Homoscedasticity, Augmented Dickey-Fuller(ADF) Test, Kwiatkowski Phillips Schmidt Shin(KPSS) Test, Shapiro-Wilk Test, Ljung-Box Test, Durbin-Watson Statistic, Goldfeld-Quandt Test, Difference, Logarithm Transformation, Box-Cox Transformation
-
-# SQL
-- SQL에 관한 자료입니다.
-
-# Codes
-- 기타 Codes를 정리한 자료입니다.
-
-# Tableau
-- Tableau와 관련된 자료입니다.

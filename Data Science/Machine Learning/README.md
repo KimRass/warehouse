@@ -685,6 +685,7 @@ def plot_tree(model, filename, rankdir="UT"):
 - `inputs`: A list of Tensors, each with the same shape and type.
 ### `tf.math.square()`
 - Compute square of x element-wise.
+### `tf.math.sqrt()`
 ### `tf.math.argmax(axis)`
 ### `tf.math.sign`
 ### `tf.math.exp()`
@@ -905,17 +906,7 @@ model.inputs
 - Dataset usage follows a common pattern:
 	- Create a source dataset from your input data.
 	- Apply dataset transformations to preprocess the data.
-	- Iterate over the dataset and process the elements. Iteration happens in a streaming fashion, so the full dataset does not need to fit into memory. (Element: A single output from calling next() on a dataset iterator. Elements may be nested structures containing multiple components.)
-- Source Datasets:
-	- The simplest way to create a dataset is to create it from a python list:
-		```python
-		dataset = tf.data.Dataset.from_tensor_slices(List)
-		```
-- Transformations:
-	```python
-	# This transformation applies `map_func` to each element of this dataset, and returns a new dataset containing the transformed elements, in the same order as they appeared in the input. `map_func` can be used to change both the values and the structure of a dataset's elements.
-	dataset = dataset.map(map_func)
-	```
+	- Iterate over the dataset and process the elements. Iteration happens in a streaming fashion, so the full dataset does not need to fit into memory. (Element: A single output from calling `next()` on a dataset iterator. Elements may be nested structures containing multiple components.)
 - Methods
 	- `as_numpy_iterator()`
 		- Returns an iterator which converts all elements of the dataset to numpy.
@@ -944,6 +935,15 @@ model.inputs
 		- Returns the dataset containing the elements of this dataset for which `predicate` is `True`.
 	- `from_tensor_slices()`
 	- `from_tensors()`
+	- `from_generator()`
+		- `generator`: Must be a callable object that returns an object that supports the `iter()` protocol (e.g. a generator function).
+		- `output_types`: A (nested) structure of `tf.DType` objects corresponding to each component of an element yielded by generator.
+		- `ouput_signature`: A (nested) structure of tf.TypeSpec objects corresponding to each component of an element yielded by generator.
+		```python
+		def gen():
+			yield ...
+		dataset = tf.data.Dataset.from_generator(gen, ...)
+		```
 	- `map(map_func)`
 		- This transformation applies `map_func` to each element of this dataset, and returns a new dataset containing the transformed elements, in the same order as they appeared in the input. `map_func` can be used to change both the values and the structure of a dataset's elements.
 	- `prefetch(buffer_size)`
@@ -961,6 +961,8 @@ model.inputs
 	- `zip()`	
 # `tf.GradientTape()`
 ```python
+import time
+
 # (`SGD()`, `Adagrad()`, `Adam()`, ...)
 optimizer = ...
 
@@ -985,13 +987,13 @@ tr_acc = metrics....
 def train_step(x, y):
 	...
     with tf.GradientTape() as tape:
-        y_pred = model(..., training=True)
-        loss = loss_func(y_true, y_pred)
+        y_pred = model(x, ..., training=True)
+        loss = loss_func(y, y_pred)
     grads = tape.gradient(loss, model.trainable_variables)
     optimizer.apply_gradients(zip(grads, model.trainable_variables))
 
     tr_loss(loss)
-    tr_acc(acc_func(dec_true, dec_pred))
+    tr_acc(acc_func(y, y_pred))
     
 ckpt_path = "..."
 # TensorFlow objects may contain trackable state, such as `tf.Variables`, `tf.keras.optimizers.Optimizer` implementations, `tf.data.Dataset` iterators, `tf.keras.Layer` implementations, or `tf.keras.Model` implementations. These are called trackable objects.

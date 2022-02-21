@@ -1,3 +1,6 @@
+- 일부 내용은 김경원님의 "파이썬을 활용한 시계열 데이터 분석 A to Z" 강의 내용을 바탕으로 작성됐습니다.
+- 일부 내용은 James Lee님의 "4가지 유즈 케이스를 활용한 시계열 분석: 전처리부터 딥러닝 적용까지" 강의 내용을 바탕으로 작성됐습니다.
+
 # Datasets
 ## `Air Passengers`
 - Source: https://www.kaggle.com/rakannimer/air-passengers

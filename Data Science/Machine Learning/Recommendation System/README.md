@@ -1,4 +1,19 @@
-https://brunch.co.kr/@kakao-it/72
+# Datasets
+## MovieLens
+## MovieLens 100k
+```python
+plt.hist(sorted(ratings.groupby(["user_id"]).size().values), bins=50);
+```
+## Last.fm
+## Frappe
+- Reference: https://arxiv.org/pdf/1505.03014v1.pdf
+- 2015년 5월에 컨텍스트 인지 모바일 앱 추천 시스템을 위해 공개된 현실 데이터입니다. 유저의 앱에 대한 사용 카운트가 96,200여개의 로그로 구성되어 있습니다.
+- `daytime`: `['morning', 'afternoon', 'evening', 'sunset', 'night', 'sunrise', 'noon']`
+- `weekday`: `['sunday', 'friday', 'tuesday', 'wednesday', 'saturday', 'monday', 'thursday']`
+- `isweekend`: `["workday", "weekend"]`
+- `homework`: `['unknown', 'home', 'work']`
+- `cost`: `['free', 'paid']`
+- `weather`: `['sunny', 'cloudy', 'drizzle', 'rainy', 'unknown', 'foggy', 'stormy', 'snowy', 'sleet']`
 
 # Categories of Recommendation System
 - Content-Based Filtering
@@ -27,23 +42,6 @@ https://brunch.co.kr/@kakao-it/72
 - *Explicit data can also be shallow.( Users may be asked to give binary reactions: like or dislike, thumbs up or thumbs down. Even when a site like IMDB allows for ratings from 1 to 10, human nature means that people tend to rate in the extremes. Users regularly rate everything as 10 or 1; not many people take the time to leave a 4-out-of-10 rating because they clearly didn’t have a strong opinion in the first place.
 ## Implicit Data
 - *With implicit data, we sometimes need to observe what the user does next.* If someone listens to a single song, we cannot know if they liked that artist. The system needs to store that information and see what happens in future. If the user then purchases an album a few days later, that second action backs up the initial assumption. The system can then learn how that single user or all users interact with the system and make better assumptions as time passes and more data is generated.
-
-# Datasets
-## MovieLens
-## MovieLens 100k
-```python
-plt.hist(sorted(ratings.groupby(["user_id"]).size().values), bins=50);
-```
-## Last.fm
-## Frappe
-- Reference: https://arxiv.org/pdf/1505.03014v1.pdf
-- 2015년 5월에 컨텍스트 인지 모바일 앱 추천 시스템을 위해 공개된 현실 데이터입니다. 유저의 앱에 대한 사용 카운트가 96,200여개의 로그로 구성되어 있습니다.
-- `daytime`: `['morning', 'afternoon', 'evening', 'sunset', 'night', 'sunrise', 'noon']`
-- `weekday`: `['sunday', 'friday', 'tuesday', 'wednesday', 'saturday', 'monday', 'thursday']`
-- `isweekend`: `["workday", "weekend"]`
-- `homework`: `['unknown', 'home', 'work']`
-- `cost`: `['free', 'paid']`
-- `weather`: `['sunny', 'cloudy', 'drizzle', 'rainy', 'unknown', 'foggy', 'stormy', 'snowy', 'sleet']`
 
 # Cold Start
 - Source: https://en.wikipedia.org/wiki/Cold_start_(recommender_systems)

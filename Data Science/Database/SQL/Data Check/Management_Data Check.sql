@@ -17,8 +17,8 @@ FROM (
 		WHERE cd_dept_acnt = 'HD00') A
 	GROUP BY yr) B;
 
---## 올해 누적 영업이익
-SELECT ym_magam, SUM(sales) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), SUM(sales_cost) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), SUM(fee) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW), SUM(sales - sales_cost - fee) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS profit
+--## 올해 월별 누적 매출, 매출원가, 판관비, 영업이익
+SELECT ym_magam, SUM(sales) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS sales, SUM(sales_cost) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS sales_cost, SUM(fee) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS fee, SUM(sales - sales_cost - fee) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS profit
 FROM (
 	SELECT ym_magam, ROUND(SUM(c1)/100000000, 0) AS sales, ROUND(SUM(c2)/100000000, 0) AS sales_cost, ROUND(SUM(c3)/100000000, 0) AS fee
 	FROM (
@@ -50,24 +50,27 @@ FROM DATAMART_DHDT_TOTAL_GROUP DDTG;
 --- 업데이트: 매달 20일 4시?
 --- 사용 영역: `주요 부문별 매출`, `주요 부문별 매출이익율`
 
---## 그룹, 연도별 매출
-SELECT ds_group, LEFT(max_yr, 4) AS yr, sales
+--## 그룹, 연도별 매출 등
+SELECT ds_group, LEFT(max_yr, 4) AS yr, SUM(sales)
 FROM (
 	SELECT DDT.ym_magam, MAX(DDT.ym_magam) OVER(PARTITION BY LEFT(DDT.ym_magam, 4)) AS max_yr, DDTG.ds_group, ROUND(SUM(am_account_wol)/100000000, 0) AS sales
 	FROM DATAMART_DHDT_TOTAL DDT INNER JOIN DATAMART_DHDT_ACNT_GROUP DDAG ON DDT.cd_corp = DDAG.cd_corp AND DDT.cd_dept_acnt = DDAG.cd_dept_acnt INNER JOIN DATAMART_DHDT_TOTAL_GROUP DDTG ON DDAG.cd_group = DDTG.cd_group
---	WHERE LEFT(DDT.cd_trial, 2) = '41' AND ds_group != '기타'
-	-- 매출 원가
-	WHERE LEFT(DDT.cd_trial, 2) = '46' AND ds_group != '기타'
+	-- 매출
+	WHERE LEFT(DDT.cd_trial, 2) = '41' AND ds_group != '기타'
+	-- 매출원가
+--	WHERE LEFT(DDT.cd_trial, 2) = '46' AND ds_group != '기타'
+	-- 판관비
+--	WHERE LEFT(DDT.cd_trial, 2) = '61' AND ds_group != '기타'
 	GROUP BY DDT.ym_magam, DDTG.ds_group) A
-WHERE ym_magam = max_yr
-ORDER BY ds_group, yr;
+GROUP BY ds_group, max_yr
+ORDER BY ds_group, LEFT(max_yr, 4);
 
 SELECT *
 FROM DATAMART_DIFV_PL DDP;
 --- 업데이트: 매달 20일 4시?
 --- 사용 영역: `당기 누적 손익`-(`매출액 계획`, `영업이익 계획`)
 
---## 올해 누적 매출액 계획
+--## 올해 월별 누적 매출액 계획
 SELECT MONTH, ROUND(SUM(pl) OVER(ORDER BY CAST(MONTH AS INT) ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)/100000000, 0)
 FROM (
 	SELECT MONTH, SUM(am_plan) AS pl
@@ -76,7 +79,7 @@ FROM (
 	GROUP BY MONTH) AS A
 ORDER BY CAST(MONTH AS INT);
 
---## 올해 누적 영업이익 계획
+--## 올해 월별 누적 영업이익 계획
 SELECT MONTH, ROUND(SUM(pl) OVER(ORDER BY CAST(MONTH AS INT) ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW)/100000000, 0)
 FROM (
 	SELECT MONTH, SUM(am_plan) AS pl
