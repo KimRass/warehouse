@@ -53,6 +53,17 @@ raw_data = pd.read_csv("D:/household_power_consumption.csv", header=0, infer_dat
 	# `"IPGMFN"`: Industrial Production
 data = web.DataReader(name, data_source="fred", start", end)
 ```
+## Quandl WIKI Stock Prices
+```python
+raw_data = pd.read_hdf("D:/assets.h5", key="quandl/wiki/prices")
+
+data = raw_data["adj_close"]
+data = data.unstack("ticker")
+tickers = ["AAPL", "BA", "CAT", "DIS", "FB", "GE", "IBM", "KO", "TSLA"]
+data = data[tickers]
+data = data.dropna()
+# data.asfreq("D")
+```
 
 # Time Series
 - Source: https://www.geeksforgeeks.org/what-is-a-trend-in-time-series/

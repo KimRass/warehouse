@@ -916,34 +916,49 @@ model.inputs
 	# This transformation applies `map_func` to each element of this dataset, and returns a new dataset containing the transformed elements, in the same order as they appeared in the input. `map_func` can be used to change both the values and the structure of a dataset's elements.
 	dataset = dataset.map(map_func)
 	```
-## Methods
-- `as_numpy_iterator()`
-	- Returns an iterator which converts all elements of the dataset to numpy.
-	- This will preserve the nested structure of dataset elements.
-	- This method requires that you are running in eager mode and the dataset's element_spec contains only `tf.TensorSpec` components.
-- `batch(batch_size, [drop_remainder=False])`
-	- Combines consecutive elements of this dataset into batches.
-	- The components of the resulting element will have an additional outer dimension, which will be `batch_size` (or `N%batch_size` for the last element if `batch_size` does not divide the number of input elements `N` evenly and `drop_remainder=False`). If your program depends on the batches having the same outer dimension, you should set the `drop_remainder=True` to prevent the smaller batch from being produced.
-- `cache(filename)`
-	- Caches the elements in this dataset.
-	- The first time the dataset is iterated over(e.g., `map()`, `filter()`, etc.), its elements will be cached either in the specified file or in memory. Subsequent iterations will use the cached data.
-	- For the cache to be finalized, the input dataset must be iterated through in its entirety. Otherwise, subsequent iterations will not use cached data.
-	- `filename`: When caching to a file, the cached data will persist across runs. Even the first iteration through the data will read from the cache file. Changing the input pipeline before the call to `cache()` will have no effect until the cache file is removed or the `filename` is changed. If a `filename` is not provided, the dataset will be cached in memory.
-	- `cache()` will produce exactly the same elements during each iteration through the dataset. If you wish to randomize the iteration order, make sure to call `shuffle()` after calling `cache()`.
-- `enumerate([start=0])`
-- `filter(predicate)`
-- `from_tensor_slices()`
-- `from_tensors()`
-- `map(map_func)`
-- `prefetch(buffer_size)`
-- `random()`
-- `range()`
-- `repeat()`
-- `shuffle(buffer_size, [seed=None], [reshuffle_each_iteration=None])`
-- `skip(count)`
-- `take(count)`
-- `unique()`
-- `zip()`	
+- Methods
+	- `as_numpy_iterator()`
+		- Returns an iterator which converts all elements of the dataset to numpy.
+		- This will preserve the nested structure of dataset elements.
+		- This method requires that you are running in eager mode and the dataset's element_spec contains only `tf.TensorSpec` components.
+	- `batch(batch_size, [drop_remainder=False])`
+		- Combines consecutive elements of this dataset into batches.
+		- The components of the resulting element will have an additional outer dimension, which will be `batch_size` (or `N%batch_size` for the last element if `batch_size` does not divide the number of input elements `N` evenly and `drop_remainder=False`). If your program depends on the batches having the same outer dimension, you should set the `drop_remainder=True` to prevent the smaller batch from being produced.
+	- `padded_batch()`
+		- Pad to the smallest per-`batch size` that fits all elements.
+		- Unlike `batch()`, the input elements to be batched may have different shapes, and this transformation will pad each component to the respective shape in `padded_shapes`. The `padded_shapes` argument determines the resulting shape for each dimension of each component in an output element.
+		- `padded_shapes`:
+			- If `None`: The dimension is unknown, the component will be padded out to the maximum length of all elements in that dimension.
+			- If not `None`: The dimension is a constant, the component will be padded out to that length in that dimension.
+		- `padding_values`
+		- `drop_remainder`
+	- `cache(filename)`
+		- Caches the elements in this dataset.
+		- The first time the dataset is iterated over(e.g., `map()`, `filter()`, etc.), its elements will be cached either in the specified file or in memory. Subsequent iterations will use the cached data.
+		- For the cache to be finalized, the input dataset must be iterated through in its entirety. Otherwise, subsequent iterations will not use cached data.
+		- `filename`: When caching to a file, the cached data will persist across runs. Even the first iteration through the data will read from the cache file. Changing the input pipeline before the call to `cache()` will have no effect until the cache file is removed or the `filename` is changed. If a `filename` is not provided, the dataset will be cached in memory.
+		- `cache()` will produce exactly the same elements during each iteration through the dataset. If you wish to randomize the iteration order, make sure to call `shuffle()` after calling `cache()`.
+	- `enumerate([start=0])`
+	- `filter(predicate)`
+		- `predicate`: A function mapping a dataset element to a boolean.
+		- Returns the dataset containing the elements of this dataset for which `predicate` is `True`.
+	- `from_tensor_slices()`
+	- `from_tensors()`
+	- `map(map_func)`
+		- This transformation applies `map_func` to each element of this dataset, and returns a new dataset containing the transformed elements, in the same order as they appeared in the input. `map_func` can be used to change both the values and the structure of a dataset's elements.
+	- `prefetch(buffer_size)`
+		- Most dataset input pipelines should end with a call to prefetch. This allows later elements to be prepared while the current element is being processed. This often improves latency and throughput, at the cost of using additional memory to store prefetched elements.
+		- `buffer_size`: The maximum number of elements that will be buffered when prefetching. If the value `tf.data.AUTOTUNE` is used, then the buffer size is dynamically tuned.
+	- `random()`
+	- `range()`
+	- `repeat()`
+	- `shuffle(buffer_size, [seed=None], [reshuffle_each_iteration=None])`
+		- `buffer_size`: For perfect shuffling, greater than or equal to the full size of the dataset is required. If not, only the first `buffer_size` elements will be selected randomly.
+		- `reshuffle_each_iteration`: Controls whether the shuffle order should be different for each epoch.
+	- `skip(count)`
+	- `take(count)`
+	- `unique()`
+	- `zip()`	
 # `tf.GradientTape()`
 ```python
 # (`SGD()`, `Adagrad()`, `Adam()`, ...)

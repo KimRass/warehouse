@@ -111,28 +111,11 @@ def tf_encode(pt, en):
 def filter_max_len(x, y):
     return tf.logical_and(tf.size(x) <= max_len, tf.size(y) <= max_len)
 
-# This transformation applies `map_func` to each element of this dataset, and returns a new dataset containing the transformed elements, in the same order as they appeared in the input. `map_func` can be used to change both the values and the structure of a dataset's elements.
 dataset_tr = dataset_tr.map(tf_encode)
-# `predicate`: A function mapping a dataset element to a boolean.
-# Returns the dataset containing the elements of this dataset for which `predicate` is `True`.
 dataset_tr = dataset_tr.filter(filter_max_len)
-# The first time the dataset is iterated over, its elements will be cached either in the specified file or in memory. Subsequent iterations will use the cached data.
-# `filename`: When caching to a file, the cached data will persist across runs. Even the first iteration through the data will read from the cache file. Changing the input pipeline before the call to `cache()` will have no effect until the cache file is removed or the `filename` is changed. If a `filename` is not provided, the dataset will be cached in memory.
 dataset_tr = dataset_tr.cache()
-# For perfect shuffling, a `buffer_size` greater than or equal to the full size of the dataset is required.
-# If not, only the first `buffer_size` elements will be selected randomly.
-# `reshuffle_each_iteration` controls whether the shuffle order should be different for each epoch.
 dataset_tr = dataset_tr.shuffle(buffer_size)
-# Pad to the smallest per-`batch size` that fits all elements.
-# Unlike `batch()`, the input elements to be batched may have different shapes, and this transformation will pad each component to the respective shape in `padded_shapes`. The `padded_shapes` argument determines the resulting shape for each dimension of each component in an output element.
-# `padded_shapes`:
-    # If `None`: The dimension is unknown, the component will be padded out to the maximum length of all elements in that dimension.
-    # If not `None`: The dimension is a constant, the component will be padded out to that length in that dimension.
-# `padding_values`
-# `drop_remainder`
 dataset_tr = dataset_tr.padded_batch(batch_size)
-# Most dataset input pipelines should end with a call to prefetch. This allows later elements to be prepared while the current element is being processed. This often improves latency and throughput, at the cost of using additional memory to store prefetched elements.
-# `buffer_size`: The maximum number of elements that will be buffered when prefetching. If the value `tf.data.AUTOTUNE` is used, then the buffer size is dynamically tuned.
 dataset_tr = dataset_tr.prefetch(tf.data.AUTOTUNE)
 
 dataset_val = dataset_val.map(tf_encode)
