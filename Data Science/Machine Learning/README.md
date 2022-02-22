@@ -1013,12 +1013,10 @@ for epoch in range(1, epochs + 1):
     # Resets all of the metric state variables to a predefined constant (typically 0). This function is called between epochs/steps, when a metric is evaluated during training.
     tr_loss.reset_states()
     tr_acc.reset_states()
-    for (batch, (src, tar)) in enumerate(dataset_tr):
-        train_step(src, tar)
-
+    for batch, (x, y) in dataset_tr.enumerate(start=1):
+        train_step(x, y)
         if batch%50 == 0:
             print(f"Epoch: {epoch:3d} | Batch: {batch:5d} | Loss: {tr_loss.result():5.4f} | Accuracy: {tr_acc.result():5.4f}")
-
     if epoch%1 == 0:
         # Every time `ckpt_manager.save()` is called, `save_counter` is increased.
         # `save_path`: The path to the new checkpoint. It is also recorded in the `checkpoints` and `latest_checkpoint` properties. `None` if no checkpoint is saved.

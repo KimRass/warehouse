@@ -18,15 +18,20 @@ FROM (
 	GROUP BY yr) B;
 
 --## 올해 월별 누적 매출, 매출원가, 판관비, 영업이익
-SELECT ym_magam, SUM(sales) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS sales, SUM(sales_cost) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS sales_cost, SUM(fee) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS fee, SUM(sales - sales_cost - fee) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS profit
-FROM (
-	SELECT ym_magam, ROUND(SUM(c1)/100000000, 0) AS sales, ROUND(SUM(c2)/100000000, 0) AS sales_cost, ROUND(SUM(c3)/100000000, 0) AS fee
-	FROM (
-		SELECT ym_magam, CASE WHEN LEFT(cd_trial, 2) = '41' THEN am_account_wol END AS c1, CASE WHEN LEFT(cd_trial, 2) = '46' THEN am_account_wol END AS c2, CASE WHEN LEFT(cd_trial, 2) = '61' THEN am_account_wol END AS c3
-		FROM DATAMART_DHDT_TOTAL DDT
-		WHERE cd_dept_acnt = 'HD00' AND LEFT(ym_magam, 4) = 2021) A
-	GROUP BY ym_magam) B
-ORDER BY ym_magam;
+--SELECT ym_magam, SUM(sales) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS sales, SUM(sales_cost) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS sales_cost, SUM(fee) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS fee, SUM(sales - sales_cost - fee) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS profit
+--FROM (
+--	SELECT ym_magam, ROUND(SUM(c1)/100000000, 0) AS sales, ROUND(SUM(c2)/100000000, 0) AS sales_cost, ROUND(SUM(c3)/100000000, 0) AS fee
+--	FROM (
+--		SELECT ym_magam, CASE WHEN LEFT(cd_trial, 2) = '41' THEN am_account_wol END AS c1, CASE WHEN LEFT(cd_trial, 2) = '46' THEN am_account_wol END AS c2, CASE WHEN LEFT(cd_trial, 2) = '61' THEN am_account_wol END AS c3
+--		FROM DATAMART_DHDT_TOTAL DDT
+--		WHERE cd_dept_acnt = 'HD00' AND LEFT(ym_magam, 4) = 2021) A
+--	GROUP BY ym_magam) B
+--ORDER BY ym_magam;
+SELECT ym_magam, SUM(am_account)
+FROM DATAMART_DHDT_TOTAL DDT
+WHERE cd_dept_acnt = 'HD00' AND LEFT(cd_trial, 2) = '41'
+GROUP BY ym_magam
+ORDER BY ym_magam
 
 --## 연도별 자산, 부채, 자본, 부채비율
 SELECT *, prop - debt AS cap, ROUND(debt/(prop - debt)*100, 1) AS debt_ratio
@@ -50,11 +55,16 @@ FROM DATAMART_DHDT_TOTAL_GROUP DDTG;
 --- 업데이트: 매달 20일 4시?
 --- 사용 영역: `주요 부문별 매출`, `주요 부문별 매출이익율`
 
+SELECT DDT.ym_magam, MAX(DDT.ym_magam) OVER(PARTITION BY LEFT(DDT.ym_magam, 4)) AS max_yr, DDTG.ds_group, ROUND(SUM(am_account_wol)/100000000, 0) AS sales
+FROM DATAMART_DHDT_TOTAL DDT LEFT OUTER JOIN DATAMART_DHDT_ACNT_GROUP DDAG ON DDT.cd_corp = DDAG.cd_corp AND DDT.cd_dept_acnt = DDAG.cd_dept_acnt LEFT OUTER JOIN DATAMART_DHDT_TOTAL_GROUP DDTG ON DDAG.cd_group = DDTG.cd_group
+WHERE LEFT(DDT.cd_trial, 2) = '41' AND ds_group != '기타' AND LEFT(ym_magam, 4) = '2021' AND ds_group = '인프라'
+GROUP BY DDT.ym_magam, DDTG.ds_group
+
 --## 그룹, 연도별 매출 등
 SELECT ds_group, LEFT(max_yr, 4) AS yr, SUM(sales)
 FROM (
 	SELECT DDT.ym_magam, MAX(DDT.ym_magam) OVER(PARTITION BY LEFT(DDT.ym_magam, 4)) AS max_yr, DDTG.ds_group, ROUND(SUM(am_account_wol)/100000000, 0) AS sales
-	FROM DATAMART_DHDT_TOTAL DDT INNER JOIN DATAMART_DHDT_ACNT_GROUP DDAG ON DDT.cd_corp = DDAG.cd_corp AND DDT.cd_dept_acnt = DDAG.cd_dept_acnt INNER JOIN DATAMART_DHDT_TOTAL_GROUP DDTG ON DDAG.cd_group = DDTG.cd_group
+	FROM DATAMART_DHDT_TOTAL DDT LEFT OUTER JOIN DATAMART_DHDT_ACNT_GROUP DDAG ON DDT.cd_corp = DDAG.cd_corp AND DDT.cd_dept_acnt = DDAG.cd_dept_acnt LEFT OUTER JOIN DATAMART_DHDT_TOTAL_GROUP DDTG ON DDAG.cd_group = DDTG.cd_group
 	-- 매출
 	WHERE LEFT(DDT.cd_trial, 2) = '41' AND ds_group != '기타'
 	-- 매출원가

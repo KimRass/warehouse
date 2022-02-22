@@ -41,7 +41,7 @@
 - 숫자 + 단위: 붙여쓰기(e.g., 1,000원)
 
 # `Date Format`
-- Y: `YYYY`
+- Y: `'YY`, `YYYY`
 - YM: `'YY.MM`
 - YMD: `'YY.MM.DD`
 - YQ: `'YY.Q"Q"`

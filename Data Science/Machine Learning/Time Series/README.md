@@ -358,13 +358,6 @@ sm.graphics.tsa.plot_pacf(x=data["var"], lags=50);
 
 	The Gaussian likelihood parametrized by θ = (μ, σ) where μ is the expected value of the distribution and σ its standard deviation.
 	The Negative Binomial likelihood parametrized by θ = (μ, α) where μ is the mean and α its shape.
-	
-# CNN-QR (Quantile Regression)
-- MR-RNN -> CNN-QR 대체
-- Probabilistic forecasting
-
-- Gaussian Likelihood
-- Negative Binomial Likelihood
 
 # Autoencoder
 - Source: https://en.wikipedia.org/wiki/Autoencoder
@@ -375,6 +368,7 @@ Autoencoders are applied to many problems, from facial recognition, feature dete
 	- By learning to replicate the most salient features in the training data under some of the constraints described previously, the model is encouraged to learn to precisely reproduce the most frequently observed characteristics. When facing anomalies, the model should worsen its reconstruction performance. *In most cases, only data with normal instances are used to train the autoencoder; in others, the frequency of anomalies is small compared to the observation set so that its contribution to the learned representation could be ignored. After training, the autoencoder will accurately reconstruct "normal" data, while failing to do so with unfamiliar anomalous data. Reconstruction error (the error between the original data and its low dimensional reconstruction) is used as an anomaly score to detect anomalies.*
 	
 # TadGan (Time series Anomaly Detection using Generative Adversarial Networks)
+- Source: https://analyticsindiamag.com/what-is-a-time-series-gan/
 - Using `orion`
 	- Refrences: https://github.com/sintel-dev/Orion/tree/master/tutorials/tulog, https://sintel.dev/Orion/user_guides/primitives_pipelines/primitives/TadGAN.html
 	```python
@@ -501,6 +495,19 @@ Autoencoders are applied to many problems, from facial recognition, feature dete
 
 			plot(raw_data, anomalies=[known_anoms, detected_anoms])
 			```
+# TimeGAN (Time series Generative Adversarial Network)
+- Paper: ![Time-series Generative Adversarial Networks](https://papers.nips.cc/paper/2019/hash/c9efe5f26cd17ba6216bbe2a7d26d490-Abstract.html)
+- Sources: https://towardsdatascience.com/synthetic-time-series-data-a-gan-approach-869a984f2239, https://github.com/jsyoon0823/TimeGAN/blob/master/timegan.py
+- ***Different from other GAN architectures (eg. WGAN) where we have implemented an unsupervised adversarial loss on both real and synthetic data, TimeGAN architecture introduces the concept of supervised loss —the model is encouraged to capture time conditional distribution within the data by using the original data as a supervision.*** Also, we can observe the introduction of an embedding network that is responsible to reduce the adversarial learning space dimensionality.
+- *TimeGAN is a framework to synthesize sequential data composed by 4 networks, that play distinct roles in the process of modelling the data: the expected generator and discriminator, but also, a recovery and embedder models.*
+- TimeGAN is composed by three losses;
+	- The reconstruction loss, which refers to the autoencoder (embedder & recovery), that in a nutshell compares how well was the reconstruction of the encoded data when compared to the original one.
+	- The supervised loss that, in a nutshell, is responsible to capture how well the generator approximates the next time step in the latent space.
+	- The unsupervised loss, which reflects the relation between the generator and discriminator networks (min-max game).
+- Given the architecture choice and the defined losses we have three training phases:
+	- Training the autoencoder on the provided sequential data for optimal reconstruction.
+	- Training the supervisor using the real sequence data to capture the temporal behavior of the historical information, and finally,
+	- The combined training of four components while minimizing all the three loss functions mentioned previously.
 
 # Splitting Dataset
 - ***Overfitting would be a major concern since your training data could contain information from the future. It is important that all your training data happens before your test data.***
