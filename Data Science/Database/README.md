@@ -408,7 +408,7 @@ Written by KimRass
 - A graph database focuses on the relationship between data elements. Each element is stored as a node (such as a person in a social media graph). The connections between elements are called links or relationships. In a graph database, connections are first-class elements of the database, stored directly.
 - *A graph database is optimized to capture and search the connections between data elements, overcoming the overhead associated with JOINing multiple tables in SQL.*
 
-# Data Warehouse (DW) and Data Mart (DM)
+# Data Warehouse (DW) & Data Mart (DM)
 - Source: https://www.guru99.com/data-warehouse-vs-data-mart.html
 - *Data Warehouse is focused on all departments in an organization whereas Data Mart focuses on a specific group.*
 - *Comparing Data Warehouse vs Data Mart, Data Warehouse size range is 100 GB to 1 TB+ whereas Data Mart size is less than 100 GB.*

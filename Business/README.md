@@ -118,7 +118,7 @@
 
 # Technology Stack
 - https://mixpanel.com/blog/what-is-a-technology-stack/
-A technology stack, also called a solutions stack, technology infrastructure, or a data ecosystem, is a list of all the technology services used to build and run one single application. The social site Facebook, for example, is composed of a combination of coding frameworks and languages including JavaScript, HTML, CSS, PHP, and ReactJS. This is Facebook’s ‘tech stack.’
+- A technology stack, also called a solutions stack, technology infrastructure, or a data ecosystem, is a list of all the technology services used to build and run one single application. The social site Facebook, for example, is composed of a combination of coding frameworks and languages including JavaScript, HTML, CSS, PHP, and ReactJS. This is Facebook’s ‘tech stack.’
 
 # Prequel & Sequel
 ## Prequel
