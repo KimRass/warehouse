@@ -641,9 +641,6 @@ flags = cv2.KMEANS_RANDOM_CENTERS
 compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 ```
 
-# Autoencoder
-- Source: https://en.wikipedia.org/wiki/Autoencoder
-
 # Plot Decision Tree
 ```python
 import graphviz

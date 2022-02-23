@@ -6,6 +6,22 @@ SELECT *
 FROM DATAMART_DHDT_TOTAL DDT;
 --- 업데이트: 매달 20일 4시?
 --- 사용 영역: 카드 지표 전체, 카드 지표-`사업유형별 실적` 전체, `누적 매출`, `누적 매출이익율`, `누적 영업이익`, `누적 영업이익율`, `연간 손익`, `당기 누적 손익`-(`매출액`, `영업이익`), `주요 부문별 매출`, `주요 부문별 매출이익율`, `손익계산서`, `재무상태표`, `부채비율`, `차입금의존도`, `유동비율`, `이자보상배율`
+-- 매출: LEFT(cd_trial, 2) = '41'
+-- 매출원가: LEFT(cd_trial, 2) = '46'
+-- 판관비: LEFT(cd_trial, 2) = '61'
+-- 영업이익: 매출 - 매출원가 - 판관비
+-- 매출이익: 매출 - 매출원가
+-- 부채: LEFT(cd_trial, 1) = '2'
+-- 자산: LEFT(cd_trial, 1) = '1'
+-- 자본: 자산 - 부채
+-- 부채비율: 부채/자본
+-- 차입금: cd_trial IN('22101101', '22201101', '22101102', '22201201', '22301101', '22301201', '27101101', '27101102', '27101104', '27101201', '27301101', '27301201', '22101100', '22201100', '27101100')
+-- 차입금의존도: 차입금/자산
+-- 유동자산: LEFT(cd_trial, 2) IN('11', '12', '14')
+-- 유동부채: LEFT(cd_trial, 2) IN('21', '22', '23')
+-- 유동비율: 유동자산/유동부채
+-- 이자비용: LEFT(cd_trial, 6) = '716011'
+-- 이자보상배율: 영업이익/이자비용
 
 --## 연도별 매출액, 매출원가, 판관비, 영업이익
 SELECT yr, sales, sales_cost, fee, sales - sales_cost - fee AS profit
@@ -29,7 +45,10 @@ FROM (
 --ORDER BY ym_magam;
 SELECT ym_magam, SUM(am_account)
 FROM DATAMART_DHDT_TOTAL DDT
-WHERE cd_dept_acnt = 'HD00' AND LEFT(cd_trial, 2) = '41'
+WHERE cd_dept_acnt = 'HD00'
+--	AND LEFT(cd_trial, 2) = '41'
+--	AND LEFT(cd_trial, 1) = '2'
+	AND LEFT(cd_trial, 6) = '716011'
 GROUP BY ym_magam
 ORDER BY ym_magam
 

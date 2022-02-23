@@ -4,14 +4,6 @@ FROM DATAMART_DIFV_PL_FORCAST DDPF;
 --- 레코드 추가: 매달 21일에 전달 데이터 추가
 --- 사용 영역: 카드 지표 전체, `누계 수주 실적`, `부문별 수주 현황`, `누계 공급 실적`, `부문별 공급 현황`, `공급 추이`, `누계 판매 실적`, `부문별 판매 현황`, `판매 추이`, `팀별 영업 실적` 대시보드 전체
 
-SELECT *
-FROM DATAMART_DIFV_PL_FORCAST DDPF
-WHERE YEAR = 2021
-ORDER BY MONTH DESC;
-
-SELECT DISTINCT YEAR
-FROM DATAMART_DIFV_PL_FORCAST DDPF;
-
 --## 본부별 수주, 공급, 판매 연간 계획, 누계 계획, 연간 실적
 SELECT A.ds_item, A.ds_bonbu, A.연간_계획, B.누계_계획, A.연간_실적 
 FROM (
@@ -21,7 +13,8 @@ FROM (
 	GROUP BY ds_item, ds_bonbu) AS A,
 	(SELECT ds_item, ds_bonbu, SUM(am_plan) AS 누계_계획
 	FROM DATAMART_DIFV_PL_FORCAST DDPF
-	WHERE ds_item != '수주잔고' AND YEAR = 2021 AND MONTH <= MONTH(GETDATE()) - 2
+	WHERE ds_item != '수주잔고' AND YEAR = 2021
+--		AND MONTH <= MONTH(GETDATE()) - 2
 	GROUP BY ds_item, ds_bonbu) AS B
 WHERE A.ds_item = B.ds_item AND A.ds_bonbu = B.ds_bonbu
 ORDER BY ds_item, ds_bonbu;
