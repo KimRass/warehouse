@@ -11,6 +11,7 @@ FROM DATAMART_DHDT_TOTAL DDT;
 -- 판관비: LEFT(cd_trial, 2) = '61'
 -- 영업이익: 매출 - 매출원가 - 판관비
 -- 매출이익: 매출 - 매출원가
+-- 매출이익율: 매출이익/매출
 -- 부채: LEFT(cd_trial, 1) = '2'
 -- 자산: LEFT(cd_trial, 1) = '1'
 -- 자본: 자산 - 부채
@@ -22,6 +23,9 @@ FROM DATAMART_DHDT_TOTAL DDT;
 -- 유동비율: 유동자산/유동부채
 -- 이자비용: LEFT(cd_trial, 6) = '716011'
 -- 이자보상배율: 영업이익/이자비용
+-- 영업외수익: LEFT(cd_trial, 3) = '711'
+-- 영업외비용: LEFT(cd_trial, 3) = '716'
+-- 세전이익: 영업이익 + 영업외수익 - 영업외비용
 
 --## 연도별 매출액, 매출원가, 판관비, 영업이익
 SELECT yr, sales, sales_cost, fee, sales - sales_cost - fee AS profit
@@ -48,7 +52,8 @@ FROM DATAMART_DHDT_TOTAL DDT
 WHERE cd_dept_acnt = 'HD00'
 --	AND LEFT(cd_trial, 2) = '41'
 --	AND LEFT(cd_trial, 1) = '2'
-	AND LEFT(cd_trial, 6) = '716011'
+--	AND LEFT(cd_trial, 6) = '716011'
+	AND LEFT(cd_trial, 1) = '1'
 GROUP BY ym_magam
 ORDER BY ym_magam
 
