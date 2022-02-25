@@ -521,6 +521,8 @@ Autoencoders are applied to many problems, from facial recognition, feature dete
 	- Training the autoencoder on the provided sequential data for optimal reconstruction.
 	- Training the supervisor using the real sequence data to capture the temporal behavior of the historical information, and finally,
 	- The combined training of four components while minimizing all the three loss functions mentioned previously.
+- Supervisor
+	- In TimeGAN, G generates a sequence ˆe in latent space. But, G is often too weak in the beginning of the training and we therefore provide some support to G. This introduces a f ifth and last component in the architecture: the supervisor
 
 # Splitting Dataset
 - ***Overfitting would be a major concern since your training data could contain information from the future. It is important that all your training data happens before your test data.***

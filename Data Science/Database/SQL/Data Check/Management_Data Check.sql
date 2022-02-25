@@ -4,6 +4,15 @@ ORDER BY ym_magam DESC
 
 SELECT *
 FROM DATAMART_DHDT_TOTAL DDT;
+
+SELECT DISTINCT cd_trial, ds_trial
+FROM DATAMART_DHDT_TOTAL DDT
+WHERE ds_trial LIKE '%외화%'
+ORDER BY ds_trial
+
+SELECT DISTINCT cd_trial, ds_trial
+FROM DATAMART_DHDT_TOTAL DDT
+WHERE LEFT(cd_trial, 4) = '7110'
 --- 업데이트: 매달 20일 4시?
 --- 사용 영역: 카드 지표 전체, 카드 지표-`사업유형별 실적` 전체, `누적 매출`, `누적 매출이익율`, `누적 영업이익`, `누적 영업이익율`, `연간 손익`, `당기 누적 손익`-(`매출액`, `영업이익`), `주요 부문별 매출`, `주요 부문별 매출이익율`, `손익계산서`, `재무상태표`, `부채비율`, `차입금의존도`, `유동비율`, `이자보상배율`
 -- 매출: LEFT(cd_trial, 2) = '41'
@@ -11,7 +20,6 @@ FROM DATAMART_DHDT_TOTAL DDT;
 -- 판관비: LEFT(cd_trial, 2) = '61'
 -- 영업이익: 매출 - 매출원가 - 판관비
 -- 매출이익: 매출 - 매출원가
--- 매출이익율: 매출이익/매출
 -- 부채: LEFT(cd_trial, 1) = '2'
 -- 자산: LEFT(cd_trial, 1) = '1'
 -- 자본: 자산 - 부채
@@ -26,6 +34,14 @@ FROM DATAMART_DHDT_TOTAL DDT;
 -- 영업외수익: LEFT(cd_trial, 3) = '711'
 -- 영업외비용: LEFT(cd_trial, 3) = '716'
 -- 세전이익: 영업이익 + 영업외수익 - 영업외비용
+-- 금융수익: 이자수익 + 외환차익 + 외화환산이익
+-- 금융비용: 이자비용 + 외환차손 + 외화환산손실
+--이자수익 71101100/
+--이자비용 71601100
+--외환차손 71602101
+--외환차익 71102101/
+--외화환산이익 71102201/
+--외화환산손실 71602202
 
 --## 연도별 매출액, 매출원가, 판관비, 영업이익
 SELECT yr, sales, sales_cost, fee, sales - sales_cost - fee AS profit
@@ -52,8 +68,7 @@ FROM DATAMART_DHDT_TOTAL DDT
 WHERE cd_dept_acnt = 'HD00'
 --	AND LEFT(cd_trial, 2) = '41'
 --	AND LEFT(cd_trial, 1) = '2'
---	AND LEFT(cd_trial, 6) = '716011'
-	AND LEFT(cd_trial, 1) = '1'
+	AND LEFT(cd_trial, 6) = '716011'
 GROUP BY ym_magam
 ORDER BY ym_magam
 
