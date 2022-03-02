@@ -955,7 +955,13 @@ model.inputs
 	- `skip(count)`
 	- `take(count)`
 	- `unique()`
-	- `zip()`	
+	- `zip()`
+	
+# Eager Excution & Graph Excution
+- Source: https://towardsdatascience.com/eager-execution-vs-graph-execution-which-is-better-38162ea4dbf6
+- In TensorFlow 2.0, you can decorate a Python function using `tf.function()` to run it as a single graph object. With this new method, you can easily build models and gain all the graph execution benefits.
+- For simple operations, graph execution does not perform well because it has to spend the initial computing power to build a graph. We see the power of graph execution in complex calculations.
+	
 # `tf.GradientTape()`
 ```python
 import time
