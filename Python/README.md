@@ -1420,6 +1420,8 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 # Download Files
 - Using `urllib.request.urlretrieve()`
 	```python
+	import urllib.request
+	
 	urllib.request.urlretrieve(url=url, filename=filename)
 	```
 - Using `google_drive_downloader.GoogleDriveDownloader.download_file_from_google_drive()`

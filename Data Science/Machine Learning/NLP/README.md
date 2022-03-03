@@ -132,6 +132,10 @@ dataset_val = dataset_val.padded_batch(batch_size)
 - *Written texts in corpora might be drawn from books, newspapers, or magazines that have been scanned or downloaded electronically. Other written corpora might contain works of literature, or all the writings of one author (e.g., William Shakespeare).* Such corpora help us to see how language is used in contemporary society, how our use of language has changed over time, and how language is used in different situations.
 - People build corpora of different sizes for specific reasons. For example, a very large corpus would be required to help in the preparation of a dictionary. It might contain tens of millions of words – because it has to include many examples of all the words and expressions that are used in the language. A medium-sized corpus might contain transcripts of lectures and seminars and could be used to write books for learners who need academic language for their studies. Such corpora range in size from a million words to five or ten million words. Other corpora are more specialized and much smaller. These might contain the transcripts of business meetings, for instance, and could be used to help writers design materials for teaching business language.
 
+# NLU
+
+# NLG
+
 # Puctuation
 ```python
 import string
@@ -741,9 +745,6 @@ model.add_dictionary(corp.dictionary)
 	```
 ## Byte Pair Encoding (BPE)
 
-# NLU
-# NLG
-
 # Topic Modeling
 ## LSA (Latent Semantic Analysis)
 - Source: https://wikidocs.net/24949
@@ -992,6 +993,37 @@ def beam_search(data, k):
 	- 참고로 패딩은 1로 하겠습니다. 왜냐하면 어텐션 부분에서 mask * (-1e9)를 하는데, 패딩이 1이어야 -1e9가 곱해져서 상당히 음수로 큰 수가 되는 것이고, 이게 소프트 맥스에 들어가면 0이 되기 때문입니다.(지수함수라 지수함수에 -음수는 0으로 수렴)
 
 # BERT (Bidirectional Encoder Representations from Transformers)
+- ![BERT Embeddings](https://mino-park7.github.io/images/2019/02/bert-input-representation.png)
+	- Token embeddings: 버트 모형에 들어가는 인풋은 일정한 길이를 가져야 합니다.(본 예제에서는 64)
+	따라서 남는 부분은 1로 채워지게 됩니다(패딩)
+	- Segment embeddings: 세그멘트 인풋은 문장이 앞문장인지 뒷문장인지 구분해주는 역할을 하는데요 본 문장에서는 문장 하나만 인풋으로 들어가기 때문에 0만 들어가게 되고, 문장 길이만큼의 0이 인풋으로 들어가게 됩니다.
+	- Position embeddings: 패딩이 아닌 부분은 1, 패딩인 부분은 0.
+- Using `tokenization_kobert`
+	```python
+	!pip install transformers==4.4.2
+	!pip install sentencepiece
+
+	import urllib
+	urllib.request.urlretrieve("https://raw.githubusercontent.com/monologg/KoBERT-Transformers/master/kobert_transformers/tokenization_kobert.py", filename="tokenization_kobert.py")
+
+	from tokenization_kobert import KoBertTokenizer
+
+	tokenizer = KoBertTokenizer.from_pretrained("monologg/kobert")
+
+	# `"[PAD]"`: `1`, `"[CLS]"`: `2`, `"[SEP]"`: `3`
+		# 모든 sentence의 첫번째 token은 언제나 [CLS](special classification token) 입니다. 이 [CLS] token은 transformer 전체층을 다 거치고 나면 token sequence의 결합된 의미를 가지게 되는데, 여기에 간단한 classifier를 붙이면 단일 문장, 또는 연속된 문장의 classification을 쉽게 할 수 있게 됩니다. 만약 classification task가 아니라면 이 token은 무시하면 됩니다. (https://tmaxai.github.io/post/BERT/)
+	pieces = tokenizer.tokenize(text)
+	# `max_length`
+	# `truncation`
+		# `True`: Explicitly truncate examples to `max_length`
+		# 'longest_first'
+	# `padding`
+		# `True` or `"longest"`: Pad to the longest sequence in the batch.
+		# `"max_length"`: Pad to `max_length`.
+	ids = tokenizer.encode(text)
+	sents = tokenizer.decode(ids)
+	id = tokenizer.convert_tokens_to_ids(piece)
+	```
 
 # GPT (Generative Pre-trained Transformer)
 
@@ -1001,71 +1033,6 @@ import tensorflow_hub as hub
 
 elmo = hub.Module("https://tfhub.dev/google/elmo/3", trainable=True)
 embeddings = elmo(["the cat is on the mat", "dogs are in the fog"], signature="default", as_dict=True)["elmo"]
-```
-
-# `tokenization_kobert`
-```
-pip3 install kobert-transformers
-```
-```python
-urllib.request.urlretrieve("https://raw.githubusercontent.com/monologg/KoBERT-NER/master/tokenization_kobert.py", filename="tokenization_kobert.py")
-```
-## `KoBertTokenizer`
-```python
-from tokenization_kobert import KoBertTokenizer
-```
-- `KoBertTokenizer` 파일 안에 `from transformers import PreTrainedTokenizer`가 이미 되어있습니다.
-### `KoBertTokenizer.from_pretrained()`
-```python
-tokenizer = KoBertTokenizer.from_pretrained("monologg/kobert")
-```
-#### `tokenier.tokenize()`
-```python
-tokenizer.tokenize("보는내내 그대로 들어맞는 예측 카리스마 없는 악역")
-```
-#### `tokenizer.encode()`
-```python
-tokenizer.encode("보는내내 그대로 들어맞는 예측 카리스마 없는 악역")
-```
-- `max_length`
-- `padding="max_length"`
-#### `tokenizer.convert_tokens_to_ids()`
-```python
-tokenizer.convert_tokens_to_ids("[CLS]")
-```
-- Unknown Token: `0`, `"[PAD]"`: `1`, `"[CLS]"`: `2`, `"[SEP]"`: `3`
-
-# `transformers`
-```python
-!pip install --target=$my_path transformers==3.5.0
-```
-## `BertModel`
-```python
-from transformers import BertModel
-```
-```python
-model = BertModel.from_pretrained("monologg/kobert")
-```
-## `TFBertModel`
-```python
-from transformers import TFBertModel
-```
-### `TFBertModel.from_pretrained()`
-```python
-model = TFBertModel.from_pretrained("monologg/kobert", from_pt=True,
-                                    num_labels=len(tag2idx), output_attentions=False,
-                                    output_hidden_states = False)
-```
-```python
-bert_outputs = model([token_inputs, mask_inputs])
-```
-#### `model.save()`
-```python
-model.save("kobert_navermoviereview.h5", save_format="tf")
-```
-### `BertModel.from_pretrained()`
-```python
-model = BertModel.from_pretrained("monologg/kobert")
 ```
 
 # `soynlp`
