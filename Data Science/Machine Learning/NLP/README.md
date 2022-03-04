@@ -998,7 +998,7 @@ def beam_search(data, k):
 	따라서 남는 부분은 1로 채워지게 됩니다(패딩)
 	- Segment embeddings: 세그멘트 인풋은 문장이 앞문장인지 뒷문장인지 구분해주는 역할을 하는데요 본 문장에서는 문장 하나만 인풋으로 들어가기 때문에 0만 들어가게 되고, 문장 길이만큼의 0이 인풋으로 들어가게 됩니다.
 	- Position embeddings: 패딩이 아닌 부분은 1, 패딩인 부분은 0.
-- Using `tokenization_kobert`
+- Using `tokenization_kobert` (KoBERT)
 	```python
 	!pip install transformers==4.4.2
 	!pip install sentencepiece
@@ -1011,7 +1011,7 @@ def beam_search(data, k):
 	tokenizer = KoBertTokenizer.from_pretrained("monologg/kobert")
 
 	# `"[PAD]"`: `1`, `"[CLS]"`: `2`, `"[SEP]"`: `3`
-		# 모든 sentence의 첫번째 token은 언제나 [CLS](special classification token) 입니다. 이 [CLS] token은 transformer 전체층을 다 거치고 나면 token sequence의 결합된 의미를 가지게 되는데, 여기에 간단한 classifier를 붙이면 단일 문장, 또는 연속된 문장의 classification을 쉽게 할 수 있게 됩니다. 만약 classification task가 아니라면 이 token은 무시하면 됩니다. (https://tmaxai.github.io/post/BERT/)
+		# 모든 Sentence의 첫번째 Token은 언제나 `"[CLS]"`(special classification token)입니다. 이것은 ㅆransformer 전체층을 다 거치고 나면 ㅆoken sequence의 결합된 의미를 가지게 되는데, 여기에 간단한 Classifier를 붙이면 단일 문장, 또는 연속된 문장의 classification을 쉽게 할 수 있게 됩니다. 만약 classification task가 아니라면 이 token은 무시하면 됩니다. (https://tmaxai.github.io/post/BERT/)
 	pieces = tokenizer.tokenize(text)
 	# `max_length`
 	# `truncation`
