@@ -181,9 +181,7 @@ resolver = tf.distribute.cluster_resolver.TPUClusterResolver(tpu="grpc://" + os.
 tf.config.experimental_connect_to_cluster(resolver)
 tf.tpu.experimental.initialize_tpu_system(resolver)
 strategy = tf.distribute.experimental.TPUStrategy(resolver)
-
 ...
-
 with strategy.scope():
 	...
 ```
@@ -662,6 +660,41 @@ def plot_tree(model, filename, rankdir="UT"):
     with open(full_filename, "wb") as f:
         f.write(data)
 ```
+
+# `annoy`
+- Source: https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
+```python
+!pip install "D:/annoy-1.17.0-cp38-cp38-win_amd64.whl"
+```
+```python
+pip install --user annoy
+```
+- Source: https://github.com/spotify/annoy
+- Annoy (Approximate Nearest Neighbors Oh Yeah) is a C++ library with Python bindings to *search for points in space that are close to a given query point.*
+- Tree Building
+	```python
+	from annoy import AnnoyIndex
+
+	# `AnnoyIndex()` Returns a new index that's read-write and stores vector of f dimensions.
+		# `f`: Length of item vector that will be indexed.
+		# `metric`: (`"angular"`, `"euclidean"`, `"manhattan"`, `"hamming"`, `"dot"`)
+	tree = AnnoyIndex(f, metric)
+	for i, value in enumerate(embs):
+		tree.add_item(i, value)
+	# Builds a forest of `n_trees` trees. More trees gives higher precision when querying. After calling `build()`, no more items can be added.
+		# `n_jobs`: Specifies the number of threads used to build the trees. `-1` uses all available CPU cores.
+	tree.build(n_trees=20)
+	```
+- Similarity Measure
+	```python
+	# Returns the `n` closest items.
+	# During the query it will inspect up to `search_k` nodes which defaults to `n_trees*n` if not provided. `search_k` gives you a run-time tradeoff between better accuracy and speed.
+	sim_vecs = tree.get_nns_by_vector(v, n, search_k, include_distances)
+	sim_items = tree.get_nns_by_item(i, n, search_k, include_distances)
+	
+	sim_vec = tree.get_item_vector(i)
+	dist = tree.get_distance(i, j)
+	```
 
 # TensorFlow Tensors
 - `tensorflow.python.framework.ops.EagerTensor`

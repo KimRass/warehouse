@@ -484,37 +484,3 @@ Thompson sampling is a heuristic for choosing actions that addresses the explora
 ```python
 conda install -c conda-forge implicit
 ```
-
-# `annoy`
-- Source: https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
-```python
-!pip install "D:/annoy-1.17.0-cp38-cp38-win_amd64.whl"
-```
-- Source: https://github.com/spotify/annoy
-- Tree Building
-	```python
-	from annoy import AnnoyIndex
-
-	dim = 61
-	# `metric`: (`"angular"`, `"euclidean"`, `"manhattan"`, `"hamming"`, `"dot"`)
-	for i, value in enumerate(item_embs.values):
-		tree.add_item(i, value)
-	# Builds a forest of `n_trees` trees. More trees gives higher precision when querying. After calling `build()`, no more items can be added. `n_jobs` specifies the number of threads used to build the trees. `n_jobs=-1` uses all available CPU cores.
-	tree.build(n_trees=20)
-	```
-- Item-Item Similarity Measure
-	```python
-	artist = "beyoncé"
-	item_vec = item_embs.loc[artist].values
-
-	res = tree.get_nns_by_vector(vector=item_vec, n=11, include_distances=True)
-	display(pd.Series(res[1][1:], index=[id2name[i] for i in res[0][1:]]))
-	```
-- User-Item Similarity Measure
-	```python
-	user = 209
-	user_vec = user_embs.loc[user].values
-
-	res = tree.get_nns_by_vector(vector=user_vec, n=10, include_distances=True)
-	display(pd.Series(res[1], index=[id2name[i] for i in res[0]]))
-	```

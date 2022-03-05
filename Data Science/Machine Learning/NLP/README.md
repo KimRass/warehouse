@@ -676,6 +676,10 @@ model.add_dictionary(corp.dictionary)
 ## Intent Classification
 ## Chatbot
 ## Neural Machine Translation (NMT)
+## Natural Language Inferencing (NLI)
+- SBERT를 학습하는 첫번째 방법은 문장 쌍 분류 태스크. 대표적으로는 NLI(Natural Language Inferencing) 문제를 푸는 것입니다. 다음 챕터에서 한국어 버전의 NLI 데이터인 KorNLI 문제를 BERT로 풀어볼 예정입니다. NLI는 두 개의 문장이 주어지면 수반(entailment) 관계인지, 모순(contradiction) 관계인지, 중립(neutral) 관계인지를 맞추는 문제입니다. 다음은 NLI 데이터의 예시입니다.
+## Semantic Textual Similarity (STS)
+- STS란 두 개의 문장으로부터 의미적 유사성을 구하는 문제를 말합니다. 다음은 STS 데이터의 예시입니다. 여기서 레이블은 두 문장의 유사도로 범위값은 0~5입니다.
 
 # Subword Tokenizer
 - Using `sentencepiece`
@@ -699,7 +703,7 @@ model.add_dictionary(corp.dictionary)
 		```
 	- Segmentation
 		```python
-		import sentencepiece as sp
+		import sentencepiece as spm
 		
 		sp = spm.SentencePieceProcessor(model_file="--model_prefix.model")
 		
@@ -746,6 +750,8 @@ model.add_dictionary(corp.dictionary)
 ## Byte Pair Encoding (BPE)
 
 # Topic Modeling
+- Source: https://wikidocs.net/30707
+- 토픽(Topic)은 한국어로는 주제라고 합니다. 토픽 모델링(Topic Modeling)이란 기계 학습 및 자연어 처리 분야에서 토픽이라는 문서 집합의 추상적인 주제를 발견하기 위한 통계적 모델 중 하나로, 텍스트 본문의 숨겨진 의미 구조를 발견하기 위해 사용되는 텍스트 마이닝 기법입니다.
 ## LSA (Latent Semantic Analysis)
 - Source: https://wikidocs.net/24949
 - LSA는 기본적으로 DTM이나 TF-IDF 행렬에 절단된 SVD(truncated SVD)를 사용하여 차원을 축소시키고, 단어들의 잠재적인 의미를 끌어낸다는 아이디어를 갖고 있습니다.
@@ -1003,8 +1009,7 @@ def beam_search(data, k):
 	!pip install transformers==4.4.2
 	!pip install sentencepiece
 
-	import urllib
-	urllib.request.urlretrieve("https://raw.githubusercontent.com/monologg/KoBERT-Transformers/master/kobert_transformers/tokenization_kobert.py", filename="tokenization_kobert.py")
+	import urllib	urllib.request.urlretrieve("https://raw.githubusercontent.com/monologg/KoBERT-Transformers/master/kobert_transformers/tokenization_kobert.py", filename="tokenization_kobert.py")
 
 	from tokenization_kobert import KoBertTokenizer
 
@@ -1024,6 +1029,21 @@ def beam_search(data, k):
 	sents = tokenizer.decode(ids)
 	id = tokenizer.convert_tokens_to_ids(piece)
 	```
+
+# Sentence BERT (= SBERT)
+- Paper: https://arxiv.org/abs/1908.10084
+- Source: https://www.sbert.net/, https://wikidocs.net/156176
+- 사전 학습된 BERT로부터 문장 벡터를 얻는 방법은 다음과 같이 세 가지가 있습니다.
+	- BERT의 [CLS] 토큰의 출력 벡터를 문장 벡터로 간주한다.
+	- BERT의 모든 단어의 출력 벡터에 대해서 평균 풀링을 수행한 벡터를 문장 벡터로 간주한다.
+	- BERT의 모든 단어의 출력 벡터에 대해서 맥스 풀링을 수행한 벡터를 문장 벡터로 간주한다.
+- SBERT는 기본적으로 BERT의 문장 임베딩의 성능을 우수하게 개선시킨 모델입니다. SBERT는 위에서 언급한 BERT의 문장 임베딩을 응용하여 BERT를 파인 튜닝합니다.
+- Source: https://towardsdatascience.com/bert-for-measuring-text-similarity-eec91c6bf9e1
+- Each of those 512 tokens has a respective 768 values. This pooling operation will take the mean of all token embeddings and compress them into a single 768 vector space — creating a "sentence vector".
+```python
+# https://huggingface.co/models?library=sentence-transformers
+model = SentenceTransformer('sentence-transformers/xlm-r-100langs-bert-base-nli-stsb-mean-tokens')
+```
 
 # GPT (Generative Pre-trained Transformer)
 

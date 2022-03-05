@@ -185,14 +185,18 @@ sample = np.random.beta(a=b, b=b)
 ```python
 import numpy as np
 
-cos_sim = np.dot(vec1, vec2)/(np.linalg.norm(vec1, ord=2)*np.linalg.norm(vec2, ord=2))
+def cosine_similarity(vec1, vec2):
+	return np.dot(vec1, vec2)/(np.linalg.norm(vec1, ord=2)*np.linalg.norm(vec2, ord=2))
 ```
 ## Euclidean Similarity
 ```python
 import numpy as np
 
-euc_dist = np.linalg.norm(vec1 - vec2, ord=2)
-euc_sim = 1/(1 + euc_dist)
+def euclidean_distance(vec1, vec2):
+	return np.linalg.norm(vec1 - vec2, ord=2)
+	
+def euclidean_similarity(vec1, vec2):
+	return 1/(1 + euclidean_distance(vec1, vec2))
 ```
 
 # Statistics

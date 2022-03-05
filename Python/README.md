@@ -765,6 +765,8 @@ euc_sim_item = 1 / (1 + np.sqrt(np.add.outer(square, square) - 2*dot))
 ### `np.diag(v, [k=0])`
 - If `v` is a 2-D array, returns a copy of its `k`-th diagonal.
 - If `v` is a 1-D array, returns a 2-D array with `v` on the `k`-th diagonal.
+### `np.triu(m, k=0)`
+- Upper triangle of an array.
 ### `tf.linalg.band_part()`
 - `tf.linalg.band_part(input, 0, -1)`: Upper triangular part.
 - `tf.linalg.band_part(input, -1, 0)`: Lower triangular part.
@@ -948,6 +950,7 @@ from wordcloud import STOPWORDS
 ### `random.random()`
 - Returns a random number in [0, 1).
 ### `np.random.rand()`
+- Create an array of the given shape and populate it with random samples from a uniform distribution over [0, 1).
 ### `random.sample(sequence, k)`
 ### `random.choices(sequence, k, [weights])`
 ### `np.random.choice(size, [replace], [p])`
@@ -1186,16 +1189,14 @@ set_matplotlib_formats("retina")
 - font를 선명하게 표시
 
 # `itertools`
-## `combinations()`, `permutations()`, `combinations_with_replacement()`
 ```python
-from itertools import combinations, permutations
+from itertools import combinations, permutations, product, combinations_with_replacement
 ```
 ```python
 movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
 ```
-## `product()`
-- `repeat`
 ```python
+# `repeat`
 for i in product(range(3), range(3), range(3)):
     print(i)
 ```
