@@ -662,8 +662,8 @@ def plot_tree(model, filename, rankdir="UT"):
 ```
 
 # `annoy`
-- Source: https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
 ```python
+# Source: https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
 !pip install "D:/annoy-1.17.0-cp38-cp38-win_amd64.whl"
 ```
 ```python

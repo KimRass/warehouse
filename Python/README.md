@@ -1,5 +1,12 @@
 Written by KimRass
 
+# `pyinstaller`
+```
+# --onefile: One file
+# --onedifr: One folder
+pyinstaller file_name.py
+```
+
 # Automatically Reload Modules
 ```python
 %reload_ext autoreload
