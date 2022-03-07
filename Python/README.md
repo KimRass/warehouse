@@ -2,9 +2,10 @@ Written by KimRass
 
 # `pyinstaller`
 ```
-# --onefile: One file
-# --onedifr: One folder
-pyinstaller file_name.py
+# Option:
+	# --onefile: One file
+	# --onedifr: One folder
+pyinstaller [Option] file_name.py
 ```
 
 # Automatically Reload Modules
@@ -488,10 +489,7 @@ hr["코스트센터 분류"] = hr.apply(lambda x:"지사" if ("사업소" in x["
 ```python
 hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"]) | ("촉탁" in x["하위그룹"]) | ("파견" in x["하위그룹"]) | (x["재직여부"]=="퇴직") else ("본부인원에서만 제외" if ("PM" in x["조직명"]) | ("신규준비" in x["직무"]) | (x["직무"]=="휴직") | (x["직무"]=="비상계획") | (x["직무"]=="축구협") | (x["직무"]=="비서") | ("조직명" in x["조직명"]) | (x["직무"]=="미화") else "포함"), axis=1)
 ```
-## `DataFrame.progress_apply()`
-```python
-data["morphs"] = data["review"].progress_apply(mcb.morphs)
-```
+## `progress_apply()`, `progress_map()`
 - `tqdm.pandas()` should be followed.
 ## `DataFrame.rename()`
 ```python
