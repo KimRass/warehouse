@@ -1,5 +1,16 @@
 Written by KimRass
 
+# `venv`
+```
+python -m venv venv_name
+```
+```
+pip install -r requirements.txt
+```
+```
+virtualenv venv --python=python3.7.4
+```
+
 # `pyinstaller`
 ```
 # Option:

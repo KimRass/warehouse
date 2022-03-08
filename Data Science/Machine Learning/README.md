@@ -662,13 +662,16 @@ def plot_tree(model, filename, rankdir="UT"):
 ```
 
 # `annoy`
-```python
-# Source: https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
-!pip install "D:/annoy-1.17.0-cp38-cp38-win_amd64.whl"
-```
-```python
-pip install --user annoy
-```
+- Install
+	- On Windows
+		```python
+		# Source: https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
+		!pip install "D:/annoy-1.17.0-cp38-cp38-win_amd64.whl"
+		```
+	- On MacOS
+		```python
+		pip install --user annoy
+		```
 - Source: https://github.com/spotify/annoy
 - Annoy (Approximate Nearest Neighbors Oh Yeah) is a C++ library with Python bindings to *search for points in space that are close to a given query point.*
 - Tree Building
