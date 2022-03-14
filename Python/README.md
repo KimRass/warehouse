@@ -1,26 +1,5 @@
 Written by KimRass
 
-# `venv`
-```
-python -m venv venv_name
-```
-```
-pip install -r requirements.txt
-```
-```
-virtualenv venv --python=python3.7.4
-```
-- `pip is configured with locations that require tls/ssl` 해결 방법
-	- libcrypto-1_1-x64.dll, libcrypto-1_1-x64.pdb, libssl-1_1-x64.dll, libssl-1_1-x64.pdb를 anaconda3/Library/bin 폴더 -> anaconda3/DLLs 폴더로 이동
-
-# `pyinstaller`
-```
-# Option:
-	# --onefile: One file
-	# --onedifr: One folder
-pyinstaller [Option] file_name.py
-```
-
 # Automatically Reload Modules
 ```python
 %reload_ext autoreload

@@ -39,25 +39,11 @@ FROM (
 		WHERE cd_dept_acnt = 'HD00') A
 	GROUP BY yr) B;
 
---## 올해 월별 누적 매출, 매출원가, 판관비, 영업이익
---SELECT ym_magam, SUM(sales) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS sales, SUM(sales_cost) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS sales_cost, SUM(fee) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS fee, SUM(sales - sales_cost - fee) OVER(ORDER BY ym_magam ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) AS profit
---FROM (
---	SELECT ym_magam, ROUND(SUM(c1)/100000000, 0) AS sales, ROUND(SUM(c2)/100000000, 0) AS sales_cost, ROUND(SUM(c3)/100000000, 0) AS fee
---	FROM (
---		SELECT ym_magam, CASE WHEN LEFT(cd_trial, 2) = '41' THEN am_account_wol END AS c1, CASE WHEN LEFT(cd_trial, 2) = '46' THEN am_account_wol END AS c2, CASE WHEN LEFT(cd_trial, 2) = '61' THEN am_account_wol END AS c3
---		FROM DATAMART_DHDT_TOTAL DDT
---		WHERE cd_dept_acnt = 'HD00' AND LEFT(ym_magam, 4) = 2021) A
---	GROUP BY ym_magam) B
---ORDER BY ym_magam;
-
+--## 연월별 매출
 SELECT ym_magam, SUM(am_account)
 FROM DATAMART_DHDT_TOTAL DDT
 WHERE cd_dept_acnt = 'HD00'
---	AND LEFT(cd_trial, 2) = '41' OK
---	AND (71101100 <= CAST(cd_trial AS INT) AND CAST(cd_trial AS INT) <= 71102201) OK
---	AND (71601100 <= CAST(cd_trial AS INT) AND CAST(cd_trial AS INT) <= 71602201) OK
---	AND LEFT(cd_trial, 1) = '2'
---	AND LEFT(cd_trial, 6) = '716011'
+	AND LEFT(cd_trial, 2) = '41'
 GROUP BY ym_magam
 ORDER BY ym_magam
 
