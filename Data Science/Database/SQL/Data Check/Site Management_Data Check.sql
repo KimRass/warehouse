@@ -83,7 +83,7 @@ FROM (
 			WHEN GETDATE() - 1 <= 준공일자 AND YEAR(GETDATE() - 1) = YEAR(준공일자) THEN '완료'
 			ELSE NULL END 단계
 	FROM (
-		SELECT 현장코드, 현장명, CAST(착공일자 AS DATE) AS 착공일자, CAST(준공일자 AS DATE) AS 준공일자
+		SELECT 현장코드, 현장명, CAST(착공일자 AS DATE) AS 착공일자, CAST(준공일자 AS DATE) AS 준공일자, 			사업유형분류체계1
 		FROM 프로젝트목록_진행 프진) A) B
 WHERE 현장코드 NOT IN('C1051C') AND 단계 IN('착공 초기', '공사 중', '준공 예정')
 ORDER BY 단계, 현장코드;

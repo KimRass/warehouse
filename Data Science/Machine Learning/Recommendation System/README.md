@@ -211,8 +211,8 @@ def negative_sampling(df, ratio=3):
 
 # Collaborative Filtering (CF)
 - Source: https://www.mygreatlearning.com/blog/matrix-factorization-explained/, https://en.wikipedia.org/wiki/Cold_start_(recommender_systems)
-- *This approach uses similarities between users and items simultaneously, to provide recommendations. It is the idea of recommending an item or making a prediction, depending on other like-minded individuals.* Example: Suppose Persons A and B both like the chocolate flavor and have them have tried the ice-cream and cake, then if Person A buys chocolate biscuits, the system will recommend chocolate biscuits to Person B.
-- In collaborative filtering, *we do not have the rating of individual preferences and car preferences. We only have the overall rating, given by the individuals for each car. As usual, the data is sparse, implying that the person either does not know about the car or is not under the consideration list for buying the car, or has forgotten to give the rating.*
+- *This approach uses similarities between users and items simultaneously, to provide recommendations. It is the idea of recommending an item or making a prediction, depending on other like-minded individuals.* Example: Suppose Persons A and B both like the chocolate flavor and have tried the ice-cream and cake, then if Person A buys chocolate biscuits, the system will recommend chocolate biscuits to Person B.
+- In collaborative filtering, *we do not have the rating of individual preferences and item preferences. We only have the overall rating, given by the individuals for each item. As usual, the data is sparse, implying that the person either does not know about the item or is not under the consideration list for buying the item, or has forgotten to give the rating.*
 ```python
 ui = pd.pivot_table(data, index="user", columns="item", values="preferences")
 ```
