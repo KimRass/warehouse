@@ -1,4 +1,5 @@
 Written by KimRass
+
 # Data Structures
 ## Stack
 - LIFO(Last-In-First-Out)
@@ -24,21 +25,22 @@ List.pop()
 - NGE(Next Greater Element)
 	- Source: https://www.geeksforgeeks.org/next-greater-element/
 	- The Next greater Element for an element x is the first greater element on the right side of x in the array. (Elements for which no greater element exist, consider the next greater element as -1.)
-	```python
-	stack = [0]
-	nges = [-1 for _ in range(len(arr))]
-	i = 1
-	while i < len(arr):
-		while stack:
-			popped = stack.pop()
-			if arr[i] > arr[popped]:
-				nges[popped] = i
-			else:        
-				stack.append(popped)
-				break
-		stack.append(i)
-		i += 1
-	```
+	- Time complexity: O(N), Auxiliary space: O(N)
+		```python
+		stack = [0]
+		nges = [-1 for _ in range(len(arr))]
+		i = 1
+		while i < len(arr):
+			while stack:
+				popped = stack.pop()
+				if arr[i] > arr[popped]:
+					nges[popped] = i
+				else:        
+					stack.append(popped)
+					break
+			stack.append(i)
+			i += 1
+		```
 	
 ## Queue
 - LILO(Last-In-Last-Out)
