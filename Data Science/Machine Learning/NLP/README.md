@@ -680,6 +680,8 @@ model.add_dictionary(corp.dictionary)
 - SBERT를 학습하는 첫번째 방법은 문장 쌍 분류 태스크. 대표적으로는 NLI(Natural Language Inferencing) 문제를 푸는 것입니다. 다음 챕터에서 한국어 버전의 NLI 데이터인 KorNLI 문제를 BERT로 풀어볼 예정입니다. NLI는 두 개의 문장이 주어지면 수반(entailment) 관계인지, 모순(contradiction) 관계인지, 중립(neutral) 관계인지를 맞추는 문제입니다. 다음은 NLI 데이터의 예시입니다.
 ## Semantic Textual Similarity (STS)
 - STS란 두 개의 문장으로부터 의미적 유사성을 구하는 문제를 말합니다. 다음은 STS 데이터의 예시입니다. 여기서 레이블은 두 문장의 유사도로 범위값은 0~5입니다.
+## Topic Modeling
+## Text Summarization
 
 # Subword Tokenizer
 - Using `sentencepiece`
@@ -754,22 +756,22 @@ model.add_dictionary(corp.dictionary)
 - 토픽(Topic)은 한국어로는 주제라고 합니다. 토픽 모델링(Topic Modeling)이란 기계 학습 및 자연어 처리 분야에서 토픽이라는 문서 집합의 추상적인 주제를 발견하기 위한 통계적 모델 중 하나로, 텍스트 본문의 숨겨진 의미 구조를 발견하기 위해 사용되는 텍스트 마이닝 기법입니다.
 ## LSA (Latent Semantic Analysis)
 - Source: https://wikidocs.net/24949
-- LSA는 기본적으로 DTM이나 TF-IDF 행렬에 절단된 SVD(truncated SVD)를 사용하여 차원을 축소시키고, 단어들의 잠재적인 의미를 끌어낸다는 아이디어를 갖고 있습니다.
+- LSA는 정확히는 토픽 모델링을 위해 최적화 된 알고리즘은 아니지만, 토픽 모델링이라는 분야에 아이디어를 제공한 알고리즘이라고 볼 수 있습니다.
+- LSA는 기본적으로 DTM이나 TF-IDF 행렬에 절단된 truncated SVD를 사용하여 차원을 축소시키고, 단어들의 잠재적인 의미를 끌어낸다는 아이디어를 갖고 있습니다.
 ## LDA (Latent Dirichlet Allocation)
-## `gensim.models.ldamodel.Ldamodel()`
 ```python
 model = gensim.models.ldamodel.LdaModel(dtm, num_topics=n_topics, id2word=id2word, alpha="auto", eta="auto")
 ```
-## `pyLDAvis`
-```python
-import pyLDAvis
-```
-## `pyLDAvis.enable_notebook()`
-- `pyLDAvis`를 Jupyter Notebook에서 실행할 수 있게 활성화합니다.
-### `pyLDAvis.gensim.prepare()`
-```python
-pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
-```
+- Visualization
+	```python
+	import pyLDAvis
+	pyLDAvis.enable_notebook()`
+	
+	pyldavis = pyLDAvis.gensim.prepare(model, dtm, id2word)
+	```
+## Contextualized Topic Models
+### Combined Topic Modeling (CTM)
+- Source: https://wikidocs.net/161310
 
 # Language Model (LM)
 ## Statistical Language Model
@@ -1044,6 +1046,36 @@ def beam_search(data, k):
 # https://huggingface.co/models?library=sentence-transformers
 model = SentenceTransformer('sentence-transformers/xlm-r-100langs-bert-base-nli-stsb-mean-tokens')
 ```
+
+# KeyBERT
+- Source: https://wikidocs.net/159467
+```python
+!pip install sentence_transformers
+```
+
+# BERTopic
+- Source: https://wikidocs.net/162076
+```python
+!pip install bertopic[visualization]
+```
+```python
+from bertopic import BERTopic
+
+# `nr_topics`: (`"auto"`)
+model = BERTopic((nr_topics)
+topics, probs = model.fit_transform(docs)
+```
+- Visualization
+	```python
+	model.visualize_topics()
+	# model.visualize_barchart()
+	# model.visualize_heatmap()
+	```
+- Save or Load Model
+	```python
+	model.save("my_topics_model")
+	BerTopic_model = BERTopic.load("my_topics_model")
+	```
 
 # GPT (Generative Pre-trained Transformer)
 
