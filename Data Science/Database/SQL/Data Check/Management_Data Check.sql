@@ -27,7 +27,7 @@ FROM DATAMART_DHDT_TOTAL DDT;
 -- 금융수익: (71101100 <= CAST(cd_trial AS INT) AND CAST(cd_trial AS INT) <= 71102201)
 -- 금융비용: (71601100 <= CAST(cd_trial AS INT) AND CAST(cd_trial AS INT) <= 71602201)
 -- 기타영업외손익: (71907008 <= CAST(cd_trial AS INT) AND CAST(cd_trial AS INT) <= 71907609)
--- 세전이익: 영업이익 + 영업외수익 - 영업외비용 + 금융수익 - 금융비용 = 기타영업외손익
+-- 세전이익: 영업이익 + 영업외수익 - 영업외비용 + 금융수익 - 금융비용 + 기타영업외손익
 
 --## 연도별 매출액, 매출원가, 판관비, 영업이익
 SELECT yr, sales, sales_cost, fee, sales - sales_cost - fee AS profit
@@ -39,7 +39,7 @@ FROM (
 		WHERE cd_dept_acnt = 'HD00') A
 	GROUP BY yr) B;
 
---## 연월별 매출
+--## 연월별 연 단위 누적 매출
 SELECT ym_magam, SUM(am_account)
 FROM DATAMART_DHDT_TOTAL DDT
 WHERE cd_dept_acnt = 'HD00'

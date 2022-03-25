@@ -134,6 +134,11 @@ While the effect of batch normalization is evident, the reasons behind its effec
 # MLOps
 - Source: https://en.wikipedia.org/wiki/MLOps
 - MLOps or ML Ops is a set of practices that aims to deploy and maintain machine learning models in production reliably and efficiently.[1] The word is a compound of "machine learning" and the continuous development practice of DevOps in the software field. Machine learning models are tested and developed in isolated experimental systems. When an algorithm is ready to be launched, MLOps is practiced between Data Scientists, DevOps, and Machine Learning engineers to transition the algorithm to production systems.
+- Model Serving
+	- Source: https://medium.com/daria-blog/%EB%AA%A8%EB%8D%B8-%EC%84%9C%EB%B9%99%EC%9D%B4%EB%9E%80-21f970e6cfa5
+	- MLOps에서는 특히 새로운 모델을 서빙하는 건 상당히 두려운 일입니다. 이 문제를 해결하기 위해 카나리 모델은 새로운 모델을 완전히 올리기 전 일부 트래픽을 새로운 모델에 흘려보냅니다. 카나리 모델이 어떻게 반응하는지 살펴보고 서빙을 할지 말지 판단하는 데 도와줍니다. 앞서 설명해 드린 모델 컨테이너라는 규격화된 애플리케이션이 있다면 이 안에 모델을 바꾸는 것만으로도 간단히 카나리 모델을 적용할 수 있습니다. 모델 컨테이너가 없다면 카나리 모델을 서빙하는 또 다른 애플리케이션이 담긴 도커 이미지를 반복적으로 빌드 해야 합니다.
+	- ![Canary Test](https://miro.medium.com/max/421/1*1AUtwG0MqUEzGlfRndvnnw.png)
+	- 위와 같이 카나리 테스트를 적용한다고 하더라도 모델은 시간이 흐르며 성능은 변합니다. 현재 운영 중인 모델이 기준 성능을 만족하지 못하는 상황은 언제든지 발생할 수 있습니다. 이러한 상황이 발생한다면 MLOps가 해야 하는 작업은 크게 (1) 서비스 중지, (2) 특정 모델로 교체입니다. (1) 서비스 중지는 잘못된 예측값을 주느니 차라리 예측하지 않는 것이 좋은 경우입니다. (2) 특정 모델로 교체하는 것을 롤백이라고 합니다.
 
 # Google Colab
 ## Mount Google Drive

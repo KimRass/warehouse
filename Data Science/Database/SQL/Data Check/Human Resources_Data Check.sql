@@ -103,6 +103,22 @@ FROM DATAMART_DAAV_ORDER DDO;
 --- 사용 영역: `정규직 입퇴사 추이`, `계약직 입퇴사 추이`, `정규직 입퇴사 추이 (10개년)`
 --- 미래 발령은 제외됨.
 
+--## 입퇴사 수
+SELECT YEAR(dt_order), ds_emptype_bi, ds_order1, COUNT(*) AS CNT
+FROM (
+	SELECT *
+	FROM (
+		SELECT CAST(dt_order AS DATE) AS dt_order, id_sabun, ds_hname, ds_emptype_bi, ds_order1, ds_order2, ds_join_bi, ds_retire_bi
+		FROM DATAMART_DAAV_ORDER DDO) A
+	WHERE (ds_order1 = '입사'
+		OR ds_order1 = '퇴사')
+		AND dt_order > '1999-12-31'
+		AND (ds_retire_bi != ''
+			OR ds_join_bi != '')
+) A
+GROUP BY YEAR(dt_order), ds_emptype_bi, ds_order1
+ORDER BY YEAR(dt_order), ds_emptype_bi, ds_order1
+
 --## 2021년 현장 man-months
 -- 2021.01.01: CAST(DATEADD(YEAR, DATEDIFF(YEAR, 0, GETDATE()), 0) AS DATE),
 -- 2021.12.31: CAST(DATEADD(YEAR, DATEDIFF(YEAR, 0, GETDATE()) + 1, -1) AS DATE)
