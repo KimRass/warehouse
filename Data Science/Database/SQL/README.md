@@ -23,7 +23,7 @@
 - `BOOL`: Zero is considered as false, nonzero values are considered as true.
 - `INT`
 - `FLOAT(n)`
-## Data and Time
+## Date and Time
 - A later date is considered greater than an earlier one.
 - `DATE`: A date. Format: `YYYY-MM-DD`.
 - `TIME`: A time. Format: `hh:mm:ss`.
@@ -527,6 +527,7 @@ TO_CHAR(mbrmst.mbr_leaving_expected_date, "YYYY/MM/DD") AS mbr_leaving_expected_
 ```
 
 # Date Functions
+## `DATE_FORMAT()` (MySQL)
 ## `HOUR()`
 ```sql
 SELECT HOUR(datetime) AS hour, COUNT(*)
