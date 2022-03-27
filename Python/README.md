@@ -452,7 +452,7 @@ df.groupby(["Pclass", "Sex"], as_index=False)
 - Return an iterable Tuple in the form of (a group, a DataFrame in the group).
 ### `DataFrame.groupby().groups`
 ### `DataFrame.groupby().mean()`, `DataFrame.groupby().count()`
-- Return DataFrame.
+- Returns DataFrame.
 ### `DataFrame.groupby().size()`
 - Return Series.
 ## `DataFrame.groupby().apply()`
@@ -538,7 +538,8 @@ data = data.drop(["Unnamed: 0", "address1", "address2"], axis=1)
 data = data.drop(data.loc[:, "unknown":"Western"].columns, axis=1)
 ```
 ## `duplicated([keep])`
-## `drop_duplicates(subset, [keep])`
+## `drop_
+cates(subset, [keep])`
 ## `DataFrame.columns`
 ```python
 concat.columns = ["n_rating", "cumsum"]
