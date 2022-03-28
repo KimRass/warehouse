@@ -16,6 +16,19 @@ FROM DATAMART_DAAV_LICENSE DDL
 WHERE dt_acquire > '2009-12-31'
 ORDER BY cd_corp, id_sabun, dt_acquire;
 
+--## 학력 (석사, 박사)
+SELECT ds_degree, ds_bonbu, ds_dept, ds_hname
+FROM (
+	SELECT DDBD.ds_bonbu, DDBD.ds_dept, DDBD.ds_hname, DDS.ds_degree, ROW_NUMBER() OVER(PARTITION BY DDS.id_sabun ORDER BY DDS.cd_degree DESC) AS max_degree
+	FROM DATAMART_DAAV_SCHOOLCAREER DDS LEFT OUTER JOIN DATAMART_DAAV_BASEINFO_DETAIL DDBD
+		ON DDS.cd_corp = DDBD.cd_corp AND DDS.id_sabun = DDBD.id_sabun
+	WHERE DDS.cd_degree IS NOT NULL
+		AND DDBD.ds_retire != '퇴직'
+		AND DDBD.DS_EMPTYPE_BI = '정규직') A
+WHERE max_degree = 1
+	AND ds_degree IN('석사', '박사')
+ORDER BY ds_degree, ds_bonbu, ds_dept, ds_hname
+
 --## 발령 이력
 SELECT ds_corp, id_sabun, ds_hname, CAST(dt_order AS DATE) AS dt_order, CAST(dt_orderend AS DATE) AS dt_orderend, ds_order1, ds_order2, ds_dept, ds_remark
 FROM DATAMART_DAAV_ORDER DDO
@@ -159,6 +172,10 @@ FROM CM현황_누계 C누;
 SELECT 본부, 팀명, 담당자명, 접수일, 사업유형, 수주사업지명, 사업지구분1, 사업지구분2, 사업장주소1, 사업장상세주소, 사업비유형코드, 진행현황코드, '진행현황(상세)', 처리결과, 등록자, 등록일자, 수정자, 수정일자
 FROM 수주정보_작업
 ORDER BY 접수일;
+
+--## 공수
+SELECT 연월, 부서명, 이름, 요청부서명, 대상프로젝트코드, 대상프로젝트명, lvl1, lvl2, lvl3, lvl4, CAST(시작일 AS DATE) AS 시작일, CAST(종료일 AS DATE) AS 종료일, 변경요청투입률_MH, 지원만족도, 요청만족도, 주요업무내용
+FROM 공수데이터리스트;
 
 SELECT use_month, ds_bonbu, ds_dept, id_sabun
 FROM datamart_daav_baseinfo_month

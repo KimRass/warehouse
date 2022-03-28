@@ -23,8 +23,8 @@ FROM DATAMART_COMBBZPLN_ALL DCA;
 --- 업데이트: 매달 21일 4시
 --- 사용 영역: `이번 달 소화 실적/계획`, `올해 누계 소화 실적/계획`, `이번 달 소화 계획`, `이번 달 소화 실적`, `계획 대비 실적` (1), `올해 누계 소화 계획`, `올해 누계 소화 실적`, `계획 대비 실적` (2), `월별 소화 추이`, `사업형태별 소화 누계`, `현장 소화(전체)`, `현장별 소화 상세`
 
---## 올해 현장별 소화 실적, 소화 계획
-SELECT 현장코드, 현장명, ROUND(SUM(CAST(실적 AS FLOAT)), 0) AS 누계_실적, ROUND(SUM(CAST(계획 AS FLOAT)), 0) AS 누계_계획
+--## 올해 현장별 소화 계획, 소화 실적
+SELECT 현장코드, 현장명, ROUND(SUM(CAST(계획 AS FLOAT)), 0) AS 누계_계획, ROUND(SUM(CAST(실적 AS FLOAT)), 0) AS 누계_실적
 FROM DATAMART_COMBBZPLN_ALL DCA
 WHERE 날짜 > '2020-12-31' AND 날짜 < '2022-01-01' AND 실적 IS NOT NULL
 GROUP BY 현장코드, 현장명

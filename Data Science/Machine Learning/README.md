@@ -666,6 +666,10 @@ def plot_tree(model, filename, rankdir="UT"):
         f.write(data)
 ```
 
+# Regularization
+## L1 Regularization (= Lasso Regression)
+## L2 Regularization (= Ridge Regression)
+
 # `annoy`
 - Install
 	- On Windows
@@ -1075,7 +1079,6 @@ for epoch in range(1, epochs + 1):
         print(f"Epoch: {epoch:3d} | Loss: {tr_loss.result():5.4f} | Accuracy: {tr_acc.result():5.4f}")
         print (f"Time taken for 1 epoch: {time.time() - start:5.0f} secs\n")
 ```
-
 
 # Save or Load Model
 - Source: https://www.tensorflow.org/tutorials/keras/save_and_load
