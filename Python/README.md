@@ -1623,7 +1623,12 @@ ax.invert_xaxis()
 - `axis`: (`"x"`, `"y"`)
 ## Set Tick
 ```python
-ax.set_yticks(np.arange(1, 1.31, 0.05))
+plt.xticks()
+# plt.yticks()
+```
+```python
+ax.set_xticks(ticks, labels, [rotation])
+# ax.set_yticks()
 ```
 - 화면에 표시할 눈금을 설정합니다.
 ## Set Tick Position
@@ -1637,7 +1642,15 @@ ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter("{x:,.0f}"))
 ```
 
 # Label
-## `ax.set_xlabel()`, `ax.set_ylabel()`
+## Set Axis Label
+```python
+plt.xlabel()
+# plt.ylabel()
+```
+```python
+ax.set_xlabel()
+# ax.set_ylabel()
+```
 ## `ax.set_xticklabels([va])`, `ax.set_yticklabels([ha])`
 
 # Title
