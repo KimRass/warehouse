@@ -177,6 +177,27 @@ ORDER BY 접수일;
 SELECT 연월, 부서명, 이름, 요청부서명, 대상프로젝트코드, 대상프로젝트명, lvl1, lvl2, lvl3, lvl4, CAST(시작일 AS DATE) AS 시작일, CAST(종료일 AS DATE) AS 종료일, 변경요청투입률_MH, 지원만족도, 요청만족도, 주요업무내용
 FROM 공수데이터리스트;
 
+--## 연도별 임금피크 대상자
+SELECT *
+FROM (
+	SELECT CAST(LEFT(use_month, 4) AS INT) AS yr, ds_bonbu, ds_dept, ds_hname
+	FROM DATAMART_DAAV_BASEINFO_MONTH DDBM
+	WHERE (RIGHT(use_month, 2) = 12
+		OR use_month = CONCAT(YEAR(GETDATE() - 1), MONTH(GETDATE() - 1) - 1))
+		AND ds_emptype_bi = '정규직'
+		AND ds_position_bi != '임원'
+		AND DATEDIFF(YEAR, CAST('19' + LEFT(dt_birth, 6) AS DATE), CAST(LEFT(use_month, 4) + '-' + RIGHT(use_month, 2) + '-' + '01' AS DATE)) BETWEEN 57 AND 60
+	UNION ALL
+	SELECT CAST(LEFT(use_month, 4) AS INT) AS yr, ds_bonbu, ds_dept, ds_hname
+	FROM DATAMART_DAAV_BASEINFO_MONTH_FUTURE DDBMF
+	WHERE RIGHT(use_month, 2) = '01'
+		AND ds_emptype_bi = '정규직'
+		AND ds_position_bi != '임원'
+		AND DATEDIFF(YEAR, CAST('19' + LEFT(dt_birth, 6) AS DATE), CAST(CONCAT_WS('-', LEFT(use_month, 4), RIGHT(use_month, 2), '01') AS DATE)) BETWEEN 57 AND 60) A
+WHERE yr >= 2018
+ORDER BY yr, ds_bonbu, ds_dept, ds_hname
+
+
 SELECT use_month, ds_bonbu, ds_dept, id_sabun
 FROM datamart_daav_baseinfo_month
 WHERE (RIGHT(use_month, 2) = 12 OR use_month = CONCAT(YEAR(GETDATE() - 1), MONTH(GETDATE() - 1) - 1)) AND ds_emptype_bi = '정규직' AND ds_position_bi != '임원' AND DATEDIFF(YEAR, CAST('19' + LEFT(dt_birth, 6) AS DATE), CAST(LEFT(use_month, 4) + '-' + RIGHT(use_month, 2) + '-' + '01' AS DATE)) BETWEEN 57 AND 60
