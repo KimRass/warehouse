@@ -91,6 +91,7 @@
 - *The cardinality of a multiset is constructed by summing up the multiplicities of all its elements. For example, in the multiset {a, a, b, b, b, c} the multiplicities of the members a, b, and c are respectively 2, 3, and 1, and therefore the cardinality of this multiset is 6.*
 
 # Probability Distribution
+- A probability mass function (PMF) differs from a probability density function (PDF) in that the latter is associated with continuous rather than discrete random variables. A PDF must be integrated over an interval to yield a probability.
 ## Uniform Distribution
 - Using `numpy.random.random()`
 	```python
@@ -149,6 +150,14 @@
 	log_pdf = dist.log_prob(x)
 	sample = dist.sample(sample_shape)
 	```
+## Binomial Distribution
+### Bernoulli Distribution
+- Source: https://en.wikipedia.org/wiki/Bernoulli_distribution
+- Benoulli distribution is the discrete probability distribution of a random variable which takes the value 1 with probability p and the value 0 with probability q = 1 - p. Less formally, it can be thought of as a model for the set of possible outcomes of any single experiment that asks a yes–no question
+- The Bernoulli distribution is a special case of the binomial distribution with n = 1.
+- X ~ Bern(x; p), Probability mass function: Bern(x; p) = px + (1 - p)(1 - x)
+- E[X] = p
+- Var[X] = pq = p(1 - p)
 ## Pareto Distribution
 - Source: https://en.wikipedia.org/wiki/Pareto_distribution
 ## Beta Distribution

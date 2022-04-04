@@ -78,18 +78,15 @@ FROM DATAMART_DHDT_TOTAL DDT LEFT OUTER JOIN DATAMART_DHDT_ACNT_GROUP DDAG ON DD
 WHERE LEFT(DDT.cd_trial, 2) = '41' AND ds_group != '기타' AND LEFT(ym_magam, 4) = '2021' AND ds_group = '인프라'
 GROUP BY DDT.ym_magam, DDTG.ds_group
 
---## 그룹, 연도별 매출 등
-SELECT ds_group, LEFT(max_yr, 4) AS yr, SUM(sales)
+--## 그룹, 연도별 매출
+SELECT ds_group, LEFT(max_yr, 4) AS yr, SUM(sales) AS value
 FROM (
 	SELECT DDT.ym_magam, MAX(DDT.ym_magam) OVER(PARTITION BY LEFT(DDT.ym_magam, 4)) AS max_yr, DDTG.ds_group, ROUND(SUM(am_account_wol)/100000000, 0) AS sales
-	FROM DATAMART_DHDT_TOTAL DDT LEFT OUTER JOIN DATAMART_DHDT_ACNT_GROUP DDAG ON DDT.cd_corp = DDAG.cd_corp AND DDT.cd_dept_acnt = DDAG.cd_dept_acnt LEFT OUTER JOIN DATAMART_DHDT_TOTAL_GROUP DDTG ON DDAG.cd_group = DDTG.cd_group
-	-- 매출
-	WHERE LEFT(DDT.cd_trial, 2) = '41' AND ds_group != '기타'
-	-- 매출원가
---	WHERE LEFT(DDT.cd_trial, 2) = '46' AND ds_group != '기타'
-	-- 판관비
---	WHERE LEFT(DDT.cd_trial, 2) = '61' AND ds_group != '기타'
-		AND DDAG.cd_dept_acnt = 'L002'
+	FROM DATAMART_DHDT_TOTAL DDT
+		LEFT OUTER JOIN DATAMART_DHDT_ACNT_GROUP DDAG ON DDT.cd_corp = DDAG.cd_corp AND DDT.cd_dept_acnt = DDAG.cd_dept_acnt
+		LEFT OUTER JOIN DATAMART_DHDT_TOTAL_GROUP DDTG ON DDAG.cd_group = DDTG.cd_group
+	WHERE ds_group != '기타'
+		AND LEFT(DDT.cd_trial, 2) = '41'
 	GROUP BY DDT.ym_magam, DDTG.ds_group) A
 GROUP BY ds_group, max_yr
 ORDER BY ds_group, LEFT(max_yr, 4);
