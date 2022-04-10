@@ -1724,20 +1724,20 @@ import streamlit as st
 ```
 ## Plain Texts
 ```python
-st.title("st.title")
-st.header("st.header")
-st.subheader("st.subheader")
-st.text("st.text")
+st.title("...")
+st.header("...")
+st.subheader("...")
+st.text("...")
 st.markdown("...")
 st.latex(r"...")
 ```
 ## Error/Colorful Text
 ```python
-st.success("st.success")
-st.info("st.info")
-st.warning("st.warning")
-st.error("st.error")
-st.exception("st.exception")
+st.success("...")
+st.info("...")
+st.warning("...")
+st.error("...")
+st.exception("...")
 ```
 ## Show Image
 ```python
@@ -1757,4 +1757,26 @@ st.video(vid, [start_time)
 with open(file, mode="rb") as f:
     aud = f.read()
 st.audio(aud, [start_time])
+```
+## Checkbox
+```python
+st.checkbox("...")
+```
+## Radio Button
+```python
+status = st.radio("...", ("Button1", "Button2"))
+if status == "Button1":
+    st.write("...")
+else:
+    st.write("...")
+```
+## Dropdown
+```python
+case = st.selectbox("...", ["Case1", "Case2", ...])
+st.write(case)
+```
+### Multi-Selection Dropdown
+```python
+case = st.multiselect("...", ["Case1", "Case2", ...])
+st.write(case)
 ```
