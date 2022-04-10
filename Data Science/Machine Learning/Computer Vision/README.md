@@ -494,20 +494,21 @@ plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
 ```python
 from PIL import Image
 ```
-## `Image.open()`
+## Open Image
 ```python
-img = Image.open()
-
-img.size
+img = Image.open(fp)
+```
+### Manipulate Image
+```python
+img.size()
 img.save()
-img.thumbnail((64, 64))
-
-img_crop = img.crop((100, 100, 150, 150))	
-
-img = img.resize((600, 600))
+img.thumbnail()
+img.crop()
+img.resize()
 
 # (`"RGB"`, `"RGBA"`, `"CMYK"`, `"L"`, `"1"`)
 img.convert("L")
+```
 ```
 ### `img.paste()`
 ```python

@@ -80,11 +80,6 @@ Written by KimRass
 ```python
 print(round(summ/leng, 1))
 ```
-## `open()`
-```python
-f = open("D:/Github/Work/Tableau/datamart_password.txt", "r")
-```
-### `f.readline()`, `f.readlines()`
 ## `hash()`
 ## `display()`
 ## `print()`
@@ -126,13 +121,13 @@ for data in ["tasks", "comments", "projects", "prj_members", "members"]:
 exec(f"{table} = pd.DataFrame(result)")
 ```
 - `exce()` is for statement and return `None`.
-## `open(file, mode, encoding)`
+## `open()`
 ```python
-with open() as f:
+# `mode`: (`"r"`, `"rb"`, `"w"`, `"wb"`, ...) 
+with open(file, mode, [encoding]) as f:
     ...
 ```
-- `mode`: (`"r"`, `"rb"`, `"w"`, `"wb"`, ...) 
-
+### `f.readline()`, `f.readlines()`
 ## `input()`
 ```python
 A = list(map(int, in "A를 차례대로 입력 : ").split()))
@@ -1721,3 +1716,45 @@ ax.set(title="Example", xlabel="xAxis", ylabel="yAxis", xlim=[0, 1], ylim=[-0.5,
 - `palette`: (`"muted"`)
 - `color_codes`: If `True` and `palette` is a seaborn palette, remap the shorthand color codes (e.g. `"b"`, `"g"`, `"r"`, etc.) to the colors from this palette.
 - `font_scale`: (float)
+
+# `streamlit`
+- Reference: https://github.com/lucaseo/streamlit-examples/blob/master/01_intro_to_streamlit/app.py
+```python
+import streamlit as st
+```
+## Plain Texts
+```python
+st.title("st.title")
+st.header("st.header")
+st.subheader("st.subheader")
+st.text("st.text")
+st.markdown("...")
+st.latex(r"...")
+```
+## Error/Colorful Text
+```python
+st.success("st.success")
+st.info("st.info")
+st.warning("st.warning")
+st.error("st.error")
+st.exception("st.exception")
+```
+## Show Image
+```python
+from PIL import Image
+
+img = Image.open(fp)
+st.image(img, [width], [caption])
+```
+## Show Video
+```python
+with open(file, mode="rb") as f:
+    vid = f.read()
+st.video(vid, [start_time)
+```
+## Insert Audio
+```python
+with open(file, mode="rb") as f:
+    aud = f.read()
+st.audio(aud, [start_time])
+```
