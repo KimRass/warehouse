@@ -1,27 +1,8 @@
-SELECT * 
-FROM INFORMATION_SCHEMA.TABLES
-ORDER BY table_type, table_name;
-
 SELECT *
 FROM DATAMART_DAAV_BASEINFO_DETAIL DDBD;
 --- 업데이트: 매일 0시 20분.
 --- 사용 영역: 카드 지표 전체, `인원 현황`, `평균 연봉`, `보직자 현황`, `전문역량`
 --- `dt_birth`: 끝 1자리: 1900년대생 남자 1 여자 2, 2000년대생 남자 3 여자 4.
-
---SELECT *
---FROM DATAMART_DAAV_BASEINFO_DETAIL DDBD
---WHERE ds_dept IN('상품기획팀', '실시설계팀', '설계그룹', '설계그룹(개발영업)', '상품설계팀', '예산견적팀', '일반견적팀', '견적그룹', '견적그룹(개발영업)') AND ds_retire = '재직' AND ds_emptype = '일반직'
---ORDER BY ds_dept;
-
---SELECT ds_dept, COUNT(DISTINCT id_sabun) 
---FROM DATAMART_DAAV_BASEINFO_DETAIL DDBD
---WHERE ds_dept IN('상품기획팀', '실시설계팀', '설계그룹', '설계그룹(개발영업)', '상품설계팀', '예산견적팀', '일반견적팀', '견적그룹', '견적그룹(개발영업)') AND ds_retire = '재직' AND ds_emptype = '일반직'
---GROUP BY ds_dept
---ORDER BY ds_dept;
-
---SELECT *
---FROM DATAMART_DAAV_BASEINFO_DETAIL DDBD
---WHERE ds_dept LIKE '%설계%';
 
 SELECT *
 FROM DATAMART_DAAV_BASEINFO_MONTH DDBM;
@@ -31,6 +12,13 @@ FROM DATAMART_DAAV_BASEINFO_MONTH DDBM;
 --- `use_month`의 가장 큰 값 기준으로 12개월 또는 10년치 표현.
 --- `use_month`: 2011년 3월부터 2019년 9월까지 3개월 단위로만 값 존재. 2019년 10월부터는 1개월 단위로 존재. `use_month`별로 전직원 레코드 포함.
 --- `am_incomesum_month`: 임직원별 인건비
+
+--## 채용구분, 연월별 인원 수
+SELECT use_month, ds_emptype_bi, COUNT(*)
+FROM DATAMART_DAAV_BASEINFO_MONTH DDBM
+WHERE ty_count = 'Y'
+GROUP BY use_month, ds_emptype_bi
+ORDER BY use_month, ds_emptype_bi;
 
 SELECT *
 FROM DATAMART_DAAV_BASEINFO_YEAR DDBY
@@ -47,12 +35,6 @@ SELECT use_month, am_total
 FROM DATAMART_DAAV_BASEINFO_YEAR DDBY
 WHERE RIGHT(use_month, 2) IN('12')
 ORDER BY use_month DESC;
-
---## 연도별 인건비
-SELECT LEFT(use_month, 4), SUM(am_incomesum_month)
-FROM DATAMART_DAAV_BASEINFO_MONTH DDBM
-GROUP BY LEFT(use_month, 4)
-ORDER BY LEFT(use_month, 4) DESC
 
 --## 연도, 근무지별 인건비
 SELECT LEFT(use_month, 4), ds_tydept_bi, SUM(am_incomesum_month)
@@ -171,11 +153,19 @@ SELECT *
 FROM DATAMART_DAUV_ANNUALINCOME DDA
 WHERE id_sabun = '6363';
 
---## 평균 연봉
-SELECT SUM(DDA.am_salary), COUNT(DISTINCT DDBD.id_sabun), ROUND(SUM(DDA.am_salary)/COUNT(*)/10000, 0), DDBD.ds_emptype_bi, DDBD.ds_tydept_bi
+--## 근무지, 채용구분별 평균 연봉
+SELECT DDBD.ds_tydept_bi, DDBD.ds_emptype_bi, SUM(DDA.am_salary) AS '연봉 합', COUNT(DISTINCT DDBD.id_sabun) AS '인원 수', ROUND(SUM(DDA.am_salary)/COUNT(*)/10000, 0) AS '평균'
 FROM DATAMART_DAUV_ANNUALINCOME DDA LEFT OUTER JOIN DATAMART_DAAV_BASEINFO_DETAIL DDBD ON DDA.cd_corp = DDBD.cd_corp AND DDA.id_sabun = DDBD.id_sabun
 WHERE DDA.cd_corp = 'A101' AND DDBD.ds_retire != '퇴직'
-GROUP BY ds_emptype_bi, ds_tydept_bi;
+GROUP BY ds_tydept_bi, ds_emptype_bi
+ORDER BY ds_tydept_bi, ds_emptype_bi;
+
+--## 직급, 채용구분별 평균 연봉
+SELECT DDBD.ds_position_bi, DDBD.ds_emptype_bi, SUM(DDA.am_salary) AS '연봉 합', COUNT(DISTINCT DDBD.id_sabun) AS '인원 수', ROUND(SUM(DDA.am_salary)/COUNT(*)/10000, 0) AS '평균'
+FROM DATAMART_DAUV_ANNUALINCOME DDA LEFT OUTER JOIN DATAMART_DAAV_BASEINFO_DETAIL DDBD ON DDA.cd_corp = DDBD.cd_corp AND DDA.id_sabun = DDBD.id_sabun
+WHERE DDA.cd_corp = 'A101' AND DDBD.ds_retire != '퇴직'
+GROUP BY ds_position_bi, ds_emptype_bi
+ORDER BY ds_position_bi, ds_emptype_bi;
 
 --## 직원별 연봉
 SELECT *

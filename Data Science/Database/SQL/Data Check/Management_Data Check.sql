@@ -147,3 +147,16 @@ FROM (
 	WHERE ds_item = '영업이익' AND YEAR = 2021
 	GROUP BY MONTH) AS A
 ORDER BY CAST(MONTH AS INT);
+
+--## 연도, 부문별 매출
+```sql
+SELECT DDTG.ds_group, DDT.ym_magam, SUM(am_account)
+FROM DATAMART_DHDT_TOTAL DDT, DATAMART_DHDT_ACNT_GROUP DDAG, DATAMART_DHDT_TOTAL_GROUP DDTG 
+WHERE DDT.cd_corp = DDAG.cd_corp
+	AND DDT.cd_dept_acnt = DDAG.cd_dept_acnt
+	AND DDAG.cd_group = DDTG.cd_group
+	AND LEFT(cd_trial, 2) = '41'
+	AND DDTG.ds_group NOT IN('기타')
+	AND RIGHT(ym_magam, 2) = 12
+GROUP BY DDTG.ds_group, DDT.ym_magam
+ORDER BY DDTG.ds_group, DDT.ym_magam
