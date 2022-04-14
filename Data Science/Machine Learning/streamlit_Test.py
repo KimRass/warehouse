@@ -45,3 +45,41 @@ st.write(case)
 
 case = st.multiselect("...", ["Case1", "Case2", ...])
 st.write(len(case), case)
+
+age = st.slider('How old are you?', 0, 130, (23, 44))
+st.write("I'm ", age, 'years old')
+
+from datetime import datetime
+start_time = st.slider(
+     "When do you start?",
+     value=datetime(2020, 1, 1, 9, 30),
+     format="MM/DD/YY - hh:mm")
+st.write("Start time:", start_time)
+
+     
+import streamlit as st
+
+def get_user_name():
+    return 'John'
+
+with st.echo(code_location="below"):
+    st.write("a")
+st.write("b")
+
+import numpy as np
+import pandas as pd
+
+df = pd.DataFrame(np.random.randn(10, 20), columns=('col %d' % i for i in range(20)))
+
+st.dataframe(df)
+
+
+with st.sidebar:
+    st.selectbox(
+    "How would you like to be contacted?",
+    ("Email", "Home phone", "Mobile phone")
+)
+import time
+
+e = ValueError('...')
+st.exception(e)
