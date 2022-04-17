@@ -682,6 +682,19 @@ def plot_tree(model, filename, rankdir="UT"):
 ## L1 Regularization (= Lasso Regression)
 ## L2 Regularization (= Ridge Regression)
 
+# Transfer Learning
+- Source: https://www.toptal.com/machine-learning/semi-supervised-image-classification
+- Transfer learning means using knowledge from a similar task to solve a problem at hand. In practice, it usually means using as initializations the deep neural network weights learned from a similar task, rather than starting from a random initialization of the weights, and then further training the model on the available labeled data to solve the task at hand.
+- Transfer learning enables us to train models on datasets as small as a few thousand examples, and it can deliver a very good performance. Transfer learning from pretrained models can be performed in three ways:
+	1. Feature Extraction 
+		- *Usually, the last layers of the neural network are doing the most abstract and task-specific calculations, which are generally not easily transferable to other tasks. By contrast, the initial layers of the network learn some basic features like edges and common shapes, which are easily transferable across tasks.*
+		- A common practice is to take a model pretrained on large labeled image datasets (such as ImageNet) and chop off the fully connected layers at the end. New, fully connected layers are then attached and configured according to the required number of classes. *Transferred layers are frozen, and the new layers are trained on the available labeled data for your task.*
+		- In this setup, the pretrained model is being used as a feature extractor, and the fully connected layers on the top can be considered a shallow classifier. *This setup is more robust than overfitting as the number of trainable parameters is relatively small, so this configuration works well when the available labeled data is very scarce.* What size of dataset qualifies as a very small dataset is usually a tricky problem with many aspects of consideration, including the problem at hand and the size of the model backbone. Roughly speaking, I would use this strategy for a dataset consisting of a couple of thousand images.
+	2. Fine-tuning
+		- *Alternatively, we can transfer the layers from a pretrained network and train the entire network on the available labeled data. This setup needs a little more labeled data because you are training the entire network and hence a large number of parameters. This setup is more prone to overfitting when there is a scarcity of data.*
+	3. Two-stage Transfer Learning
+		- This approach is my personal favorite and usually yields the best results, at least in my experience. Here, ***we train the newly attached layers while freezing the transferred layers for a few epochs before fine-tuning the entire network. Fine-tuning the entire network without giving a few epochs to the final layers can result in the propagation of harmful gradients from randomly initialized layers to the base network. Furthermore, fine-tuning requires a comparatively smaller learning rate, and a two-stage approach is a convenient solution to it.***
+
 # `annoy`
 - Install
 	- On Windows
@@ -885,7 +898,7 @@ plot_model(model, [to_file], [show_layer_activations])
 ```
 ## Compile
 ```python
-# `optimizer`: (`"sgd"`, `"adam"`, `"rmsprop"`, Adagrad(lr)]
+# `optimizer`: (`"sgd"`, `"adam"`, `Adam(learning_rate)`, "rmsprop"`, Adagrad(learning_rate)]
 # `loss`: (`"mse"`, `"mae"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
 	# If the model has multiple outputs, you can use a different `loss` on each output by passing a dictionary or a list of `loss`es.
 	# `"categorical_crossentropy"`: Produces a one-hot array containing the probable match for each category.
@@ -910,7 +923,7 @@ model_path = "model_path.h5"
 # `save_weights_only`: If `True`, then only the model's weights will be saved (`model.save_weights(filepath)`), else the full model is saved (`model.save(filepath)`).
 mc = ModelCheckpoint(filepath=model_path, monitor="val_acc", mode="auto", verbose=1, save_best_only=True)
 # `verbose=2`: One line per epoch. recommended.
-hist = model.fit(x, y, [validation_split], batch_size, epochs, verbose=2, [shuffle], callbacks=[es, mc])
+hist = model.fit(x, y, [validation_split], [validation_data], batch_size, epochs, verbose=2, [shuffle], callbacks=[es, mc])
 ```
 ## Training History
 ```python
@@ -925,7 +938,7 @@ axes[1].legend();
 ```
 ## Evaluate Model
 ```python
-score = model.evaluate(x_test, y_test, batch_size=128, verbose=0)
+te_loss, te_acc = model.evaluate(X_te, y_te, batch_size)
 ```
 ## Inference
 - Source: https://www.tensorflow.org/api_docs/python/tf/keras/Model?hl=en, https://stackoverflow.com/questions/60837962/confusion-about-keras-model-call-vs-call-vs-predict-methods
@@ -989,6 +1002,9 @@ model.inputs
 		- For the cache to be finalized, the input dataset must be iterated through in its entirety. Otherwise, subsequent iterations will not use cached data.
 		- `filename`: When caching to a file, the cached data will persist across runs. Even the first iteration through the data will read from the cache file. Changing the input pipeline before the call to `cache()` will have no effect until the cache file is removed or the `filename` is changed. If a `filename` is not provided, the dataset will be cached in memory.
 		- `cache()` will produce exactly the same elements during each iteration through the dataset. If you wish to randomize the iteration order, make sure to call `shuffle()` after calling `cache()`.
+	- `prefetch(buffer_size)`
+		- Most dataset input pipelines should end with a call to prefetch. This allows later elements to be prepared while the current element is being processed. This often improves latency and throughput, at the cost of using additional memory to store prefetched elements.
+		- `buffer_size`: The maximum number of elements that will be buffered when prefetching. If the value `tf.data.AUTOTUNE` is used, then the buffer size is dynamically tuned.
 	- `enumerate([start=0])`
 	- `filter(predicate)`
 		- `predicate`: A function mapping a dataset element to a boolean.
@@ -1006,9 +1022,6 @@ model.inputs
 		```
 	- `map(map_func)`
 		- This transformation applies `map_func` to each element of this dataset, and returns a new dataset containing the transformed elements, in the same order as they appeared in the input. `map_func` can be used to change both the values and the structure of a dataset's elements.
-	- `prefetch(buffer_size)`
-		- Most dataset input pipelines should end with a call to prefetch. This allows later elements to be prepared while the current element is being processed. This often improves latency and throughput, at the cost of using additional memory to store prefetched elements.
-		- `buffer_size`: The maximum number of elements that will be buffered when prefetching. If the value `tf.data.AUTOTUNE` is used, then the buffer size is dynamically tuned.
 	- `random()`
 	- `range()`
 	- `repeat()`
@@ -1316,8 +1329,7 @@ from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, LayerNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv1DTranspose, Conv2D, Conv2DTranspose, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D, RepeatVector
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
-from tensorflow.keras.utils import to_categorical, plot_model
-from tensorflow.keras.preprocessing import image_dataset_from_directory
+from tensorflow.keras.utils import to_categorical, plot_model, image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator

@@ -214,7 +214,33 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
         z = Dense(units=c, activation="sigmoid")(z)
         return z*x
 	```
-	
+# EfficientNet
+- Source: https://keras.io/examples/vision/image_classification_efficientnet_fine_tuning/
+- The input data should range [0, 255]. Normalization is included as part of the model.
+- When the images are much smaller than the size of EfficientNet input, we can simply upsample the input images. It has been shown in Tan and Le, 2019 that transfer learning result is better for increased resolution even if input images remain small. 
+- The first step to transfer learning is to freeze all layers and train only the top layers. For this step, a relatively large learning rate (1e-2) can be used. Note that validation accuracy and loss will usually be better than training accuracy and loss. This is because the regularization is strong, which only suppresses training-time metrics. 
+- The second step is to unfreeze a number of layers and fit the model using smaller learning rate. In this example we show unfreezing all layers, but depending on specific dataset it may be desireble to only unfreeze a fraction of all layers.
+- When the feature extraction with pretrained model works good enough, this step would give a very limited gain on validation accuracy. In our case we only see a small improvement, as ImageNet pretraining already exposed the model to a good amount of dogs.
+- On the other hand, when we use pretrained weights on a dataset that is more different from ImageNet, this fine-tuning step can be crucial as the feature extractor also needs to be adjusted by a considerable amount. Such a situation can be demonstrated if choosing CIFAR-100 dataset instead, where fine-tuning boosts validation accuracy by about 10% to pass 80% on EfficientNetB0. In such a case the convergence may take more than 50 epochs.
+- A side note on freezing/unfreezing models: setting trainable of a Model will simultaneously set all layers belonging to the Model to the same trainable attribute. Each layer is trainable only if both the layer itself and the model containing it are trainable. Hence when we need to partially freeze/unfreeze a model, we need to make sure the trainable attribute of the model is set to True.
+- Tips for fine tuning EfficientNet on unfreezing layers: 
+	- The BathcNormalization layers need to be kept frozen (more details). If they are also turned to trainable, the first epoch after unfreezing will significantly reduce accuracy.
+	- In some cases it may be beneficial to open up only a portion of layers instead of unfreezing all. This will make fine tuning much faster when going to larger models like B7.
+	- Each block needs to be all turned on or off. This is because the architecture includes a shortcut from the first layer to the last layer for each block. Not respecting blocks also significantly harms the final performance.
+- Smaller batch size benefit validation accuracy, possibly due to effectively providing regularization.
+
+# Semi-Supervised Learning in Computer Vision
+- Source: https://amitness.com/2020/07/semi-supervised-learning/
+## Pseudo-label
+- Dong-Hyun Lee proposed a very simple and efficient formulation called "Pseudo-label" in 2013.
+- The idea is to train a model simultaneously on a batch of both labeled and unlabeled images. The model is trained on labeled images in usual supervised manner with a cross-entropy loss. *The same model is used to get predictions for a batch of unlabeled images and the maximum confidence class is used as the pseudo-label. Then, cross-entropy loss is calculated by comparing model predictions and the pseudo-label for the unlabeled images.*
+- ![Pseudo-label](https://amitness.com/images/ssl-pseudo-label.png)
+- The total loss is a weighted sum of the labeled and unlabeled loss terms.
+- To make sure the model has learned enough from the labeled data, the \alpha_{t} term is set to 0 during the initial 100 training steps. It is then gradually increased up to 600 training steps and then kept constant.
+## Consistency Regularization
+- *This paradigm uses the idea that model predictions on an unlabeled image should remain the same even after adding noise.* We could use input noise such as Image Augmentation and Gaussian noise. Noise can also be incorporated in the architecture itself using Dropout.
+- ![Consistency Regularization](https://amitness.com/images/fixmatch-unlabeled-augment-concept.png)
+
 # Region Proposal
 ## Sliding Window Algorithm
 - In the sliding window approach, we slide a box or window over an image to select a patch and classify each image patch covered by the window using the object recognition model. It is an exhaustive search for objects over the entire image. *Not only do we need to search all possible locations in the image, we have to search at different scales.* This is because object recognition models are generally trained at a specific scale (or range of scales). This results into classifying tens of thousands of image patches.
@@ -435,16 +461,49 @@ detection is done by applying 1 x 1 detection kernels on feature maps of three d
 - Confidence score: Bounding box 안에 object 가 있을 확률이 얼마나 되는지, 그리고 object 가 class 를 정확하게 예측했는지 나타내는 지표
 - Confidence Score가 낮을수록 Bounding Box를 많이 만듦. Precision 감소, Recall 증가.
 
+# `tf.keras.utils.image_dataset_from_directory()`
+- References: https://www.tensorflow.org/api_docs/python/tf/keras/utils/image_dataset_from_directory, https://www.tensorflow.org/tutorials/load_data/images
+```python
+ds_tr = image_dataset_from_directory(
+    "computer_vision_task/train",
+    validation_split=0.2,
+    subset="training",
+    seed=seed,
+    shuffle=True,
+    image_size=(img_size, img_size),
+    batch_size=64)
+ds_val = image_dataset_from_directory(
+    "computer_vision_task/train",
+    validation_split=0.2,
+    subset="validation",
+    seed=seed,
+    shuffle=True,
+    image_size=(img_size, img_size),
+    batch_size=64)
+ds_te = image_dataset_from_directory(
+    "computer_vision_task/test",
+    seed=seed,
+    shuffle=False,
+    image_size=(img_size, img_size),
+    batch_size=64)
+```
 
 # `cv2`
-```python
-!pip install opencv-python
-```
+## Install
+- On Windows
+	```python
+	conda install -c conda-forge opencv
+	```
+- On MacOS
+	```python
+	pip install opencv-python
+	```
+## Import
 ```python
 import cv2
 ```
 ## `cv2.imread()`
-## `cv2.imshow()`, `plt.imshow()`
+## `plt.imshow()`
 ## `cv2.cvtColor(image, code)`
 - `code`: (`cv2.COLOR_BGR2GRAY`, `cv2.COLOR_BGR2RGB`, `cv2.COLOR_BGR2HSV`)
 ## `cv2.resize(img, dsize, interpolation)`
@@ -560,11 +619,11 @@ gen.apply_transform()
 	- References: https://www.tensorflow.org/api_docs/python/tf/keras/Model, https://gist.github.com/swghosh/f728fbba5a26af93a5f58a6db979e33e
 	```python
 	def gen_flow(x, y, subset):
-		gen = ImageDataGenerator(rescale=1/255, shear_range=0.2, zoom_range=0.2, horizontal_flip=True, validation_split=0.2)
+		gen = ImageDataGenerator(..., validation_split=0.2)
 		gen.fit(X_tr_val)
 		# `subset`: (`"training"`, `"validation"`) If `validation_split` is set in `ImageDataGenerator()`.
 		# `save_to_dir`: This allows you to optionally specify a directory to which to save the augmented pictures being generated.
-		return gen.flow(x=x, y=y, batch_size=batch_size, seed=seed, subset=subset)
+		return gen.flow(x=x, y=y, batch_size=batch_size, subset=subset)
 	def generator(flow):
 		for xi, yi in flow:
 			yield xi, [yi, yi, yi]

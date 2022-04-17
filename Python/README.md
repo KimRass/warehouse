@@ -1203,7 +1203,6 @@ from collections import Counter
 word2cnt = Counter(words)
 ```
 - lst의 원소별 빈도를 나타내는 dic을 반환합니다.
-### `Counter[]`
 ### `Counter().values()`
 ```python
 sum(Counter(nltk.ngrams(cand.split(), 2)).values())
@@ -1217,10 +1216,6 @@ from collections import deque
 dq = deque("abc")
 ```
 - `maxlen`
-### `dq[]`
-```python
-dq[2] = "d"
-```
 ### `dq.append()`
 ### `dq.appendleft()`
 ### `dq.pop()`
@@ -1228,6 +1223,10 @@ dq[2] = "d"
 ### `dq.extend()`
 ### `dq.extendleft()`
 ### `dq.remove()`
+## `defaultdict()`
+```python
+ddic = defaultdict(list)
+```
 
 # `functools`
 ## `reduce()`
@@ -1265,8 +1264,20 @@ from pprint import pprint
 # `zipfile`
 ```python
 import zipfile
+
+zip = zipfile.ZipFile(file, mode)
+zip.extractall(path)`
+zip.close()
 ```
-## `zipfile.ZipFile(file, mode).extractall(path)`
+
+# `tarfile`
+```python
+import tarfile
+
+tar = tarfile.open("buzzni.tar")
+tar.extractall(path)
+tar.close()
+```
 
 # `lxml`
 ## `etree`
@@ -1416,7 +1427,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 	```python
 	import urllib.request
 	
-	urllib.request.urlretrieve(url=url, filename=filename)
+	urllib.request.urlretrieve(url, filename)
 	```
 - Using `google_drive_downloader.GoogleDriveDownloader.download_file_from_google_drive()`
 	```python
@@ -1433,7 +1444,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 	path_to_downloaded_file = tf.keras.utils.get_file([fname], origin, [untar])
 	```
 	
-	# Setting
+# Setting
 ## Display Hangul
 ```python
 path = "C:/Windows/Fonts/malgun.ttf"

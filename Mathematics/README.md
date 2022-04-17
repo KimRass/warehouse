@@ -207,6 +207,13 @@ def euclidean_distance(vec1, vec2):
 def euclidean_similarity(vec1, vec2):
 	return 1/(1 + euclidean_distance(vec1, vec2))
 ```
+# 0-1 Indicator Function
+- Source: https://en.wikipedia.org/wiki/Indicator_function
+- In mathematics, an indicator function or a characteristic function of a subset of a set is a function that maps elements of the subset to one, and all other elements to zero. That is, if A is a subset of some set X, one has 1_{A}(x) = 1 if x ∈ A, and 1_{A}(x) = 0 otherwise, where 1_{A} is a common notation for the indicator function.
+- The indicator function of a subset A of a set X is a function
+1_{A} → {0, 1}
+defined as
+1_{A}(x) = 1 if x ∈ A, 0 if x ∉ A.
 
 # Statistics
 ## Correlation
