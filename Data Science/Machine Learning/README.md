@@ -744,7 +744,7 @@ def plot_tree(model, filename, rankdir="UT"):
 ## `tf.cast([dtype])`
 - Casts a tensor to a new type.
 - Returns `1` if `True` else `0`.
-## `tf.shape()` (for `tf.Tensor`), `KerasTensor.shape()` (for KerasTensor)
+## `tf.shape()` (for `tf.Tensor`), `KerasTensor.shape()` (for `KerasTensor`)
 ## `tf.reshape(shape)`
 ## `tf.transpose(a, perm)`
 ## `tf.range()`
