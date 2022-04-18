@@ -750,6 +750,8 @@ def plot_tree(model, filename, rankdir="UT"):
 ## `tf.range()`
 ## `tf.tile()`
 ## `tf.constant_initializer()`
+## `tf.argsort()`
+- `direction`: (`"ASCENDING"`, `"DESCENDING"`).
 ## `tf.math`
 ### `tf.math.add()`, `tf.math.subtract()`, `tf.math.multiply()`, `tf.math.divide()`
 - Adds, substract, multiply or divide two input tensors element-wise.
@@ -764,6 +766,9 @@ def plot_tree(model, filename, rankdir="UT"):
 ### `tf.math.exp()`
 ### `tf.math.log()`
 ### `tf.math.equal()`
+```python
+seq = tf.cast(tf.math.equal(seq, 0), tf.float32)
+```
 ### `tf.math.reduce_sum([axis])`, `tf.math.reduce_mean()`
 - Reference: https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
 - `axis=None`: Reduces all dimensions.
@@ -1329,7 +1334,7 @@ from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, LayerNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv1DTranspose, Conv2D, Conv2DTranspose, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D, RepeatVector
 from tensorflow.keras.layers.experimental.preprocessing import Rescaling
-from tensorflow.keras.utils import to_categorical, plot_model, image_dataset_from_directory
+from tensorflow.keras.utils import get_file, to_categorical, plot_model, image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.image import load_img, img_to_array, ImageDataGenerator
@@ -1337,7 +1342,7 @@ from tensorflow.keras.optimizers import SGD, Adagrad, Adam
 from tensorflow.keras.optimizers.schedules import LearningRateSchedule
 # MeanSquaredError, MeanAbsoluteError, MeanAbsolutePercentageError, BinaryCrossentropy, CategoricalCrossentropy, SparseCategoricalCrossentropy, CosineSimilarity
 from tensorflow.keras import losses
-# MeanSquaredError, RootMeanSquaredError, MeanAbsoluteError, MeanAbsolutePercentageError, BinaryCrossentropy, CategoricalCrossentropy, SparseCategoricalCrossentropy, CosineSimilarity
+# MeanSquaredError, RootMeanSquaredError, MeanAbsoluteError, MeanAbsolutePercentageError, BinaryCrossentropy, CategoricalCrossentropy, SparseCategoricalCrossentropy, TopKCategoricalAccuracy, SparseTopKCategoricalAccuracy, CosineSimilarity
 from tensorflow.keras import metrics
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.activations import linear, sigmoid, relu

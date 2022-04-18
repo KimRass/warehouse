@@ -130,7 +130,7 @@ with open(file, mode, [encoding]) as f:
 ### `f.readline()`, `f.readlines()`
 ## `input()`
 ```python
-A = list(map(int, in "A를 차례대로 입력 : ").split()))
+A = list(map(int, input("Message").split()))
 ```
 ## `ord()`
 - Returns the unicode code of a specified character.
@@ -1441,7 +1441,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 	```python
 	# `fname`: Name of the file. If an absolute path is specified the file will be saved at that location. If `None`, the name of the file at origin will be used. By default the file is downloaded to `~/.keras/datasets`.
 	# `origin`: Original URL of the file.
-	path_to_downloaded_file = tf.keras.utils.get_file([fname], origin, [untar])
+	path_to_downloaded_file = get_file([fname], origin, [untar])
 	```
 	
 # Setting
