@@ -579,16 +579,28 @@ img1.paste(img2, (20,20,220,220))
 mask = Image.new("RGB", icon.size, (255, 255, 255))
 ```
 
-## `Rescaling`
-## `RandomFlip`
-## `RandomRotation`
-## `RandomZoom()`
+# Data Augmentation
+## Using `Sequential()`
+- Reference: https://keras.io/examples/vision/image_classification_from_scratch/
+- Make it part of the model
+- ***With this option, your data augmentation will happen on device, synchronously with the rest of the model execution, meaning that it will benefit from GPU acceleration.***
+- ***Data augmentation is inactive at test time, so the input samples will only be augmented during `fit()`, not when calling `evaluate()` or `predict()`.***
 ```python
-log_dir = "logs/fit/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-tensorboard_callback = tf.keras.callbacks.TensorBoard(log_dir=log_dir, histogram_freq=1)
-```
+inputs = Input(shape=(img_size, img_size, 3))
 
-# Image Data Augmentation using `ImageDataGenerator()`
+data_aug = Sequential([
+	RandomRotation(factor=0.1, fill_mode="constant", fill_value=255), 
+	RandomTranslation(height_factor=0.1, width_factor=0.1, fill_mode="constant", fill_value=255),  
+	RandomFlip("horizontal"), 
+	RandomZoom(height_factor=0.1, fill_mode="constant", fill_value=255)]
+	)
+z = data_aug(inputs)
+```
+## Using `tf.data.Dataset.map()`
+- Apply it to the dataset, so as to obtain a dataset that yields batches of augmented images.
+- With this option, your data augmentation will happen on CPU, asynchronously, and will be buffered before going into the model.
+- If you're training on CPU, this is the better option, since it makes data augmentation asynchronous and non-blocking.
+## Using `ImageDataGenerator()`
 - Reference: https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator, https://m.blog.naver.com/PostView.nhn?blogId=isu112600&logNo=221582003889&proxyReferer=https:%2F%2Fwww.google.com%2F
 - Each new batch of our data is randomly adjusting according to the parameters supplied to `ImageDataGenerator()`.
 ```python

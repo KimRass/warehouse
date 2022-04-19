@@ -1333,7 +1333,7 @@ import tensorflow as tf
 from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.models import load_model
 from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, LayerNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv1DTranspose, Conv2D, Conv2DTranspose, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D, RepeatVector
-from tensorflow.keras.layers.experimental.preprocessing import Rescaling
+from tensorflow.keras.layers.experimental.preprocessing import Resizing, Rescaling, RandomContrast, RandomCrop, RandomFlip, RandomRotation, RandomTranslation, RandomZoom
 from tensorflow.keras.utils import get_file, to_categorical, plot_model, image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
