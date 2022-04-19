@@ -810,7 +810,9 @@ W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
 	- ***Elements of this tuple can be None; "None" elements represent dimensions where the shape is not known.***
 	- Note that `shape` does not include the batch dimension.
 ## `Dropout(rate)`
-- Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dropout
+- Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dropout, https://www.tensorflow.org/tutorials/images/classification
+- Another technique to reduce overfitting is to introduce dropout regularization to the network.
+- When you apply dropout to a layer, it randomly drops out (by setting the activation to zero) a number of output units from the layer during the training process. Dropout takes a fractional number as its input value, in the form such as 0.1, 0.2, 0.4, etc. This means dropping out 10%, 20% or 40% of the output units randomly from the applied layer.
 - `rate`
 	- The Dropout layer randomly sets input units to 0 with a frequency of `rate` at each step during training time, which helps prevent overfitting. Inputs not set to 0 are scaled up by 1/(1 - `rate`) such that the sum over all inputs is unchanged.
 	- Note that the `Dropout` layer only applies when `training` is set to `True` such that no values are dropped during inference. When using `model.fit`, `training` will be appropriately set to `True` automatically, and in other contexts, you can set the kwarg explicitly to `True` when calling the layer.
@@ -979,7 +981,7 @@ model.save()
 model.inputs
 ```
 
-# `tf.data.Dataset`
+# Dataset
 - Source: https://www.tensorflow.org/api_docs/python/tf/data/Dataset
 - Dataset usage follows a common pattern:
 	- Create a source dataset from your input data.
@@ -1332,8 +1334,7 @@ from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, A
 import tensorflow as tf
 from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.models import load_model
-from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, LayerNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv1DTranspose, Conv2D, Conv2DTranspose, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D, RepeatVector
-from tensorflow.keras.layers.experimental.preprocessing import Resizing, Rescaling, RandomContrast, RandomCrop, RandomFlip, RandomRotation, RandomTranslation, RandomZoom
+from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, LayerNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv1DTranspose, Conv2D, Conv2DTranspose, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D, RepeatVector, Resizing, Rescaling, RandomContrast, RandomCrop, RandomFlip, RandomRotation, RandomTranslation, RandomZoom, RandomWidth, RandomHeight, RandomBrightness
 from tensorflow.keras.utils import get_file, to_categorical, plot_model, image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
