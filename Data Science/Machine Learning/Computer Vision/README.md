@@ -228,6 +228,11 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 	- In some cases it may be beneficial to open up only a portion of layers instead of unfreezing all. This will make fine tuning much faster when going to larger models like B7.
 	- Each block needs to be all turned on or off. This is because the architecture includes a shortcut from the first layer to the last layer for each block. Not respecting blocks also significantly harms the final performance.
 - Smaller batch size benefit validation accuracy, possibly due to effectively providing regularization.
+```python
+# `include_top=False`: This option excludes the final Dense layer that turns 1280 features on the penultimate layer into prediction of the 1000 ImageNet classes. Replacing the top layer with custom layers allows using EfficientNet as a feature extractor in a transfer learning workflow.
+# `input_tensor`: Optional Keras tensor (i.e. output of `Input()`) to use as image input for the model.
+effi_net = EfficientNetB7(include_top=False, input_tensor=z, weights="imagenet")
+```
 
 # Semi-Supervised Learning in Computer Vision
 - Sources: https://amitness.com/2020/07/semi-supervised-learning/, https://animilux.github.io/paper_review/2021/10/10/scan.html
