@@ -533,8 +533,7 @@ data = data.drop(["Unnamed: 0", "address1", "address2"], axis=1)
 data = data.drop(data.loc[:, "unknown":"Western"].columns, axis=1)
 ```
 ## `duplicated([keep])`
-## `drop_
-cates(subset, [keep])`
+## `drop_duplcates(subset, [keep])`
 ## `DataFrame.columns`
 ```python
 concat.columns = ["n_rating", "cumsum"]
@@ -1388,8 +1387,10 @@ import sys
 ```
 ## `sys.maxsize()`
 ## `sys.path`
+- Source: https://www.geeksforgeeks.org/sys-path-in-python/
+- `sys.path` is a built-in variable within the sys module. It contains a list of directories that the interpreter will search in for the required module. When a module(a module is a python file) is imported within a Python file, the interpreter first searches for the specified module among its built-in modules. If not found it looks through the list of directories(a directory is a folder that contains related modules) defined by `sys.path`.
 ```python
-sys.path.append("c:/users/82104/anaconda3/envs/tf2.3/lib/site-packages")
+sys.path.append("...")
 ```
 ## `sys.stdin`
 ### `sys.stdin.readline()`
