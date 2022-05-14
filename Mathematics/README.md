@@ -268,3 +268,20 @@ defined as
 - Source: https://en.wikipedia.org/wiki/Normalization_(statistics)
 - In statistics and applications of statistics, normalization can have a range of meanings. ***In the simplest cases, normalization of ratings means adjusting values measured on different scales to a notionally common scale, often prior to averaging.***
 ## Probability & Likelihood
+
+# `math`
+```python
+import math
+
+math.exp()
+math.log()
+math.log2()
+math.log10()
+math.factorial()
+math.comb()
+math.floor()
+math.ceil()
+math.gcd()
+math.isan()
+math.inf
+```

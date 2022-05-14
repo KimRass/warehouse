@@ -1319,12 +1319,7 @@ model.n_jobs=5
 model.fit(train_X, train_y, eval_set=[(train_X, train_y), (val_X, val_y)], early_stopping_rounds=50, verbose=True)
 ```
 
-# `seqeval`
-## `seqeval.metrics`
-### `precision_score`
-### `recall_score`
-### `f1_score`
-### `classification_report`
+# `seqeval.metrics.classification_report`
 ```python
 from seqeval.metrics import classification_report
 ```
@@ -1365,3 +1360,63 @@ from tensorflow.keras.initializers import RandomNormal, glorot_uniform, he_unifo
 
 # `from_logits`
 - ![from_logits](https://i.imgur.com/cUjg18g.png)
+
+# `statsmodels`
+```python
+import statsmodels.api as sm
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+```
+## Variance Inflation Factor (VIF)
+```python
+vif = pd.DataFrame()
+vif["vif"] = [variance_inflation_factor(x_tr.values, i) for i in range(x_tr.shape[1])]
+vif["feat"] = x_tr.columns
+```
+## Q-Q Plot
+```python
+fig = sm.qqplot(ax=axes[0], data=data["value"], fit=True, line="45")
+```
+## Oridinary Least Squares
+```python
+sm.OLS(y_tr, x_tr).fit()
+
+# `coef`: The measurement of how change in the independent variable affects the dependent variable. Negative sign means inverse relationship. As one rises, the other falls.
+# `R-squared`, `Adj. R-squared`
+# `P>|t|`: p-value. Measurement of how likely the dependent variable is measured through the model by chance. That is, there is a (p-value) chance that the independent variable has no effect on the dependent variable, and the results are produced by chance. Proper model analysis will compare the p-value to a previously established threshold with which we can apply significance to our coefficient. A common threshold is 0.05.
+# `Durbin-Watson`: Durbin-Watson statistic.
+# `Skew`: Skewness.
+# `Kurtosis`: Kurtosis.
+# `Cond. No.`: Condition number of independent variables.
+sm.OLS().fit().summary()
+
+# Return `Adj. R-squared` of the independent variables.
+sm.OLS().fit().rsquared_adj
+sm.OLS().fit().fvalue
+sm.OLS().fit().f_pvalue
+sm.OLS().fit().aic
+sm.OLS().fit().bic
+# Return `coef`s of the independent variables.
+sm.OLS().fit().params
+# Return `P>|t|`s of the independent variables.
+sm.OLS().fit().pvalues
+sm.OLS().fit().predict()
+```
+
+# `scipy`
+```python
+import scipy
+from scipy import stats
+```
+## `stats.shapiro()`
+```python
+Normality = pd.DataFrame([stats.shapiro(resid_tr["resid"])], index=["Normality"], columns=["Test Statistic", "p-value"]).T
+```
+- Return test statistic and p-value.
+## `stats.boxcox_normalplot()`
+```python
+x, y = stats.boxcox_normplot(data["value"], la=-3, lb=3)
+```
+## `stats.boxcox()`
+```python
+y_trans, l_opt = stats.boxcox(data["value"])
+```
