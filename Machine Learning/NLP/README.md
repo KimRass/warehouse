@@ -149,6 +149,16 @@ sw = {i for i in string.punctuation}
 - Source: https://en.wikipedia.org/wiki/Text_corpus
 - A corpus may contain texts in a single language (monolingual corpus) or text data in multiple languages (multilingual corpus).
 - In order to make the corpora more useful for doing linguistic research, they are often subjected to a process known as annotation. *An example of annotating a corpus is part-of-speech tagging, or POS-tagging, in which information about each word's part of speech (verb, noun, adjective, etc.) is added to the corpus in the form of tags. Another example is indicating the lemma (base) form of each word. When the language of the corpus is not a working language of the researchers who use it, interlinear glossing is used to make the annotation bilingual.*
+- Using `spacy`
+	```sh
+	python -m spacy download en_core_web_md
+	python -m spacy download en
+	```
+	```python
+	import spacy
+
+	sp = spacy.load("en_core_web_sm")
+	```
 
 # Out of Vocabulary (OOV) Problem
 - Used in computational linguistics and natural language processing for terms encountered in input which are not present in a system's dictionary or database of known terms.
@@ -1095,22 +1105,32 @@ from soynlp.normalizer import *
 ## `repeat_normalize(num_repeats)`
 
 # `khaiii`
-## `KhaiiiApi`
+```sh
+pip install cmake
+
+git clone "https://github.com/kakao/khaiii.git"
+
+cd .../khaiii
+mkdir build
+cd build
+cmake ..
+make all
+make resource
+
+# Python binding
+# make install
+make package_python
+cd package_python
+pip3 install .
+```
 ```python
 from khaiii import KhaiiiApi
-```
-```python
+
 api = KhaiiiApi()
-```
-### `api.analyze()`
-#### `word.morphs`
-##### `morph.lex`
-##### `morph.tag`
-```python
-morphs = []
-sentence = "하스스톤 전장이 새로 나왔는데 재밌어요!"
-for word in api.analyze(sentence):
-    for morph in word.morphs:
+
+morphs = list()
+for token in api.analyze(sent):
+    for morph in token.morphs:
         morphs.append((morph.lex, morph.tag))
 ```
 
@@ -1260,14 +1280,14 @@ model.show_topic(1, topn=20)
 - `{n}`: n개의 바로 앞의 character
 - `^`: Match the start of the string.
 - `$`: Match the end of the string.
-## `re.search()`
+## `re.search(pattern, string)`
 - Scan through string looking for the first location where the regular expression pattern produces a match, and return a corresponding match object. Return None if no position in the string matches the pattern; note that this is different from finding a zero-length match at some point in the string.
 ## `re.match()`
 - If zero or more characters at the beginning of string match the regular expression pattern, return a corresponding match object. Return None if the string does not match the pattern; note that this is different from a zero-length match.
 ## `re.findall()`
 - Return all non-overlapping matches of pattern in string, as a list of strings. The string is scanned left-to-right, and matches are returned in the order found. If one or more groups are present in the pattern, return a list of groups; this will be a list of tuples if the pattern has more than one group. Empty matches are included in the result.
 ## `re.split(maxsplit)`
-## `re.sub(expr, count)`
+## `re.sub(pattern, repl, string, [count=0])`
 ## `re.compile()`
 
 # Install `khaiii` on Google Colab

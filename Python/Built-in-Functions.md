@@ -1,12 +1,15 @@
 Written by KimRass
 
 # Automatically Reload Modules
-```python
-%reload_ext autoreload
-%autoreload 1
-%aimport <<Module1>>, <<Module2>>, ...
+```json
+# "settings.json"
+{
+    "jupyter.runStartupCommands": [
+        "%load_ext autoreload", "%autoreload 2"
+    ]
+}
 ```
-- Reload all modules imported with `%aimport` every time before executing the Python code typed.
+
 # `bin()`, `oct()`, `hex()`
 - Source: https://wiki.python.org/moin/BitwiseOperators
 - `~x`(`NOT`): Returns the complement.
@@ -107,14 +110,8 @@ sorted(confs, key=lambda x:(x[0], x[1]))
 ```python
 list(reversed([int(i) for i in str(n)]))
 ```
-## `map()`
-```python
-list(map(len, train_tkn))
-```
-```python
-x_data = list(map(lambda word : [char2idx.get(char) for char in word], words))
-```
-## `filter()`
+## `map(function, iterable)`
+## `filter(function, iterable)`
 ## `sum()`
 ```python
 sum(sents, [])
