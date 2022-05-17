@@ -205,8 +205,8 @@ data.index.name
 ```
 ## `sort_index()`
 ## `set_index([drop])`
-## `reset_index([drop], [level])`
-- `drop`: (bool, default False) Reset the index to the default integer index.
+## `reset_index([drop=False], [level], [inplace=False])`
+- `drop`: (bool) Reset the index to the default integer index.
 - `level`: Only remove the given levels from the index. Removes all levels by default.
 # `DataFrame.loc()`
 ```python

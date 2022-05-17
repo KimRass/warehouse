@@ -149,7 +149,7 @@ sw = {i for i in string.punctuation}
 - Source: https://en.wikipedia.org/wiki/Text_corpus
 - A corpus may contain texts in a single language (monolingual corpus) or text data in multiple languages (multilingual corpus).
 - In order to make the corpora more useful for doing linguistic research, they are often subjected to a process known as annotation. *An example of annotating a corpus is part-of-speech tagging, or POS-tagging, in which information about each word's part of speech (verb, noun, adjective, etc.) is added to the corpus in the form of tags. Another example is indicating the lemma (base) form of each word. When the language of the corpus is not a working language of the researchers who use it, interlinear glossing is used to make the annotation bilingual.*
-- Using `spacy`
+- Using `spacy` (for English)
 	```sh
 	python -m spacy download en_core_web_md
 	python -m spacy download en
@@ -157,7 +157,42 @@ sw = {i for i in string.punctuation}
 	```python
 	import spacy
 
-	sp = spacy.load("en_core_web_sm")
+	nlp = spacy.load("en_core_web_sm")
+
+	for sent in sents:
+		for token in nlp(sent):
+			print(token.tag_)
+	```
+- Using `khaiii` (for Korean)
+	```sh
+	# Install
+
+	pip install cmake
+
+	git clone "https://github.com/kakao/khaiii.git"
+
+	cd .../khaiii
+	mkdir build
+	cd build
+	cmake ..
+	make all
+	make resource
+
+	# Python binding
+	# make install
+	make package_python
+	cd package_python
+	pip3 install .
+	```
+	```python
+	from khaiii import KhaiiiApi
+
+	api = KhaiiiApi()
+
+	for sent in sents:
+		for token in api.analyze(sent):
+			for morph in token.morphs:
+				print(morph.text, morph.pos, morph.tag)
 	```
 
 # Out of Vocabulary (OOV) Problem
@@ -336,7 +371,7 @@ corpus = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바�
 	score = corpus_bleu([refs], [cand], [weights=(0.25, 0.25, 0.25, 0.25)])
 	```
 
-# Preprocessing
+# Preprocess
 ## Tokenization
 - Source: https://www.analyticsvidhya.com/blog/2019/07/how-get-started-nlp-6-unique-ways-perform-tokenization/
 - Tokenization is essentially splitting a phrase, sentence, paragraph, or an entire text document into smaller units, such as individual words or terms. Each of these smaller units are called tokens.
@@ -423,6 +458,20 @@ text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as ch
 	text = "오지호는극중두얼굴의사나이성준역을맡았다.성준은국내유일의태백권전승자를가리는결전의날을앞두고20년간동고동락한사형인진수(정의욱분)를찾으러속세로내려온인물이다."
 
 	sent_div = spacing(text)
+	```
+## Remove Special Characters
+- Using `string.puctuation`
+	```python
+	import string
+
+	sent_rm = sent.translate(sent.maketrans("", "", string.punctuation))
+	```
+## Remove Emojis
+- Using `textacy.reprocessing.replace.emojis()`
+	```python
+	from textacy import preprocessing
+	
+	sent_rm = preprocessing.replace.emojis(sent, "")
 	```
 ## Split Hangul Syllables
 ```python
@@ -1104,36 +1153,6 @@ from soynlp.normalizer import *
 ## `emoticon_normalize(num_repeats)`
 ## `repeat_normalize(num_repeats)`
 
-# `khaiii`
-```sh
-pip install cmake
-
-git clone "https://github.com/kakao/khaiii.git"
-
-cd .../khaiii
-mkdir build
-cd build
-cmake ..
-make all
-make resource
-
-# Python binding
-# make install
-make package_python
-cd package_python
-pip3 install .
-```
-```python
-from khaiii import KhaiiiApi
-
-api = KhaiiiApi()
-
-morphs = list()
-for token in api.analyze(sent):
-    for morph in token.morphs:
-        morphs.append((morph.lex, morph.tag))
-```
-
 ## `nltk.Text()`
 ```python
 text = nltk.Text(total_tokens, name="NMSC")
@@ -1270,7 +1289,7 @@ model.show_topic(1, topn=20)
 - `\W`, `[^a-zA-Z0-9_]`: Match any single non-word character.
 - `\s`, `[ \n\r\t\f]`: Match any single whitespace character(space, newline, return, tab, form).
 - `\S`: Match any single non-whitespace character.
-- `[ㄱ-ㅣ가-힣]`: 어떤 한글
+- `[ㄱ-ㅣ가-힣]`: Match any single Hangul character.
 - `\d`, `[0-9]`: Match any single decimal digit.
 - `\D`, `[^0-9]`: Match any single non-decimal digit.
 - `\*`: 0개 이상의 바로 앞의 character(non-greedy way)

@@ -238,12 +238,12 @@ os.path.join("C:\Tmp", "a", "b")
 ```python
 if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
 ```
-## `os.path.dirname()`
 ```python
-os.path.dirname("C:/Python35/Scripts/pip.exe")
-# >>> 'C:/Python35/Scripts'
+# 경로 중 디렉토리명만 얻습니다.
+os.path.dirname()
+# 경로 중 파일명만 얻습니다.
+os.path.basename()
 ```
-- 경로 중 디렉토리명만 얻습니다.
 
 # `sys`
 ```python
