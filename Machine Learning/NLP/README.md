@@ -163,14 +163,19 @@ sw = {i for i in string.punctuation}
 		for token in nlp(sent):
 			print(token.tag_)
 	```
-- Using `khaiii` (for Korean)
+- Using `flair` (for English)
+	```python
+	from flair.data import Sentence
+	from flair.models import SequenceTagger
+
+	tagger = SequenceTagger.load("flair/pos-english-fast")
+	```
+- Using `khaiii` (for Korean Language)
 	```sh
-	# Install
+	# Install on MacOS
 
 	pip install cmake
-
 	git clone "https://github.com/kakao/khaiii.git"
-
 	cd .../khaiii
 	mkdir build
 	cd build
@@ -184,6 +189,20 @@ sw = {i for i in string.punctuation}
 	cd package_python
 	pip3 install .
 	```
+	```sh
+	# Install on Google Colab
+
+	!git clone "https://github.com/kakao/khaiii.git"
+	!pip install cmake
+	!mkdir build
+	!cd build && cmake /content/drive/MyDrive/Libraries/khaiii
+	!cd build && make all
+	!cd build && make resource
+	!cd build && make install
+	!cd build && make package_python
+	!cd package_python
+	!cd build/package_python && !pip install package_python
+	```
 	```python
 	from khaiii import KhaiiiApi
 
@@ -193,6 +212,21 @@ sw = {i for i in string.punctuation}
 		for token in api.analyze(sent):
 			for morph in token.morphs:
 				print(morph.text, morph.pos, morph.tag)
+	```
+- Using `konlpy` (for Korean Language)
+	```python
+	from konlpy.tag import *
+
+	okt = Okt()
+	# kkm = Kkma()
+	# kmr = Komoran()
+	# hnn = Hannanum()
+	# mcb = Mecab()
+	
+	nouns = okt.nouns() # kkm.nouns(), kmr.nouns(), hnn.nouns(), mcb.nouns()
+	morphs = okt.morphs() # kkm.morphs(), kmr.morphs(), hnn.morphs(), mcb.morphs()
+	pos = okt.pos() # kkm.pos(), kmr.pos(), hnn.pos(), mcb.pos()
+	sents = okt.sentences() # kkm.sentences(), kmr.sentences(), hnn.sentences(), mcb.sentences()
 	```
 
 # Out of Vocabulary (OOV) Problem
@@ -235,7 +269,7 @@ corpus = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바�
 	dtm = vect.transform(corpus).toarray()
 	```
 	```python
-	dtm = vect.fit_transform(corpus).toarray())
+	dtm = vect.fit_transform(corpus).toarray()
 	```
 	```python
 	token2id = vect.vocabulary_
@@ -385,6 +419,9 @@ text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as ch
 	```python
 	from nltk.tokenize import word_tokenize
 	
+	nltk.download("punkt")
+	nltk.download("averaged_perceptron_tagger")
+
 	tokens = word_tokenize(sent)
 	```
 	- `"Don't"` -> `"Do"` + `"n't"`, `"Jone's"` -> `"Jone"` + `"'s"`
@@ -402,19 +439,6 @@ text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as ch
 	tokens = WordPunctTokenizer().tokenize(sent)
 	```
 	- `"Don't"` -> `"Don"` + `"'"` + `"t"`, `"Jone's"` -> `"Jone"` + `"'"` + `"s"`
-- Using `konlpy` (for Korean language)
-	```python
-	from konlpy.tag import *
-
-	okt = Okt()
-	# kkm = Kkma()
-	# kmr = Komoran()
-	# hnn = Hannanum()
-	
-	nouns = okt.nouns() # kkm.nouns(), kmr.nouns(), hnn.nouns()
-	morphs = okt.morphs() # kkm.morphs(), kmr.morphs(), hnn.morphs()
-	pos = okt.pos() # kkm.pos(), kmr.pos(), hnn.pos()
-	```
 - Using `tensorflow.keras.preprocessing.text.Tokenizer()`
 	```python
 	from tensorflow.keras.preprocessing.text import Tokenizer
@@ -1153,45 +1177,6 @@ from soynlp.normalizer import *
 ## `emoticon_normalize(num_repeats)`
 ## `repeat_normalize(num_repeats)`
 
-## `nltk.Text()`
-```python
-text = nltk.Text(total_tokens, name="NMSC")
-```
-### `text.tokens`
-### `text.vocab()`
-- Returns frequency distribution
-#### `text.vocab().most_common()`
-```python
-text.vocab().most_common(10)
-```
-### `text.plot()`
-## `nltk.download()`
-- (`"punkt"`, `"wordnet"`, `"stopwords"`, `"movie_reviews"`)
-## `nltk.corpus`
-### `movie_reviews`
-```python
-from nltk.corpus import movie_reviews
-```
-#### `movie_reviews.sents()`
-```python
-sentences = [sent for sent in movie_reviews.sents()]
-```
-### `nltk.corpus.treebank`
-#### `nltk.corpus.treebank.tagged_sents()`
-```python
-tagged_sents = nltk.corpus.treebank.tagged_sents()
-```
-## `nltk.translate`
-### `nltk.translate.bleu_score`
-```python
-from nltk.translate.bleu_score import sentence_bleu, corpus_bleu, SmoothingFunction
-```
-#### `SmoothingFunction()`
-## `nltk.ngrams()`
-```python
-nltk.ngrams("I am a boy", 3)
-```
-
 # `MeCab`
 - Install on Google Colab
 	```python
@@ -1199,31 +1184,40 @@ nltk.ngrams("I am a boy", 3)
 	%cd Mecab-ko-for-Google-Colab
 	!bash install_mecab-ko_on_colab190912.sh
 	```
-- Install on Microsoft Windows
-	- Source: https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
+- On Macos
 	```python
-	!pip install mecab_python-0.996_ko_0.9.2_msvc-cp37-cp37m-win_amd64.whl
+	import MeCab
+
+	mcb = MeCab.Tagger()
+
+	mcb.parse
 	```
-```python
-class Mecab:
-    def pos(self, text):
-        p = re.compile(".+\t[A-Z]+")
-        return [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
-    
-    def morphs(self, text):
-        p = re.compile(".+\t[A-Z]+")
-        return [p.match(line).group().split("\t")[0] for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
-    
-    def nouns(self, text):
-        p = re.compile(".+\t[A-Z]+")
-        temp = [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
-        nouns=[]
-        for word in temp:
-            if word[1] in ["NNG", "NNP", "NNB", "NNBC", "NP", "NR"]:
-                nouns.append(word[0])
-        return nouns
-mcb = Mecab()
-```
+	```python
+
+- On Microsoft Windows
+	```python
+	# Source: https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
+	!pip install mecab_python-0.996_ko_0.9.2_msvc-cp37-cp37m-win_amd64.whl
+
+	class Mecab:
+		def pos(self, text):
+			p = re.compile(".+\t[A-Z]+")
+			return [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
+		
+		def morphs(self, text):
+			p = re.compile(".+\t[A-Z]+")
+			return [p.match(line).group().split("\t")[0] for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
+		
+		def nouns(self, text):
+			p = re.compile(".+\t[A-Z]+")
+			temp = [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
+			nouns=[]
+			for word in temp:
+				if word[1] in ["NNG", "NNP", "NNB", "NNBC", "NP", "NR"]:
+					nouns.append(word[0])
+			return nouns
+	mcb = Mecab()
+	```
 
 # `gensim`
 ```python
@@ -1308,29 +1302,3 @@ model.show_topic(1, topn=20)
 ## `re.split(maxsplit)`
 ## `re.sub(pattern, repl, string, [count=0])`
 ## `re.compile()`
-
-# Install `khaiii` on Google Colab
-```
-!git clone https://github.com/kakao/khaiii.git
-!pip install cmake
-!mkdir build
-!cd build && cmake /content/khaiii
-!cd /content/build/ && make all
-!cd /content/build/ && make resource
-!cd /content/build && make install
-!cd /content/build && make package_python
-!pip install /content/build/package_python
-```
-```
-!git clone https://github.com/kakao/khaiii.git
-!pip install cmake
-!mkdir build
-# !cd build
-!cd build && cmake /content/drive/MyDrive/Libraries/khaiii
-!cd build && make all
-# !cd build && make resource
-# !cd build && make install
-# !cd build && make package_python
-# !cd package_python
-# !cd build/package_python && !pip install package_python
-```

@@ -173,22 +173,20 @@ reduce(lambda acc, cur: acc + [cur["mail"]], users, [])
 # `platform`
 ```python
 import platform
-```
-## `platform.system()`
-```python
+
 path = "C:/Windows/Fonts/malgun.ttf"
+# Returns the system/OS name, such as `'Linux'`, `'Darwin'`, `'Java'`, `'Windows'`. An empty string is returned if the value cannot be determined.
 if platform.system() == "Darwin":
     mpl.rc("font", family="AppleGothic")
 elif platform.system() == "Windows":
     font_name = mpl.font_manager.FontProperties(fname=path).get_name()
     mpl.rc('font', family=font_name)
 ```
-- Returns the system/OS name, such as `'Linux'`, `'Darwin'`, `'Java'`, `'Windows'`. An empty string is returned if the value cannot be determined.
 # `pprint`
-## `pprint()`
 ```python
 from pprint import pprint
 ```
+
 # `zipfile`
 ```python
 import zipfile
@@ -197,23 +195,24 @@ zip = zipfile.ZipFile(file, mode)
 zip.extractall(path)`
 zip.close()
 ```
+
 # `tarfile`
 ```python
 import tarfile
+
 tar = tarfile.open("buzzni.tar")
 tar.extractall(path)
 tar.close()
 ```
+
 # `lxml`
-## `etree`
 ```python
 from lxml import etree
-```
-### `etree.parse()`
-```python
+
 with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
 	target_text = etree.parse(z.open("ted_en-20160408.xml", "r"))
 ```
+
 # `os`
 ```python
 import os
@@ -277,7 +276,6 @@ Path("...").stem
 ```
 
 # `glob`
-## `glob.glob()`
 ```python
 path = "./DATA/전체"
 filenames = glob.glob(path + "/*.csv")
@@ -301,61 +299,22 @@ import json
 - `indent`: If a string (such as `"\t"`), that string is used to indent each level.
 ## `json.load(f)`
 
-# `datasketch`
-## `MinHash`
+# Progress Bar
 ```python
-from datasketch import MinHash
+# On VSCode
+from tqdm import tqdm
+# On Jupyter Notebook
+from tqdm.notebook import tqdm
+# On Google Colab
+from tqdm.auto import tqdm
 ```
-```python
-mh = MinHash(num_perm=128)
-```
-- MinHash는 각 원소 별로 signature를 구한 후, 각 Signature 중 가장 작은 값을 저장하는 방식입니다. 가장 작은 값을 저장한다 해서 MinHash라고 불립니다.
-### `mh.update()`
-```python
-for value in set_A:
-    mh.update(value.encode("utf-8"))
-```
-### `mh.hashvalues`
-# `redis`
-## `Redis`
-```python
-from redis import Redis
-```
-```python
-rd = Redis(host="localhost", port=6379, db=0)
-```
-### `rd.set()`
-```python
-rd.set("A", 1)
-```
-### `rd.delete()`
-```python
-rd.delete("A")
-```
-### `rd.get()`
-```python
-rd.get("A")
-```
-
-# `tqdm`
-- For VSCode
-	```python
-	from tqdm import tqdm
-	```
-- For Jupyter Notebook
-	```python
-	from tqdm.notebook import tqdm
-	```
-- For Google Colab
-	```python
-	from tqdm.auto import tqdm
-	```
  
-# `warnings`
+# Warning Control
 ```python
 import warnings
+
 # `category`: (`DeprecatingWarning`)
-warnings.filterwarnings("ignore", category=DeprecationWarning)
+warnings.filterwarnings("ignore", [category])
 ```
 
 # Download Files
@@ -367,7 +326,7 @@ warnings.filterwarnings("ignore", category=DeprecationWarning)
 	```
 - Using `google_drive_downloader.GoogleDriveDownloader.download_file_from_google_drive()`
 	```python
-	# Install: !pip install googledrivedownloader
+	# Install: `pip install googledrivedownloader`
 	
 	from google_drive_downloader import GoogleDriveDownloader as gdd
 	gdd.download_file_from_google_drive(file_id, dest_path)
