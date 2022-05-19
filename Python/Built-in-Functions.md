@@ -178,6 +178,7 @@ min_dists = {i:0 if i == start else math.inf for i in range(1, V + 1)}
 - Immutable.
 - Subscriptable.
 ## `String.format()`
+## `String.startswith()`, `String.endswith()`
 ## `String.ljust()`, `String.rjust()`
 ```python
 string.ljust(<<Target Length>>, <<Character to Pad>>)
