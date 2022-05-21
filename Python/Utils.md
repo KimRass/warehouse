@@ -238,9 +238,9 @@ os.path.join("C:\Tmp", "a", "b")
 if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
 ```
 ```python
-# 경로 중 디렉토리명만 얻습니다.
+# Returns the directory name of pathname `path`.
 os.path.dirname()
-# 경로 중 파일명만 얻습니다.
+# Returns the base name of pathname `path`.
 os.path.basename()
 ```
 
@@ -271,6 +271,8 @@ sys.setrecursionlimit(10**9)
 ```python
 from pathlib import Path
 
+# The logical parent of the path.
+Path("...").parent
 # The final path component, without its suffix.
 Path("...").stem
 # The file extension of the final component.
@@ -295,11 +297,16 @@ pk.load()
 # `json`
 ```python
 import json
+
+# Save
+# `ensure_ascii`: If `True` (the default), the output is guaranteed to have all incoming non-ASCII characters escaped. If `False`, these characters will be output as-is.
+# `indent`: If a string (such as `"\t"`), that string is used to indent each level.
+json.dump(obj, fp, [ensure_ascii], [indent])
+
+# Load
+with open(..., mode="r") as f:
+	file = json.load(f)
 ```
-## `json.dump(obj, fp, [ensure_ascii], [indent])`
-- `ensure_ascii`: If `True` (the default), the output is guaranteed to have all incoming non-ASCII characters escaped. If `False`, these characters will be output as-is.
-- `indent`: If a string (such as `"\t"`), that string is used to indent each level.
-## `json.load(f)`
 
 # Progress Bar
 ```python
@@ -397,7 +404,7 @@ prs.slides[a].shapes[b].text_frame.paragraphs[c].font.size = Pt(16)
 prs.save("파일 이름")
 ```
 
-# ray
+# `ray`
 ```sh
 pip install ray
 ```
@@ -414,4 +421,48 @@ def func(...):
 
 # `ray.put()`: 크기가 큰 변수에 대해 사용.
 res = ray.get([func.remote(ray.put(...), ...) for _ in range(n)])
+```
+
+# `logging`
+```python
+import logging
+
+# logging의 기본 level 변경
+# `format`
+	# `levelname`
+	# `message`
+	# `asctime`
+	# `filename`
+	# `funcName`
+	# `lineno`
+# `datefmt`
+logging.basicConfig([filename], [format], [datefmt], level=logging.DEBUG)
+
+logging.debug("디버그")
+logging.info("정보")
+logging.warning("경고")
+logging.error("에러")
+logging.critical("심각")
+
+# 예외 처리
+try:
+	...
+except Exception:
+	loggng.exception()
+```
+```python
+logger = logging.getLogger(__name__)
+# `getLogger()`를 이용하여 가져온 logger가 이미 핸들러를 가지고 있다면, 이미 핸들러가 등록되어 있으므로 새로운 핸들러를 또 등록할 이유가 없다. (Source: https://5kyc1ad.tistory.com/269)
+# `addHandler()` does not check if a similar handler has already been added to the logger. (Source: https://stackoverflow.com/questions/6729268/log-messages-appearing-twice-with-python-logging)
+logger.propagate = False
+
+formatter = logging.Formatter('%(name)s - %(message)s')
+
+handler = logging.StreamHandler()
+handler.setFormatter(formatter)
+
+logger.addHandler(handler)
+
+logger.debug("디버그")
+...
 ```

@@ -245,6 +245,10 @@ uses_df.columns.drop("cnt")
 ```python
 df.columns = df.columns.droplevel([0, 1])
 ```
+## Check If DataFrame Is Empty
+```python
+df.empty
+```
 
 # Math Operation
 ## Multiply
