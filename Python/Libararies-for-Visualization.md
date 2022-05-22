@@ -153,7 +153,7 @@ ax.axis("off")
 ## Set Axis Invisible
 ```python
 ax.xaxis.set_visible(False)
-# ax.yaxis.set_visible(False)
+ax.yaxis.set_visible(False)
 ```
 ## `ax.axis()`
 ```python
@@ -171,11 +171,11 @@ ax.xaxis.set_label_position("top")
 ## Invert Axis
 ```python
 plt.gca().invert_xaxis()
-# plt.gca().invert_yaxis()
+plt.gca().invert_yaxis()
 ```
 ```python
 ax.invert_xaxis()
-# ax.invert_yaxis()`
+ax.invert_yaxis()`
 ```
 
 # Tick

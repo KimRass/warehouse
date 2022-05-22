@@ -69,15 +69,18 @@ pd.crosstab(index, columns, margins)
 
 pd.crosstab(index=data["count"], columns=data["weather"], margins=True)
 ```
-# `pd.concat()`
-- `join`: (`"inner"`, `"outer"`, default `"outer"`)
-- `ignore_index`: If `True`, do not use the index values along the concatenation axis. The resulting axis will be labeled `0`, …, `n - 1`.
-# `pd.pivot_table(data, values, index, columns, [aggfunc], [fill_value], [drop_na], [margins], [margins_name], [sort=True])`
-- Reference: https://pandas.pydata.org/docs/reference/api/pandas.pivot_table.html
-- `aggfunc`: (`"mean"`, `"sum"`)
-- `margins=True`: Add all row / columns (e.g. for subtotal / grand totals).
+# Concat DataFrames
 ```python
-pd.pivot_table(index, columns, [aggfunc], [fill_value], [margins])
+# `join`: (`"inner"`, `"outer"`, default `"outer"`)
+# `ignore_index`: If `True`, do not use the index values along the concatenation axis. The resulting axis will be labeled `0`, …, `n - 1`.
+pd.concat(objs, [join], [ignore_index])
+```
+# Pivot Table
+```python
+# Reference: https://pandas.pydata.org/docs/reference/api/pandas.pivot_table.html
+# `aggfunc`: (`"mean"`, `"sum"`)
+# `margins=True`: Add all row / columns (e.g. for subtotal / grand totals).
+pd.pivot_table(data, values, index, columns, [aggfunc], [fill_value], [drop_na], [margins], [margins_name], [sort=True])
 
 # Examples
 pivot = pd.pivot_table(data, index=["dept", "name"], columns=["lvl1", "lvl2"], values="Number of Records", aggfunc="sum", fill_value=0, margins=True)
@@ -234,8 +237,6 @@ data = data.drop(["Unnamed: 0", "address1", "address2"], axis=1)
 ```python
 data = data.drop(data.loc[:, "unknown":"Western"].columns, axis=1)
 ```
-# `duplicated([keep])`
-# `drop_duplcates(subset, [keep])`
 ## `DataFrame.columns.drop()`
 ```python
 uses_df.columns.drop("cnt")
@@ -249,6 +250,10 @@ df.columns = df.columns.droplevel([0, 1])
 ```python
 df.empty
 ```
+
+# Duplicates
+## `duplicated([keep])`
+## `drop_duplcates(subset, [keep])`
 
 # Math Operation
 ## Multiply
@@ -374,14 +379,6 @@ asso_rules.insert(1, "antecedents_title", asso_rules["antecedents"].apply(lambda
 ```python
 plays_df.groupby(["user_id"]).size().rename("n_arts")
 ```
-# `DataFrame.value_counts()`, `Series.value_counts()`
-```python
-ratings_df["movie_id"].value_counts()
-```
-# `Series.nunique()`
-```python
-n_item = ratings_df["movie_id"].nunique()
-```
 # `Series.map()`
 ```python
 target_ratings["title"] = target_ratings["movie_id"].map(target)
@@ -395,7 +392,18 @@ data.loc[:, cats] = data.loc[:, cats].astype("category")
 ```
 - `dtype`: (`"int32"`, `"int63"`, `"float64"`, `"object"`, `"category"`, `"string"`)
 - `errors`: (`"raise"`, `"ignore"`, default `"raise"`)
-# `Series.cumsum()`
+
+# Aggregate
+## Count of Unique Values
+```python
+# `sort`: (bool)
+Series.value_counts([sort], [ascending])
+```
+## `Series.nunique()`
+```python
+n_item = ratings_df["movie_id"].nunique()
+```
+## `Series.cumsum()`
 ```python
 cumsum = n_rating_item.cumsum()/len(ratings_df)
 ```

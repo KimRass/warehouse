@@ -1200,7 +1200,7 @@ lr = LearningRate()
 ```
 
 # `tensorflow_probability`
-```python
+```sh
 pip install --upgrade tensorflow-probability
 ```
 ```python
@@ -1224,7 +1224,7 @@ w = torch.ones(size=(1,), requires_grad=True)
 - `requires_grad`: (bool)
 ## `torch.ones_like()`
 ```python
-torch.ones_like(input()
+torch.ones_like()
 ```
 - `input`: (Tensor)
 - Returns a tensor filled with the scalar value `1`, with the same size as `input`.

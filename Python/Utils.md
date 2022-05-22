@@ -466,3 +466,11 @@ logger.addHandler(handler)
 logger.debug("디버그")
 ...
 ```
+
+# `pyinstaller`
+```sh
+# `option`:
+	# `--onefile`: One file
+	# `--onedifr`: One folder
+pyinstaller [option] <file_name>.py
+```
