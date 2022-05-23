@@ -36,6 +36,15 @@ end
 # `nothing`
 - Python의 `None`과 유사합니다.
 
+# Use Python in Julia
+```julia
+using PyCall
+
+@pyimport <package>
+# or
+pyimport("<package>")
+```
+
 # Built-in Functions
 ## `println()`
 ## `filer()`

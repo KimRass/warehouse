@@ -462,8 +462,6 @@ handler = logging.StreamHandler()
 handler.setFormatter(formatter)
 
 logger.addHandler(handler)
-
-logger.debug("디버그")
 ...
 ```
 

@@ -107,3 +107,29 @@ ncol(df)
 insertcols!(df, 2, "add" => [11, 12, 13])
 
 insert!(df, 3, [11, 12, 13], :asdf)
+
+import Pkg
+Pkg.add("DataStructures")
+Pkg.add("Format")
+Pkg.add("MD5")
+Pkg.add("HTTP")
+Pkg.add("JSON")
+Pkg.add("ConfParser")
+Pkg.add("CSV")
+Pkg.add("DataFrames")
+Pkg.add("XLSX")
+Pkg.add("PyCall")
+Pkg.add("ArgParse")
+Pkg.add("PyCall")
+Pkg.add("rawpy")
+
+pip install rawpy
+
+using PyCall
+
+@pyimport math
+@pyimport pandas
+
+
+ENV["PYTHON"]="/Users/jongbeom.kim/Desktop/myenv/venv/bin/python3.9"
+Pkg.build("PyCall")
