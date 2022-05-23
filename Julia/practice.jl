@@ -1,3 +1,20 @@
+using Pkg
+
+Pkg.add("Format")
+Pkg.add("MD5")
+Pkg.add("HTTP")
+Pkg.add("JSON")
+Pkg.add("ConfParser")
+Pkg.add("CSV")
+Pkg.add("DataStructures")
+Pkg.add("XLSX")
+Pkg.add("ArgParse")
+Pkg.add("PyCall")
+
+readdir("D:/Github/Data-Science-in-Python/Julia")
+
+using Format
+
 func(x) = rsplit(x, ".", limit=2)
 
 text = "assd.asdas.asdas.heic"

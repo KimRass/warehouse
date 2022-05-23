@@ -129,7 +129,6 @@ deleteat!(<Array>, <range>)
 # Deleting all the elements
 empty!(<Array>)
 ```
-
 ## Tuples
 - Immutable.
 ```julia
@@ -169,6 +168,20 @@ union!(<Set1>, <Set2>)
 ```
 ### `intersect()`, `setdiff()`
 ### `issetequal(<Set1>, <Set2>)`
+
+# File System
+```julia
+pwd()
+cd("<path>")
+# 디렉토리에 있는 파일과 폴더를 출력합니다.
+readdir("<path">)
+# 폴더인지 확인합니다.
+isdir("<path>")
+# 파일인지 확인합니다.
+isfile("<path>")
+# 경로를 합성합니다.
+joinpath("<path1>", "<path2>", ...)
+```
 
 # Index of Julia
 - `0`이 아닌 `1`부터 시작됩니다.
