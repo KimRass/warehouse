@@ -82,7 +82,8 @@ A = list(map(int, input("Message").split()))
 # `Variable.data`
 ## `Variable.data.nbytes`
 ```python
-print(f"{sparse_mat.data.nbytes:,}Bytes"
+# Example
+print(f"{sparse_mat.data.nbytes:,}Bytes")
 ```
 # List
 - Mutable.

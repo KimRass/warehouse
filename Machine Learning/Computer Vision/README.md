@@ -2,11 +2,6 @@ Written by KimRass
 # Datasets
 ## CIFAR-10
 ```python
-import ssl
-
-ssl._create_default_https_context = ssl._create_unverified_context
-```
-```python
 (X_tr, y_tr), (X_te, y_te) = tf.keras.datasets.cifar10.load_data()
 y_tr_val = to_categorical(y_tr_val)
 y_te = to_categorical(y_te)
@@ -671,3 +666,14 @@ gen.apply_transform()
 		# `"input"`
 		# `None`: Returns no label.
 	```
+
+# Work with "HEIF" File
+```sh
+# Install
+brew install libffi libheif
+pip install git+https://github.com/carsales/pyheif.git
+```
+```python
+# Landscape orientation refers to horizontal subjects or a canvas wider than it is tall. Portrait format refers to a vertical orientation or a canvas taller than it is wide.
+
+```

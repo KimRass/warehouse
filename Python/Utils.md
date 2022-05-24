@@ -91,9 +91,9 @@ for j in module:
 ```python
 import shutil
 ```
-## `shutil.copyfile()`
+## Copy File
 ```python
-shutil.copyfile("./test1/test1.txt", "./test2.txt")
+shutil.copy(src, dst)
 ```
 ## `shutil.copyfileobj()`
 ```python
@@ -218,9 +218,12 @@ with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
 import os
 ```
 ## `os.getcwd()`
-## `os.makedirs()`
+## Create Directory
 ```python
-os.makedirs(ckpt_dir, exist_ok=True)
+# 하나의 폴더만 생성할 수 있습니다.
+os.mkdir(path)
+# 여러 개의 폴더를 생성할 수 있습니다.
+os.makedirs(path, exist_ok=True)
 ```
 ## `os.chdir()`
 ## `os.environ`
@@ -273,10 +276,14 @@ from pathlib import Path
 
 # The logical parent of the path.
 Path("...").parent
-# The final path component, without its suffix.
+# The final path component with its suffix.
+Path("...").name
+# The final path component without its suffix.
 Path("...").stem
 # The file extension of the final component.
 Path("...").suffix
+
+Path("...").iterdir()
 ```
 
 # `glob`

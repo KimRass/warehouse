@@ -68,6 +68,12 @@ repeat(B, 1, 2)
 # `[1 1; 2 2; 3 3; 4 4; 1 1; 2 2; 3 3; 4 4]`
 repeat(B, 2, 2)
 ```
+## `get()`
+```julia
+get(<collection>, <key>, <default>)
+# Example
+get(d, "a", 3)
+```
 ## Datatype(?)
 ```julia
 typeof()
@@ -86,6 +92,14 @@ rsplit(<text>, <separator>, [limit])
 # Example
 # 파일 이름에서 마지막 확장자만 추출하는 함수입니다.
 extension_λ(name) = rsplit(name, ".", limit=2)[end]
+```
+### Check If Substring
+```julia
+occursin("<substring>", "<string>)")
+```
+### Replace
+```julia
+replace("<text>", "<pattern1>" => "<pattern2>", [count])
 ```
 ## Arrays
 ```julia
