@@ -1,3 +1,13 @@
+# Reload Module
+```python
+[import <module>]
+
+from importlib import reload
+import sys
+reload(sys.modules["<module>"])
+...
+```
+
 # `bs4`
 ```python
 from bs4 import BeautifulSoup as bs
@@ -284,6 +294,8 @@ Path("...").stem
 Path("...").suffix
 
 Path("...").iterdir()
+
+Path("...").rglob()
 ```
 
 # `glob`
@@ -329,7 +341,7 @@ from tqdm.auto import tqdm
 ```python
 import warnings
 
-# `category`: (`DeprecatingWarning`)
+# `category`: (`DeprecationWarning`)
 warnings.filterwarnings("ignore", [category])
 ```
 

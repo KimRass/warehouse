@@ -85,6 +85,7 @@ A = list(map(int, input("Message").split()))
 # Example
 print(f"{sparse_mat.data.nbytes:,}Bytes")
 ```
+
 # List
 - Mutable.
 - Unhashable.
@@ -101,7 +102,7 @@ print(f"{sparse_mat.data.nbytes:,}Bytes")
 features.remove("area")
 ```
 ## `List.count()`
-## `sorted()`
+## Sort List
 ```python
 sorted(confs, key=lambda x:(x[0], x[1]))
 ```
@@ -124,6 +125,7 @@ chars = set([char for word in words for char in word])
 ```python
 idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 ```
+
 # Set
 - Mutable.
 - Unhashable.
@@ -138,12 +140,13 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 ## `Set.update()`
 - It expects a single or multiple iterable sequences as arguments and appends all the elements in these iterable sequences to the Set.
 ## `Set.discard()`
-# Frozenset
+## Frozenset
 - 구성 요소들이 순서대로 들어 있지 않아 인덱스를 사용한 연산을 할 수 없고
 - 유일한 항목 1개만 들어가 있습니다.
 - set 객체는 구성 항목들을 변경할 수 있지만 frozenset 객체는 변경할 수 없는 특성을 지니고 있어, set에서는 사용할 수 있는 메소드들 add, clear, discard, pop, remove, update 등은 사용할 수 없습니다. 
 - 항목이 객체에 포함되어 있는지(membership)를 확인할 수 있으며,  항목이 몇개인지는 알아낼 수 있습니다.
 - frozenset은 dictionary의 key가 될 수 있지만 set은 될 수 없음.
+  
 # `Dictionary`
 - Mutable.
 - Unhashable.
@@ -167,9 +170,13 @@ dic.pop(<<key>>)
 ## `Dictionary.keys()`, `Dictionary.values()`
 - Data type: `dict_keys`, `dict_values` respectively.
 ## `Dictionary.fromkeys()`
-## `sorted()`
+## Sort Dictionary
 ```python
 word2cnt = dict(sorted(tkn.word_counts.items(), key=lambda x:x[1], reverse=True))
+```
+## Merge Dictionary
+```python
+{**<dic1>, **<dic2>, ...}
 ```
 ## Dictionary Comprehension
 ```python
