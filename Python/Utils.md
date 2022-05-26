@@ -20,82 +20,16 @@ soup.find_all().find().get_text()
 ```
 
 # `selenium`
-## `webdriver`
 ```python
 from selenium import webdriver
-```
-```python
-driver = webdriver.Chrome("chromedriver.exe")
-```
-### `driver.get()`
-```python
-driver.get("https://www.google.co.kr/maps/")
-```
-### `driver.find_element_by_css_selector()`, `driver.find_element_by_tag_name()`, `driver.find_element_by_class_name()`, `driver.find_element_by_id()`, `driver.find_element_by_xpath()`,
-#### `driver.find_element_by_*().text`
-```python
-df.loc[index, "배정초"]=driver.find_element_by_xpath("//\*[@id='detailContents5']/div/div[1]/div[1]/h5").text
-```
-#### `driver.find_element_by_*().get_attribute()`
-```python
-driver.find_element_by_xpath("//*[@id='detailTab" +str(j) + "']").get_attribute("text")
-```
-#### `driver.find_element_by_*().click()`
-#### `driver.find_element_by_*().clear()`
-```python
-driver.find_element_by_xpath('//*[@id="searchboxinput"]').clear()
-```
-#### `driver.find_element_by_*().send_keys()`
-```python
-driver.find_element_by_xpath('//*[@id="searchboxinput"]').send_keys(qeury)
-```
-```python
-driver.find_element_by_name('username').send_keys(id)
-driver.find_element_by_name('password').send_keys(pw)
-```
-```python
-driver.find_element_by_xpath('//*[@id="wpPassword1"]').send_keys(Keys.ENTER)
-```
-### `driver.execute_script()`
-```python
-for j in [4,3,2]:
-    button = driver.find_element_by_xpath("//\*[@id='detailTab"+str(j)+"']")
-    driver.execute_script("arguments[0].click();", button)
-```
-### `driver.implicitly_wait()`
-```python
-driver.implicitly_wait(1)
-```
-### `driver.current_url`
-### `driver.save_screenshot()`
-```python
-driver.save_screenshot(screenshot_title)
-```
-## `WebDriverWait()`
-### `WebDriverWait().until()`
-```python
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
-```
-```python
-WebDriverWait(driver, 3).until(EC.presence_of_element_located((By.XPATH, "//\*[@id='detailContents5']/div/div[1]/div[1]/h5")))
-```
-- `By.ID`, `By.XPATH`
-## `ActionChains()`
-```python
 from selenium.webdriver import ActionChains
-```
-```python
-module=["MDM","사업비","공사","외주","자재","노무","경비"]
 
-for j in module:
-    module_click=driver.find_element_by_xpath("//div[text()='"+str(j)+"']")
-    actions=ActionChains(driver)
-    actions.click(module_click)
-    actions.perform()
+driver = webdriver.Chrome("chromedriver.exe")
+driver.get("https://www.google.co.kr/maps/")
 ```
-### `actions.click()`, `actions.double_click()`
 
 # `shutil`
 ```python
@@ -109,21 +43,14 @@ shutil.copy(src, dst)
 ```python
 shutil.copyfileobj(urllib3.PoolManager().request("GET", url, preload_content=False), open(file_dir, "wb"))
 ```
-# `logging`
-## `logging.basicConfig()`
-```python
-logging.basicConfig(level=logging.ERROR)
-```
+
 # `IPython`
-## `IPython.display`
-### `set_matplotlib_formats`
 ```python
 from IPython.display import set_matplotlib_formats
-```
-```python
+
 set_matplotlib_formats("retina")
 ```
-- font를 선명하게 표시
+
 # `itertools`
 ```python
 from itertools import combinations, permutations, product, combinations_with_replacement
@@ -459,58 +386,77 @@ res = ray.get([func.remote(ray.put(...), ...) for _ in range(n)])
 # `logging`
 ```python
 import logging
+from pathlib import Path
+import datetime
 
-# logging의 기본 level 변경
-# `format`
-	# `levelname`
-	# `message`
-	# `asctime`
-	# `filename`
-	# `funcName`
-	# `lineno`
-# `datefmt`
-logging.basicConfig([filename], [format], [datefmt], level=logging.DEBUG)
+class Logger():
+	def __init__(self, out_dir, save_each):
+		if not isinstance(out_dir, Path):
+			out_dir = Path(out_dir)
 
-logging.debug("디버그")
-logging.info("정보")
-logging.warning("경고")
-logging.error("에러")
-logging.critical("심각")
+		self.out_dir = out_dir
+		self.save_each = save_each
 
-# 예외 처리
-```python
-try:
-	...
-except Exception:
-	loggng.exception()
-```
+	def get_logger(self):
+		logger = logging.getLogger(__name)
+		logger.propagate = False
+		
+		# Example
+		# `levelname`, `message`, `asctime`, `filename`, `funcName`, `lineno`...
+		formatter = logging.Formatter(
+			"[%(levelname)s] %(message)s >> %(filename)s - %(funcName)5s()::line::%(lineno)s %(asctime)s")
+		stream_handler = logging.StreamHandler()
+		stream_handler.setFormatter(formatter)
+		logger.addHandler(stream_handler)
+		
+		# `logging.DEBUG`, `logging.INFO`, `logging.WARNING`, `logging.ERROR`, `logging.CRITICAL`
+		logger.setLevel(logging.DEBUG)
 
-# `logger`
-```python
-logger = logging.getLogger(__name__)
-# `getLogger()`를 이용하여 가져온 logger가 이미 핸들러를 가지고 있다면, 이미 핸들러가 등록되어 있으므로 새로운 핸들러를 또 등록할 이유가 없다. (Source: https://5kyc1ad.tistory.com/269)
-# `addHandler()` does not check if a similar handler has already been added to the logger. (Source: https://stackoverflow.com/questions/6729268/log-messages-appearing-twice-with-python-logging)
-logger.propagate = False
+		if self.save_each:
+			file_handler = logging.FileHandler(
+				self.out_dir/f"errors_{datetime.now().strftime('%Y-%m-%d% %H:%M:%S')}.log"
+			)
+		else:
+			file_handler = logging.FileHandler(self.out_dir/"errors.log")
+		logger.addHandler(file_handler)
 
-formatter = logging.Formatter('%(name)s - %(message)s')
+		return logger
+		...
 
-handler = logging.StreamHandler()
-handler.setFormatter(formatter)
-
-logger.addHandler(handler)
+logger = Logger(...).get_logger()
 ...
+
+logger.debug("디버그")
+logger.info("정보")
+logger.warning("경고")
+logger.error("에러")
+logger.critical("심각")
 ```
 
 # `argparse`
+- Reference: https://docs.python.org/3/library/argparse.html
 ```python
+import argparse
+
 # Example
 def get_args():
-    parser = argparse.ArgumentParser(description="make files structured")
-    parser.add_argument("-p", "--path", type=str, help="path")
-    parser.add_argument("-d", "--done_path", type=str, help="done path")
-    parser.add_argument("--YYYYMMDD", type=str, help="Date")
+	# `description`: Text to display before the argument help.
+    parser = argparse.ArgumentParser([description=None])
+	# `action`
+		# `action="store"': (default) This just stores the argument’s value.
+	# `dest` The name of the attribute to be added to the object returned by `parse_args()`.
+		# The value of `dest` is normally inferred from the option strings. `ArgumentParser` generates the value of `dest` by taking the first long option string and stripping away the initial `"--"` string. If no long option strings were supplied, `dest` will be derived from the first short option string by stripping the initial `"-"` character.
+	# `type`: The type to which the command-line argument should be converted.
+	# `help`: A brief description of what the argument does.
+	parser.add_argument("-o", "--out_path", ..., dest="out_path", action="store")
+	...
 
     return parser.parse_args()
+
+...
+args = get_args()
+out_path = args.out_path
+...
 ```
 
 # `pyinstaller`
