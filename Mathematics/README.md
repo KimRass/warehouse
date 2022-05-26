@@ -285,3 +285,7 @@ math.gcd()
 math.isan()
 math.inf
 ```
+## Check If NaN
+```python
+math.isnan(<variable>)
+```

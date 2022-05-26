@@ -241,12 +241,11 @@ os.makedirs(path, exist_ok=True)
 ```python
 os.environ["PATH"] += os.pathsep + "C:\Program Files (x86)/Graphviz2.38/bin/"
 ```
-## `os.path`
-### `os.path.join()	`
+## `os.path.join()	`
 ```python
 os.path.join("C:\Tmp", "a", "b")
 ```
-### `os.path.exists()`
+## `os.path.exists()`
 ```python
 if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
 ```
@@ -255,6 +254,20 @@ if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
 os.path.dirname()
 # Returns the base name of pathname `path`.
 os.path.basename()
+```
+## Check If File or Directory
+```python
+# Check If File
+os.path.isfile()
+# Check If Directory
+os.path.isdir()
+```
+## Remove File or Directory
+```python
+# Remove file
+os.remove()
+# Remove directory
+os.rmdir()
 ```
 
 # `sys`
@@ -295,6 +308,7 @@ Path("...").suffix
 
 Path("...").iterdir()
 
+Path("...").glob()
 Path("...").rglob()
 ```
 
@@ -318,9 +332,9 @@ pk.load()
 import json
 
 # Save
-# `ensure_ascii`: If `True` (the default), the output is guaranteed to have all incoming non-ASCII characters escaped. If `False`, these characters will be output as-is.
+# `ensure_ascii`: If `True`, the output is guaranteed to have all incoming non-ASCII characters escaped. If `False`, these characters will be output as-is.
 # `indent`: If a string (such as `"\t"`), that string is used to indent each level.
-json.dump(obj, fp, [ensure_ascii], [indent])
+json.dump(obj, fp, [ensure_ascii=True], [indent])
 
 # Load
 with open(..., mode="r") as f:
@@ -464,11 +478,14 @@ logging.error("에러")
 logging.critical("심각")
 
 # 예외 처리
+```python
 try:
 	...
 except Exception:
 	loggng.exception()
 ```
+
+# `logger`
 ```python
 logger = logging.getLogger(__name__)
 # `getLogger()`를 이용하여 가져온 logger가 이미 핸들러를 가지고 있다면, 이미 핸들러가 등록되어 있으므로 새로운 핸들러를 또 등록할 이유가 없다. (Source: https://5kyc1ad.tistory.com/269)
@@ -482,6 +499,18 @@ handler.setFormatter(formatter)
 
 logger.addHandler(handler)
 ...
+```
+
+# `argparse`
+```python
+# Example
+def get_args():
+    parser = argparse.ArgumentParser(description="make files structured")
+    parser.add_argument("-p", "--path", type=str, help="path")
+    parser.add_argument("-d", "--done_path", type=str, help="done path")
+    parser.add_argument("--YYYYMMDD", type=str, help="Date")
+
+    return parser.parse_args()
 ```
 
 # `pyinstaller`
