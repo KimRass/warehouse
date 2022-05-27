@@ -459,6 +459,14 @@ out_path = args.out_path
 ...
 ```
 
+# `subprocess`
+## Run Shell Script in Python
+```python
+import subprocess
+
+subprocess.check_call(["<shell_script>", <arg1>, <arg2>, ...])
+```
+
 # `pyinstaller`
 ```sh
 # `option`:
