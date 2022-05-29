@@ -474,3 +474,21 @@ subprocess.check_call(["<shell_script>", <arg1>, <arg2>, ...])
 	# `--onedifr`: One folder
 pyinstaller [option] <file_name>.py
 ```
+
+# `jsonschema`
+```python
+import json
+from jsonschema import validate
+
+with open("/path/to/json_schema.json", mode="r") as f:
+    json_schema = json.load(f)
+    
+with open("/path/to/json_to_validate.json", mode="r") as f:
+    json_to_validate = json.load(f)
+    
+# `"enum"
+	# The value of this keyword MUST be an array. This array SHOULD have at least one element. Elements in the array SHOULD be unique. An instance validates successfully against this keyword if its value is equal to one of the elements in this keyword's array value. Elements in the array might be of any type, including null.
+# `pattern`
+	# The value of this keyword MUST be a string. This string SHOULD be a valid regular expression.
+validate(schema=json_schema, instance=json_to_validate)
+```
