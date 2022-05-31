@@ -479,8 +479,8 @@ text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as ch
 	```python
 	from pykospacing import spacing
 
+	# Example
 	text = "오지호는극중두얼굴의사나이성준역을맡았다.성준은국내유일의태백권전승자를가리는결전의날을앞두고20년간동고동락한사형인진수(정의욱분)를찾으러속세로내려온인물이다."
-
 	sent_div = spacing(text)
 	```
 ## Remove Special Characters
@@ -1222,52 +1222,31 @@ from soynlp.normalizer import *
 # `gensim`
 ```python
 import gensim
-```
-### `gensim.corpora.Dictionary()`
-```python
+
 id2word = gensim.corpora.Dictionary(docs_tkn)
-```
-#### `id2word.id2token`
-- `dict(id2word)` is same as `dict(id2word.id2token)`
-#### `id2word.token2id`
-#### `id2word.doc2bow()`
-```python
+# `dict(id2word)` is same as `dict(id2word.id2token)`
+# id2word.token2id
 dtm = [id2word.doc2bow(doc) for doc in docs_tkn]
-```
-#### `gensim.corpora.Dictionary.load()`
-```python
 id2word = gensim.corpora.Dictionary.load("kakaotalk id2word")
-```
-#### `gensim.corpora.BleiCorpus.serizalize()`
-```python
 gensim.corpora.BleiCorpus.serialize("kakotalk dtm", dtm)
-```
-#### `gensim.corpora.bleicorpus.BleiCorpus()`
-```python
 dtm = gensim.corpora.bleicorpus.BleiCorpus("kakaotalk dtm")
-```
-### `gensim.models.AuthorTopicModel()`
-```python
 model = gensim.models.AuthorTopicModel(corpus=dtm, id2word=id2word, num_topics=n_topics, author2doc=aut2doc, passes=1000)
-```
-#### `gensim.models.AuthorTopicModel.load()`
-```python
 model = gensim.models.AuthorTopicModel.load("kakaotalk model")
-```
-## `gensim.models.ldamodel.Ldamodel()`
-```python
 model = gensim.models.ldamodel.LdaModel(dtm, num_topics=n_topics, id2word=id2word, alpha="auto", eta="auto")
-```
-#### `model.vectors`
-#### `model.save()`
-```python
+
 model.save("kakaotalk model")
-```
-#### `model.show_topic()`
-```python
+
+# The index of the topic, number of words to print
 model.show_topic(1, topn=20)
 ```
-- Arguments : (the index of the topic, number of words to print)
+
+# Google Cloud Translate
+```sh
+pip install google-cloud-translate
+```
+```python
+import google.cloud.translate_v2
+```
 
 # Regular Expression
 ```python
