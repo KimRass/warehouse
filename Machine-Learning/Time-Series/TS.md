@@ -678,37 +678,46 @@ raw.time = pd.date_range(start="1974-01-01", periods=len(raw), freq="M")
 ```python
 n_tasks_month = tasks.groupby(pd.Grouper(key="task_date", freq="M")).size()
 ```
+
+## `datetime`
 ```python
 from datetime import datetime, timedelta
 ```
-## `datetime.today()`
-## `datetime(year, month, day)`
+### Current Time
+```python
+datetime.now()
+# Example
+end = datetime.now(timezone("Asia/Seoul"))
+```
+### Today
+```python
+datetime.today()
+```
+### `datetime(year, month, day)`
 - Require three parameters in sequence to create a date; `year`, `month`, `day`
-## `datetime.date()`
-## `datetime.now()`
-## `datetime.strptime(date_string, format)`
+### `datetime.date()`
+### `datetime.strptime(date_string, format)`
 - Returns a datetime corresponding to `date_string`, parsed according to `format`.
 - `format`
-## `datetime.strftime(format)`
+### `datetime.strftime(format)`
 - Returns a string representing the date and time, controlled by an explicit `format` string.
-## `timedelta([days], [seconds], [minutes], [hours], [weeks])`
+### `timedelta([days], [seconds], [minutes], [hours], [weeks])`
 ```python
+# Examples
 day = start + datetime.timedelta(days=1)
-
-timedelta.days
-timedelta.total_seconds()
-
+(t2 - t1).days
 (t2 - t1).total_seconds()
 ```
-## `relativedelta`
+## `dateutil`
 ```python
 from dateutil.relativedelta import relativedelta
 
 data["년-월"] = data["년-월"].apply(lambda x:x + relativedelta(months=1) - datetime.timedelta(days=1))
 ```
-## `time.time()`
-## `time.localtime()`
-## `time.strftime()`
+## `time`
+### `time.time()`
+### `time.localtime()`
+### `time.strftime()`
 ```python
 time.strftime("%Y%m%d", time.localtime(time.time()))
 ```

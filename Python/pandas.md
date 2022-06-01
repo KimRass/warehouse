@@ -81,7 +81,6 @@ pd.concat(objs, [join], [ignore_index])
 # `aggfunc`: (`"mean"`, `"sum"`)
 # `margins=True`: Add all row / columns (e.g. for subtotal / grand totals).
 pd.pivot_table(data, values, index, columns, [aggfunc], [fill_value], [drop_na], [margins], [margins_name], [sort=True])
-
 # Examples
 pivot = pd.pivot_table(data, index=["dept", "name"], columns=["lvl1", "lvl2"], values="Number of Records", aggfunc="sum", fill_value=0, margins=True)
 ```
@@ -187,66 +186,74 @@ hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"
 ```python
 data = data.rename({"단지명.1":"name", "세대수":"houses_buildings", "저/최고층":"floors"}, axis=1)
 ```
-# `DataFrame.reindex()`
+# Sort DataFrame
 ```python
-pivot = pivot.reindex(dep_order)
+sort_values(by, [axis=0], [ascending=True], [inplace=False])
+# Example
+df_sim_sents.sort_values(by=["similarity", "id1", "id2"], ascending=[False, True, True], inplace=True)
 ```
-# `DataFrame.insert()`
+# Top n Largest Values
 ```python
-data.insert(3, "age2", data["age"]*2)
-```
-# `sort_values(by, [axis=0], [ascending=True])`
-# `DataFrame.nlargest()`, `DataFrame.nsmallest()`
-```python
+# `keep`: (`"first"`, `"last"`, `"all"`)
+# Example
 df.nlargest(3, ["population", "GDP"], keep="all")
 ```
-- `keep`: (`"first"`, `"last"`, `"all"`)
-# Manipulating Index
+
+# Index
 ```python
 data.index.name
 # data.index.names
 ```
-## `sort_index()`
-## `set_index([drop])`
-## `reset_index([drop=False], [level], [inplace=False])`
-- `drop`: (bool) Reset the index to the default integer index.
-- `level`: Only remove the given levels from the index. Removes all levels by default.
+# Reindex
+## Sort by Index
+```python
+sort_index()
+```
+## Set Index
+```python
+set_index([drop])
+```
+## Reset Index
+```python
+# `drop`: (bool) Reset the index to the default integer index.
+# `level`: Only remove the given levels from the index. Removes all levels by default.
+reset_index([drop=False], [level], [inplace=False])
+```
+## Index of the Maximum Value
+```python
+# Example
+data["genre"] = data.loc[:, "unknown":"Western"].idxmax(axis=1)
+```
+
 # `DataFrame.loc()`
 ```python
+# Example
 data.loc[data["buildings"]==5, ["age", "ratio2"]]
 data.loc[[7200, "대림가경"], ["houses", "lowest"]]
 ```
 # `DataFrame.isin()`
 ```python
+# `values`: (List, Dictionary)
 train_val = data[~data["name"].isin(names_test)]
 ```
-- `values`: (List, Dictionary)
-# `DataFrame.query()`
+
+# Columns
+## Drop Column.
 ```python
-data.query("houses in @list")
-```
-- 외부 변수 또는 함수 사용 시 앞에 @을 붙임.
-# `DataFrame.idxmax()`
-```python
-data["genre"] = data.loc[:, "unknown":"Western"].idxmax(axis=1)
-```
-# `DataFrame.drop()`
-```python
-data = data.drop(["Unnamed: 0", "address1", "address2"], axis=1)
-```
-```python
+# Example
 data = data.drop(data.loc[:, "unknown":"Western"].columns, axis=1)
 ```
-## `DataFrame.columns.drop()`
-```python
-uses_df.columns.drop("cnt")
-```
-- Make new Index with passed list of labels deleted.
 ## `DataFrame.columns.droplevel`
 ```python
 df.columns = df.columns.droplevel([0, 1])
 ```
-## Check If DataFrame Is Empty
+## Insert Column
+```python
+# Example
+df_sim_sents.insert(2, "text1", df_sim_sents["id1"].map(id2text))
+```
+
+# Check If DataFrame Is Empty
 ```python
 df.empty
 ```
@@ -255,7 +262,7 @@ df.empty
 ## `duplicated([keep])`
 ## `drop_duplcates(subset, [keep])`
 
-# Math Operation
+# Math Operations
 ## Multiply
 ```python
 DataFrame.mul()

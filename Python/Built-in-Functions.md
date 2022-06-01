@@ -26,12 +26,14 @@ print(round(summ/leng, 1))
 # `hash()`
 # `display()`
 # `print()`
-- `end`: (default `"\n"`)
-- `sep`: (default `" "`) Determine the value to join elements with.
 ```python
+# `end`: (default `"\n"`)
+# `sep`: (default `" "`) Determine the value to join elements with.
+# `">"`: Right align, `"^"`: Center align, `"<"`: Left align
+# Examples
 print(f"{'a':0>10}")
+print(f"    - {'The program ended at:':<24s}{datetime.strftime(end, format='%Y-%m-%d %H:%M:%S'):>20s}.")
 ```
-- You can also append characters other than white spaces, by adding the specified characters before the `>`(right align), `^`(center align) or `<`(left align) character:
 # `isinstance()`
 ```python
 if not isinstance(movie, frozenset):
@@ -216,5 +218,8 @@ data.columns = data.columns.str.lower()
 ## `String.startswith()`, `String.endswith()`
 - Return `True` if a string starts with the specified prefix. If not, return `False`
 ## `String.strip()`, `String.lstrip()`, `String.rstrip()`
-## `String.replace()`
-- `count`: (int, optional) A number specifying how many occurrences of the old value you want to replace. Default is all occurrences.
+## Replace String
+```python
+# `count`: (int, optional) A number specifying how many occurrences of the old value you want to replace. Default is all occurrences.
+String.replace(old, new, [count])
+```
