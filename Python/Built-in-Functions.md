@@ -66,10 +66,14 @@ for data in ["tasks", "comments", "projects", "prj_members", "members"]:
 exec(f"{table} = pd.DataFrame(result)")
 ```
 - `exce()` is for statement and return `None`.
-# `open()`
+# Read or Write Data
 ```python
 # `mode`: (`"r"`, `"rb"`, `"w"`, `"wb"`, ...) 
 with open(file, mode, [encoding]) as f:
+    # Read
+    data = f
+    # Write
+    f.write(data, f)
     ...
 ```
 ## `f.readline()`, `f.readlines()`
@@ -115,7 +119,12 @@ sorted(confs, key=lambda x:(x[0], x[1]))
 list(reversed([int(i) for i in str(n)]))
 ```
 ## `map(function, iterable)`
-## `filter(function, iterable)`
+## Filter List
+```python
+filter(function, iterable)
+# Example
+langs = list(filter(lambda x: x != unk_lang, langs))
+```
 ## `sum()`
 ```python
 sum(sents, [])
@@ -137,10 +146,15 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 - Returns the union of `<<Set1>>` and `<<Set2>>`.
 ## `<<Set1>> | <<Set2>>`
 - Returns the intersection of `<<Set1>>` and `<<Set2>>`.
-## `Set.add()`
-- Adds the argument as a single element to the end of a Set if it is not in the Set.
-## `Set.update()`
-- It expects a single or multiple iterable sequences as arguments and appends all the elements in these iterable sequences to the Set.
+## Add Single Element
+```python
+Set.add()
+```
+## Add Multiple Elements
+```python
+# It expects a single or multiple iterable sequences as arguments and appends all the elements in these iterable sequences to the Set.
+Set.update()
+```
 ## `Set.discard()`
 ## Frozenset
 - 구성 요소들이 순서대로 들어 있지 않아 인덱스를 사용한 연산을 할 수 없고

@@ -137,8 +137,8 @@ zip.close()
 ```python
 import tarfile
 
-tar = tarfile.open("buzzni.tar")
-tar.extractall(path)
+tar = tarfile.open(name)
+tar.extractall([path])
 tar.close()
 ```
 
@@ -197,6 +197,31 @@ os.remove()
 os.rmdir()
 ```
 
+# `pathlib`
+- Reference: https://docs.python.org/3/library/pathlib.html
+```python
+from pathlib import Path
+
+# The logical parent of the path.
+Path("...").parent
+# The final path component with its suffix.
+Path("...").name
+# The final path component without its suffix.
+Path("...").stem
+# The file extension of the final component.
+Path("...").suffix
+
+Path("...").iterdir()
+
+Path("...").glob()
+Path("...").rglob()
+
+Path("...").is_file()
+Path("...").is_dir()
+
+Path("...").exists()
+```
+
 # `sys`
 ```python
 import sys
@@ -219,26 +244,6 @@ cmd = sys.stdin.readline().rstrip()
 sys.setrecursionlimit(10**9)
 ```
 
-# `pathlib`
-- Reference: https://docs.python.org/3/library/pathlib.html
-```python
-from pathlib import Path
-
-# The logical parent of the path.
-Path("...").parent
-# The final path component with its suffix.
-Path("...").name
-# The final path component without its suffix.
-Path("...").stem
-# The file extension of the final component.
-Path("...").suffix
-
-Path("...").iterdir()
-
-Path("...").glob()
-Path("...").rglob()
-```
-
 # `glob`
 ```python
 path = "./DATA/전체"
@@ -259,9 +264,14 @@ pk.load()
 import json
 
 # Save
+# For Dictionary
 # `ensure_ascii`: If `True`, the output is guaranteed to have all incoming non-ASCII characters escaped. If `False`, these characters will be output as-is.
 # `indent`: If a string (such as `"\t"`), that string is used to indent each level.
-json.dump(obj, fp, [ensure_ascii=True], [indent])
+with open(..., mode="w") as f:
+	json.dump(obj, f, [ensure_ascii=True], [indent])
+# For JSON string
+with open(..., mode="w") as f:
+	f.write(json_str)
 
 # Load
 with open(..., mode="r") as f:
