@@ -376,7 +376,7 @@ prs.save("파일 이름")
 
 # `ray`
 ```sh
-pip install ray
+pip install -U ray
 ```
 ```python
 import ray

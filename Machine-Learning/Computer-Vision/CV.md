@@ -499,16 +499,12 @@ ds_te = image_dataset_from_directory(
 ```
 
 # `cv2`
-## Install
-- On Windows
-	```python
-	conda install -c conda-forge opencv
-	```
-- On MacOS
-	```python
-	pip install opencv-python
-	```
-## Import
+```bash
+# On Windows
+conda install -c conda-forge opencv
+# On MacOS
+pip install opencv-python
+```
 ```python
 import cv2
 ```
@@ -517,7 +513,10 @@ import cv2
 ## `cv2.cvtColor(image, code)`
 - `code`: (`cv2.COLOR_BGR2GRAY`, `cv2.COLOR_BGR2RGB`, `cv2.COLOR_BGR2HSV`)
 ## `cv2.resize(img, dsize, interpolation)`
-## `cv2.rectangle(img, pt1, pt2, color, thickness)`
+## Draw Rectangle
+```python
+cv2.rectangle(img, pt1, pt2, color, thickness)
+```
 ## `cv2.circle(img, center, radius, color, [thickness], [lineType], [shift])`
 ## `cv2.getTextSize(text, fontFace, fontScale, thickness)`
 ```python
@@ -530,38 +529,9 @@ import cv2
 - `fonFace`: (`cv2.FONT_HERSHEY_SIMPLEX`, ...) Font type.
 - `fontScale`: Font scale factor that is multiplied by the font-specific base size.
 
-# Contour Detection
-```python
-img = cv2.imread(...)
-
-hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
-
-lower_blue = np.array([100, 50, 150]) #파란색 계열의 범위 설정
-upper_blue = np.array([130, 255, 255])
-
-mask = cv2.inRange(hsv, lower_blue, upper_blue)
-contours, hierachy = cv2.findContours(mask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
-#contour를 감싸는 사각형들의 x, y, w, h를 'rects'에 저장
-rects = [cv2.boundingRect(contour) for contour in contours]
-
-rects_selected = []
-for rect in rects:
-    if rect[0] > 1200 and 100 < rect[1] < 200:
-        rects_selected.append(rect)
-rects_selected.sort(key=lambda x:x[0])
-
-for i, rect in enumerate(rects_selected):
-    cv2.rectangle(img, (rect[0], rect[1]), (rect[0]+rect[2], rect[1]+rect[3]), (0, 0, 255), 2)
-    cv2.putText(img, str(i+1), (rect[0]-5, rect[1]-5), fontFace=0, fontScale=0.6, color=(0, 0, 255), thickness=2)
-    cv2.circle(img, (rect[0]+1, rect[1]-12), 12, (0, 0, 255), 2)
-
-plt.imshow(cv2.cvtColor(img, cv2.COLOR_BGR2RGB))
-```
-
 # `Image`
 ```python
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 ```
 ## Open Image
 ```python
@@ -578,15 +548,20 @@ img.resize()
 # (`"RGB"`, `"RGBA"`, `"CMYK"`, `"L"`, `"1"`)
 img.convert("L")
 ```
-```
-### `img.paste()`
+### Paste Image
 ```python
+# img2.size와 동일하게 두 번째 parameter 설정.	
 img1.paste(img2, (20,20,220,220))
 ```
-- img2.size와 동일하게 두 번째 parameter 설정.	
 ## `Image.new()`
 ```python
 mask = Image.new("RGB", icon.size, (255, 255, 255))
+```
+## Draw Line
+```python
+draw = ImageDraw.Draw(img)
+...
+draw.line([fill], [width])
 ```
 
 # Data Augmentation

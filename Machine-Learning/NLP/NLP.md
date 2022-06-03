@@ -122,6 +122,10 @@ dataset_val = dataset_val.map(tf_encode)
 dataset_val = dataset_val.filter(filter_max_len)
 dataset_val = dataset_val.padded_batch(batch_size)
 ```
+## The Stanford Natural Language Inference (SNLI) Dataset
+- Contains around 550k hypothesis/premise pairs. Models are evaluated based on accuracy.
+## The Multi-Genre Natural Language Inference (MultiNLI) Dataset
+- Contains around 433k hypothesis/premise pairs. It is similar to the SNLI corpus, but covers a range of genres of spoken and written text and supports cross-genre evaluation.
 
 # Text
 - Source: https://en.wikipedia.org/wiki/Text_(literary_theory)
@@ -135,6 +139,10 @@ dataset_val = dataset_val.padded_batch(batch_size)
 # NLU
 
 # NLG
+
+# Natural language Inference (NLI)
+- Source: http://nlpprogress.com/english/natural_language_inference.html
+- Natural language inference is the task of determining whether a "hypothesis” is true (entailment), false (contradiction), or undetermined (neutral) given a "premise”.
 
 # Puctuation
 ```python
@@ -748,7 +756,7 @@ model.add_dictionary(corp.dictionary)
 # Syntactic & Semantic Analysis
 - Source: https://builtin.com/data-science/introduction-nlp
 - Syntactic analysis (syntax) and semantic analysis (semantic) are the two primary techniques that lead to the understanding of natural language. Language is a set of valid sentences, but what makes a sentence valid? Syntax and semantics.
-- ***Syntax is the grammatical structure of the text, whereas semantics is the meaning being conveyed. A sentence that is syntactically correct, however, is not always semantically correct. For example, “cows flow supremely” is grammatically valid (subject — verb — adverb) but it doesn't make any sense.***
+- ***Syntax is the grammatical structure of the text, whereas semantics is the meaning being conveyed. A sentence that is syntactically correct, however, is not always semantically correct. For example, "cows flow supremely” is grammatically valid (subject — verb — adverb) but it doesn't make any sense.***
 	
 # Tasks
 ## NER (Named Entity Recognition)
