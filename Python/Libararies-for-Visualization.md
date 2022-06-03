@@ -65,13 +65,20 @@ plt.style.use("dark_background")
 - `edgecolors`
 ### `sb.scatterplot(ax, data, x, y, hue, hue_norm, palette, s, alpha)`
 ## Bar Chart
-### `plt.bar(x, height)`
-### `DataFrame.plot.barh(x, y, [stacked], [color])`, `Series.plot.barh()`
-- Reference: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.plot.barh.html
-- `x`: If not specified, the index of the DataFrame is used.
-- `y`: If not specified, all numerical columns are used.
-### `plt.barh(y, width, height, [alpha], [color], [label], [edgecolor], [linewidth])`
-### `sb.barplot(ax, x, y, color, edgecolor, orient)`
+```python
+plt.bar(x, height)
+
+
+# Reference: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.plot.barh.html
+# `x`: If not specified, the index of the DataFrame is used.
+# `y`: If not specified, all numerical columns are used.
+DataFrame.plot.barh(x, y, [stacked], [color])
+Series.plot.barh()
+
+plt.barh(y, width, height, [alpha], [color], [label], [edgecolor], [linewidth])
+
+sb.barplot(ax, x, y, color, edgecolor, orient)
+```
 ## Histogram
 ### `ax.hist()`, `DataFrame.plot.hist()`, `Series.plot.hist()`
 ```python
