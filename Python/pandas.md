@@ -99,23 +99,22 @@ pd.Categorical([ordered])
 # Examples
 results["lat"] = pd.Categorical(results["lat"], categories=order)
 ```
-# `pd.get_dummies()`
+# Dummy Variable
 ```python
+# `prefix`: String to append DataFrame column names. Pass a list with length equal to the number of columns when calling get_dummies on a DataFrame.
+# `dop_first`: Whether to get k-1 dummies out of k categorical levels by removing the first level.
+# `dummy_na`: Add a column to indicate NaNs, if False NaNs are ignored.
+	# 결측값이 있는 경우 `drop_first`, `dummy_na` 중 하나만 `True`로 설정해야 함
+# Example
 data = pd.get_dummies(data, columns=["heating", "company1", "company2", "elementary", "built_month", "trade_month"], drop_first=False, dummy_na=True)
 ```
-- `prefix`: String to append DataFrame column names. Pass a list with length equal to the number of columns when calling get_dummies on a DataFrame.
-- `dop_first`: Whether to get k-1 dummies out of k categorical levels by removing the first level.
-- `dummy_na`: Add a column to indicate NaNs, if False NaNs are ignored.
-- 결측값이 있는 경우 `drop_first`, `dummy_na` 중 하나만 `True`로 설정해야 함
+# Merge DataFrames
 ```python
 # `how`: (`"left"`, `"right"`, `"outer"`, `"inner"`, `"cross"`)
 pd.merge(on, how, [left_on], [right_on], [left_index], [right_index], [how="inner"])
-
 # Eamples
 data = pd.merge(data, start_const, on=["지역구분", "입찰년월"], how="left")
-
-pd.merge(df1, df2, left_on="id", right_on="movie_id")
-
+data = pd.merge(df1, df2, left_on="id", right_on="movie_id")
 floor_data = pd.merge(floor_data, df_conv, left_index=True, right_index=True, how="left")
 ```
 ## `pd.MultiIndex.from_tuples()`
@@ -131,20 +130,23 @@ pd.plotting.scatter_matrix(data, figsize=(18, 18), diagonal="kde")
 fig = pd.plotting.lag_plot(ax=axes[0], series=resid_tr["resid"].iloc[1:], lag=1)
 ```
 
-# `DataFrame.describe()`
+# Describe DataFrame
 ```python
+# Show number of samples, mean, standard deviation, minimum, Q1(lower quartile), Q2(median), Q3(upper quantile), maximum of each independent variable.
+# Example
 raw_data.describe(include="all").T
 ```
-- Show number of samples, mean, standard deviation, minimum, Q1(lower quartile), Q2(median), Q3(upper quantile), maximum of each independent variable.
 # `DataFrame.corr()`
 # `DataFrame.shape`
 # `DataFrame.ndim`
+# Quantile
 ```python
 DataFrame.quantile()
 
 # Examples
 top90per = plays_df[plays_df["plays"]>plays_df["plays"].quantile(0.1)]
 ```
+# Group DataFrame
 ```python
 gby = DataFrame.groupby([as_index])
 
@@ -175,15 +177,24 @@ df = df.append({"addr1":addr1, "addr2":addr2, "dist":dist}, ignore_index=True)
 ```
 # `DataFrame.apply()`
 ```python
+# Examples
 hr["코스트센터 분류"] = hr.apply(lambda x:"지사" if ("사업소" in x["조직명"]) or ("베트남지사" in x["조직명"]) else ("본사" if re.search("^\d", x["코스트센터"]) else "현장"), axis=1)
-```
-```python
+
 hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"]) | ("촉탁" in x["하위그룹"]) | ("파견" in x["하위그룹"]) | (x["재직여부"]=="퇴직") else ("본부인원에서만 제외" if ("PM" in x["조직명"]) | ("신규준비" in x["직무"]) | (x["직무"]=="휴직") | (x["직무"]=="비상계획") | (x["직무"]=="축구협") | (x["직무"]=="비서") | ("조직명" in x["조직명"]) | (x["직무"]=="미화") else "포함"), axis=1)
 ```
-# `progress_apply()`, `progress_map()`
-- `tqdm.pandas()` should be followed.
-# `DataFrame.rename()`
+# Progress Bar
 ```python
+from tqdm.auto import tqdm
+
+tqdm.pandas()
+...
+
+<DatFrame or Series>.progress_apply(...)
+<Series>.progress_map(...)
+```
+# Rename Column
+```python
+# Example
 data = data.rename({"단지명.1":"name", "세대수":"houses_buildings", "저/최고층":"floors"}, axis=1)
 ```
 # Sort DataFrame

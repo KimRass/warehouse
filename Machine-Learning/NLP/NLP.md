@@ -1270,8 +1270,8 @@ import google.cloud.translate_v2
 - `\?`: 1개 이하의 바로 앞의 character
 - `{m, n}`: m개~n개의 바로 앞의 character(생략된 m은 0과 동일, 생략된 n은 무한대와 동일)(non-greedy way)
 - `{n}`: n개의 바로 앞의 character
-- `^`: Match the start of the string.
-- `$`: Match the end of the string.
+- `^`: Match the start of the string. 바로 뒤의 expression으로 시작하는 패턴.
+- `$`: Match the end of the string. 바로 앞의 expression으로 시작하는 패턴.
 ## `re.search(pattern, string)`
 - Scan through string looking for the first location where the regular expression pattern produces a match, and return a corresponding match object. Return None if no position in the string matches the pattern; note that this is different from finding a zero-length match at some point in the string.
 ## `re.match()`

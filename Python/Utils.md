@@ -292,7 +292,7 @@ from tqdm.auto import tqdm
 ```python
 import warnings
 
-# `category`: (`DeprecationWarning`)
+# `category`: (`DeprecationWarning`, `UserWarning`)
 warnings.filterwarnings("ignore", [category])
 ```
 
