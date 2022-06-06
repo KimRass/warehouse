@@ -394,6 +394,7 @@ res = ray.get([func.remote(ray.put(...), ...) for _ in range(n)])
 ```
 
 # `logging`
+- Reference: http://oniondev.egloos.com/v/9603983
 ```python
 import logging
 from pathlib import Path
@@ -413,21 +414,27 @@ class Logger():
 		
 		# Example
 		# `levelname`, `message`, `asctime`, `filename`, `funcName`, `lineno`...
+			# `asctime`: The numbers after the comma are millisecond portion of the time.
 		formatter = logging.Formatter(
-			"[%(levelname)s] %(message)s >> %(filename)s - %(funcName)5s()::line::%(lineno)s %(asctime)s")
+			fmt="| %(asctime)s | %(levelname)-8s | %(message)-66s | %(filename)-22s | %(funcName)-32s |",
+			datefmt="%Y-%m-%d %H:%M:%S"
+		)
 		stream_handler = logging.StreamHandler()
 		stream_handler.setFormatter(formatter)
 		logger.addHandler(stream_handler)
 		
-		# `logging.DEBUG`, `logging.INFO`, `logging.WARNING`, `logging.ERROR`, `logging.CRITICAL`
+		# (`logging.DEBUG`, `logging.INFO`, `logging.WARNING`, `logging.ERROR`, `logging.CRITICAL`)
 		logger.setLevel(logging.DEBUG)
 
 		if self.save_each:
 			file_handler = logging.FileHandler(
-				self.out_dir/f"errors_{datetime.now().strftime('%Y-%m-%d% %H:%M:%S')}.log"
+				self.out_dir / f"errors_{datetime.now().strftime('%Y-%m-%d% %H:%M:%S')}.log"
 			)
 		else:
-			file_handler = logging.FileHandler(self.out_dir/"errors.log")
+			file_handler = logging.FileHandler(
+				self.out_dir / "errors.log"
+			)
+		file_handler.setFormatter(formatter)
 		logger.addHandler(file_handler)
 
 		return logger
@@ -435,12 +442,6 @@ class Logger():
 
 logger = Logger(...).get_logger()
 ...
-
-logger.debug("디버그")
-logger.info("정보")
-logger.warning("경고")
-logger.error("에러")
-logger.critical("심각")
 ```
 
 # `argparse`

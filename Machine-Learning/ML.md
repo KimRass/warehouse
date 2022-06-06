@@ -1,16 +1,3 @@
-- Written by KimRass
-# Data Science
-## Machine Learning
-### Recommendation System
-- 안창배님의 "고객데이터와 딥러닝을 활용한 추천 시스템 구현" 강의 내용을 바탕으로 정리한 자료입니다.
-### Natural Language Preprocessing
-- 유원준님의 "딥 러닝을 이용한 자연어 처리 입문"(https://wikidocs.net/book/2155) 강의 내용을 바탕으로 정리한 자료입니다.
-### Computer Vision
-- Sean Lee님의 "컴퓨터비전 : 딥러닝 기반의 영상 인식 모델 구현" 강의 내용을 바탕으로 정리한 자료입니다.
-### Reinforcement Learning
-- 박준영님의 "모델 성능 개선으로 익히는 강화학습 A to Z" 강의 내용을 바탕으로 정리한 자료입니다.
-### Time Series
-
 # Dataset & Data Set
 - Source: https://english.stackexchange.com/questions/2120/which-is-correct-dataset-or-data-set
 - Dataset for certain datasets
@@ -18,7 +5,7 @@
 
 # Data Density (or Sparsity)
 - Source: https://datascience.foundation/discussion/data-science/data-sparsity
-- In a database, sparsity and density describe the number of cells in a table that are empty (sparsity) and that contain information (density), though sparse cells are not always technically empty—they often contain a “0” digit.
+- In a database, sparsity and density describe the number of cells in a table that are empty (sparsity) and that contain information (density), though sparse cells are not always technically empty—they often contain a "0” digit.
 ## Sparse Matrix & Dense Matrix
 - Source: https://en.wikipedia.org/wiki/Sparse_matrix
 - ***A sparse matrix or sparse array is a matrix in which most of the elements are zero.*** *There is no strict definition regarding the proportion of zero-value elements for a matrix to qualify as sparse but a common criterion is that the number of non-zero elements is roughly equal to the number of rows or columns.* ***By contrast, if most of the elements are non-zero, the matrix is considered dense. The number of zero-valued elements divided by the total number of elements is sometimes referred to as the sparsity of the matrix.***
@@ -275,22 +262,6 @@ When activation functions are used whose derivatives can take on larger values, 
 		- Rectifiers such as ReLU suffer less from the vanishing gradient problem, because they only saturate in one direction.
 - Source: https://www.analyticsvidhya.com/blog/2021/06/understanding-resnet-and-analyzing-various-models-on-the-cifar-10-dataset/
 - While backpropagating, we follow the chain rule, the derivatives of each layer are multiplied down the network. When we use a lot of deeper layers, and we have hidden layers like sigmoid, we could have derivatives being scaled down below 0.25 for each layer. So when the number of layers derivatives are multiplied the gradient decreases exponentially as we propagate down to the initial layers.
-## Optimizers
-### Stochastic Gradient Descent (SGD)
-```python
-from tensorflow.keras.optimizers import SGD
-```
-### Adagrad
-```python
-from tensorflow.keras.optimizers import Adagrad
-```
-- Source: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adagrad
-- *Adagrad tends to benefit from higher initial learning rate values compared to other optimizers.*
-### RMSprop (Root Mean Square ...)
-### Adam (ADAptive Moment estimation)
-```python
-optimizer = Adam(learning_rate, beta_1, beta_2, epsilon, name]
-```
 
 # Variable Encoding
 ## One-Hot Encoding
@@ -338,7 +309,7 @@ optimizer = Adam(learning_rate, beta_1, beta_2, epsilon, name]
 	```
 ## Ordinal Encoding
 - We do Ordinal encoding to ensure the encoding of variables retains the ordinal nature of the variable. This is reasonable only for ordinal variables, as I mentioned at the beginning of this article. This encoding looks almost similar to Label Encoding but slightly different as Label coding would not consider whether variable is ordinal or not and it will assign sequence of integers
-- If we consider in the temperature scale as the order, then the ordinal value should from cold to “Very Hot. “ Ordinal encoding will assign values as ( Cold(1) <Warm(2)<Hot(3)<”Very Hot(4)). Usually, we Ordinal Encoding is done starting from 1.
+- If we consider in the temperature scale as the order, then the ordinal value should from cold to "Very Hot. " Ordinal encoding will assign values as ( Cold(1) <Warm(2)<Hot(3)<”Very Hot(4)). Usually, we Ordinal Encoding is done starting from 1.
 - Using `sklearn.preprocessing.OrdinalEncoder()`
 	```python
 	from sklearn.preprocessing import OrdinalEncoder
@@ -553,7 +524,7 @@ impurity-based importances are computed on training set statistics and therefore
 ## Creating New Ratios and Proportions
 - For example, in order to predict future performance of credit card sales of a branch, ratios like credit card sales / Sales person or Credit card Sales / Marketing spend would be more powerful than just using absolute number of card sold in the branch
 ## Creating Weights
-- There may be domain knowledge that items with a weight above 4 incur a higher taxation rate. That magic domain number could be used to create a new binary feature Item_Above_4kg with a value of “1” for our example of 6289 grams.
+- There may be domain knowledge that items with a weight above 4 incur a higher taxation rate. That magic domain number could be used to create a new binary feature Item_Above_4kg with a value of "1” for our example of 6289 grams.
 ## Creating Aggregated Values
 - You may also have a quantity stored as a rate or an aggregate quantity for an interval. For example, Num_Customer_Purchases aggregated over a year.
 - For example, the following new binary features could be created: Purchases_Summer, Purchases_Fall, Purchases_Winter and Purchases_Spring.
@@ -577,14 +548,14 @@ Consider a feature A, with two possible values {A1, A2}. Let B be a feature with
 - Source: https://www.tandfonline.com/doi/full/10.1080/10095020.2018.1503775
 - The Euclidean function is unrealistic for some (notably urban) settings which contain complex physical restrictions and social structures for example road and path networks, large restricted areas of private land and legal road restrictions such as speed limits and one-way systems.
 ## House prices in space
-- Most contemporary analysis mimics this trend, for example predicting property value by using (1) the average sales price of other properties in the local comparable markets, (2) a spatial clustering of properties and demographics (Malczewski 2004) and (3) a local demographic “trade area” (Daniel 1994).
+- Most contemporary analysis mimics this trend, for example predicting property value by using (1) the average sales price of other properties in the local comparable markets, (2) a spatial clustering of properties and demographics (Malczewski 2004) and (3) a local demographic "trade area” (Daniel 1994).
 - In the case of spatially dependent data, cross-validation is optimistic due to its inherent IID assumption.
 - Euclidean distances are exclusively considered in all of the above work. This paper hypothesizes that house prices are related to a more complex structural network relating to (restricted) road distance and travel time; hence, we introduce an approximate (restricted) road distance and travel time metric using the Minkowski distance function for a valid house price Kriging predictor (Matheron 1963; Cressie 1990).
 ## Data Description
 - Figure 1. A comparison of an Euclidean distance matrix versus a drive time distance matrix and a road distance matrix around the center point of Coventry. (a) Euclidean distance buffer from 0 to 4 miles around the centre of Coventry; (b) Travel time distance buffer from 0 to 10 minutes drive time around the centre of Coventry; (c) Road distance buffer from 0 to 4 miles around the centre of Coventry.
 ## Collapsing Time
 - The price paid data for 2016 are addressed only (herewithin named ). This accounts for 3669 sales in Coventry. Stage 1 predicts each property’s sale price based on its value on the 1 January 2017 (for time singularity). This process involves each property being assigned some percentage price change based on the date that it was sold and the lower super output area that the property is contained within to produce a value for all 3669 properties at the date 1 January 2017 (). The error for the purposes of this experiment is minimal or nonexistent due to the small temporal and spatial aggregate areas being considered.
-- Figure 2 shows an exact example where the distance between houses  to  is 0.24 mi along the red dotted line which takes a route along “Brownshill Green Road” and is marked as a one-way system, this means that the route  to  must be different, which, in this case, is further; hence, the distance matrix is not symmetric. The same reasoning applies for a travel time matrix
+- Figure 2 shows an exact example where the distance between houses  to  is 0.24 mi along the red dotted line which takes a route along "Brownshill Green Road” and is marked as a one-way system, this means that the route  to  must be different, which, in this case, is further; hence, the distance matrix is not symmetric. The same reasoning applies for a travel time matrix
 
 # Model Linearity
 ## Difference between Linear and Nonlinear
@@ -746,319 +717,11 @@ def plot_tree(model, filename, rankdir="UT"):
 	dist = tree.get_distance(i, j)
 	```
 
-# TensorFlow Tensors
-- `tensorflow.python.framework.ops.EagerTensor`
-- `tensorflow.python.framework.ops.Tensor`
-
-# `tensorflow` Operators
-## `tf.identity()`
-## `tf.constant()`
-## `tf.convert_to_tensor()`
-## `tf.cast([dtype])`
-- Casts a tensor to a new type.
-- Returns `1` if `True` else `0`.
-## `tf.shape()` (for `tf.Tensor`), `KerasTensor.shape()` (for `KerasTensor`)
-## `tf.reshape(shape)`
-## `tf.transpose(a, perm)`
-## `tf.range()`
-## `tf.tile()`
-## `tf.constant_initializer()`
-## `tf.argsort()`
-- `direction`: (`"ASCENDING"`, `"DESCENDING"`).
-## `tf.math`
-### `tf.math.add()`, `tf.math.subtract()`, `tf.math.multiply()`, `tf.math.divide()`
-- Adds, substract, multiply or divide two input tensors element-wise.
-### `tf.math.add_n(inputs)`
-- Adds all input tensors element-wise.
-- `inputs`: A list of Tensors, each with the same shape and type.
-### `tf.math.square()`
-- Compute square of x element-wise.
-### `tf.math.sqrt()`
-### `tf.math.argmax(axis)`
-### `tf.math.sign`
-### `tf.math.exp()`
-### `tf.math.log()`
-### `tf.math.equal()`
-```python
-seq = tf.cast(tf.math.equal(seq, 0), tf.float32)
-```
-### `tf.math.reduce_sum([axis])`, `tf.math.reduce_mean()`
-- Reference: https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
-- `axis=None`: Reduces all dimensions.
-- Reduces `input_tensor` along the dimensions given in `axis`. Unless `keepdims=True`, the rank of the tensor is reduced by `1` for each of the entries in `axis`, which must be unique. If `keepdims=True`, the reduced dimensions are retained with length `1`.
-## `tf.math.logical_and()`, `tf.math.logical_or()`
-## `tf.math.logical_not(x)`
-- Returns the truth value of `NOT x` element-wise.
-## `tf.linalg.matmul(a, b, [transpose_a], [transpose_b])`
-
-# Create Tensors
-## `tf.Variable(initial_value, [shape=None], [trainable=True], [validate_shape=True], [dtype], [name])`
-- Source: https://www.tensorflow.org/api_docs/python/tf/Variable
-- `initial_value`: This initial value defines the type and shape of the variable. After construction, the type and shape of the variable are fixed.
-- [`shape`]: The shape of this variable. If `None`, the shape of `initial_value` will be used.
-- `validate_shape`: If `False`, allows the variable to be initialized with a value of unknown shape. If `True`, the default, the shape of `initial_value` must be known.
-- [`dtype`]: If set, `initial_value` will be converted to the given type. If `None`, either the datatype will be kept (if `initial_value` is a Tensor), or `convert_to_tensor()` will decide.
-## `tf.zeros()`
-```python
-W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
-```
-
-# 가중치가 없는 Layers
-## `tf.stack(values, axis, [name])`
-- Reference: https://www.tensorflow.org/api_docs/python/tf/stack
-- Stacks a list of tensors of rank R into one tensor of rank (R + 1).
-- `axis`: The axis to stack along.
-- Same syntax as `np.stack()`
-## `Add()()`
-- It takes as input a list of tensors, all of the same shape, and returns a single tensor (also of the same shape).
-- 마지막 Deminsion만 동일하면 Input으로 주어진 Tensors 중 하나를 옆으로 늘려서 덧셈을 수행합니다.
-## `Multiply()()`
-## `Dot(axes)`
-- `axes` : (integer, tuple of integers) Axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
-## `Concatenate([axis])()` (= `tf.concat(values, [axis], [name])`)
-## `Flatten([input_shape])`
-## `Input(shape, [name], [dtype], ...)`
-- `shape`
-	- ***A shape tuple (integers), not including the batch size***. For instance, shape=(32,) indicates that the expected input will be batches of 32-dimensional vectors.
-	- ***Elements of this tuple can be None; "None" elements represent dimensions where the shape is not known.***
-	- Note that `shape` does not include the batch dimension.
-## `Dropout(rate)`
-- Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dropout, https://www.tensorflow.org/tutorials/images/classification
-- Another technique to reduce overfitting is to introduce dropout regularization to the network.
-- When you apply dropout to a layer, it randomly drops out (by setting the activation to zero) a number of output units from the layer during the training process. Dropout takes a fractional number as its input value, in the form such as 0.1, 0.2, 0.4, etc. This means dropping out 10%, 20% or 40% of the output units randomly from the applied layer.
-- `rate`
-	- The Dropout layer randomly sets input units to 0 with a frequency of `rate` at each step during training time, which helps prevent overfitting. Inputs not set to 0 are scaled up by 1/(1 - `rate`) such that the sum over all inputs is unchanged.
-	- Note that the `Dropout` layer only applies when `training` is set to `True` such that no values are dropped during inference. When using `model.fit`, `training` will be appropriately set to `True` automatically, and in other contexts, you can set the kwarg explicitly to `True` when calling the layer.
-## `MaxPool1D(pool_size, strides, padding, [data_format])` (= `MaxPooling1D()`), `MaxPool2D()` (= `MaxPooling2D()`)
-- Output Dimension
-	- When `padding="valid"`: `(input_dim - pool_size)//strides + 1`
-	- When `padding="same"`: `input_dim//strides + 1`
-## `GlobalMaxPool1D()` (= `GlobalMaxPooling1D()`)
-- Shape changes from (a, b, c, d) to (a, d).
-## `GlobalMaxPool2D()` (= `GlobalMaxPooling2D()`)
-- Downsamples the input representation by taking the maximum value over the time dimension.
-- Shape changes from (a, b, c) to (b, c).
-## `AveragePooling1D([pool_size], [strides], [padding])`, `AveragePooling2D()`
-## `GlobalAveragePooling1D()`, `GlobalAveragePooling2D()`
-## `ZeroPadding2D(padding)`
-- `padding`:
-	- Int: the same symmetric padding is applied to height and width.
-	- Tuple of 2 ints: interpreted as two different symmetric padding values for height and width: `(symmetric_height_pad, symmetric_width_pad)`.
-	- Tuple of 2 tuples of 2 ints: interpreted as `((top_pad, bottom_pad), (left_pad, right_pad))`.
-## `BatchNormalization()`
-- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/BatchNormalization
-- Usually used before activation function layers.
-## `LayerNormalization([epsilon], axis)`
-- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/LayerNormalization
-- ***Normalize the activations of the previous layer for each given example in a batch independently, rather than across a batch like Batch Normalization. i.e. applies a transformation that maintains the mean activation within each example close to 0 and the activation standard deviation close to 1.***
-- `epsilon`: Small float added to variance to avoid dividing by zero. Defaults to `1e-3`.
-## `Reshape()`
-## `Activation(activation)`
-- `activation`: (`"relu"`)
-## `RepeatVector(n)`
-- Repeats the input `n` times.
-
-# 가중치가 있는 Layers
-## `Embedding([input_length], input_dim, output_dim, [mask_zero], [name], [weights], [trainable], ...)`
-- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Embedding
-- `input_dim`: Size of the vocabulary.
-- `output_dim`: Dimension of the dense embedding.
-- `input_length`: Length of input sequences, when it is constant. This argument is required if you are going to connect `Flatten()` then `Dense ()` layers upstream.
-- `mask_zero=True`: Whether or not the input value 0 is a special "padding" value that should be masked out. This is useful when using recurrent layers which may take variable length input. If `mask_zero` is set to `True`, as a consequence, index 0 cannot be used in the vocabulary (`input_dim` should equal to `vocab_size + 1`)).
-- `weights`
-- `trainable`
-- Input shape: `(batch_size, input_length)`
-- Output shape: `(batch_size, input_length, output_dim)`
-## `Dense(units, activation)`
-- Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense
-- `units`: Dimensionality of the output space.
-- [`input_shape`]: 
-- [`activation`]: Activation function to use. If you don't specify anything, no activation is applied (ie. "linear" activation)
-- Input Shape: `(batch_size, ..., input_dim)` (e.g., `(batch_size, input_dim)` for a 2-D input)
-- Output Shape: `(batch_size, ..., units)` (e.g., `(batch_size, units)` for a 2-D input)
-- Note that after the first layer, you don't need to specify the size of the input anymore.
-## `Conv1D(filters, kernel_size, strides, padding, activation, data_format)`, `Conv2D()`, `Conv1DTranspose()`, `Conv2DTranspose()`
-- `kernal_size`: window_size
-- `padding="valid"`: No padding. 
-- `padding="same"`: Results in padding with zeros evenly to the left/right or up/down of the input such that output has the same height/width dimension as the input.
-- `data_format`: (`"channels_last"`, `"channels_first"`)
-- `activation`: (`"tanh"`)
-- Output Dimension
-	- When `padding="valid"`: `math.ceil(input_dim - kernel_size + 1)/strides`
-	- When `padding="same"`: `math.ceil(input_dim/strides)`
-## `RNN()`
-## `GRU(units, input_shape)`
-## `LSTM(units, return_sequences, return_state, [dropout])([initial_state])`
-- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/LSTM
-- `return_sequences`: Whether to return the last output. in the output sequence, or the full sequence.
-	- `True`: 모든 timestep에서 Output을 출력합니다. (Output shape: `(batch_size, timesteps, h_size)`)
-	- `False` (default): 마지막 timestep에서만 Output을 출력합니다. (Output shape: `(batch_size, h_size)`)
-- `return_state`: Whether to return the last state in addition to the output. (`output, h_state, c_state = LSTM(return_state=True)()`)
-- Call arguments
-	- `mask`
-	- `training`
-	- `initial_state`: List of initial state tensors to be passed to the first call of the cell (optional, defaults to `None` which causes creation of zero-filled initial state tensors).
-## `Bidirectional([input_shape])`
-```python
-z, for_h_state, for_c_state, back_h_state, back_c_state = Bidirectional(LSTM(return_state=True))(z)
-```
-## `TimeDistributed()`
-- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/TimeDistributed
-- This wrapper allows to apply a layer to every temporal slice of an input.
-- For example, consider a batch of 32 video samples, where each sample is a 128x128 RGB image with channels_last data format, across 10 timesteps. The batch input shape is (32, 10, 128, 128, 3). You can then use `TimeDistributed()` to apply the same `Conv2D()` layer to each of the `10` timesteps, independently. Because `TimeDistributed()` applies the same instance of `Conv2D()` to each of the timestamps, the same set of weights are used at each timestamp.
-
-# Modeling
-## Build Model
-```python
-model = Model(inputs, ouputs, [name])
-model.summary()
-# `to_file`: File name of the plot image.
-# `show_layer_activations`: Display layer activations
-plot_model(model, [to_file], [show_layer_activations])
-```
-## Compile
-```python
-# `optimizer`: (`"sgd"`, `"adam"`, `Adam(learning_rate)`, "rmsprop"`, Adagrad(learning_rate)]
-# `loss`: (`"mse"`, `"mae"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
-	# If the model has multiple outputs, you can use a different `loss` on each output by passing a dictionary or a list of `loss`es.
-	# `"categorical_crossentropy"`: Produces a one-hot array containing the probable match for each category.
-	# `"sparse_categorical_crossentropy"`: Produces a category index of the most likely matching category.
-# `metrics`: (`["mse"]`, `["mae"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
-# When you pass the strings "accuracy" or "acc", we convert this to one of ``BinaryAccuracy()`, ``CategoricalAccuracy()`, `SparseCategoricalAccuracy()` based on the loss function used and the model output shape.
-# `loss_weights`: The `loss` value that will be minimized by the model will then be the weighted sum of all individual `loss`es, weighted by the `loss_weights` coefficients. 
-model.compile(optimizer, loss, [loss_weights], [metrics], [loss_weights])
-```
-## Fit
-- Source: https://keras.io/api/models/model_training_apis/
-```python
-# `mode`: (`"auto"`, `"min"`, `"max"`).
-	# `"min"`: Training will stop when the quantity monitored has stopped decreasing;
-	# `"max"`: It will stop when the quantity monitored has stopped increasing;
-	# `"auto"`: The direction is automatically inferred from the name of the monitored quantity.
-# `patience`: Number of epochs with no improvement after which training will be stopped.
-es = EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=2)
-model_path = "model_path.h5"
-# `save_best_only=True`: `monitor` 기준으로 가장 좋은 값으로 모델이 저장됩니다.
-# `save_best_only=False`: 매 epoch마다 모델이 filepath{epoch}으로 저장됩니다.
-# `save_weights_only`: If `True`, then only the model's weights will be saved (`model.save_weights(filepath)`), else the full model is saved (`model.save(filepath)`).
-mc = ModelCheckpoint(filepath=model_path, monitor="val_acc", mode="auto", verbose=1, save_best_only=True)
-# `verbose=2`: One line per epoch. recommended.
-hist = model.fit(x, y, [validation_split], [validation_data], batch_size, epochs, verbose=2, [shuffle], callbacks=[es, mc])
-```
-## Training History
-```python
-fig, axes = plt.subplots(1, 2, figsize=(12, 8))
-axes[0].plot(hist.history["loss"][1:], label="loss");
-axes[0].plot(hist.history["val_loss"][1:], label="val_loss");
-axes[0].legend();
-
-axes[1].plot(hist.history["acc"][1:], label="acc");
-axes[1].plot(hist.history["val_acc"][1:], label="val_acc");
-axes[1].legend();
-```
-## Evaluate Model
-```python
-te_loss, te_acc = model.evaluate(X_te, y_te, batch_size)
-```
-## Inference
-- Source: https://www.tensorflow.org/api_docs/python/tf/keras/Model?hl=en, https://stackoverflow.com/questions/60837962/confusion-about-keras-model-call-vs-call-vs-predict-methods
-- `model(x)`
-	- Calls the model on new inputs and returns the outputs as `tf.Tensor`s.
-	- ***For small numbers of inputs that fit in one batch, directly use `__call__()` for faster execution, e.g., `model(x)`, or `model(x, training=False)` if you have layers such as `BatchNormalization()` that behave differently during inference. You may pair the individual model call with a `@tf.function()` for additional performance inside your inner loop.***
-	- ***After `model(x)`, you can use `tf.Tensor.numpy()` to get the numpy array value of an eager tensor.***
-	- Also, note the fact that test loss is not affected by regularization layers like noise and dropout.
-- `model.predict()`
-	- ***Computation is done in batches. This method is designed for batch processing of large numbers of inputs. It is not intended for use inside of loops that iterate over your data and process small numbers of inputs at a time.***
-- `model.predict_on_batch()`
-	- Returns predictions for a single batch of samples.
-	- The difference between `model.predict()` and `model.predict_on_batch()` is that the latter runs over a single batch, and the former runs over a dataset that is splitted into batches and the results merged to produce the final `numpy.ndarray` of predictions.
-## Check Model Weights
-```python
-for layer in model.layers:
-	...
-```
-```python
-layer = model.get_layer("layer_name")
-
-name = layer.name
-output = layer.output
-input_shape = layer.input_shape
-output_shape = layer.output_shape
-weight = layer.get_weights()[0]
-bias = layer.get_weights()[1]
-```
-## model Methods
-```python
-model.trainable_variables
-model.save()
-model.inputs
-```
-
-# Dataset
-- Source: https://www.tensorflow.org/api_docs/python/tf/data/Dataset
-- Dataset usage follows a common pattern:
-	- Create a source dataset from your input data.
-	- Apply dataset transformations to preprocess the data.
-	- Iterate over the dataset and process the elements. Iteration happens in a streaming fashion, so the full dataset does not need to fit into memory. (Element: A single output from calling `next()` on a dataset iterator. Elements may be nested structures containing multiple components.)
-- Methods
-	- `as_numpy_iterator()`
-		- Returns an iterator which converts all elements of the dataset to numpy.
-		- This will preserve the nested structure of dataset elements.
-		- This method requires that you are running in eager mode and the dataset's element_spec contains only `tf.TensorSpec` components.
-	- `batch(batch_size, [drop_remainder=False])`
-		- Combines consecutive elements of this dataset into batches.
-		- The components of the resulting element will have an additional outer dimension, which will be `batch_size` (or `N%batch_size` for the last element if `batch_size` does not divide the number of input elements `N` evenly and `drop_remainder=False`). If your program depends on the batches having the same outer dimension, you should set the `drop_remainder=True` to prevent the smaller batch from being produced.
-	- `padded_batch()`
-		- Pad to the smallest per-`batch size` that fits all elements.
-		- Unlike `batch()`, the input elements to be batched may have different shapes, and this transformation will pad each component to the respective shape in `padded_shapes`. The `padded_shapes` argument determines the resulting shape for each dimension of each component in an output element.
-		- `padded_shapes`:
-			- If `None`: The dimension is unknown, the component will be padded out to the maximum length of all elements in that dimension.
-			- If not `None`: The dimension is a constant, the component will be padded out to that length in that dimension.
-		- `padding_values`
-		- `drop_remainder`
-	- `cache(filename)`
-		- Caches the elements in this dataset.
-		- The first time the dataset is iterated over(e.g., `map()`, `filter()`, etc.), its elements will be cached either in the specified file or in memory. Subsequent iterations will use the cached data.
-		- For the cache to be finalized, the input dataset must be iterated through in its entirety. Otherwise, subsequent iterations will not use cached data.
-		- `filename`: When caching to a file, the cached data will persist across runs. Even the first iteration through the data will read from the cache file. Changing the input pipeline before the call to `cache()` will have no effect until the cache file is removed or the `filename` is changed. If a `filename` is not provided, the dataset will be cached in memory.
-		- `cache()` will produce exactly the same elements during each iteration through the dataset. If you wish to randomize the iteration order, make sure to call `shuffle()` after calling `cache()`.
-	- `prefetch(buffer_size)`
-		- Most dataset input pipelines should end with a call to prefetch. This allows later elements to be prepared while the current element is being processed. This often improves latency and throughput, at the cost of using additional memory to store prefetched elements.
-		- `buffer_size`: The maximum number of elements that will be buffered when prefetching. If the value `tf.data.AUTOTUNE` is used, then the buffer size is dynamically tuned.
-	- `enumerate([start=0])`
-	- `filter(predicate)`
-		- `predicate`: A function mapping a dataset element to a boolean.
-		- Returns the dataset containing the elements of this dataset for which `predicate` is `True`.
-	- `from_tensor_slices()`
-	- `from_tensors()`
-	- `from_generator()`
-		- `generator`: Must be a callable object that returns an object that supports the `iter()` protocol (e.g. a generator function).
-		- `output_types`: A (nested) structure of `tf.DType` objects corresponding to each component of an element yielded by generator.
-		- `ouput_signature`: A (nested) structure of tf.TypeSpec objects corresponding to each component of an element yielded by generator.
-		```python
-		def gen():
-			yield ...
-		dataset = tf.data.Dataset.from_generator(gen, ...)
-		```
-	- `map(map_func)`
-		- This transformation applies `map_func` to each element of this dataset, and returns a new dataset containing the transformed elements, in the same order as they appeared in the input. `map_func` can be used to change both the values and the structure of a dataset's elements.
-	- `random()`
-	- `range()`
-	- `repeat()`
-	- `shuffle(buffer_size, [seed=None], [reshuffle_each_iteration=None])`
-		- `buffer_size`: For perfect shuffling, greater than or equal to the full size of the dataset is required. If not, only the first `buffer_size` elements will be selected randomly.
-		- `reshuffle_each_iteration`: Controls whether the shuffle order should be different for each epoch.
-	- `skip(count)`
-	- `take(count)`
-	- `unique()`
-	- `zip()`
-	
-# Eager Excution & Graph Excution
+# TensorFlow Eager Excution & Graph Excution
 - Source: https://towardsdatascience.com/eager-execution-vs-graph-execution-which-is-better-38162ea4dbf6
 - In TensorFlow 2.0, you can decorate a Python function using `tf.function()` to run it as a single graph object. With this new method, you can easily build models and gain all the graph execution benefits.
 - For simple operations, graph execution does not perform well because it has to spend the initial computing power to build a graph. We see the power of graph execution in complex calculations.
-	
-# `tf.GradientTape()`
+## Graph Execution
 ```python
 import time
 
@@ -1125,7 +788,444 @@ for epoch in range(1, epochs + 1):
         print (f"Time taken for 1 epoch: {time.time() - start:5.0f} secs\n")
 ```
 
+# GPU on PyTorch
+```python
+# Returns a bool indicating if CUDA is currently available.
+torch.cuda.is_available()
+# Returns the index of a currently selected device.
+torch.cuda.current_device()
+# Returns the number of GPUs available.
+torch.cuda.device_count()
+# Gets the name of the device.
+torch.cuda.get_device_name(<index>)
+```
+```python
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+```
+
+# TensorFlow Tensors
+- References: https://www.tensorflow.org/api_docs/python/tf/Tensor, https://stackoverflow.com/questions/57660214/what-is-the-utility-of-tensor-as-opposed-to-eagertensor-in-tensorflow-2-0, https://www.tensorflow.org/api_docs/python/tf/shape
+## `EagerTensor`
+```python
+# During eager execution, you may discover your Tensors are actually of type `EagerTensor` (`tensorflow.python.framework.ops.EagerTensor`)
+tf.Tensor(..., shape=..., dtype=...)
+
+<EagerTensor>.numpy()
+
+# `tf.shape()` and `Tensor.shape` should be identical in eager mode.
+<EagerTensor>.shape
+```
+## `Tensor`
+```python
+# During graph execution
+# In `tf.function` definitions, the shape may only be partially known. Most operations produce tensors of fully-known shapes if the shapes of their inputs are also fully known, but in some cases it's only possible to find the shape of a tensor at execution time.
+# `Tensor` (`tensorflow.python.framework.ops.Tensor`) represents a tensor node in a graph that may not yet have been calculated.
+
+# During graph execution, not all dimensions may be known until execution time. Hence when defining custom layers and models for graph mode, prefer the dynamic `tf.shape(x)` over the static `x.shape`.
+tf.shape(<Tensor>)
+```
+
+# Operators
+## `tf.identity()`
+## `tf.constant()`
+## `tf.convert_to_tensor()`
+## `tf.cast([dtype])`
+- Casts a tensor to a new type.
+- Returns `1` if `True` else `0`.
+## Reshape Tensor
+```python
+# TensorFlow
+tf.reshape(<Tensor>, shape)
+<Tensor>.reshape(shape)
+
+# PyTorch
+<Tensor>.view()
+```
+## `tf.transpose(a, perm)`
+## `tf.range()`
+## `tf.tile()`
+## `tf.constant_initializer()`
+## `tf.argsort()`
+- `direction`: (`"ASCENDING"`, `"DESCENDING"`).
+## `tf.math`
+### `tf.math.add()`, `tf.math.subtract()`, `tf.math.multiply()`, `tf.math.divide()`
+- Adds, substract, multiply or divide two input tensors element-wise.
+### `tf.math.add_n(inputs)`
+- Adds all input tensors element-wise.
+- `inputs`: A list of Tensors, each with the same shape and type.
+### `tf.math.square()`
+- Compute square of x element-wise.
+### `tf.math.sqrt()`
+### `tf.math.argmax(axis)`
+### `tf.math.sign`
+### `tf.math.exp()`
+### `tf.math.log()`
+### `tf.math.equal()`
+```python
+seq = tf.cast(tf.math.equal(seq, 0), tf.float32)
+```
+### `tf.math.reduce_sum([axis])`, `tf.math.reduce_mean()`
+- Reference: https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
+- `axis=None`: Reduces all dimensions.
+- Reduces `input_tensor` along the dimensions given in `axis`. Unless `keepdims=True`, the rank of the tensor is reduced by `1` for each of the entries in `axis`, which must be unique. If `keepdims=True`, the reduced dimensions are retained with length `1`.
+## `tf.math.logical_and()`, `tf.math.logical_or()`
+## `tf.math.logical_not(x)`
+- Returns the truth value of `NOT x` element-wise.
+## `tf.linalg.matmul(a, b, [transpose_a], [transpose_b])`
+
+# Create Tensors
+## `tf.Variable(initial_value, [shape=None], [trainable=True], [validate_shape=True], [dtype], [name])`
+- Source: https://www.tensorflow.org/api_docs/python/tf/Variable
+- `initial_value`: This initial value defines the type and shape of the variable. After construction, the type and shape of the variable are fixed.
+- [`shape`]: The shape of this variable. If `None`, the shape of `initial_value` will be used.
+- `validate_shape`: If `False`, allows the variable to be initialized with a value of unknown shape. If `True`, the default, the shape of `initial_value` must be known.
+- [`dtype`]: If set, `initial_value` will be converted to the given type. If `None`, either the datatype will be kept (if `initial_value` is a Tensor), or `convert_to_tensor()` will decide.
+## `tf.zeros()`
+```python
+W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
+```
+
+# Layers without Weights
+## `tf.stack(values, axis, [name])`
+- Reference: https://www.tensorflow.org/api_docs/python/tf/stack
+- Stacks a list of tensors of rank R into one tensor of rank (R + 1).
+- `axis`: The axis to stack along.
+- Same syntax as `np.stack()`
+## `Add()()`
+- It takes as input a list of tensors, all of the same shape, and returns a single tensor (also of the same shape).
+- 마지막 Deminsion만 동일하면 Input으로 주어진 Tensors 중 하나를 옆으로 늘려서 덧셈을 수행합니다.
+## `Multiply()()`
+## `Dot(axes)`
+- `axes` : (integer, tuple of integers) Axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
+## `Concatenate([axis])()` (= `tf.concat(values, [axis], [name])`)
+## `Flatten([input_shape])`
+## `Input(shape, [name], [dtype], ...)`
+- `shape`
+	- ***A shape tuple (integers), not including the batch size***. For instance, shape=(32,) indicates that the expected input will be batches of 32-dimensional vectors.
+	- ***Elements of this tuple can be None; "None" elements represent dimensions where the shape is not known.***
+	- Note that `shape` does not include the batch dimension.
+## Dropout Layer
+- Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dropout, https://www.tensorflow.org/tutorials/images/classification
+- Another technique to reduce overfitting is to introduce dropout regularization to the network.
+- When you apply dropout to a layer, it randomly drops out (by setting the activation to zero) a number of output units from the layer during the training process. Dropout takes a fractional number as its input value, in the form such as 0.1, 0.2, 0.4, etc. This means dropping out 10%, 20% or 40% of the output units randomly from the applied layer.
+```python
+# TensorFlow
+# `rate`
+	# The Dropout layer randomly sets input units to 0 with a frequency of `rate` at each step during training time, which helps prevent overfitting. Inputs not set to 0 are scaled up by 1/(1 - `rate`) such that the sum over all inputs is unchanged.
+	# Note that the `Dropout` layer only applies when `training` is set to `True` such that no values are dropped during inference. When using `model.fit`, `training` will be appropriately set to `True` automatically, and in other contexts, you can set the kwarg explicitly to `True` when calling the layer.
+Dropout(rate)
+
+# PyTorch
+Dropout(p, [inplace=False])
+```
+## Pooling Layer
+```python
+# Tensorflow
+# Output Dimension
+	# When `padding="valid"`: `(input_dim - pool_size)//strides + 1`
+	# When `padding="same"`: `input_dim//strides + 1`
+MaxPool1D(pool_size, strides, padding, [data_format]) # Same as `MaxPooling1D()`
+MaxPool2D() # Same as `MaxPooling2D()`
+
+# PyTorch
+MaxPool1d()
+MaxPool2d()
+```
+```python
+# TensorFlow
+# Shape: `(a, b, c, d)` -> `(a, d)`.
+GlobalMaxPool1D() # Same as `GlobalMaxPooling1D()`
+# Downsamples the input representation by taking the maximum value over the time dimension.
+# Shape: `(a, b, c)` -> `(b, c)`.
+GlobalMaxPool2D() # Same as  `GlobalMaxPooling2D()`
+```
+```python
+# TensorFlow
+AveragePooling1D([pool_size], [strides], [padding])
+AveragePooling2D()
+
+# PyTorch
+AvgPool1d()
+AvgPool2d()
+```
+## `GlobalAveragePooling1D()`, `GlobalAveragePooling2D()`
+## `ZeroPadding2D(padding)`
+- `padding`:
+	- Int: the same symmetric padding is applied to height and width.
+	- Tuple of 2 ints: interpreted as two different symmetric padding values for height and width: `(symmetric_height_pad, symmetric_width_pad)`.
+	- Tuple of 2 tuples of 2 ints: interpreted as `((top_pad, bottom_pad), (left_pad, right_pad))`.
+## `BatchNormalization()`
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/BatchNormalization
+- Usually used before activation function layers.
+## `LayerNormalization([epsilon], axis)`
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/LayerNormalization
+- ***Normalize the activations of the previous layer for each given example in a batch independently, rather than across a batch like Batch Normalization. i.e. applies a transformation that maintains the mean activation within each example close to 0 and the activation standard deviation close to 1.***
+- `epsilon`: Small float added to variance to avoid dividing by zero. Defaults to `1e-3`.
+## `Reshape()`
+## `Activation(activation)`
+- `activation`: (`"relu"`)
+## `RepeatVector(n)`
+- Repeats the input `n` times.
+
+# Layers with Weights
+## Embedding Layer
+```python
+# TensorFlow
+# Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Embedding
+# `input_dim`: Size of the vocabulary.
+# `output_dim`: Dimension of the dense embedding.
+# `input_length`: Length of input sequences, when it is constant. This argument is required if you are going to connect `Flatten()` then `Dense ()` layers upstream.
+# `mask_zero=True`: Whether or not the input value 0 is a special "padding" value that should be masked out. This is useful when using recurrent layers which may take variable length input. If `mask_zero` is set to `True`, as a consequence, index 0 cannot be used in the vocabulary (`input_dim` should equal to `vocab_size + 1`)).
+# Shape: `(batch_size, input_length)` -> `(batch_size, input_length, output_dim)`
+Embedding(input_dim, output_dim, [input_length], [mask_zero], [name], [weights], [trainable], ...)
+
+# PyTorch
+# Reference: https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html#torch.nn.Embedding
+# `padding_idx`: If specified, the entries at `padding_idx` do not contribute to the gradient; therefore, the embedding vector at `padding_idx` is not updated during training, i.e. it remains as a fixed "pad”. For a newly constructed Embedding, the embedding vector at `padding_idx` will default to all zeros, but can be updated to another value to be used as the padding vector.
+Embedding(num_embeddings, embedding_dim, padding_idx)
+```
+## Fully Connected Layer
+```python
+# Tensorflow
+# Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense
+# `units`: Dimensionality of the output space.
+# `activation`: Activation function to use. If you don't specify anything, no activation is applied (ie. "linear" activation)
+# Shape: `(batch_size, ..., input_dim)` -> `(batch_size, ..., units)`
+# Note that after the first layer, you don't need to specify the size of the input anymore.
+Dense(units, [activation])
+
+# PyTorch
+Linear(in_features, out_features)
+```
+## Convolution Layer
+```python
+# TensorFlow
+# `kernal_size`: window_size
+# `padding="valid"`: No padding. 
+# `padding="same"`: Results in padding with zeros evenly to the left/right or up/down of the input such that output has the same height/width dimension as the input.
+# `data_format`: (`"channels_last"`, `"channels_first"`)
+# `activation`: (`"tanh"`)
+# Output Dimension
+	# When `padding="valid"`: `math.ceil(input_dim - kernel_size + 1)/strides`
+	# When `padding="same"`: `math.ceil(input_dim/strides)`
+Conv1D(filters, kernel_size, strides, padding, activation, data_format)
+Conv2D()
+Conv1DTranspose()
+Conv2DTranspose()
+
+# PyTorch
+Conv1d()
+Conv2d()
+ConvTranspose1d()
+ConvTranspose2d()
+```
+## `RNN()`
+## `GRU(units, input_shape)`
+## LSTM
+```python
+# TensorFlow
+# Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/LSTM
+# `return_sequences`: Whether to return the last output. in the output sequence, or the full sequence.
+	# `True`: 모든 timestep에서 Output을 출력합니다. (Output shape: `(batch_size, timesteps, h_size)`)
+	# `False` (default): 마지막 timestep에서만 Output을 출력합니다. (Output shape: `(batch_size, h_size)`)
+# `return_state`: Whether to return the last state in addition to the output. (`output, h_state, c_state = LSTM(return_state=True)()`)
+# Call arguments
+	# `mask`
+	# `training`
+	# `initial_state`: List of initial state tensors to be passed to the first call of the cell (optional, defaults to `None` which causes creation of zero-filled initial state tensors).
+LSTM(units, return_sequences, return_state, [dropout])([initial_state])
+
+# PyTorch
+LSTM(input_size, hidden_size, num_layers, batch_first, dropout, bidirectional)
+```
+## `Bidirectional([input_shape])`
+```python
+z, for_h_state, for_c_state, back_h_state, back_c_state = Bidirectional(LSTM(return_state=True))(z)
+```
+## `TimeDistributed()`
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/TimeDistributed
+- This wrapper allows to apply a layer to every temporal slice of an input.
+- For example, consider a batch of 32 video samples, where each sample is a 128x128 RGB image with channels_last data format, across 10 timesteps. The batch input shape is (32, 10, 128, 128, 3). You can then use `TimeDistributed()` to apply the same `Conv2D()` layer to each of the `10` timesteps, independently. Because `TimeDistributed()` applies the same instance of `Conv2D()` to each of the timestamps, the same set of weights are used at each timestamp.
+
+# Optimizer
+## Stochastic Gradient Descent (SGD)
+```python
+from tensorflow.keras.optimizers import SGD
+```
+## Adagrad
+```python
+from tensorflow.keras.optimizers import Adagrad
+```
+- Source: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adagrad
+- *Adagrad tends to benefit from higher initial learning rate values compared to other optimizers.*
+## RMSprop (Root Mean Square ...)
+## Adam (ADAptive Moment estimation)
+```python
+# TensorFlow
+Adam(learning_rate, beta_1, beta_2, epsilon, name)
+
+# PyTorch
+Adam([lr=0.001], [betas=(0.9, 0.999)], [eps=1e-08])
+```
+
+# Model
+## Build Model
+```python
+model = Model(inputs, ouputs, [name])
+model.summary()
+# `to_file`: File name of the plot image.
+# `show_layer_activations`: Display layer activations
+plot_model(model, [to_file], [show_layer_activations])
+```
+## Compile
+```python
+# `optimizer`: (`"sgd"`, `"adam"`, `Adam(learning_rate)`, "rmsprop"`, Adagrad(learning_rate)]
+# `loss`: (`"mse"`, `"mae"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
+	# If the model has multiple outputs, you can use a different `loss` on each output by passing a dictionary or a list of `loss`es.
+	# `"categorical_crossentropy"`: Produces a one-hot array containing the probable match for each category.
+	# `"sparse_categorical_crossentropy"`: Produces a category index of the most likely matching category.
+# `metrics`: (`["mse"]`, `["mae"]`, `["binary_accuracy"]`, `["categorical_accuracy"]`, `["sparse_categorical_crossentropy"]`, `["acc"]`)
+# When you pass the strings "accuracy" or "acc", we convert this to one of ``BinaryAccuracy()`, ``CategoricalAccuracy()`, `SparseCategoricalAccuracy()` based on the loss function used and the model output shape.
+# `loss_weights`: The `loss` value that will be minimized by the model will then be the weighted sum of all individual `loss`es, weighted by the `loss_weights` coefficients. 
+model.compile(optimizer, loss, [loss_weights], [metrics], [loss_weights])
+```
+## Fit
+- Source: https://keras.io/api/models/model_training_apis/
+```python
+# `mode`: (`"auto"`, `"min"`, `"max"`).
+	# `"min"`: Training will stop when the quantity monitored has stopped decreasing;
+	# `"max"`: It will stop when the quantity monitored has stopped increasing;
+	# `"auto"`: The direction is automatically inferred from the name of the monitored quantity.
+# `patience`: Number of epochs with no improvement after which training will be stopped.
+es = EarlyStopping(monitor="val_loss", mode="auto", verbose=1, patience=2)
+model_path = "model_path.h5"
+# `save_best_only=True`: `monitor` 기준으로 가장 좋은 값으로 모델이 저장됩니다.
+# `save_best_only=False`: 매 epoch마다 모델이 filepath{epoch}으로 저장됩니다.
+# `save_weights_only`: If `True`, then only the model's weights will be saved (`model.save_weights(filepath)`), else the full model is saved (`model.save(filepath)`).
+mc = ModelCheckpoint(filepath=model_path, monitor="val_acc", mode="auto", verbose=1, save_best_only=True)
+# `verbose=2`: One line per epoch. recommended.
+hist = model.fit(x, y, [validation_split], [validation_data], batch_size, epochs, verbose=2, [shuffle], callbacks=[es, mc])
+```
+## Training History
+```python
+fig, axes = plt.subplots(1, 2, figsize=(12, 8))
+axes[0].plot(hist.history["loss"][1:], label="loss");
+axes[0].plot(hist.history["val_loss"][1:], label="val_loss");
+axes[0].legend();
+
+axes[1].plot(hist.history["acc"][1:], label="acc");
+axes[1].plot(hist.history["val_acc"][1:], label="val_acc");
+axes[1].legend();
+```
+## Evaluate Model
+```python
+te_loss, te_acc = model.evaluate(X_te, y_te, batch_size)
+```
+## Inference
+### TensorFlow
+- Source: https://www.tensorflow.org/api_docs/python/tf/keras/Model?hl=en, https://stackoverflow.com/questions/60837962/confusion-about-keras-model-call-vs-call-vs-predict-methods
+- `model(x)`
+	- Calls the model on new inputs and returns the outputs as `tf.Tensor`s.
+	- ***For small numbers of inputs that fit in one batch, directly use `__call__()` for faster execution, e.g., `model(x)`, or `model(x, training=False)` if you have layers such as `BatchNormalization()` that behave differently during inference. You may pair the individual model call with a `@tf.function()` for additional performance inside your inner loop.***
+	- ***After `model(x)`, you can use `tf.Tensor.numpy()` to get the numpy array value of an eager tensor.***
+	- Also, note the fact that test loss is not affected by regularization layers like noise and dropout.
+- `model.predict()`
+	- ***Computation is done in batches. This method is designed for batch processing of large numbers of inputs. It is not intended for use inside of loops that iterate over your data and process small numbers of inputs at a time.***
+- `model.predict_on_batch()`
+	- Returns predictions for a single batch of samples.
+	- The difference between `model.predict()` and `model.predict_on_batch()` is that the latter runs over a single batch, and the former runs over a dataset that is splitted into batches and the results merged to produce the final `numpy.ndarray` of predictions.
+### PyTorch
+```python
+# Evaluation (Inference) mode로 전환합니다. (`Dropout()`, `BatchNorm()`은 Evaluation mode에서는 작동하지 않습니다.)
+# `model.train()`: Train mode로 전환합니다.
+model.eval()
+
+# Disabling gradient calculation is useful for inference, when you are sure that you will not call `Tensor.backward()`.
+with torch.no_grad():
+```
+## Model Methods
+```python
+model.trainable_variables
+model.save()
+model.inputs
+```
+## Check Model Weights
+```python
+for layer in model.layers:
+	...
+```
+```python
+layer = model.get_layer("layer_name")
+
+name = layer.name
+output = layer.output
+input_shape = layer.input_shape
+output_shape = layer.output_shape
+weight = layer.get_weights()[0]
+bias = layer.get_weights()[1]
+```
+
+# TensorFlow Dataset
+- Source: https://www.tensorflow.org/api_docs/python/tf/data/Dataset
+- Dataset usage follows a common pattern:
+	- Create a source dataset from your input data.
+	- Apply dataset transformations to preprocess the data.
+	- Iterate over the dataset and process the elements. Iteration happens in a streaming fashion, so the full dataset does not need to fit into memory. (Element: A single output from calling `next()` on a dataset iterator. Elements may be nested structures containing multiple components.)
+- Methods
+	- `as_numpy_iterator()`
+		- Returns an iterator which converts all elements of the dataset to numpy.
+		- This will preserve the nested structure of dataset elements.
+		- This method requires that you are running in eager mode and the dataset's element_spec contains only `tf.TensorSpec` components.
+	- `batch(batch_size, [drop_remainder=False])`
+		- Combines consecutive elements of this dataset into batches.
+		- The components of the resulting element will have an additional outer dimension, which will be `batch_size` (or `N%batch_size` for the last element if `batch_size` does not divide the number of input elements `N` evenly and `drop_remainder=False`). If your program depends on the batches having the same outer dimension, you should set the `drop_remainder=True` to prevent the smaller batch from being produced.
+	- `padded_batch()`
+		- Pad to the smallest per-`batch size` that fits all elements.
+		- Unlike `batch()`, the input elements to be batched may have different shapes, and this transformation will pad each component to the respective shape in `padded_shapes`. The `padded_shapes` argument determines the resulting shape for each dimension of each component in an output element.
+		- `padded_shapes`:
+			- If `None`: The dimension is unknown, the component will be padded out to the maximum length of all elements in that dimension.
+			- If not `None`: The dimension is a constant, the component will be padded out to that length in that dimension.
+		- `padding_values`
+		- `drop_remainder`
+	- `cache(filename)`
+		- Caches the elements in this dataset.
+		- The first time the dataset is iterated over(e.g., `map()`, `filter()`, etc.), its elements will be cached either in the specified file or in memory. Subsequent iterations will use the cached data.
+		- For the cache to be finalized, the input dataset must be iterated through in its entirety. Otherwise, subsequent iterations will not use cached data.
+		- `filename`: When caching to a file, the cached data will persist across runs. Even the first iteration through the data will read from the cache file. Changing the input pipeline before the call to `cache()` will have no effect until the cache file is removed or the `filename` is changed. If a `filename` is not provided, the dataset will be cached in memory.
+		- `cache()` will produce exactly the same elements during each iteration through the dataset. If you wish to randomize the iteration order, make sure to call `shuffle()` after calling `cache()`.
+	- `prefetch(buffer_size)`
+		- Most dataset input pipelines should end with a call to prefetch. This allows later elements to be prepared while the current element is being processed. This often improves latency and throughput, at the cost of using additional memory to store prefetched elements.
+		- `buffer_size`: The maximum number of elements that will be buffered when prefetching. If the value `tf.data.AUTOTUNE` is used, then the buffer size is dynamically tuned.
+	- `enumerate([start=0])`
+	- `filter(predicate)`
+		- `predicate`: A function mapping a dataset element to a boolean.
+		- Returns the dataset containing the elements of this dataset for which `predicate` is `True`.
+	- `from_tensor_slices()`
+	- `from_tensors()`
+	- `from_generator()`
+		- `generator`: Must be a callable object that returns an object that supports the `iter()` protocol (e.g. a generator function).
+		- `output_types`: A (nested) structure of `tf.DType` objects corresponding to each component of an element yielded by generator.
+		- `ouput_signature`: A (nested) structure of tf.TypeSpec objects corresponding to each component of an element yielded by generator.
+		```python
+		def gen():
+			yield ...
+		dataset = tf.data.Dataset.from_generator(gen, ...)
+		```
+	- `map(map_func)`
+		- This transformation applies `map_func` to each element of this dataset, and returns a new dataset containing the transformed elements, in the same order as they appeared in the input. `map_func` can be used to change both the values and the structure of a dataset's elements.
+	- `random()`
+	- `range()`
+	- `repeat()`
+	- `shuffle(buffer_size, [seed=None], [reshuffle_each_iteration=None])`
+		- `buffer_size`: For perfect shuffling, greater than or equal to the full size of the dataset is required. If not, only the first `buffer_size` elements will be selected randomly.
+		- `reshuffle_each_iteration`: Controls whether the shuffle order should be different for each epoch.
+	- `skip(count)`
+	- `take(count)`
+	- `unique()`
+	- `zip()`
+
 # Save or Load Model
+## TensorFlow
 - Source: https://www.tensorflow.org/tutorials/keras/save_and_load
 ```python
 name = "./name"
@@ -1145,8 +1245,19 @@ model.save(model_path)
 ```python
 model = load_model(model_path)
 ```
+## PyTorch
+```python
+# Loads an object saved with `torch.save()` from a file.
+torch.load()
+# Example
+# Source: https://pytorch.org/tutorials/beginner/saving_loading_models.html
+# Loads a model’s parameter dictionary using a deserialized `state_dict`.
+# In PyTorch, the learnable parameters (i.e. weights and biases) of an `torch.nn.Module` model are contained in the model’s parameters (accessed with `model.parameters()`). A `state_dict` is simply a Python dictionary object that maps each layer to its parameter tensor. Note that only layers with learnable parameters (convolutional layers, linear layers, etc.) and registered buffers (batchnorm’s running_mean) have entries in the model’s `state_dict``. Optimizer objects (`torch.optim``) also have a `state_dict`, which contains information about the optimizer’s state, as well as the hyperparameters used.
+model.load_state_dict(torch.load(os.path.join("model_zoo", "BSRGAN.pth")), strict=True)
+```
 
 # Save or Load Weights
+## TensorFlow
 ```python
 model.compile(...)
 ...
@@ -1154,25 +1265,40 @@ model.load_weights(model_path)
 ```
 - As long as two models share the same architecture you can share weights between them. So, when restoring a model from weights-only, create a model with the same architecture as the original model and then set its weights.
 
-# TensorFlow Custom Model
+# Custrom Model
+## TensorFlow
 - Source: https://www.tensorflow.org/api_docs/python/tf/keras/Model
 ```python
 class ModelName(Model):
+	# You should define your layers in `__init__()`.
 	def __init__(self, ...):
 		super().__init__()
 		self.var1 = ...
 		self.var2 = ...
-		... 
+		...
+	# You should implement the model's forward pass in `__call__()`.
+	# If you subclass `Model`, you can optionally have a `training` argument (boolean) in `__call__()`, which you can use to specify a different behavior in training and inference.
 	def __call__(self, ..., [training]):
 		...
 		return ...
 ...
 model = ModelName()
 ```
-- You should define your layers in `__init__()` and you should implement the model's forward pass in `__call__()`.
-- If you subclass `Model`, you can optionally have a training argument (boolean) in `__call__()`, which you can use to specify a different behavior in training and inference.
+## PyTorch
+```python
+class ModelName(nn.Module):
+	def __init__(self, ...):
+		super().__init__()
+		# Or `super(ModelName, self).__init__()`
+		self.var1 = ...
+		self.var2 = ...
+		... 
+...
+model = ModelName()
+```
 
-# TensorFlow Custom Layer
+# Custom Layer
+## TensorFlow
 ```python
 class LayerName(Layer):
 	def __init__(self, ...):
@@ -1185,7 +1311,8 @@ class LayerName(Layer):
 		return ...
 ```
 
-# TensorFlow Custom Learning Rate
+# Custom Learning Rate
+## TensorFlow
 ```python
 class LearningRate(LearningRateSchedule):
     def __init__(self, warmup_steps=4000):
@@ -1199,117 +1326,8 @@ class LearningRate(LearningRateSchedule):
 lr = LearningRate()
 ```
 
-# `tensorflow_probability`
-```sh
-pip install --upgrade tensorflow-probability
-```
-```python
-import tensorflow_probability as tfp
-```
-
-# PyTorch
-```python
-import torch
-```
-```python
-# Returns a bool indicating if CUDA is currently available.
-torch.cuda.is_available()
-# Returns the index of a currently selected device.
-torch.cuda.current_device()
-# Returns the number of GPUs available.
-torch.cuda.device_count()
-# Gets the name of the device.
-torch.cuda.get_device_name(<index>)
-```
-```python
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-```
-## Load Model
-```python
-# Loads an object saved with `torch.save()` from a file.
-torch.load()
-# Example
-# Source: https://pytorch.org/tutorials/beginner/saving_loading_models.html
-# Loads a model’s parameter dictionary using a deserialized `state_dict`.
-# In PyTorch, the learnable parameters (i.e. weights and biases) of an `torch.nn.Module` model are contained in the model’s parameters (accessed with `model.parameters()`). A `state_dict` is simply a Python dictionary object that maps each layer to its parameter tensor. Note that only layers with learnable parameters (convolutional layers, linear layers, etc.) and registered buffers (batchnorm’s running_mean) have entries in the model’s `state_dict``. Optimizer objects (`torch.optim``) also have a `state_dict`, which contains information about the optimizer’s state, as well as the hyperparameters used.
-model.load_state_dict(torch.load(os.path.join("model_zoo", "BSRGAN.pth")), strict=True)
-```
-## PyTorch Custom Model
-```python
-class ModelName(nn.Module):
-	def __init__(self, ...):
-		super().__init__()
-		# Or `super(ModelName, self).__init__()`
-		self.var1 = ...
-		self.var2 = ...
-		... 
-...
-model = ModelName()
-```
-## Inference (Evaluation) Mode
-```python
-# Evaluation (Inference) mode로 전환합니다. (`Dropout`, `BatchNorm`은 Evaluation mode에서는 작동하지 않습니다.)
-# `model.train()`: Train mode로 전환합니다.
-model.eval()
-```
-## Turn off Gradient Computation
-```python
-# Disabling gradient calculation is useful for inference, when you are sure that you will not call `Tensor.backward()`.
-with torch.no_grad():
-```
-
-
-# `xgboost`
-```python
-import xgboost as xgb
-```
-## `xgb.DMatrix()`
-```python
-dtrain = xgb.DMatrix(data=train_X, label=train_y, missing=-1, nthread=-1)
-dtest = xgb.DMatrix(data=test_X, label=test_y, missing=-1, nthread=-1)
-```
-## `xgb.train()`
-```python
-params={"eta":0.02, "max_depth":6, "min_child_weight":5, "gamma":1, "subsample":0.5, "colsample_bytree":1, "reg_alpha":0.1, "n_jobs":6}
-watchlist = [(dtrain, "train"), (dtest,"val")]
-num=12
-def objective(pred, dtrain):
-    observed = dtrain.get_label()
-    grad = np.power(pred - observed, num - 1)
-    hess = np.power(pred - observed, num - 2)
-    return grad, hess
-def metric(pred, dtrain):
-    observed = dtrain.get_label()
-    return "error", (pred - observed)/(len(observed), 1/num)
-model = xgb.train(params=params, evals=watchlist, dtrain=dtrain, num_boost_round=1000, early_stopping_rounds=10, obj=objective, feval=metric)
-```
-## `xgb.XGBRegressor()`
-```python
-model = xgb.XGBRegressor(booster="gbtree", max_delta_step=0, importance_type="gain", missing=-1, n_jobs=5, reg_lambda=1, scale_pos_weight=1, seed=None, base_score=0.5, verbosity=1, warning="ignore", silent=0)
-model.eta=0.01
-model.n_estimators=1000
-model.max_depth=6
-model.min_child_weight=5
-model.gamma=1
-model.subsample=0.5
-model.colsample_bytree=1
-model.reg_alpha=0.1
-model.objective = custom_se
-model.n_jobs=5
-```
-- `n_estimators`
-### `model.fit()`
-```python
-model.fit(train_X, train_y, eval_set=[(train_X, train_y), (val_X, val_y)], early_stopping_rounds=50, verbose=True)
-```
-
-# `seqeval.metrics.classification_report`
-```python
-from seqeval.metrics import classification_report
-```
-
 # Import Machine Learning Libraries
-## `sklearn`
+## scikit-learn
 ```python
 from sklearn.manifold import TSNE
 from sklearn.metrics import mean_squared_error, mean_absolute_error
@@ -1321,12 +1339,12 @@ from sklearn.decomposition import PCA
 from sklearn.tree import DecisionTreeRegressor
 from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor, AdaBoostRegressor
 ```
-## `tensorflow`
+## TensorFLow
 ```python
 import tensorflow as tf
 from tensorflow.keras import Input, Model, Sequential
 from tensorflow.keras.models import load_model
-from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, LayerNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv1DTranspose, Conv2D, Conv2DTranspose, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D, RepeatVector, Resizing, Rescaling, RandomContrast, RandomCrop, RandomFlip, RandomRotation, RandomTranslation, RandomZoom, RandomWidth, RandomHeight, RandomBrightness
+from tensorflow.keras.layers import Layer, Dense, Flatten, Dropout, Concatenate, Add, Dot, Multiply, Reshape, Activation, BatchNormalization, LayerNormalization, SimpleRNNCell, RNN, SimpleRNN, LSTM, Embedding, Bidirectional, TimeDistributed, Conv1D, Conv2D, Conv1DTranspose, Conv2DTranspose, MaxPool1D, MaxPool2D, GlobalMaxPool1D, GlobalMaxPool2D, AveragePooling1D, AveragePooling2D, GlobalAveragePooling1D, GlobalAveragePooling2D, ZeroPadding2D, RepeatVector, Resizing, Rescaling, RandomContrast, RandomCrop, RandomFlip, RandomRotation, RandomTranslation, RandomZoom, RandomWidth, RandomHeight, RandomBrightness
 from tensorflow.keras.utils import get_file, to_categorical, plot_model, image_dataset_from_directory
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -1341,9 +1359,12 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.activations import linear, sigmoid, relu
 from tensorflow.keras.initializers import RandomNormal, glorot_uniform, he_uniform, Constant
 ```
-
-# `from_logits`
-- ![from_logits](https://i.imgur.com/cUjg18g.png)
+## PyTorch
+```python
+import torch
+from torch.nn import Module, Linear, Dropout, Conv1d, Conv2d, ConvTranspose1d, ConvTranspose2d, MaxPool1d, MaxPool2d, AvgPool1d, AvgPool2d
+from torch.optim import SGD, RMSprop, Adagrad, Adam
+```
 
 # `statsmodels`
 ```python

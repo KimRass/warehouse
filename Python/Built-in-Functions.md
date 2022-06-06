@@ -175,7 +175,7 @@ for key, value in dic.items():
     print(key, value)
 ```
 ## `Dictionary.setdefault()`
-## `Dictionary.update()`
+## Add Element
 ```python
 dic.update({key1:value1, key2:value2})
 ```
