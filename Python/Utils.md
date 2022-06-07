@@ -151,6 +151,7 @@ with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
 ```
 
 # `os`
+- Reference: https://docs.python.org/3/library/os.html
 ```python
 import os
 ```
@@ -159,7 +160,8 @@ import os
 ```python
 # 하나의 폴더만 생성할 수 있습니다.
 os.mkdir(path)
-# 여러 개의 폴더를 생성할 수 있습니다.
+# Like `mkdir()`, but makes all intermediate-level directories needed to contain the leaf directory.
+# `exist_ok`: If `False` (the default), an `FileExistsError` is raised if the target directory already exists.
 os.makedirs(path, exist_ok=True)
 ```
 ## `os.chdir()`
@@ -214,6 +216,8 @@ Path("...").suffix
 Path("...").iterdir()
 
 Path("...").glob()
+# This is like calling `Path.glob()` with `"**/"` added in front of the given relative pattern.
+# `"**"`: This directory and all subdirectories, recursively.
 Path("...").rglob()
 
 Path("...").is_file()
@@ -455,7 +459,7 @@ def get_args():
     parser = argparse.ArgumentParser([description=None])
 	# `action`
 		# `action="store"': (default) This just stores the argument’s value.
-	# `dest` The name of the attribute to be added to the object returned by `parse_args()`.
+	# `dest`: The name of the attribute to be added to the object returned by `parse_args()`.
 		# The value of `dest` is normally inferred from the option strings. `ArgumentParser` generates the value of `dest` by taking the first long option string and stripping away the initial `"--"` string. If no long option strings were supplied, `dest` will be derived from the first short option string by stripping the initial `"-"` character.
 	# `type`: The type to which the command-line argument should be converted.
 	# `help`: A brief description of what the argument does.
@@ -502,4 +506,10 @@ with open("/path/to/json_to_validate.json", mode="r") as f:
 # `pattern`
 	# The value of this keyword MUST be a string. This string SHOULD be a valid regular expression.
 validate(schema=json_schema, instance=json_to_validate)
+```
+
+```sh
+pip install google-auth-oauthlib
+pip install google-api-python-client
+pip install getfilelistpy
 ```
