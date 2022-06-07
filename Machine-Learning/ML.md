@@ -232,10 +232,6 @@ def deriv_sigmoid(x):
 	tf.nn.tanh()
 	```
 ## Categorical Cross-Entropy
-- Source : https://wordbe.tistory.com/entry/ML-Cross-entropyCategorical-Binary의-이해
-- Softmax activation 뒤에 Cross-Entropy loss를 붙인 형태로 주로 사용하기 때문에 Softmax loss 라고도 불립니다. → Multi-class classification에 사용됩니다.
-우리가 분류문제에서 주로 사용하는 활성화함수와 로스입니다. 분류 문제에서는 MSE(mean square error) loss 보다 CE loss가 더 빨리 수렴한 다는 사실이 알려져있습니다. 따라서 multi class에서 하나의 클래스를 구분할 때 softmax와 CE loss의 조합을 많이 사용합니다.
-## `tf.keras.activations.linear()`
 ## Relu
 - Using `tensorflow.nn.relu()`
 	```python
@@ -343,9 +339,9 @@ encoder.fit(data["company1"], data["money"]);
 data["company1_label"] = encoder.transform(data["company1"]).round(0)
 ```
 
-# Splitting Dataset
+# Split Dataset
 - Source: https://developers.google.com/machine-learning/crash-course/training-and-test-sets/splitting-data
-## Random Sampling
+## Random Sample
 - The benefit of this approach is that we can see how the model reacts to previously unseen data.
 However, what if one subset of our data only have people of a certain age or income levels? This is typically referred to as a sampling bias:
 Sampling bias is systematic error due to a non-random sample of a population, causing some members of the population to be less likely to be included than others, resulting in a biased sample.
@@ -571,7 +567,7 @@ While both types of models can fit curvature, nonlinear regression is much more 
     그런데 만약 회귀 모델의 목적이 해석이 아니라 예측에 있다면 비선형 모델은 대단히 유연하기 때문에 복잡한 패턴을 갖는 데이터에 대해서도 모델링이 가능합니다. 그래서 충분히 많은 데이터를 갖고 있어서 variance error를 충분히 줄일 수 있고 예측 자체가 목적인 경우라면 비선형 모델은 사용할만한 도구입니다. 기계 학습 분야에서는 실제 이런 비선형 모델을 대단히 많이 사용하고 있는데 가장 대표적인 것이 소위 딥 러닝이라고 부르는 뉴럴 네트워크입니다.
 - 정리하자면, 선형 회귀 모델은 파라미터가 선형식으로 표현되는 회귀 모델을 의미합니다. 그리고 이런 선형 회귀 모델은 파라미터를 추정하거나 모델을 해석하기가 비선형 모델에 비해 비교적 쉽기 때문에, 데이터를 적절히 변환하거나 도움이 되는 feature들을 추가하여 선형 모델을 만들 수 있다면 이렇게 하는 것이 적은 개수의 feature로 복잡한 비선형 모델을 만드는 것보다 여러 면에서 유리합니다. 반면 선형 모델은 표현 가능한 모델의 가짓수(파라미터의 개수가 아니라 파라미터의 결합 형태)가 한정되어 있기 때문에 유연성이 떨어집니다. 따라서 복잡한 패턴을 갖고 있는 데이터에 대해서는 정확한 모델링이 불가능한 경우가 있습니다. 그래서 최근에는 모델의 해석보다는 정교한 예측이 중요한 분야의 경우 뉴럴 네트워크와 같은 비선형 모델이 널리 사용되고 있습니다.
 
-# Treating Missing Values
+# Missing Value
 - Source: https://adataanalyst.com/machine-learning/comprehensive-guide-feature-engineering/
 ## Data Imputation
 - Using `sklearn.impute.SimpleImputer()`
@@ -628,6 +624,65 @@ E## Experimental Errors
 ### Z-score
 
 # K-Nearest Neighbors (KNN)
+- NumPy Implementation
+	```python
+	import numpy as np
+
+
+	from collections import Counter, defaultdict
+
+
+	def euclidean_distance(vec1, vec2):
+		return np.linalg.norm(vec1 - vec2, ord=2)
+
+
+	def get_score_from_distance(distance):
+		return 1/distance
+
+
+	def predict_label_by_knn(X_test, X_train, y_train, k, weights="uniform"):
+		y_test = list()
+		for x_test in X_test:
+			dist_label = list()
+			for x_train, label in zip(X_train, y_train):
+				dist = euclidean_distance(x_test, x_train)
+				dist_label.append((dist, label))
+
+			dist_label.sort()
+			dist_label = dist_label[:k]
+
+			if weights == "uniform":
+				counter = Counter([i[1] for i in dist_label])
+				pred = counter.most_common(1)[0][0]        
+			elif weights == "distance":
+				label2score = defaultdict(int)
+				for dist, label in dist_label:
+					score = get_score_from_distance(dist)
+					label2score[label] += score
+				pred = sorted(label2score.items(), key=lambda x: x[1])[-1][0]
+			else:
+				raise ValueError("`weights` shoud be one of the following; ('unifrom', 'distance')")
+
+			y_test.append(pred)
+
+		return np.array(y_test)
+
+
+	# Example
+	size_tr = 30
+	n_classes = 5
+	X_tr = np.array([[np.random.rand(), np.random.rand()] for _ in range(size_tr)])
+	y_tr = np.array([np.random.choice(range(n_classes)) for _ in range(size_tr)])
+
+	size_te = 10
+	X_te = np.array([[np.random.rand(), np.random.rand()] for _ in range(size_te)])
+
+	predict_label_by_knn(X_te, X_tr, y_tr, k=5, weights="uniform")
+	predict_label_by_knn(X_te, X_tr, y_tr, k=5, weights="distance")
+	```
+
+
+# K-Means Clustering
 ```python
 # 초기 중심점을 랜덤으로 설정.
 flags = cv2.KMEANS_RANDOM_CENTERS
@@ -646,22 +701,6 @@ compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 - Decoder
 	- p(x|z)
 
-# Plot Decision Tree
-```python
-import graphviz
-```
-```python
-def plot_tree(model, filename, rankdir="UT"):
-    import os
-    gviz = xgb.to_graphviz(model, num_trees = model.best_iteration, rankdir=rankdir)
-    _, file_extension = os.path.splitext(filename)
-    format = file_extension.strip(".").lower()
-    data = gviz.pipe(format=format)
-    full_filename = filename
-    with open(full_filename, "wb") as f:
-        f.write(data)
-```
-
 # Regularization
 ## L1 Regularization (= Lasso Regression)
 ## L2 Regularization (= Ridge Regression)
@@ -678,6 +717,11 @@ def plot_tree(model, filename, rankdir="UT"):
 		- *Alternatively, we can transfer the layers from a pretrained network and train the entire network on the available labeled data. This setup needs a little more labeled data because you are training the entire network and hence a large number of parameters. This setup is more prone to overfitting when there is a scarcity of data.*
 	3. Two-stage Transfer Learning
 		- This approach is my personal favorite and usually yields the best results, at least in my experience. Here, ***we train the newly attached layers while freezing the transferred layers for a few epochs before fine-tuning the entire network. Fine-tuning the entire network without giving a few epochs to the final layers can result in the propagation of harmful gradients from randomly initialized layers to the base network. Furthermore, fine-tuning requires a comparatively smaller learning rate, and a two-stage approach is a convenient solution to it.***
+
+# Droupout
+- Source: https://leimao.github.io/blog/Dropout-Explained/#:~:text=During%20inference%20time%2C%20dropout%20does,were%20multiplied%20by%20pkeep%20.
+- During training time, dropout randomly sets node values to zero. In the original implementation, we have "keep probability" p. So dropout randomly kills node values with "dropout probability" 1 − p. During inference time, dropout does not kill node values, but all the weights in the layer were multiplied by keep probability. One of the major motivations of doing so is to make sure that the distribution of the values after affine transformation during inference time is close to that during training time. Equivalently, This multiplier could be placed on the input values rather than the weights.
+- TensorFlow has its own implementation of dropout which only does work during training time.
 
 # `annoy`
 - Install
@@ -891,10 +935,18 @@ W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
 - Stacks a list of tensors of rank R into one tensor of rank (R + 1).
 - `axis`: The axis to stack along.
 - Same syntax as `np.stack()`
-## `Add()()`
-- It takes as input a list of tensors, all of the same shape, and returns a single tensor (also of the same shape).
-- 마지막 Deminsion만 동일하면 Input으로 주어진 Tensors 중 하나를 옆으로 늘려서 덧셈을 수행합니다.
-## `Multiply()()`
+## Add Layers
+```python
+# TensorFlow
+# It takes as input a list of tensors, all of the same shape, and returns a single tensor (also of the same shape).
+# 마지막 Deminsion만 동일하면 Input으로 주어진 Tensors 중 하나를 옆으로 늘려서 덧셈을 수행합니다.
+Add()()
+```
+## Multiply Layers
+```python
+# TensorFlow
+Multiply()()
+```
 ## `Dot(axes)`
 - `axes` : (integer, tuple of integers) Axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
 ## `Concatenate([axis])()` (= `tf.concat(values, [axis], [name])`)
@@ -905,9 +957,6 @@ W = tf.Variable(tf.zeros([2, 1], dtype=tf.float32), name="weight")
 	- ***Elements of this tuple can be None; "None" elements represent dimensions where the shape is not known.***
 	- Note that `shape` does not include the batch dimension.
 ## Dropout Layer
-- Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dropout, https://www.tensorflow.org/tutorials/images/classification
-- Another technique to reduce overfitting is to introduce dropout regularization to the network.
-- When you apply dropout to a layer, it randomly drops out (by setting the activation to zero) a number of output units from the layer during the training process. Dropout takes a fractional number as its input value, in the form such as 0.1, 0.2, 0.4, etc. This means dropping out 10%, 20% or 40% of the output units randomly from the applied layer.
 ```python
 # TensorFlow
 # `rate`
@@ -1019,8 +1068,6 @@ Conv2d()
 ConvTranspose1d()
 ConvTranspose2d()
 ```
-## `RNN()`
-## `GRU(units, input_shape)`
 ## LSTM
 ```python
 # TensorFlow
