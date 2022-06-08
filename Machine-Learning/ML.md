@@ -1,13 +1,13 @@
 # Dataset & Data Set
-- Source: https://english.stackexchange.com/questions/2120/which-is-correct-dataset-or-data-set
+- Reference: https://english.stackexchange.com/questions/2120/which-is-correct-dataset-or-data-set
 - Dataset for certain datasets
 - Data set for any set for data in general.
 
 # Data Density (or Sparsity)
-- Source: https://datascience.foundation/discussion/data-science/data-sparsity
+- Reference: https://datascience.foundation/discussion/data-science/data-sparsity
 - In a database, sparsity and density describe the number of cells in a table that are empty (sparsity) and that contain information (density), though sparse cells are not always technically empty—they often contain a "0” digit.
 ## Sparse Matrix & Dense Matrix
-- Source: https://en.wikipedia.org/wiki/Sparse_matrix
+- Reference: https://en.wikipedia.org/wiki/Sparse_matrix
 - ***A sparse matrix or sparse array is a matrix in which most of the elements are zero.*** *There is no strict definition regarding the proportion of zero-value elements for a matrix to qualify as sparse but a common criterion is that the number of non-zero elements is roughly equal to the number of rows or columns.* ***By contrast, if most of the elements are non-zero, the matrix is considered dense. The number of zero-valued elements divided by the total number of elements is sometimes referred to as the sparsity of the matrix.***
 ### Compressed Sparse Row (CSR)
 - *The compressed sparse row (CSR) or compressed row storage (CRS) or Yale format represents a matrix M by three (one-dimensional) arrays, that respectively contain nonzero values, the extents of rows, and column indices.*
@@ -22,7 +22,7 @@ dense_mat = sparse_mat.todense()
 ```
 
 # Prediction & Forecasting
-- Source: https://www.datascienceblog.net/post/machine-learning/forecasting_vs_prediction/#:~:text=Prediction%20is%20concerned%20with%20estimating%20the%20outcomes%20for%20unseen%20data.&text=Forecasting%20is%20a%20sub%2Ddiscipline,we%20consider%20the%20temporal%20dimension.
+- Reference: https://www.datascienceblog.net/post/machine-learning/forecasting_vs_prediction/#:~:text=Prediction%20is%20concerned%20with%20estimating%20the%20outcomes%20for%20unseen%20data.&text=Forecasting%20is%20a%20sub%2Ddiscipline,we%20consider%20the%20temporal%20dimension.
 - *Prediction is concerned with estimating the outcomes for unseen data.*
 - *Forecasting is a sub-discipline of prediction in which we are making predictions about the future, on the basis of time-series data.* Thus, the only difference between prediction and forecasting is that we consider the temporal dimension.
 
@@ -31,18 +31,18 @@ dense_mat = sparse_mat.todense()
 - Categorical
 
 # Metadata
-- Source: https://en.wikipedia.org/wiki/Metadata
+- Reference: https://en.wikipedia.org/wiki/Metadata
 - Metadata is "data that provides information about other data", but not the content of the data, such as the text of a message or the image itself.
 
 # Embedding
-- Source: https://analyticsindiamag.com/machine-learning-embedding/#:~:text=An%20embedding%20is%20a%20low,of%20a%20high%2Ddimensional%20vector.&text=Embedding%20is%20the%20process%20of,the%20two%20are%20semantically%20similar.
+- Reference: https://analyticsindiamag.com/machine-learning-embedding/#:~:text=An%20embedding%20is%20a%20low,of%20a%20high%2Ddimensional%20vector.&text=Embedding%20is%20the%20process%20of,the%20two%20are%20semantically%20similar.
 - *Embedding is the process of converting high-dimensional data to low-dimensional data in the form of a vector in such a way that the two are semantically similar.*
 - Embeddings of neural networks are advantageous because they can lower the dimensionality of categorical variables and represent them meaningfully in the altered space.
-- Source: https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture
+- Reference: https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture
 - An embedding is a relatively low-dimensional space into which you can translate high-dimensional vectors. Embeddings make it easier to do machine learning on large inputs like sparse vectors representing words. Ideally, an embedding captures some of the semantics of the input by placing semantically similar inputs close together in the embedding space. An embedding can be learned and reused across models.
 
 # Feature Scaling (Data Normalization)
-- Source: https://en.wikipedia.org/wiki/Feature_scaling
+- Reference: https://en.wikipedia.org/wiki/Feature_scaling
 - Feature scaling is a method used to normalize the range of independent variables or features of data. In data processing, it is also known as data normalization and is generally performed during the data preprocessing step.
 - ***Since the range of values of raw data varies widely, in some machine learning algorithms, objective functions will not work properly without normalization. For example, many classifiers calculate the distance between two points by the Euclidean distance. If one of the features has a broad range of values, the distance will be governed by this particular feature. Therefore, the range of all features should be normalized so that each feature contributes approximately proportionately to the final distance.***
 - ***Another reason why feature scaling is applied is that gradient descent converges much faster with feature scaling than without it.***
@@ -105,17 +105,17 @@ user_embs_pca = pd.DataFrame(user_embs_pca, index=user_embs.index, columns=["x",
 
 # Parameter
 ## Hyperparameter
-- Source: https://en.wikipedia.org/wiki/Artificial_neural_network
+- Reference: https://en.wikipedia.org/wiki/Artificial_neural_network
 - A hyperparameter is a constant parameter whose value is set before the learning process begins. The values of parameters are derived via learning.
 
 # Learning
-- Source: https://en.wikipedia.org/wiki/Artificial_neural_network
+- Reference: https://en.wikipedia.org/wiki/Artificial_neural_network
 - Learning is the adaptation of the network to better handle a task by considering sample observations. *Learning involves adjusting the weights (and optional thresholds) of the network to improve the accuracy of the result. This is done by minimizing the observed errors. Learning is complete when examining additional observations does not usefully reduce the error rate. Even after learning, the error rate typically does not reach 0.* If after learning, the error rate is too high, the network typically must be redesigned. Practically this is done by defining a cost function that is evaluated periodically during learning. *As long as its output continues to decline, learning continues.*
 ## Learning Rate
 - *The learning rate defines the size of the corrective steps that the model takes to adjust for errors in each observation. A high learning rate shortens the training time, but with lower ultimate accuracy, while a lower learning rate takes longer, but with the potential for greater accuracy. In order to avoid oscillation inside the network such as alternating connection weights, and to improve the rate of convergence, refinements use an adaptive learning rate that increases or decreases as appropriate. The concept of momentum allows the balance between the gradient and the previous change to be weighted such that the weight adjustment depends to some degree on the previous change. A momentum close to 0 emphasizes the gradient, while a value close to 1 emphasizes the last change.*
 
 # Discriminative & Generative Model
-- Source: https://analyticsindiamag.com/what-are-discriminative-generative-models-how-do-they-differ/
+- Reference: https://analyticsindiamag.com/what-are-discriminative-generative-models-how-do-they-differ/
 - *Discriminative models draw boundaries in the data space, while generative ones model how data is placed throughout the space. Mathematically speaking, a discriminative machine learning trains a model by learning parameters that maximize the conditional probability P(Y|X), but a generative model learns parameters by maximizing the joint probability P(X,Y).*
 ## Discriminative Model
 - ***The discriminative model is used particularly for supervised machine learning. Also called a conditional model, it learns the boundaries between classes or labels in a dataset. It creates new instances using probability estimates and maximum likelihood. However, they are not capable of generating new data points. The ultimate goal of discriminative models is to separate one class from another.***
@@ -123,19 +123,19 @@ user_embs_pca = pd.DataFrame(user_embs_pca, index=user_embs.index, columns=["x",
 - ***Generative models are a class of statistical models that generate new data instances. These models are used in unsupervised machine learning to perform tasks such as probability and likelihood estimation, modelling data points, and distinguishing between classes using these probabilities. Generative models rely on the Bayes theorem to find the joint probability.***
 
 # Convergence
-- Source: https://en.wikipedia.org/wiki/Artificial_neural_network
+- Reference: https://en.wikipedia.org/wiki/Artificial_neural_network
 - ***Models may not consistently converge on a single solution, firstly because local minima may exist, depending on the cost function and the model. Secondly, the optimization method used might not guarantee to converge when it begins far from any local minimum. Thirdly, for sufficiently large data or parameters, some methods become impractical.***
 
 # Batch Normalization
-- Source: https://en.wikipedia.org/wiki/Batch_normalization 
+- Reference: https://en.wikipedia.org/wiki/Batch_normalization 
 - Batch normalization (also known as batch norm) is a method used to make artificial neural networks faster and more stable through normalization of the layers' inputs by re-centering and re-scaling. It was proposed by Sergey Ioffe and Christian Szegedy in 2015.[1]
 While the effect of batch normalization is evident, the reasons behind its effectiveness remain under discussion. It was believed that it can mitigate the problem of internal covariate shift, where parameter initialization and changes in the distribution of the inputs of each layer affect the learning rate of the network.[1] Recently, some scholars have argued that batch normalization does not reduce internal covariate shift, but rather smooths the objective function, which in turn improves the performance.[2] However, at initialization, batch normalization in fact induces severe gradient explosion in deep networks, which is only alleviated by skip connections in residual networks.[3] Others sustain that batch normalization achieves length-direction decoupling, and thereby accelerates neural networks.[4] More recently a normalize gradient clipping technique and smart hyperparameter tuning has been introduced in Normalizer-Free Nets, so called "NF-Nets" which mitigates the need for batch normalization.[5][6
 
 # MLOps
-- Source: https://en.wikipedia.org/wiki/MLOps
+- Reference: https://en.wikipedia.org/wiki/MLOps
 - MLOps or ML Ops is a set of practices that aims to deploy and maintain machine learning models in production reliably and efficiently.[1] The word is a compound of "machine learning" and the continuous development practice of DevOps in the software field. Machine learning models are tested and developed in isolated experimental systems. When an algorithm is ready to be launched, MLOps is practiced between Data Scientists, DevOps, and Machine Learning engineers to transition the algorithm to production systems.
 - Model Serving
-	- Source: https://medium.com/daria-blog/%EB%AA%A8%EB%8D%B8-%EC%84%9C%EB%B9%99%EC%9D%B4%EB%9E%80-21f970e6cfa5
+	- Reference: https://medium.com/daria-blog/%EB%AA%A8%EB%8D%B8-%EC%84%9C%EB%B9%99%EC%9D%B4%EB%9E%80-21f970e6cfa5
 	- MLOps에서는 특히 새로운 모델을 서빙하는 건 상당히 두려운 일입니다. 이 문제를 해결하기 위해 카나리 모델은 새로운 모델을 완전히 올리기 전 일부 트래픽을 새로운 모델에 흘려보냅니다. 카나리 모델이 어떻게 반응하는지 살펴보고 서빙을 할지 말지 판단하는 데 도와줍니다. 앞서 설명해 드린 모델 컨테이너라는 규격화된 애플리케이션이 있다면 이 안에 모델을 바꾸는 것만으로도 간단히 카나리 모델을 적용할 수 있습니다. 모델 컨테이너가 없다면 카나리 모델을 서빙하는 또 다른 애플리케이션이 담긴 도커 이미지를 반복적으로 빌드 해야 합니다.
 	- ![Canary Test](https://miro.medium.com/max/421/1*1AUtwG0MqUEzGlfRndvnnw.png)
 	- 위와 같이 카나리 테스트를 적용한다고 하더라도 모델은 시간이 흐르며 성능은 변합니다. 현재 운영 중인 모델이 기준 성능을 만족하지 못하는 상황은 언제든지 발생할 수 있습니다. 이러한 상황이 발생한다면 MLOps가 해야 하는 작업은 크게 (1) 서비스 중지, (2) 특정 모델로 교체입니다. (1) 서비스 중지는 잘못된 예측값을 주느니 차라리 예측하지 않는 것이 좋은 경우입니다. (2) 특정 모델로 교체하는 것을 롤백이라고 합니다.
@@ -219,7 +219,7 @@ def deriv_sigmoid(x):
 	return sigmoid(x)(1 - sigmoid(x))
 ```
 ## Softmax
-- Source: https://www.tensorflow.org/api_docs/python/tf/nn/softmax
+- Reference: https://www.tensorflow.org/api_docs/python/tf/nn/softmax
 - Same as `tf.exp(logits) / tf.math.reduce_sum(tf.exp(logits), [axis])`
 - Using `tensorflow.nn.softmax([axis])`
 	```python
@@ -245,10 +245,10 @@ tfa.optimizers.RectifiedAdam(lr, total_steps, warmup_proportion, min_lr, epsilon
 ```
 
 # Gradient Descent
-- Source: https://en.wikipedia.org/wiki/Gradient_descent
+- Reference: https://en.wikipedia.org/wiki/Gradient_descent
 - ***Gradient descent is a first-order iterative optimization algorithm for finding a local minimum of a differentiable function. The idea is to take repeated steps in the opposite direction of the gradient (or approximate gradient) of the function at the current point, because this is the direction of steepest descent.*** Conversely, stepping in the direction of the gradient will lead to a local maximum of that function; the procedure is then known as gradient ascent.
 ## Vanishing Gradient
-- Source: https://en.wikipedia.org/wiki/Vanishing_gradient_problem
+- Reference: https://en.wikipedia.org/wiki/Vanishing_gradient_problem
 - In machine learning, the vanishing gradient problem is encountered when training artificial neural networks with gradient-based learning methods and backpropagation. In such methods, during each iteration of training each of the neural network's weights receives an update proportional to the partial derivative of the error function with respect to the current weight. *The problem is that in some cases, the gradient will be vanishingly small, effectively preventing the weight from changing its value. In the worst case, this may completely stop the neural network from further training. As one example of the problem cause, traditional activation functions such as the hyperbolic tangent function have gradients in the range (0,1], and backpropagation computes gradients by the chain rule. This has the effect of multiplying `n` of these small numbers to compute gradients of the early layers in an `n`-layer network, meaning that the gradient (error signal) decreases exponentially with `n` while the early layers train very slowly.*
 When activation functions are used whose derivatives can take on larger values, one risks encountering the related exploding gradient problem.
 - Solutions
@@ -256,7 +256,7 @@ When activation functions are used whose derivatives can take on larger values, 
 		- One of the newest and most effective ways to resolve the vanishing gradient problem is with residual neural networks, or ResNets (not to be confused with recurrent neural networks). ResNets refer to neural networks where skip connections or residual connections are part of the network architecture. *These skip connections allow gradient information to pass through the layers, by creating "highways" of information, where the output of a previous layer/activation is added to the output of a deeper layer. This allows information from the earlier parts of the network to be passed to the deeper parts of the network, helping maintain signal propagation even in deeper networks. Skip connections are a critical component of what allowed successful training of deeper neural networks.* ResNets yielded lower training error (and test error) than their shallower counterparts simply by reintroducing outputs from shallower layers in the network to compensate for the vanishing data.
 	- Other activation functions
 		- Rectifiers such as ReLU suffer less from the vanishing gradient problem, because they only saturate in one direction.
-- Source: https://www.analyticsvidhya.com/blog/2021/06/understanding-resnet-and-analyzing-various-models-on-the-cifar-10-dataset/
+- Reference: https://www.analyticsvidhya.com/blog/2021/06/understanding-resnet-and-analyzing-various-models-on-the-cifar-10-dataset/
 - While backpropagating, we follow the chain rule, the derivatives of each layer are multiplied down the network. When we use a lot of deeper layers, and we have hidden layers like sigmoid, we could have derivatives being scaled down below 0.25 for each layer. So when the number of layers derivatives are multiplied the gradient decreases exponentially as we propagate down to the initial layers.
 
 # Variable Encoding
@@ -340,7 +340,7 @@ data["company1_label"] = encoder.transform(data["company1"]).round(0)
 ```
 
 # Split Dataset
-- Source: https://developers.google.com/machine-learning/crash-course/training-and-test-sets/splitting-data
+- Reference: https://developers.google.com/machine-learning/crash-course/training-and-test-sets/splitting-data
 ## Random Sample
 - The benefit of this approach is that we can see how the model reacts to previously unseen data.
 However, what if one subset of our data only have people of a certain age or income levels? This is typically referred to as a sampling bias:
@@ -421,10 +421,10 @@ mae = metrics.MeanAbsoluteError([name])().numpy()
 mape = metrics.MeanAbsolutePercentageError([name])().numpy()
 ```
 ### SMAPE (Symmetric Mean Absolute Percentage Error)
-- Source: https://en.wikipedia.org/wiki/Symmetric_mean_absolute_percentage_error
+- Reference: https://en.wikipedia.org/wiki/Symmetric_mean_absolute_percentage_error
 - The absolute difference between the actual value and forecast value is divided by half the sum of absolute values of the actual value and the forecast value. The value of this calculation is summed for every fitted point and divided again by the number of fitted points.
 ### R-Squared
-- Source: https://statisticsbyjim.com/regression/r-squared-invalid-nonlinear-regression/
+- Reference: https://statisticsbyjim.com/regression/r-squared-invalid-nonlinear-regression/
 - Explained variance + Error variance = Total variance.
 - However, this math works out correctly only for linear regression models. In nonlinear regression, these underlying assumptions are incorrect. Explained variance + Error variance DO NOT add up to the total variance! The result is that R-squared isn’t necessarily between 0 and 100%.
 - If you use R-squared for nonlinear models, their study indicates you will experience the following problems:
@@ -433,7 +433,7 @@ R-squared will not rise for better models all of the time.
 If you use R-squared to pick the best model, it leads to the proper model only 28-43% of the time.
 ### Adjusted R-Squared
 ### RMSLE(Root Mean Squared Logarithmic Error)
-- Source: https://shryu8902.github.io/machine%20learning/error/
+- Reference: https://shryu8902.github.io/machine%20learning/error/
 ## Classification Problem
 ```python
 bc = metrics.BinaryCrossentropy()
@@ -442,10 +442,10 @@ bc = metrics.BinaryCrossentropy()
 scc = metrics.SparseCategoricalCrossentropy()
 ```
 ### Confusion Matrix
-- Source: https://datascienceschool.net/view-notebook/731e0d2ef52c41c686ba53dcaf346f32/
+- Reference: https://datascienceschool.net/view-notebook/731e0d2ef52c41c686ba53dcaf346f32/
 - 정답 클래스와 예측 클래스의 일치 여부를 센 결과. 정답 클래스는 행(row)으로 예측한 클래스는 열(column)로 나타낸다.
 ## Classification Problem
-- Sources: https://en.wikipedia.org/wiki/Accuracy_and_precision, https://en.wikipedia.org/wiki/Precision_and_recall
+- References: https://en.wikipedia.org/wiki/Accuracy_and_precision, https://en.wikipedia.org/wiki/Precision_and_recall
 - Condition positive (P): The number of real positive cases in the data (= TP + FN)
 - Condition negative (N): The number of real negative cases in the data (= TN + FP)
 - True positive (TP): A test result that correctly indicates the presence of a condition or characteristic
@@ -462,11 +462,11 @@ scc = metrics.SparseCategoricalCrossentropy()
 - Equal to TP/P or TP/(TP + FN)
 
 # Recurrent Neural Network
-- Source: https://wikidocs.net/22886
+- Reference: https://wikidocs.net/22886
 - 앞서 배운 신경망들은 전부 은닉층에서 활성화 함수를 지난 값은 오직 출력층 방향으로만 향했습니다. 이와 같은 신경망들을 피드 포워드 신경망(Feed Forward Neural Network)이라고 합니다. 그런데 그렇지 않은 신경망들이 있습니다. RNN(Recurrent Neural Network) 또한 그 중 하나입니다. RNN은 은닉층의 노드에서 활성화 함수를 통해 나온 결과값을 출력층 방향으로도 보내면서, 다시 은닉층 노드의 다음 계산의 입력으로 보내는 특징을 갖고있습니다.
 - 메모리 셀이 출력층 방향 또는 다음 시점인 t+1의 자신에게 보내는 값을 은닉 상태(hidden state) 라고 합니다. 다시 말해 t 시점의 메모리 셀은 t-1 시점의 메모리 셀이 보낸 은닉 상태값을 t 시점의 은닉 상태 계산을 위한 입력값으로 사용합니다.
 ## LSTM (Long Short-Term Memory)
-- Source: https://en.wikipedia.org/wiki/Long_short-term_memory
+- Reference: https://en.wikipedia.org/wiki/Long_short-term_memory
 - *A common LSTM unit is composed of a cell, an input gate, an output gate and a forget gate. The cell remembers values over arbitrary time intervals and the three gates regulate the flow of information into and out of the cell.*
 - ***LSTMs were developed to deal with the vanishing gradient problem that can be encountered when training traditional RNNs. Relative insensitivity to gap length is an advantage of LSTM over RNNs.***
 - In theory, classic (or "vanilla") RNNs can keep track of arbitrary long-term dependencies in the input sequences. The problem with vanilla RNNs is computational (or practical) in nature: *when training a vanilla RNN using back-propagation, the long-term gradients which are back-propagated can "vanish" (that is, they can tend to zero) or "explode" (that is, they can tend to infinity), because of the computations involved in the process, which use finite-precision numbers. RNNs using LSTM units partially solve the vanishing gradient problem, because LSTM units allow gradients to also flow unchanged. However, LSTM networks can still suffer from the exploding gradient problem.*
@@ -476,7 +476,7 @@ scc = metrics.SparseCategoricalCrossentropy()
 
 # Feature Importance
 ## Permutation Feature Importance
-- Source: https://scikit-learn.org/stable/modules/permutation_importance.html
+- Reference: https://scikit-learn.org/stable/modules/permutation_importance.html
 - Permutation feature importance is a model inspection technique that can be used for any fitted estimator when the data is tabular.
 - Features that are important on the training set but not on the held-out set might cause the model to overfit.
 - Tree-based models provide an alternative measure of feature importances based on the mean decrease in impurity (MDI). Impurity is quantified by the splitting criterion of the decision trees (Gini, Entropy or Mean Squared Error). However, this method can give high importance to features that may not be predictive on unseen data when the model is overfitting. Permutation-based feature importance, on the other hand, avoids this issue, since it can be computed on unseen data.
@@ -484,11 +484,11 @@ scc = metrics.SparseCategoricalCrossentropy()
 - Permutation-based feature importances do not exhibit such a bias. Additionally, the permutation feature importance may be computed performance metric on the model predictions and can be used to analyze any model class (not just tree-based models).
 - When two features are correlated and one of the features is permuted, the model will still have access to the feature through its correlated feature. This will result in a lower importance value for both features, where they might actually be important.
 - One way to handle this is to cluster features that are correlated and only keep one feature from each cluster.
-- Source: https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance_multicollinear.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-multicollinear-py
+- Reference: https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance_multicollinear.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-multicollinear-py
 - Because this dataset contains multicollinear features, the permutation importance will show that none of the features are important. One approach to handling multicollinearity is by performing hierarchical clustering on the features’ Spearman rank-order correlations, picking a threshold, and keeping a single feature from each cluster.
 - The permutation importance plot shows that permuting a feature drops the accuracy by at most 0.012, which would suggest that none of the features are important.
 - When features are collinear, permutating one feature will have little effect on the models performance because it can get the same information from a correlated feature. One way to handle multicollinear features is by performing hierarchical clustering on the Spearman rank-order correlations, picking a threshold, and keeping a single feature from each cluster.
-- Source: https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-py
+- Reference: https://scikit-learn.org/stable/auto_examples/inspection/plot_permutation_importance.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-py
 - We will show that the impurity-based feature importance can inflate the importance of numerical features.
 - Furthermore, the impurity-based feature importance of random forests suffers from being computed on statistics derived from the training dataset: the importances can be high even for features that are not predictive of the target variable, as long as the model has the capacity to use them to overfit.
 - random_num is a high cardinality numerical variable (as many unique values as records).
@@ -498,7 +498,7 @@ This problem stems from two limitations of impurity-based feature importances:
 impurity-based importances are biased towards high cardinality features;
 impurity-based importances are computed on training set statistics and therefore do not reflect the ability of feature to be useful to make predictions that generalize to the test set (when the model has enough capacity).
 - It is also possible to compute the permutation importances on the training set. This reveals that random_num gets a significantly higher importance ranking than when computed on the test set. The difference between those two plots is a confirmation that the RF model has enough capacity to use that random numerical feature to overfit. You can further confirm this by re-running this example with constrained RF with min_samples_leaf=10.
-- Source: https://christophm.github.io/interpretable-ml-book/feature-importance.html#feature-importance-data
+- Reference: https://christophm.github.io/interpretable-ml-book/feature-importance.html#feature-importance-data
 - We measure the importance of a feature by calculating the increase in the model's prediction error after permuting the feature. A feature is "important" if shuffling its values increases the model error, because in this case the model relied on the feature for the prediction. A feature is "unimportant" if shuffling its values leaves the model error unchanged, because in this case the model ignored the feature for the prediction.
 - If you want a more accurate estimate, you can estimate the error of permuting feature j by pairing each instance with the value of feature j of each other instance (except with itself). This gives you a dataset of size n(n-1) to estimate the permutation error, and it takes a large amount of computation time. I can only recommend using the n(n-1) method if you are serious about getting extremely accurate estimates.
 - **The feature importance based on training data makes us mistakenly believe that features are important for the predictions, when in reality the model was just overfitting and the features were not important at all.**
@@ -506,14 +506,14 @@ impurity-based importances are computed on training set statistics and therefore
 - If you would use (nested) cross-validation for the feature importance estimation, you would have the problem that the feature importance is not calculated on the final model with all the data, but on models with subsets of the data that might behave differently.
 -  **You need to decide whether you want to know how much the model relies on each feature for making predictions (-> training data) or how much the feature contributes to the performance of the model on unseen data (-> test data).**
 ## Drop-out Feature Importance
-- Source: https://towardsdatascience.com/explaining-feature-importance-by-example-of-a-random-forest-d9166011959e
+- Reference: https://towardsdatascience.com/explaining-feature-importance-by-example-of-a-random-forest-d9166011959e
 ## On Train Set or Test Set?
-- Source: https://christophm.github.io/interpretable-ml-book/feature-importance.html
+- Reference: https://christophm.github.io/interpretable-ml-book/feature-importance.html
 ### On Test Set
 - Really, it is one of the first things you learn in machine learning: If you measure the model error (or performance) on the same data on which the model was trained, the measurement is usually too optimistic, which means that the model seems to work much better than it does in reality. And since the permutation feature importance relies on measurements of the model error, we should use unseen test data. The feature importance based on training data makes us mistakenly believe that features are important for the predictions, when in reality the model was just overfitting and the features were not important at all.
 
 # Feature Engineering
-- Source: https://adataanalyst.com/machine-learning/comprehensive-guide-feature-engineering/
+- Reference: https://adataanalyst.com/machine-learning/comprehensive-guide-feature-engineering/
 ## Time-Related Variables
 - Time-stamp attributes are usually denoted by the EPOCH time or split up into multiple dimensions such as (Year, Month, Date, Hours, Minutes, Seconds). But in many applications, a lot of that information is unnecessary. Consider for example a supervised system that tries to predict traffic levels in a city as a function of Location+Time. In this case, trying to learn trends that vary by seconds would mostly be misleading. The year wouldn’t add much value to the model as well. Hours, day and month are probably the only dimensions you need. So when representing the time, try to ensure that your model does require all the numbers you are providing it.
 - Here is an example hypothesis: An applicant who takes days to fill in an application form is likely to be less interested / motivated in the product compared to some one who fills in the same application with in 30 minutes. Similarly, for a bank, time elapsed between dispatch of login details for Online portal and customer logging in might show customers’ willingness to use Online portal. Another example is that a customer living closer to a bank branch is more likely to have a higher engagement than a customer living far off.
@@ -541,7 +541,7 @@ impurity-based importances are computed on training set statistics and therefore
 Consider a feature A, with two possible values {A1, A2}. Let B be a feature with possibilities {B1, B2}. Then, a feature-cross between A & B (lets call it AB) would take one of the following values: {(A1, B1), (A1, B2), (A2, B1), (A2, B2)}. You can basically give these ‘combinations’ any names you like. Just remember that every combination denotes a synergy between the information contained by the corresponding values of A and B.
 
 # Distance Features
-- Source: https://www.tandfonline.com/doi/full/10.1080/10095020.2018.1503775
+- Reference: https://www.tandfonline.com/doi/full/10.1080/10095020.2018.1503775
 - The Euclidean function is unrealistic for some (notably urban) settings which contain complex physical restrictions and social structures for example road and path networks, large restricted areas of private land and legal road restrictions such as speed limits and one-way systems.
 ## House prices in space
 - Most contemporary analysis mimics this trend, for example predicting property value by using (1) the average sales price of other properties in the local comparable markets, (2) a spatial clustering of properties and demographics (Malczewski 2004) and (3) a local demographic "trade area” (Daniel 1994).
@@ -555,20 +555,20 @@ Consider a feature A, with two possible values {A1, A2}. Let B be a feature with
 
 # Model Linearity
 ## Difference between Linear and Nonlinear
-- Source: https://statisticsbyjim.com/regression/difference-between-linear-nonlinear-regression-models/
+- Reference: https://statisticsbyjim.com/regression/difference-between-linear-nonlinear-regression-models/
 - The form is linear in the parameters because all terms are either the constant or a parameter multiplied by an independent variable (IV). A linear regression equation simply sums the terms. While the model must be linear in the parameters, you can raise an independent variable by an exponent to fit a curve. For instance, you can include a squared or cubed term.
 Nonlinear regression models are anything that doesn’t follow this one form.
 While both types of models can fit curvature, nonlinear regression is much more flexible in the shapes of the curves that it can fit. After all, the sky is the limit when it comes to the possible forms of nonlinear models.
 - While the independent variable is squared, the model is still linear in the parameters. Linear models can also contain log terms and inverse terms to follow different kinds of curves and yet continue to be linear in the parameters.
 - If a regression equation doesn’t follow the rules for a linear model, then it must be a nonlinear model
-- Source: https://brunch.co.kr/@gimmesilver/18
+- Reference: https://brunch.co.kr/@gimmesilver/18
 - 비선형 모델은 데이터를 어떻게 변형하더라도 파라미터를 선형 결합식으로 표현할 수 없는 모델을 말합니다. 이런 비선형 모델 중 단순한 예로는 아래와 같은 것이 있습니다. 이 식은 아무리 x, y 변수를 변환하더라도 파라미터를 선형식으로 표현할 수 없습니다.
     선형 회귀 모델은 파라미터 계수에 대한 해석이 단순하지만 비선형 모델은 모델의 형태가 복잡할 경우 해석이 매우 어렵습니다. 그래서 보통 모델의 해석을 중시하는 통계 모델링에서는 비선형 회귀 모델을  잘 사용하지 않습니다. 
     그런데 만약 회귀 모델의 목적이 해석이 아니라 예측에 있다면 비선형 모델은 대단히 유연하기 때문에 복잡한 패턴을 갖는 데이터에 대해서도 모델링이 가능합니다. 그래서 충분히 많은 데이터를 갖고 있어서 variance error를 충분히 줄일 수 있고 예측 자체가 목적인 경우라면 비선형 모델은 사용할만한 도구입니다. 기계 학습 분야에서는 실제 이런 비선형 모델을 대단히 많이 사용하고 있는데 가장 대표적인 것이 소위 딥 러닝이라고 부르는 뉴럴 네트워크입니다.
 - 정리하자면, 선형 회귀 모델은 파라미터가 선형식으로 표현되는 회귀 모델을 의미합니다. 그리고 이런 선형 회귀 모델은 파라미터를 추정하거나 모델을 해석하기가 비선형 모델에 비해 비교적 쉽기 때문에, 데이터를 적절히 변환하거나 도움이 되는 feature들을 추가하여 선형 모델을 만들 수 있다면 이렇게 하는 것이 적은 개수의 feature로 복잡한 비선형 모델을 만드는 것보다 여러 면에서 유리합니다. 반면 선형 모델은 표현 가능한 모델의 가짓수(파라미터의 개수가 아니라 파라미터의 결합 형태)가 한정되어 있기 때문에 유연성이 떨어집니다. 따라서 복잡한 패턴을 갖고 있는 데이터에 대해서는 정확한 모델링이 불가능한 경우가 있습니다. 그래서 최근에는 모델의 해석보다는 정교한 예측이 중요한 분야의 경우 뉴럴 네트워크와 같은 비선형 모델이 널리 사용되고 있습니다.
 
 # Missing Value
-- Source: https://adataanalyst.com/machine-learning/comprehensive-guide-feature-engineering/
+- Reference: https://adataanalyst.com/machine-learning/comprehensive-guide-feature-engineering/
 ## Data Imputation
 - Using `sklearn.impute.SimpleImputer()`
 	```python
@@ -593,7 +593,7 @@ While both types of models can fit curvature, nonlinear regression is much more 
 
 # Outliers
 ## Types of Outliers
-- Source: https://adataanalyst.com/machine-learning/comprehensive-guide-feature-engineering/
+- Reference: https://adataanalyst.com/machine-learning/comprehensive-guide-feature-engineering/
 - Univariate outliers can be found when we look at distribution of a single variable.
 Multi-variate outliers are outliers in an n-dimensional space. In order to find them, you have to look at distributions in multi-dimensions.
 ### Data Entry Errors
@@ -601,7 +601,7 @@ Multi-variate outliers are outliers in an n-dimensional space. In order to find 
 ### Data Processing Errors
 - It is possible that some manipulation or extraction errors may lead to outliers in the dataset.
 ### Measurement Errors
-- It is the most common source of outliers. This is caused when the measurement instrument used turns out to be faulty. 
+- It is the most common Reference of outliers. This is caused when the measurement instrument used turns out to be faulty. 
 E## Experimental Errors
 - For example: In a 100m sprint of 7 runners, one runner missed out on concentrating on the ‘Go’ call which caused him to start late. Hence, this caused the runner’s run time to be more than other runners.
 ### Intentional Outliers
@@ -690,9 +690,9 @@ compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 ```
 
 # Variational AutoEncoder (VAE)
-- Source: https://www.tensorflow.org/tutorials/generative/cvae
+- Reference: https://www.tensorflow.org/tutorials/generative/cvae
 - A VAE is a probabilistic take on the autoencoder, a model which takes high dimensional input data and compresses it into a smaller representation. Unlike a traditional autoencoder, which maps the input onto a latent vector, a VAE maps the input data into the parameters of a probability distribution, such as the mean and variance of a Gaussian. This approach produces a continuous, structured latent space, which is useful for image generation.
-- Source: https://jaan.io/what-is-variational-autoencoder-vae-tutorial/
+- Reference: https://jaan.io/what-is-variational-autoencoder-vae-tutorial/
 - Local latent variables: these are the z_i for each datapoint x_i. There are no global latent variables. Because there are only local latent variables, we can easily decompose the ELBO into terms L_i that depend only on a single datapoint x_i. This enables stochastic gradient descent.
 - Inference: in neural nets, inference usually means prediction of latent representations given new, never-before-seen datapoints. In probability models, inference refers to inferring the values of latent variables given observed data.
 - The latent variable  is now generated by a function of ,  and , which would enable the model to backpropagate gradients in the encoder through  and  respectively, while maintaining stochasticity through .
@@ -706,7 +706,7 @@ compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 ## L2 Regularization (= Ridge Regression)
 
 # Transfer Learning
-- Source: https://www.toptal.com/machine-learning/semi-supervised-image-classification
+- Reference: https://www.toptal.com/machine-learning/semi-supervised-image-classification
 - Transfer learning means using knowledge from a similar task to solve a problem at hand. In practice, it usually means using as initializations the deep neural network weights learned from a similar task, rather than starting from a random initialization of the weights, and then further training the model on the available labeled data to solve the task at hand.
 - Transfer learning enables us to train models on datasets as small as a few thousand examples, and it can deliver a very good performance. Transfer learning from pretrained models can be performed in three ways:
 	1. Feature Extraction 
@@ -719,7 +719,7 @@ compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 		- This approach is my personal favorite and usually yields the best results, at least in my experience. Here, ***we train the newly attached layers while freezing the transferred layers for a few epochs before fine-tuning the entire network. Fine-tuning the entire network without giving a few epochs to the final layers can result in the propagation of harmful gradients from randomly initialized layers to the base network. Furthermore, fine-tuning requires a comparatively smaller learning rate, and a two-stage approach is a convenient solution to it.***
 
 # Droupout
-- Source: https://leimao.github.io/blog/Dropout-Explained/#:~:text=During%20inference%20time%2C%20dropout%20does,were%20multiplied%20by%20pkeep%20.
+- Reference: https://leimao.github.io/blog/Dropout-Explained/#:~:text=During%20inference%20time%2C%20dropout%20does,were%20multiplied%20by%20pkeep%20.
 - During training time, dropout randomly sets node values to zero. In the original implementation, we have "keep probability" p. So dropout randomly kills node values with "dropout probability" 1 − p. During inference time, dropout does not kill node values, but all the weights in the layer were multiplied by keep probability. One of the major motivations of doing so is to make sure that the distribution of the values after affine transformation during inference time is close to that during training time. Equivalently, This multiplier could be placed on the input values rather than the weights.
 - TensorFlow has its own implementation of dropout which only does work during training time.
 
@@ -727,14 +727,14 @@ compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 - Install
 	- On Windows
 		```python
-		# Source: https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
+		# Reference: https://www.lfd.uci.edu/~gohlke/pythonlibs/#annoy
 		!pip install "D:/annoy-1.17.0-cp38-cp38-win_amd64.whl"
 		```
 	- On MacOS
 		```python
 		pip install --user annoy
 		```
-- Source: https://github.com/spotify/annoy
+- Reference: https://github.com/spotify/annoy
 - Annoy (Approximate Nearest Neighbors Oh Yeah) is a C++ library with Python bindings to *search for points in space that are close to a given query point.*
 - Tree Building
 	```python
@@ -761,11 +761,10 @@ compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 	dist = tree.get_distance(i, j)
 	```
 
-# TensorFlow Eager Excution & Graph Excution
-- Source: https://towardsdatascience.com/eager-execution-vs-graph-execution-which-is-better-38162ea4dbf6
+# TensorFlow Graph Excution
+- Reference: https://towardsdatascience.com/eager-execution-vs-graph-execution-which-is-better-38162ea4dbf6
 - In TensorFlow 2.0, you can decorate a Python function using `tf.function()` to run it as a single graph object. With this new method, you can easily build models and gain all the graph execution benefits.
 - For simple operations, graph execution does not perform well because it has to spend the initial computing power to build a graph. We see the power of graph execution in complex calculations.
-## Graph Execution
 ```python
 import time
 
@@ -821,15 +820,35 @@ for epoch in range(1, epochs + 1):
     tr_acc.reset_states()
     for batch, (x, y) in dataset_tr.enumerate(start=1):
         train_step(x, y)
-        if batch%50 == 0:
+        if batch % 50 == 0:
             print(f"Epoch: {epoch:3d} | Batch: {batch:5d} | Loss: {tr_loss.result():5.4f} | Accuracy: {tr_acc.result():5.4f}")
-    if epoch%1 == 0:
+    if epoch % 1 == 0:
         # Every time `ckpt_manager.save()` is called, `save_counter` is increased.
         # `save_path`: The path to the new checkpoint. It is also recorded in the `checkpoints` and `latest_checkpoint` properties. `None` if no checkpoint is saved.
         save_path = ckpt_manager.save()
         print (f"Saving checkpoint for epoch {epoch} at {save_path}")
         print(f"Epoch: {epoch:3d} | Loss: {tr_loss.result():5.4f} | Accuracy: {tr_acc.result():5.4f}")
         print (f"Time taken for 1 epoch: {time.time() - start:5.0f} secs\n")
+```
+
+# PyTorch
+```python
+for epoch in range(1, n_epochs + 1):
+	running_loss = 0
+	for batch, (x, y) in enumerate(dl_tr, 1):
+		...
+		optimizer.zero_grad()
+		...
+		outputs = model(inputs)
+		loss = criterion(inputs, outputs)
+		loss.backward()
+		optimizer.step()
+
+		running_loss += loss.item()
+		...
+		if batch % ... == 0:
+			...
+			running_loss = 0
 ```
 
 # GPU on PyTorch
@@ -919,7 +938,7 @@ seq = tf.cast(tf.math.equal(seq, 0), tf.float32)
 
 # Create Tensors
 ## `tf.Variable(initial_value, [shape=None], [trainable=True], [validate_shape=True], [dtype], [name])`
-- Source: https://www.tensorflow.org/api_docs/python/tf/Variable
+- Reference: https://www.tensorflow.org/api_docs/python/tf/Variable
 - `initial_value`: This initial value defines the type and shape of the variable. After construction, the type and shape of the variable are fixed.
 - [`shape`]: The shape of this variable. If `None`, the shape of `initial_value` will be used.
 - `validate_shape`: If `False`, allows the variable to be initialized with a value of unknown shape. If `True`, the default, the shape of `initial_value` must be known.
@@ -1036,7 +1055,7 @@ Embedding(num_embeddings, embedding_dim, padding_idx)
 ## Fully Connected Layer
 ```python
 # Tensorflow
-# Source: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense
+# Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense
 # `units`: Dimensionality of the output space.
 # `activation`: Activation function to use. If you don't specify anything, no activation is applied (ie. "linear" activation)
 # Shape: `(batch_size, ..., input_dim)` -> `(batch_size, ..., units)`
@@ -1103,7 +1122,7 @@ from tensorflow.keras.optimizers import SGD
 ```python
 from tensorflow.keras.optimizers import Adagrad
 ```
-- Source: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adagrad
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/optimizers/Adagrad
 - *Adagrad tends to benefit from higher initial learning rate values compared to other optimizers.*
 ## RMSprop (Root Mean Square ...)
 ## Adam (ADAptive Moment estimation)
@@ -1125,6 +1144,7 @@ model.summary()
 plot_model(model, [to_file], [show_layer_activations])
 ```
 ## Compile
+### TensorFlow
 ```python
 # `optimizer`: (`"sgd"`, `"adam"`, `Adam(learning_rate)`, "rmsprop"`, Adagrad(learning_rate)]
 # `loss`: (`"mse"`, `"mae"`, `"binary_crossentropy"`, `"categorical_crossentropy"`, `"sparse_categorical_crossentropy"`)
@@ -1136,8 +1156,14 @@ plot_model(model, [to_file], [show_layer_activations])
 # `loss_weights`: The `loss` value that will be minimized by the model will then be the weighted sum of all individual `loss`es, weighted by the `loss_weights` coefficients. 
 model.compile(optimizer, loss, [loss_weights], [metrics], [loss_weights])
 ```
-## Fit
-- Source: https://keras.io/api/models/model_training_apis/
+### PyTorch
+```python
+# `optimizer`: `SGD(model.parameters(), lr, momentum)`
+# `criterion`: `BCELoss()`, `CrossEntropyLoss()`
+```
+## Train Model
+### TensorFlow
+- Reference: https://keras.io/api/models/model_training_apis/
 ```python
 # `mode`: (`"auto"`, `"min"`, `"max"`).
 	# `"min"`: Training will stop when the quantity monitored has stopped decreasing;
@@ -1152,6 +1178,10 @@ model_path = "model_path.h5"
 mc = ModelCheckpoint(filepath=model_path, monitor="val_acc", mode="auto", verbose=1, save_best_only=True)
 # `verbose=2`: One line per epoch. recommended.
 hist = model.fit(x, y, [validation_split], [validation_data], batch_size, epochs, verbose=2, [shuffle], callbacks=[es, mc])
+```
+### PyTorch
+```python
+
 ```
 ## Training History
 ```python
@@ -1170,7 +1200,7 @@ te_loss, te_acc = model.evaluate(X_te, y_te, batch_size)
 ```
 ## Inference
 ### TensorFlow
-- Source: https://www.tensorflow.org/api_docs/python/tf/keras/Model?hl=en, https://stackoverflow.com/questions/60837962/confusion-about-keras-model-call-vs-call-vs-predict-methods
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/Model?hl=en, https://stackoverflow.com/questions/60837962/confusion-about-keras-model-call-vs-call-vs-predict-methods
 - `model(x)`
 	- Calls the model on new inputs and returns the outputs as `tf.Tensor`s.
 	- ***For small numbers of inputs that fit in one batch, directly use `__call__()` for faster execution, e.g., `model(x)`, or `model(x, training=False)` if you have layers such as `BatchNormalization()` that behave differently during inference. You may pair the individual model call with a `@tf.function()` for additional performance inside your inner loop.***
@@ -1192,30 +1222,38 @@ with torch.no_grad():
 ```
 ## Model Methods
 ```python
-model.trainable_variables
-model.save()
+# TensorFlow
 model.inputs
+model.trainable_variables
+# Iterate model layers
+for layer in model.layers:
+	...
+# Get the layer by its name
+layer = model.get_layer("<layer_name>")
+
+# PyTorch
+# Iterate model layers
+for layer in model.parameters():
+	...
 ```
 ## Check Model Weights
 ```python
-for layer in model.layers:
-	...
-```
-```python
-layer = model.get_layer("layer_name")
+# TensorFlow
+layer.name # Layer name
+layer.output # Output
+layer.input_shape # Input shape
+layer.output_shape # Output shape
+layer.get_weights()[0] # Weight
+layer.get_weights()[1] # Bias
 
-name = layer.name
-output = layer.output
-input_shape = layer.input_shape
-output_shape = layer.output_shape
-weight = layer.get_weights()[0]
-bias = layer.get_weights()[1]
+# PyTorch
+layer.size()
 ```
 
-# TensorFlow Dataset
-- Source: https://www.tensorflow.org/api_docs/python/tf/data/Dataset
+# TensorFlow `Dataset`
+- Reference: https://www.tensorflow.org/api_docs/python/tf/data/Dataset
 - Dataset usage follows a common pattern:
-	- Create a source dataset from your input data.
+	- Create a Reference dataset from your input data.
 	- Apply dataset transformations to preprocess the data.
 	- Iterate over the dataset and process the elements. Iteration happens in a streaming fashion, so the full dataset does not need to fit into memory. (Element: A single output from calling `next()` on a dataset iterator. Elements may be nested structures containing multiple components.)
 - Methods
@@ -1225,7 +1263,7 @@ bias = layer.get_weights()[1]
 		- This method requires that you are running in eager mode and the dataset's element_spec contains only `tf.TensorSpec` components.
 	- `batch(batch_size, [drop_remainder=False])`
 		- Combines consecutive elements of this dataset into batches.
-		- The components of the resulting element will have an additional outer dimension, which will be `batch_size` (or `N%batch_size` for the last element if `batch_size` does not divide the number of input elements `N` evenly and `drop_remainder=False`). If your program depends on the batches having the same outer dimension, you should set the `drop_remainder=True` to prevent the smaller batch from being produced.
+		- The components of the resulting element will have an additional outer dimension, which will be `batch_size` (or `N % batch_size` for the last element if `batch_size` does not divide the number of input elements `N` evenly and `drop_remainder=False`). If your program depends on the batches having the same outer dimension, you should set the `drop_remainder=True` to prevent the smaller batch from being produced.
 	- `padded_batch()`
 		- Pad to the smallest per-`batch size` that fits all elements.
 		- Unlike `batch()`, the input elements to be batched may have different shapes, and this transformation will pad each component to the respective shape in `padded_shapes`. The `padded_shapes` argument determines the resulting shape for each dimension of each component in an output element.
@@ -1271,9 +1309,17 @@ bias = layer.get_weights()[1]
 	- `unique()`
 	- `zip()`
 
+# PyTorch `DataLoader`
+```python
+dl_tr = DataLoader(dataset, batch_size, [shuffle=False], [num_workers=0], [prefetch_factor=2])
+...
+
+next(iter(dl_tr))
+```
+
 # Save or Load Model
 ## TensorFlow
-- Source: https://www.tensorflow.org/tutorials/keras/save_and_load
+- Reference: https://www.tensorflow.org/tutorials/keras/save_and_load
 ```python
 name = "./name"
 model_path = f"{name}.h5"
@@ -1286,18 +1332,12 @@ else:
 	
 	np.save(hist_path, hist.history)
 ```
-```python
-model.save(model_path)
-```
-```python
-model = load_model(model_path)
-```
 ## PyTorch
 ```python
 # Loads an object saved with `torch.save()` from a file.
 torch.load()
 # Example
-# Source: https://pytorch.org/tutorials/beginner/saving_loading_models.html
+# Reference: https://pytorch.org/tutorials/beginner/saving_loading_models.html
 # Loads a model’s parameter dictionary using a deserialized `state_dict`.
 # In PyTorch, the learnable parameters (i.e. weights and biases) of an `torch.nn.Module` model are contained in the model’s parameters (accessed with `model.parameters()`). A `state_dict` is simply a Python dictionary object that maps each layer to its parameter tensor. Note that only layers with learnable parameters (convolutional layers, linear layers, etc.) and registered buffers (batchnorm’s running_mean) have entries in the model’s `state_dict``. Optimizer objects (`torch.optim``) also have a `state_dict`, which contains information about the optimizer’s state, as well as the hyperparameters used.
 model.load_state_dict(torch.load(os.path.join("model_zoo", "BSRGAN.pth")), strict=True)
@@ -1314,7 +1354,7 @@ model.load_weights(model_path)
 
 # Custrom Model
 ## TensorFlow
-- Source: https://www.tensorflow.org/api_docs/python/tf/keras/Model
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/Model
 ```python
 class ModelName(Model):
 	# You should define your layers in `__init__()`.
@@ -1339,7 +1379,9 @@ class ModelName(nn.Module):
 		# Or `super(ModelName, self).__init__()`
 		self.var1 = ...
 		self.var2 = ...
-		... 
+		...
+	def forward(self, x):
+		...
 ...
 model = ModelName()
 ```
@@ -1409,8 +1451,14 @@ from tensorflow.keras.initializers import RandomNormal, glorot_uniform, he_unifo
 ## PyTorch
 ```python
 import torch
-from torch.nn import Module, Linear, Dropout, Conv1d, Conv2d, ConvTranspose1d, ConvTranspose2d, MaxPool1d, MaxPool2d, AvgPool1d, AvgPool2d
+from torch.nn import Module, Linear, Dropout, Conv1d, Conv2d, ConvTranspose1d, ConvTranspose2d, MaxPool1d, MaxPool2d, AvgPool1d, AvgPool2d, CrossEntropyLoss()
+import torch.nn.functional as F
 from torch.optim import SGD, RMSprop, Adagrad, Adam
+from torch.utils.data import Dataset, DataLoader
+
+import torchvision
+import torchvision.dataset
+import torchvision.transforms as transforms
 ```
 
 # `statsmodels`
