@@ -809,9 +809,9 @@ for epoch in range(1, epochs + 1):
         # Every time `ckpt_manager.save()` is called, `save_counter` is increased.
         # `save_path`: The path to the new checkpoint. It is also recorded in the `checkpoints` and `latest_checkpoint` properties. `None` if no checkpoint is saved.
         save_path = ckpt_manager.save()
-        print (f"Saving checkpoint for epoch {epoch} at {save_path}")
+        print(f"Saving checkpoint for epoch {epoch} at {save_path}")
         print(f"Epoch: {epoch:3d} | Loss: {tr_loss.result():5.4f} | Accuracy: {tr_acc.result():5.4f}")
-        print (f"Time taken for 1 epoch: {time.time() - start:5.0f} secs\n")
+        print(f"Time taken for 1 epoch: {time.time() - start:5.0f} secs\n")
 ```
 
 # PyTorch
@@ -836,17 +836,19 @@ for epoch in range(1, n_epochs + 1):
 
 # GPU on PyTorch
 ```python
-# Returns a bool indicating if CUDA is currently available.
-torch.cuda.is_available()
+# `torch.cuda.is_available()`: Returns a bool indicating if CUDA is currently available.
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+...
+
+model = ModelName().to(device)
+```
+```python
 # Returns the index of a currently selected device.
 torch.cuda.current_device()
 # Returns the number of GPUs available.
 torch.cuda.device_count()
 # Gets the name of the device.
 torch.cuda.get_device_name(<index>)
-```
-```python
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ```
 
 # TensorFlow Tensors
@@ -1202,6 +1204,7 @@ model.eval()
 
 # Disabling gradient calculation is useful for inference, when you are sure that you will not call `Tensor.backward()`.
 with torch.no_grad():
+	...
 ```
 ## Model Methods
 ```python
@@ -1304,26 +1307,36 @@ next(iter(dl_tr))
 ## TensorFlow
 - Reference: https://www.tensorflow.org/tutorials/keras/save_and_load
 ```python
-name = "./name"
-model_path = f"{name}.h5"
-hist_path = f"{name}_hist.npy"
+save_dir = Path("...")
+model_path = save_dir / "model_name.h5"
+hist_path = save_dir / "model_name_hist.npy"
 if os.path.exists(model_path):
     model = load_model(model_path)
     hist = np.load(hist_path, allow_pickle="TRUE").item()
 else:
 	...
-	
+	# The weight values
+	# The model's architecture
+	# The model's training configuration (what you pass to the .compile() method)
+	# The optimizer and its state, if any (this enables you to restart training where you left off)
+	model.save(model_path)
 	np.save(hist_path, hist.history)
 ```
 ## PyTorch
+- Reference: https://pytorch.org/tutorials/beginner/saving_loading_models.html
 ```python
-# Loads an object saved with `torch.save()` from a file.
-torch.load()
-# Example
-# Reference: https://pytorch.org/tutorials/beginner/saving_loading_models.html
-# Loads a model’s parameter dictionary using a deserialized `state_dict`.
-# In PyTorch, the learnable parameters (i.e. weights and biases) of an `torch.nn.Module` model are contained in the model’s parameters (accessed with `model.parameters()`). A `state_dict` is simply a Python dictionary object that maps each layer to its parameter tensor. Note that only layers with learnable parameters (convolutional layers, linear layers, etc.) and registered buffers (batchnorm’s running_mean) have entries in the model’s `state_dict``. Optimizer objects (`torch.optim``) also have a `state_dict`, which contains information about the optimizer’s state, as well as the hyperparameters used.
-model.load_state_dict(torch.load(os.path.join("model_zoo", "BSRGAN.pth")), strict=True)
+save_dir = Path("...")
+model_path = save_dir / "model_name.pth"
+# hist_path = save_dir / "model_name_hist.npy"
+if os.path.exists(model_path):
+	weights = torch.load(model_path)
+    model.load_state_dict(weights)
+else:
+	...
+	# Loads a model’s parameter dictionary using a deserialized `state_dict()`.
+	# In PyTorch, the learnable parameters (i.e. weights and biases) of an `torch.nn.Module` model are contained in the model’s parameters (accessed with `model.parameters()`). A `state_dict()` is simply a Python dictionary object that maps each layer to its parameter tensor. Note that only layers with learnable parameters (convolutional layers, linear layers, etc.) and registered buffers (batchnorm’s running_mean) have entries in the model’s `state_dict()`. Optimizer objects (`torch.optim``) also have a `state_dict()`, which contains information about the optimizer’s state, as well as the hyperparameters used.
+	weights = model.state_dict()
+	torch.save(weights, model_path)
 ```
 
 # Save or Load Weights
