@@ -17,6 +17,7 @@
 ## `"TypeError: 'range' object cannot be interpreted as an integer"`
 ## `"TypeError: '<<Class>>' object is not callable"`
 ## `"TypeError: object of type <<Data Type>> has no <<Function>>"`
+## "TypeError: string indices must be integers"
 
 # `"NameError"`
 ## `"NameError: name '<<Variable>>' is not defined"`

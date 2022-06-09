@@ -7,6 +7,7 @@ pd.options.display.max_rows = None
 pd.options.display.max_columns = None
 pd.options.display.width
 pd.options.display.float_format
+pd.options.display.max_colwidth
 # Ignore `SettingWithCopyWarning`
 pd.options.mode.chained_assignment = None
 ```

@@ -10,7 +10,7 @@ corpus = data["data"]
 ```
 - `subset`: (`"all"`, `"train"`, `"test"`)
 ## Steam Reviews
-- Source: https://github.com/bab2min/corpus/tree/master/sentiment
+- Reference: https://github.com/bab2min/corpus/tree/master/sentiment
 ```python
 urllib.request.urlretrieve("https://raw.githubusercontent.com/bab2min/corpus/master/sentiment/steam.txt", filename="./Datasets/Steam Reviews/steam.txt")
 data = pd.read_table("./Datasets/Steam Reviews/steam.txt", names=["label", "review"])
@@ -29,10 +29,10 @@ vocab_size = 10000
 (tr_X, tr_y), (te_X, te_y) = imdb.load_data(num_words=vocab_size)
 ```
 ## Naver Shopping
-- Source: https://github.com/bab2min/corpus/tree/master/sentiment
+- Reference: https://github.com/bab2min/corpus/tree/master/sentiment
 ## NLP Challenge
 ## fra-eng
-- Source: https://www.kaggle.com/myksust/fra-eng/activity
+- Reference: https://www.kaggle.com/myksust/fra-eng/activity
 ```python
 data = pd.read_table("./Datasets/fra-eng/fra.txt", usecols=[0, 1], names=["src", "tar"])
 # data = pd.read_csv("./Datasets/fra-eng/fra.txt", usecols=[0, 1], names=["src", "tar"], sep="\t")
@@ -40,9 +40,9 @@ data = pd.read_table("./Datasets/fra-eng/fra.txt", usecols=[0, 1], names=["src",
 ## IMDb
 ## Annotated Corpus for NER
 ## Chatbot Data for Korean
-- Source: https://github.com/songys/Chatbot_data
+- Reference: https://github.com/songys/Chatbot_data
 ## Natural Language Understanding Benchmark
-- Source: https://github.com/sonos/nlu-benchmark/tree/master/2017-06-custom-intent-engines, https://github.com/ajinkyaT/CNN_Intent_Classification
+- Reference: https://github.com/sonos/nlu-benchmark/tree/master/2017-06-custom-intent-engines, https://github.com/ajinkyaT/CNN_Intent_Classification
 - Labels: (`"AddToPlaylist"`, `"BookRestaurant"`, `"GetWeather"`, `"RateBook"`, `"SearchCreativeWork"`, `"SearchScreeningEvent"`)
  'BookRestaurant',
  'GetWeather',
@@ -61,7 +61,7 @@ test_text = np.load("./Datasets/NLU Benchmark/test_text.npy", allow_pickle=True)
 label_test = np.load("./Datasets/NLU Benchmark/test_label.npy", allow_pickle=True).tolist()
 ```
 ## Naver Sentiment Movie Corpus
-- Source: https://raw.githubusercontent.com/e9t/nsmc/master/ratings.txt
+- Reference: https://raw.githubusercontent.com/e9t/nsmc/master/ratings.txt
 ```python
 ratings_tr = pd.read_table("./Datasets/Naver Sentiment Movie Corpus/ratings_train.txt")
 ratings_te = pd.read_table("./Datasets/Naver Sentiment Movie Corpus/ratings_test.txt")
@@ -126,22 +126,26 @@ dataset_val = dataset_val.padded_batch(batch_size)
 - Contains around 550k hypothesis/premise pairs. Models are evaluated based on accuracy.
 ## The Multi-Genre Natural Language Inference (MultiNLI) Dataset
 - Contains around 433k hypothesis/premise pairs. It is similar to the SNLI corpus, but covers a range of genres of spoken and written text and supports cross-genre evaluation.
+## KLUE (Korean Language Understanding Evaluation)
+- Reference: https://huggingface.co/datasets/klue#source-data
+```python
+from datasets import load_dataset
+
+dataset = load_dataset("klue", "ynat", split="train")
+```
+## WOS(Web of Science)
 
 # Text
-- Source: https://en.wikipedia.org/wiki/Text_(literary_theory)
+- Reference: https://en.wikipedia.org/wiki/Text_(literary_theory)
 - In literary theory, *a text is any object that can be "read", whether this object is a work of literature, a street sign, an arrangement of buildings on a city block, or styles of clothing.*
 ## Corpus (plural Corpora)
-- Source: https://21centurytext.wordpress.com/home-2/special-section-window-to-corpus/what-is-corpus/
+- Reference: https://21centurytext.wordpress.com/home-2/special-section-window-to-corpus/what-is-corpus/
 - *A corpus is a collection of texts, written or spoken, usually stored in a computer database.* A corpus may be quite small, for example, containing only 50,000 words of text, or very large, containing many millions of words.
 - *Written texts in corpora might be drawn from books, newspapers, or magazines that have been scanned or downloaded electronically. Other written corpora might contain works of literature, or all the writings of one author (e.g., William Shakespeare).* Such corpora help us to see how language is used in contemporary society, how our use of language has changed over time, and how language is used in different situations.
 - People build corpora of different sizes for specific reasons. For example, a very large corpus would be required to help in the preparation of a dictionary. It might contain tens of millions of words – because it has to include many examples of all the words and expressions that are used in the language. A medium-sized corpus might contain transcripts of lectures and seminars and could be used to write books for learners who need academic language for their studies. Such corpora range in size from a million words to five or ten million words. Other corpora are more specialized and much smaller. These might contain the transcripts of business meetings, for instance, and could be used to help writers design materials for teaching business language.
 
-# NLU
-
-# NLG
-
 # Natural language Inference (NLI)
-- Source: http://nlpprogress.com/english/natural_language_inference.html
+- Reference: http://nlpprogress.com/english/natural_language_inference.html
 - Natural language inference is the task of determining whether a "hypothesis” is true (entailment), false (contradiction), or undetermined (neutral) given a "premise”.
 
 # Puctuation
@@ -154,7 +158,7 @@ sw = {i for i in string.punctuation}
 	
 # Part-of-Speech
 ## Part-of-Speech Tagging
-- Source: https://en.wikipedia.org/wiki/Text_corpus
+- Reference: https://en.wikipedia.org/wiki/Text_corpus
 - A corpus may contain texts in a single language (monolingual corpus) or text data in multiple languages (multilingual corpus).
 - In order to make the corpora more useful for doing linguistic research, they are often subjected to a process known as annotation. *An example of annotating a corpus is part-of-speech tagging, or POS-tagging, in which information about each word's part of speech (verb, noun, adjective, etc.) is added to the corpus in the form of tags. Another example is indicating the lemma (base) form of each word. When the language of the corpus is not a working language of the researchers who use it, interlinear glossing is used to make the annotation bilingual.*
 - Using `spacy` (for English)
@@ -241,7 +245,7 @@ sw = {i for i in string.punctuation}
 - Used in computational linguistics and natural language processing for terms encountered in input which are not present in a system's dictionary or database of known terms.
 
 # Bag-of-Words Model
-- Source: https://en.wikipedia.org/wiki/Bag-of-words_model
+- Reference: https://en.wikipedia.org/wiki/Bag-of-words_model
 - The bag-of-words model is a simplifying representation used in natural language processing and information retrieval (IR). In this model, ***a text (such as a sentence or a document) is represented as the bag (multiset) of its words, disregarding grammar and even word order but keeping multiplicity.***
 - *The bag-of-words model is commonly used in methods of document classification where the (frequency of) occurrence of each word is used as a feature for training a classifier.*
 ```python
@@ -293,7 +297,7 @@ corpus = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바�
 	dtm = tokenizer.texts_to_matrix(corpus, mode="count").round(3)
 	```
 ## TF-IDF(Term Frequency-Inverse Document Frequency)
-- Source: https://en.wikipedia.org/wiki/Tf%E2%80%93idf
+- Reference: https://en.wikipedia.org/wiki/Tf%E2%80%93idf
 - ***TF-IDF, short for term frequency–inverse document frequency, is a numerical statistic that is intended to reflect how important a word is to a document in a collection or corpus. It is often used as a weighting factor in searches of information retrieval, text mining, and user modeling. The tf–idf value increases proportionally to the number of times a word appears in the document and is offset by the number of documents in the corpus that contain the word, which helps to adjust for the fact that some words appear more frequently in general.***
 ### Term Frequency
 - Suppose we have a set of English text documents and wish to rank them by which document is more relevant to the query, "the brown cow". A simple way to start out is by eliminating documents that do not contain all three words "the", "brown", and "cow", but this still leaves many documents. To further distinguish them, we might count the number of times each term occurs in each document; *the number of times a term occurs in a document is called its term frequency. However, in the case where the length of documents varies greatly, adjustments are often made (see definition below
@@ -327,7 +331,7 @@ corpus = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바�
 	```
 	
 # BLEU (BiLingual Evaluation Understudy)
-- Sources: https://en.wikipedia.org/wiki/BLEU, https://towardsdatascience.com/bleu-bilingual-evaluation-understudy-2b4eab9bcfd1
+- References: https://en.wikipedia.org/wiki/BLEU, https://towardsdatascience.com/bleu-bilingual-evaluation-understudy-2b4eab9bcfd1
 - ***BLEU is an algorithm for evaluating the quality of text which has been machine-translated from one natural language to another. Quality is considered to be the correspondence between a machine's output and that of a human: "the closer a machine translation is to a professional human translation, the better it is" – this is the central idea behind BLEU.*** BLEU was one of the first metrics to claim a high correlation with human judgements of quality, and remains one of the most popular automated and inexpensive metrics.
 - ***Scores are calculated for individual translated segments—generally sentences—by comparing them with a set of good quality reference translations. Those scores are then averaged over the whole corpus to reach an estimate of the translation's overall quality. Intelligibility or grammatical correctness are not taken into account.***
 - N-gram precision: (Number of n-grams from the cadidate found in any of the reference)/(The total number of n-grams in the candidate)
@@ -415,7 +419,7 @@ corpus = ["먹고 싶은 사과", "먹고 싶은 바나나", "길고 노란 바�
 
 # Preprocess
 ## Tokenization
-- Source: https://www.analyticsvidhya.com/blog/2019/07/how-get-started-nlp-6-unique-ways-perform-tokenization/
+- Reference: https://www.analyticsvidhya.com/blog/2019/07/how-get-started-nlp-6-unique-ways-perform-tokenization/
 - Tokenization is essentially splitting a phrase, sentence, paragraph, or an entire text document into smaller units, such as individual words or terms. Each of these smaller units are called tokens.
 - The tokens could be words, numbers or punctuation marks. In tokenization, smaller units are created by locating word boundaries. Wait – what are word boundaries?
 - These are the ending point of a word and the beginning of the next word. These tokens are considered as a first step for stemming and lemmatization.
@@ -539,7 +543,7 @@ def split(string):
 ```
 ## Stemming & Lemmatization
 ### Stemming
-- Source: https://builtin.com/data-science/introduction-nlp
+- Reference: https://builtin.com/data-science/introduction-nlp
 - Basically, stemming is the process of reducing words to their word stem. A "stem" is the part of a word that remains after the removal of all affixes. For example, the stem for the word "touched" is "touch." "Touch" is also the stem of "touching," and so on.
 - You may be asking yourself, why do we even need the stem? Well, *the stem is needed because we're going to encounter different variations of words that actually have the same stem and the same meaning.*Now, imagine all the English words in the vocabulary with all their different fixations at the end of them. To store them all would require a huge database containing many words that actually have the same meaning. This is solved by focusing only on a word’s stem. Popular algorithms for stemming include the Porter stemming algorithm from 1979, which still works well.
 - Using `nltk.stem.PorterStemmer().stem()`
@@ -553,7 +557,7 @@ def split(string):
 	stems = [ps.stem(w) for w in words]
 	```
 ### Lemmatization
-- Source: https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html
+- Reference: https://nlp.stanford.edu/IR-book/html/htmledition/stemming-and-lemmatization-1.html
 -  Lemmatization usually refers to doing things properly with the use of a vocabulary and morphological analysis of words, normally aiming to remove inflectional endings only and to return the base or dictionary form of a word, which is known as the lemma.
 - Using `nltk.stem.WordNetLemmatizer().lemmatize()`
 	```python
@@ -697,7 +701,7 @@ tr_y = pad_sequences(tr_y, padding="post", maxlen=max_len)
 	model.wv.most_similar(token)
 	```
 ## GloVe (Global Vectors for Word Representation)
-- Source: https://wikidocs.net/22885
+- Reference: https://wikidocs.net/22885
 - Window based Co-occurrence Matrix
 	- 단어의 동시 등장 행렬은 행과 열을 전체 단어 집합의 단어들로 구성하고, `i` 단어의 윈도우 크기(Window Size) 내에서 `k` 단어가 등장한 횟수를 `i`행 `k`열에 기재한 행렬을 말합니다.
 	- 위 행렬은 행렬을 전치(Transpose)해도 동일한 행렬이 된다는 특징이 있습니다. 그 이유는 `i` 단어의 윈도우 크기 내에서 `k` 단어가 등장한 빈도는 반대로 `k` 단어의 윈도우 크기 내에서 `i` 단어가 등장한 빈도와 동일하기 때문입니다.
@@ -722,7 +726,7 @@ model.add_dictionary(corp.dictionary)
 ```
 - Pre-trained Word Embedding
 	```python
-	source: "http://nlp.stanford.edu/data/glove.6B.zip"
+	Reference: "http://nlp.stanford.edu/data/glove.6B.zip"
 	file_name = "D:/glove.6B.zip"
 	if not os.path.exists(file_name):
 		urllib.request.urlretrieve(source, filename=file_name)
@@ -748,19 +752,19 @@ model.add_dictionary(corp.dictionary)
 			continue
 	```
 ## Skip-Gram with Negative Sampling (SGNS)
-- Source: https://wikidocs.net/69141
+- Reference: https://wikidocs.net/69141
 - Word2Vec의 출력층에서는 소프트맥스 함수를 지난 단어 집합 크기의 벡터와 실제값인 원-핫 벡터와의 오차를 구하고 이로부터 임베딩 테이블에 있는 모든 단어에 대한 임베딩 벡터 값을 업데이트합니다. 만약 단어 집합의 크기가 수만 이상에 달한다면 이 작업은 굉장히 무거운 작업이므로, Word2Vec은 꽤나 학습하기에 무거운 모델이 됩니다.
 - Word2Vec은 역전파 과정에서 모든 단어의 임베딩 벡터값의 업데이트를 수행하지만, 만약 현재 집중하고 있는 중심 단어와 주변 단어가 '강아지'와 '고양이', '귀여운'과 같은 단어라면, 사실 이 단어들과 별 연관 관계가 없는 '돈가스'나 '컴퓨터'와 같은 수많은 단어의 임베딩 벡터값까지 업데이트하는 것은 비효율적입니다.
 - 네거티브 샘플링은 Word2Vec이 학습 과정에서 전체 단어 집합이 아니라 일부 단어 집합에만 집중할 수 있도록 하는 방법입니다. 가령, 현재 집중하고 있는 주변 단어가 '고양이', '귀여운'이라고 해봅시다. 여기에 '돈가스', '컴퓨터', '회의실'과 같은 단어 집합에서 무작위로 선택된 주변 단어가 아닌 단어들을 일부 가져옵니다. 이렇게 하나의 중심 단어에 대해서 전체 단어 집합보다 훨씬 작은 단어 집합을 만들어놓고 마지막 단계를 이진 분류 문제로 변환합니다. 주변 단어들을 긍정(positive), 랜덤으로 샘플링 된 단어들을 부정(negative)으로 레이블링한다면 이진 분류 문제를 위한 데이터셋이 됩니다. 이는 기존의 단어 집합의 크기만큼의 선택지를 두고 다중 클래스 분류 문제를 풀던 Word2Vec보다 훨씬 연산량에서 효율적입니다.
 
 # Syntactic & Semantic Analysis
-- Source: https://builtin.com/data-science/introduction-nlp
+- Reference: https://builtin.com/data-science/introduction-nlp
 - Syntactic analysis (syntax) and semantic analysis (semantic) are the two primary techniques that lead to the understanding of natural language. Language is a set of valid sentences, but what makes a sentence valid? Syntax and semantics.
 - ***Syntax is the grammatical structure of the text, whereas semantics is the meaning being conveyed. A sentence that is syntactically correct, however, is not always semantically correct. For example, "cows flow supremely” is grammatically valid (subject — verb — adverb) but it doesn't make any sense.***
 	
 # Tasks
 ## NER (Named Entity Recognition)
-- Source: https://builtin.com/data-science/introduction-nlp
+- Reference: https://builtin.com/data-science/introduction-nlp
 - *Named entity recognition (NER) concentrates on determining which items in a text (i.e. the "named entities") can be located and classified into pre-defined categories. These categories can range from the names of persons, organizations and locations to monetary values and percentages.*
 ## Sentiment Analysis
 - *With sentiment analysis we want to determine the attitude (i.e. the sentiment) of a speaker or writer with respect to a document, interaction or event. Therefore it is a natural language processing problem where text needs to be understood in order to predict the underlying intent. The sentiment is mostly categorized into positive, negative and neutral categories.*
@@ -773,6 +777,10 @@ model.add_dictionary(corp.dictionary)
 - STS란 두 개의 문장으로부터 의미적 유사성을 구하는 문제를 말합니다. 다음은 STS 데이터의 예시입니다. 여기서 레이블은 두 문장의 유사도로 범위값은 0~5입니다.
 ## Topic Modeling
 ## Text Summarization
+## Relation Extraction (RE)
+## Dependency Parsing (DP)
+## Dialogue State Tracking (DST)
+## Topic Classification (TC)
 
 # Subword Tokenizer
 - Using `sentencepiece`
@@ -843,10 +851,10 @@ model.add_dictionary(corp.dictionary)
 ## Byte Pair Encoding (BPE)
 
 # Topic Modeling
-- Source: https://wikidocs.net/30707
+- Reference: https://wikidocs.net/30707
 - 토픽(Topic)은 한국어로는 주제라고 합니다. 토픽 모델링(Topic Modeling)이란 기계 학습 및 자연어 처리 분야에서 토픽이라는 문서 집합의 추상적인 주제를 발견하기 위한 통계적 모델 중 하나로, 텍스트 본문의 숨겨진 의미 구조를 발견하기 위해 사용되는 텍스트 마이닝 기법입니다.
 ## LSA (Latent Semantic Analysis)
-- Source: https://wikidocs.net/24949
+- Reference: https://wikidocs.net/24949
 - LSA는 정확히는 토픽 모델링을 위해 최적화 된 알고리즘은 아니지만, 토픽 모델링이라는 분야에 아이디어를 제공한 알고리즘이라고 볼 수 있습니다.
 - LSA는 기본적으로 DTM이나 TF-IDF 행렬에 절단된 truncated SVD를 사용하여 차원을 축소시키고, 단어들의 잠재적인 의미를 끌어낸다는 아이디어를 갖고 있습니다.
 ## LDA (Latent Dirichlet Allocation)
@@ -862,18 +870,18 @@ model = gensim.models.ldamodel.LdaModel(dtm, num_topics=n_topics, id2word=id2wor
 	```
 ## Contextualized Topic Models
 ### Combined Topic Modeling (CTM)
-- Source: https://wikidocs.net/161310
+- Reference: https://wikidocs.net/161310
 
 # Language Model (LM)
 ## Statistical Language Model
-- Source: https://en.wikipedia.org/wiki/Language_model
+- Reference: https://en.wikipedia.org/wiki/Language_model
 - ***A statistical language model is a probability distribution over sequences of words. Given such a sequence it assigns a probability to the whole sequence.***
 - ***Data sparsity is a major problem in building language models. Most possible word sequences are not observed in training. One solution is to make the assumption that the probability of a word only depends on the previous n words. This is known as an n-gram model or unigram model when n equals to 1. The unigram model is also known as the bag of words model.***
 ## Bidirectional Language Model
 - Bidirectional representations condition on both pre- and post- context (e.g., words) in all layers.
 
 # Seq2Seq
-- Source: https://en.wikipedia.org/wiki/Seq2seq
+- Reference: https://en.wikipedia.org/wiki/Seq2seq
 - Seq2seq turns one sequence into another sequence (sequence transformation). It does so by use of a recurrent neural network (RNN) or *more often LSTM or GRU to avoid the problem of vanishing gradient.* The context for each item is the output from the previous step. The primary components are one encoder and one decoder network. *The encoder turns each item into a corresponding hidden vector containing the item and its context. The decoder reverses the process, turning the vector into an output item, using the previous output as the input context.*
 - Attention: The input to the decoder is a single vector which stores the entire context. *Attention allows the decoder to look at the input sequence selectively.*
 - Beam Search: *Instead of picking the single output (word) as the output, multiple highly probable choices are retained, structured as a tree (using a Softmax on the set of attention scores). Average the encoder states weighted by the attention distribution.*
@@ -908,7 +916,7 @@ def greedy_search(data):
     return np.argmax(data, axis=1)
 ```
 ## Beam Search
-- Source: https://en.wikipedia.org/wiki/Beam_search, https://towardsdatascience.com/foundations-of-nlp-explained-visually-beam-search-how-it-works-1586b9849a24
+- Reference: https://en.wikipedia.org/wiki/Beam_search, https://towardsdatascience.com/foundations-of-nlp-explained-visually-beam-search-how-it-works-1586b9849a24
 - In computer science, beam search is a heuristic search algorithm that explores a graph by expanding the most promising node in a limited set. Best-first search is a graph search which orders all partial solutions (states) according to some heuristic. But in beam search, *only a predetermined number of best partial solutions are kept as candidates. It is thus a greedy algorithm*.
 - *Beam search uses breadth-first search to build its search tree.* At each level of the tree, it generates all successors of the states at the current level, sorting them in increasing order of heuristic cost. However, it only stores a predetermined number of best states at each level (called the beam width). Only those states are expanded next. The greater the beam width, the fewer states are pruned. With an infinite beam width, no states are pruned and beam search is identical to breadth-first search.* The beam width bounds the memory required to perform the search.
 - For example, *beam search has been used in many machine translation systems.* To select the best translation, each part is processed, and many different ways of translating the words appear. *The top best translations according to their sentence structures are kept, and the rest are discarded. The translator then evaluates the translations according to a given criterion, choosing the translation which best keeps the goals.*
@@ -926,7 +934,7 @@ def beam_search(data, k):
 ```
 
 # Attention
-- Sources: https://en.wikipedia.org/wiki/Attention_(machine_learning), https://wikidocs.net/22893
+- References: https://en.wikipedia.org/wiki/Attention_(machine_learning), https://wikidocs.net/22893
 - In neural networks, attention is a technique that mimics cognitive attention. *The effect enhances some parts of the input data while diminishing other parts — the thought being that the network should devote more focus to that small but important part of the data. Learning which part of the data is more important than others depends on the context and is trained by gradient descent.*
 - To build a machine that translates English-to-French, one starts with an Encoder-Decoder and grafts an attention unit to it. *In practice, the attention unit consists of 3 fully connected neural network layers that needs to be trained. The 3 layers are called Query, Key, and Value.*
 - Self Attention: Query, Key, Value의 출처가 서로 동일한 경우를 말합니다.
@@ -981,7 +989,7 @@ def beam_search(data, k):
 	```
 
 # Transformer
-- Sources: https://en.wikipedia.org/wiki/Transformer_(machine_learning_model), https://wikidocs.net/31379, https://www.tensorflow.org/text/tutorials/transformer
+- References: https://en.wikipedia.org/wiki/Transformer_(machine_learning_model), https://wikidocs.net/31379, https://www.tensorflow.org/text/tutorials/transformer
 - *A transformer is a deep learning model that adopts the mechanism of self-attention, differentially weighting the significance of each part of the input data. It is used primarily in the field of natural language processing (NLP) and in computer vision (CV).*
 - Like recurrent neural networks (RNNs), transformers are designed to handle sequential input data, such as natural language, for tasks such as translation and text summarization. However, ***unlike RNNs, transformers do not necessarily process the data in order. Rather, the attention mechanism provides context for any position in the input sequence. For example, if the input data is a natural language sentence, the transformer does not need to process the beginning of the sentence before the end. Rather, it identifies the context that confers meaning to each word in the sentence. This feature allows for more parallelization than RNNs and therefore reduces training times.***
 - *The additional training parallelization allows training on larger datasets than was once possible. This led to the development of pretrained systems such as BERT (Bidirectional Encoder Representations from Transformers) and GPT (Generative Pre-trained Transformer), which were trained with large language datasets, such as the Wikipedia Corpus and Common Crawl, and can be fine-tuned for specific tasks.*
@@ -1125,13 +1133,13 @@ def beam_search(data, k):
 
 # Sentence BERT (= SBERT)
 - Paper: https://arxiv.org/abs/1908.10084
-- Source: https://www.sbert.net/, https://wikidocs.net/156176
+- Reference: https://www.sbert.net/, https://wikidocs.net/156176
 - 사전 학습된 BERT로부터 문장 벡터를 얻는 방법은 다음과 같이 세 가지가 있습니다.
 	- BERT의 [CLS] 토큰의 출력 벡터를 문장 벡터로 간주한다.
 	- BERT의 모든 단어의 출력 벡터에 대해서 평균 풀링을 수행한 벡터를 문장 벡터로 간주한다.
 	- BERT의 모든 단어의 출력 벡터에 대해서 맥스 풀링을 수행한 벡터를 문장 벡터로 간주한다.
 - SBERT는 기본적으로 BERT의 문장 임베딩의 성능을 우수하게 개선시킨 모델입니다. SBERT는 위에서 언급한 BERT의 문장 임베딩을 응용하여 BERT를 파인 튜닝합니다.
-- Source: https://towardsdatascience.com/bert-for-measuring-text-similarity-eec91c6bf9e1
+- Reference: https://towardsdatascience.com/bert-for-measuring-text-similarity-eec91c6bf9e1
 - Each of those 512 tokens has a respective 768 values. This pooling operation will take the mean of all token embeddings and compress them into a single 768 vector space — creating a "sentence vector".
 ```python
 # https://huggingface.co/models?library=sentence-transformers
@@ -1139,13 +1147,13 @@ model = SentenceTransformer('sentence-transformers/xlm-r-100langs-bert-base-nli-
 ```
 
 # KeyBERT
-- Source: https://wikidocs.net/159467
+- Reference: https://wikidocs.net/159467
 ```python
 !pip install sentence_transformers
 ```
 
 # BERTopic
-- Source: https://wikidocs.net/162076
+- Reference: https://wikidocs.net/162076
 ```python
 !pip install bertopic[visualization]
 ```
@@ -1204,7 +1212,7 @@ from soynlp.normalizer import *
 
 - On Microsoft Windows
 	```python
-	# Source: https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
+	# Reference: https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
 	!pip install mecab_python-0.996_ko_0.9.2_msvc-cp37-cp37m-win_amd64.whl
 
 	class Mecab:
