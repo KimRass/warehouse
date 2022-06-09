@@ -395,8 +395,7 @@ the outer loop for estimating accuracy.
 - You are free to select the cross-validation approaches you use in the inner and outer loops. For example, you can use Leave-one-group-out for both the inner and outer loops if you want to split by specific groups.
 
 # Evaluation Metrics
-## Regression Problem
-### MSE (Mean Squared Error)
+## MSE (Mean Squared Error)
 - Using `tensorflow.keras.metrics.MeanSquaredError()`
 	```python
 	mse = metrics.MeanSquaredError([name])().numpy()
@@ -407,59 +406,43 @@ the outer loop for estimating accuracy.
 	
 	mse = mean_squared_error()
 	```
-### RMSE (Root Mean Squared Error)
+## RMSE (Root Mean Squared Error)
 ```python
 rmse = metrics.RootMeanSquaredError([name])().numpy()
 ```
-### MAE (Mean Absolute Error)
+## MAE (Mean Absolute Error)
 ```python
 mae = metrics.MeanAbsoluteError([name])().numpy()
 ```
-### MPE (Mean Percentage Error)
-### MAPE (Mean Absolute Percentage Error)
+## MPE (Mean Percentage Error)
+## MAPE (Mean Absolute Percentage Error)
 ```python
 mape = metrics.MeanAbsolutePercentageError([name])().numpy()
 ```
-### SMAPE (Symmetric Mean Absolute Percentage Error)
-- Reference: https://en.wikipedia.org/wiki/Symmetric_mean_absolute_percentage_error
+## SMAPE (Symmetric Mean Absolute Percentage Error)
+- Source: https://en.wikipedia.org/wiki/Symmetric_mean_absolute_percentage_error
 - The absolute difference between the actual value and forecast value is divided by half the sum of absolute values of the actual value and the forecast value. The value of this calculation is summed for every fitted point and divided again by the number of fitted points.
-### R-Squared
-- Reference: https://statisticsbyjim.com/regression/r-squared-invalid-nonlinear-regression/
+## R-Squared
+- Source: https://statisticsbyjim.com/regression/r-squared-invalid-nonlinear-regression/
 - Explained variance + Error variance = Total variance.
 - However, this math works out correctly only for linear regression models. In nonlinear regression, these underlying assumptions are incorrect. Explained variance + Error variance DO NOT add up to the total variance! The result is that R-squared isn’t necessarily between 0 and 100%.
 - If you use R-squared for nonlinear models, their study indicates you will experience the following problems:
 R-squared is consistently high for both excellent and appalling models.
 R-squared will not rise for better models all of the time.
 If you use R-squared to pick the best model, it leads to the proper model only 28-43% of the time.
-### Adjusted R-Squared
-### RMSLE(Root Mean Squared Logarithmic Error)
-- Reference: https://shryu8902.github.io/machine%20learning/error/
-## Classification Problem
+## Adjusted R-Squared
+## RMSLE(Root Mean Squared Logarithmic Error)
+- Source: https://shryu8902.github.io/machine%20learning/error/
+## Binary Classification
+- ![classification](https://www.popit.kr/wp-content/uploads/2017/04/table-1024x378.png)
+## Binary Cross Entropy
 ```python
 bc = metrics.BinaryCrossentropy()
 ```
+## Categorical Cross Entropy
 ```python
 scc = metrics.SparseCategoricalCrossentropy()
 ```
-### Confusion Matrix
-- Reference: https://datascienceschool.net/view-notebook/731e0d2ef52c41c686ba53dcaf346f32/
-- 정답 클래스와 예측 클래스의 일치 여부를 센 결과. 정답 클래스는 행(row)으로 예측한 클래스는 열(column)로 나타낸다.
-## Classification Problem
-- References: https://en.wikipedia.org/wiki/Accuracy_and_precision, https://en.wikipedia.org/wiki/Precision_and_recall
-- Condition positive (P): The number of real positive cases in the data (= TP + FN)
-- Condition negative (N): The number of real negative cases in the data (= TN + FP)
-- True positive (TP): A test result that correctly indicates the presence of a condition or characteristic
-- True negative (TN): A test result that correctly indicates the absence of a condition or characteristic
-- False positive (FP): A test result which wrongly indicates that a particular condition or attribute is present
-- False negative (FN): A test result which wrongly indicates that a particular condition or attribute is absent
-### Accuracy
-- Equal to (TP + TN)/(P + N) or (TP + TN)/(TP + TN + FP + FN)
-### Precision
-- In the fields of science and engineering, *the accuracy of a measurement system is the degree of closeness of measurements of a quantity to that quantity's true value.*
-- *The precision of a measurement system, related to reproducibility and repeatability, is the degree to which repeated measurements under unchanged conditions show the same results.
-- Equal to TP/(TP + FP)
-### Recall
-- Equal to TP/P or TP/(TP + FN)
 
 # Recurrent Neural Network
 - Reference: https://wikidocs.net/22886
