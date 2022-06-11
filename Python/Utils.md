@@ -303,19 +303,21 @@ warnings.filterwarnings("ignore", [category])
 # Download Files
 - Using `urllib.request.urlretrieve()`
 	```python
-	import urllib.request
+	from urllib.request import urlretrieve
 	
-	urllib.request.urlretrieve(url, filename)
+	urlretrieve(url, filename)
 	```
 - Using `google_drive_downloader.GoogleDriveDownloader.download_file_from_google_drive()`
 	```python
 	# Install: `pip install googledrivedownloader`
-	
 	from google_drive_downloader import GoogleDriveDownloader as gdd
+
 	gdd.download_file_from_google_drive(file_id, dest_path)
 	```
 - Using `tensorflow.keras.utils.get_file()`
 	```python
+	from tensorflow.keras.utils import get_file
+
 	# `fname`: Name of the file. If an absolute path is specified the file will be saved at that location. If `None`, the name of the file at origin will be used. By default the file is downloaded to `~/.keras/datasets`.
 	# `origin`: Original URL of the file.
 	path_to_downloaded_file = get_file([fname], origin, [untar])
@@ -386,6 +388,9 @@ pip install -U ray
 import ray
 
 ray.init(ignore_reinit_error=True)
+# Or
+ray.shutdown()
+ray.init()
 ...
 
 @ray.remote
@@ -455,14 +460,20 @@ import argparse
 
 # Example
 def get_args():
-	# `description`: Text to display before the argument help.
+	# `"description"`: Text to display before the argument help.
     parser = argparse.ArgumentParser([description=None])
+
 	# `action`
-		# `action="store"': (default) This just stores the argument’s value.
+		# `action="store"`: (default) This just stores the argument’s value.
+		# `action="store_const"': This stores the value specified by the `const` keyword argument. The `store_const` action is most commonly used with optional arguments that specify some sort of flag.
+		# `action="store_true"`: Stores the value `True`.
+		# `action="store_false"`: Stores the value `False`.
+	# `default`: Specifies what value should be used if the command-line argument is not present.
+	# `"ype`: (default `str`) The type to which the command-line argument should be converted.
+	# `help`: A brief description of what the argument does.
 	# `dest`: The name of the attribute to be added to the object returned by `parse_args()`.
 		# The value of `dest` is normally inferred from the option strings. `ArgumentParser` generates the value of `dest` by taking the first long option string and stripping away the initial `"--"` string. If no long option strings were supplied, `dest` will be derived from the first short option string by stripping the initial `"-"` character.
-	# `type`: The type to which the command-line argument should be converted.
-	# `help`: A brief description of what the argument does.
+	# Example
 	parser.add_argument("-o", "--out_path", ..., dest="out_path", action="store")
 	...
 

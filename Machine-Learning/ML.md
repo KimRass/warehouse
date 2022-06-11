@@ -420,10 +420,10 @@ mae = metrics.MeanAbsoluteError([name])().numpy()
 mape = metrics.MeanAbsolutePercentageError([name])().numpy()
 ```
 ## SMAPE (Symmetric Mean Absolute Percentage Error)
-- Source: https://en.wikipedia.org/wiki/Symmetric_mean_absolute_percentage_error
+- Reference: https://en.wikipedia.org/wiki/Symmetric_mean_absolute_percentage_error
 - The absolute difference between the actual value and forecast value is divided by half the sum of absolute values of the actual value and the forecast value. The value of this calculation is summed for every fitted point and divided again by the number of fitted points.
 ## R-Squared
-- Source: https://statisticsbyjim.com/regression/r-squared-invalid-nonlinear-regression/
+- Reference: https://statisticsbyjim.com/regression/r-squared-invalid-nonlinear-regression/
 - Explained variance + Error variance = Total variance.
 - However, this math works out correctly only for linear regression models. In nonlinear regression, these underlying assumptions are incorrect. Explained variance + Error variance DO NOT add up to the total variance! The result is that R-squared isn’t necessarily between 0 and 100%.
 - If you use R-squared for nonlinear models, their study indicates you will experience the following problems:
@@ -432,7 +432,7 @@ R-squared will not rise for better models all of the time.
 If you use R-squared to pick the best model, it leads to the proper model only 28-43% of the time.
 ## Adjusted R-Squared
 ## RMSLE(Root Mean Squared Logarithmic Error)
-- Source: https://shryu8902.github.io/machine%20learning/error/
+- Reference: https://shryu8902.github.io/machine%20learning/error/
 ## Binary Classification
 - ![classification](https://www.popit.kr/wp-content/uploads/2017/04/table-1024x378.png)
 ## Binary Cross Entropy
@@ -671,6 +671,10 @@ E## Experimental Errors
 flags = cv2.KMEANS_RANDOM_CENTERS
 compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 ```
+
+# Zero-Shot Learning (ZSL)
+- Reference: https://en.wikipedia.org/wiki/Zero-shot_learning
+- Zero-shot learning (ZSL) is a problem setup in machine learning, where at test time, a learner observes samples from classes, which were not observed during training, and needs to predict the class that they belong to. Zero-shot methods generally work by associating observed and non-observed classes through some form of auxiliary information, which encodes observable distinguishing properties of objects. For example, given a set of images of animals to be classified, along with auxiliary textual descriptions of what animals look like, an artificial intelligence model which has been trained to recognize horses, but has never been given a zebra, can still recognize a zebra when it also knows that zebras look like striped horses.
 
 # Variational AutoEncoder (VAE)
 - Reference: https://www.tensorflow.org/tutorials/generative/cvae

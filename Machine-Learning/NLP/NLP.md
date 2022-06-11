@@ -85,11 +85,17 @@ with open(filename, mode="r", encoding="utf-8") as f:
 ```python
 # `with_info`: If `True`, `tfds.load()` will return the tuple `(tf.data.Dataset, tfds.core.DatasetInfo)`, the latter containing the info associated with the builder.
 # `as_supervised`: If `True`, the returned `tf.data.Dataset` will have a 2-tuple structure `(input, label)` according to `builder.info.supervised_keys`. If `False`, the returned `tf.data.Dataset` will have a dictionary with all the features.
-dataset, metadata = tfds.load("ted_hrlr_translate/pt_to_en", with_info=True, as_supervised=True)
+dataset, metadata = tfds.load(
+	"ted_hrlr_translate/pt_to_en", with_info=True, as_supervised=True
+)
 dataset_tr, dataset_val, dataset_te = dataset["train"], dataset["validation"], dataset["test"]
 
-tokenizer_src = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus((pt.numpy() for pt, en in dataset_tr), target_vocab_size=2**13)
-tokenizer_tar = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus((en.numpy() for pt, en in dataset_tr), target_vocab_size=2**13)
+tokenizer_src = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
+	(pt.numpy() for pt, en in dataset_tr), target_vocab_size=2**13
+)
+tokenizer_tar = tfds.deprecated.text.SubwordTextEncoder.build_from_corpus(
+	(en.numpy() for pt, en in dataset_tr), target_vocab_size=2**13
+)
 
 max_len = 40
 buffer_size = tf.data.experimental.cardinality(dataset_tr).numpy()
@@ -103,7 +109,9 @@ def encode(lang1, lang2):
 def tf_encode(pt, en):
     # `func`: A Python function that accepts `inp` as arguments, and returns a value (or list of values) whose type is described by `Tout`.
     # `inpt`: Input arguments for func. A list whose elements are Tensors or a single Tensor.
-    result_pt, result_en = tf.py_function(func=encode, inp=[pt, en], Tout=[tf.int64, tf.int64])
+    result_pt, result_en = tf.py_function(
+		func=encode, inp=[pt, en], Tout=[tf.int64, tf.int64]
+	)
     result_pt.set_shape([None])
     result_en.set_shape([None])
     return result_pt, result_en
@@ -131,8 +139,23 @@ dataset_val = dataset_val.padded_batch(batch_size)
 ```python
 from datasets import load_dataset
 
-dataset = load_dataset("klue", "ynat", split="train")
+ds = load_dataset("klue", "ynat", split="train")
+classes = ds.info.features["label"].names
 ```
+- Methods
+	```python
+	ds.add_item()
+	ds.add_column(name, column)
+	ds.from_file()
+	ds.from_pandas()
+	ds.data
+	ds.unique("col")
+	ds.map()
+	ds.filter()
+	ds.to_tf_dataset()
+	ds.to_csv()
+	ds.to_pandas()
+	```
 ## WOS(Web of Science)
 
 # Text
