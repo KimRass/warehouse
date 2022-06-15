@@ -201,7 +201,7 @@ def main():
     if is_upload:
         upload_directory(
             drive_service, upload_dir
-        )        
+        )
 
 
 if __name__ == "__main__":

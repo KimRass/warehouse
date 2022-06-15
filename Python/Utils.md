@@ -469,7 +469,10 @@ def get_args():
 		# `action="store_true"`: Stores the value `True`.
 		# `action="store_false"`: Stores the value `False`.
 	# `default`: Specifies what value should be used if the command-line argument is not present.
-	# `"ype`: (default `str`) The type to which the command-line argument should be converted.
+	# `type`: (default `str`) The type to which the command-line argument should be converted.
+	# `nargs`
+		# `nargs=N`: `N` arguments from the command line will be gathered together into a List.
+		# 'nargs="*"'. All command-line arguments present are gathered into a List.
 	# `help`: A brief description of what the argument does.
 	# `dest`: The name of the attribute to be added to the object returned by `parse_args()`.
 		# The value of `dest` is normally inferred from the option strings. `ArgumentParser` generates the value of `dest` by taking the first long option string and stripping away the initial `"--"` string. If no long option strings were supplied, `dest` will be derived from the first short option string by stripping the initial `"-"` character.
