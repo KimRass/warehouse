@@ -174,7 +174,10 @@ df_pivoted = df.pivot("col1", "col2", "col3")
 - `fill_value`: Replace NaN with this value if the unstack produces missing values.
 # `DataFrame.append()`
 ```python
-df = df.append({"addr1":addr1, "addr2":addr2, "dist":dist}, ignore_index=True)
+df = df.append(
+	<Dictionary>,
+	ignore_index=True
+)
 ```
 # `DataFrame.apply()`
 ```python

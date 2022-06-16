@@ -171,6 +171,10 @@ ax.axis([2, 3, 4, 10])
 ax.set_xlim([x1, x2])
 # ax.set_ylim([y1, y2])
 ```
+```python
+plt.xlim([x1, x2])
+plt.ylim([y1, y2])
+```
 ## Set Label Position
 ```python
 ax.xaxis.set_label_position("top")
@@ -243,7 +247,11 @@ plt.legend()
 
 # Color Bar
 ```python
-cbar = fig.colorbar(ax=ax, mappable=scatter)
+# Example
+cbar = fig.colorbar(ax=ax, mappable=scatter);
+```
+```python
+plt.colorbar(format="%+2.0f dB");
 ```
 ### Set Color Bar Label
 ```python

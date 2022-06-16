@@ -402,7 +402,7 @@ def func(...):
 res = ray.get([func.remote(ray.put(...), ...) for _ in range(n)])
 ```
 
-# `logging`
+# Log
 - Reference: http://oniondev.egloos.com/v/9603983
 ```python
 import logging
@@ -453,7 +453,7 @@ logger = Logger(...).get_logger()
 ...
 ```
 
-# `argparse`
+# Parse Arguments
 - Reference: https://docs.python.org/3/library/argparse.html
 ```python
 import argparse
@@ -488,8 +488,24 @@ out_path = args.out_path
 ...
 ```
 
-# `subprocess`
-## Run Shell Script in Python
+# Read Configuration
+```python
+from pathlib import Path
+import json
+
+def read_config():
+    config_json = Path(__file__).parent / "config.json"
+    with open(config_json, mode="r") as f:
+        config = json.load(f)
+    ... = config["..."]
+	...
+    return ...
+...
+
+... = read_config()
+```
+
+# Run Shell Script in Python
 ```python
 import subprocess
 
@@ -504,7 +520,7 @@ subprocess.check_call(["<shell_script>", <arg1>, <arg2>, ...])
 pyinstaller [option] <file_name>.py
 ```
 
-# `jsonschema`
+# Validate JSON Schema
 ```python
 import json
 from jsonschema import validate
