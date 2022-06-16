@@ -12,7 +12,6 @@ from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaIoBaseDownload, MediaFileUpload
 from getfilelistpy import getfilelist
-from pprint import pprint
 
 
 def get_args():
@@ -22,7 +21,6 @@ def get_args():
     parser.add_argument("--is_download", action="store_true", default=False)
     parser.add_argument("--is_upload", action="store_true", default=False)
     parser.add_argument("--upload_dir")
-    # parser.add_argument("--extensions", default=False, action="store_true")
     return parser.parse_args()
 
 
@@ -64,27 +62,6 @@ def create_folder(drive_service, name, parent_fol_id=None):
         fields="id"
     ).execute()
     return file.get("id")
-
-
-# def filter_files(file_list, exts):
-#     print(f"Filtering files by extensions {exts} ...")
-#     matched_list = list()
-
-#     for ext in exts:
-#         matched_list += list(
-#             filter(
-#                 lambda a_file: len(a_file["name"]) >= len(ext) + 2
-#                 and a_file["name"][-len(ext) :].lower() == ext,
-#                 file_list,
-#             )
-#         )
-
-#     if (dropped_count := len(file_list) - len(matched_list)) > 0:
-#         message = "{:,} files dropped".format(dropped_count)
-#     else:
-#         message = "Nothing dropped"
-#     print(message)
-#     return matched_list
 
 
 def download_files(drive_service, save_dir, res):
@@ -132,7 +109,6 @@ def upload_file(drive_service, tar_file, name, save_fol=None):
         fields="id"
     ).execute()
     print(f"{name}")
-    # print(file.get("id"))
 
 
 def upload_directory(drive_service, upload_dir):
@@ -160,19 +136,6 @@ def upload_directory(drive_service, upload_dir):
             )
 
 
-# def compare_file_list(path, gdrive_files):
-#     print("Checking files count ...")
-
-#     file_list_p = sorted(path.glob("**/*"))
-#     file_list = set(map(lambda filename: str(filename).split("/")[-1], file_list_p))
-#     fail_files = list(gdrive_files - file_list)
-#     if fail_files:
-#         for fail_file in fail_files:
-#             print(f"Not found files: {fail_file}")
-#     else:
-#         print(f"All files downloaded!")
-
-
 def main():
     args = get_args()
     download_dir_id = args.download_dir_id
@@ -180,7 +143,6 @@ def main():
     is_download = args.is_download
     is_upload = args.is_upload
     upload_dir = args.upload_dir
-    # extensions = args.extensions
     
     creds = load_credentials()
 
@@ -194,9 +156,6 @@ def main():
 
     if is_download:
         download_files(drive_service, save_dir, res)
-        # compare_file_list(
-        #     path, set(map(lambda a_file: a_file["name"], file_list))
-        # )
 
     if is_upload:
         upload_directory(
