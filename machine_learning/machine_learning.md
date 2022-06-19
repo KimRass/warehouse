@@ -396,11 +396,13 @@ the outer loop for estimating accuracy.
 
 # Evaluation Metrics
 ## MSE (Mean Squared Error)
-- Using `tensorflow.keras.metrics.MeanSquaredError()`
+- TensorFlow implementation
 	```python
+	from tensorflow.keras import metrics
+
 	mse = metrics.MeanSquaredError([name])().numpy()
 	```
-- Using `sklearn.metrics.mean_squared_error()`
+- Scikit-learn implementation
 	```python
 	from sklearn.metrics import mean_squared_error
 	
@@ -408,40 +410,44 @@ the outer loop for estimating accuracy.
 	```
 ## RMSE (Root Mean Squared Error)
 ```python
+from tensorflow.keras import metrics
+
 rmse = metrics.RootMeanSquaredError([name])().numpy()
 ```
 ## MAE (Mean Absolute Error)
 ```python
+from tensorflow.keras import metrics
+
 mae = metrics.MeanAbsoluteError([name])().numpy()
 ```
-## MPE (Mean Percentage Error)
 ## MAPE (Mean Absolute Percentage Error)
 ```python
+from tensorflow.keras import metrics
+
 mape = metrics.MeanAbsolutePercentageError([name])().numpy()
 ```
-## SMAPE (Symmetric Mean Absolute Percentage Error)
-- Reference: https://en.wikipedia.org/wiki/Symmetric_mean_absolute_percentage_error
-- The absolute difference between the actual value and forecast value is divided by half the sum of absolute values of the actual value and the forecast value. The value of this calculation is summed for every fitted point and divided again by the number of fitted points.
-## R-Squared
-- Reference: https://statisticsbyjim.com/regression/r-squared-invalid-nonlinear-regression/
-- Explained variance + Error variance = Total variance.
-- However, this math works out correctly only for linear regression models. In nonlinear regression, these underlying assumptions are incorrect. Explained variance + Error variance DO NOT add up to the total variance! The result is that R-squared isn’t necessarily between 0 and 100%.
-- If you use R-squared for nonlinear models, their study indicates you will experience the following problems:
-R-squared is consistently high for both excellent and appalling models.
-R-squared will not rise for better models all of the time.
-If you use R-squared to pick the best model, it leads to the proper model only 28-43% of the time.
-## Adjusted R-Squared
-## RMSLE(Root Mean Squared Logarithmic Error)
-- Reference: https://shryu8902.github.io/machine%20learning/error/
-## Binary Classification
-- ![classification](https://www.popit.kr/wp-content/uploads/2017/04/table-1024x378.png)
-## Binary Cross Entropy
+## Accuracy, Recall (Confusion Matrix)
+- ![confusion_matrix](https://www.popit.kr/wp-content/uploads/2017/04/table-1024x378.png)
+## Error Rate (CER (Character Error Rate), WER (Word Error Rate))
+- Reference: https://towardsdatascience.com/evaluating-ocr-output-quality-with-character-error-rate-cer-and-word-error-rate-wer-853175297510
+- Edit distance
+  - Reference: https://en.wikipedia.org/wiki/Edit_distance
+  - Edit distance is a way of quantifying how dissimilar two strings (e.g., words) are to one another by counting the minimum number of operations required to transform one string into the other.
+  - Levenshtein distance
+    - Allows deletion, insertion and substitution.
+    - It is the minimum number of single-character (or word) edits (i.e., insertions, deletions, or substitutions) required to change one word (or sentence) into another. The more different the two text sequences are, the higher the number of edits needed, and thus the larger the Levenshtein distance.
+- The usual way of evaluating prediction output is with the accuracy metric, where we indicate a match (1) or a no match (0). However, this does not provide enough granularity to assess OCR performance effectively. We should instead use error rates to determine the extent to which the OCR transcribed text and ground truth text (i.e., reference text labeled manually) differ from each other. A common intuition is to see how many characters were misspelled. While this is correct, the actual error rate calculation is more complex than that. This is because the OCR output can have a different length from the ground truth text.
+- The question now is, how do you measure the extent of errors between two text sequences? This is where Levenshtein distance enters the picture.
+- CER calculation is based on the concept of Levenshtein distance, where we count the minimum number of character-level operations required to transform the ground truth text (aka reference text) into the OCR output.
+- CER = (S + D + I) / N
+  - N: Number of characters in reference text (aka ground truth)
+- Normalized CER = (S + D + I) / (S + D + I + C)
+  - C: Number of correct characters
 ```python
-bc = metrics.BinaryCrossentropy()
-```
-## Categorical Cross Entropy
-```python
-scc = metrics.SparseCategoricalCrossentropy()
+import fastwer
+
+cer = fastwer.score_sent(output, ref, char_level=True)
+wer = fastwer.score_sent(output, ref, char_level=False)
 ```
 
 # Recurrent Neural Network

@@ -1,3 +1,7 @@
+# Dataset
+## KsponSpeech (Korean Spontaneous Speech Corpus for Automatic Speech Recognition)
+- Reference: https://github.com/sooftware/ksponspeech
+
 # Propagation of Sound
 - Reference: https://blog.paperspace.com/introduction-to-audio-analysis-and-synthesis/
 - The parts where air is pushed closer together are called compressions, and the parts where it is pushed further apart are called rarefactions. Such waves that traverse space using compressions and rarefactions are called longitudinal waves.
@@ -13,3 +17,6 @@
 - Utilizing the STFT matrix directly to plot doesn't give us clear information. A common practice is to convert the amplitude spectrogram into a power spectrogram by squaring the matrix. Following this, converting the power in our spectrogram to decibels against some reference power increases the visibility of our data.
 ## Mel-Spectrogram
 - human sound perception is not linear, and we are able to differentiate between lower frequencies a lot better than higher frequencies. This is captured by the mel scale.
+
+# Tasks
+## STT (Speech-To-Text) (= ASR (Automatic Speech Recognition))
