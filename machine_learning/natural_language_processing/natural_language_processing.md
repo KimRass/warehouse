@@ -1317,6 +1317,9 @@ import google.cloud.translate_v2
 - If zero or more characters at the beginning of string match the regular expression pattern, return a corresponding match object. Return None if the string does not match the pattern; note that this is different from a zero-length match.
 ## `re.findall()`
 - Return all non-overlapping matches of pattern in string, as a list of strings. The string is scanned left-to-right, and matches are returned in the order found. If one or more groups are present in the pattern, return a list of groups; this will be a list of tuples if the pattern has more than one group. Empty matches are included in the result.
+```python
+re.findall(pattern, string)
+```
 ## `re.split(maxsplit)`
 ## `re.sub(pattern, repl, string, [count=0])`
 ## `re.compile()`

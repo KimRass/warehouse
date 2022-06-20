@@ -260,10 +260,22 @@ cbar.set_label(label="전용면적(m²)", size=15)
 
 # Save Figure
 ```python
+# `bbox_inches="tight"`
 plt.savefig()
-# fig.savefig()
+fig.savefig()
 ```
-- `bbox_inches="tight"`
+
+# Clear Figure
+```python
+from IPython.display import clear_output
+
+...
+clear_output()
+```
+```python
+...
+plt.close()
+```
 
 # Subplots
 ## `plt.subplot()`
