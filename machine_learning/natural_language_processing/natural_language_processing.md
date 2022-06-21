@@ -1301,7 +1301,6 @@ import google.cloud.translate_v2
 - `\W`, `[^a-zA-Z0-9_]`: Match any single non-word character.
 - `\s`, `[ \n\r\t\f]`: Match any single whitespace character(space, newline, return, tab, form).
 - `\S`: Match any single non-whitespace character.
-- `[ㄱ-ㅣ가-힣]`: Match any single Hangul character.
 - `\d`, `[0-9]`: Match any single decimal digit.
 - `\D`, `[^0-9]`: Match any single non-decimal digit.
 - `\*`: 0개 이상의 바로 앞의 character(non-greedy way)
@@ -1323,3 +1322,15 @@ re.findall(pattern, string)
 ## `re.split(maxsplit)`
 ## `re.sub(pattern, repl, string, [count=0])`
 ## `re.compile()`
+## Regular Expressions for Languages
+```python
+lang2regex = {
+	"ko": r"[ㄱ-ㅎㅏ-ㅣ가-힣]+",
+	# Reference: https://gist.github.com/terrancesnyder/1345094
+	# `r"[ぁ-ん]+"`: Hirgana
+	# `r"[ァ-ン]+"`: full-width Katakana (zenkaku 全角)
+	# `r"[ｧ-ﾝﾞﾟ]+"`: full-width Katakana (zenkaku 全角)
+	# `r"[一-龯]+"`: ALL Japanese common & uncommon Kanji (`"4e00"` ~ `"9fcf"`)
+	"ja": r"[ぁ-んァ-ンｧ-ﾝﾞﾟ一-龯々〆〤ヶ]+"
+}
+```
