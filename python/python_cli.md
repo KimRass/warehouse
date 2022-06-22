@@ -35,6 +35,18 @@ eval "$(pyenv init -)"
 export PYENV_VIRTUALENV_DISABLE_PROMPT=1
 ```
 
+# `venv`
+```sh
+python -m venv <virtual_environment_name>
+
+# Activate
+# Windows
+cd <virtual_environment_name>/Scripts
+activate
+# MacOS
+source <virtual_environment_name>/bin/activate
+```
+
 # `pyenv`
 ## Install
 ```sh
@@ -58,7 +70,7 @@ pyenv uninstall <version>
 ## Virtual Environments
 ```sh
 # Create Virtual Environment
-pyenv virtualenv [version] [name]
+pyenv virtualenv [<python_version>] [<virtual_environment_name>]
 
 # Activate virtual environment
 pyenv activate <virtual_environment_name>
