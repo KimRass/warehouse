@@ -106,14 +106,14 @@ for _, row in ml_gby_ax.iterrows():
 ax.fill_between(x, y1, y2, ...)
 ```
 ## Heat Map
-- Using `seaborn.heatmap()`
+- Seaborn implementation
 	- Reference: http://seaborn.pydata.org/generated/seaborn.heatmap.html
 	```python
 	# `center`: The value at which to center the colormap when plotting divergant data. Using this parameter will change the default `cmap` if none is specified.
 	# `mask`: If passed, data will not be shown in cells where `mask` is True. Cells with missing values are automatically masked.
 	sb.heatmap([ax], data, [annot=True], [annot_kws={"size"}], [fmt=".2f"], [linewidths], [linecolor], [center], [cmap], [cbar=True], [mask]);
 	```
-- Using `matplotlib.pyplot.pcolormesh()`
+- Matplotlib implementation
 	```python
 	plt.pcolormesh([cmap]);
 	plt.colorbar();
@@ -140,6 +140,8 @@ ax.fill_between(x, y1, y2, ...)
 # Grid
 #### `ax.grid()`
 ```python
+plt.grid()
+
 ax.grid(axis="x", color="White", alpha=0.3, linestyle="--", linewidth=2)
 ```
 
@@ -194,14 +196,13 @@ ax.invert_yaxis()`
 - `axis`: (`"x"`, `"y"`)
 ## Set Tick
 ```python
+# `ticks`, `labels`, [`rotation`]
 plt.xticks()
-# plt.yticks()
+plt.yticks()
+
+ax.set_xticks()
+ax.set_yticks()
 ```
-```python
-ax.set_xticks(ticks, labels, [rotation])
-# ax.set_yticks()
-```
-- 화면에 표시할 눈금을 설정합니다.
 ## Set Tick Position
 ```python
 ax.yaxis.set_ticks_position("right")

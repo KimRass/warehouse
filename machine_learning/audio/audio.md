@@ -1,6 +1,6 @@
 # Dataset
 ## KsponSpeech (Korean Spontaneous Speech Corpus for Automatic Speech Recognition)
-- Reference: https://github.com/sooftware/ksponspeech
+- Reference: https://www.mdpi.com/2076-3417/10/19/6936
 
 # Propagation of Sound
 - Reference: https://blog.paperspace.com/introduction-to-audio-analysis-and-synthesis/
