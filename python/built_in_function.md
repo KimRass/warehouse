@@ -17,8 +17,6 @@ Written by KimRass
 - `x | y`(`OR`): Returns `0` if the corresponding bit of `x` and of `y` is `0`, otherwise returns `1`.
 - `x ^ y`(`XOR`): Returns the same bit as the corresponding bit in `x` if that bit in `y` is `0`, otherwise the complement.
 - `x << y`, `x >> y`: Returns `x` with the bits shifted to the left(right) by `y` places (and new bits on the right-hand-side are zeros).
-# `int()`
-- `base`: (Default `10`) Number format.
 # `round()`
 ```python
 print(round(summ/leng, 1))
@@ -236,4 +234,94 @@ data.columns = data.columns.str.lower()
 ```python
 # `count`: (int, optional) A number specifying how many occurrences of the old value you want to replace. Default is all occurrences.
 String.replace(old, new, [count])
+```
+
+# `dataclasses`
+- Reference: https://www.daleseo.com/python-dataclasses/
+```python
+from dataclasses import class
+from datetime import date
+
+# Example
+# The two classes `ClassName1` and `ClassName2` are the same.
+class ClassName1:
+    def __init__(
+        self, param1: int, param2: str, param3: date, param4: bool = False
+    ) -> None:
+        self.param1 = param1
+        self.param2 = param2
+        self.param3 = param3
+        self.param4 = param4
+
+    def __repr__(self):
+        return (
+            self.__class__.__qualname__ + f"(id={self.param1!r}, name={self.param2!r}, param3={self.param3!r}, param4={self.param4!r})"
+        )
+
+    def __eq__(self, other):
+        if other.__class__ is self.__class__:
+            return (
+                self.param1, self.name, self.param3, self.param4
+            ) == (
+                other.id, other.name, other.param3, other.param4,
+            )
+        return NotImplemented
+
+@dataclass
+class ClassName2:
+    param1: int
+    param2: str
+    param3: date
+    param4: bool = False
+```
+
+# `hydra`
+- References: https://hydra.cc/docs/tutorials/basic/your_first_app/config_file/, https://hydra.cc/docs/tutorials/structured_config/config_store/
+```python
+import hydra
+from omegaconf import DictConfig, OmegaConf
+
+# Hydra configuration files are yaml files and should have the ".yaml" file extension.
+# Specify the config name by passing a config_name parameter to the `@hydra.main()` decorator. Note that you should omit the ".yaml" extension.
+@hydra.main(version_base=None, config_path=".", config_name="config")
+def function_name(config):
+    print(OmegaConf.to_yaml(config))
+
+if __name__ == "__main__":
+    # "config.yaml" is loaded automatically when you run your application.
+    function_name()
+```
+```python
+# Directory layout
+# ├─ config
+# │  └─ db
+# │      └─ mysql.yaml
+# └── function_name.py
+
+# What if we want to add an postgresql option now? Yes, we can easily add a "db/postgresql.yaml" config group option. But that is not the only way! We can also use `ConfigStore` to make another config group option for "db" available to Hydra.
+
+# "my_app.py"
+import hydra
+from hydra.core.config_store import ConfigStore
+from omegaconf import OmegaConf, DictConfig
+
+@dataclass
+class PostgresSQLConfig:
+    ...
+
+cs = ConfigStore.instance()
+# Registering the Config class with the name "<yaml_file_name>" with the config group "db", "db.<yaml_file_name>.yaml"
+cs.store(name="<yaml_file_name>", group="<config_group_name, e.g., db>", node=PostgresSQLConfig)
+
+@hydra.main(version_base=None, config_path="config")
+def function_name(config: DictConfig) -> None:
+    print(OmegaConf.to_yaml(config))
+
+
+if __name__ == "__main__":
+    function_name()
+```
+```sh
+python3 my_app.py \
+    <config_group_name>=<yaml_file_name>
 ```
