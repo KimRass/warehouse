@@ -2,6 +2,10 @@
 ## KsponSpeech (Korean Spontaneous Speech Corpus for Automatic Speech Recognition)
 - Reference: https://www.mdpi.com/2076-3417/10/19/6936
 
+# Utterance
+- Reference: https://en.wikipedia.org/wiki/Utterance
+- In spoken language analysis, an utterance is the smallest unit of speech. *It is a continuous piece of speech beginning and ending with a clear pause. In the case of oral languages, it is generally, but not always, bounded by silence.* Utterances do not exist in written language; only their representations do. They can be represented and delineated in written language in many ways.
+
 # Propagation of Sound
 - Reference: https://blog.paperspace.com/introduction-to-audio-analysis-and-synthesis/
 - The parts where air is pushed closer together are called compressions, and the parts where it is pushed further apart are called rarefactions. Such waves that traverse space using compressions and rarefactions are called longitudinal waves.

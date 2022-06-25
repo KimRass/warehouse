@@ -276,14 +276,15 @@ class ClassName2:
 ```
 
 # `hydra`
-- References: https://hydra.cc/docs/tutorials/basic/your_first_app/config_file/, https://hydra.cc/docs/tutorials/structured_config/config_store/
+- Reference: https://hydra.cc/docs/tutorials/
 ```python
 import hydra
 from omegaconf import DictConfig, OmegaConf
 
 # Hydra configuration files are yaml files and should have the ".yaml" file extension.
 # Specify the config name by passing a config_name parameter to the `@hydra.main()` decorator. Note that you should omit the ".yaml" extension.
-@hydra.main(version_base=None, config_path=".", config_name="config")
+# `config_path` is a directory relative to "my_app.py".
+@hydra.main(version_base=None, config_path="<directory_to_yaml_file>", config_name="<yaml_file_name>")
 def function_name(config):
     print(OmegaConf.to_yaml(config))
 
@@ -292,11 +293,16 @@ if __name__ == "__main__":
     function_name()
 ```
 ```python
-# Directory layout
+# Directory layout:
 # ├─ config
 # │  └─ db
 # │      └─ mysql.yaml
 # └── function_name.py
+
+# "config/db/mysql.yaml":
+# driver: mysql
+# user: omry
+# password: secret
 
 # What if we want to add an postgresql option now? Yes, we can easily add a "db/postgresql.yaml" config group option. But that is not the only way! We can also use `ConfigStore` to make another config group option for "db" available to Hydra.
 
@@ -310,7 +316,7 @@ class PostgresSQLConfig:
     ...
 
 cs = ConfigStore.instance()
-# Registering the Config class with the name "<yaml_file_name>" with the config group "db", "db.<yaml_file_name>.yaml"
+# Registering the Config class with the name "<yaml_file_name>" with the config group "db"; "db.<yaml_file_name>.yaml"
 cs.store(name="<yaml_file_name>", group="<config_group_name, e.g., db>", node=PostgresSQLConfig)
 
 @hydra.main(version_base=None, config_path="config")
@@ -324,4 +330,12 @@ if __name__ == "__main__":
 ```sh
 python3 my_app.py \
     <config_group_name>=<yaml_file_name>
+    # You can remove a default entry from the defaults list by prefixing it with ~:
+    ~<config_group_name>
+
+# Output:
+# db:
+#    driver: mysql
+#    user: omry
+#    password: secret
 ```

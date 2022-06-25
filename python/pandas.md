@@ -219,7 +219,6 @@ df.nlargest(3, ["population", "GDP"], keep="all")
 data.index.name
 # data.index.names
 ```
-# Reindex
 ## Sort by Index
 ```python
 sort_index()
