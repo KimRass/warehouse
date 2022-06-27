@@ -101,9 +101,15 @@ for _, row in ml_gby_ax.iterrows():
 - `ha`
 - `fontsize`
 - `s`
-## `ax.fill_between()`
+## Span
 ```python
-ax.fill_between(x, y1, y2, ...)
+# Example
+plt.axvspan(row["from"], row["to"], alpha=0.3, color="green")
+```
+## Fill Area
+```python
+# Example
+plt.fill_between()
 ```
 ## Heat Map
 - Seaborn implementation
