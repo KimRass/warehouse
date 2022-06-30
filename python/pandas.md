@@ -370,12 +370,10 @@ for cat in cats:
 for name, row in Data.iterrows():
 	...
 ```
-- Iterate over DataFrame rows as (index, Series) pairs.
 ## `iteritems()`
 ```python
-{name:ser for name, ser in x_train.iteritems()}
+for name, col in Data.iteritems():
 ```
-- ***Iterate over the DataFrame columns, returning a tuple with the column name and the content as a Series.***
 ## `Series.iteritems()`, `Series.items()`
 ```python
 # Iterate over (index, value) tuples.
