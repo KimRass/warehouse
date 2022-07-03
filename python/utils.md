@@ -111,14 +111,16 @@ reduce(lambda acc, cur: acc + [cur["mail"]], users, [])
 ```python
 import platform
 
-path = "C:/Windows/Fonts/malgun.ttf"
 # Returns the system/OS name, such as `'Linux'`, `'Darwin'`, `'Java'`, `'Windows'`. An empty string is returned if the value cannot be determined.
 if platform.system() == "Darwin":
     mpl.rc("font", family="AppleGothic")
 elif platform.system() == "Windows":
-    font_name = mpl.font_manager.FontProperties(fname=path).get_name()
-    mpl.rc('font', family=font_name)
+    font_name = mpl.font_manager.FontProperties(
+		fname="C:/Windows/Fonts/malgun.ttf"
+	).get_name()
+    mpl.rc("font", family=font_name)
 ```
+
 # `pprint`
 ```python
 from pprint import pprint

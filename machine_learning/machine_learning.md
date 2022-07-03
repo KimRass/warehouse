@@ -860,6 +860,29 @@ torch.cuda.device_count()
 # Gets the name of the device.
 torch.cuda.get_device_name(<index>)
 ```
+```python
+```python
+import platform
+import torch
+
+def check_envirionment(use_cuda: bool):
+    device = torch.device(
+		"cuda" if use_cuda and torch.cuda.is_available() else "cpu"
+	)
+
+    logger.info(f"Operating System : {platform.system()} {platform.release()}")
+    logger.info(f"Processor : {platform.processor()}")
+
+    if str(device) == "cuda":
+        for idx in range(torch.cuda.device_count()):
+            logger.info(f"device : {torch.cuda.get_device_name(idx)}")
+        logger.info(f"CUDA is available : {torch.cuda.is_available()}")
+        logger.info(f"CUDA version : {torch.version.cuda}")
+    else:
+        logger.info(f"CUDA is available : {torch.cuda.is_available()}")
+    logger.info(f"PyTorch version : {torch.__version__}")
+    return device
+```
 
 # TensorFlow Tensors
 - References: https://www.tensorflow.org/api_docs/python/tf/Tensor, https://stackoverflow.com/questions/57660214/what-is-the-utility-of-tensor-as-opposed-to-eagertensor-in-tensorflow-2-0, https://www.tensorflow.org/api_docs/python/tf/shape
