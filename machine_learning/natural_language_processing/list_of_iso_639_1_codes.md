@@ -16,3 +16,4 @@
 - zhtw: Chinese (Taiwan)
 - zhsg: Chinese (Singapore)
 - zhhk: Chinese (Hongkong)
+- UK: Ukraine
