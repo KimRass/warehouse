@@ -302,17 +302,15 @@ adj_ui = ui.sub(user_bias, axis=0).sub(item_bias, axis=1)
 DataFrame.isna()
 DataFrame.notna()
 ```
+## Drop Missing Values
 ```python
-DataFrame.dropna(subset)
-
-# Examples
-data = data.dropna(subset=["id"])
+DataFrame.dropna(subset, [inplace])
 ```
+## Fill Missing Values
 ```python
 # `method="ffill"`: Propagate last valid observation forward to next valid backfill.
 DataFrame.fillna(method)
-
-# Examples
+# Example
 data = data.fillna(method="ffill")
 ```
 
