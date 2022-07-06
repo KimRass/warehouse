@@ -40,6 +40,8 @@ S_db = librosa.amplitude_to_db(S, ref=np.max)
 ## STT (Speech-To-Text) (= ASR (Automatic Speech Recognition))
 ## TTS (Text-To-Speech) (= Speech Synthesis)
 
+# wave2vec
+
 # Tacotron2
 - References: https://github.com/Rayhane-mamah/Tacotron-2, https://github.com/hccho2/Tacotron2-Wavenet-Korean-TTS
 - ![tacotron2_architecture](https://camo.githubusercontent.com/d6c3e238b30a49a31c947dd0c5b344c452b53ab5eb735dc79675b67c92a2cf96/68747470733a2f2f707265766965772e6962622e636f2f625538734c532f5461636f74726f6e5f325f4172636869746563747572652e706e67)
