@@ -218,6 +218,7 @@ Path("...").suffix
 Path("...").iterdir()
 
 Path("...").glob()
+
 # This is like calling `Path.glob()` with `"**/"` added in front of the given relative pattern.
 # `"**"`: This directory and all subdirectories, recursively.
 Path("...").rglob()
@@ -511,7 +512,12 @@ def read_config():
 ```python
 import subprocess
 
-subprocess.check_call(["<shell_script>", <arg1>, <arg2>, ...])
+# Examples
+subprocess.run(f"bash list_files.sh s3://{bucket} {s3_dir} {local_dir}", shell=True)
+subprocess.run(
+	f"aws s3 cp {local_dir}{i} {bucket}/{s3_dir} --acl bucket-owner-full-control",
+	shell=True,
+)
 ```
 
 # `pyinstaller`

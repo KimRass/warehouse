@@ -7,24 +7,34 @@
         "command": "workbench.action.toggleSidebarVisibility"
     },
     {
-        "key": "ctrl+right",
-        "command": "cursorWordEndRight",
-        "when": "editorTextFocus"
+        "key": "shift+cmd+'",
+        "command": "workbench.action.terminal.toggleTerminal",
+        "when": "terminal.active"
     },
     {
-        "key": "ctrl+left",
-        "command":"cursorWordEndLeft",
-        "when":"editorTextFocus"
+        "key": "ctrl+`",
+        "command": "-workbench.action.terminal.toggleTerminal",
+        "when": "terminal.active"
     },
     {
-        "key": "ctrl+shift+right",
-        "command": "cursorWordEndRightSelect",
-        "when": "editorTextFocus"
+        "key": "shift+cmd+down",
+        "command": "workbench.action.terminal.resizePaneDown",
+        "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
     },
     {
-        "key": "ctrl+shift+left",
-        "command": "cursorWordEndLeftSelect",
-        "when": "editorTextFocus"
+        "key": "shift+cmd+left",
+        "command": "workbench.action.terminal.resizePaneLeft",
+        "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "shift+cmd+right",
+        "command": "workbench.action.terminal.resizePaneRight",
+        "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
+    },
+    {
+        "key": "shift+cmd+up",
+        "command": "workbench.action.terminal.resizePaneUp",
+        "when": "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
     }
 ]
 ```

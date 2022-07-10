@@ -48,17 +48,17 @@ plt.style.use("dark_background")
 	- `"w"`: White
 ## Line Chart
 - Reference: https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.plot.html
-### `plt.plot();`
-### `DataFrame.plot.line([style=[...])`, `Series.plot.line()`
+### `plt.plot()`
+### `DataFrame.plot.line([style=[...], [ax])`, `Series.plot.line([ax])`
 - `style`: For example, `["k--", "bo-", "r*"]`
 - `figsize`
 ## Pie Chart
-### `DataFrame.plot.pie()`, `Series.plot.pie()`
+### `DataFrame.plot.pie([ax])`, `Series.plot.pie([ax])`
 - `startangle`
 ### `sb.lineplot(x, y, [linewidth], [color], [label])`
 ## Scatter Plot
 ### `plt.scatter([s], [c], [cmap], [alpha], [edgecolors], [linewidth])`
-### `DataFrame.plot.scatter(y, x, c, grid, figsize, cmap)`
+### `DataFrame.plot.scatter(y, x, c, grid, figsize, cmap, [ax])`
 - `s`
 - `cmap`: ("RdYlBu", ...)
 - `alpha`
@@ -80,7 +80,7 @@ plt.barh(y, width, height, [alpha], [color], [label], [edgecolor], [linewidth])
 sb.barplot(ax, x, y, color, edgecolor, orient)
 ```
 ## Histogram
-### `ax.hist()`, `DataFrame.plot.hist()`, `Series.plot.hist()`
+### `ax.hist()`, `DataFrame.plot.hist([ax])`, `Series.plot.hist([ax])`
 ```python
 ax.hist(cnt_genre["genre"], bins=30)
 ```
@@ -117,12 +117,12 @@ plt.fill_between()
 	```python
 	# `center`: The value at which to center the colormap when plotting divergant data. Using this parameter will change the default `cmap` if none is specified.
 	# `mask`: If passed, data will not be shown in cells where `mask` is True. Cells with missing values are automatically masked.
-	sb.heatmap([ax], data, [annot=True], [annot_kws={"size"}], [fmt=".2f"], [linewidths], [linecolor], [center], [cmap], [cbar=True], [mask]);
+	sb.heatmap([ax], data, [annot=True], [annot_kws={"size"}], [fmt=".2f"], [linewidths], [linecolor], [center], [cmap], [cbar=True], [mask])
 	```
 - Matplotlib implementation
 	```python
-	plt.pcolormesh([cmap]);
-	plt.colorbar();
+	plt.pcolormesh([cmap])
+	plt.colorbar()
 	```
 ## `sb.countplot(ax, [data], [x], [y], [hue], [orient])`
 - Reference: https://seaborn.pydata.org/generated/seaborn.countplot.html
@@ -133,7 +133,7 @@ plt.fill_between()
 ### `sb.lmplot(data, x, y, fit_reg, line_kws, size, aspect, ci, sharey)`
 - `data`: (DataFrame)
 - `fit_reg`: (bool) If `True`, estimate and plot a regression model relating the x and y variables.
-- `ci`: (int in [0, 100] or None, optional) Size of the confidence interval for the regression estimate. This will be drawn using translucent bands around the regression line. The confidence interval is estimated using a bootstrap; for large datasets, it may be advisable to avoid that computation by setting this parameter to None.
+- `ci`: (int in [0, 100] or None, optional) Size of the confidence interval for the regression estimate. This will be drawn using translucent bands around the regression line. The confidence interval is estimated using a bootstrap for large datasets, it may be advisable to avoid that computation by setting this parameter to None.
 - `aspect`: Aspect ratio of each facet, so that aspect\*height gives the width of each facet in inches.
 ### `sb.distplot(a, norm_hist)`
 - `a`: (Series, 1d-Array, or List)
@@ -254,14 +254,12 @@ plt.legend()
 
 # Color Bar
 ```python
-# Example
-cbar = fig.colorbar(ax=ax, mappable=scatter);
-```
-```python
-plt.colorbar(format="%+2.0f dB");
+img = ...
+plt.colorbar(img, format="%+2.0f dB")
 ```
 ### Set Color Bar Label
 ```python
+cbar = ...
 cbar.set_label(label="전용면적(m²)", size=15)
 ```
 
@@ -304,13 +302,12 @@ fig, axes = plt.subplots(nrows, ncols, ...)
 ## `plt.imshow([cmap])`print(len(df_news_eng)
 ## `plt.set()`
 ```python
+# `title`
+# `xlabel`, `ylabel`
+# `xlim`, `ylim`
+# `xticks`, `yticks`
 ax.set(title="Example", xlabel="xAxis", ylabel="yAxis", xlim=[0, 1], ylim=[-0.5, 2.5], xticks=data.index, yticks=[1, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3])
 ```
-- `title`
-- `xlabel`, `ylabel`
-- `xlim`, `ylim`
-- `xticks`, `yticks`
-- Reference: https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D
 ## `sb.set()`
 - `palette`: (`"muted"`)
 - `color_codes`: If `True` and `palette` is a seaborn palette, remap the shorthand color codes (e.g. `"b"`, `"g"`, `"r"`, etc.) to the colors from this palette.

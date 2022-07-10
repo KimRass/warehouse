@@ -44,32 +44,54 @@ pd.read_sql(query, conn)
 ```
 
 # Save DataFrame
+## Save DataFrame to csv File
 ```python
+import pandas as pd
+
 # `index`: (Bool)
 DataFrame.to_csv()
 ```
+## Save DataFrame to xlsx File
 ```python
+import pandas as pd
+
 # `sheet_name`: (String, default `"Sheet1"`)
 # `na_rep`: (String, default `""`) Missing data reprsentation.
 # `float_format`
 # `header`: If a list of string is given it is assumed to be aliases for the column names.
 # merge_cells
-DataFrame.to_excel(sheet_name, na_rep, float_format, header, merge_cells)`
+DataFrame.to_excel(sheet_name, na_rep, float_format, header, merge_cells)
+```
+## Save DataFrame to xlsx File with Multiple Sheets
+```python
+import pandas as pd
+
+writer = pd.ExcelWriter("....xlsx", engine="xlsxwriter")
+df1.to_excel(writer, sheet_name="sheet1")
+df2.to_excel(writer, sheet_name="sheet2")
+...
+writer.save()
 ```
 
+# Check for Data Type
 ```python
 pd.api.types.is_string_dtype()
 pd.api.types.is_numeric_dtype()
 ```
+
+# Create DataFrame
 ```python
 # `data`: (Array, List, List of Tuples, Dictionary of List)
-pd.DataFrame(data, index, columns)`
+pd.DataFrame(data, index, columns)
 ```
+
+# Crosstab
 ```python
 pd.crosstab(index, columns, margins)
 
 pd.crosstab(index=data["count"], columns=data["weather"], margins=True)
 ```
+
 # Concat DataFrames
 ```python
 # `join`: (`"inner"`, `"outer"`, default `"outer"`)
