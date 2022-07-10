@@ -551,3 +551,12 @@ pip install google-auth-oauthlib
 pip install google-api-python-client
 pip install getfilelistpy
 ```
+
+# `typing`
+```python
+from typing import Tuple
+...
+
+def ...(...) -> Tuple[list, ...]:
+	...
+```
