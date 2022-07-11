@@ -20,13 +20,25 @@
 - The STFT can provide a rich visual representation for us to analyze, called a spectrogram. A spectrogram is a two-dimensional representation of the square of the STFT, and can give us important visual insight into which parts of a piece of audio sound like a buzz, a hum, a hiss, a click, or a pop, or if there are any gaps.
 - Utilizing the STFT matrix directly to plot doesn't give us clear information. A common practice is to convert the amplitude spectrogram into a power spectrogram by squaring the matrix. Following this, converting the power in our spectrogram to decibels against some reference power increases the visibility of our data.
 ## Mel-Spectrogram
-- human sound perception is not linear, and we are able to differentiate between lower frequencies a lot better than higher frequencies. This is captured by the mel scale.
+- The Mel Scale
+  - Reference: https://medium.com/analytics-vidhya/understanding-the-mel-spectrogram-fca2afa2ce53
+  - Studies have shown that humans do not perceive frequencies on a linear scale. We are better at detecting differences in lower frequencies than higher frequencies. For example, we can easily tell the difference between 500 and 1000 Hz, but we will hardly be able to tell a difference between 10,000 and 10,500 Hz, even though the distance between the two pairs are the same.
+    ```python
+    # Create a Mel filter-bank. This produces a linear transformation matrix to project FFT bins onto Mel-frequency bins.
+    mel = librosa.filters.mel(sr=sr, n_fft=n_fft, n_mels=n_mels)
+    ```
+- Reference: https://towardsdatascience.com/getting-to-know-the-mel-spectrogram-31bca3e2d9d0
+- The Mel Spectrogram is the result of the following pipeline:
+  - Separate to windows: Sample the input with windows of size `n_fft`, making hops of size `hop_length` each time to sample the next window.
+  - Compute FFT (Fast Fourier Transform) for each window to transform from time domain to frequency domain.
+  - Generate a Mel scale: Take the entire frequency spectrum, and separate it into `n_mels` evenly spaced frequencies. ***And what do we mean by evenly spaced? not by distance on the frequency dimension, but distance as it is heard by the human ear.***
+  - Generate Spectrogram: For each window, decompose the magnitude of the signal into its components, corresponding to the frequencies in the mel scale.
 ```python
 import librosa
 
 # When computing an STFT, you compute the FFT for a number of short segments. These segments have the length `n_fft`. Usually these segments overlap (in order to avoid information loss), so the distance between two segments is often not `n_fft`, but something like `n_fft/2`. The name for this distance is `hop_length`. It is also defined in samples.
-frame_leng = 20.0
-frame_shift = 10.0
+frame_leng = 20
+frame_shift = 10
 n_fft = int(round(sr * 0.001 * frame_leng))
 hop_leng = int(round(sr * 0.001 * frame_shift))
 n_mels = int(len(y)/1000)
