@@ -1,3 +1,7 @@
+# Header
+- Reference: https://www.webopedia.com/definitions/header/
+- In many disciplines of computer science, a header is a unit of information that precedes a data object.
+
 # Dataset & Data Set
 - Reference: https://english.stackexchange.com/questions/2120/which-is-correct-dataset-or-data-set
 - Dataset for certain datasets
@@ -753,6 +757,19 @@ compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 	sim_vec = tree.get_item_vector(i)
 	dist = tree.get_distance(i, j)
 	```
+
+# Beam Search
+- Install
+	```sh
+	git clone --recursive https://github.com/parlance/ctcdecode.git
+	cd ctcdecode
+	pip install .
+	# Or
+	CFLAGS=-stdlib=libc++ pip install .
+	```
+```python
+from ctcdecode import CTCBeamDecoder
+```
 
 # TensorFlow Graph Excution
 - Reference: https://towardsdatascience.com/eager-execution-vs-graph-execution-which-is-better-38162ea4dbf6

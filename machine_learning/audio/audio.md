@@ -1,6 +1,22 @@
 # Dataset
 ## KsponSpeech (Korean Spontaneous Speech Corpus for Automatic Speech Recognition)
 - Reference: https://www.mdpi.com/2076-3417/10/19/6936
+## Common Voice
+- Reference: https://commonvoice.mozilla.org/en/datasets
+
+# Audio File Extensions
+- Reference: https://en.wikipedia.org/wiki/Audio_file_format
+- Uncompressed audio formats: WAV, AIFF, AU raw header-less PCM
+  - *WAV and AIFF are designed to store a wide variety of audio formats, lossless and lossy; they just add a small, metadata-containing header before the audio data to declare the format of the audio data, such as LPCM with a particular sample rate, bit depth, endianness and number of channels.* Since WAV and AIFF are widely supported and can store LPCM, they are suitable file formats for storing and archiving an original recording.
+- Formats with lossless compression: FLAC, ALAC (".m4a")
+- Formats with lossy compression: MP3, AAC
+## WAV
+- 무손실, 무압축 방식입니다.
+## PCM (Pulse Code Modulation)
+- Header 없이 Raw data만 저장한 파일입니다.
+- 별도로 Audio에 대한 정보를 가지고 있지 않으면 재생할 수 없습니다.
+- Reference: https://www.openmyfiles.com/pcm-file/
+- PCM file is used to store a raw digital audio file in a computer system. It is a direct representation of (1s and 0s) digital sample values of an audio recording. The file keeps the recording in raw digital audio since high-quality recordings can be lossless. The files can’t use any form of compression to cut out the less important recordings to reduce the size of the file. PCM files stores the audio data samples in a sequentially binary format. Sometimes the audio files can be stored in WAV and AIF file format. The wave WAV file is the most common file used for storing PCM recordings.
 
 # Utterance
 - Reference: https://en.wikipedia.org/wiki/Utterance
@@ -19,6 +35,14 @@
 ## Spectrogram
 - The STFT can provide a rich visual representation for us to analyze, called a spectrogram. A spectrogram is a two-dimensional representation of the square of the STFT, and can give us important visual insight into which parts of a piece of audio sound like a buzz, a hum, a hiss, a click, or a pop, or if there are any gaps.
 - Utilizing the STFT matrix directly to plot doesn't give us clear information. A common practice is to convert the amplitude spectrogram into a power spectrogram by squaring the matrix. Following this, converting the power in our spectrogram to decibels against some reference power increases the visibility of our data.
+```python
+# References: https://librosa.org/doc/main/generated/librosa.stft.html#:~:text=The%20default%20value%2C%20n_fft%3D2048,well%20adapted%20for%20music%20signals., https://stackoverflow.com/questions/63350459/getting-the-frequencies-associated-with-stft-in-librosa
+# `n_fft`: In speech processing, the recommended value is 512, corresponding to 23 milliseconds at a sample rate of 22050 Hz. In any case, we recommend setting `n_fft` to a power of two for optimizing the speed of the fast Fourier transform (FFT) algorithm.
+# For each FFT window, for real signals the spectrum is symmetric so we only consider the positive side of the FFT. So The number of rows in the STFT matrix is `1 + n_fft/2`, with 1 being the DC component. Since we are only looking at the half spectrum, instead of `i` spanning from `0` to `n_fft`, this spans from `0` up to `1 + n_fft / 2` instead as the bins beyond `1 + n_fft / 2` would simply be the reflected version of the half spectrum.
+stft = librosa.stft(y_norm, n_fft=n_fft,  hop_length=hop_length)
+spectrogram = np.abs(stft)
+spectrogram_db = librosa.amplitude_to_db(spectrogram, ref=np.max)
+```
 ## Mel-Spectrogram
 - The Mel Scale
   - Reference: https://medium.com/analytics-vidhya/understanding-the-mel-spectrogram-fca2afa2ce53
@@ -52,7 +76,28 @@ S_db = librosa.amplitude_to_db(S, ref=np.max)
 ## STT (Speech-To-Text) (= ASR (Automatic Speech Recognition))
 ## TTS (Text-To-Speech) (= Speech Synthesis)
 
-# wave2vec
+# Wave2Vec 2.0
+- Similar, to BERT's masked language modeling, the model learns contextualized speech representations by randomly masking feature vectors before passing them to a transformer network.
+## XLSR (= XLSR-Wav2Vec) (Cross-lingual Speech Representations)
+- Paper: https://arxiv.org/abs/2006.13979
+- Reference: https://paperswithcode.com/method/xlsr
+- XLSR is a multilingual speech recognition model built on wav2vec 2.0 which is trained by solving a contrastive task over masked latent speech representations and jointly learns a quantization of the latents shared across languages. *The model is fine-tuned on labeled data and experiments show that cross-lingual pretraining significantly outperforms monolingual pretraining.* The model learns to share discrete tokens across languages, creating bridges across languages.
+- Before fine-tuning a pretrained checkpoint of an ASR model, it is crucial to verify that the sampling rate of the data that was used to pretrain the model matches the sampling rate of the dataset used to fine-tune the model.
+- XLSR-Wav2Vec2 was pretrained on the audio data of Babel, Multilingual LibriSpeech (MLS), and Common Voice. Most of those datasets were sampled at 16kHz.
+```python
+# `Wav2Vec2FeatureExtractor`: Processes the speech signal to the model's input format, e.g. a feature vector
+# `Wav2Vec2CTCTokenizer`: Processes the model's output format to text.
+from transformers import Wav2Vec2FeatureExtractor, Wav2Vec2CTCTokenizer
+
+# `feature_size`: In the case of Wav2Vec2, the feature size is `1` because the model was trained on the raw speech signal.
+# `padding_value`: For batched inference, shorter inputs need to be padded with a specific value.
+# `do_normalize`: Whether the input should be zero-mean-unit-variance normalized or not. Usually, speech models perform better when normalizing the input.
+# `return_attention_mask`: Whether the model should make use of an attention_mask for batched inference. In general, XLSR-Wav2Vec2 models should always make use of the attention_mask.
+feature_extractor = Wav2Vec2FeatureExtractor(feature_size=1, sampling_rate=16000, padding_value=0.0, do_normalize=True, return_attention_mask=True)
+```
+
+# CTC (Connectionsist Temporal Classification)
+- Reference: https://distill.pub/2017/ctc/
 
 # Tacotron2
 - References: https://github.com/Rayhane-mamah/Tacotron-2, https://github.com/hccho2/Tacotron2-Wavenet-Korean-TTS

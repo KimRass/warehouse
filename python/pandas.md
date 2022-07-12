@@ -160,8 +160,11 @@ fig = pd.plotting.lag_plot(ax=axes[0], series=resid_tr["resid"].iloc[1:], lag=1)
 raw_data.describe(include="all").T
 ```
 # `DataFrame.corr()`
+
 # `DataFrame.shape`
+
 # `DataFrame.ndim`
+
 # Quantile
 ```python
 DataFrame.quantile()
@@ -169,6 +172,7 @@ DataFrame.quantile()
 # Examples
 top90per = plays_df[plays_df["plays"]>plays_df["plays"].quantile(0.1)]
 ```
+
 # Group DataFrame
 ```python
 gby = DataFrame.groupby([as_index])
@@ -183,17 +187,21 @@ gby.apply()
 df.groupby(["Pclass", "Sex"], as_index=False)
 over4.groupby("user_id")["movie_id"].apply(set)
 ```
+
 # `DataFrame.pivot()`
 ```python
 df_pivoted = df.pivot("col1", "col2", "col3")
 ```
+
 # `DataFrame.stack()`
 - 열 인덱스 -> 행 인덱스로 변환
+
 # `unstack([level=-1], [fill_value=None])`
 - Reference: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.unstack.html
 - Pivot a level of the (necessarily hierarchical) index labels. Returns a DataFrame having a new level of column labels whose inner-most level consists of the pivoted index labels. If the index is not a MultiIndex, the output will be a Series (the analogue of stack when the columns are not a MultiIndex).
 - `level`: Level(s) of index to unstack, can pass level name.
 - `fill_value`: Replace NaN with this value if the unstack produces missing values.
+
 # `DataFrame.append()`
 ```python
 df = df.append(
@@ -208,6 +216,7 @@ hr["코스트센터 분류"] = hr.apply(lambda x:"지사" if ("사업소" in x["
 
 hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"]) | ("촉탁" in x["하위그룹"]) | ("파견" in x["하위그룹"]) | (x["재직여부"]=="퇴직") else ("본부인원에서만 제외" if ("PM" in x["조직명"]) | ("신규준비" in x["직무"]) | (x["직무"]=="휴직") | (x["직무"]=="비상계획") | (x["직무"]=="축구협") | (x["직무"]=="비서") | ("조직명" in x["조직명"]) | (x["직무"]=="미화") else "포함"), axis=1)
 ```
+
 # Progress Bar
 ```python
 from tqdm.auto import tqdm
@@ -228,12 +237,6 @@ data = data.rename({"단지명.1":"name", "세대수":"houses_buildings", "저/�
 sort_values(by, [axis=0], [ascending=True], [inplace=False])
 # Example
 df_sim_sents.sort_values(by=["similarity", "id1", "id2"], ascending=[False, True, True], inplace=True)
-```
-# Top n Largest Values
-```python
-# `keep`: (`"first"`, `"last"`, `"all"`)
-# Example
-df.nlargest(3, ["population", "GDP"], keep="all")
 ```
 
 # Index
@@ -432,7 +435,7 @@ data.loc[:, cats] = data.loc[:, cats].astype("category")
 - `dtype`: (`"int32"`, `"int63"`, `"float64"`, `"object"`, `"category"`, `"string"`)
 - `errors`: (`"raise"`, `"ignore"`, default `"raise"`)
 
-# Aggregate
+# Logical Operations
 ## Count of Unique Values
 ```python
 # `sort`: (bool)
@@ -445,4 +448,19 @@ n_item = ratings_df["movie_id"].nunique()
 ## `Series.cumsum()`
 ```python
 cumsum = n_rating_item.cumsum()/len(ratings_df)
+```
+## Top n Largest Values
+```python
+# `keep`: (`"first"`, `"last"`, `"all"`)
+# Example
+df.nlargest(3, ["population", "GDP"], keep="all")
+```
+## Logical Operators
+```python
+df.eq
+df.ne
+df.le
+df.lt
+df.ge
+df.gt
 ```
