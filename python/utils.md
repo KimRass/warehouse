@@ -554,7 +554,7 @@ pip install getfilelistpy
 
 # `typing`
 ```python
-from typing import Tuple
+from typing import Any, Dict, List, Optional, Union, Tuple
 ...
 
 def ...(...) -> Tuple[list, ...]:

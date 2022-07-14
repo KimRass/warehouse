@@ -759,17 +759,31 @@ compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 	```
 
 # Beam Search
-- Install
-	```sh
-	git clone --recursive https://github.com/parlance/ctcdecode.git
-	cd ctcdecode
-	pip install .
-	# Or
-	CFLAGS=-stdlib=libc++ pip install .
+- Python Implementation
+	```python
+	def beam_search(data, k):
+		seq_score = [[list(), 0]]ㅠ
+		for probs in data:
+			cands = list()
+			for seq, score in seq_score:
+				for i, prob in enumerate(probs):
+					cands.append([seq + [i], score - np.log(prob)])
+			seq_score.extend(cands)
+			seq_score = sorted(seq_score, key=lambda x:x[1])[:k]
+		return [np.array(i[0]) for i in seq_score]
 	```
-```python
-from ctcdecode import CTCBeamDecoder
-```
+- `ctcdecode` Implementation
+  - Install
+		```sh
+		git clone --recursive https://github.com/parlance/ctcdecode.git
+		cd ctcdecode
+		pip install .
+		# Or
+		CFLAGS=-stdlib=libc++ pip install .
+		```
+	```python
+	from ctcdecode import CTCBeamDecoder
+	```
 
 # TensorFlow Graph Excution
 - Reference: https://towardsdatascience.com/eager-execution-vs-graph-execution-which-is-better-38162ea4dbf6
@@ -1605,7 +1619,8 @@ ds.shard(num_shard, index)
 ## Map?
 ```python
 # `batched=True`: Batched mode. In batched mode `datasets.Dataset.map()` will provide batch of examples (as a dict of lists) to the mapped function and expect the mapped function to return back a batch of examples (as a dict of lists) but the input and output batch are not required to be of the same size.
-ds.map([batched])
+# `num_proc`: Number of processes for multiprocessing. By default it doesn’t use multiprocessing.
+ds.map([remove_columns], [batched], num_proc)
 ```
 
 # `transformers`
