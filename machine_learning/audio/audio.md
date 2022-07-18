@@ -76,6 +76,9 @@ S_db = librosa.amplitude_to_db(S, ref=np.max)
 ## STT (Speech-To-Text) (= ASR (Automatic Speech Recognition))
 ## TTS (Text-To-Speech) (= Speech Synthesis)
 
+# DeepSpeech2
+- Encoder만 존재하며 Decoder는 없습니다.
+
 # Wave2Vec 2.0
 - Similar, to BERT's masked language modeling, the model learns contextualized speech representations by randomly masking feature vectors before passing them to a transformer network.
 ## XLSR (= XLSR-Wav2Vec) (Cross-lingual Speech Representations)

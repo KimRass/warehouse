@@ -224,12 +224,16 @@ def deriv_sigmoid(x):
 ```
 ## Softmax
 - Reference: https://www.tensorflow.org/api_docs/python/tf/nn/softmax
-- Same as `tf.exp(logits) / tf.math.reduce_sum(tf.exp(logits), [axis])`
-- Using `tensorflow.nn.softmax([axis])`
-	```python
-	tf.nn.softmax()
-	```
-	- `axis`: The dimension softmax would be performed on. The default is `-1` which indicates the last dimension.
+```python
+# TensorFlow
+tf.nn.softmax([axis=-1])
+# Pytorch
+F.softmax(input, [dim=None])
+```
+```python
+# Applies a softmax followed by a logarithm.
+F.log_softmax(input, [dim=None])
+```
 ## Hyperbolic Tangent
 - Using `tensorflow.nn.tanh()`
 	```python
@@ -959,24 +963,32 @@ tf.reshape(<Tensor>, shape)
 ## `tf.constant_initializer()`
 ## `tf.argsort()`
 - `direction`: (`"ASCENDING"`, `"DESCENDING"`).
-## `tf.math`
-### `tf.math.add()`, `tf.math.subtract()`, `tf.math.multiply()`, `tf.math.divide()`
+## `tf.math.add()`, `tf.math.subtract()`, `tf.math.multiply()`, `tf.math.divide()`
 - Adds, substract, multiply or divide two input tensors element-wise.
-### `tf.math.add_n(inputs)`
+## `tf.math.add_n(inputs)`
 - Adds all input tensors element-wise.
 - `inputs`: A list of Tensors, each with the same shape and type.
-### `tf.math.square()`
+## `tf.math.square()`
 - Compute square of x element-wise.
-### `tf.math.sqrt()`
-### `tf.math.argmax(axis)`
-### `tf.math.sign`
-### `tf.math.exp()`
-### `tf.math.log()`
-### `tf.math.equal()`
+## `tf.math.sqrt()`
+
+## Arguments of Maxima
+```python
+# TensorFlow
+tf.math.argmax(axis)
+# Pytorch
+# This is the second value returned by `torch.max()`.
+torch.argmax(input, dim)
+Tensor.argmax(dim)
+```
+## `tf.math.sign`
+## `tf.math.exp()`
+## `tf.math.log()`
+## `tf.math.equal()`
 ```python
 seq = tf.cast(tf.math.equal(seq, 0), tf.float32)
 ```
-### `tf.math.reduce_sum([axis])`, `tf.math.reduce_mean()`
+## `tf.math.reduce_sum([axis])`, `tf.math.reduce_mean()`
 - Reference: https://www.tensorflow.org/api_docs/python/tf/math/reduce_sum#returns_1
 - `axis=None`: Reduces all dimensions.
 - Reduces `input_tensor` along the dimensions given in `axis`. Unless `keepdims=True`, the rank of the tensor is reduced by `1` for each of the entries in `axis`, which must be unique. If `keepdims=True`, the reduced dimensions are retained with length `1`.
