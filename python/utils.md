@@ -327,21 +327,21 @@ warnings.filterwarnings("ignore", [category])
 	```
 
 # `openpyxl`
+## Open Workbook
 ```python
 import openpyxl
 
 wb = openpyxl.Workbook()
 wb = openpyxl.load_workbook("D:/디지털혁신팀/태블로/HR분석/FINAL/★직급별인원(5년)_본사현장(5년)-태블로적용.xlsx")
-
-
+```
+## Select Sheet
+```python
 ws = wb[]
 ws = wb.active
 ws = wb.worksheets[0]
 
 wb.create_sheet("Index_sheet")
-
-df = ws[]
-df = pd.DataFrame(ws.values)
+```
 
 # Insert
 ws.insert_rows()
