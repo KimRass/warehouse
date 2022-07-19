@@ -81,7 +81,7 @@ pd.api.types.is_numeric_dtype()
 
 # Create DataFrame
 ```python
-# `data`: (Array, List, List of Tuples, Dictionary of List)
+# `data`: (Array, List, List of Tuples, Dictionary of List, List of Dictionary)
 pd.DataFrame(data, index, columns)
 ```
 

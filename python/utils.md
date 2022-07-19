@@ -333,9 +333,6 @@ import openpyxl
 wb = openpyxl.Workbook()
 wb = openpyxl.load_workbook("D:/디지털혁신팀/태블로/HR분석/FINAL/★직급별인원(5년)_본사현장(5년)-태블로적용.xlsx")
 
-from openpyxl.worksheet.formula import ArrayFormula
-
-f = ArrayFormula("E2:E11", "=SUM(C2:C11*D2:D11)")
 
 ws = wb[]
 ws = wb.active
@@ -365,6 +362,12 @@ ws.unmerge_cells()
 
 wb.sheetnames
 wb.save("test.xlsx")
+```
+## Formula
+```python
+from openpyxl.worksheet.formula import ArrayFormula
+
+f = ArrayFormula("E2:E11", "=SUM(C2:C11*D2:D11)")
 ```
 
 # `pptx`
