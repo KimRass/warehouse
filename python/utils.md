@@ -334,6 +334,10 @@ import openpyxl
 wb = openpyxl.Workbook()
 wb = openpyxl.load_workbook("D:/디지털혁신팀/태블로/HR분석/FINAL/★직급별인원(5년)_본사현장(5년)-태블로적용.xlsx")
 ```
+## Workbook Methods
+```python
+wb.sheetnames
+```
 ## Select Sheet
 ```python
 ws = wb[]
@@ -342,25 +346,29 @@ ws = wb.worksheets[0]
 
 wb.create_sheet("Index_sheet")
 ```
-
-# Insert
+## Insert
+```python
 ws.insert_rows()
 ws.insert_cols()
-
-# Delete
+```
+## Delete
+```python
 ws.delete_rows()
 ws.delete_cols()
-
-# Append
+```
+## Append
+```python
 content = ["민수", "준공분", "거제2차", "15.06", "18.05", "1279"]
-ws.append(content)
-
-# Merge
+ws.append(content)\
+```
+## Merge
+```python
 ws.merge_cells("A2:D2")
-# Unmerge
+## Unmerge
 ws.unmerge_cells()
-
-wb.sheetnames
+```
+## Save
+```python
 wb.save("test.xlsx")
 ```
 ## Formula
@@ -368,6 +376,13 @@ wb.save("test.xlsx")
 from openpyxl.worksheet.formula import ArrayFormula
 
 f = ArrayFormula("E2:E11", "=SUM(C2:C11*D2:D11)")
+```
+## Add Color to Cell
+```python
+def add_color_to_cell(cell, color="00FF4942"):
+    color = openpyxl.styles.colors.Color(rgb=color)
+    pattern_fill = PatternFill(patternType="solid", fgColor=color)
+    cell.fill = pattern_fill
 ```
 
 # `pptx`

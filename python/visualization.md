@@ -168,33 +168,26 @@ ax.axis("off")
 ## Set Axis Invisible
 ```python
 ax.xaxis.set_visible(False)
-ax.yaxis.set_visible(False)
-```
-## `ax.axis()`
-```python
-ax.axis([2, 3, 4, 10])
 ```
 ## Set Axis Range
 ```python
-ax.set_xlim([x1, x2])
-# ax.set_ylim([y1, y2])
+plt.xlim([xmin, xmax])
+ax.set_xlim([xmin, xmax])
+ax.axis([xmin, xmax, ymin, ymax])
 ```
+## Invert Axis
 ```python
-plt.xlim([x1, x2])
-plt.ylim([y1, y2])
+plt.gca().invert_xaxis()
+ax.invert_xaxis()
 ```
 ## Set Label Position
 ```python
 ax.xaxis.set_label_position("top")
 ```
-## Invert Axis
+## Set Axis Label
 ```python
-plt.gca().invert_xaxis()
-plt.gca().invert_yaxis()
-```
-```python
-ax.invert_xaxis()
-ax.invert_yaxis()`
+plt.xlabel()
+ax.set_xlabel()
 ```
 
 # Tick
@@ -204,38 +197,33 @@ ax.invert_yaxis()`
 ```python
 # `ticks`, `labels`, [`rotation`]
 plt.xticks()
-plt.yticks()
-
+# `ticks`, `labels`
 ax.set_xticks()
-ax.set_yticks()
+# Example
+plt.xticks(np.arange(0, 3, 0.2))
 ```
 ## Set Tick Position
 ```python
-ax.yaxis.set_ticks_position("right")
+# (`"top"`, `"bottom"`, `"left"`, `"right"`)
+ax.xaxis.set_ticks_position()
 ```
-- (`"top"`, `"bottom"`, `"left"`, `"right"`)
 ## Set Tick Format
 ```python
-ax.yaxis.set_major_formatter(mpl.ticker.StrMethodFormatter("{x:,.0f}"))
+# Example
+ax.xaxis.set_major_formatter(mpl.ticker.StrMethodFormatter("{x:,.0f}"))
 ```
-
-# Label
-## Set Axis Label
+## Rotate Tick Label
 ```python
-plt.xlabel()
-# plt.ylabel()
+plt.xticks(rotation)
+ax.tick_params(axis, labelrotation)
+ax.set_xticklabels(ax.get_xticks(), rotation)
 ```
-```python
-ax.set_xlabel()
-# ax.set_ylabel()
-```
-## `ax.set_xticklabels([va])`, `ax.set_yticklabels([ha])`
 
 # Title
 ## Set title
 ```python
 plt.title()
-# ax.set_title()
+ax.set_title()
 ```
 - `size`: (float)
 
