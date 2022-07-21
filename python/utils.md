@@ -291,8 +291,14 @@ with open(..., mode="r") as f:
 from tqdm import tqdm
 # On Jupyter
 from tqdm.notebook import tqdm
-# Automatically chooses beween `tqdm.notebook` and `tqdm.tqdm`.
+# Automatically chooses beween `tqdm.notebook.tqdm` and `tqdm.tqdm`.
 from tqdm.auto import tqdm
+```
+## `tqdm` with `iterrows()`
+```python
+# Example
+for _, row in tqdm(df.terrows(), total=df.shape[0]):
+	...
 ```
  
 # Warning Control
