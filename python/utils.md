@@ -228,6 +228,11 @@ Path("...").is_dir()
 
 Path("...").exists()
 ```
+## Create Directory
+```python
+# If `parents=True`, any missing parents of this path are created as needed.
+path.mkdir([parents=True], [exist_ok=False])
+```
 
 # `sys`
 ```python
@@ -385,10 +390,27 @@ f = ArrayFormula("E2:E11", "=SUM(C2:C11*D2:D11)")
 ```
 ## Add Color to Cell
 ```python
-def add_color_to_cell(cell, color="00FF4942"):
-    color = openpyxl.styles.colors.Color(rgb=color)
-    pattern_fill = PatternFill(patternType="solid", fgColor=color)
-    cell.fill = pattern_fill
+from openpyxl.styles import PatternFill, Font
+from openpyxl.styles.colors import Color
+
+
+class ExcelStyler:
+    def add_color_to_cell(self, cell, color="00FF4942") -> None:
+        color = Color(rgb=color)
+        pattern_fill = PatternFill(patternType="solid", fgColor=color)
+        cell.fill = pattern_fill
+
+
+    def add_color_to_font(self, cell, color="000000FF") -> None:
+        cell.font = Font(color=color)
+
+
+    def apply_bold_to_cell(self, cell) -> None:
+        cell.font = Font(bold=True)
+
+
+    def __ini__(self, logger=None) -> None:
+        self.logger = logger
 ```
 
 # `pptx`
@@ -489,7 +511,6 @@ import argparse
 def get_args():
 	# `"description"`: Text to display before the argument help.
     parser = argparse.ArgumentParser([description=None])
-
 	# `action`
 		# `action="store"`: (default) This just stores the argument’s value.
 		# `action="store_const"': This stores the value specified by the `const` keyword argument. The `store_const` action is most commonly used with optional arguments that specify some sort of flag.
@@ -506,12 +527,16 @@ def get_args():
 	# Example
 	parser.add_argument("-o", "--out_path", ..., dest="out_path", action="store")
 	...
+	args = parser.parse_args()
 
-    return parser.parse_args()
+	out_path = Path(args.out_path)
+	...
+
+    return out_path, ...
 
 ...
-args = get_args()
-out_path = args.out_path
+
+out_path, ... = get_args()
 ...
 ```
 

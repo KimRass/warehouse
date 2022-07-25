@@ -68,7 +68,6 @@ plt.style.use("dark_background")
 ```python
 plt.bar(x, height)
 
-
 # Reference: https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.plot.barh.html
 # `x`: If not specified, the index of the DataFrame is used.
 # `y`: If not specified, all numerical columns are used.
@@ -94,17 +93,17 @@ raw_data.hist(bins=20, grid=True, figsize=(16,12))
 ### `hlines()`, `vlines()`
 ## `ax.text()`
 ```python
+# `va`
+# `ha`
+# `fontsize`
+# `s`
 for _, row in ml_gby_ax.iterrows():
     ax.text(y=row["le"]-0.18, x=row["abs_error"], s=round(row["abs_error"], 1), va="center", ha="left", fontsize=10)
 ```
-- `va`
-- `ha`
-- `fontsize`
-- `s`
 ## Span
 ```python
-# Example
-plt.axvspan(row["from"], row["to"], alpha=0.3, color="green")
+# `alpha`, `color`
+plt.axvspan(xmin, xmax, ymin=0, ymax=1)
 ```
 ## Fill Area
 ```python

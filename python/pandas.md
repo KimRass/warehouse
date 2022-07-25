@@ -29,6 +29,8 @@ data.corr().style.background_gradient(cmap="Blues").set_precision(1).set_propert
 
 # Read Data
 ```python
+# Example
+pd.read_excel("/Users/jongbeom.kim/project/corpus_raw/b2b_projects/2022/2022-PB-01/commands.xlsx", dtype={"Index no.": str})
 # `names`: List of column names to use.
 # `parse_dates`: (List of column names)
 # `infer_datetime_format`: (bool) If `True` and `parse_dates` is enabled, pandas will attempt to infer the format of the datetime strings in the columns, and if it can be inferred, switch to a faster method of parsing them.

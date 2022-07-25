@@ -592,7 +592,7 @@ def split(string):
 	
 	words = ["policy", "doing", "organization", "have", "going", "love", "lives", "fly", "dies", "watched", "has", "starting"]
 	
-	lemmas = [wnl.lemmatize(w) for w in words])
+	lemmas = [wnl.lemmatize(w) for w in words]
 	```
 ## Check Spelling
 - Using `hanspell.spell_checker.check()`
