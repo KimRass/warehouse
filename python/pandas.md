@@ -29,6 +29,7 @@ data.corr().style.background_gradient(cmap="Blues").set_precision(1).set_propert
 
 # Read Data
 ```python
+# `sheet_name`
 # Example
 pd.read_excel("/Users/jongbeom.kim/project/corpus_raw/b2b_projects/2022/2022-PB-01/commands.xlsx", dtype={"Index no.": str})
 # `names`: List of column names to use.
@@ -443,11 +444,11 @@ data.loc[:, cats] = data.loc[:, cats].astype("category")
 # `sort`: (bool)
 Series.value_counts([sort], [ascending])
 ```
-## `Series.nunique()`
+## Number of Unique Values
 ```python
 n_item = ratings_df["movie_id"].nunique()
 ```
-## `Series.cumsum()`
+## Cumulative Summation
 ```python
 cumsum = n_rating_item.cumsum()/len(ratings_df)
 ```
@@ -456,6 +457,12 @@ cumsum = n_rating_item.cumsum()/len(ratings_df)
 # `keep`: (`"first"`, `"last"`, `"all"`)
 # Example
 df.nlargest(3, ["population", "GDP"], keep="all")
+```
+## Replace Values Where the Condition Is False
+```python
+<df>.where(cond, other, [inplace=False])
+# Example
+df_db.where(df_db < -60, -60)
 ```
 ## Logical Operators
 ```python

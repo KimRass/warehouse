@@ -208,10 +208,9 @@ sw = {i for i in string.punctuation}
 - Using `khaiii` (for Korean Language)
 	```sh
 	# Install on MacOS
-
 	pip install cmake
 	git clone "https://github.com/kakao/khaiii.git"
-	cd .../khaiii
+	cd khaiii
 	mkdir build
 	cd build
 	cmake ..
@@ -219,14 +218,12 @@ sw = {i for i in string.punctuation}
 	make resource
 
 	# Python binding
-	# make install
 	make package_python
 	cd package_python
 	pip3 install .
 	```
 	```sh
 	# Install on Google Colab
-
 	!git clone "https://github.com/kakao/khaiii.git"
 	!pip install cmake
 	!mkdir build
@@ -262,6 +259,48 @@ sw = {i for i in string.punctuation}
 	morphs = okt.morphs() # kkm.morphs(), kmr.morphs(), hnn.morphs(), mcb.morphs()
 	pos = okt.pos() # kkm.pos(), kmr.pos(), hnn.pos(), mcb.pos()
 	sents = okt.sentences() # kkm.sentences(), kmr.sentences(), hnn.sentences(), mcb.sentences()
+	```
+
+# `MeCab`
+- Install on Google Colab
+	```python
+	!git clone https://github.com/SOMJANG/Mecab-ko-for-Google-Colab.git
+	%cd Mecab-ko-for-Google-Colab
+	!bash install_mecab-ko_on_colab190912.sh
+	```
+- On MacOS
+	```python
+	import MeCab
+
+	mcb = MeCab.Tagger()
+
+	mcb.parse
+	```
+	```python
+
+- On Microsoft Windows
+	```python
+	# Reference: https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
+	!pip install mecab_python-0.996_ko_0.9.2_msvc-cp37-cp37m-win_amd64.whl
+
+	class Mecab:
+		def pos(self, text):
+			p = re.compile(".+\t[A-Z]+")
+			return [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
+		
+		def morphs(self, text):
+			p = re.compile(".+\t[A-Z]+")
+			return [p.match(line).group().split("\t")[0] for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
+		
+		def nouns(self, text):
+			p = re.compile(".+\t[A-Z]+")
+			temp = [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
+			nouns=[]
+			for word in temp:
+				if word[1] in ["NNG", "NNP", "NNB", "NNBC", "NP", "NR"]:
+					nouns.append(word[0])
+			return nouns
+	mcb = Mecab()
 	```
 
 # Out of Vocabulary (OOV) Problem
@@ -503,7 +542,11 @@ text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as ch
 	import kss
 	
 	text = "딥 러닝 자연어 처리가 재미있기는 합니다. 그런데 문제는 영어보다 한국어로 할 때 너무 어려워요. 농담아니에요. 이제 해보면 알걸요?"
-	
+	# Reference: https://github.com/hyunwoongko/kss
+	# `use_heuristic`: If you set it `True`, Kss conduct open-ended segmentation. If you set it `False`, Kss conduct punctuation-only segmentation.
+	# `use_quotes_brackets_processing`: This parameter indicates whether to segment the parts enclosed in brackets or quotations marks. If you set it `True`, Kss does not segment these parts, If you set it `False`, Kss segments the even in the parts that are enclosed in brackets and quotations marks.
+	# `backend`: (`"pynori"`, `"mecab"`)
+	# `num_workers`
 	sent_tokens = kss.split_sentences(text)
 	```
 ## Word Divider
@@ -1215,48 +1258,6 @@ from soynlp.normalizer import *
 ```
 ## `emoticon_normalize(num_repeats)`
 ## `repeat_normalize(num_repeats)`
-
-# `MeCab`
-- Install on Google Colab
-	```python
-	!git clone https://github.com/SOMJANG/Mecab-ko-for-Google-Colab.git
-	%cd Mecab-ko-for-Google-Colab
-	!bash install_mecab-ko_on_colab190912.sh
-	```
-- On Macos
-	```python
-	import MeCab
-
-	mcb = MeCab.Tagger()
-
-	mcb.parse
-	```
-	```python
-
-- On Microsoft Windows
-	```python
-	# Reference: https://github.com/Pusnow/mecab-python-msvc/releases/tag/mecab_python-0.996_ko_0.9.2_msvc-2
-	!pip install mecab_python-0.996_ko_0.9.2_msvc-cp37-cp37m-win_amd64.whl
-
-	class Mecab:
-		def pos(self, text):
-			p = re.compile(".+\t[A-Z]+")
-			return [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
-		
-		def morphs(self, text):
-			p = re.compile(".+\t[A-Z]+")
-			return [p.match(line).group().split("\t")[0] for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
-		
-		def nouns(self, text):
-			p = re.compile(".+\t[A-Z]+")
-			temp = [tuple(p.match(line).group().split("\t")) for line in MeCab.Tagger().parse(text).splitlines()[:-1]]
-			nouns=[]
-			for word in temp:
-				if word[1] in ["NNG", "NNP", "NNB", "NNBC", "NP", "NR"]:
-					nouns.append(word[0])
-			return nouns
-	mcb = Mecab()
-	```
 
 # `gensim`
 ```python

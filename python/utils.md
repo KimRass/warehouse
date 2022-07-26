@@ -274,18 +274,27 @@ pk.load()
 # `json`
 ```python
 import json
-
-# Save
-# For Dictionary
+```
+## Convert Dictionary to JSON String
+```python
+json_str = json.dumps(
+	json.load(response_body), indent=4, ensure_ascii=False
+)
+```
+## Save JSON String as json File
+```python
+with open(..., mode="w") as f:
+	f.write(json_str)
+```
+## Save Dictionary as json File
+```python
 # `ensure_ascii`: If `True`, the output is guaranteed to have all incoming non-ASCII characters escaped. If `False`, these characters will be output as-is.
 # `indent`: If a string (such as `"\t"`), that string is used to indent each level.
 with open(..., mode="w") as f:
 	json.dump(obj, f, [ensure_ascii=True], [indent])
-# For JSON string
-with open(..., mode="w") as f:
-	f.write(json_str)
-
-# Load
+```
+## Load json File
+```python
 with open(..., mode="r") as f:
 	file = json.load(f)
 ```
@@ -608,4 +617,22 @@ from typing import Any, Dict, List, Optional, Union, Tuple
 
 def ...(...) -> Tuple[list, ...]:
 	...
+```
+
+# `urllib`
+```python
+from urllib.request import Request, urlopen
+from urllib.parse import quote_plus, urlencode
+
+query_params = "?" + urlencode(
+	{
+		quote_plus("..."): ...,
+		...
+	}
+)
+request = Request(url + query_params)
+request.get_method = lambda: "GET"
+response_body = urlopen(request)
+
+dic = json.load(response_body)
 ```
