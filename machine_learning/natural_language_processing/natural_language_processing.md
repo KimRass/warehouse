@@ -549,6 +549,7 @@ text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as ch
 	# `num_workers`
 	sent_tokens = kss.split_sentences(text)
 	```
+- Using `kiwipiepy.Kiwi().split_into_sents()` (for Korean language)
 ## Word Divider
 - Using `pykospacing.spacing()`
 	```python

@@ -387,6 +387,11 @@ ws.merge_cells("A2:D2")
 ## Unmerge
 ws.unmerge_cells()
 ```
+## Number of Rows or Columns
+```python
+ws.max_row
+ws.max_column
+```
 ## Save
 ```python
 wb.save("test.xlsx")

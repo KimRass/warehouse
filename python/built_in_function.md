@@ -140,18 +140,25 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 - Unhashable.
 - No order.
 - Not subscriptable.
-## `<<Set1>> & <<Set2>>`
-- Returns the union of `<<Set1>>` and `<<Set2>>`.
-## `<<Set1>> | <<Set2>>`
-- Returns the intersection of `<<Set1>>` and `<<Set2>>`.
+## Intersection
+```python
+<Set1> & <Set2>
+<Set1>.intersection(<Set2>, <Set3>, ...)
+```
+## Union
+```python
+<Set1> | <Set2>
+<Set1>.union(<Set2>, <Set3>, ...)
+```
 ## Add Single Element
 ```python
-Set.add()
+<Set>.add()
 ```
 ## Add Multiple Elements
 ```python
 # It expects a single or multiple iterable sequences as arguments and appends all the elements in these iterable sequences to the Set.
-Set.update()
+<Set>.update()
+<Set1> += <Set2>
 ```
 ## `Set.discard()`
 ## Frozenset
