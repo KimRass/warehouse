@@ -91,7 +91,7 @@ pd.DataFrame(data, index, columns)
 # Crosstab
 ```python
 pd.crosstab(index, columns, margins)
-
+# Example
 pd.crosstab(index=data["count"], columns=data["weather"], margins=True)
 ```
 
@@ -154,6 +154,11 @@ pd.plotting.scatter_matrix(data, figsize=(18, 18), diagonal="kde")
 ## `pd.plotting.lag_plot()`
 ```python
 fig = pd.plotting.lag_plot(ax=axes[0], series=resid_tr["resid"].iloc[1:], lag=1)
+```
+
+# Convert DataFrame Row to Dictionary
+```python
+row.to_dict(orient="records")[0]
 ```
 
 # Describe DataFrame
