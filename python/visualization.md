@@ -89,7 +89,11 @@ raw_data.hist(bins=20, grid=True, figsize=(16,12))
 ## Box Plot
 ### `ax.boxplot()`, `DataFrame.boxplot(column, by, grid, figsize)`, `Series.boxplot()`
 ## Horizontal Line & Vertical Line
-### `axhline(y, [color], [ls], [lw], [label])`, `axvline()`
+```python
+# [color], [ls], [lw], [label]
+plt.axvline(x=0, ymin=0, ymax=1)
+ax.axvline()
+```
 ### `hlines()`, `vlines()`
 ## `ax.text()`
 ```python
