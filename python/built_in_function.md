@@ -41,6 +41,10 @@ if not isinstance(movie, frozenset):
 ```python
 type(test_X[0][0])
 ```
+# Open Text File
+```python
+[line.rstrip() for line in open("....txt", mode="r").readlines()]
+```
 # `sum()`
 ```python
 sum(sentences, [])

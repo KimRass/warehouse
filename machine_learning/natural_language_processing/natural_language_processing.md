@@ -1329,7 +1329,12 @@ search.end()
 re.findall(pattern, string)
 ```
 ## `re.split(maxsplit)`
-## `re.sub(pattern, repl, string, [count=0])`
+## Replace Pattern
+```python
+# Example
+# Add a whitespace after comma.
+sentence = re.sub(pattern=r"""(?<=[,])(?=[^\s])""", repl=r" ", string=sentence)
+```
 ## `re.compile()`
 ## Regular Expressions for Languages
 ```python
@@ -1534,4 +1539,24 @@ def kiwi_join(str_morphemes):
     return kiwi.join(
         [tuple(str_morpheme.split("ᴥ")) for str_morpheme in str_morphemes.split("|") if str_morpheme != ""]
     )
+
+
+def integrate_quotes_or_double_quotes(list_of_sentences, target_character="'"):
+    temp = ""
+    switch = False
+    ls_tup_sentence_start_sentence_end_new = list()
+    for s in list_of_sentences:
+        if target_character in s:
+            if switch:
+                temp += " " + s
+            switch = True if not switch else False
+        if switch:
+            temp += " " + s
+        else:
+            if temp:
+                ls_tup_sentence_start_sentence_end_new.append(temp)
+            else:
+                ls_tup_sentence_start_sentence_end_new.append(s)
+            temp = ""
+    return ls_tup_sentence_start_sentence_end_new
 ```

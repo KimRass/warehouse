@@ -98,11 +98,8 @@ ax.axvline()
 ## `ax.text()`
 ```python
 # `va`
-# `ha`
-# `fontsize`
-# `s`
-for _, row in ml_gby_ax.iterrows():
-    ax.text(y=row["le"]-0.18, x=row["abs_error"], s=round(row["abs_error"], 1), va="center", ha="left", fontsize=10)
+# `ha`: (`"left"`, `"center"`, `"right"`)
+ax.text(x, y, s, va, ha, fontsize, [color])
 ```
 ## Span
 ```python
@@ -194,7 +191,7 @@ ax.set_xlabel()
 ```
 
 # Tick
-## `ax.tick_params(axis, [labelsize], [labelcolor], [labelrotation], [grid_linewidth])`
+## `ax.tick_params(axis, [which], [labelsize], [labelcolor], [labelrotation], [grid_linewidth])`
 - `axis`: (`"x"`, `"y"`)
 ## Set Tick
 ```python
@@ -220,6 +217,18 @@ ax.xaxis.set_major_formatter(mpl.ticker.StrMethodFormatter("{x:,.0f}"))
 plt.xticks(rotation)
 ax.tick_params(axis, labelrotation)
 ax.set_xticklabels(ax.get_xticks(), rotation)
+```
+## Major and Minor Ticks
+```python
+# Example
+from matplotlib.ticker import MultipleLocator
+
+ax.xaxis.set_major_locator(MultipleLocator(0.5))
+ax.xaxis.set_major_formatter("{x:.1f}")
+ax.tick_params(axis="x", which="major", length=10, width=2, labelrotation=90)
+
+ax.xaxis.set_minor_locator(MultipleLocator(0.1))
+ax.tick_params(axis="x", which="minor", length=7, width=1)
 ```
 
 # Title
