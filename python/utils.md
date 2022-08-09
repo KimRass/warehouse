@@ -53,16 +53,24 @@ set_matplotlib_formats("retina")
 
 # `itertools`
 ```python
-from itertools import combinations, permutations, product, combinations_with_replacement
+from itertools import permutations, combinations_with_replacement
 ```
+## Combination
 ```python
+from itertools import combinations
+
 movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
 ```
+## Permutation with Repitiion 
 ```python
+from itertools import product
+
 # `repeat`
-for i in product(range(3), range(3), range(3)):
-    print(i)
+# Example
+product(range(3), range(3), range(3))
+list(product(["", "-"], repeat=count))
 ```
+
 # `collections`
 ## `Counter()`
 ```python
