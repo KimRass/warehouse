@@ -848,6 +848,14 @@ model.add_dictionary(corp.dictionary)
 ## Dependency Parsing (DP)
 ## Dialogue State Tracking (DST)
 ## Topic Classification (TC)
+## WSD (Word Sense Disambiguation) (= 단어 의미 중의성 해소)
+- Reference: https://dcollection.yonsei.ac.kr/public_resource/pdf/000000474140_20220810163058.pdf
+- 특히 한국어는 어휘의 약 30% 가량이 동음이의어로 파악되고 있어 자동 번역이나 구문 분석 등을 위해 단어의 중의성을 해소하는 것이 반드시 필요하다.
+- 지도 학습 접근법은 단어 의미 중의성 해소 성능이 상대적으로 우수
+하지만 사람이 직접 의미를 부착한 양질의 말뭉치는 구하거나 제작이 어렵다
+는 큰 한계가 있다.
+- 성능의 평가에는 거의 유일하게 공개된 한국어 의미 중의성 해
+소 평가 데이터인 SENSEVAL-2 대회에서의 한국어 데이터를 이용하였다.
 
 # Subword Tokenizer
 - Using `sentencepiece`
@@ -1323,12 +1331,15 @@ search.end()
 ```
 ## `re.match()`
 - If zero or more characters at the beginning of string match the regular expression pattern, return a corresponding match object. Return None if the string does not match the pattern; note that this is different from a zero-length match.
-## `re.findall()`
-- Return all non-overlapping matches of pattern in string, as a list of strings. The string is scanned left-to-right, and matches are returned in the order found. If one or more groups are present in the pattern, return a list of groups; this will be a list of tuples if the pattern has more than one group. Empty matches are included in the result.
+## Find All Matches
 ```python
+# Return all non-overlapping matches of pattern in string, as a list of strings. The string is scanned left-to-right, and matches are returned in the order found. If one or more groups are present in the pattern, return a list of groups; this will be a list of tuples if the pattern has more than one group. Empty matches are included in the result.
 re.findall(pattern, string)
 ```
-## `re.split(maxsplit)`
+## Split String by Delimiters
+```python
+re.split(pattern, string, maxsplit)
+```
 ## Replace Pattern
 ```python
 # Example
@@ -1341,9 +1352,9 @@ sentence = re.sub(pattern=r"""(?<=[,])(?=[^\s])""", repl=r" ", string=sentence)
 lang2regex = {
 	"ko": r"[ㄱ-ㅎㅏ-ㅣ가-힣]+",
 	# Reference: https://gist.github.com/terrancesnyder/1345094
-	# `r"[ぁ-ん]+"`: Hirgana
-	# `r"[ァ-ン]+"`: full-width Katakana (zenkaku 全角)
-	# `r"[ｧ-ﾝﾞﾟ]+"`: full-width Katakana (zenkaku 全角)
+	# `r"[ぁ-ん]+"`: Hiragana
+	# `r"[ァ-ン]+"`: Full-width Katakana (Zenkaku 全角)
+	# `r"[ｧ-ﾝﾞﾟ]+"`: Half-width Katakana (Hankaku 半角)
 	# `r"[一-龯]+"`: ALL Japanese common & uncommon Kanji (`"4e00"` ~ `"9fcf"`)
 	"ja": r"[ぁ-んァ-ンｧ-ﾝﾞﾟ一-龯々〆〤ヶ]+"
 }

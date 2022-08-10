@@ -85,25 +85,28 @@ word2cnt = Counter(words)
 sum(Counter(nltk.ngrams(cand.split(), 2)).values())
 ```
 ### `Counter().most_common()`
-## `deque()`
+## Double Ended Deque
 ```python
 from collections import deque
-```
-```python
+
+# `maxlen`
 dq = deque("abc")
+
+dq.append()
+dq.appendleft()
+dq.pop()
+dq.popleft()
+dq.extend()
+dq.extendleft()
+dq.remove()
 ```
-- `maxlen`
-### `dq.append()`
-### `dq.appendleft()`
-### `dq.pop()`
-### `dq.popleft()`
-### `dq.extend()`
-### `dq.extendleft()`
-### `dq.remove()`
 ## `defaultdict()`
 ```python
+from collections import defaultdict
+
 ddic = defaultdict(list)
 ```
+
 # `functools`
 ## `reduce()`
 ```python
@@ -451,7 +454,7 @@ prs.slides[a].shapes[b].text_frame.paragraphs[c].font.size = Pt(16)
 prs.save("파일 이름")
 ```
 
-# `ray`
+# Multiprocessing
 ```sh
 pip install -U ray
 ```
@@ -471,6 +474,11 @@ def func(...):
 
 # `ray.put()`: 크기가 큰 변수에 대해 사용.
 res = ray.get([func.remote(ray.put(...), ...) for _ in range(n)])
+```
+```python
+# Install: `pip install modin[ray]`
+import ray
+import modin.pandas as pd
 ```
 
 # Log

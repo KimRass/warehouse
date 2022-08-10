@@ -162,7 +162,6 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 ```python
 # It expects a single or multiple iterable sequences as arguments and appends all the elements in these iterable sequences to the Set.
 <Set>.update()
-<Set1> += <Set2>
 ```
 ## `Set.discard()`
 ## Frozenset
