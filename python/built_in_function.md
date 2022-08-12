@@ -98,13 +98,22 @@ print(f"{sparse_mat.data.nbytes:,}Bytes")
 - Mutable.
 - Unhashable.
 - Subscriptable.
-## `List.index()`
-## `List.append()`
-- Adds the argument as a single element to the end of a List. 
-## `List.extend()`
-- Iterates over the argument and adding each element to the List and extending the List.
-## `List.insert()`
-- idx, value 순으로 arg를 입력합니다.
+## Get Index of Element in List
+```python
+List.index(...)
+```
+## Add Single Element to List
+```python
+# Adds the argument as a single element to the end of a List.
+List.append()
+# Index, Value 순으로 Argument를 입력합니다.
+List.insert()
+```
+## Add Multiple Elements to List
+```python
+# Iterates over the argument and adding each element to the List and extending the List.
+List.extend()
+```
 ## `List.remove()`
 ```python
 features.remove("area")
@@ -112,11 +121,11 @@ features.remove("area")
 ## `List.count()`
 ## Sort List
 ```python
+# `reverse`: (Bool, default `False`)
+# `key`: Define a function to sort by.
 sorted(confs, key=lambda x:(x[0], x[1]))
 ```
-- `reverse`: (Bool, default `False`)
-- `key`: Define a function to sort by.
-## `reversed()`
+## Reverse List
 ```python
 list(reversed([int(i) for i in str(n)]))
 ```
@@ -162,7 +171,6 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 ```python
 # It expects a single or multiple iterable sequences as arguments and appends all the elements in these iterable sequences to the Set.
 <Set>.update()
-<Set1> += <Set2>
 ```
 ## `Set.discard()`
 ## Frozenset

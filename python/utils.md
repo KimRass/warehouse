@@ -41,7 +41,10 @@ shutil.copy(src, dst)
 ```
 ## `shutil.copyfileobj()`
 ```python
-shutil.copyfileobj(urllib3.PoolManager().request("GET", url, preload_content=False), open(file_dir, "wb"))
+shutil.copyfileobj(
+	urllib3.PoolManager().request("GET", url, preload_content=False),
+	open(file_dir, "wb")
+)
 ```
 
 # `IPython`
@@ -63,39 +66,57 @@ movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
 for i in product(range(3), range(3), range(3)):
     print(i)
 ```
-# `collections`
-## `Counter()`
+
+# `Counter()`
 ```python
 from collections import Counter
-```
-```python
+
+# lst의 원소별 빈도를 나타내는 dic을 반환합니다.
 word2cnt = Counter(words)
 ```
-- lst의 원소별 빈도를 나타내는 dic을 반환합니다.
-### `Counter().values()`
+## `Counter().values()`
 ```python
 sum(Counter(nltk.ngrams(cand.split(), 2)).values())
 ```
-### `Counter().most_common()`
-## `deque()`
+## `Counter().most_common()`
+
+# Named Tuple
+- Reference: https://www.geeksforgeeks.org/namedtuple-in-python/
+```python
+from collections import namedtuple
+  
+# Declaring namedtuple()
+Student = namedtuple('Student', ['name', 'age', 'DOB'])
+# Adding values
+S = Student('Nandini', '19', '2541997')
+
+S[1] == S.age
+```
+
+# Double Ended Queue
 ```python
 from collections import deque
-```
-```python
+
+# `maxlen`
 dq = deque("abc")
+
+dq.append()
+dq.appendleft()
+dq.pop()
+dq.popleft()
+dq.extend()
+dq.extendleft()
+dq.remove()
+defaultdict()
 ```
-- `maxlen`
-### `dq.append()`
-### `dq.appendleft()`
-### `dq.pop()`
-### `dq.popleft()`
-### `dq.extend()`
-### `dq.extendleft()`
-### `dq.remove()`
-## `defaultdict()`
+
+# `defaultdict()`
 ```python
+from collections import defaultdict
+
 ddic = defaultdict(list)
 ```
+
 # `functools`
 ## `reduce()`
 ```python
@@ -107,6 +128,7 @@ reduce(lambda acc, cur: acc + cur["age"], users, 0)
 ```python
 reduce(lambda acc, cur: acc + [cur["mail"]], users, [])
 ```
+
 # `platform`
 ```python
 import platform
@@ -157,7 +179,10 @@ with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
 ```python
 import os
 ```
-## `os.getcwd()`
+## Get Current Working Directory
+```python
+os.getcwd()
+```
 ## Create Directory
 ```python
 # 하나의 폴더만 생성할 수 있습니다.
@@ -443,7 +468,7 @@ prs.slides[a].shapes[b].text_frame.paragraphs[c].font.size = Pt(16)
 prs.save("파일 이름")
 ```
 
-# `ray`
+# Multiprocessing
 ```sh
 pip install -U ray
 ```
@@ -528,8 +553,8 @@ def get_args():
 	# `action`
 		# `action="store"`: (default) This just stores the argument’s value.
 		# `action="store_const"': This stores the value specified by the `const` keyword argument. The `store_const` action is most commonly used with optional arguments that specify some sort of flag.
-		# `action="store_true"`: Stores the value `True`.
-		# `action="store_false"`: Stores the value `False`.
+		# `action="store_true"`: Stores `True`.
+		# `action="store_false"`: Stores `False`.
 	# `default`: Specifies what value should be used if the command-line argument is not present.
 	# `type`: (default `str`) The type to which the command-line argument should be converted.
 	# `nargs`
@@ -538,15 +563,13 @@ def get_args():
 	# `help`: A brief description of what the argument does.
 	# `dest`: The name of the attribute to be added to the object returned by `parse_args()`.
 		# The value of `dest` is normally inferred from the option strings. `ArgumentParser` generates the value of `dest` by taking the first long option string and stripping away the initial `"--"` string. If no long option strings were supplied, `dest` will be derived from the first short option string by stripping the initial `"-"` character.
+	# `required`: (bool)
 	# Example
 	parser.add_argument("-o", "--out_path", ..., dest="out_path", action="store")
 	...
+
 	args = parser.parse_args()
-
-	out_path = Path(args.out_path)
-	...
-
-    return out_path, ...
+    return args
 
 ...
 

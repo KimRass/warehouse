@@ -30,8 +30,11 @@ data.corr().style.background_gradient(cmap="Blues").set_precision(1).set_propert
 # Read Data
 ```python
 # `sheet_name`
+# `usecols`: Column names to be used.
+# `dtype`
 # Example
 pd.read_excel("/Users/jongbeom.kim/project/corpus_raw/b2b_projects/2022/2022-PB-01/commands.xlsx", dtype={"Index no.": str})
+
 # `names`: List of column names to use.
 # `parse_dates`: (List of column names)
 # `infer_datetime_format`: (bool) If `True` and `parse_dates` is enabled, pandas will attempt to infer the format of the datetime strings in the columns, and if it can be inferred, switch to a faster method of parsing them.
@@ -242,9 +245,17 @@ data = data.rename({"단지명.1":"name", "세대수":"houses_buildings", "저/�
 ```
 # Sort DataFrame
 ```python
+# `by`: List로 여러 개의 컬럼을 받을 경우 List의 우에서 좌로 정렬을 적용합니다.
 sort_values(by, [axis=0], [ascending=True], [inplace=False])
 # Example
 df_sim_sents.sort_values(by=["similarity", "id1", "id2"], ascending=[False, True, True], inplace=True)
+```
+## Sort DataFrame by Column Frequency
+```python
+# Example
+word2freq = df.groupby(["어휘"]).size()
+df["freq"] = df["어휘"].map(word2freq)
+df.sort_values(["freq"], inplace=True)
 ```
 
 # Index
@@ -396,28 +407,25 @@ for cat in cats:
 ```
 
 # Iteration
-## `iterrows()`
+## Iterate over Rows
 ```python
-for name, row in Data.iterrows():
+# 일반적으로 `iterrows()` -> `itertuples()` -> `values` 순으로 속도가 빨라집니다.
+for name, row in df.iterrows():
+	# type: DataFrame row
 	...
+for row in df.itertuples():
+	...
+for value in df.values:
+	# type: Array
+	...
+# `items()`와 `iteritems()`는 서로 동일합니다.
+for idx, value in raw_data["quarter2"].items():
+    ...
 ```
-## `iteritems()`
+## Iterate over Columns
 ```python
-for name, col in Data.iteritems():
-```
-## `Series.iteritems()`, `Series.items()`
-```python
-# Iterate over (index, value) tuples.
-
-# Examples
-for i, value in raw_data["quarter2"].items():
-    print(i, value)
-```
-# `Series.items()`
-```python
-# Examples
-for k, v in target.items():
-    queries.append(f"{k}-{v}")
+for name, col in df.iteritems():
+	...
 ```
 
 # `DataFrame.insert()`
