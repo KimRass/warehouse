@@ -55,14 +55,27 @@ set_matplotlib_formats("retina")
 ```
 
 # `itertools`
+## Combination
 ```python
-from itertools import combinations, permutations, product, combinations_with_replacement
-```
-```python
+from itertools import combinations
+
+# Example
 movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
 ```
+## Combination with Replacement
 ```python
+from itertools import combinations_with_replacement
+```
+## Permutation
+```python
+from itertools import permutations
+```
+## Permutation with Repetition
+```python
+from itertools import product
+
 # `repeat`
+# Example
 for i in product(range(3), range(3), range(3)):
     print(i)
 ```
@@ -174,10 +187,11 @@ with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
 	target_text = etree.parse(z.open("ted_en-20160408.xml", "r"))
 ```
 
-# `os`
-- Reference: https://docs.python.org/3/library/os.html
+# `os`, `pathlib`
+- Reference: https://docs.python.org/3/library/pathlib.html
 ```python
 import os
+from pathlib import Path
 ```
 ## Get Current Working Directory
 ```python
@@ -190,47 +204,32 @@ os.mkdir(path)
 # Like `mkdir()`, but makes all intermediate-level directories needed to contain the leaf directory.
 # `exist_ok`: If `False` (the default), an `FileExistsError` is raised if the target directory already exists.
 os.makedirs(path, exist_ok=True)
+# If `parents=True`, any missing parents of this path are created as needed.
+Path("...").mkdir([parents=True], [exist_ok=False])
 ```
-## `os.chdir()`
-## `os.environ`
-## `os.pathsep`
+## Change Directory
+```python
+os.chdir()
+```
+## Environment
 ```python
 os.environ["PATH"] += os.pathsep + "C:\Program Files (x86)/Graphviz2.38/bin/"
 ```
-## `os.path.join()	`
+## Join Path
 ```python
-os.path.join("C:\Tmp", "a", "b")
+os.path.join("...", "...", ...)
 ```
-## `os.path.exists()`
+## Check If Exists
 ```python
-if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
+os.path.exists("...")
+Path("...").exists()
 ```
+## Treat Path
 ```python
-# Returns the directory name of pathname `path`.
-os.path.dirname()
-# Returns the base name of pathname `path`.
-os.path.basename()
-```
-## Check If File or Directory
-```python
-# Check If File
-os.path.isfile()
-# Check If Directory
-os.path.isdir()
-```
-## Remove File or Directory
-```python
-# Remove file
-os.remove()
-# Remove directory
-os.rmdir()
-```
-
-# `pathlib`
-- Reference: https://docs.python.org/3/library/pathlib.html
-```python
-from pathlib import Path
-
+# Returns the directory name of pathname.
+os.path.dirname("...")
+# Returns the base name of pathname.
+os.path.basename("...")
 # The logical parent of the path.
 Path("...").parent
 # The final path component with its suffix.
@@ -239,24 +238,31 @@ Path("...").name
 Path("...").stem
 # The file extension of the final component.
 Path("...").suffix
+```
+## Check If File or Directory
+```python
+# Check If File
+os.path.isfile("...")
+Path("...").is_file()
 
+# Check If Directory
+os.path.isdir("...")
+Path("...").is_dir()
+```
+## Remove File or Directory
+```python
+# Remove file
+os.remove("...")
+# Remove directory
+os.rmdir("...")
+```
+## Iterate
+```python
 Path("...").iterdir()
-
 Path("...").glob()
-
 # This is like calling `Path.glob()` with `"**/"` added in front of the given relative pattern.
 # `"**"`: This directory and all subdirectories, recursively.
 Path("...").rglob()
-
-Path("...").is_file()
-Path("...").is_dir()
-
-Path("...").exists()
-```
-## Create Directory
-```python
-# If `parents=True`, any missing parents of this path are created as needed.
-path.mkdir([parents=True], [exist_ok=False])
 ```
 
 # `sys`

@@ -428,8 +428,9 @@ for name, col in df.iteritems():
 	...
 ```
 
-# `DataFrame.insert()`
+# Insert Column
 ```python
+# Example
 asso_rules.insert(1, "antecedents_title", asso_rules["antecedents"].apply(lambda x : id2title[list(x)[0]]))
 ```
 # `DataFrame.drop()`
