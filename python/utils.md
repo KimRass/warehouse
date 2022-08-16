@@ -638,12 +638,6 @@ with open("/path/to/json_to_validate.json", mode="r") as f:
 validate(schema=json_schema, instance=json_to_validate)
 ```
 
-```sh
-pip install google-auth-oauthlib
-pip install google-api-python-client
-pip install getfilelistpy
-```
-
 # `typing`
 ```python
 from typing import Any, Dict, List, Optional, Union, Tuple

@@ -1303,7 +1303,7 @@ import google.cloud.translate_v2
 ```
 - The meta-characters which do not match themselves because they have special meanings are: `.`, `^`, `$`, `*`, `+`, `?`, `{`, `}`, `[`, `]`, `(`, `)`, `\`, `|`.
 - `.`: Match any single character except newline.
-- `\n`: Newline
+- `\n`: New line
 - `\r`: Return
 - `\t`: Tab
 - `\f`: Form
@@ -1341,7 +1341,7 @@ re.split(maxsplit)
 ```python
 # Example
 # Add a whitespace after comma.
-sentence = re.sub(pattern=r"""(?<=[,])(?=[^\s])""", repl=r" ", string=sentence)
+sentence = re.sub(pattern=r"(?<=[,])(?=[^\s])", repl=r" ", string=sentence)
 ```
 ## `re.compile()`
 ## Match Objects
