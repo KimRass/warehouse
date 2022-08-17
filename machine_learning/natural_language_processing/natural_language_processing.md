@@ -1346,11 +1346,10 @@ sentence = re.sub(pattern=r"(?<=[,])(?=[^\s])", repl=r" ", string=sentence)
 ## `re.compile()`
 ## Match Objects
 ```python
-match.__getitem__(...)
-match.group
-match.span
-match.start
-match.end
+match.group(g)
+match.span()
+match.start()
+match.end()
 ```
 ## Regular Expressions for Languages
 ```python
@@ -1364,6 +1363,10 @@ lang2regex = {
 	"ja": r"[ぁ-んァ-ンｧ-ﾝﾞﾟ一-龯々〆〤ヶ]+"
 }
 ```
+
+# Unicode
+- Whitespace: `"\u0020"`
+- Tab: `"\u0009"`
 
 # `kiwipiepy`
 ```python

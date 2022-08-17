@@ -569,8 +569,14 @@ draw.line([fill], [width])
 ```
 
 # Data Augmentation
-- Source: https://www.tensorflow.org/tutorials/images/data_augmentation
-- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers
+- Reference: https://www.v7labs.com/blog/contrastive-learning-guide
+- Methods
+  - Colour Jittering: Here, the brightness, contrast, and saturation of an RGB image are changed randomly. This technique is helpful to ensure a model is not memorizing a given object by the scene's colors. While output image colors can appear odd to human interpretation, such augmentations help a model consider the edges and shape of objects rather than only the colors.
+  - Image Rotation: An image is rotated randomly within 0-90 degrees. Since rotating an image doesn’t change the core information contained in it (i.e., a dog in an image will still be a dog), models are trained to be rotation invariant for robust prediction.
+  - Image Flipping: The image is flipped (mirrored) about its center, either vertically or horizontally. This is an extension of the concept of image rotation-based augmentation.
+  - Image Noising: Random noise is added to the images pixel-wise. This technique allows the model to learn how to separate the signal from the noise in the image and makes it more robust to changes in the image during test time. For example, randomly changing some pixels in the image to white or black is known as salt-and-pepper noise (an example is shown below).
+  - Random Affine: Affine is a geometric transformation that preserves lines and parallelism, but not necessarily the distances and angles.
+- Reference: https://www.tensorflow.org/tutorials/images/data_augmentation, https://www.tensorflow.org/api_docs/python/tf/keras/layers
 ## Using `Sequential()`
 - ***With this option, your data augmentation will happen on device, synchronously with the rest of the model execution, meaning that it will benefit from GPU acceleration.***
 - ***Data augmentation is inactive at test time, so the input samples will only be augmented during `fit()`, not when calling `evaluate()` or `predict()`.***

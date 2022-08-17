@@ -39,44 +39,40 @@ pd.read_excel("/Users/jongbeom.kim/project/corpus_raw/b2b_projects/2022/2022-PB-
 # `parse_dates`: (List of column names)
 # `infer_datetime_format`: (bool) If `True` and `parse_dates` is enabled, pandas will attempt to infer the format of the datetime strings in the columns, and if it can be inferred, switch to a faster method of parsing them.
 pd.read_csv([thousands=","], [float_precision], [skiprows], [error_bad_lines], [index_col], [sep], [names], [parse_dates], [infer_datetime_format], [dayfirst])
-```
-```python
+
 # `usecols`
 # `names`: List of column names to use.
+# `on_bad_lines="skip"`
 pd.read_table([usecols], [names])
-```
-```python
+
+pd.read_pickle()
+
 pd.read_sql(query, conn)
 ```
 
 # Save DataFrame
-## Save DataFrame to csv File
 ```python
-import pandas as pd
-
+# Save DataFrame to csv File
 # `index`: (Bool)
 DataFrame.to_csv()
-```
-## Save DataFrame to xlsx File
-```python
-import pandas as pd
 
+# Save DataFrame to xlsx File
 # `sheet_name`: (String, default `"Sheet1"`)
 # `na_rep`: (String, default `""`) Missing data reprsentation.
 # `float_format`
 # `header`: If a list of string is given it is assumed to be aliases for the column names.
 # merge_cells
 DataFrame.to_excel(sheet_name, na_rep, float_format, header, merge_cells)
-```
-## Save DataFrame to xlsx File with Multiple Sheets
-```python
-import pandas as pd
 
+# Save DataFrame to xlsx File with Multiple Sheets
 writer = pd.ExcelWriter("....xlsx", engine="xlsxwriter")
 df1.to_excel(writer, sheet_name="sheet1")
 df2.to_excel(writer, sheet_name="sheet2")
 ...
 writer.save()
+
+# Save DataFrame to pkl File
+df.to_pickle(path)
 ```
 
 # Check for Data Type
@@ -464,7 +460,8 @@ n_item = ratings_df["movie_id"].nunique()
 ```
 ## Cumulative Summation
 ```python
-cumsum = n_rating_item.cumsum()/len(ratings_df)
+# Example
+cumsum = n_rating_item.cumsum() / len(ratings_df)
 ```
 ## Top n Largest Values
 ```python
