@@ -11,10 +11,10 @@
     "Thai": "th",
     "Turkish": "tr",
     "Vietnamese": "vi",
-    "Yue Chinese": "yue",
     "Chinese": "zh",
     "Chinese (PRC)": "zhcn",
     "Chinese (Taiwan)": "zhtw",
     "Chinese (Singapore)": "zhsg",
-    "Chinese (Hongkong)": "zhhk"
+    "Chinese (Hongkong)": "zhhk",
+    "Yue Chinese": "yue"
 }

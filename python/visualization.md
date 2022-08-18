@@ -32,6 +32,8 @@ plt.style.use("dark_background")
 - `marker`
 	- `"o"`: Circle
 	- `"*"`: Star
+	- `"."`: Point
+	- `"+"`: Plus
 - `linestyle` (= `ls`)
 	- `"-"`: Solid line
 	- `"--"`: Dashed line
@@ -57,12 +59,17 @@ plt.style.use("dark_background")
 - `startangle`
 ### `sb.lineplot(x, y, [linewidth], [color], [label])`
 ## Scatter Plot
-### `plt.scatter([s], [c], [cmap], [alpha], [edgecolors], [linewidth])`
-### `DataFrame.plot.scatter(y, x, c, grid, figsize, cmap, [ax])`
-- `s`
-- `cmap`: ("RdYlBu", ...)
-- `alpha`
-- `edgecolors`
+```python
+# Reference: https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.scatter.html
+# `s`
+# `cmap`: (`"RdYlBu"`, ...)
+# `alpha`
+# `edgecolors`
+# `linewidths`: The linewidth of the marker edges
+# `marker`
+plt.scatter([s], [c], [cmap], [alpha], [edgecolors], [linewidth])
+<df>.plot.scatter(y, x, c, grid, figsize, cmap, [ax])
+```
 ### `sb.scatterplot(ax, data, x, y, hue, hue_norm, palette, s, alpha)`
 ## Bar Chart
 ```python

@@ -22,7 +22,7 @@ def load_model(model_name):
     return model
 
 
-def encode_texts_to_vectors(model, col):
+def encode_texts_to_vectors(model, data, col):
     print("- Encoding each text to 768-dimensional vectors....")
     vecs = model.encode(data[col].tolist(), show_progress_bar=True, normalize_embeddings=True)
     print("Completed!")
@@ -73,7 +73,7 @@ def main():
 
     model = load_model("jhgan/ko-sroberta-sts")
 
-    vecs = encode_texts_to_vectors(model, col="text")
+    vecs = encode_texts_to_vectors(model, data, col="text")
 
     tree = build_trees(vecs, n_trees=8)
 
