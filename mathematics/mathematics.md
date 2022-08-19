@@ -282,7 +282,7 @@ math.comb()
 math.floor()
 math.ceil()
 math.gcd()
-math.isan()
+math.isnan()
 math.inf
 ```
 ## Check If NaN

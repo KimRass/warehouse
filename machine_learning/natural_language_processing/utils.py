@@ -1,3 +1,5 @@
+import re
+
 def split_sentence_based_on_initials(sentence):
     sentence_ori = sentence
 

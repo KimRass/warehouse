@@ -1,26 +1,3 @@
-Written by KimRass
-# Datasets
-## CIFAR-10
-```python
-(X_tr, y_tr), (X_te, y_te) = tf.keras.datasets.cifar10.load_data()
-y_tr_val = to_categorical(y_tr_val)
-y_te = to_categorical(y_te)
-
-classes = ["airplane", "automobile", "bird", "cat", "deer", "dog", "frog", "horse", "ship", "truck"]
-```
-## Fashion MNIST
-```python
-# TensorFlow
-(X_train, y_train), (X_test, y_test) = tf.keras.datasets.mnist.load_data()
-
-# PyTorch
-torchvision.datasets.MNIST(root="...", train=True, download=True, transform=...)
-```
-## COCO (Common Objects in COntext)
-- 83 classes: `"aeroplane"`, `"apple"`, `"backpack"`, `"banana"`, `"baseball bat"`, `"baseball glove"`, `"bear"`, `"bed"`, `"bench"`, `"bicycle"`, `"bird"`, `"boat"`, `"book"`, `"bottle"`, `"bowl"`, `"broccoli"`, `"bus"`, `"cake"`, `"car"`, `"carrot"`, `"cat"`, `"cell phone"`, `"chair"`, `"clock"`, `"cow"`, `"cup"`, `"diningtable"`, `"dog"`, `"dog"`, `"donut"`, `"elephant"`, `"fire hydrant"`, `"fork"`, `"frisbee"`, `"giraffe"`, `"glass"`, `"hair drier"`, `"handbag"`, `"horse"`, `"hot"`, `"keyboard"`, `"kite"`, `"knife"`, `"laptop"`, `"microwave"`, `"motorbike"`, `"mouse"`, `"orange"`, `"oven"`, `"parking meter"`, `"person"`, `"pizza"`, `"pottedplant"`, `"refrigerator"`, `"remote"`, `"sandwich"`, `"scissors"`, `"sheep"`, `"sign"`, `"sink"`, `"skateboard"`, `"skis"`, `"snowboard"`, `"sofa"`, `"spoon"`, `"sports ball"`, `"stop"`, `"suitcase"`, `"surfboard"`, `"teddy bear"`, `"tennis racket"`, `"tie"`, `"toaster"`, `"toilet"`, `"toothbrush"`, `"traffic light"`, `"train"`, `"truck"`, `"tvmonitor"`, `"umbrella"`, `"vase"`, `"wine"`, `"zebra"`
-
-# ILSVRC (ImageNet Large Scale Visual Recognition Challenge)
-
 # Tasks
 ## Image Classification (= Object Recognition)
 ### The Evolution of Image Classification
@@ -502,72 +479,6 @@ ds_te = image_dataset_from_directory(
     batch_size=64)
 ```
 
-# `cv2`
-```bash
-# On Windows
-conda install -c conda-forge opencv
-# On MacOS
-pip install opencv-python
-```
-```python
-import cv2
-```
-## `cv2.imread()`
-## `plt.imshow()`
-## `cv2.cvtColor(image, code)`
-- `code`: (`cv2.COLOR_BGR2GRAY`, `cv2.COLOR_BGR2RGB`, `cv2.COLOR_BGR2HSV`)
-## `cv2.resize(img, dsize, interpolation)`
-## Draw Rectangle
-```python
-cv2.rectangle(img, pt1, pt2, color, thickness)
-```
-## `cv2.circle(img, center, radius, color, [thickness], [lineType], [shift])`
-## `cv2.getTextSize(text, fontFace, fontScale, thickness)`
-```python
-(text_width, text_height), baseline = cv2.getTextSize(text=label, fontFace=cv2.FONT_HERSHEY_COMPLEX_SMALL, fontScale=font_scale, thickness=bbox_thick)
-```
-## `cv2.putText(img, text, org, fontFace, fontScale, color, [thickness], [lineType])`
-- Reference: https://docs.opencv.org/4.x/d6/d6e/group__imgproc__draw.html#ga0f9314ea6e35f99bb23f29567fc16e11
-- `text`: Text string to be drawn.
-- `org`: Bottom-left corner of the text string in the image.
-- `fonFace`: (`cv2.FONT_HERSHEY_SIMPLEX`, ...) Font type.
-- `fontScale`: Font scale factor that is multiplied by the font-specific base size.
-
-# `Image`
-```python
-from PIL import Image, ImageDraw, ImageFont
-```
-## Open Image
-```python
-img = Image.open(fp)
-```
-### Manipulate Image
-```python
-img.size()
-img.save()
-img.thumbnail()
-img.crop()
-img.resize()
-
-# (`"RGB"`, `"RGBA"`, `"CMYK"`, `"L"`, `"1"`)
-img.convert("L")
-```
-### Paste Image
-```python
-# img2.size와 동일하게 두 번째 parameter 설정.	
-img1.paste(img2, (20,20,220,220))
-```
-## `Image.new()`
-```python
-mask = Image.new("RGB", icon.size, (255, 255, 255))
-```
-## Draw Line
-```python
-draw = ImageDraw.Draw(img)
-...
-draw.line([fill], [width])
-```
-
 # Data Augmentation
 - Reference: https://www.v7labs.com/blog/contrastive-learning-guide
 - Methods
@@ -652,13 +563,29 @@ gen.apply_transform()
 		# `None`: Returns no label.
 	```
 
-# Work with "HEIF" File
-```sh
-# Install
-brew install libffi libheif
-pip install git+https://github.com/carsales/pyheif.git
-```
+# `torchvision`
 ```python
-# Landscape orientation refers to horizontal subjects or a canvas wider than it is tall. Portrait format refers to a vertical orientation or a canvas taller than it is wide.
+import torch
+import torchvision
+from torchvision import models
+import torchvision.transformers as T
+```
 
+# Pre-trained Models
+## Keypoint R-CNN
+- Reference: https://pytorch.org/vision/stable/models/keypoint_rcnn.html
+```python
+from torchvision import models
+
+model = models.detection.keypointrcnn_resnet50_fpn(
+	pretrained=True
+).eval()
+
+trf = T.Compose(
+	[
+		T.ToTensor()
+	]
+)
+input_img = trf(img)
+out = model([input_img])[0]
 ```
