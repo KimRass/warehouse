@@ -1346,13 +1346,10 @@ re.findall(pattern, string)
 ```python
 re.split(maxsplit)
 ```
-<<<<<<< HEAD
 ## Split String by Delimiters
 ```python
 re.split(pattern, string, maxsplit)
 ```
-=======
->>>>>>> e0409c2793ba15445bb4637d25b707d695687d6c
 ## Replace Pattern
 ```python
 # Example
