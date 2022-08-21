@@ -849,23 +849,12 @@ model.add_dictionary(corp.dictionary)
 ## Dialogue State Tracking (DST)
 ## Topic Classification (TC)
 ## WSD (Word Sense Disambiguation) (= 단어 의미 중의성 해소)
-<<<<<<< HEAD
-- Reference: https://dcollection.yonsei.ac.kr/public_resource/pdf/000000474140_20220810163058.pdf
-- 특히 한국어는 어휘의 약 30% 가량이 동음이의어로 파악되고 있어 자동 번역이나 구문 분석 등을 위해 단어의 중의성을 해소하는 것이 반드시 필요하다.
-- 지도 학습 접근법은 단어 의미 중의성 해소 성능이 상대적으로 우수
-하지만 사람이 직접 의미를 부착한 양질의 말뭉치는 구하거나 제작이 어렵다
-는 큰 한계가 있다.
-- 성능의 평가에는 거의 유일하게 공개된 한국어 의미 중의성 해
-소 평가 데이터인 SENSEVAL-2 대회에서의 한국어 데이터를 이용하였다.
-=======
 - Reference: https://dcollection.yonsei.ac.kr/srch/srchDetail/000000474140
 - 특히 한국어는 어휘의 약 30% 가량이 동음이의어로 파악되고 있어 자동 번역이나 구문 분석 등을 위해 단어의 중의성을 해소하는 것이 반드시 필요하다.
 - 지도 학습 접근법은 단어 의미 중의성 해소 성능이 상대적으로 우수하지만 사람이 직접 의미를 부착한 양질의 말뭉치는 구하거나 제작이 어렵다
 는 큰 한계가 있다.
 - 성능의 평가에는 거의 유일하게 공개된 한국어 의미 중의성 해소 평가 데이터인 SENSEVAL-2 대회에서의 한국어 데이터를 이용하였다.
 - Reference: https://github.com/lih0905/WSD_kor
-
->>>>>>> e0409c2793ba15445bb4637d25b707d695687d6c
 
 # Subword Tokenizer
 - Using `sentencepiece`
