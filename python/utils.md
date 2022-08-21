@@ -41,7 +41,10 @@ shutil.copy(src, dst)
 ```
 ## `shutil.copyfileobj()`
 ```python
-shutil.copyfileobj(urllib3.PoolManager().request("GET", url, preload_content=False), open(file_dir, "wb"))
+shutil.copyfileobj(
+	urllib3.PoolManager().request("GET", url, preload_content=False),
+	open(file_dir, "wb")
+)
 ```
 
 # `IPython`
@@ -52,7 +55,9 @@ set_matplotlib_formats("retina")
 ```
 
 # `itertools`
+## Combination
 ```python
+<<<<<<< HEAD
 from itertools import permutations, combinations_with_replacement
 ```
 ## Combination
@@ -63,30 +68,74 @@ movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
 ```
 ## Permutation with Repitiion 
 ```python
+=======
+from itertools import combinations
+
+# Example
+movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
+```
+## Combination with Replacement
+```python
+from itertools import combinations_with_replacement
+```
+## Permutation
+```python
+from itertools import permutations
+```
+## Permutation with Repetition
+```python
+>>>>>>> e0409c2793ba15445bb4637d25b707d695687d6c
 from itertools import product
 
 # `repeat`
 # Example
+<<<<<<< HEAD
 product(range(3), range(3), range(3))
 list(product(["", "-"], repeat=count))
 ```
 
 # `collections`
 ## `Counter()`
+=======
+for i in product(range(3), range(3), range(3)):
+    print(i)
+```
+
+# `Counter()`
+>>>>>>> e0409c2793ba15445bb4637d25b707d695687d6c
 ```python
 from collections import Counter
-```
-```python
+
+# lst의 원소별 빈도를 나타내는 dic을 반환합니다.
 word2cnt = Counter(words)
 ```
-- lst의 원소별 빈도를 나타내는 dic을 반환합니다.
-### `Counter().values()`
+## `Counter().values()`
 ```python
 sum(Counter(nltk.ngrams(cand.split(), 2)).values())
 ```
+<<<<<<< HEAD
 ### `Counter().most_common()`
 ## Double Ended Deque
 ```python
+=======
+## `Counter().most_common()`
+
+# Named Tuple
+- Reference: https://www.geeksforgeeks.org/namedtuple-in-python/
+```python
+from collections import namedtuple
+  
+# Declaring namedtuple()
+Student = namedtuple('Student', ['name', 'age', 'DOB'])
+# Adding values
+S = Student('Nandini', '19', '2541997')
+
+S[1] == S.age
+```
+
+# Double Ended Queue
+```python
+>>>>>>> e0409c2793ba15445bb4637d25b707d695687d6c
 from collections import deque
 
 # `maxlen`
@@ -99,8 +148,15 @@ dq.popleft()
 dq.extend()
 dq.extendleft()
 dq.remove()
+<<<<<<< HEAD
 ```
 ## `defaultdict()`
+=======
+defaultdict()
+```
+
+# `defaultdict()`
+>>>>>>> e0409c2793ba15445bb4637d25b707d695687d6c
 ```python
 from collections import defaultdict
 
@@ -118,6 +174,7 @@ reduce(lambda acc, cur: acc + cur["age"], users, 0)
 ```python
 reduce(lambda acc, cur: acc + [cur["mail"]], users, [])
 ```
+
 # `platform`
 ```python
 import platform
@@ -163,12 +220,16 @@ with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
 	target_text = etree.parse(z.open("ted_en-20160408.xml", "r"))
 ```
 
-# `os`
-- Reference: https://docs.python.org/3/library/os.html
+# `os`, `pathlib`
+- Reference: https://docs.python.org/3/library/pathlib.html
 ```python
 import os
+from pathlib import Path
 ```
-## `os.getcwd()`
+## Get Current Working Directory
+```python
+os.getcwd()
+```
 ## Create Directory
 ```python
 # 하나의 폴더만 생성할 수 있습니다.
@@ -176,47 +237,32 @@ os.mkdir(path)
 # Like `mkdir()`, but makes all intermediate-level directories needed to contain the leaf directory.
 # `exist_ok`: If `False` (the default), an `FileExistsError` is raised if the target directory already exists.
 os.makedirs(path, exist_ok=True)
+# If `parents=True`, any missing parents of this path are created as needed.
+Path("...").mkdir([parents=True], [exist_ok=False])
 ```
-## `os.chdir()`
-## `os.environ`
-## `os.pathsep`
+## Change Directory
+```python
+os.chdir()
+```
+## Environment
 ```python
 os.environ["PATH"] += os.pathsep + "C:\Program Files (x86)/Graphviz2.38/bin/"
 ```
-## `os.path.join()	`
+## Join Path
 ```python
-os.path.join("C:\Tmp", "a", "b")
+os.path.join("...", "...", ...)
 ```
-## `os.path.exists()`
+## Check If Exists
 ```python
-if os.path.exists("C:/Users/5CG7092POZ/train_data.json"):
+os.path.exists("...")
+Path("...").exists()
 ```
+## Treat Path
 ```python
-# Returns the directory name of pathname `path`.
-os.path.dirname()
-# Returns the base name of pathname `path`.
-os.path.basename()
-```
-## Check If File or Directory
-```python
-# Check If File
-os.path.isfile()
-# Check If Directory
-os.path.isdir()
-```
-## Remove File or Directory
-```python
-# Remove file
-os.remove()
-# Remove directory
-os.rmdir()
-```
-
-# `pathlib`
-- Reference: https://docs.python.org/3/library/pathlib.html
-```python
-from pathlib import Path
-
+# Returns the directory name of pathname.
+os.path.dirname("...")
+# Returns the base name of pathname.
+os.path.basename("...")
 # The logical parent of the path.
 Path("...").parent
 # The final path component with its suffix.
@@ -225,24 +271,31 @@ Path("...").name
 Path("...").stem
 # The file extension of the final component.
 Path("...").suffix
+```
+## Check If File or Directory
+```python
+# Check If File
+os.path.isfile("...")
+Path("...").is_file()
 
+# Check If Directory
+os.path.isdir("...")
+Path("...").is_dir()
+```
+## Remove File or Directory
+```python
+# Remove file
+os.remove("...")
+# Remove directory
+os.rmdir("...")
+```
+## Iterate
+```python
 Path("...").iterdir()
-
 Path("...").glob()
-
 # This is like calling `Path.glob()` with `"**/"` added in front of the given relative pattern.
 # `"**"`: This directory and all subdirectories, recursively.
 Path("...").rglob()
-
-Path("...").is_file()
-Path("...").is_dir()
-
-Path("...").exists()
-```
-## Create Directory
-```python
-# If `parents=True`, any missing parents of this path are created as needed.
-path.mkdir([parents=True], [exist_ok=False])
 ```
 
 # `sys`
@@ -544,8 +597,8 @@ def get_args():
 	# `action`
 		# `action="store"`: (default) This just stores the argument’s value.
 		# `action="store_const"': This stores the value specified by the `const` keyword argument. The `store_const` action is most commonly used with optional arguments that specify some sort of flag.
-		# `action="store_true"`: Stores the value `True`.
-		# `action="store_false"`: Stores the value `False`.
+		# `action="store_true"`: Stores `True`.
+		# `action="store_false"`: Stores `False`.
 	# `default`: Specifies what value should be used if the command-line argument is not present.
 	# `type`: (default `str`) The type to which the command-line argument should be converted.
 	# `nargs`
@@ -554,15 +607,13 @@ def get_args():
 	# `help`: A brief description of what the argument does.
 	# `dest`: The name of the attribute to be added to the object returned by `parse_args()`.
 		# The value of `dest` is normally inferred from the option strings. `ArgumentParser` generates the value of `dest` by taking the first long option string and stripping away the initial `"--"` string. If no long option strings were supplied, `dest` will be derived from the first short option string by stripping the initial `"-"` character.
+	# `required`: (bool)
 	# Example
 	parser.add_argument("-o", "--out_path", ..., dest="out_path", action="store")
 	...
+
 	args = parser.parse_args()
-
-	out_path = Path(args.out_path)
-	...
-
-    return out_path, ...
+    return args
 
 ...
 
@@ -623,12 +674,6 @@ with open("/path/to/json_to_validate.json", mode="r") as f:
 # `pattern`
 	# The value of this keyword MUST be a string. This string SHOULD be a valid regular expression.
 validate(schema=json_schema, instance=json_to_validate)
-```
-
-```sh
-pip install google-auth-oauthlib
-pip install google-api-python-client
-pip install getfilelistpy
 ```
 
 # `typing`

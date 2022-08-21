@@ -39,44 +39,40 @@ pd.read_excel("/Users/jongbeom.kim/project/corpus_raw/b2b_projects/2022/2022-PB-
 # `parse_dates`: (List of column names)
 # `infer_datetime_format`: (bool) If `True` and `parse_dates` is enabled, pandas will attempt to infer the format of the datetime strings in the columns, and if it can be inferred, switch to a faster method of parsing them.
 pd.read_csv([thousands=","], [float_precision], [skiprows], [error_bad_lines], [index_col], [sep], [names], [parse_dates], [infer_datetime_format], [dayfirst])
-```
-```python
+
 # `usecols`
 # `names`: List of column names to use.
+# `on_bad_lines="skip"`
 pd.read_table([usecols], [names])
-```
-```python
+
+pd.read_pickle()
+
 pd.read_sql(query, conn)
 ```
 
 # Save DataFrame
-## Save DataFrame to csv File
 ```python
-import pandas as pd
-
+# Save DataFrame to csv File
 # `index`: (Bool)
 DataFrame.to_csv()
-```
-## Save DataFrame to xlsx File
-```python
-import pandas as pd
 
+# Save DataFrame to xlsx File
 # `sheet_name`: (String, default `"Sheet1"`)
 # `na_rep`: (String, default `""`) Missing data reprsentation.
 # `float_format`
 # `header`: If a list of string is given it is assumed to be aliases for the column names.
 # merge_cells
 DataFrame.to_excel(sheet_name, na_rep, float_format, header, merge_cells)
-```
-## Save DataFrame to xlsx File with Multiple Sheets
-```python
-import pandas as pd
 
+# Save DataFrame to xlsx File with Multiple Sheets
 writer = pd.ExcelWriter("....xlsx", engine="xlsxwriter")
 df1.to_excel(writer, sheet_name="sheet1")
 df2.to_excel(writer, sheet_name="sheet2")
 ...
 writer.save()
+
+# Save DataFrame to pkl File
+df.to_pickle(path)
 ```
 
 # Check for Data Type
@@ -186,9 +182,11 @@ top90per = plays_df[plays_df["plays"]>plays_df["plays"].quantile(0.1)]
 
 # Group DataFrame
 ```python
+# `dropna`: (Bool, default True)
 gby = DataFrame.groupby([as_index])
 
 gby.groups
+gby.get_group()
 gby.mean() # DataFrame
 gby.count() # DataFrame
 gby.size() # Series
@@ -245,9 +243,17 @@ data = data.rename({"단지명.1":"name", "세대수":"houses_buildings", "저/�
 ```
 # Sort DataFrame
 ```python
+# `by`: List로 여러 개의 컬럼을 받을 경우 List의 우에서 좌로 정렬을 적용합니다.
 sort_values(by, [axis=0], [ascending=True], [inplace=False])
 # Example
 df_sim_sents.sort_values(by=["similarity", "id1", "id2"], ascending=[False, True, True], inplace=True)
+```
+## Sort DataFrame by Column Frequency
+```python
+# Example
+word2freq = df.groupby(["어휘"]).size()
+df["freq"] = df["어휘"].map(word2freq)
+df.sort_values(["freq"], inplace=True)
 ```
 
 # Index
@@ -399,32 +405,30 @@ for cat in cats:
 ```
 
 # Iteration
-## `iterrows()`
+## Iterate over Rows
 ```python
-for name, row in Data.iterrows():
+# 일반적으로 `iterrows()` -> `itertuples()` -> `values` 순으로 속도가 빨라집니다.
+for name, row in df.iterrows():
+	# type: DataFrame row
+	...
+for row in df.itertuples():
+	...
+for value in df.values:
+	# type: Array
+	...
+# `items()`와 `iteritems()`는 서로 동일합니다.
+for idx, value in raw_data["quarter2"].items():
+    ...
+```
+## Iterate over Columns
+```python
+for name, col in df.iteritems():
 	...
 ```
-## `iteritems()`
-```python
-for name, col in Data.iteritems():
-```
-## `Series.iteritems()`, `Series.items()`
-```python
-# Iterate over (index, value) tuples.
 
-# Examples
-for i, value in raw_data["quarter2"].items():
-    print(i, value)
-```
-# `Series.items()`
+# Insert Column
 ```python
-# Examples
-for k, v in target.items():
-    queries.append(f"{k}-{v}")
-```
-
-# `DataFrame.insert()`
-```python
+# Example
 asso_rules.insert(1, "antecedents_title", asso_rules["antecedents"].apply(lambda x : id2title[list(x)[0]]))
 ```
 # `DataFrame.drop()`
@@ -458,7 +462,8 @@ n_item = ratings_df["movie_id"].nunique()
 ```
 ## Cumulative Summation
 ```python
-cumsum = n_rating_item.cumsum()/len(ratings_df)
+# Example
+cumsum = n_rating_item.cumsum() / len(ratings_df)
 ```
 ## Top n Largest Values
 ```python
