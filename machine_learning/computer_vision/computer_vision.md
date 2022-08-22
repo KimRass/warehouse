@@ -301,6 +301,7 @@ z = data_aug(inputs)
 	# (float) Fraction of total width (or height).
 	# (Tuple or List) Random elements from the array.
 	# (int) Pixels from interval (-`width_shift_range`, `width_shift_range`) (or (-`height_shift_range`, `height_shift_range`))
+# `preprocessing_function`: function that will be applied on each input. The function will run after the image is resized and augmented. The function should take one argument: one image (Numpy tensor with rank 3), and should output a Numpy tensor with the same shape.
 gen = ImageDataGenerator([shear_range], [zoom_range], [ratation_range], [brightness_range], [rescale], [horizontal_flip], [vertical_flip], [width_shift_range], [height_shift_range], [validation_split])
 # Fits the data generator to some sample data.
 # This computes the internal data stats related to the data-dependent transformations, based on an array of sample data.
@@ -337,8 +338,8 @@ gen.apply_transform()
 	# `target_size`: the dimensions to which all images found will be resized.
 	# `class_mode`: (`"binary"`, `"categorical"`, `"sparse"`, `"input"`, `None`)
 		# `"binary"`: for binary classification.
-		# `"categorical"`: for multi-class classification(OHE).
-		# `"sparse"`: for multi-class classification(no OHE).
+		# `"categorical"`: for multi-class classification (OHE).
+		# `"sparse"`: for multi-class classification (no OHE).
 		# `"input"`
 		# `None`: Returns no label.
 	```

@@ -10,19 +10,17 @@ Written by KimRass
 }
 ```
 
-# `bin()`, `oct()`, `hex()`
-- Source: https://wiki.python.org/moin/BitwiseOperators
+# Bit Operation
 - `~x`(`NOT`): Returns the complement.
 - `x & y`(`AND`): Returns `1` if the corresponding bit of `x` and of `y` is `1`, otherwise returns `0`.
 - `x | y`(`OR`): Returns `0` if the corresponding bit of `x` and of `y` is `0`, otherwise returns `1`.
 - `x ^ y`(`XOR`): Returns the same bit as the corresponding bit in `x` if that bit in `y` is `0`, otherwise the complement.
 - `x << y`, `x >> y`: Returns `x` with the bits shifted to the left(right) by `y` places (and new bits on the right-hand-side are zeros).
-# `round()`
-```python
-print(round(summ/leng, 1))
-```
+
 # `hash()`
+
 # `display()`
+
 # `print()`
 ```python
 # `end`: (default `"\n"`)
@@ -32,11 +30,13 @@ print(round(summ/leng, 1))
 print(f"{'a':0>10}")
 print(f"    - {'The program ended at:':<24s}{datetime.strftime(end, format='%Y-%m-%d %H:%M:%S'):>20s}.")
 ```
+
 # `isinstance()`
 ```python
 if not isinstance(movie, frozenset):
     movie = frozenset(movie)
 ```
+
 # `type()`
 ```python
 type(test_X[0][0])
@@ -47,27 +47,29 @@ type(test_X[0][0])
 ```
 # `sum()`
 ```python
+# 두번째 층의 대괄호 제거
 sum(sentences, [])
 ```
-- 두번째 층의 대괄호 제거
 # `assert`
 ```python
 assert model_name in self.model_list, "There is no such a model."
 ```
-# `eval()`
+
+# `eval()` and `exec()`
+## `eval()`
 ```python
+# `eval()` is for expression and returns the value of expression.
 A = [eval(f"A{i}") for i in range(N, 0, -1)]
 ```
-- `eval()` is for expression and returns the value of expression.
-# `exec()`
+## `exec()`
 ```python
+# `exec()` is for the statement and returns `None`.
+# Example
 for data in ["tasks", "comments", "projects", "prj_members", "members"]:
     exec(f"{data} = pd.read_csv('D:/디지털혁신팀/협업플랫폼 분석/{data}.csv')")
-```
-```python
 exec(f"{table} = pd.DataFrame(result)")
 ```
-- `exce()` is for statement and return `None`.
+
 # Read or Write Data
 ```python
 # `mode`: (`"r"`, `"rb"`, `"w"`, `"wb"`, ...) 
@@ -83,15 +85,28 @@ with open(file, mode, [encoding]) as f:
 ```python
 A = list(map(int, input("Message").split()))
 ```
-# `ord()`
-- Returns the unicode code of a specified character.
-# `chr()`
-- Returns the character that represents the specified unicode code.
-# `Variable.data`
-## `Variable.data.nbytes`
+
+# Unicode
+```python
+# Returns the unicode code of a specified character.
+ord()
+# Returns the character that represents the specified unicode code.
+chr()
+```
+
+# `__slot__`
+- Reference: https://ddanggle.gitbooks.io/interpy-kr/content/ch10-slots-magic.html
+- `__slots__`을 사용해서 파이썬이 dict형을 사용하지 않도록 하고 고정된 속성의 집합에만 메모리를 할당하도록 합니다.
 ```python
 # Example
-print(f"{sparse_mat.data.nbytes:,}Bytes")
+class MyClass(object):
+    __slots__ = ["name", "age"]
+
+    def __init__(name, age):
+        self.name = name
+        self.age = age
+        ...
+    ...
 ```
 
 # List

@@ -57,7 +57,6 @@ set_matplotlib_formats("retina")
 # `itertools`
 ## Combination
 ```python
-<<<<<<< HEAD
 from itertools import permutations, combinations_with_replacement
 ```
 ## Combination
@@ -68,41 +67,16 @@ movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
 ```
 ## Permutation with Repitiion 
 ```python
-=======
-from itertools import combinations
-
-# Example
-movies = {a | b for a, b in combinations(movie2sup.keys(), 2)}
-```
-## Combination with Replacement
-```python
-from itertools import combinations_with_replacement
-```
-## Permutation
-```python
-from itertools import permutations
-```
-## Permutation with Repetition
-```python
->>>>>>> e0409c2793ba15445bb4637d25b707d695687d6c
 from itertools import product
 
 # `repeat`
 # Example
-<<<<<<< HEAD
 product(range(3), range(3), range(3))
 list(product(["", "-"], repeat=count))
 ```
 
 # `collections`
 ## `Counter()`
-=======
-for i in product(range(3), range(3), range(3)):
-    print(i)
-```
-
-# `Counter()`
->>>>>>> e0409c2793ba15445bb4637d25b707d695687d6c
 ```python
 from collections import Counter
 
@@ -113,29 +87,9 @@ word2cnt = Counter(words)
 ```python
 sum(Counter(nltk.ngrams(cand.split(), 2)).values())
 ```
-<<<<<<< HEAD
 ### `Counter().most_common()`
 ## Double Ended Deque
 ```python
-=======
-## `Counter().most_common()`
-
-# Named Tuple
-- Reference: https://www.geeksforgeeks.org/namedtuple-in-python/
-```python
-from collections import namedtuple
-  
-# Declaring namedtuple()
-Student = namedtuple('Student', ['name', 'age', 'DOB'])
-# Adding values
-S = Student('Nandini', '19', '2541997')
-
-S[1] == S.age
-```
-
-# Double Ended Queue
-```python
->>>>>>> e0409c2793ba15445bb4637d25b707d695687d6c
 from collections import deque
 
 # `maxlen`
@@ -148,15 +102,8 @@ dq.popleft()
 dq.extend()
 dq.extendleft()
 dq.remove()
-<<<<<<< HEAD
 ```
 ## `defaultdict()`
-=======
-defaultdict()
-```
-
-# `defaultdict()`
->>>>>>> e0409c2793ba15445bb4637d25b707d695687d6c
 ```python
 from collections import defaultdict
 
@@ -600,7 +547,7 @@ def get_args():
 		# `action="store_true"`: Stores `True`.
 		# `action="store_false"`: Stores `False`.
 	# `default`: Specifies what value should be used if the command-line argument is not present.
-	# `type`: (default `str`) The type to which the command-line argument should be converted.
+	# `type`: (`str`, `int`, ..., default `str`) The type to which the command-line argument should be converted.
 	# `nargs`
 		# `nargs=N`: `N` arguments from the command line will be gathered together into a List.
 		# 'nargs="*"'. All command-line arguments present are gathered into a List.

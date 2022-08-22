@@ -29,9 +29,11 @@ data.corr().style.background_gradient(cmap="Blues").set_precision(1).set_propert
 
 # Read Data
 ```python
+# Reference: https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html
 # `sheet_name`
 # `usecols`: Column names to be used.
 # `dtype`
+# `header`: Row (0-indexed) to use for the column labels of the parsed DataFrame. If a list of integers is passed those row positions will be combined into a `MultiIndex`. Use `None` if there is no header.
 # Example
 pd.read_excel("/Users/jongbeom.kim/project/corpus_raw/b2b_projects/2022/2022-PB-01/commands.xlsx", dtype={"Index no.": str})
 
@@ -357,6 +359,7 @@ data = data.fillna(method="ffill")
 ```
 
 # Treat String
+## `Series.str.len()`
 ## `Series.str.replace()`
 ```python
 data["parking"] = data["parking"].str.replace("대", "", regex=False)
