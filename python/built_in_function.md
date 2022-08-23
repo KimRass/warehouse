@@ -80,7 +80,11 @@ with open(file, mode, [encoding]) as f:
     f.write(data, f)
     ...
 ```
-## `f.readline()`, `f.readlines()`
+## Read Line by Line
+```python
+# Example
+[line.strip() for line in open(classes_txt_path, mode="r").readlines()]
+```
 # `input()`
 ```python
 A = list(map(int, input("Message").split()))

@@ -1,4 +1,5 @@
-# `cv2`
+# OpenCV
+## Install
 ```bash
 # On Windows
 conda install -c conda-forge opencv
@@ -29,7 +30,7 @@ cv2.rectangle(img, pt1, pt2, color, thickness)
 - `fonFace`: (`cv2.FONT_HERSHEY_SIMPLEX`, ...) Font type.
 - `fontScale`: Font scale factor that is multiplied by the font-specific base size.
 
-# `PIL`
+# Python Imaging Library
 ```python
 from PIL import Image, ImageDraw, ImageFont
 ```
@@ -62,6 +63,15 @@ mask = Image.new("RGB", icon.size, (255, 255, 255))
 draw = ImageDraw.Draw(img)
 ...
 draw.line([fill], [width])
+```
+
+# `scipy.ndimage`
+## Zoom Array
+```python
+# The array is zoomed using spline interpolation of the requested order.
+# `zoom`: The zoom factor along the axes. If a float, `zoom` is the same for each axis. If a sequence, `zoom` should contain one value for each axis.
+# `order`: The order of the spline interpolation, default is `3`. The order has to be in the range 0-5.
+scipy.ndimage.zoom(input, zoom, [order=3])
 ```
 
 # Work with "HEIF" File
