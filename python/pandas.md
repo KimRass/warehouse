@@ -16,12 +16,12 @@ pd.set_option("display.float_format", "{:.3f}".format)
 ```
 
 ```python
-DataFrame.style.set_precision()
+<df>.style.set_precision()
 # (`"background_color"`, `"font_size"`, `"color"`, `"border_color"`, ...)
-DataFrame.style.set_properties()
+<df>.style.set_properties()
 # (`color`)
-DataFrame.style.bar()
-DataFrame.style.background_gradient()
+<df>.style.bar()
+<df>.style.background_gradient()
 
 # Examples
 data.corr().style.background_gradient(cmap="Blues").set_precision(1).set_properties(**{"font-size":"9pt"})
@@ -56,7 +56,7 @@ pd.read_sql(query, conn)
 ```python
 # Save DataFrame to csv File
 # `index`: (Bool)
-DataFrame.to_csv()
+<df>.to_csv()
 
 # Save DataFrame to xlsx File
 # `sheet_name`: (String, default `"Sheet1"`)
@@ -64,7 +64,7 @@ DataFrame.to_csv()
 # `float_format`
 # `header`: If a list of string is given it is assumed to be aliases for the column names.
 # merge_cells
-DataFrame.to_excel(sheet_name, na_rep, float_format, header, merge_cells)
+<df>.to_excel(sheet_name, na_rep, float_format, header, merge_cells)
 
 # Save DataFrame to xlsx File with Multiple Sheets
 writer = pd.ExcelWriter("....xlsx", engine="xlsxwriter")
@@ -74,7 +74,7 @@ df2.to_excel(writer, sheet_name="sheet2")
 writer.save()
 
 # Save DataFrame to pkl File
-df.to_pickle(path)
+<df>.to_pickle(path)
 ```
 
 # Check for Data Type
@@ -168,15 +168,15 @@ row.to_dict(orient="records")[0]
 # Example
 raw_data.describe(include="all").T
 ```
-# `DataFrame.corr()`
+# `<df>.corr()`
 
-# `DataFrame.shape`
+# `<df>.shape`
 
-# `DataFrame.ndim`
+# `<df>.ndim`
 
 # Quantile
 ```python
-DataFrame.quantile()
+<df>.quantile()
 
 # Examples
 top90per = plays_df[plays_df["plays"]>plays_df["plays"].quantile(0.1)]
@@ -185,7 +185,7 @@ top90per = plays_df[plays_df["plays"]>plays_df["plays"].quantile(0.1)]
 # Group DataFrame
 ```python
 # `dropna`: (Bool, default True)
-gby = DataFrame.groupby([as_index])
+gby = <df>.groupby([as_index])
 
 gby.groups
 gby.get_group()
@@ -199,12 +199,12 @@ df.groupby(["Pclass", "Sex"], as_index=False)
 over4.groupby("user_id")["movie_id"].apply(set)
 ```
 
-# `DataFrame.pivot()`
+# `<df>.pivot()`
 ```python
-df_pivoted = df.pivot("col1", "col2", "col3")
+df_pivoted = <df>.pivot("col1", "col2", "col3")
 ```
 
-# `DataFrame.stack()`
+# `<df>.stack()`
 - 열 인덱스 -> 행 인덱스로 변환
 
 # `unstack([level=-1], [fill_value=None])`
@@ -213,14 +213,14 @@ df_pivoted = df.pivot("col1", "col2", "col3")
 - `level`: Level(s) of index to unstack, can pass level name.
 - `fill_value`: Replace NaN with this value if the unstack produces missing values.
 
-# `DataFrame.append()`
+# `<df>.append()`
 ```python
 df = df.append(
 	<Dictionary>,
 	ignore_index=True
 )
 ```
-# `DataFrame.apply()`
+# `<df>.apply()`
 ```python
 # Examples
 hr["코스트센터 분류"] = hr.apply(lambda x:"지사" if ("사업소" in x["조직명"]) or ("베트남지사" in x["조직명"]) else ("본사" if re.search("^\d", x["코스트센터"]) else "현장"), axis=1)
@@ -283,13 +283,13 @@ reset_index([drop=False], [level], [inplace=False])
 data["genre"] = data.loc[:, "unknown":"Western"].idxmax(axis=1)
 ```
 
-# `DataFrame.loc()`
+# `<df>.loc()`
 ```python
 # Example
 data.loc[data["buildings"]==5, ["age", "ratio2"]]
 data.loc[[7200, "대림가경"], ["houses", "lowest"]]
 ```
-# `DataFrame.isin()`
+# `<df>.isin()`
 ```python
 # `values`: (List, Dictionary)
 train_val = data[~data["name"].isin(names_test)]
@@ -301,8 +301,9 @@ train_val = data[~data["name"].isin(names_test)]
 # Example
 data = data.drop(data.loc[:, "unknown":"Western"].columns, axis=1)
 ```
-## `DataFrame.columns.droplevel`
+## `<df>.columns.droplevel`
 ```python
+# Example
 df.columns = df.columns.droplevel([0, 1])
 ```
 ## Insert Column
@@ -313,71 +314,81 @@ df_sim_sents.insert(2, "text1", df_sim_sents["id1"].map(id2text))
 
 # Check If DataFrame Is Empty
 ```python
-df.empty
+<df>.empty
 ```
 
 # Duplicates
-## `duplicated([keep])`
-## `drop_duplcates(subset, [keep])`
+## Check If Duplicated
+```python
+# `keep`: (`"first"`, `"last"`, False)
+	# `keep=False`: Mark all duplicates as `True`.
+duplicated([keep="first"])
+```
+## Drop Duplicates
+```python
+# `keep`: (`"first"`, `"last"`, False)
+drop_duplcates(subset, [keep="first"])
+```
 
 # Math Operations
 ## Multiply
 ```python
-DataFrame.mul()
+<df>.mul()
 ```
 ```python
 # other: DataFrame
     # Computes the matrix multiplication between the DataFrame and other DataFrame.
 # other: Series or Array
 	# Computes the inner product, instead of the matrix product here.
-DataFrame.dot(other)
+<df>.dot(other)
 ```
 ```python
-DataFrame.add()
-DataFrame.sub()
-DataFrame.pow()
+<df>.add()
+<df>.sub()
+<df>.pow()
 
 # Examples
 adj_ui = ui.sub(user_bias, axis=0).sub(item_bias, axis=1)
 ```
 
 # Treat Missing Values
+## Check If Missing Value
 ```python
-DataFrame.isna()
-DataFrame.notna()
+<ser>.isna()
+<ser>.notna()
 ```
 ## Drop Missing Values
 ```python
-DataFrame.dropna(subset, [inplace])
+<df>.dropna([subset], [inplace])
 ```
 ## Fill Missing Values
 ```python
 # `method="ffill"`: Propagate last valid observation forward to next valid backfill.
-DataFrame.fillna(method)
+<df>.fillna(method)
 # Example
 data = data.fillna(method="ffill")
 ```
 
 # Treat String
-## `Series.str.len()`
-## `Series.str.replace()`
+## `<ser>.str.len()`
+## `<ser>.str.replace()`
 ```python
 data["parking"] = data["parking"].str.replace("대", "", regex=False)
 ```
-## `Series.str.split()`
+## `<ser>.str.split()`
 ```python
 data["buildings"] = data.apply(lambda x : str(x["houses_buildings"]).split("총")[1][:-3], axis=1)
 ```
 - `pat`: Same as `" "` When omitted.
-## `Series.str.strip()`
+## `<ser>.str.strip()`
 ```python
 data["fuel"] = data["heating"].apply(lambda x:x.split(",")[1]).str.strip()
 ```
-## `Series.str.contains()`
+## `<ser>.str.contains()`
 ```python
 train[train["token"].str.contains(".", regex=False)]
 ```
-## `Series.str.encode()`, `Series.str.decode()`
+## `<ser>.str.encode()`, `<ser>.str.decode()`
 ```python
 infos[col] = infos[col].str.encode("latin-1").str.decode("euc-kr")
 ```
@@ -393,14 +404,14 @@ infos[col] = infos[col].str.encode("latin-1").str.decode("euc-kr")
 
 # Treat Category
 ```python
-Series.cat.categories
+<ser>.cat.categories
 # `ordered`: 순서 부여
-Series.cat.set_categories()
+<ser>.cat.set_categories()
 
 # Examples
 ser.cat.set_categories([2, 3, 1], ordered=True)
 ```
-## `Series.cat.codes`
+## `<ser>.cat.codes`
 ```python
 # Perform label encoding.
 for cat in cats:
@@ -411,12 +422,12 @@ for cat in cats:
 ## Iterate over Rows
 ```python
 # 일반적으로 `iterrows()` -> `itertuples()` -> `values` 순으로 속도가 빨라집니다.
-for name, row in df.iterrows():
+for name, row in <df>.iterrows():
 	# type: DataFrame row
 	...
-for row in df.itertuples():
+for row in <df>.itertuples():
 	...
-for value in df.values:
+for value in <df>.values:
 	# type: Array
 	...
 # `items()`와 `iteritems()`는 서로 동일합니다.
@@ -425,7 +436,7 @@ for idx, value in raw_data["quarter2"].items():
 ```
 ## Iterate over Columns
 ```python
-for name, col in df.iteritems():
+for name, col in <df>.iteritems():
 	...
 ```
 
@@ -434,19 +445,19 @@ for name, col in df.iteritems():
 # Example
 asso_rules.insert(1, "antecedents_title", asso_rules["antecedents"].apply(lambda x : id2title[list(x)[0]]))
 ```
-# `DataFrame.drop()`
-# `Series.rename()`
+# `<df>.drop()`
+# `<ser>.rename()`
 ```python
 plays_df.groupby(["user_id"]).size().rename("n_arts")
 ```
-# `Series.map()`
+# `<ser>.map()`
 ```python
 target_ratings["title"] = target_ratings["movie_id"].map(target)
 ```
 ```python
 all_seen = ratings_df_target_set[ratings_df_target_set.map(lambda x : len(x)==5)].index
 ```
-# `Series.astype()`
+# `<ser>.astype()`
 ```python
 data.loc[:, cats] = data.loc[:, cats].astype("category")
 ```
@@ -457,7 +468,7 @@ data.loc[:, cats] = data.loc[:, cats].astype("category")
 ## Count of Unique Values
 ```python
 # `sort`: (bool)
-Series.value_counts([sort], [ascending])
+<ser>.value_counts([sort], [ascending])
 ```
 ## Number of Unique Values
 ```python
@@ -482,10 +493,10 @@ df_db.where(df_db < -60, -60)
 ```
 ## Logical Operators
 ```python
-df.eq
-df.ne
-df.le
-df.lt
-df.ge
-df.gt
+<df>.eq
+<df>.ne
+<df>.le
+<df>.lt
+<df>.ge
+<df>.gt
 ```
