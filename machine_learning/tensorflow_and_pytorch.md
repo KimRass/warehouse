@@ -857,3 +857,30 @@ import torchvision
 import torchvision.dataset
 import torchvision.transforms as transforms
 ```
+
+# `torchvision`
+```python
+import torch
+import torchvision
+from torchvision import models
+import torchvision.transformers as T
+```
+
+# Pre-trained Models
+## Keypoint R-CNN
+- Reference: https://pytorch.org/vision/stable/models/keypoint_rcnn.html
+```python
+from torchvision import models
+
+model = models.detection.keypointrcnn_resnet50_fpn(
+	pretrained=True
+).eval()
+
+trf = T.Compose(
+	[
+		T.ToTensor()
+	]
+)
+input_img = trf(img)
+out = model([input_img])[0]
+```

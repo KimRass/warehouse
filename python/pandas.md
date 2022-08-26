@@ -32,7 +32,7 @@ data.corr().style.background_gradient(cmap="Blues").set_precision(1).set_propert
 # Reference: https://pandas.pydata.org/docs/reference/api/pandas.read_excel.html
 # `sheet_name`
 # `usecols`: Column names to be used.
-# `dtype`
+# `dtype`: e.g., `dtype={"원문": str, "원문_converted": str, "원문_joined": str}`
 # `header`: Row (0-indexed) to use for the column labels of the parsed DataFrame. If a list of integers is passed those row positions will be combined into a `MultiIndex`. Use `None` if there is no header.
 # Example
 pd.read_excel("/Users/jongbeom.kim/project/corpus_raw/b2b_projects/2022/2022-PB-01/commands.xlsx", dtype={"Index no.": str})
@@ -98,6 +98,7 @@ pd.crosstab(index=data["count"], columns=data["weather"], margins=True)
 
 # Concat DataFrames
 ```python
+# `axis`: (default `0`)
 # `join`: (`"inner"`, `"outer"`, default `"outer"`)
 # `ignore_index`: If `True`, do not use the index values along the concatenation axis. The resulting axis will be labeled `0`, …, `n - 1`.
 pd.concat(objs, [join], [ignore_index])
@@ -223,9 +224,13 @@ df = df.append(
 # `<df>.apply()`
 ```python
 # Examples
-hr["코스트센터 분류"] = hr.apply(lambda x:"지사" if ("사업소" in x["조직명"]) or ("베트남지사" in x["조직명"]) else ("본사" if re.search("^\d", x["코스트센터"]) else "현장"), axis=1)
+hr["코스트센터 분류"] = hr.apply(
+	lambda x: "지사" if ("사업소" in x["조직명"]) or ("베트남지사" in x["조직명"]) else ("본사" if re.search("^\d", x["코스트센터"]) else "현장"), axis=1
+)
 
-hr["제외여부"] = hr.apply(lambda x:"제외" if ("외주" in x["하위그룹"]) | ("촉탁" in x["하위그룹"]) | ("파견" in x["하위그룹"]) | (x["재직여부"]=="퇴직") else ("본부인원에서만 제외" if ("PM" in x["조직명"]) | ("신규준비" in x["직무"]) | (x["직무"]=="휴직") | (x["직무"]=="비상계획") | (x["직무"]=="축구협") | (x["직무"]=="비서") | ("조직명" in x["조직명"]) | (x["직무"]=="미화") else "포함"), axis=1)
+hr["제외여부"] = hr.apply(
+	lambda x: "제외" if ("외주" in x["하위그룹"]) | ("촉탁" in x["하위그룹"]) | ("파견" in x["하위그룹"]) | (x["재직여부"]=="퇴직") else ("본부인원에서만 제외" if ("PM" in x["조직명"]) | ("신규준비" in x["직무"]) | (x["직무"]=="휴직") | (x["직무"]=="비상계획") | (x["직무"]=="축구협") | (x["직무"]=="비서") | ("조직명" in x["조직명"]) | (x["직무"]=="미화") else "포함"), axis=1
+)
 ```
 
 # Progress Bar

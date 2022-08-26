@@ -1,3 +1,12 @@
+# Feature Map (= Activation Map)
+- Source: https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/
+- In CNN terminology, the 3×3 matrix is called a "filter" or "kernel" or "feature detector" and the matrix formed by sliding the filter over the image and computing the dot product is called the "Activation Map" or the 
+Feature Map" .It is important to note that filters acts as feature detectors from the original input image.
+- ***It is evident from the animation above that different values of the filter matrix will produce different feature maps for the same input image.
+- In the table below, we can see the effects of convolution of the above image with different filters. As shown, we can perform operations such as edge detection, sharpen and blur just by changing the numeric values of our filter matrix before the convolution operation – this means that different filters can detect different features from an image, for example edges, curves etc.
+- It is important to note that the Convolution operation captures the local dependencies in the original image.
+
+
 # Tasks
 ## Image Classification (= Object Recognition)
 ### The Evolution of Image Classification
@@ -9,19 +18,10 @@
 ### Object Detection
 - *Object detection is a complex problem that combines the concepts of image localization and classification. Given an image, an object detection algorithm would return bounding boxes around all objects of interest and assign a class to them.*
 
-# Feature Map (= Activation Map)
-- Source: https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/
-- In CNN terminology, the 3×3 matrix is called a "filter" or "kernel" or "feature detector" and the matrix formed by sliding the filter over the image and computing the dot product is called the "Activation Map" or the 
-Feature Map" .It is important to note that filters acts as feature detectors from the original input image.
-- ***It is evident from the animation above that different values of the filter matrix will produce different feature maps for the same input image.
-- In the table below, we can see the effects of convolution of the above image with different filters. As shown, we can perform operations such as edge detection, sharpen and blur just by changing the numeric values of our filter matrix before the convolution operation – this means that different filters can detect different features from an image, for example edges, curves etc.
-- It is important to note that the Convolution operation captures the local dependencies in the original image.
-
-# AlexNet
-
-# VGGNet (VGG16)
-
-# GoogLeNet
+# Models
+## AlexNet
+## VGGNet (VGG16)
+## GoogLeNet
 - Paper: https://www.cs.unc.edu/~wliu/papers/GoogLeNet.pdf
 - Source: https://www.geeksforgeeks.org/understanding-googlenet-model-cnn-architecture/
 - The novel architecture was an Inception Network, and a variant of this Network called, GoogLeNet went on to achieve the state of the art performance in the classification computer vision task of the ImageNet LargeScale Visual Recognition Challenge 2014(ILVRC14).
@@ -40,7 +40,7 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 			
 			return Dense(units=1000, activation="softmax", name=name)(z)
 		```
-## Inception Network
+### Inception Network
 - Sources: https://towardsdatascience.com/deep-learning-understand-the-inception-module-56146866e652, https://hacktildawn.com/2016/09/25/inception-modules-explained-and-implemented/
 - An inception network is a deep neural network with an architectural design that consists of repeating components referred to as Inception modules.
 - ***Convolutional neural networks benefit from extracting features at varying scales. The biological human visual cortex functions by identifying patterns at different scales, which accumulates to form lager perceptions of objects. Therefore multi-scale convnet have the potential to learn more.*** Large networks are prone to overfitting, and chaining multiple convolutional operations together increases the computational cost of the network.
@@ -115,11 +115,10 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 
 	model = Model(inputs=inputs, outputs=[outputs1, outputs2, outputs3])
 	```
-
-# ResNet (Residual Neural Network)
+## ResNet (Residual Neural Network)
 - Source: https://en.wikipedia.org/wiki/Residual_neural_network, https://www.analyticsvidhya.com/blog/2021/08/all-you-need-to-know-about-skip-connections/#:~:text=Skip%20Connections%20(or%20Shortcut%20Connections,input%20to%20the%20next%20layers.&text=Neural%20networks%20can%20learn%20any,%2Ddimensional%20and%20non%2Dconvex, https://www.analyticsvidhya.com/blog/2021/06/understanding-resnet-and-analyzing-various-models-on-the-cifar-10-dataset/#h2_3
 - Residual Networks were proposed in 2015 to solve the image classification problem. ****In ResNets, the information from the initial layers is passed to deeper layers by matrix addition. This operation doesn’t have any additional parameters as the output from the previous layer is added to the layer ahead.
-## Skip Connection
+### Skip Connection
 - ***There are two main reasons to add skip connections: to avoid the problem of vanishing gradients, or to mitigate the Degradation (accuracy saturation) problem; where adding more layers to a suitably deep model leads to higher training error.***
 - *Skipping effectively simplifies the network, using fewer layers in the initial training stages. This speeds learning by reducing the impact of vanishing gradients, as there are fewer layers to propagate through.*
 - *While training deep neural nets, the performance of the model drops down with the increase in depth of the architecture. This is known as the degradation problem.*
@@ -131,7 +130,7 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 - As you can see here, the loss surface of the neural network with skip connections is smoother and thus leading to faster convergence than the network without any skip connections.
 - Skip Connections can be used in 2 fundamental ways in Neural Networks: Addition and Concatenation.
 - One problem that may happen is regarding the dimensions. *Sometimes the dimensions of `x` and `F(x)` may vary and this needs to be solved.* Two approaches can be followed in such situations. *One involves padding the input x with weights such as it now brought equal to that of the value coming out. The second way includes using a convolutional layer from `x` to addition to `F(x)`*.
-## Bottleneck Design
+### Bottleneck Design
 - Source: https://towardsdatascience.com/review-resnet-winner-of-ilsvrc-2015-image-classification-localization-detection-e39402bfa5d8
 - Since the network is very deep now, the time complexity is high. A bottleneck design is used to reduce the complexity.
 - The 1×1 conv layers are added to the start and end of network. This is a technique suggested in Network In Network and GoogLeNet (Inception-v1). ***It turns out that 1×1 conv can reduce the number of connections (parameters) while not degrading the performance of the network so much. (Please visit my review if interested.)***
@@ -174,8 +173,7 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
 
 	model = Model(inputs=inputs, outputs=outputs)
 	```
-	
-# SENet (Squeeze-and-Excitation Network)
+## SENet (Squeeze-and-Excitation Network)
 - Source: https://towardsdatascience.com/squeeze-and-excitation-networks-9ef5e71eacd7
 - Squeeze-and-Excitation Networks (SENets) introduce a building block for CNNs that improves channel interdependencies at almost no computational cost. ***Besides this huge performance boost, they can be easily added to existing architectures.*** The main idea is this: ***Let’s add parameters to each channel of a convolutional block so that the network can adaptively adjust the weighting of each feature map.***
 - CNNs use their convolutional filters to extract hierarchal information from images. *Lower layers find trivial pieces of context like edges or high frequencies, while upper layers can detect faces, text or other complex geometrical shapes.* They extract whatever is necessary to solve a task efficiently.
@@ -190,7 +188,7 @@ Feature Map" .It is important to note that filters acts as feature detectors fro
         z = Dense(units=c, activation="sigmoid")(z)
         return z*x
 	```
-# EfficientNet
+## EfficientNet
 - Source: https://keras.io/examples/vision/image_classification_efficientnet_fine_tuning/
 - The input data should range [0, 255]. Normalization is included as part of the model.
 - When the images are much smaller than the size of EfficientNet input, we can simply upsample the input images. It has been shown in Tan and Le, 2019 that transfer learning result is better for increased resolution even if input images remain small. 
@@ -232,29 +230,4 @@ effi_net = EfficientNetB7(include_top=False, input_tensor=z, weights="imagenet")
 - *This paradigm uses the idea that model predictions on an unlabeled image should remain the same even after adding noise.* We could use input noise such as Image Augmentation and Gaussian noise. Noise can also be incorporated in the architecture itself using Dropout.
 - ![Consistency Regularization](https://amitness.com/images/fixmatch-unlabeled-augment-concept.png)
 
-# `torchvision`
-```python
-import torch
-import torchvision
-from torchvision import models
-import torchvision.transformers as T
-```
-
-# Pre-trained Models
-## Keypoint R-CNN
-- Reference: https://pytorch.org/vision/stable/models/keypoint_rcnn.html
-```python
-from torchvision import models
-
-model = models.detection.keypointrcnn_resnet50_fpn(
-	pretrained=True
-).eval()
-
-trf = T.Compose(
-	[
-		T.ToTensor()
-	]
-)
-input_img = trf(img)
-out = model([input_img])[0]
-```
+# Latent Space
