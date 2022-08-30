@@ -640,7 +640,17 @@ compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 	dist = tree.get_distance(i, j)
 	```
 
-# Beam Search
+# Greedy Search and Beam Search
+```python
+probs = [1, 2, 3, 4, 5]
+data = np.array([random.sample(probs, k=5) for _ in range(10)])
+```
+## Greedy Search
+```python
+def greedy_search(data):
+    return np.argmax(data, axis=1)
+```
+## Beam Search
 - Python Implementation
 	```python
 	def beam_search(data, k):

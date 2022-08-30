@@ -292,3 +292,18 @@ def integrate_writtens(dir):
         logger.info(f"Saved 'writtens_concatenated.xlsx'")
     else:
         logger.info(f"'{writtens_concated_path.name}' already exists.")
+
+
+def remove_consecutive_identical_characters(transcript):
+    ls_word = transcript.split()
+
+    res = list()
+    for word in ls_word:
+        if word not in ["스스로", "많아지지"]:
+            word_temp = ""
+            for char in word:
+                if not word_temp or word_temp[-1] != char:
+                    word_temp += char
+            word = word_temp
+        res.append(word)
+    return " ".join(res)

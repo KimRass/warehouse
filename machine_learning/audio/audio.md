@@ -1,4 +1,4 @@
-# Dataset
+# Datasets
 ## KsponSpeech (Korean Spontaneous Speech Corpus for Automatic Speech Recognition)
 - Reference: https://www.mdpi.com/2076-3417/10/19/6936
 ## Common Voice
@@ -57,20 +57,6 @@ spectrogram_db = librosa.amplitude_to_db(spectrogram, ref=np.max)
   - Compute FFT (Fast Fourier Transform) for each window to transform from time domain to frequency domain.
   - Generate a Mel scale: Take the entire frequency spectrum, and separate it into `n_mels` evenly spaced frequencies. ***And what do we mean by evenly spaced? not by distance on the frequency dimension, but distance as it is heard by the human ear.***
   - Generate Spectrogram: For each window, decompose the magnitude of the signal into its components, corresponding to the frequencies in the mel scale.
-```python
-import librosa
-
-# When computing an STFT, you compute the FFT for a number of short segments. These segments have the length `n_fft`. Usually these segments overlap (in order to avoid information loss), so the distance between two segments is often not `n_fft`, but something like `n_fft/2`. The name for this distance is `hop_length`. It is also defined in samples.
-frame_leng = 20
-frame_shift = 10
-n_fft = int(round(sr * 0.001 * frame_leng))
-hop_leng = int(round(sr * 0.001 * frame_shift))
-n_mels = int(len(y)/1000)
-S = librosa.feature.melspectrogram(
-    y=y, sr=sr, n_fft=n_fft, hop_length=hop_leng, n_mels=n_mels
-)
-S_db = librosa.amplitude_to_db(S, ref=np.max)
-```
 
 # Tasks
 ## STT (Speech-To-Text) (= ASR (Automatic Speech Recognition))
@@ -111,8 +97,8 @@ DataCollatorWithPadding
 ```
 ```python
 processor = Wav2Vec2Processor(
-        feature_extractor=feature_extractor, tokenizer=tokenizer
-    )
+    feature_extractor=feature_extractor, tokenizer=tokenizer
+)
 # `pad()`: When used in normal mode, this method forwards all its arguments to `Wav2Vec2FeatureExtractor`’s `pad()` and returns its output. If used in the context `processor.as_target_processor()` this method forwards all its arguments to `Wav2Vec2CTCTokenizer`’s `pad()`.
 # `batch_decode()`: This method forwards all its arguments to PreTrainedTokenizer’s batch_decode(). Please refer to the docstring of this method for more information.
 
@@ -125,9 +111,6 @@ processor.batch_decode()
 # Returns the list of decoded sentences.
 tokenizer.batch_decode()
 ```
-
-# CTC (Connectionsist Temporal Classification)
-- Reference: https://distill.pub/2017/ctc/
 
 # Tacotron2
 - References: https://github.com/Rayhane-mamah/Tacotron-2, https://github.com/hccho2/Tacotron2-Wavenet-Korean-TTS
