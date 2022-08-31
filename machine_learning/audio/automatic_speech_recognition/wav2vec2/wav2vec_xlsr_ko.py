@@ -18,132 +18,120 @@ from transformers import (
     Trainer
 )
 
-
-def bracket_filter(sentence, preprocess_mode="phonetic"):
-    new_sentence = ""
-    if preprocess_mode == "phonetic":
-        flag = False
-        for char in sentence:
-            if char == "(" and flag is False:
-                flag = True
-                continue
-            if char == "(" and flag is True:
-                flag = False
-                continue
-            if char != ")" and flag is False:
-                new_sentence += char
-    elif preprocess_mode == "spelling":
-        flag = True
-        for char in sentence:
-            if char == "(":
-                continue
-            if char == ")":
-                if flag is True:
-                    flag = False
-                    continue
-                else:
-                    flag = True
-                    continue
-            if char != ")" and flag is True:
-                new_sentence += char
-    else:
-        raise ValueError(f"Unsupported mode: {preprocess_mode}")
-    return new_sentence
+from utils import load_tokenizer
 
 
-def special_filter(sentence, preprocess_mode="phonetic", replace=None):
-    SENTENCE_MARK = ["?", "!", "."]
-    NOISE = ["o", "n", "u", "b", "l"]
-    EXCEPT = ["/", "+", "*", "-", "@", "$", "^", "&", "[", "]", "=", ":", ";", ","]
-
-    new_sentence = ""
-    for idx, char in enumerate(sentence):
-        if char not in SENTENCE_MARK:
-            if idx + 1 < len(sentence) and char in NOISE and sentence[idx + 1] == "/":
-                continue
-        if char == "#":
-            new_sentence += "샾"
-        elif char == "%":
-            if preprocess_mode == "phonetic":
-                new_sentence += replace
-            elif preprocess_mode == "spelling":
-                new_sentence += "%"
-        elif char not in EXCEPT:
-            new_sentence += char
-
-    pattern = re.compile(r"\s\s+")
-    new_sentence = re.sub(pattern, " ", new_sentence.strip())
-    return new_sentence
-
-
-def sentence_filter(raw_sentence, preprocess_mode, replace=""):
-    sentence=bracket_filter(raw_sentence, preprocess_mode)
-    return special_filter(
-        sentence=sentence,
-        preprocess_mode=preprocess_mode,
-        replace=replace
-    )
+# def bracket_filter(sentence, preprocess_mode="phonetic"):
+#     new_sentence = ""
+#     if preprocess_mode == "phonetic":
+#         flag = False
+#         for char in sentence:
+#             if char == "(" and flag is False:
+#                 flag = True
+#                 continue
+#             if char == "(" and flag is True:
+#                 flag = False
+#                 continue
+#             if char != ")" and flag is False:
+#                 new_sentence += char
+#     elif preprocess_mode == "spelling":
+#         flag = True
+#         for char in sentence:
+#             if char == "(":
+#                 continue
+#             if char == ")":
+#                 if flag is True:
+#                     flag = False
+#                     continue
+#                 else:
+#                     flag = True
+#                     continue
+#             if char != ")" and flag is True:
+#                 new_sentence += char
+#     else:
+#         raise ValueError(f"Unsupported mode: {preprocess_mode}")
+#     return new_sentence
 
 
-def create_dataset_from_ksponspeech(data_dir):
-    data_dir = Path(data_dir)
+# def special_filter(sentence, preprocess_mode="phonetic", replace=None):
+#     SENTENCE_MARK = ["?", "!", "."]
+#     NOISE = ["o", "n", "u", "b", "l"]
+#     EXCEPT = ["/", "+", "*", "-", "@", "$", "^", "&", "[", "]", "=", ":", ";", ","]
+
+#     new_sentence = ""
+#     for idx, char in enumerate(sentence):
+#         if char not in SENTENCE_MARK:
+#             if idx + 1 < len(sentence) and char in NOISE and sentence[idx + 1] == "/":
+#                 continue
+#         if char == "#":
+#             new_sentence += "샾"
+#         elif char == "%":
+#             if preprocess_mode == "phonetic":
+#                 new_sentence += replace
+#             elif preprocess_mode == "spelling":
+#                 new_sentence += "%"
+#         elif char not in EXCEPT:
+#             new_sentence += char
+
+#     pattern = re.compile(r"\s\s+")
+#     new_sentence = re.sub(pattern, " ", new_sentence.strip())
+#     return new_sentence
+
+
+# def sentence_filter(raw_sentence, preprocess_mode, replace=""):
+#     sentence=bracket_filter(raw_sentence, preprocess_mode)
+#     return special_filter(
+#         sentence=sentence,
+#         preprocess_mode=preprocess_mode,
+#         replace=replace
+#     )
+
+
+# def create_dataset_from_ksponspeech(data_dir):
+#     data_dir = Path(data_dir)
     
-    percent_files = {
-            "087797": "퍼센트",
-            "215401": "퍼센트",
-            "284574": "퍼센트",
-            "397184": "퍼센트",
-            "501006": "프로",
-            "502173": "프로",
-            "542363": "프로",
-            "581483": "퍼센트"
-        }
+#     percent_files = {
+#             "087797": "퍼센트",
+#             "215401": "퍼센트",
+#             "284574": "퍼센트",
+#             "397184": "퍼센트",
+#             "501006": "프로",
+#             "502173": "프로",
+#             "542363": "프로",
+#             "581483": "퍼센트"
+#         }
 
-    ls_audio_path = list()
-    ls_signal_norm = list()
-    ls_sentence = list()
-    for i, audio_path in enumerate(tqdm(sorted(data_dir.glob("*/*/*.pcm")))):
-        signal, _ = read_audio(audio_path)
-        signal_norm = normalize_signal(signal)
+#     ls_audio_path = list()
+#     ls_signal_norm = list()
+#     ls_sentence = list()
+#     for i, audio_path in enumerate(tqdm(sorted(data_dir.glob("*/*/*.pcm")))):
+#         signal, _ = read_audio(audio_path)
+#         signal_norm = normalize_signal(signal)
         
-        txt_path = Path(str(audio_path).replace("pcm", "txt"))
-        with open(txt_path, mode="r", encoding="cp949") as f:
-                data_idx = txt_path.name.split("_")[-1]
-                sentence = f.read()
-                if data_idx in percent_files:
-                    sentence = sentence_filter(
-                        raw_sentence=sentence,
-                        preprocess_mode="phonetic",
-                        replace=percent_files[data_idx])
-                else:
-                    sentence = sentence_filter(
-                        raw_sentence=sentence,
-                        preprocess_mode="phonetic"
-                    )
-                sentence = replace_some_characters(sentence)
-        ls_signal_norm.append(signal_norm)
-        ls_sentence.append(sentence)
-        ls_audio_path.append(str(audio_path))
-        if i == 100:
-            break
+#         txt_path = Path(str(audio_path).replace("pcm", "txt"))
+#         with open(txt_path, mode="r", encoding="cp949") as f:
+#                 data_idx = txt_path.name.split("_")[-1]
+#                 sentence = f.read()
+#                 if data_idx in percent_files:
+#                     sentence = sentence_filter(
+#                         raw_sentence=sentence,
+#                         preprocess_mode="phonetic",
+#                         replace=percent_files[data_idx])
+#                 else:
+#                     sentence = sentence_filter(
+#                         raw_sentence=sentence,
+#                         preprocess_mode="phonetic"
+#                     )
+#                 sentence = replace_some_characters(sentence)
+#         ls_signal_norm.append(signal_norm)
+#         ls_sentence.append(sentence)
+#         ls_audio_path.append(str(audio_path))
+#         if i == 100:
+#             break
 
-    dic_for_ds = {"path": ls_audio_path, "audio": ls_signal_norm, "sentence": ls_sentence}
-    ds = Dataset.from_dict(dic_for_ds)
-    return ds
-
-ds["audio"][0]
-def read_audio(audio_path, sr=16000):
-    ext = Path(audio_path).suffix
-    if ext in [".wav", ".flac"]:
-        y, sr = sf.read(audio_path, dtype="int16")
-        y = y.astype(np.int32)
-    elif ext == ".pcm":
-        y = np.memmap(audio_path, dtype="h", mode="r")
-    return y, sr
-
-
-def normalize_signal(signal):
-    return signal / 2 ** 15
+#     dic_for_ds = {"path": ls_audio_path, "audio": ls_signal_norm, "sentence": ls_sentence}
+#     ds = Dataset.from_dict(dic_for_ds)
+#     return ds
 
 
 # def create_vocab_csv(ls_transcript, vocab_size, save_dir):
@@ -178,38 +166,6 @@ def normalize_signal(signal):
 
 #     print("Completed creating "vocab.csv"!")
 
-
-def load_feature_extractor():
-    feature_extractor = Wav2Vec2FeatureExtractor(
-        feature_size=1,
-        sampling_rate=16000,
-        padding_value=0.0,
-        do_normalize=True,
-        return_attention_mask=True
-    )
-    #     "padding_side": "right",
-    return feature_extractor
-
-
-def load_tokenizer():
-    tokenizer = Wav2Vec2CTCTokenizer(
-        # "./vocab.json"
-        "/Users/jongbeom.kim/Desktop/workspace/data_science/machine_learning/audio/vocab.json",
-        unk_token="[UNK]",
-        pad_token="[PAD]",
-        bos_token="<s>",
-        eos_token="</s>",
-        do_lower_case=False,
-        word_delimiter_token="|"
-    )
-    return tokenizer
-
-
-def load_processor(feature_extractor, tokenizer):
-    processor = Wav2Vec2Processor(
-        feature_extractor=feature_extractor, tokenizer=tokenizer
-    )
-    return processor
 
 
 def replace_some_characters(sentence: str) -> str:
@@ -402,7 +358,6 @@ for i, audio_path in enumerate(tqdm(sorted(data_dir.glob("*/*/*.pcm")))):
         break
     temp
 dic_for_ds = {"audio": temp, "sentence": ls_sentence}
-
 
 
 arr = np.array([1, 2, 3])

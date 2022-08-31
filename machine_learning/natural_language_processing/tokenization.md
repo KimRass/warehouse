@@ -1,4 +1,4 @@
-# Subword Tokenizer
+# Subword Tokenization
 - Using `sentencepiece`
 	- Reference: https://pypi.org/project/sentencepiece/, https://github.com/google/sentencepiece
 	- 사전 토큰화 작업(pretokenization)없이 전처리를 하지 않은 데이터(raw data)에 바로 단어 분리 토크나이저를 사용할 수 있다면, 이 토크나이저는 그 어떤 언어에도 적용할 수 있는 토크나이저가 될 것입니다. 센텐스피스는 이 이점을 살려서 구현되었습니다. 센텐스피스는 사전 토큰화 작업없이 단어 분리 토큰화를 수행하므로 언어에 종속되지 않습니다.
@@ -64,4 +64,19 @@
 	# Extracts list of subwords from file.
 	enc.load_from_file(filename_prefix)
 	```
+
+- Using `tensorflow.keras.preprocessing.text.Tokenizer()`
+	```python
+	from tensorflow.keras.preprocessing.text import Tokenizer
+	
+	tokenizer = Tokenizer(oov_token="UNK")
+	tokenizer.fit_on_texts(corpus)
+
+	token2idx = tokenizer.word_index
+	idx2token = tokenizer.index_word
+	tokenizer.word_counts
+	tokenizer.texts_to_sequences()
+	tokenizer.sequences_to_texts()
+	```
+
 ## Byte Pair Encoding (BPE)

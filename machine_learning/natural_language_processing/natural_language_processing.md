@@ -265,12 +265,8 @@ sw = {i for i in string.punctuation}
 - Used in computational linguistics and natural language processing for terms encountered in input which are not present in a system's dictionary or database of known terms.
 
 # Preprocess
-## Tokenization
-- Reference: https://www.analyticsvidhya.com/blog/2019/07/how-get-started-nlp-6-unique-ways-perform-tokenization/
-- Tokenization is essentially splitting a phrase, sentence, paragraph, or an entire text document into smaller units, such as individual words or terms. Each of these smaller units are called tokens.
-- The tokens could be words, numbers or punctuation marks. In tokenization, smaller units are created by locating word boundaries. Wait – what are word boundaries?
-- These are the ending point of a word and the beginning of the next word. These tokens are considered as a first step for stemming and lemmatization.
-### Word Tokenization
+## Regularization
+### Word Regularization
 ```python
 text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as cheery as cheery goes for a pastry shop."
 ```
@@ -298,20 +294,7 @@ text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as ch
 	tokens = WordPunctTokenizer().tokenize(sent)
 	```
 	- `"Don't"` -> `"Don"` + `"'"` + `"t"`, `"Jone's"` -> `"Jone"` + `"'"` + `"s"`
-- Using `tensorflow.keras.preprocessing.text.Tokenizer()`
-	```python
-	from tensorflow.keras.preprocessing.text import Tokenizer
-	
-	tokenizer = Tokenizer(oov_token="UNK")
-	tokenizer.fit_on_texts(corpus)
-
-	token2idx = tokenizer.word_index
-	idx2token = tokenizer.index_word
-	tokenizer.word_counts
-	tokenizer.texts_to_sequences()
-	tokenizer.sequences_to_texts()
-	```
-### Sentence Tokenization
+### Sentence Regularization
 - Using `nltk.tokenize.sent_tokenize()`
 	```python
 	from nltk.tokenize import sent_tokenize
@@ -335,7 +318,7 @@ text = "Don't be fooled by the dark sounding name, Mr. Jone's Orphanage is as ch
 	sent_tokens = kss.split_sentences(text)
 	```
 - Using `kiwipiepy.Kiwi().split_into_sents()` (for Korean language)
-## Word Divider
+## Spacing
 - Using `pykospacing.spacing()`
 	```python
 	!pip install git+https://github.com/haven-jeon/PyKoSpacing.git --user
@@ -445,49 +428,6 @@ def split(string):
 	
 	sw = stopwords.words("english")
 	```
-## Determine Vocabulary Size
-```python
-tokenizer = Tokenizer()
-tokenizer.fit_on_texts(tr_X)
-word2idx = tokenizer.word_index
-cnts = sorted(tokenizer.word_counts.values(), reverse=True)
-ratio = 0.99
-for vocab_size, value in enumerate(np.cumsum(cnts)/np.sum(cnts)):
-    if value >= ratio:
-        break
-print(f"{vocab_size:,}개의 단어로 전체 data의 {ratio:.0%}를 표현할 수 있습니다.")
-print(f"{len(word2idx):,}개의 단어 중 {vocab_size/len(word2idx):.1%}에 해당합니다.")
-```
-## Determine Sequence Length
-- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/Tokenizer
-```python
-# `num_words`: The maximum number of words to keep, based on word frequency. Only the most common `num_words - 1` words will be kept.
-# `filters`: A string where each element is a character that will be filtered from the texts. The default is all punctuation, plus tabs and line breaks, minus the `'` character.
-# `oov_token`: If given, it will be added to `word_index` and used to replace out-of-vocabulary words during `texts_to_sequence()` calls
-tokenizer = Tokenizer(num_words=vocab_size + 2, oov_token="UNK")
-tokenizer.fit_on_texts(train_text)
-word2idx = tokenizer.word_index
-word2cnt = dict(sorted(tokenizer.word_counts.items(), key=lambda x:x[1], reverse=True))
-
-X_tr = tokenizer.texts_to_sequences(train_text)
-X_te = tokenizer.texts_to_sequences(test_text)
-
-lens = sorted([len(doc) for doc in X_tr])
-ratio = 0.99
-max_len = int(np.quantile(lens, 0.99))
-print(f"길이가 가장 긴 문장의 길이는 {np.max(lens)}이고 길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
-```
-## Padding
-```python
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-
-tr_X = pad_sequences(tr_X, padding="post", maxlen=max_len)
-tr_y = pad_sequences(tr_y, padding="post", maxlen=max_len)
-
-# tr_X = to_categorical(tr_X)
-# tr_y = to_categorical(tr_y)
-```
 
 # Syntactic & Semantic Analysis
 - Reference: https://builtin.com/data-science/introduction-nlp

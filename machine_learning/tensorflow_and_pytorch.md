@@ -884,3 +884,47 @@ trf = T.Compose(
 input_img = trf(img)
 out = model([input_img])[0]
 ```
+
+## Determine Vocabulary Size
+```python
+tokenizer = Tokenizer()
+tokenizer.fit_on_texts(tr_X)
+word2idx = tokenizer.word_index
+cnts = sorted(tokenizer.word_counts.values(), reverse=True)
+ratio = 0.99
+for vocab_size, value in enumerate(np.cumsum(cnts)/np.sum(cnts)):
+    if value >= ratio:
+        break
+print(f"{vocab_size:,}개의 단어로 전체 data의 {ratio:.0%}를 표현할 수 있습니다.")
+print(f"{len(word2idx):,}개의 단어 중 {vocab_size/len(word2idx):.1%}에 해당합니다.")
+```
+## Determine Sequence Length
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/text/Tokenizer
+```python
+# `num_words`: The maximum number of words to keep, based on word frequency. Only the most common `num_words - 1` words will be kept.
+# `filters`: A string where each element is a character that will be filtered from the texts. The default is all punctuation, plus tabs and line breaks, minus the `'` character.
+# `oov_token`: If given, it will be added to `word_index` and used to replace out-of-vocabulary words during `texts_to_sequence()` calls
+tokenizer = Tokenizer(num_words=vocab_size + 2, oov_token="UNK")
+tokenizer.fit_on_texts(train_text)
+word2idx = tokenizer.word_index
+word2cnt = dict(sorted(tokenizer.word_counts.items(), key=lambda x:x[1], reverse=True))
+
+X_tr = tokenizer.texts_to_sequences(train_text)
+X_te = tokenizer.texts_to_sequences(test_text)
+
+lens = sorted([len(doc) for doc in X_tr])
+ratio = 0.99
+max_len = int(np.quantile(lens, 0.99))
+print(f"길이가 가장 긴 문장의 길이는 {np.max(lens)}이고 길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
+```
+## Padding
+```python
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.preprocessing.sequence import pad_sequences
+
+tr_X = pad_sequences(tr_X, padding="post", maxlen=max_len)
+tr_y = pad_sequences(tr_y, padding="post", maxlen=max_len)
+
+# tr_X = to_categorical(tr_X)
+# tr_y = to_categorical(tr_y)
+```
