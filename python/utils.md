@@ -602,9 +602,10 @@ subprocess.run(
 
 # `pyinstaller`
 ```sh
-# `option`:
-	# `--onefile`: One file
-	# `--onedifr`: One folder
+# Options:
+	# `--noconsole`, `--windowed`, `-w`
+	# `--onefile`, `-F`
+	# `--onedir`
 pyinstaller [option] <file_name>.py
 ```
 
