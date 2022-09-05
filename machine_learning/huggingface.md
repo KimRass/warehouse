@@ -2,7 +2,7 @@
 ## Load Dataset from Hub
 - Reference: https://huggingface.co/docs/datasets/loading
 ```python
-from datasets import load_dataset
+from datasets import Dataset, load_from_disk, load_metric, Features, Audio, Value
 
 # Some datasets may have more than one version based on Git tags, branches, or commits. Use the revision parameter to specify the dataset version you want to load.
 load_dataset(path, name, split, [cached_dir])
@@ -13,9 +13,6 @@ ds = load_dataset(path="kresnik/zeroth_korean", name="clean", split="test")
 ```python
 # `path`: (`"csv"`, `"json"`, `"text"`)
 load_dataset(path, data_files)
-```
-```python
-from datasets import Dataset, load_from_disk, load_metric, Features, Audio, Value
 ```
 ```python
 ds.features
