@@ -1,13 +1,13 @@
 import easyocr
 from PIL import Image, ImageDraw, ImageFont
 
-img_path = "/Users/jongbeom.kim/Desktop/workspace/data_science/machine_learning/computer_vision/datasets/EasyOCR/korean.png"
+img_path = "/Users/jongbeom.kim/Downloads/1.png"
 img = Image.open(img_path)
 
 # Load a model into memory. It takes some time but it needs to be run only once.
 # The argument is the list of languages you want to read. You can pass several languages at once but not all languages can be used together. English is compatible with every language and languages that share common characters are usually compatible with each other.
 # Instead of the filepath, you can also pass an OpenCV image object (numpy array) or an image file as bytes. A URL to a raw image is also acceptable.
-reader = easyocr.Reader(["ko"])
+reader = easyocr.Reader(["ja"])
 
 # The output will be in a List format, each item represents a bounding box, the text detected and confident level, respectively.
 # `detail=0`: simpler output.
