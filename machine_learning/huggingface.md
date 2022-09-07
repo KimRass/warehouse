@@ -5,6 +5,7 @@
 from datasets import Dataset, load_from_disk, load_metric, Features, Audio, Value
 
 # Some datasets may have more than one version based on Git tags, branches, or commits. Use the revision parameter to specify the dataset version you want to load.
+# `split`: e.g., `"train+test"`, `"train[10:20]"`, `"train[:10%]"`
 load_dataset(path, name, split, [cached_dir])
 # Example
 ds = load_dataset(path="kresnik/zeroth_korean", name="clean", split="test")

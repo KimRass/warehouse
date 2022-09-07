@@ -653,3 +653,28 @@ response_body = urlopen(request)
 
 dic = json.load(response_body)
 ```
+
+# `tkinter`
+```python
+win= Tk()
+
+win.geometry("750x250")
+
+def run():
+	dir = entry.get()
+	check_if_files_are_paired(dir)
+
+	rename_files(dir)
+
+label=Label(win, text="Please input directory")
+label.pack()
+
+global entry
+entry = Entry(win, width= 40)
+entry.focus_set()
+entry.pack()
+
+Button(win, text="Okay", width= 20, command=run).pack(pady=20)
+
+win.mainloop()
+```
