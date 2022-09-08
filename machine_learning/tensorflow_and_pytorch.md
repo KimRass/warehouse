@@ -631,6 +631,10 @@ model.compile(...)
 model.load_weights(model_path)
 ```
 - As long as two models share the same architecture you can share weights between them. So, when restoring a model from weights-only, create a model with the same architecture as the original model and then set its weights.
+## PyTorch
+```python
+torch.load(model_path)
+```
 
 # Custrom Model
 ## TensorFlow

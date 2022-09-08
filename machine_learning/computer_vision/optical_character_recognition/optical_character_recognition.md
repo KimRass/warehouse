@@ -16,3 +16,6 @@
 ## Using AutoEncoders
 ## Image Despeckling
 ## ISO Noise Correction
+
+# CRAFT
+- References: https://github.com/clovaai/CRAFT-pytorch, https://github.com/LoveGalaxy/Character-Region-Awareness-for-Text-Detection-, https://github.com/ducanh841988/Kindai-OCR, https://medium.com/@msmapark2/character-region-awareness-for-text-detection-craft-paper-%EB%B6%84%EC%84%9D-da987b32609c

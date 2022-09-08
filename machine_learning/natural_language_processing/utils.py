@@ -307,3 +307,30 @@ def remove_consecutive_identical_characters(transcript):
             word = word_temp
         res.append(word)
     return " ".join(res)
+
+
+def treat_quotes(sentence):
+    n_quote = sentence.count("'")
+    n_double_quote = sentence.count('"')
+
+    if (
+        n_quote % 2 != 0 or
+        n_double_quote % 2 != 0
+    ):
+        if n_quote != 0 and n_double_quote == 0:
+            print(sentence)
+            print("'" + sentence)
+            sentence = "'" + sentence
+        elif n_quote == 0 and n_double_quote != 0:
+            sentence = '"' + sentence
+        elif n_quote == 1 and n_double_quote == 1:
+            sentence = sentence.replace('"', "'")
+        else:
+            sentence = "<수정 요망>"
+    elif "''" in sentence:
+        match = re.search(
+            pattern=r"""(''[\w '".!?]+['"])(며|이라며|이라고|라며|라는|고)""", string=sentence
+        )
+        if match:
+            sentence = sentence[:match.start()] + '"' + "'" + match.group(1)[2: -1] + '"' + match.group(2) + sentence[match.end():]
+    return sentence
