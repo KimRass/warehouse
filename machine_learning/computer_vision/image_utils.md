@@ -1,4 +1,5 @@
 # OpenCV
+- Reference: https://opencv-python.readthedocs.io/en/latest/
 ## Install
 ```bash
 # On Windows
@@ -29,6 +30,33 @@ cv2.rectangle(img, pt1, pt2, color, thickness)
 - `org`: Bottom-left corner of the text string in the image.
 - `fonFace`: (`cv2.FONT_HERSHEY_SIMPLEX`, ...) Font type.
 - `fontScale`: Font scale factor that is multiplied by the font-specific base size.
+## Threshold Image
+```python
+# `maxval`: `thresh`를 넘었을 때 적용할 value.
+# `type`:
+    # `type=0`: `type=cv2.THRESH_BINARY`
+cv.threshold(src, thresh, maxval, type)
+```
+## ?
+```python
+cv2.connectedComponentsWithStats()
+```
+## Apply Colormap
+```python
+# (height, width) -> (height, width, 3)
+cv2.applyColorMap(src, colormap)
+```
+## Minimum Area Rectangle
+- Reference: https://theailearner.com/tag/cv2-minarearect/
+```python
+# The bounding rectangle is drawn with a minimum area. Roation is considered.
+# Retuns a Box2D struecture which contains "(Center(x, y), (Width, Height), Angle of rotation)".
+rectangle = cv2.minAreaRect(np_contours)
+# Converts to four corners of the rectangle.
+# Four corner points are ordered clockwise starting from the point with the highest y. If two points have the same highest y, then the rightmost point is the starting point.
+# Angle of rotation is the angle between line joining the starting and endpoint and the horizontal.
+box = cv2.boxPoints(rectangle)
+```
 
 # Python Imaging Library
 ```python

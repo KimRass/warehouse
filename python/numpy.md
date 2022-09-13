@@ -119,3 +119,7 @@ items, counts = np.unique(intersected_movie_ids, return_counts=True)
 # `np.fromfile()`
 - `count`: Number of items to read. `-1` means all items (i.e., the complete file).
 
+## Clip
+```python
+np.clip(a, a_min, a_max)
+```
