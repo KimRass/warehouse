@@ -33,8 +33,9 @@ print(f"    - {'The program ended at:':<24s}{datetime.strftime(end, format='%Y-%
 
 # `isinstance()`
 ```python
-if not isinstance(movie, frozenset):
-    movie = frozenset(movie)
+# `classinfo`: (`str`, `frozenset`, `np.ndarray`, `PurePath`, `Image.Image`, ...)
+# Example
+isinstance(movie, frozenset)
 ```
 
 # `type()`

@@ -10,26 +10,48 @@ pip install opencv-python
 ```python
 import cv2
 ```
-## `cv2.imread()`
-## `plt.imshow()`
+## Show Image
+```python
+cv2.imread()
+plt.imshow()
+draw.show()
+```
 ## `cv2.cvtColor(image, code)`
 - `code`: (`cv2.COLOR_BGR2GRAY`, `cv2.COLOR_BGR2RGB`, `cv2.COLOR_BGR2HSV`)
 ## `cv2.resize(img, dsize, interpolation)`
 ## Draw Rectangle
 ```python
+# cv2
 cv2.rectangle(img, pt1, pt2, color, thickness)
+
+# Python Image Library
+draw.rectangle(xy, outline, width)
 ```
 ## `cv2.circle(img, center, radius, color, [thickness], [lineType], [shift])`
 ## `cv2.getTextSize(text, fontFace, fontScale, thickness)`
 ```python
 (text_width, text_height), baseline = cv2.getTextSize(text=label, fontFace=cv2.FONT_HERSHEY_COMPLEX_SMALL, fontScale=font_scale, thickness=bbox_thick)
 ```
-## `cv2.putText(img, text, org, fontFace, fontScale, color, [thickness], [lineType])`
-- Reference: https://docs.opencv.org/4.x/d6/d6e/group__imgproc__draw.html#ga0f9314ea6e35f99bb23f29567fc16e11
-- `text`: Text string to be drawn.
-- `org`: Bottom-left corner of the text string in the image.
-- `fonFace`: (`cv2.FONT_HERSHEY_SIMPLEX`, ...) Font type.
-- `fontScale`: Font scale factor that is multiplied by the font-specific base size.
+## Put Text
+```python
+# cv2
+# Reference: https://docs.opencv.org/4.x/d6/d6e/group__imgproc__draw.html#ga0f9314ea6e35f99bb23f29567fc16e11
+# `text`: Text string to be drawn.
+# `org`: Bottom-left corner of the text string in the image.
+# `fonFace`: (`cv2.FONT_HERSHEY_SIMPLEX`, ...) Font type.
+# `fontScale`: Font scale factor that is multiplied by the font-specific base size.
+cv2.putText(img, text, org, fontFace, fontScale, color, [thickness], [lineType])
+
+# Python Image Library
+draw.text(xy, text, fill, [font])
+# Example
+draw.text(
+    xy=(bbox[0], bbox[1]),
+    text=text_direction,
+    fill=(100, 100, 100),
+    font=ImageFont.truetype("Chalkduster.ttf", size=32)
+)
+```
 ## Threshold Image
 ```python
 # `maxval`: `thresh`를 넘었을 때 적용할 value.
@@ -66,18 +88,22 @@ from PIL import Image, ImageDraw, ImageFont
 ```python
 img = Image.open(fp)
 ```
-### Manipulate Image
+## Manipulate Image
 ```python
 img.size()
 img.save()
 img.thumbnail()
 img.crop()
 img.resize()
-
+```
+## Convert
+```python
+# Python Image Library
 # (`"RGB"`, `"RGBA"`, `"CMYK"`, `"L"`, `"1"`)
+    # `"1"`, `"L"`: Binary
 img.convert("L")
 ```
-### Paste Image
+## Paste Image
 ```python
 # img2.size와 동일하게 두 번째 parameter 설정.	
 img1.paste(img2, (20,20,220,220))

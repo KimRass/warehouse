@@ -573,7 +573,7 @@ out_path, ... = get_args()
 
 # Read Configuration
 ```python
-from pathlib import Path
+from pathlib import Path, PurePath
 import json
 
 def read_config():
