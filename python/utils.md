@@ -439,6 +439,16 @@ class ExcelStyler:
     def __ini__(self, logger=None) -> None:
         self.logger = logger
 ```
+## Convert from ws to DataFrame
+```python
+def convert_ws_to_df(ws) -> pd.DataFrame:
+    data = ws.values
+    cols = next(data)[1:]
+    data = list(data)
+    idx = [r[0] for r in data]
+    data = (islice(r, 1, None) for r in data)
+    return pd.DataFrame(data, index=idx, columns=cols)
+```
 
 # `pptx`
 ```python

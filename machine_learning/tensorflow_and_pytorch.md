@@ -165,7 +165,18 @@ tf.reshape(<Tensor>, shape)
 # PyTorch
 <Tensor>.view()
 ```
-## `tf.transpose(a, perm)`
+## Permute Dimentions
+```python
+# TensorFLow
+# `perm`: (Tuple)
+tf.transpose(a, perm)
+<Tensor>.transpose(perm)
+
+# PyTorch
+# `dims`: (Tuple)
+torch.permute(input, dims)
+<Tensor>.permute(dims)
+```
 ## `tf.range()`
 ## `tf.tile()`
 ## `tf.constant_initializer()`
