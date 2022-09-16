@@ -334,3 +334,15 @@ def treat_quotes(sentence):
         if match:
             sentence = sentence[:match.start()] + '"' + "'" + match.group(1)[2: -1] + '"' + match.group(2) + sentence[match.end():]
     return sentence
+
+
+# s = """그는 "시장 조사업체 가트너가 2020년 기술 트렌드를 '인간 중심의 스마트 공간'이라고 발표했다"며 "스마트 도시, 서울과 스마트, 혁신 기업들의 핵심 가치도 바로 '사람을 중심으로 둔 지속 가능한 혁신'"이라고 강조했다."""
+# s.count("'") % 2
+# s.count('"') % 2
+# is_valid_quote_string("""그는 "시장 조사업체 가트너가 2020년 기술 트렌드를 '인간 중심의 스마트 공간'이라고 발표했다"며 "스마트 도시, 서울과 스마트, 혁신 기업들의 핵심 가치도 바로 '사람을 중심으로 둔 지속 가능한 혁신'"이라고 강조했다.""")
+
+# df = pd.read_excel("/Users/jongbeom.kim/project/corpus_raw/b2b_projects/2022/NIKL/sources/news_220916_correcting_4.xlsx")
+
+# for s in df[df["needs_correction"]]["원천데이터"]:
+#     if not is_valid_quote_string(s):
+#         print(s, s.count("'"), s.count('"'))

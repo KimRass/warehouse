@@ -27,6 +27,7 @@ cv2.rectangle(img, pt1, pt2, color, thickness)
 # Python Image Library
 draw.rectangle(xy, outline, width)
 ```
+- ![rectangle](https://img-blog.csdnimg.cn/c9e5333918814205a7cff8d65648784d.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5Y2X6aOO5LiN56ueOg==,size_1,color_FFFFFF,t_70,g_se,x_15)
 ## `cv2.circle(img, center, radius, color, [thickness], [lineType], [shift])`
 ## `cv2.getTextSize(text, fontFace, fontScale, thickness)`
 ```python
