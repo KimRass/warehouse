@@ -10,15 +10,34 @@ pip install opencv-python
 ```python
 import cv2
 ```
+## Read Image
+```python
+# OpenCV
+cv2.imread()
+
+# Python Image Library
+img = Image.open(fp)
+```
+## Get Image Size
+```python
+# OpenCV
+height, width = img.shape
+
+# Python Image Library
+width, height = img.size
+```
 ## Show Image
 ```python
 cv2.imshow(winname, mat)
 plt.imshow()
 draw.show()
 ```
+## Resize Image
+```python
+cv2.resize(src, dsize, interpolation)
+```
 ## `cv2.cvtColor(image, code)`
 - `code`: (`cv2.COLOR_BGR2GRAY`, `cv2.COLOR_BGR2RGB`, `cv2.COLOR_BGR2HSV`)
-## `cv2.resize(img, dsize, interpolation)`
 ## Draw Rectangle
 ```python
 # cv2
@@ -94,10 +113,6 @@ box = cv2.boxPoints(rectangle)
 # Python Imaging Library
 ```python
 from PIL import Image, ImageDraw, ImageFont
-```
-## Open Image
-```python
-img = Image.open(fp)
 ```
 ## Manipulate Image
 ```python

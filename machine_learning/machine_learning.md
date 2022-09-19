@@ -1,42 +1,29 @@
-# Header
-- Reference: https://www.webopedia.com/definitions/header/
-- In many disciplines of computer science, a header is a unit of information that precedes a data object.
+# Zero-Shot Learning (ZSL)
+- Reference: https://en.wikipedia.org/wiki/Zero-shot_learning
+- Zero-shot learning (ZSL) is a problem setup in machine learning, where at test time, a learner observes samples from classes, which were not observed during training, and needs to predict the class that they belong to. Zero-shot methods generally work by associating observed and non-observed classes through some form of auxiliary information, which encodes observable distinguishing properties of objects. For example, given a set of images of animals to be classified, along with auxiliary textual descriptions of what animals look like, an artificial intelligence model which has been trained to recognize horses, but has never been given a zebra, can still recognize a zebra when it also knows that zebras look like striped horses.
 
-# Dataset & Data Set
-- Reference: https://english.stackexchange.com/questions/2120/which-is-correct-dataset-or-data-set
-- Dataset for certain datasets
-- Data set for any set for data in general.
+# Transfer Learning
+- Reference: https://www.toptal.com/machine-learning/semi-supervised-image-classification
+- Transfer learning means using knowledge from a similar task to solve a problem at hand. In practice, it usually means using as initializations the deep neural network weights learned from a similar task, rather than starting from a random initialization of the weights, and then further training the model on the available labeled data to solve the task at hand.
+- Transfer learning enables us to train models on datasets as small as a few thousand examples, and it can deliver a very good performance. Transfer learning from pretrained models can be performed in three ways:
+	1. Feature Extraction 
+		- *Usually, the last layers of the neural network are doing the most abstract and task-specific calculations, which are generally not easily transferable to other tasks. By contrast, the initial layers of the network learn some basic features like edges and common shapes, which are easily transferable across tasks.*
+		- A common practice is to take a model pretrained on large labeled image datasets (such as ImageNet) and chop off the fully connected layers at the end. New, fully connected layers are then attached and configured according to the required number of classes. *Transferred layers are frozen, and the new layers are trained on the available labeled data for your task.*
+		- In this setup, the pretrained model is being used as a feature extractor, and the fully connected layers on the top can be considered a shallow classifier. *This setup is more robust than overfitting as the number of trainable parameters is relatively small, so this configuration works well when the available labeled data is very scarce.* What size of dataset qualifies as a very small dataset is usually a tricky problem with many aspects of consideration, including the problem at hand and the size of the model backbone. Roughly speaking, I would use this strategy for a dataset consisting of a couple of thousand images.
+	2. Fine-tuning
+		- *Alternatively, we can transfer the layers from a pretrained network and train the entire network on the available labeled data. This setup needs a little more labeled data because you are training the entire network and hence a large number of parameters. This setup is more prone to overfitting when there is a scarcity of data.*
+	3. Two-stage Transfer Learning
+		- This approach is my personal favorite and usually yields the best results, at least in my experience. Here, ***we train the newly attached layers while freezing the transferred layers for a few epochs before fine-tuning the entire network. Fine-tuning the entire network without giving a few epochs to the final layers can result in the propagation of harmful gradients from randomly initialized layers to the base network. Furthermore, fine-tuning requires a comparatively smaller learning rate, and a two-stage approach is a convenient solution to it.***
 
-# Data Density (or Sparsity)
-- Reference: https://datascience.foundation/discussion/data-science/data-sparsity
-- In a database, sparsity and density describe the number of cells in a table that are empty (sparsity) and that contain information (density), though sparse cells are not always technically empty—they often contain a "0” digit.
-## Sparse Matrix & Dense Matrix
-- Reference: https://en.wikipedia.org/wiki/Sparse_matrix
-- ***A sparse matrix or sparse array is a matrix in which most of the elements are zero.*** *There is no strict definition regarding the proportion of zero-value elements for a matrix to qualify as sparse but a common criterion is that the number of non-zero elements is roughly equal to the number of rows or columns.* ***By contrast, if most of the elements are non-zero, the matrix is considered dense. The number of zero-valued elements divided by the total number of elements is sometimes referred to as the sparsity of the matrix.***
-### Compressed Sparse Row (CSR)
-- *The compressed sparse row (CSR) or compressed row storage (CRS) or Yale format represents a matrix M by three (one-dimensional) arrays, that respectively contain nonzero values, the extents of rows, and column indices.*
-```python
-from scipy.sparse import csr_matrix
-
-vals = [2, 4, 3, 4, 1, 1, 2]
-rows = [0, 1, 2, 2, 3, 4, 4]
-cols = [0, 2, 5, 6, 14, 0, 1]
-sparse_mat = csr_matrix((vals,  (rows,  cols)))
-dense_mat = sparse_mat.todense()
-```
+# Weakly Supervised Learning (Weak Supervision)
+- 예측해야 할 정보가 학습된 정보보다 더 방대한(?)한 경우.
+- e.g.,  Image classification에 대해 학습된 모델을 사용해서 Image Localization을 수행하는 경우, Bounding box에 대한 Annotation된 데이터 없이 Inference를 수행하느 경우.
+- e.g., Object Detection 모델을 통해 Image Segmentation을 수행하는 경우.
 
 # Prediction & Forecasting
 - Reference: https://www.datascienceblog.net/post/machine-learning/forecasting_vs_prediction/#:~:text=Prediction%20is%20concerned%20with%20estimating%20the%20outcomes%20for%20unseen%20data.&text=Forecasting%20is%20a%20sub%2Ddiscipline,we%20consider%20the%20temporal%20dimension.
 - *Prediction is concerned with estimating the outcomes for unseen data.*
 - *Forecasting is a sub-discipline of prediction in which we are making predictions about the future, on the basis of time-series data.* Thus, the only difference between prediction and forecasting is that we consider the temporal dimension.
-
-# Categories of Variables
-- Continuous
-- Categorical
-
-# Metadata
-- Reference: https://en.wikipedia.org/wiki/Metadata
-- Metadata is "data that provides information about other data", but not the content of the data, such as the text of a message or the image itself.
 
 # Embedding
 - Reference: https://analyticsindiamag.com/machine-learning-embedding/#:~:text=An%20embedding%20is%20a%20low,of%20a%20high%2Ddimensional%20vector.&text=Embedding%20is%20the%20process%20of,the%20two%20are%20semantically%20similar.
@@ -527,46 +514,12 @@ While both types of models can fit curvature, nonlinear regression is much more 
 - KNN algorithm is very time-consuming in analyzing large database. It searches through all the dataset looking for the most similar instances.
 - Choice of k-value is very critical. Higher value of k would include attributes which are significantly different from what we need whereas lower value of k implies missing out of significant attributes. 
 
-# Outliers
-## Types of Outliers
-- Reference: https://adataanalyst.com/machine-learning/comprehensive-guide-feature-engineering/
-- Univariate outliers can be found when we look at distribution of a single variable.
-Multi-variate outliers are outliers in an n-dimensional space. In order to find them, you have to look at distributions in multi-dimensions.
-### Data Entry Errors
-- Human errors such as errors caused during data collection, recording, or entry can cause outliers in data.
-### Data Processing Errors
-- It is possible that some manipulation or extraction errors may lead to outliers in the dataset.
-### Measurement Errors
-- It is the most common Reference of outliers. This is caused when the measurement instrument used turns out to be faulty. 
-E## Experimental Errors
-- For example: In a 100m sprint of 7 runners, one runner missed out on concentrating on the ‘Go’ call which caused him to start late. Hence, this caused the runner’s run time to be more than other runners.
-### Intentional Outliers
-- For example: Teens would typically under report the amount of alcohol that they consume. Only a fraction of them would report actual value. Here actual values might look like outliers because rest of the teens are under reporting the consumption.
-### Sampling Errors
-- For instance, we have to measure the height of athletes. By mistake, we include a few basketball players in the sample.
-### Natural Outliers
-## Outliers Treatment
-### Deleting
-### Transforming
-- Natural log of a value reduces the variation caused by extreme values.
-- Decision Tree algorithm allows to deal with outliers well due to binning of variable. We can also use the process of assigning weights to different observations.
-### Binning
-- Decision Tree algorithm allows to deal with outliers well due to binning of variable. We can also use the process of assigning weights to different observations.
-### Imputing
-- We can use mean, median, mode imputation methods. Before imputing values, we should analyse if it is natural outlier or artificial. If it is artificial, we can go with imputing values. We can also use statistical model to predict values of outlier.
-### Treating Separately
-- If there are significant number of outliers, we should treat them separately in the statistical model. One of the approach is to treat both groups as two different groups and build individual model for both groups and then combine the output.
-
 # K-Means Clustering
 ```python
 # 초기 중심점을 랜덤으로 설정.
 flags = cv2.KMEANS_RANDOM_CENTERS
 compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 ```
-
-# Zero-Shot Learning (ZSL)
-- Reference: https://en.wikipedia.org/wiki/Zero-shot_learning
-- Zero-shot learning (ZSL) is a problem setup in machine learning, where at test time, a learner observes samples from classes, which were not observed during training, and needs to predict the class that they belong to. Zero-shot methods generally work by associating observed and non-observed classes through some form of auxiliary information, which encodes observable distinguishing properties of objects. For example, given a set of images of animals to be classified, along with auxiliary textual descriptions of what animals look like, an artificial intelligence model which has been trained to recognize horses, but has never been given a zebra, can still recognize a zebra when it also knows that zebras look like striped horses.
 
 # Variational AutoEncoder (VAE)
 - Reference: https://www.tensorflow.org/tutorials/generative/cvae
@@ -583,19 +536,6 @@ compactness, labels, centers = cv2.kmeans(z, 3, None, criteria, 10, flags)
 # Regularization
 ## L1 Regularization (= Lasso Regression)
 ## L2 Regularization (= Ridge Regression)
-
-# Transfer Learning
-- Reference: https://www.toptal.com/machine-learning/semi-supervised-image-classification
-- Transfer learning means using knowledge from a similar task to solve a problem at hand. In practice, it usually means using as initializations the deep neural network weights learned from a similar task, rather than starting from a random initialization of the weights, and then further training the model on the available labeled data to solve the task at hand.
-- Transfer learning enables us to train models on datasets as small as a few thousand examples, and it can deliver a very good performance. Transfer learning from pretrained models can be performed in three ways:
-	1. Feature Extraction 
-		- *Usually, the last layers of the neural network are doing the most abstract and task-specific calculations, which are generally not easily transferable to other tasks. By contrast, the initial layers of the network learn some basic features like edges and common shapes, which are easily transferable across tasks.*
-		- A common practice is to take a model pretrained on large labeled image datasets (such as ImageNet) and chop off the fully connected layers at the end. New, fully connected layers are then attached and configured according to the required number of classes. *Transferred layers are frozen, and the new layers are trained on the available labeled data for your task.*
-		- In this setup, the pretrained model is being used as a feature extractor, and the fully connected layers on the top can be considered a shallow classifier. *This setup is more robust than overfitting as the number of trainable parameters is relatively small, so this configuration works well when the available labeled data is very scarce.* What size of dataset qualifies as a very small dataset is usually a tricky problem with many aspects of consideration, including the problem at hand and the size of the model backbone. Roughly speaking, I would use this strategy for a dataset consisting of a couple of thousand images.
-	2. Fine-tuning
-		- *Alternatively, we can transfer the layers from a pretrained network and train the entire network on the available labeled data. This setup needs a little more labeled data because you are training the entire network and hence a large number of parameters. This setup is more prone to overfitting when there is a scarcity of data.*
-	3. Two-stage Transfer Learning
-		- This approach is my personal favorite and usually yields the best results, at least in my experience. Here, ***we train the newly attached layers while freezing the transferred layers for a few epochs before fine-tuning the entire network. Fine-tuning the entire network without giving a few epochs to the final layers can result in the propagation of harmful gradients from randomly initialized layers to the base network. Furthermore, fine-tuning requires a comparatively smaller learning rate, and a two-stage approach is a convenient solution to it.***
 
 # Droupout
 - Reference: https://leimao.github.io/blog/Dropout-Explained/#:~:text=During%20inference%20time%2C%20dropout%20does,were%20multiplied%20by%20pkeep%20.

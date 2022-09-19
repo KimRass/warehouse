@@ -248,7 +248,15 @@ Multiply()()
 ```
 ## `Dot(axes)`
 - `axes` : (integer, tuple of integers) Axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
-## `Concatenate([axis])()` (= `tf.concat(values, [axis], [name])`)
+## Concatenate Layers
+```python
+# PyTorch
+torch.concat([dim])
+
+# TensorFlow
+# Same as `tf.concat(values, [axis], [name])`
+Concatenate([axis])()
+```
 ## `Flatten([input_shape])`
 ## `Input(shape, [name], [dtype], ...)`
 - `shape`

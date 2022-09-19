@@ -104,3 +104,9 @@ pyenv global 3.9.0
 ```sh
 pip install --upgrade pip
 ```
+
+# Kill
+```sh
+ps -ef | grep -i python
+kill -9 ...
+```
