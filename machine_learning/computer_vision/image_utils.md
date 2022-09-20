@@ -80,7 +80,7 @@ draw.text(
 # Returns the threshold that was used and the thresholded image.
 _, img = cv.threshold(src, thresh, maxval, type)
 ```
-## ?
+## Connect?
 - Reference: https://pyimagesearch.com/2021/02/22/opencv-connected-component-labeling-and-analysis/
 ```python
 # `image`: Binary image.
@@ -92,6 +92,19 @@ _, img = cv.threshold(src, thresh, maxval, type)
 # `centroids`: The centroids (i.e., center) (x, y)-coordinates of each connected component.
     # Shape: (`n_label, 2)
 n_label, labels, stats, centroids = cv2.connectedComponentsWithStats(image, connectivity)
+```
+## Morphology
+```python
+# `ksize`: kernel의 크기
+cv2.getStructureingElement(shape, ksize, [anchor])
+# Example
+kernel = cv2.getStructureingElement(shape=cv2.MORPH_RECT, ksize, [anchor])
+# `src`: Binary image
+
+# Thinning: 하얀색 영역이 줄어듭니다.
+cv2.erode(src, kernel)
+# Widening: 하얀색 영역이 증가합니다.
+cv2.dilate(src, kernel)
 ```
 ## Apply Colormap
 ```python

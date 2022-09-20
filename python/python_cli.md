@@ -1,3 +1,15 @@
+# Install
+- Reference: https://ttottoro.tistory.com/387
+- `ls -l /usr/local/bin/python*`을 실행했을 때 출력되는 게 있다면 None-Homebrew 파이썬이 설치되어 있다는 것입니다. 왜냐하면 경로다 ".../Library/Frameworks/Python.framework"이기 때문입니다.
+- "/usr/bin/python"은 절대 삭제하면 안 된다고 합니다.
+- Homebrew를 통해서 설치한다면 경로는 ".../Cellar/python"이 되기 때문입니다.
+```sh
+export PATH=/usr/local/bin:/usr/local/sbin:${PATH}
+export PATH=${PATH}:/Users/jongbeom.kim/Library/Python/3.8.bin
+
+brew install python3
+```
+
 # Python Version
 ```sh
 python --version
@@ -109,4 +121,11 @@ pip install --upgrade pip
 ```sh
 ps -ef | grep -i python
 kill -9 ...
+```
+
+# C++ 관련
+```sh
+pip install cython
+brew install gcc
+xcode-select --install
 ```

@@ -1,3 +1,24 @@
+# Pretext Task & Real (Downstream) Task
+- Reference: https://atcold.github.io/pytorch-Deep-Learning/en/week10/10-1/
+- Generally, computer vision pipelines that employ self-supervised learning involve performing two tasks, a pretext task and a real (downstream) task.
+  - The real (downstream) task can be anything like classification or detection task, with insufficient annotated data samples.
+  - The pretext task is the self-supervised learning task solved to learn visual representations, with the aim of using the learned representations or model weights obtained in the process, for the downstream task.
+## Example pretext tasks
+### Computer Vision
+  - Predicting relative position of image patches
+  - Predicting Rotation of Images
+    - We apply rotations of 0, 90, 180, 270 degrees to the image and send these rotated images to the network to predict what sort of rotation was applied to the image and the network simply performs a 4-way classification to predict the rotation.
+  - Colorization
+  - Fill in the blanks
+    - We hide a part of an image and predict the hidden part from the remaining surrounding part of the image. This works because the network will learn the implicit structure of the data like to represent that cars run on roads, buildings are composed of windows & doors and so on.
+  - Jigsaw Puzzles
+    - Partition an image into multiple tiles and then shuffle these tiles. The model is then tasked with un-shuffling the tiles back to the original configuration.
+### Videos and Sound (Multimodal)
+- Video and sound sampling
+   - Video and Sound are multi-modal where we have two modalities or sensory inputs one for video and one for sound. Where we try to predict whether the given video clip corresponds to the audio clip or not.
+   - Given a video with audio of a drum, sample the video frame with corresponding audio and call it a positive set. Next, take the audio of a drum and the video frame of a guitar and tag it as a negative set. Now we can train a network to solve this as a binary classification problem.
+
+
 # Zero-Shot Learning (ZSL)
 - Reference: https://en.wikipedia.org/wiki/Zero-shot_learning
 - Zero-shot learning (ZSL) is a problem setup in machine learning, where at test time, a learner observes samples from classes, which were not observed during training, and needs to predict the class that they belong to. Zero-shot methods generally work by associating observed and non-observed classes through some form of auxiliary information, which encodes observable distinguishing properties of objects. For example, given a set of images of animals to be classified, along with auxiliary textual descriptions of what animals look like, an artificial intelligence model which has been trained to recognize horses, but has never been given a zebra, can still recognize a zebra when it also knows that zebras look like striped horses.
