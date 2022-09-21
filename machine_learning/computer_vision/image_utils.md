@@ -103,7 +103,7 @@ kernel = cv2.getStructureingElement(shape=cv2.MORPH_RECT, ksize, [anchor])
 
 # Thinning: 하얀색 영역이 줄어듭니다.
 cv2.erode(src, kernel)
-# Widening: 하얀색 영역이 증가합니다.
+# Thickening: 하얀색 영역이 증가합니다.
 cv2.dilate(src, kernel)
 ```
 ## Apply Colormap
