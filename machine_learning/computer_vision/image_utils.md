@@ -1,14 +1,10 @@
-# OpenCV
-- Reference: https://opencv-python.readthedocs.io/en/latest/
-## Install
-```bash
-# On Windows
-conda install -c conda-forge opencv
-# On MacOS
-pip install opencv-python
-```
-```python
-import cv2
+# "AttributeError: partially initialized module 'cv2' has no attribute 'gapi_wip_gst_GStreamerPipeline' (most likely due to a circular import)"
+```sh
+pip uninstall opencv-python
+pip uninstall opencv-contrib-python
+pip uninstall opencv-contrib-python-headless
+
+pip3 install opencv-contrib-python==4.5.5.62
 ```
 ## Read Image
 ```python
