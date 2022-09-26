@@ -31,3 +31,15 @@
       - "Local maxima along scanning direction" (Blue. "Control points of text polygon"의 후보들) -> "Center line of local maxima" (Yellow) -> "Line of control points" (Red. 문자 기울기 반영) -> 양 끝에 있는 문자들을 커버하기 위해 그들에 대한 "Control points of text polygon"을 정하고 최종적으로 "Polygin text instance"를 정함
 - Architecture
   - ![architecture](https://miro.medium.com/max/1400/1*b6I-Bdj5itX7tllJ5HRKbg.png)
+
+# PaddleOCR
+- Reference: https://github.com/PaddlePaddle/PaddleOCR
+## Install
+```sh
+# cpu
+pip install paddlepaddle
+# gpu
+pip install paddlepaddle-gpu
+
+pip install "paddleocr>=2.0.6" # 2.0.6 version is recommended
+```

@@ -49,7 +49,7 @@ type(test_X[0][0])
 # `sum()`
 ```python
 # 두번째 층의 대괄호 제거
-sum(sentences, [])
+sum(<List of Lists>, list)
 ```
 # `assert`
 ```python

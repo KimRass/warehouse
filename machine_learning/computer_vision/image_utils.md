@@ -6,7 +6,8 @@ pip uninstall opencv-contrib-python-headless
 
 pip3 install opencv-contrib-python==4.5.5.62
 ```
-## Read Image
+
+# Read Image
 ```python
 # OpenCV
 cv2.imread()
@@ -14,7 +15,8 @@ cv2.imread()
 # Python Image Library
 img = Image.open(fp)
 ```
-## Get Image Size
+
+# Get Image Size
 ```python
 # OpenCV
 height, width = img.shape
@@ -22,19 +24,49 @@ height, width = img.shape
 # Python Image Library
 width, height = img.size
 ```
-## Show Image
+
+# Show Image
 ```python
 cv2.imshow(winname, mat)
 plt.imshow()
 draw.show()
 ```
-## Resize Image
+
+# Save Image
+```python
+# `bbox_inches="tight"`
+plt.savefig()
+fig.savefig()
+```
+
+# Resize Image
 ```python
 cv2.resize(src, dsize, interpolation)
 ```
-## `cv2.cvtColor(image, code)`
-- `code`: (`cv2.COLOR_BGR2GRAY`, `cv2.COLOR_BGR2RGB`, `cv2.COLOR_BGR2HSV`)
+
+# Convert Color Map
+```python
+# OpenCV
+# `code`: (`cv2.COLOR_BGR2GRAY`, `cv2.COLOR_BGR2RGB`, `cv2.COLOR_BGR2HSV`)
+cv2.cvtColor(image, code)
+
+# Python Image Library
+# (`"RGB"`, `"RGBA"`, `"CMYK"`, `"L"`, `"1"`)
+    # `"1"`, `"L"`: Binary
+img.convert("L")
+```
+
+# Draw
+```python
+draw = ImageDraw.Draw(img)
+```
+## Draw Line
+```python
+...
+draw.line([fill], [width])
+```
 ## Draw Rectangle
+- ![rectangle](https://img-blog.csdnimg.cn/c9e5333918814205a7cff8d65648784d.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5Y2X6aOO5LiN56ueOg==,size_1,color_FFFFFF,t_70,g_se,x_15)
 ```python
 # cv2
 cv2.rectangle(img, pt1, pt2, color, thickness)
@@ -42,11 +74,21 @@ cv2.rectangle(img, pt1, pt2, color, thickness)
 # Python Image Library
 draw.rectangle(xy, outline, width)
 ```
-- ![rectangle](https://img-blog.csdnimg.cn/c9e5333918814205a7cff8d65648784d.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBA5Y2X6aOO5LiN56ueOg==,size_1,color_FFFFFF,t_70,g_se,x_15)
-## `cv2.circle(img, center, radius, color, [thickness], [lineType], [shift])`
-## `cv2.getTextSize(text, fontFace, fontScale, thickness)`
+## Draw Circle
 ```python
-(text_width, text_height), baseline = cv2.getTextSize(text=label, fontFace=cv2.FONT_HERSHEY_COMPLEX_SMALL, fontScale=font_scale, thickness=bbox_thick)
+cv2.circle(img, center, radius, color, [thickness], [lineType], [shift])
+```
+## Draw Polygon
+```python
+# OpenCV
+# Example
+cv2.polylines(
+    img=img,
+    pts=[np.array(row[: 8]).reshape(-1, 2)],
+    isClosed=True,
+    color=(255, 0, 0),
+    thickness=1
+)
 ```
 ## Put Text
 ```python
@@ -68,7 +110,13 @@ draw.text(
     font=ImageFont.truetype("Chalkduster.ttf", size=32)
 )
 ```
-## Threshold Image
+
+# `cv2.getTextSize(text, fontFace, fontScale, thickness)`
+```python
+(text_width, text_height), baseline = cv2.getTextSize(text=label, fontFace=cv2.FONT_HERSHEY_COMPLEX_SMALL, fontScale=font_scale, thickness=bbox_thick)
+```
+
+# Threshold Image
 ```python
 # `maxval`: `thresh`를 넘었을 때 적용할 value.
 # `type`:
@@ -76,7 +124,8 @@ draw.text(
 # Returns the threshold that was used and the thresholded image.
 _, img = cv.threshold(src, thresh, maxval, type)
 ```
-## Connect?
+
+# Connect?
 - Reference: https://pyimagesearch.com/2021/02/22/opencv-connected-component-labeling-and-analysis/
 ```python
 # `image`: Binary image.
@@ -89,7 +138,8 @@ _, img = cv.threshold(src, thresh, maxval, type)
     # Shape: (`n_label, 2)
 n_label, labels, stats, centroids = cv2.connectedComponentsWithStats(image, connectivity)
 ```
-## Morphology
+
+# Morphology
 ```python
 # `ksize`: kernel의 크기
 cv2.getStructureingElement(shape, ksize, [anchor])
@@ -102,12 +152,19 @@ cv2.erode(src, kernel)
 # Thickening: 하얀색 영역이 증가합니다.
 cv2.dilate(src, kernel)
 ```
-## Apply Colormap
+
+# Apply Colormap
 ```python
 # (height, width) -> (height, width, 3)
 cv2.applyColorMap(src, colormap)
 ```
-## Minimum Area Rectangle
+
+# Get Bounding Rectangle
+```python
+cv2.boundingRect()
+```
+
+# Get Bounding Minimum Area Rectangle
 - Reference: https://theailearner.com/tag/cv2-minarearect/
 ```python
 # The bounding rectangle is drawn with a minimum area. Roation is considered.
@@ -119,43 +176,7 @@ rectangle = cv2.minAreaRect(np_contours)
 box = cv2.boxPoints(rectangle)
 ```
 
-# Python Imaging Library
-```python
-from PIL import Image, ImageDraw, ImageFont
-```
-## Manipulate Image
-```python
-img.size()
-img.save()
-img.thumbnail()
-img.crop()
-img.resize()
-```
-## Convert
-```python
-# Python Image Library
-# (`"RGB"`, `"RGBA"`, `"CMYK"`, `"L"`, `"1"`)
-    # `"1"`, `"L"`: Binary
-img.convert("L")
-```
-## Paste Image
-```python
-# img2.size와 동일하게 두 번째 parameter 설정.	
-img1.paste(img2, (20,20,220,220))
-```
-## `Image.new()`
-```python
-mask = Image.new("RGB", icon.size, (255, 255, 255))
-```
-## Draw Line
-```python
-draw = ImageDraw.Draw(img)
-...
-draw.line([fill], [width])
-```
-
-# `scipy.ndimage`
-## Zoom Array
+# Zoom Array
 ```python
 # The array is zoomed using spline interpolation of the requested order.
 # `zoom`: The zoom factor along the axes. If a float, `zoom` is the same for each axis. If a sequence, `zoom` should contain one value for each axis.
