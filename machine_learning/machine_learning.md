@@ -18,6 +18,19 @@
    - Video and Sound are multi-modal where we have two modalities or sensory inputs one for video and one for sound. Where we try to predict whether the given video clip corresponds to the audio clip or not.
    - Given a video with audio of a drum, sample the video frame with corresponding audio and call it a positive set. Next, take the audio of a drum and the video frame of a guitar and tag it as a negative set. Now we can train a network to solve this as a binary classification problem.
 
+# Imbalanced data
+- Reference: https://www.youtube.com/watch?v=eql1ZZiRR20
+## Cost-sensitive Learning Methods
+### Weighted Cross Entropy (WCE) Loss
+- Cross entropy loss에 각 Class별로 Inverse frequency weight (= Number of samples의 역수)를 가중치로 추가합니다.
+### Focal Loss
+- 주로 Object detection에서 사용됩니다.
+- 이미지 내에서 Objects에 비해 Background의 비중이 상대적으로 큰 문제를 해결하고자 합니다.
+- 전체 Loss에 대해서, 맞히기 쉬운 Samples의 기여도를 줄이고 반대로 맞히기 어려운 Samples의 기여도는 높이는 방식입니다.
+- Cross entropy loss에 예측 확률이 높을수록 작아지는 가중치를 반영합니다.
+- Reference: https://gaussian37.github.io/dl-concept-focal_loss/
+### Effective Number of Samples
+### Class-Balanced Loss
 
 # Zero-Shot Learning (ZSL)
 - Reference: https://en.wikipedia.org/wiki/Zero-shot_learning
