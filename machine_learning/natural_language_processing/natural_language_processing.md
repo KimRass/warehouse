@@ -460,6 +460,9 @@ def split(string):
 는 큰 한계가 있다.
 - 성능의 평가에는 거의 유일하게 공개된 한국어 의미 중의성 해소 평가 데이터인 SENSEVAL-2 대회에서의 한국어 데이터를 이용하였다.
 - Reference: https://github.com/lih0905/WSD_kor
+## Key Information Extraction (KIE)
+## Semantic Entity Recognition (SER)
+## Relation Extraction (RE)
 
 # Gloss Informed Bi-encoders for WSD
 - Reference: https://github.com/facebookresearch/wsd-biencoders

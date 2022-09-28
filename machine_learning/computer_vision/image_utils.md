@@ -98,6 +98,7 @@ cv2.polylines(
 # `org`: Bottom-left corner of the text string in the image.
 # `fonFace`: (`cv2.FONT_HERSHEY_SIMPLEX`, ...) Font type.
 # `fontScale`: Font scale factor that is multiplied by the font-specific base size.
+# `thickness`: Font의 두께
 cv2.putText(img, text, org, fontFace, fontScale, color, [thickness], [lineType])
 
 # Python Image Library
