@@ -32,6 +32,16 @@
 ### Effective Number of Samples
 ### Class-Balanced Loss
 
+# Domain Adaptation
+- Reference: https://en.wikipedia.org/wiki/Domain_adaptation
+- Domain adaptation is a field associated with machine learning and transfer learning. This scenario arises when we aim at learning from a source data distribution a well performing model on a different (but related) target data distribution. For instance, one of the tasks of the common spam filtering problem consists in adapting a model from one user (the source distribution) to a new user who receives significantly different emails (the target distribution).
+- Domain shift
+  - A domain shift, or distributional shift, is a change in the data distribution between an algorithm's training dataset, and a dataset it encounters when deployed. These domain shifts are common in practical applications of artificial intelligence. Conventional machine-learning algorithms often adapt poorly to domain shifts. The modern machine-learning community has many different strategies to attempt to gain better domain adaptation.
+- Types of domain adaptation
+    - The unsupervised domain adaptation: a set of unlabeled target examples.
+    - The semi-supervised domain adaptation: a "small" set of labeled target examples.
+    - The supervised domain adaptation: all the examples considered are supposed to be labeled.
+
 # Zero-Shot Learning (ZSL)
 - Reference: https://en.wikipedia.org/wiki/Zero-shot_learning
 - Zero-shot learning (ZSL) is a problem setup in machine learning, where at test time, a learner observes samples from classes, which were not observed during training, and needs to predict the class that they belong to. Zero-shot methods generally work by associating observed and non-observed classes through some form of auxiliary information, which encodes observable distinguishing properties of objects. For example, given a set of images of animals to be classified, along with auxiliary textual descriptions of what animals look like, an artificial intelligence model which has been trained to recognize horses, but has never been given a zebra, can still recognize a zebra when it also knows that zebras look like striped horses.
