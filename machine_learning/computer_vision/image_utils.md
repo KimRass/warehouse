@@ -4,7 +4,7 @@ pip uninstall opencv-python
 pip uninstall opencv-contrib-python
 pip uninstall opencv-contrib-python-headless
 
-pip3 install opencv-contrib-python==4.5.5.62
+pip install opencv-contrib-python==4.5.5.62
 ```
 
 # Read Image
@@ -28,6 +28,7 @@ width, height = img.size
 # Show Image
 ```python
 cv2.imshow(winname, mat)
+# `cmap="gary"`
 plt.imshow()
 draw.show()
 ```
@@ -153,6 +154,12 @@ cv2.erode(src, kernel)
 # Thickening: 하얀색 영역이 증가합니다.
 cv2.dilate(src, kernel)
 ```
+- Opening: erosion followed by dilation
+- Closing: Dilation followed by Erosion
+
+# Watershed
+- Reference: https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_watershed.html
+- The watershed is a classical algorithm used for segmentation, that is, for separating different objects in an image. Starting from user-defined markers, the watershed algorithm treats pixels values as a local topography (elevation). The algorithm floods basins from the markers until basins attributed to different markers meet on watershed lines. In many cases, markers are chosen as local minima of the image, from which basins are flooded.
 
 # Apply Colormap
 ```python

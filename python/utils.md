@@ -558,8 +558,9 @@ def get_args():
 		# `action="store_const"': This stores the value specified by the `const` keyword argument. The `store_const` action is most commonly used with optional arguments that specify some sort of flag.
 		# `action="store_true"`: Stores `True`.
 		# `action="store_false"`: Stores `False`.
+		# ₩action=argparse.BooleanOptionalAction`: e.g., `--foo`, `--no-foo` 둘 다 가능합니다. (Python 3.9 이상부터)
 	# `default`: Specifies what value should be used if the command-line argument is not present.
-	# `type`: (`str`, `int`, ..., default `str`) The type to which the command-line argument should be converted.
+	# `type`: (`str`, `int`, `float`, ..., default `str`) The type to which the command-line argument should be converted.
 	# `nargs`
 		# `nargs=N`: `N` arguments from the command line will be gathered together into a List.
 		# 'nargs="*"'. All command-line arguments present are gathered into a List.
