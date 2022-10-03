@@ -42,7 +42,10 @@ fig.savefig()
 
 # Resize Image
 ```python
+# OpenCV
 cv2.resize(src, dsize, interpolation)
+# Python Image Library
+img.resize(size, resample=PIL.Image.Resampling.LANCZOS, reducing_gap=3.0)
 ```
 
 # Convert Color Map

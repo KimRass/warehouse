@@ -190,6 +190,14 @@ torch.permute(input, dims)
 ## `tf.math.square()`
 - Compute square of x element-wise.
 ## `tf.math.sqrt()`
+## Remove Dimensions of Size 1
+```python
+# TensorFlow
+tf.squeeze(input, [axis])
+# PyTorch
+# `dim`: if given, the input will be squeezed only in this dimension.
+torch.squeeze(input, [dim])
+```
 
 ## Arguments of Maxima
 ```python
@@ -633,7 +641,7 @@ model_path = save_dir / "model_name.pth"
 # hist_path = save_dir / "model_name_hist.npy"
 if os.path.exists(model_path):
 	weights = torch.load(model_path)
-    model.load_state_dict(weights)
+    model.load_state_dict(weights, map_location=device)
 else:
 	...
 	# Loads a model’s parameter dictionary using a deserialized `state_dict()`.

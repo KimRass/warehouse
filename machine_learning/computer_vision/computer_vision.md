@@ -1,13 +1,14 @@
 # Tasks
 ## Image Classification (= Object Recognition)
-### The Evolution of Image Classification
-- Source: https://stanford.edu/~shervine/blog/evolution-image-classification-explained
-- LeNet -> AlexNet -> VGGNet -> GoogLeNet -> ResNet -> DenseNet
+- The evolution of image classification
+  - Source: https://stanford.edu/~shervine/blog/evolution-image-classification-explained
+  - LeNet -> AlexNet -> VGGNet -> GoogLeNet -> ResNet -> DenseNet
 ## Object Localization
 - Source: https://www.einfochips.com/blog/understanding-object-localization-with-deep-learning/#:~:text=Image%20localization%20is%20a%20spin,around%20an%20object%20of%20interest.
 - Object localization is a regression problem *where the output is x and y coordinates around the object of interest to draw bounding boxes.*
-### Object Detection
+## Object Detection
 - *Object detection is a complex problem that combines the concepts of image localization and classification. Given an image, an object detection algorithm would return bounding boxes around all objects of interest and assign a class to them.*
+## Image Inpainting
 
 # Feature Map (= Activation Map)
 - Source: https://ujjwalkarn.me/2016/08/11/intuitive-explanation-convnets/
