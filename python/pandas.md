@@ -35,7 +35,7 @@ data.corr().style.background_gradient(cmap="Blues").set_precision(1).set_propert
 # `dtype`: e.g., `dtype={"원문": str, "원문_converted": str, "원문_joined": str}`
 # `header`: Row (0-indexed) to use for the column labels of the parsed DataFrame. If a list of integers is passed those row positions will be combined into a `MultiIndex`. Use `None` if there is no header.
 # Example
-pd.read_excel("/Users/jongbeom.kim/project/corpus_raw/b2b_projects/2022/2022-PB-01/commands.xlsx", dtype={"Index no.": str})
+pd.read_excel("...", dtype={"Index no.": str})
 
 # `names`: List of column names to use.
 # `parse_dates`: (List of column names)
@@ -134,7 +134,12 @@ results["lat"] = pd.Categorical(results["lat"], categories=order)
 # `dummy_na`: Add a column to indicate NaNs, if False NaNs are ignored.
 	# 결측값이 있는 경우 `drop_first`, `dummy_na` 중 하나만 `True`로 설정해야 함
 # Example
-data = pd.get_dummies(data, columns=["heating", "company1", "company2", "elementary", "built_month", "trade_month"], drop_first=False, dummy_na=True)
+data = pd.get_dummies(
+	data,
+	columns=["heating", "company1", "company2", "elementary", "built_month", "trade_month"],
+	drop_first=False,
+	dummy_na=True
+)
 ```
 # Merge DataFrames
 ```python
