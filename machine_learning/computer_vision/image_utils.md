@@ -2,7 +2,7 @@
 ```sh
 pip uninstall opencv-python
 pip uninstall opencv-contrib-python
-pip uninstall opencv-contrib-python-headless
+# pip uninstall opencv-contrib-python-headless
 
 pip install opencv-contrib-python==4.5.5.62
 ```
