@@ -315,6 +315,10 @@ class ClassName2:
 ```
 
 # `hydra`
+- Install
+```sh
+pip intall hydra-core
+```
 - Reference: https://hydra.cc/docs/tutorials/
 ```python
 import hydra

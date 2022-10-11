@@ -568,6 +568,7 @@ def get_args():
 	# `dest`: The name of the attribute to be added to the object returned by `parse_args()`.
 		# The value of `dest` is normally inferred from the option strings. `ArgumentParser` generates the value of `dest` by taking the first long option string and stripping away the initial `"--"` string. If no long option strings were supplied, `dest` will be derived from the first short option string by stripping the initial `"-"` character.
 	# `required`: (bool)
+	# `choices`
 	# Examples
 	parser.add_argument("-o", "--out_path", ..., dest="out_path", action="store")
 	parser.add_argument("--excludes_txt", action="store_true", default=False, required=False)

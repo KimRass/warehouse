@@ -35,6 +35,9 @@ draw.show()
 
 # Save Image
 ```python
+# OpenCV
+# `img`: BGR image
+cv2.imwrite(filename, img)
 # `bbox_inches="tight"`
 plt.savefig()
 fig.savefig()

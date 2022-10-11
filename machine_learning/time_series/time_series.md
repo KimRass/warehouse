@@ -707,6 +707,8 @@ datetime.today()
 day = start + datetime.timedelta(days=1)
 (t2 - t1).days
 (t2 - t1).total_seconds()
+
+time_elapsed = datetime.timedelta(seconds=int(time.time() - time_start))
 ```
 ## `dateutil`
 ```python
