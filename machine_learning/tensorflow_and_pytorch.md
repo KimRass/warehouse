@@ -641,6 +641,7 @@ model_path = save_dir / "model_name.pth"
 # hist_path = save_dir / "model_name_hist.npy"
 if os.path.exists(model_path):
 	weights = torch.load(model_path)
+	# `map_location`: (`"cpu"`, `"cuda"`, `device`)
     model.load_state_dict(weights, map_location=device)
 else:
 	...

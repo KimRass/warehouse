@@ -309,7 +309,7 @@ train_val = data[~data["name"].isin(names_test)]
 ## Drop Column.
 ```python
 # Example
-data = data.drop(data.loc[:, "unknown":"Western"].columns, axis=1)
+data.drop(data.loc[:, "unknown":"Western"].columns, axis=1, inplace=True)
 ```
 ## `<df>.columns.droplevel`
 ```python
