@@ -89,12 +89,24 @@ for epoch in range(1, n_epochs + 1):
 ```
 
 # GPU on PyTorch
+- Install
+  - Reference: https://pytorch.org/get-started/locally/
+  ```sh
+  # Example
+  pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
+  ```
 ```python
 # `torch.cuda.is_available()`: Returns a bool indicating if CUDA is currently available.
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 ...
 
-model = ModelName().to(device)
+model = ModelName()
+# In-place (Tensor에 대해서는 작동하지 않습니다.)
+model = model.to(device)
+# Or
+model = model.to("cuda")
+# Or (Not recommended)
+model = model.cuda()
 ```
 ```python
 # Returns the index of a currently selected device.
@@ -127,26 +139,36 @@ def check_envirionment(use_cuda: bool):
     return device
 ```
 
-# TensorFlow Tensors
+# Tensors
+## TensorFlow
 - References: https://www.tensorflow.org/api_docs/python/tf/Tensor, https://stackoverflow.com/questions/57660214/what-is-the-utility-of-tensor-as-opposed-to-eagertensor-in-tensorflow-2-0, https://www.tensorflow.org/api_docs/python/tf/shape
-## `EagerTensor`
+- `EagerTensor`
+	```python
+	# During eager execution, you may discover your Tensors are actually of type `EagerTensor` (`tensorflow.python.framework.ops.EagerTensor`)
+	tf.Tensor(..., shape=..., dtype=...)
+
+	<EagerTensor>.numpy()
+
+	# `tf.shape()` and `Tensor.shape` should be identical in eager mode.
+	<EagerTensor>.shape
+	```
+- `Tensor`
+	```python
+	# During graph execution
+	# In `tf.function` definitions, the shape may only be partially known. Most operations produce tensors of fully-known shapes if the shapes of their inputs are also fully known, but in some cases it's only possible to find the shape of a tensor at execution time.
+	# `Tensor` (`tensorflow.python.framework.ops.Tensor`) represents a tensor node in a graph that may not yet have been calculated.
+
+	# During graph execution, not all dimensions may be known until execution time. Hence when defining custom layers and models for graph mode, prefer the dynamic `tf.shape(x)` over the static `x.shape`.
+	tf.shape(<Tensor>)
+	```
+## PyTorch
 ```python
-# During eager execution, you may discover your Tensors are actually of type `EagerTensor` (`tensorflow.python.framework.ops.EagerTensor`)
-tf.Tensor(..., shape=..., dtype=...)
-
-<EagerTensor>.numpy()
-
-# `tf.shape()` and `Tensor.shape` should be identical in eager mode.
-<EagerTensor>.shape
-```
-## `Tensor`
-```python
-# During graph execution
-# In `tf.function` definitions, the shape may only be partially known. Most operations produce tensors of fully-known shapes if the shapes of their inputs are also fully known, but in some cases it's only possible to find the shape of a tensor at execution time.
-# `Tensor` (`tensorflow.python.framework.ops.Tensor`) represents a tensor node in a graph that may not yet have been calculated.
-
-# During graph execution, not all dimensions may be known until execution time. Hence when defining custom layers and models for graph mode, prefer the dynamic `tf.shape(x)` over the static `x.shape`.
-tf.shape(<Tensor>)
+# Returns a copy of this object in CPU memory. If this object is already in CPU memory and on the correct device, then no copy is performed and the original object is returned.
+.cpu()
+# Returns self tensor as a NumPy ndarray. This tensor and the returned ndarray share the same underlying storage. Changes to self tensor will be reflected in the ndarray and vice versa.
+# CPU 메모리에 올려져 있는 tensor만 .numpy() method를 사용할 수 있습니다.
+.numpy()
+# Order: `.detach().cpu().numpy()`
 ```
 
 # Operators
@@ -494,29 +516,6 @@ axes[1].legend()
 ```python
 te_loss, te_acc = model.evaluate(X_te, y_te, batch_size)
 ```
-## Inference
-### TensorFlow
-- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/Model?hl=en, https://stackoverflow.com/questions/60837962/confusion-about-keras-model-call-vs-call-vs-predict-methods
-- `model(x)`
-	- Calls the model on new inputs and returns the outputs as `tf.Tensor`s.
-	- ***For small numbers of inputs that fit in one batch, directly use `__call__()` for faster execution, e.g., `model(x)`, or `model(x, training=False)` if you have layers such as `BatchNormalization()` that behave differently during inference. You may pair the individual model call with a `@tf.function()` for additional performance inside your inner loop.***
-	- ***After `model(x)`, you can use `tf.Tensor.numpy()` to get the numpy array value of an eager tensor.***
-	- Also, note the fact that test loss is not affected by regularization layers like noise and dropout.
-- `model.predict()`
-	- ***Computation is done in batches. This method is designed for batch processing of large numbers of inputs. It is not intended for use inside of loops that iterate over your data and process small numbers of inputs at a time.***
-- `model.predict_on_batch()`
-	- Returns predictions for a single batch of samples.
-	- The difference between `model.predict()` and `model.predict_on_batch()` is that the latter runs over a single batch, and the former runs over a dataset that is splitted into batches and the results merged to produce the final `numpy.ndarray` of predictions.
-### PyTorch
-```python
-# Evaluation (Inference) mode로 전환합니다. (`Dropout()`, `BatchNorm()`은 Evaluation mode에서는 작동하지 않습니다.)
-# `model.train()`: Train mode로 전환합니다.
-model.eval()
-
-# Disabling gradient calculation is useful for inference, when you are sure that you will not call `Tensor.backward()`.
-with torch.no_grad():
-	...
-```
 ## Model Methods
 ```python
 # TensorFlow
@@ -545,6 +544,34 @@ layer.get_weights()[1] # Bias
 
 # PyTorch
 layer.size()
+```
+
+# Inference
+## TensorFlow
+- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/Model?hl=en, https://stackoverflow.com/questions/60837962/confusion-about-keras-model-call-vs-call-vs-predict-methods
+- `model(x)`
+	- Calls the model on new inputs and returns the outputs as `tf.Tensor`s.
+	- ***For small numbers of inputs that fit in one batch, directly use `__call__()` for faster execution, e.g., `model(x)`, or `model(x, training=False)` if you have layers such as `BatchNormalization()` that behave differently during inference. You may pair the individual model call with a `@tf.function()` for additional performance inside your inner loop.***
+	- ***After `model(x)`, you can use `tf.Tensor.numpy()` to get the numpy array value of an eager tensor.***
+	- Also, note the fact that test loss is not affected by regularization layers like noise and dropout.
+- `model.predict()`
+	- ***Computation is done in batches. This method is designed for batch processing of large numbers of inputs. It is not intended for use inside of loops that iterate over your data and process small numbers of inputs at a time.***
+- `model.predict_on_batch()`
+	- Returns predictions for a single batch of samples.
+	- The difference between `model.predict()` and `model.predict_on_batch()` is that the latter runs over a single batch, and the former runs over a dataset that is splitted into batches and the results merged to produce the final `numpy.ndarray` of predictions.
+## PyTorch
+```python
+# Evaluation (Inference) mode로 전환합니다.
+# `Dropout()`, `BatchNorm()`은 Training mode에서만 작동하며 Evaluation mode에서는 작동하지 않습니다.
+# 메모리와는 관련이 없습니다.
+# `model.train()`: Train mode로 전환합니다.
+model.eval()
+
+# Disabling gradient calculation is useful for inference, when you are sure that you will not call `Tensor.backward()`.
+# 메모리를 줄여주고 연산 속도를 증가시킵니다.
+# `Dropout()`, `BatchNorm()`을 비활성화시키지는 않습니다.
+with torch.no_grad():
+	...
 ```
 
 # TensorFlow `Dataset`
