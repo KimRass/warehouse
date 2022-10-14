@@ -106,7 +106,10 @@ cv2.polylines(
 # `fonFace`: (`cv2.FONT_HERSHEY_SIMPLEX`, ...) Font type.
 # `fontScale`: Font scale factor that is multiplied by the font-specific base size.
 # `thickness`: Font의 두께
-cv2.putText(img, text, org, fontFace, fontScale, color, [thickness], [lineType])
+# `bottomLeftOrigin`:
+    # `True`: 문자를 위아래로 뒤집습니다.
+    # `False`: (Default)
+cv2.putText(img, text, org, fontFace, fontScale, color, [thickness], [lineType], [bottomLeftOrigin])
 
 # Python Image Library
 draw.text(xy, text, fill, [font])

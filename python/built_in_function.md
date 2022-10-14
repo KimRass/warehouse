@@ -78,7 +78,7 @@ with open(file, mode, [encoding]) as f:
     # Read
     data = f
     # Write
-    f.write(data, f)
+    f.write(data)
     ...
 ```
 ## Read Line by Line
