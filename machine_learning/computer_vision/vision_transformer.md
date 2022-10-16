@@ -12,7 +12,7 @@
     - Inductive bias가 더 낮고 Model의 자유도는 더 높습니다.
 
 # Architecture
-- 'ViT-Base', 'ViT-Large', 'ViT-Huge'가 있으며 이중 ViT-Base에 대한 내용입니다.
+- 'ViT-Base' (768-D), 'ViT-Large' (1024-D), 'ViT-Huge' (1280-D)가 있으며 이중 ViT-Base에 대한 내용입니다.
 - 'ViT-Base/16'에서 '16'의 의미는, Input image를 16x16의 Image patch로 분할한다는 것입니다. 따라서 각 Image patch는 16 x 16 x 3(= 768)차원입니다.
 - Linear projection: 768-D -> 768-D FCL
 - Classification token: 768-D
