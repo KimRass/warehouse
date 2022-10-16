@@ -5,7 +5,7 @@
 - Self Attention: Query, Key, Value의 출처가 서로 동일한 경우를 말합니다.
 - Multi-head Attention: Attention을 Parallel하게 수행한다는 의미입니다.
 ## Dot-Product Attention (= Luong Attention)
-- Implementation
+- TensorFlow implementation
 	```python
 	def dot_product_attention(queries, keys, values, mask=None):
 		attn_scores = tf.matmul(queries, keys, transpose_b=True)
@@ -16,7 +16,7 @@
 		return context_vec, attn_weights
 	```
 ## Scaled Dot-Product Attention (for Transformer)
-- Implementation
+- TensorFlow implementation
 	```python
 	# 패딩 마스킹을 써야하는 경우에는 스케일드 닷 프로덕트 어텐션 함수에 패딩 마스크를 전달하고
 	# 룩-어헤드 마스킹을 써야하는 경우에는 스케일드 닷 프로덕트 어텐션 함수에 룩-어헤드 마스크를 전달합니다.
@@ -29,7 +29,7 @@
 		return context_vec, attn_weights
 	```
 ## Bahdanau Attention (= Concat Attention)
-- Implementation
+- TensorFlow implementation
 	```python
 	class BahdanauAttention(Model):
 		def __init__(self, units):
