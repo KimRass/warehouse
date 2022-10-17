@@ -387,7 +387,7 @@ ws.insert_cols()
 ## Delete
 ```python
 ws.delete_rows()
-ws.delete_cols()
+ws.delete_cols(idx, [amount=1])
 ```
 ## Append
 ```python
@@ -522,13 +522,13 @@ class Logger():
 		stream_handler = logging.StreamHandler()
 		stream_handler.setFormatter(formatter)
 		logger.addHandler(stream_handler)
-		
+
 		# (`logging.DEBUG`, `logging.INFO`, `logging.WARNING`, `logging.ERROR`, `logging.CRITICAL`)
 		logger.setLevel(logging.DEBUG)
 
 		if self.save_each:
 			file_handler = logging.FileHandler(
-				self.out_dir / f"errors_{datetime.now().strftime('%Y-%m-%d% %H:%M:%S')}.log"
+				self.out_dir / f"logs_{datetime.now().strftime('%Y-%m-%d% %H:%M:%S')}.txt"
 			)
 		else:
 			file_handler = logging.FileHandler(
