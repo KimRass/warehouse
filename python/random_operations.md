@@ -1,10 +1,9 @@
 # Seed
 ```python
 random.seed()
-
 np.random.seed()
-
 tf.random.set_seed()
+torch.manual_seed(123)
 ```
 
 # Sample
