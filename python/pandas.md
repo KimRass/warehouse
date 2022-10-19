@@ -193,6 +193,8 @@ top90per = plays_df[plays_df["plays"]>plays_df["plays"].quantile(0.1)]
 # `dropna`: (Bool, default True)
 gby = <df>.groupby([as_index])
 
+for name, df_grouped in gby:
+	...
 gby.groups
 gby.get_group()
 gby.mean() # DataFrame
