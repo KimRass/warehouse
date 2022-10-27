@@ -83,6 +83,7 @@ draw.rectangle(xy, outline, width)
 ```
 ## Draw Circle
 ```python
+# `thickness=-1`: Fill circle
 cv2.circle(img, center, radius, color, [thickness], [lineType], [shift])
 ```
 ## Draw Polygon
