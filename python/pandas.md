@@ -77,6 +77,14 @@ writer.save()
 <df>.to_pickle(path)
 ```
 
+# Copy DataFrame
+```python
+# Deep copy
+<df>.copy()
+# Shallow copy
+<df>.copy(deep=False)
+```
+
 # Check for Data Type
 ```python
 pd.api.types.is_string_dtype()
