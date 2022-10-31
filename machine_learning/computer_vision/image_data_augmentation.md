@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Mixup
 
 # RandAugment
@@ -88,3 +89,9 @@ gen.apply_transform()
 		# `"input"`
 		# `None`: Returns no label.
 	```
+=======
+# DropBlock
+- Reference: https://hongl.tistory.com/223
+- CNN 에서의 dropout 이 각 픽셀에 대해 독립적으로 수행되어 제거하고자 하는 정보가 이웃점으로부터 전달되는 현상을 방지하고자 Figure 1(c)와 같이 일정 범위를 제거해주는 기법을 말합니다.
+- ![dropblock](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FGcFOX%2Fbtq6UcBBG4n%2FncgMbcC9FKpkP6qRBfUIG0%2Fimg.png)
+>>>>>>> 01a842b (feat: new; cutmix.md)

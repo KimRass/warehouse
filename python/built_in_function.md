@@ -200,7 +200,7 @@ idxs = [idx for idx, num in zip(range(len(nums)), nums) if num!=0]
 - 항목이 객체에 포함되어 있는지(membership)를 확인할 수 있으며,  항목이 몇개인지는 알아낼 수 있습니다.
 - frozenset은 dictionary의 key가 될 수 있지만 set은 될 수 없음.
   
-# `Dictionary`
+# Dictionary
 - Mutable.
 - Unhashable.
 - Subscriptable.
