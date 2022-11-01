@@ -84,6 +84,13 @@ np.linalg.norm(x, axis=1, ord=2)
 ## `np.any()`
 ## `np.all()`
 ## `np.where()`
+```python
+# 첫 번째 인자를 만족하면 두 번째 인자에서 값을 가져오고, 만족하지 못하면 세 번째 인자에서 값을 가져옵니다.
+# Example
+temp1 = np.where(
+    (segmap_char_mask == idx), segmap_mask, 0
+)
+```
 ## `np.logical_and()`, `np.logical_or()`
 ## `np.array_equal()`
 
@@ -112,10 +119,13 @@ bins=range(0, 55000, 5000)
 data["price_range"]=np.digitize(data["money"], bins)
 ```
 # `np.reshape(newshape)`, `Array.reshape(newshape)`
-# `np.unique()`
+
+# Number of Elements
 ```python
+# Example
 items, counts = np.unique(intersected_movie_ids, return_counts=True)
 ```
+
 # `np.fromfile()`
 - `count`: Number of items to read. `-1` means all items (i.e., the complete file).
 
