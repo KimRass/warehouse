@@ -63,6 +63,18 @@ cv2.cvtColor(image, code)
 img.convert("L")
 ```
 
+# Sharpen Image
+```python
+kernel = np.array(
+    [
+        [0, -1, 0],
+        [-1, 5,-1],
+        [0, -1, 0]
+    ]
+)
+img_sharpened = cv2.filter2D(src=img, ddepth=-1, kernel=kernel)
+```
+
 # Draw
 ```python
 draw = ImageDraw.Draw(img)
@@ -166,10 +178,6 @@ cv2.dilate(src, kernel)
 ```
 - Opening: erosion followed by dilation
 - Closing: Dilation followed by Erosion
-
-# Watershed
-- Reference: https://scikit-image.org/docs/stable/auto_examples/segmentation/plot_watershed.html
-- The watershed is a classical algorithm used for segmentation, that is, for separating different objects in an image. Starting from user-defined markers, the watershed algorithm treats pixels values as a local topography (elevation). The algorithm floods basins from the markers until basins attributed to different markers meet on watershed lines. In many cases, markers are chosen as local minima of the image, from which basins are flooded.
 
 # Apply Colormap
 ```python
