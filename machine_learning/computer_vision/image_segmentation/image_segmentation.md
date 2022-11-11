@@ -1,5 +1,6 @@
 # Image Segmentation
 - 각 픽셀마다 Class별 확률 값을 출력합니다. 따라서 Output shape은 `(height, width, n_class)`가 됩니다.
+- ![segmentation_map](https://miro.medium.com/max/4800/1*lZEdphf72ZMwOhsDq-eEfg.png)
 
 # Types of Image Segmentation
 - Reference: https://keymakr.com/blog/instance-vs-semantic-segmentation/#:~:text=In%20other%20words%2C%20semantic%20segmentation,a%20dataset%20for%20instance%20segmentation.

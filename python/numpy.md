@@ -80,6 +80,11 @@ np.linalg.norm(x, axis=1, ord=2)
 ## `np.inf`
 
 # Logical Operators
+## True If Two Arrays Have The Same Shape and Elements
+```python
+# Example
+np.array_equal(temp, local_max)
+```
 ## `np.isnan()`
 ## `np.any()`
 ## `np.all()`

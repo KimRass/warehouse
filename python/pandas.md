@@ -96,6 +96,11 @@ pd.api.types.is_numeric_dtype()
 # `data`: (Array, List, List of Tuples, Dictionary of List, List of Dictionary)
 pd.DataFrame(data, index, columns)
 ```
+## From Dictionary
+```python
+# Example
+pd.DataFrame.from_dict(cnts_img, orient="index", columns=["cnt_total"])
+```
 
 # Crosstab
 ```python
