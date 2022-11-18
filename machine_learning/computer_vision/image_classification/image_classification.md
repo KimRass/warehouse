@@ -1,6 +1,33 @@
 # Models
 ## AlexNet
 ## VGGNet (VGG16)
+```python
+inputs = Input()
+
+z = Conv2D(input_shape=(224, 224, 3), filters=64, kernel_size=(3, 3), padding="same", activation="relu")(inputs)
+z = Conv2D(filters=64, kernel_size=(3, 3), padding="same", activation="relu")(z)
+z = MaxPool2D(pool_size=(2, 2), strides=(2, 2)(z))
+z = Conv2D(filters=128, kernel_size=(3, 3), padding="same", activation="relu")(z)
+z = Conv2D(filters=128, kernel_size=(3, 3), padding="same", activation="relu")(z)
+z = MaxPool2D(pool_size=(2, 2), strides=(2, 2)(z))
+z = Conv2D(filters=256, kernel_size=(3, 3), padding="same", activation="relu")(z)
+z = Conv2D(filters=256, kernel_size=(3, 3), padding="same", activation="relu")(z)
+z = Conv2D(filters=256, kernel_size=(3, 3), padding="same", activation="relu")(z)
+z = MaxPool2D(pool_size=(2, 2),strides=(2, 2)(z))
+z = Conv2D(filters=512, kernel_size=(3, 3), padding="same", activation="relu")(z)
+z = Conv2D(filters=512, kernel_size=(3, 3), padding="same", activation="relu")(z)
+z = Conv2D(filters=512, kernel_size=(3, 3), padding="same", activation="relu")(z)
+z = MaxPool2D(pool_size=(2, 2),strides=(2, 2)(z))
+z = Conv2D(filters=512, kernel_size=(3, 3), padding="same", activation="relu")(z)
+z = Conv2D(filters=512, kernel_size=(3, 3), padding="same", activation="relu")(z)
+z = Conv2D(filters=512, kernel_size=(3, 3), padding="same", activation="relu")(z)
+z = MaxPool2D(pool_size=(2, 2),strides=(2, 2)(z))
+z = Flatten()(z)
+z = Dense(units=4096, activation="relu")(z)
+z = Dense(units=4096, activation="relu")(z)
+
+outputs = Dense(units=2, activation="softmax")(z)
+```
 ## GoogLeNet
 - Paper: https://www.cs.unc.edu/~wliu/papers/GoogLeNet.pdf
 - Source: https://www.geeksforgeeks.org/understanding-googlenet-model-cnn-architecture/
