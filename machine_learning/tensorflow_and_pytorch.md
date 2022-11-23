@@ -381,7 +381,7 @@ Embedding(num_embeddings, embedding_dim, padding_idx)
 Dense(units, [activation])
 
 # PyTorch
-Linear(in_features, out_features)
+nn.Linear(in_features, out_features)
 ```
 ## Convolution Layer
 ```python
@@ -400,10 +400,12 @@ Conv1DTranspose()
 Conv2DTranspose()
 
 # PyTorch
-Conv1d()
-Conv2d()
-ConvTranspose1d()
-ConvTranspose2d()
+nn.Conv1d()
+# `padding="valid"` is the same as no padding. `padding="same"` pads the input so the output has the shape as the input. However, this mode doesn’t support any `stride` values other than 1.
+# `dilation`: Spacing between kernel elements.
+nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1)
+nn.ConvTranspose1d()
+nn.ConvTranspose2d()
 ```
 ## LSTM
 ```python
