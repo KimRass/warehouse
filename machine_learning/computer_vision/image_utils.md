@@ -27,10 +27,13 @@ width, height = img.size
 
 # Show Image
 ```python
+# OpenCV
 cv2.imshow(winname, mat)
 # `cmap="gary"`
 plt.imshow()
 draw.show()
+# Python Image Library
+Image.show()
 ```
 
 # Save Image
@@ -41,6 +44,8 @@ cv2.imwrite(filename, img)
 # `bbox_inches="tight"`
 plt.savefig()
 fig.savefig()
+# Python Image Library
+Image.save()
 ```
 
 # Resize Image
@@ -210,6 +215,12 @@ box = cv2.boxPoints(rectangle)
 # `zoom`: The zoom factor along the axes. If a float, `zoom` is the same for each axis. If a sequence, `zoom` should contain one value for each axis.
 # `order`: The order of the spline interpolation, default is `3`. The order has to be in the range 0-5.
 scipy.ndimage.zoom(input, zoom, [order=3])
+```
+
+# Blend Two Images
+```python
+# Example
+img_blended = Image.blend(im1=img_pil, im2=red_pil, alpha=0.5)
 ```
 
 # Work with "HEIF" File
