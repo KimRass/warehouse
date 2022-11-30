@@ -247,7 +247,14 @@ df = df.append(
 hr["코스트센터 분류"] = hr.apply(
 	lambda x: "지사" if ("사업소" in x["조직명"]) or ("베트남지사" in x["조직명"]) else ("본사" if re.search("^\d", x["코스트센터"]) else "현장"), axis=1
 )
-df[["source_language", "destination_language"]] = df["filename"].apply(get_languages)
+```
+```python
+# Example
+def func(text):
+	return pd.Series([..., ..., ...])
+
+
+df[["...", "...", "..."]] = df["..."].apply(func)
 ```
 
 # Progress Bar
