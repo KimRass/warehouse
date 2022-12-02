@@ -115,6 +115,16 @@ cv2.polylines(
     thickness=1
 )
 ```
+```python
+# Example
+canvas = get_canvas(img[..., 0], black=True)
+for idx, row in enumerate(df_polys.values, start=1):
+    cv2.fillPoly(
+        img=canvas,
+        pts=[row.reshape(-1, 2)],
+        color=idx,
+    )
+```
 ## Put Text
 ```python
 # cv2
