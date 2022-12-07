@@ -232,6 +232,7 @@ scipy.ndimage.zoom(input, zoom, [order=3])
 # Example
 img_blended = Image.blend(im1=img_pil, im2=red_pil, alpha=0.5)
 ```
+- Modes: https://pillow.readthedocs.io/en/stable/handbook/concepts.html#concept-modes
 
 # Work with "HEIF" File
 ```sh

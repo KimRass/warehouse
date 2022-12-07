@@ -106,7 +106,7 @@ ax.axvline()
 ```python
 # `va`
 # `ha`: (`"left"`, `"center"`, `"right"`)
-ax.text(x, y, s, va, ha, fontsize, [color])
+ax.text(x, y, s, va, ha, fontsize, [color], [stretch])
 ```
 ## Span
 ```python
