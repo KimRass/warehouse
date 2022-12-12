@@ -206,6 +206,18 @@ cv2.applyColorMap(src, colormap)
 ```python
 cv2.boundingRect()
 ```
+```python
+def get_minimum_area_rectangle_from_mask(mask):
+    nonzero_row, nonzero_col = np.nonzero(mask)
+    nonzero_row = np.sort(nonzero_row)
+    nonzero_col = np.sort(nonzero_col)
+    
+    ymin = nonzero_row[0]
+    ymax = nonzero_row[-1]
+    xmin = nonzero_col[0]
+    xmax = nonzero_col[-1]
+    return xmin, ymin, xmax, ymax
+```
 
 # Get Bounding Minimum Area Rectangle
 - Reference: https://theailearner.com/tag/cv2-minarearect/
