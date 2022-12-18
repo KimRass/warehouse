@@ -1,3 +1,8 @@
+# Set Seed
+```python
+torch.manual_seed(3)
+```
+
 # Training
 - Reference: https://discuss.pytorch.org/t/how-are-optimizer-step-and-loss-backward-related/7350
 ```python
@@ -375,8 +380,20 @@ else:
 	weights = model.state_dict()
 	torch.save(weights, model_path)
 ```
+```python
+torch.save(
+	{
+		'epoch': epoch,
+		'model_state_dict': model.state_dict(),
+		'optimizer_state_dict': optimizer.state_dict(),
+		'loss': loss,
+		...
+	},
+	model_path
+)
+```
 
-# Save or Load Weights
+# Save or Load Parameters
 ```python
 torch.load(model_path)
 ```
@@ -402,14 +419,44 @@ model = ModelName()
 # Import
 ```python
 import torch
-from torch.nn import Module, Linear, Dropout, Conv1d, Conv2d, ConvTranspose1d, ConvTranspose2d, MaxPool1d, MaxPool2d, AvgPool1d, AvgPool2d, CrossEntropyLoss()
+import torch.nn as nn 
 import torch.nn.functional as F
 from torch.optim import Adam
 from torch.utils.data import Dataset, DataLoader
 
 import torchvision
-import torchvision.dataset as D
+import torchvision.datasets as D
+from torchvision.datasets import ImageFolder
 import torchvision.transforms as T
+```
+
+# transform
+```python
+transform = T.Compose(
+	[
+		# Reference: https://pytorch.org/vision/main/generated/torchvision.transforms.Resize.html
+		# If size is a sequence like `(h, w)`, output size will be matched to this.
+		# If size is an int, smaller edge of the image will be matched to this number.
+		T.Resize(256),
+		T.CenterCrop(224),
+		# T.RandomHorizontalFlip(),
+		T.ToTensor(),
+		T.Normalize(
+			mean=[0.485, 0.456, 0.406],
+			std=[0.229, 0.224, 0.225]
+		)
+	]
+)
+
+# Custom Dataset
+```python
+transform = 
+ds_tr = ImageFolder(root, transform)
+ds_te = ImageFolder(root, transform)
+
+batch_size = 64
+dl_tr = DataLoader(dataset=ds_tr, batch_size=batch_size, shiffle=True, num_workers=4)
+dl_te = DataLoader(dataset=ds_te, batch_size=batch_size, shiffle=False, num_workers=4)
 ```
 
 # Pre-trained Models
