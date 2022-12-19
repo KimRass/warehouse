@@ -447,6 +447,7 @@ transform = T.Compose(
 		)
 	]
 )
+```
 
 # Custom Dataset
 ```python

@@ -29,29 +29,30 @@
 - parametrizes the bounding box x and y coordinates to be offset of a particular grid cell location so they are also bounded between 0 and 1.
 - Implementation
 	```python
-	def giou(bbox1, bbox2):
-		# (x1, y1, x2, y2)
-		bbox1 = np.array(bbox1)
-		bbox2 = np.array(bbox2)
+	def get_iou(bbox1, bbox2):
+		xmin1, ymin1, xmax1, ymax1 = bbox1
+		xmin2, ymin2, xmax2, ymax2 = bbox2
 
-		area_bbox1 = (bbox1[2] - bbox1[0])*(bbox1[3] - bbox1[1])
-		area_bbox2 = (bbox2[2] - bbox2[0])*(bbox2[3] - bbox2[1])
+		area1 = (xmax1 - xmin1) * (ymax1 - ymin1)
+		area2 = (xmax2 - xmin2) * (ymax2 - ymin2)
 
-		pt1_intsec = np.maximum(bbox1[:2], bbox2[:2])
-		pt2_intsec = np.minimum(bbox1[2:], bbox2[2:])
-		w_intsec, h_intsec = np.maximum(pt2_intsec - pt1_intsec, 0)
-		area_intsec = w_intsec*h_intsec
-
-		area_union = area_bbox1 + area_bbox2 - area_intsec
-
-		iou = np.maximum(area_intsec/area_union, np.finfo(np.float32).eps)
-
-		pt1_enclosed = np.minimum(bbox1[:2], bbox2[:2])
-		pt2_enclosed = np.maximum(bbox1[2:], bbox2[2:])
-		w_enclosed, h_enclosed = np.maximum(pt2_enclosed - pt1_enclosed, 0)
-		area_enclosed = w_enclosed*h_enclosed
-
-		return iou - (area_enclosed - area_union)/area_enclosed
+		xmin_inter = max(xmin1, xmin2)
+		xmax_inter = min(xmax1, xmax2)
+		ymin_inter = max(ymin1, ymin2)
+		ymax_inter = min(ymax1, ymax2)
+		
+		area_inter = max(0, (xmax_inter - xmin_inter) * (ymax_inter - ymin_inter))
+		area_union = area1 + area2 - area_inter
+		
+		iou = max(area_inter / area_union, np.finfo(np.float32).eps)
+		
+		xmin_enclose = min(xmin1, xmin2)
+		xmax_enclose = max(xmax1, xmax2)
+		ymin_enclose = min(ymin1, ymin2)
+		ymax_enclose = max(ymax1, ymax2)
+		
+		area_enclose = max(0, (xmax_enclose - xmin_enclose) * (ymax_enclose - ymin_enclose))
+		return iou - (area_enclose - area_union) / area_enclose
 	```
 
 # Anchor Box
@@ -217,3 +218,15 @@ detection is done by applying 1 x 1 detection kernels on feature maps of three d
 -  Each box also has a confidence score that says how likely the model thinks this box really contains an object.
 - Confidence score: Bounding box 안에 object 가 있을 확률이 얼마나 되는지, 그리고 object 가 class 를 정확하게 예측했는지 나타내는 지표
 - Confidence Score가 낮을수록 Bounding Box를 많이 만듦. Precision 감소, Recall 증가.
+
+# Metric
+- Reference: https://github.com/rafaelpadilla/Object-Detection-Metrics#precision-x-recall-curve
+- Reference: https://towardsdatascience.com/what-is-average-precision-in-object-detection-localization-algorithms-and-how-to-calculate-it-3f330efe697b
+## True Positive, False Positive, False Negative
+- **A prediction is said to be correct if the class label of the predicted bounding box and the ground truth bounding box is the same and the IoU between them is greater than a threshold value.**
+  - *True Positive: The model predicted that a bounding box exists at a certain position (positive) and it was correct (true)*
+  - *False Positive: The model predicted that a bounding box exists at a particular position (positive) but it was wrong (false)*
+  - *False Negative: The model did not predict a bounding box at a certain position (negative) and it was wrong (false) i.e. a ground truth bounding box existed at that position.*
+  - True Negative: The model did not predict a bounding box (negative) and it was correct (true). This corresponds to the background, the area without bounding boxes, and is not used to calculate the final metrics.
+- ![object_detection](https://miro.medium.com/max/1400/1*mdqpx5V7TYhXRz046tm6zQ.webp)
+  - Blue boxes: Predicted bounding boxes이므로 Positive이고, True Positive인 경우 그에 대응하는 Ground truth bounding box와 짝을 이룹니다. 이 경우 Bunding boxes는 2개지만 True Positive는 1개입니다.
