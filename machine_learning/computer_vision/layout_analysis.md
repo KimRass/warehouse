@@ -1,0 +1,3 @@
+- Reference: https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/layout/README.md
+- Layout analysis refers to the regional division of documents in the form of pictures and the positioning of key areas, such as text, title, table, picture, etc.
+- text, figure, figure caption, table, table caption, header, footer, reference, and equation

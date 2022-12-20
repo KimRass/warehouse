@@ -146,7 +146,7 @@ draw.text(
     xy=(bbox[0], bbox[1]),
     text=text_direction,
     fill=(100, 100, 100),
-    font=ImageFont.truetype("Chalkduster.ttf", size=32)
+    font=ImageFont.truetype(font="Chalkduster.ttf", size=32)
 )
 ```
 
