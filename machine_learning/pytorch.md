@@ -355,14 +355,6 @@ with torch.no_grad():
 	...
 ```
 
-# PyTorch `DataLoader`
-```python
-dl_tr = DataLoader(dataset, batch_size, [shuffle=False], [num_workers=0], [prefetch_factor=2])
-...
-
-next(iter(dl_tr))
-```
-
 # Save or Load Model
 - Reference: https://pytorch.org/tutorials/beginner/saving_loading_models.html
 ```python
@@ -437,13 +429,16 @@ transform = T.Compose(
 		# Reference: https://pytorch.org/vision/main/generated/torchvision.transforms.Resize.html
 		# If size is a sequence like `(h, w)`, output size will be matched to this.
 		# If size is an int, smaller edge of the image will be matched to this number.
+		# i.e, if height > width, then image will be rescaled to (size * height / width, size).
 		T.Resize(256),
+		T.Pad(padding=(..., ...)),
+		# If size is an int instead of sequence like (h, w), a square crop (size, size) is made.
 		T.CenterCrop(224),
 		# T.RandomHorizontalFlip(),
 		T.ToTensor(),
 		T.Normalize(
-			mean=[0.485, 0.456, 0.406],
-			std=[0.229, 0.224, 0.225]
+			mean=(0.485, 0.456, 0.406),
+			std=(0.229, 0.224, 0.225)
 		)
 	]
 )
@@ -456,8 +451,8 @@ ds_tr = ImageFolder(root, transform)
 ds_te = ImageFolder(root, transform)
 
 batch_size = 64
-dl_tr = DataLoader(dataset=ds_tr, batch_size=batch_size, shiffle=True, num_workers=4)
-dl_te = DataLoader(dataset=ds_te, batch_size=batch_size, shiffle=False, num_workers=4)
+dl_tr = DataLoader(dataset=ds_tr, batch_size=batch_size, shuffle=True, num_workers=4)
+dl_te = DataLoader(dataset=ds_te, batch_size=batch_size, shuffle=False, num_workers=4)
 ```
 
 # Pre-trained Models
