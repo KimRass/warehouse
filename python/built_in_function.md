@@ -42,10 +42,6 @@ isinstance(movie, frozenset)
 ```python
 type(test_X[0][0])
 ```
-# Open Text File
-```python
-[line.rstrip() for line in open("....txt", mode="r").readlines()]
-```
 # `sum()`
 ```python
 # 두번째 층의 대괄호 제거
@@ -89,6 +85,11 @@ with open(file, mode, [encoding]) as f:
 # `input()`
 ```python
 A = list(map(int, input("Message").split()))
+```
+## Write List
+```python
+with open("...", mode="w") as f:
+    f.writelines(list)
 ```
 
 # Unicode

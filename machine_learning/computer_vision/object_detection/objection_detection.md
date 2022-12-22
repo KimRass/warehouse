@@ -23,37 +23,11 @@
 	```
 
 # IoU (Intersection over Union)
+- Reference: https://gaussian37.github.io/vision-detection-giou/
 - To score how well the predicted box matches the ground-truth we can compute the IOU (or intersection-over-union, also known as the Jaccard index) between the two bounding boxes.
 - Ideally, the predicted box and the ground-truth have an IOU of 100% but in practice anything over 50% is usually considered to be a correct prediction
 - Normalizes the bounding box width and height by the image width and height so that they fall between 0 and 1.
 - parametrizes the bounding box x and y coordinates to be offset of a particular grid cell location so they are also bounded between 0 and 1.
-- Implementation
-	```python
-	def get_iou(bbox1, bbox2):
-		xmin1, ymin1, xmax1, ymax1 = bbox1
-		xmin2, ymin2, xmax2, ymax2 = bbox2
-
-		area1 = (xmax1 - xmin1) * (ymax1 - ymin1)
-		area2 = (xmax2 - xmin2) * (ymax2 - ymin2)
-
-		xmin_inter = max(xmin1, xmin2)
-		xmax_inter = min(xmax1, xmax2)
-		ymin_inter = max(ymin1, ymin2)
-		ymax_inter = min(ymax1, ymax2)
-		
-		area_inter = max(0, (xmax_inter - xmin_inter) * (ymax_inter - ymin_inter))
-		area_union = area1 + area2 - area_inter
-		
-		iou = max(area_inter / area_union, np.finfo(np.float32).eps)
-		
-		xmin_enclose = min(xmin1, xmin2)
-		xmax_enclose = max(xmax1, xmax2)
-		ymin_enclose = min(ymin1, ymin2)
-		ymax_enclose = max(ymax1, ymax2)
-		
-		area_enclose = max(0, (xmax_enclose - xmin_enclose) * (ymax_enclose - ymin_enclose))
-		return iou - (area_enclose - area_union) / area_enclose
-	```
 
 # Anchor Box
 - 핵심은 사전에 크기와 비율이 모두 결정되어 있는 박스를 전제하고, 학습을 통해서 이 박스의 위치나 크기를 세부 조정하는 것을 말합니다.

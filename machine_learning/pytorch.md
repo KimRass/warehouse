@@ -431,6 +431,9 @@ transform = T.Compose(
 		# If size is an int, smaller edge of the image will be matched to this number.
 		# i.e, if height > width, then image will be rescaled to (size * height / width, size).
 		T.Resize(256),
+		# If a single int is provided this is used to pad all borders.
+		# If sequence of length 2 is provided this is the padding on left/right and top/bottom respectively.
+		# If a sequence of length 4 is provided this is the padding for the left, top, right and bottom borders respectively.
 		T.Pad(padding=(..., ...)),
 		# If size is an int instead of sequence like (h, w), a square crop (size, size) is made.
 		T.CenterCrop(224),
