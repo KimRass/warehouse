@@ -114,33 +114,13 @@ Tensor.argmax(dim)
 ```
 
 # Layers without Weights
-## `tf.stack(values, axis, [name])`
-- Reference: https://www.tensorflow.org/api_docs/python/tf/stack
-- Stacks a list of tensors of rank R into one tensor of rank (R + 1).
-- `axis`: The axis to stack along.
-- Same syntax as `np.stack()`
-## Add Layers
-```python
-# TensorFlow
-# It takes as input a list of tensors, all of the same shape, and returns a single tensor (also of the same shape).
-# 마지막 Deminsion만 동일하면 Input으로 주어진 Tensors 중 하나를 옆으로 늘려서 덧셈을 수행합니다.
-Add()()
-```
-## Multiply Layers
-```python
-# TensorFlow
-Multiply()()
-```
+## Add
+## Multiply
 ## `Dot(axes)`
 - `axes` : (integer, tuple of integers) Axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
-## Concatenate Layers
+## Concatenate
 ```python
-# PyTorch
 torch.concat([dim])
-
-# TensorFlow
-# Same as `tf.concat(values, [axis], [name])`
-Concatenate([axis])()
 ```
 ## `Flatten([input_shape])`
 ## `Input(shape, [name], [dtype], ...)`
@@ -148,43 +128,17 @@ Concatenate([axis])()
 	- ***A shape tuple (integers), not including the batch size***. For instance, shape=(32,) indicates that the expected input will be batches of 32-dimensional vectors.
 	- ***Elements of this tuple can be None; "None" elements represent dimensions where the shape is not known.***
 	- Note that `shape` does not include the batch dimension.
-## Dropout Layer
+## Dropout
 ```python
-# TensorFlow
-# `rate`
-	# The Dropout layer randomly sets input units to 0 with a frequency of `rate` at each step during training time, which helps prevent overfitting. Inputs not set to 0 are scaled up by 1/(1 - `rate`) such that the sum over all inputs is unchanged.
-	# Note that the `Dropout` layer only applies when `training` is set to `True` such that no values are dropped during inference. When using `model.fit`, `training` will be appropriately set to `True` automatically, and in other contexts, you can set the kwarg explicitly to `True` when calling the layer.
-Dropout(rate)
-
-# PyTorch
 Dropout(p, [inplace=False])
 ```
-## Pooling Layer
+## Pooling
 ```python
-# Tensorflow
-# Output Dimension
-	# When `padding="valid"`: `(input_dim - pool_size)//strides + 1`
-	# When `padding="same"`: `input_dim//strides + 1`
-MaxPool1D(pool_size, strides, padding, [data_format]) # Same as `MaxPooling1D()`
-MaxPool2D() # Same as `MaxPooling2D()`
-
 # PyTorch
 MaxPool1d()
 MaxPool2d()
 ```
 ```python
-# TensorFlow
-# Shape: `(a, b, c, d)` -> `(a, d)`.
-GlobalMaxPool1D() # Same as `GlobalMaxPooling1D()`
-# Downsamples the input representation by taking the maximum value over the time dimension.
-# Shape: `(a, b, c)` -> `(b, c)`.
-GlobalMaxPool2D() # Same as  `GlobalMaxPooling2D()`
-```
-```python
-# TensorFlow
-AveragePooling1D([pool_size], [strides], [padding])
-AveragePooling2D()
-
 # PyTorch
 AvgPool1d()
 AvgPool2d()
@@ -195,13 +149,12 @@ AvgPool2d()
 	- Int: the same symmetric padding is applied to height and width.
 	- Tuple of 2 ints: interpreted as two different symmetric padding values for height and width: `(symmetric_height_pad, symmetric_width_pad)`.
 	- Tuple of 2 tuples of 2 ints: interpreted as `((top_pad, bottom_pad), (left_pad, right_pad))`.
-## `BatchNormalization()`
-- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/BatchNormalization
-- Usually used before activation function layers.
-## `LayerNormalization([epsilon], axis)`
-- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/LayerNormalization
-- ***Normalize the activations of the previous layer for each given example in a batch independently, rather than across a batch like Batch Normalization. i.e. applies a transformation that maintains the mean activation within each example close to 0 and the activation standard deviation close to 1.***
-- `epsilon`: Small float added to variance to avoid dividing by zero. Defaults to `1e-3`.
+## Batch Normalization
+```python
+nn.BatchNorm()
+```
+- If a `nn.Conv2d` layer is directly followed by a `nn.BatchNorm2d` layer, then the bias in the convolution is not needed, instead use `nn.Conv2d(..., bias=False, ....)`. Bias is not needed because in the first step `nn.BatchNorm` subtracts the mean, which effectively cancels out the effect of bias.
+## Layer Normalization
 ## `Reshape()`
 ## `Activation(activation)`
 - `activation`: (`"relu"`)
@@ -211,50 +164,16 @@ AvgPool2d()
 # Layers with Weights
 ## Embedding Layer
 ```python
-# TensorFlow
-# Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Embedding
-# `input_dim`: Size of the vocabulary.
-# `output_dim`: Dimension of the dense embedding.
-# `input_length`: Length of input sequences, when it is constant. This argument is required if you are going to connect `Flatten()` then `Dense ()` layers upstream.
-# `mask_zero=True`: Whether or not the input value 0 is a special "padding" value that should be masked out. This is useful when using recurrent layers which may take variable length input. If `mask_zero` is set to `True`, as a consequence, index 0 cannot be used in the vocabulary (`input_dim` should equal to `vocab_size + 1`)).
-# Shape: `(batch_size, input_length)` -> `(batch_size, input_length, output_dim)`
-Embedding(input_dim, output_dim, [input_length], [mask_zero], [name], [weights], [trainable], ...)
-
-# PyTorch
 # Reference: https://pytorch.org/docs/stable/generated/torch.nn.Embedding.html#torch.nn.Embedding
 # `padding_idx`: If specified, the entries at `padding_idx` do not contribute to the gradient; therefore, the embedding vector at `padding_idx` is not updated during training, i.e. it remains as a fixed "pad”. For a newly constructed Embedding, the embedding vector at `padding_idx` will default to all zeros, but can be updated to another value to be used as the padding vector.
 Embedding(num_embeddings, embedding_dim, padding_idx)
 ```
 ## Fully Connected Layer
 ```python
-# Tensorflow
-# Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/Dense
-# `units`: Dimensionality of the output space.
-# `activation`: Activation function to use. If you don't specify anything, no activation is applied (ie. "linear" activation)
-# Shape: `(batch_size, ..., input_dim)` -> `(batch_size, ..., units)`
-# Note that after the first layer, you don't need to specify the size of the input anymore.
-Dense(units, [activation])
-
-# PyTorch
 nn.Linear(in_features, out_features)
 ```
 ## Convolution Layer
 ```python
-# TensorFlow
-# `kernal_size`: window_size
-# `padding="valid"`: No padding. 
-# `padding="same"`: Results in padding with zeros evenly to the left/right or up/down of the input such that output has the same height/width dimension as the input.
-# `data_format`: (`"channels_last"`, `"channels_first"`)
-# `activation`: (`"tanh"`)
-# Output Dimension
-	# When `padding="valid"`: `math.ceil(input_dim - kernel_size + 1)/strides`
-	# When `padding="same"`: `math.ceil(input_dim/strides)`
-Conv1D(filters, kernel_size, strides, padding, activation, data_format)
-Conv2D()
-Conv1DTranspose()
-Conv2DTranspose()
-
-# PyTorch
 nn.Conv1d()
 # `padding="valid"` is the same as no padding. `padding="same"` pads the input so the output has the shape as the input. However, this mode doesn’t support any `stride` values other than 1.
 # `dilation`: Spacing between kernel elements.
@@ -264,18 +183,6 @@ nn.ConvTranspose2d()
 ```
 ## LSTM
 ```python
-# TensorFlow
-# Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/LSTM
-# `return_sequences`: Whether to return the last output. in the output sequence, or the full sequence.
-	# `True`: 모든 timestep에서 Output을 출력합니다. (Output shape: `(batch_size, timesteps, h_size)`)
-	# `False` (default): 마지막 timestep에서만 Output을 출력합니다. (Output shape: `(batch_size, h_size)`)
-# `return_state`: Whether to return the last state in addition to the output. (`output, h_state, c_state = LSTM(return_state=True)()`)
-# Call arguments
-	# `mask`
-	# `training`
-	# `initial_state`: List of initial state tensors to be passed to the first call of the cell (optional, defaults to `None` which causes creation of zero-filled initial state tensors).
-LSTM(units, return_sequences, return_state, [dropout])([initial_state])
-
 # PyTorch
 LSTM(input_size, hidden_size, num_layers, batch_first, dropout, bidirectional)
 ```
@@ -283,17 +190,10 @@ LSTM(input_size, hidden_size, num_layers, batch_first, dropout, bidirectional)
 ```python
 z, for_h_state, for_c_state, back_h_state, back_c_state = Bidirectional(LSTM(return_state=True))(z)
 ```
-## `TimeDistributed()`
-- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/layers/TimeDistributed
-- This wrapper allows to apply a layer to every temporal slice of an input.
-- For example, consider a batch of 32 video samples, where each sample is a 128x128 RGB image with channels_last data format, across 10 timesteps. The batch input shape is (32, 10, 128, 128, 3). You can then use `TimeDistributed()` to apply the same `Conv2D()` layer to each of the `10` timesteps, independently. Because `TimeDistributed()` applies the same instance of `Conv2D()` to each of the timestamps, the same set of weights are used at each timestamp.
 
 # Optimizers
 ## Adam (ADAptive Moment estimation)
 ```python
-# TensorFlow
-Adam(learning_rate, beta_1, beta_2, epsilon, name)
-
 # PyTorch
 Adam([lr=0.001], [betas=(0.9, 0.999)], [eps=1e-08])
 ```
@@ -328,19 +228,6 @@ layer.size()
 ```
 
 # Inference
-## TensorFlow
-- Reference: https://www.tensorflow.org/api_docs/python/tf/keras/Model?hl=en, https://stackoverflow.com/questions/60837962/confusion-about-keras-model-call-vs-call-vs-predict-methods
-- `model(x)`
-	- Calls the model on new inputs and returns the outputs as `tf.Tensor`s.
-	- ***For small numbers of inputs that fit in one batch, directly use `__call__()` for faster execution, e.g., `model(x)`, or `model(x, training=False)` if you have layers such as `BatchNormalization()` that behave differently during inference. You may pair the individual model call with a `@tf.function()` for additional performance inside your inner loop.***
-	- ***After `model(x)`, you can use `tf.Tensor.numpy()` to get the numpy array value of an eager tensor.***
-	- Also, note the fact that test loss is not affected by regularization layers like noise and dropout.
-- `model.predict()`
-	- ***Computation is done in batches. This method is designed for batch processing of large numbers of inputs. It is not intended for use inside of loops that iterate over your data and process small numbers of inputs at a time.***
-- `model.predict_on_batch()`
-	- Returns predictions for a single batch of samples.
-	- The difference between `model.predict()` and `model.predict_on_batch()` is that the latter runs over a single batch, and the former runs over a dataset that is splitted into batches and the results merged to produce the final `numpy.ndarray` of predictions.
-## PyTorch
 ```python
 # Evaluation (Inference) mode로 전환합니다.
 # `Dropout()`, `BatchNorm()`은 Training mode에서만 작동하며 Evaluation mode에서는 작동하지 않습니다.
@@ -454,6 +341,12 @@ ds_tr = ImageFolder(root, transform)
 ds_te = ImageFolder(root, transform)
 
 batch_size = 64
+# Reference: https://pytorch.org/tutorials/recipes/recipes/tuning_guide.html
+	# `num_workers`:
+		# `DataLoader` supports asynchronous data loading and data augmentation in separate worker subprocesses. The default setting for DataLoader is `num_workers=0`, which means that the data loading is synchronous and done in the main process. As a result the main training process has to wait for the data to be available to continue the execution.
+		# Setting `num_workers` > 0 enables asynchronous data loading and overlap between the training and data loading. num_workers should be tuned depending on the workload, CPU, GPU, and location of training data.
+	# `pin_memory`:
+		# `DataLoader` accepts `pin_memory` argument, which defaults to `False`. When using a GPU it’s better to set `pin_memory=True`, this instructs DataLoader to use pinned memory and enables faster and asynchronous memory copy from the host to the GPU.
 dl_tr = DataLoader(dataset=ds_tr, batch_size=batch_size, shuffle=True, num_workers=4)
 dl_te = DataLoader(dataset=ds_te, batch_size=batch_size, shuffle=False, num_workers=4)
 ```
@@ -485,10 +378,20 @@ if torch.cuda.device_count() > 1:
 	model = nn.DataParallel(model)
 ```
 
-# `import torch.backends.cudnn.benchmark`
-- Reference: https://discuss.pytorch.org/t/what-does-torch-backends-cudnn-benchmark-do/5936/2
-- It enables benchmark mode in cudnn. benchmark mode is good whenever your input sizes for your network do not vary. This way, cudnn will look for the optimal set of algorithms for that particular configuration (which takes some time). This usually leads to faster runtime.
-- But if your input sizes changes at each iteration, then cudnn will benchmark every time a new size appears, possibly leading to worse runtime performances.
+# cuDNN
+```python
+import torch.backends.cudnn as cudnn
+
+# If `True`, causes cuDNN to benchmark multiple convolution algorithms and select the fastest.
+# Reference: https://discuss.pytorch.org/t/what-does-torch-backends-cudnn-benchmark-do/5936/2
+# It enables benchmark mode in cudnn. benchmark mode is good whenever your input sizes for your network do not vary. This way, cudnn will look for the optimal set of algorithms for that particular configuration (which takes some time). This usually leads to faster runtime.
+# But if your input sizes changes at each iteration, then cudnn will benchmark every time a new size appears, possibly leading to worse runtime performances.
+cudnn.benchmark = True
+# If `True`, causes cuDNN to only use deterministic convolution algorithms.
+# Sets whether PyTorch operations must use “deterministic” algorithms. That is, algorithms which, given the same input, and when run on the same software and hardware, always produce the same output.
+# When enabled, operations will use deterministic algorithms when available, and if only nondeterministic algorithms are available they will throw a RuntimeError when called.
+cudnn.deterministic = False
+```
 
 # Model Summary
 ```python

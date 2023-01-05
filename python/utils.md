@@ -146,7 +146,7 @@ from pprint import pprint
 import zipfile
 
 zip = zipfile.ZipFile(file, mode)
-zip.extractall(path)`
+zip.extractall(path)
 zip.close()
 ```
 

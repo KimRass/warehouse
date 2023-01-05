@@ -27,8 +27,10 @@ np.random.randint(low, [high], size)
 ```
 ## Sample from Sequence
 ```python
+# Without replacement
 random.sample(sequence, k)
 
+# With replacement
 random.choices(sequence, k, [weights])
 
 # Generates a random sample from a given 1-D array.

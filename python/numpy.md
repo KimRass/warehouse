@@ -114,7 +114,10 @@ print(f"가장 긴 문장의 길이는 {np.max(lens)}입니다.")
 print(f"길이가 {max_len} 이하인 문장이 전체의 {ratio:.0%}를 차지합니다.")
 ```
 
-# `np.load("file_name.npy")`
+# Load .npy File
+```python
+np.load("....npy")
+```
 
 
 # `np.isin()`

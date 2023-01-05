@@ -22,13 +22,6 @@
 
 	```
 
-# IoU (Intersection over Union)
-- Reference: https://gaussian37.github.io/vision-detection-giou/
-- To score how well the predicted box matches the ground-truth we can compute the IOU (or intersection-over-union, also known as the Jaccard index) between the two bounding boxes.
-- Ideally, the predicted box and the ground-truth have an IOU of 100% but in practice anything over 50% is usually considered to be a correct prediction
-- Normalizes the bounding box width and height by the image width and height so that they fall between 0 and 1.
-- parametrizes the bounding box x and y coordinates to be offset of a particular grid cell location so they are also bounded between 0 and 1.
-
 # Anchor Box
 - 핵심은 사전에 크기와 비율이 모두 결정되어 있는 박스를 전제하고, 학습을 통해서 이 박스의 위치나 크기를 세부 조정하는 것을 말합니다.
 - 아예 처음부터 중심점의 좌표와 너비, 높이를 결정하는 방식보다 훨씬 안정적으로 학습이 가능합니다.
