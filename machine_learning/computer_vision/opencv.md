@@ -34,3 +34,19 @@ cv2.fillPoly(
     # What will happen is that using 4 connected for labelling, you will probably get more objects. It's like an island of pixels. Some 'islands' are connected with others islands by only one pixel, and if this pixel is in diagonal, using 4 connected will label both islands as two separate objects, while 8 connected will assume they are only one object.
 n_label, labels, stats, centroids = cv2.connectedComponentsWithStats(image, connectivity)
 ```
+
+```python
+_, text_mask = cv2.threshold(src=text_score_map, thresh=120, maxval=255, type=cv2.THRESH_BINARY)
+_, text_segmap, stats, _ = cv2.connectedComponentsWithStats(image=text_mask, connectivity=4)
+
+heights = stats[1:, cv2.CC_STAT_HEIGHT]
+
+interval = 4
+for value in range(heights.max() // interval + 1):
+    labels = np.argwhere((heights >= interval * value) & (heights < interval * (value + 1)))
+
+    temp = np.isin(text_segmap, labels.flatten()).astype("uint8") * 255
+    show_image(temp)
+    
+    show_image(temp)
+```
