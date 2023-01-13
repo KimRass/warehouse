@@ -2,7 +2,25 @@
 from PIL import Image, ImageDraw, ImageFont
 ```
 
-# Draw Rectangle
+# Read Image
+```python
+img = Image.open(fp)
+```
+
+# Save Image
+```python
+Image.save()
+```
+
+# Draw
+```python
+draw = ImageDraw.Draw(img)
+```
+## Draw Line
+```python
+draw.line([fill], [width])
+```
+## Draw Rectangle
 ```python
 # `outline`: Color to use for the outline.
 # `fill`: Color to use for the fill.
@@ -10,8 +28,7 @@ from PIL import Image, ImageDraw, ImageFont
 # Example
 draw.rectangle(xy=(xmin, ymin, xmax, ymax), outline="red", width=2)
 ```
-
-# Draw Text
+## Draw Text
 ```python
 # Example
 draw.text(
