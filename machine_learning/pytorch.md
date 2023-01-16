@@ -30,7 +30,7 @@ for epoch in range(1, n_epochs + 1):
 			running_loss = 0
 ```
 
-# GPU on PyTorch
+# GPU
 - Install
   - Reference: https://pytorch.org/get-started/locally/
   ```sh

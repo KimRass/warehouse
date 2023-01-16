@@ -72,12 +72,11 @@ _, img = cv2.threshold(src, thresh, maxval, type)
 
 # Morphology
 ```python
+# `shape`: `cv2.MORPH_ELLIPSE`, `cv2.MORPH_RECT`, ...
 # `ksize`: kernel의 크기
-cv2.getStructureingElement(shape, ksize, [anchor])
-# Example
-kernel = cv2.getStructureingElement(shape=cv2.MORPH_RECT, ksize, [anchor])
-# `src`: Binary image
+cv2.getStructuringElement(shape, ksize, [anchor])
 
+# `src`: Binary image
 # Thinning: 하얀색 영역이 줄어듭니다.
 cv2.erode(src, kernel)
 # Thickening: 하얀색 영역이 증가합니다.
