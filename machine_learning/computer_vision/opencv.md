@@ -182,7 +182,10 @@ for value in range(heights.max() // interval + 1):
 cv2.boundingRect()
 ```
 ```python
-def get_minimum_area_rectangle_from_mask(mask):
+def get_minimum_area_bbox(mask):
+    if mask.ndim == 3:
+        mask = np.sum(mask, axis=2)
+
     nonzero_row, nonzero_col = np.nonzero(mask)
     nonzero_row = np.sort(nonzero_row)
     nonzero_col = np.sort(nonzero_col)

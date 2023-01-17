@@ -271,6 +271,25 @@ torch.save(
 	model_path
 )
 ```
+```python
+from collections import OrderedDict
+
+
+def get_state_dict_from_checkpoint_path(ckpt_path, include="", delete="", cuda=False):
+    ckpt = torch.load(ckpt_path, map_location="cuda" if cuda else "cpu")
+
+    if "state_dict" in ckpt:
+        state_dict = ckpt["state_dict"]
+    else:
+        state_dict = ckpt
+
+    new_state_dict = OrderedDict()
+    for old_key in list(state_dict.keys()):
+        if old_key and old_key.startswith(include):
+            new_key = old_key.split(delete, 1)[1] if delete else old_key
+            new_state_dict[new_key] = state_dict[old_key]
+    return new_state_dict
+```
 
 # Save or Load Parameters
 ```python
@@ -415,4 +434,16 @@ def initialize_weights(modules):
         elif isinstance(m, nn.Linear):
             m.weight.data.normal_(0, 0.01)
             m.bias.data.zero_()
+```
+
+# Move to Device
+```python
+def move_to_device(obj, device):
+    if isinstance(obj, nn.Module) or torch.is_tensor(obj):
+        return obj.to(device)
+    if isinstance(obj, (tuple, list)):
+        return [move_to_device(el, device) for el in obj]
+    if isinstance(obj, dict):
+        return {name: move_to_device(val, device) for name, val in obj.items()}
+    raise ValueError(f"Unexpected type {type(obj)}")
 ```
