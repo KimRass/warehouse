@@ -58,6 +58,7 @@ def save_image(img1, path, img2=None, alpha=0.5) -> None:
 
 # Resize Image
 ```python
+# `dsize`: (width, height)
 cv2.resize(src, dsize, interpolation)
 ```
 
