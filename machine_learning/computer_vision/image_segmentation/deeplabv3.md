@@ -1,4 +1,4 @@
-- Source: https://towardsdatascience.com/review-deeplabv3-atrous-convolution-semantic-segmentation-6d818bfd1d74
+- Reference: https://towardsdatascience.com/review-deeplabv3-atrous-convolution-semantic-segmentation-6d818bfd1d74
 - DeepLabv3 outperforms DeepLabv1 and DeepLabv2, even with the post-processing step Conditional Random Field (CRF) removed, which is originally used in DeepLabv1 and DeepLabv2.
 
 # Dilation (Atrous) Convolution
@@ -7,7 +7,7 @@
 - !["](https://miro.medium.com/max/1400/1*nFJ_GqK1D3zKCRgtnRfrcw.webp)
 
 # Depth-wise Separable Convolution
-- Source: https://medium.com/@zurister/depth-wise-convolution-and-depth-wise-separable-convolution-37346565d4ec
+- Reference: https://medium.com/@zurister/depth-wise-convolution-and-depth-wise-separable-convolution-37346565d4ec
 - Normal convolution layer of a neural network involve (input_channel * kernel_width * kernel_height * output_channel) parameters. Having too much parameters increases the chance of over-fitting.
 ## Normal Convolution
 - In this convolution, we apply a 2-d depth filter at each depth level of input tensor. Lets understand this through an example. Suppose our input tensor is 8x8x3. Filter is 3x3x3. In a standard convolution we would directly convolve in depth dimension as well. You would require three 3-channel filters if you would use normal convolution.
