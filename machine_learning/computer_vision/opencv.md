@@ -209,3 +209,9 @@ rectangle = cv2.minAreaRect(np_contours)
 # Angle of rotation is the angle between line joining the starting and endpoint and the horizontal.
 box = cv2.boxPoints(rectangle)
 ```
+
+# Rotate Image
+```python
+# Example
+patch = cv2.rotate(src=patch, rotateCode=cv2.ROTATE_90_CLOCKWISE)
+```
