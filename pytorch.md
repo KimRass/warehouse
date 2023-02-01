@@ -275,11 +275,13 @@ torch.save(
 from collections import OrderedDict
 
 
-def get_state_dict_from_checkpoint_path(ckpt_path, include="", delete="", cuda=False):
+def _get_state_dict(
+    ckpt_path, key="state_dict", include="", delete="", cuda=False
+):
     ckpt = torch.load(ckpt_path, map_location="cuda" if cuda else "cpu")
 
-    if "state_dict" in ckpt:
-        state_dict = ckpt["state_dict"]
+    if key in ckpt:
+        state_dict = ckpt[key]
     else:
         state_dict = ckpt
 
