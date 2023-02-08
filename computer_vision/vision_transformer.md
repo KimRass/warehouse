@@ -29,7 +29,10 @@ TRANSFORMERS FOR IMAGE RECOGNITION AT SCALE](https://arxiv.org/pdf/2010.11929.pd
 - Most related to ours is the model of Cordonnier et al. (2020), which extracts patches of size 2 × 2 from the input image and applies full self-attention on top. This model is very similar to ViT, but our work goes further to demonstrate that large scale pre-training makes vanilla transformers competitive with (or even better than) state-of-the-art CNNs. Moreover, Cordonnier et al. (2020) use a small patch size of 2 × 2 pixels, which makes the model applicable only to small-resolution images, while we handle medium-resolution images as well.
 ## Methodology
 - The standard Transformer receives as input a 1D sequence of token embeddings. To handle 2D images, we reshape the image $x \in \mathbb{R}^{H \times W \times C}$ into a sequence of flattened 2D patches $x_{p} \in  \mathbb{R}^{N \times (P^{2} \times C)}$ , where $(H, W)$ is the resolution of the original image, $C$ is the number of channels, $(P, P)$ is the resolution of each image patch, and $N = HW/P^{2}$ is the resulting number of patches, which also serves as the effective input sequence length for the Transformer. The Transformer uses constant latent vector size $D$ through all of its layers, so we flatten the patches and map to $D$ dimensions with a trainable linear projection (Eq. 1). We refer to the output of this projection as the patch embeddings.
-    - Eq. 1: $z_{0} = [x_{class}; x^{1}_{p}E; x^{2}_{p}E; \cdots; x^{N}_{p}E] + E_{pos}, E \in \mathbb{R}^{(P^{2} \cdot C) \times D}, E_{pos} \in \mathbb{R}^{(N + 1) \times D}$
+- Eq. 1
+    - $z_{0} = [x_{class}; x^{1}_{p}E; x^{2}_{p}E; \cdots; x^{N}_{p}E] + E_{pos}$
+    - $E \in \mathbb{R}^{(P^{2} \cdot C) \times D}$
+    - $E_{pos} \in \mathbb{R}^{(N + 1) \times D}$
 - We split an image into fixed-size patches, linearly embed each of them, add position embeddings, and feed the resulting sequence of vectors to a standard Transformer encoder. In order to perform classification, we use the standard approach of adding an extra learnable “classification token” to the sequence.
 - Similar to BERT’s [class] token, we prepend a learnable embedding to the sequence of embed-
 ded patches (z
