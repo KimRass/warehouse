@@ -1,8 +1,0 @@
-- Reference: https://arxiv.org/pdf/2006.06244.pdf
-- IoU + CRW
-  - Intersection-over-Union (IoU) IoU metric originally comes from object detection task such as Pascal VOC [6]. IoU accepts detections that match the ground truth (GT) box in an exclusive one-to-one manner only when the overlapping region satisfy the predefined threshold. Although IoU is the most widely used evaluation metric thanks to its simplicity, its behavior is clearly not suitable for evaluating texts as argued by [3, 19]. IoU cannot handle granularity
-  - IoU and CRW The IoU and CRW are strictly a cascaded evaluation metric. The detection stage filters out detection results whose IoU with the corresponding GT is below the threshold. Matches with IoU are judged by the CRW. Both metrics in each of the stages are reported to have hindrances for fine-grained assessment due to the binary chain scoring.
-  - In IoU+CRW, only two bounding boxes are matched through 0.5 IoU threshold, and partially detected texts are discarded in CRW scoring process.
-  - The metric uses a threshold value of 0.5, and thus, the H-mean value under crop ratio 50% gets a value close to 0. This indicates that the binary scoring process does not take into account boxes that do not meet predefined threshold conditions.
-- DetEval
-  - DetEval [22] was designed to solve the granularity issue by allowing multiple relationships of a single bounding box. Their matching processes are conducted by accepting one-to-one, one-to-many, and many-to-one relationships. However, each instance is evaluated based on both area recall and area precision thresholds. Area-based threshold not only causes correctness issues, but also has a limitation when trying to apply end-to-end evaluation.
