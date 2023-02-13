@@ -143,11 +143,16 @@ from pprint import pprint
 
 # `zipfile`
 ```python
-import zipfile
+from zipfile import ZipFile
 
-zip = zipfile.ZipFile(file, mode)
-zip.extractall(path)
-zip.close()
+zip = ZipFile(file)
+# List members
+zip.namelist()
+# Extract one specific file
+# Example
+zip.extract(member="sample_3.txt", path=extract_path)
+# Extract all files
+zip.extractall("...")
 ```
 
 # `tarfile`
@@ -163,7 +168,7 @@ tar.close()
 ```python
 from lxml import etree
 
-with zipfile.ZipFile("ted_en-20160408.zip", "r") as z:
+with ZipFile("ted_en-20160408.zip", "r") as z:
 	target_text = etree.parse(z.open("ted_en-20160408.xml", "r"))
 ```
 
@@ -218,6 +223,12 @@ Path("...").name
 Path("...").stem
 # The file extension of the final component.
 Path("...").suffix
+# Change file extension
+Path("...").with_suffix(".txt")
+```
+## Rename FIle
+```python
+Path("...").rename("...")
 ```
 ## Check If File or Directory
 ```python
@@ -572,6 +583,8 @@ def get_args():
 	# Examples
 	parser.add_argument("-o", "--out_path", ..., dest="out_path", action="store")
 	parser.add_argument("--excludes_txt", action="store_true", default=False, required=False)
+
+	group = ap.add_mutually_exclusive_group(required=True)
 	...
 
 	args = parser.parse_args()
@@ -689,4 +702,24 @@ entry.pack()
 Button(win, text="Okay", width= 20, command=run).pack(pady=20)
 
 win.mainloop()
+```
+
+# `xml`
+```python
+import xml.etree.ElementTree as et
+
+# Example
+xtree = et.parse(xml_path)
+xroot = xtree.getroot()
+rows = [
+	(
+		int(word.attrib["x"]),
+		int(word.attrib["y"]),
+		int(word.attrib["x"]) + int(word.attrib["width"]),
+		int(word.attrib["y"]) + int(word.attrib["height"])
+	)
+	for word
+	in xroot.find("image").find("words")
+]
+bboxes = pd.DataFrame(rows, columns=("xmin", "ymin", "xmax", "ymax"))
 ```

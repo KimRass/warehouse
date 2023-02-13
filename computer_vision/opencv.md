@@ -215,3 +215,9 @@ box = cv2.boxPoints(rectangle)
 # Example
 patch = cv2.rotate(src=patch, rotateCode=cv2.ROTATE_90_CLOCKWISE)
 ```
+
+# Get Mask in Color Boundary
+```python
+# Example
+mask = cv2.inRange(src=mask, lowerb=(255, 100, 100), upperb=(255, 100, 100))
+```
