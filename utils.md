@@ -225,6 +225,8 @@ Path("...").stem
 Path("...").suffix
 # Change file extension
 Path("...").with_suffix(".txt")
+# Absolute path
+Path("...").resolve()
 ```
 ## Rename FIle
 ```python
