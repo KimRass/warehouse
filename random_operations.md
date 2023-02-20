@@ -38,6 +38,7 @@ random.choices(sequence, k, [weights])
 # `p`: The probabilities associated with each entry in a. If not given, the sample assumes a uniform distribution over all entries in a
 np.random.choice(size, [replace], [p])
 ```
+
 # Sample Standard Normal Distribution
 ```python
 np.random.randn(...)
