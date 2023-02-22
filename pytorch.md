@@ -134,12 +134,10 @@ Dropout(p, [inplace=False])
 ```
 ## Pooling
 ```python
-# PyTorch
 MaxPool1d()
 MaxPool2d()
 ```
 ```python
-# PyTorch
 AvgPool1d()
 AvgPool2d()
 ```
