@@ -8,7 +8,7 @@ torch.manual_seed(3)
 ```python
 for epoch in range(1, n_epochs + 1):
 	running_loss = 0
-	for batch, (x, y) in enumerate(dl_tr, 1):
+	for batch, (x, y) in enumerate(dl_tr, start=1):
 		...
         # Set each parameter's gradient zero.
         # Calling `loss.backward()` mutiple times accumulates the gradient (by addition) for each parameter. This is why you should call `optimizer.zero_grad()` after each `optimizer.step()` call.
@@ -255,18 +255,18 @@ else:
 	# Loads a model’s parameter dictionary using a deserialized `state_dict()`.
 	# In PyTorch, the learnable parameters (i.e. weights and biases) of an `torch.nn.Module` model are contained in the model’s parameters (accessed with `model.parameters()`). A `state_dict()` is simply a Python dictionary object that maps each layer to its parameter tensor. Note that only layers with learnable parameters (convolutional layers, linear layers, etc.) and registered buffers (batchnorm’s running_mean) have entries in the model’s `state_dict()`. Optimizer objects (`torch.optim``) also have a `state_dict()`, which contains information about the optimizer’s state, as well as the hyperparameters used.
 	weights = model.state_dict()
-	torch.save(weights, model_path)
+	torch.save(obj=weights, f=model_path)
 ```
 ```python
 torch.save(
-	{
+	obj={
 		'epoch': epoch,
 		'model_state_dict': model.state_dict(),
 		'optimizer_state_dict': optimizer.state_dict(),
 		'loss': loss,
 		...
 	},
-	model_path
+	f=model_path
 )
 ```
 ```python

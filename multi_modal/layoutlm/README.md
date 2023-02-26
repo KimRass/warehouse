@@ -1,0 +1,3 @@
+# Paper Summary
+- [LayoutLM: Pre-training of Text and Layout for Document Image Understanding](https://arxiv.org/pdf/1912.13318.pdf)
+- In this paper, we propose the LayoutLM to jointly model interactions between text and layout information across scanned document images, which is beneficial for a great number of real-world doc- ument image understanding tasks such as information extraction from scanned documents. Furthermore, we also leverage image features to incorporate words’ visual information into LayoutLM.

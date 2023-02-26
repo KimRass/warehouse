@@ -104,6 +104,7 @@ cv2.applyColorMap(src, colormap)
 # Example
 cv2.polylines(
     img=img,
+    # `"int64"`
     pts=[np.array(row[: 8]).reshape(-1, 2)],
     isClosed=True,
     color=(255, 0, 0),
@@ -115,7 +116,7 @@ cv2.polylines(
 # Example
 cv2.fillPoly(
     img=canvas,
-    pts=[np.array(points).astype("int")],
+    pts=[np.array(points).astype("int64")],
     color=(255, 255, 255)
 )
 ```
