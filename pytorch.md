@@ -120,7 +120,7 @@ Tensor.argmax(dim)
 - `axes` : (integer, tuple of integers) Axis or axes along which to take the dot product. If a tuple, should be two integers corresponding to the desired axis from the first input and the desired axis from the second input, respectively. Note that the size of the two selected axes must match.
 ## Concatenate
 ```python
-torch.concat([dim])
+torch.cat([dim])
 ```
 ## `Flatten([input_shape])`
 ## `Input(shape, [name], [dtype], ...)`
