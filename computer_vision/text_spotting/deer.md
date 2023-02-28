@@ -1,0 +1,1 @@
+- [DEER: Detection-agnostic End-to-End Recognizer for Scene Text Spotting](https://arxiv.org/pdf/2203.05122.pdf)
