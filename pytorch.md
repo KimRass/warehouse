@@ -82,6 +82,7 @@ def check_envirionment(use_cuda: bool):
 ```
 
 # Tensors
+## To CPU or NumPy
 ```python
 # Returns a copy of this object in CPU memory. If this object is already in CPU memory and on the correct device, then no copy is performed and the original object is returned.
 .cpu()
@@ -90,27 +91,34 @@ def check_envirionment(use_cuda: bool):
 .numpy()
 # Order: `.detach().cpu().numpy()`
 ```
-## Operators
-### Reshape Tensor
+## Reshape Tensor
 ```python
 <Tensor>.view()
 ```
-### Permute Dimentions
+## Permute Dimentions
 ```python
 # `dims`: (Tuple)
 torch.permute(input, dims)
 <Tensor>.permute(dims)
 ```
-### Remove Dimensions of Size 1
+## Remove Dimensions of Size 1
 ```python
 # `dim`: if given, the input will be squeezed only in this dimension.
 torch.squeeze(input, [dim])
 ```
-### Arguments of Maxima
+## Arguments of Maxima
 ```python
 # This is the second value returned by `torch.max()`.
 torch.argmax(input, dim)
 Tensor.argmax(dim)
+```
+## Normalize
+- https://pytorch.org/docs/stable/generated/torch.nn.functional.normalize.html
+```python
+# Below two code are the same
+# `p`: the exponent value in the norm formulation
+F.normalize(input=image_features, dim=1)
+image_features / image_features.norm(dim=1, keepdim=True)
 ```
 
 # Layers without Weights
