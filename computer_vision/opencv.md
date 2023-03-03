@@ -147,6 +147,16 @@ cv2.putText(img, text, org, fontFace, fontScale, color, [thickness], [lineType],
 (text_width, text_height), baseline = cv2.getTextSize(text=label, fontFace=cv2.FONT_HERSHEY_COMPLEX_SMALL, fontScale=font_scale, thickness=bbox_thick)
 ```
 
+# Contour
+## Find Contours
+```python
+contours, _ = cv2.findContours(image=overlap_mask, mode=cv2.RETR_TREE, method=cv2.CHAIN_APPROX_SIMPLE)
+```
+## Draw Contours
+```python
+cv2.drawContours(image=img, contours=contours, contourIdx=-1, color=(0, 255, 0), thickness=1)
+```
+
 # Connected Component Labeling
 - Reference: https://pyimagesearch.com/2021/02/22/opencv-connected-component-labeling-and-analysis/
 ```python
