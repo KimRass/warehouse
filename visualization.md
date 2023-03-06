@@ -55,8 +55,10 @@ plt.style.use("dark_background")
 - `style`: For example, `["k--", "bo-", "r*"]`
 - `figsize`
 ## Pie Chart
-### `DataFrame.plot.pie([ax])`, `Series.plot.pie([ax])`
-- `startangle`
+```python
+# `x`: The fractional area of each wedge is given by `x / sum(x)`
+# `startangle`
+```
 ### `sb.lineplot(x, y, [linewidth], [color], [label])`
 ## Scatter Plot
 ```python
