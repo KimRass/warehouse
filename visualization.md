@@ -58,6 +58,19 @@ plt.style.use("dark_background")
 ```python
 # `x`: The fractional area of each wedge is given by `x / sum(x)`
 # `startangle`
+# Example
+wedges, text = ax.pie(
+	x=values,
+	labels=labels,
+	labeldistance=1.05,
+	colors=codes,
+	textprops={"fontsize": 100, "color": "black"},
+	wedgeprops={"edgecolor": "black", "linewidth": 5},
+	startangle=90,
+	radius=1,
+	counterclock=False,
+	explode=explode
+)
 ```
 ### `sb.lineplot(x, y, [linewidth], [color], [label])`
 ## Scatter Plot
