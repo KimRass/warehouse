@@ -141,3 +141,11 @@ items, counts = np.unique(intersected_movie_ids, return_counts=True)
 ```python
 np.clip(a, a_min, a_max)
 ```
+
+# Pad
+```python
+# `pad_width`
+# `mode`: (`"constant"`, `"edge"`, `"reflect"`, `"symmetric"`)
+# Example
+paded = np.pad(array=img, pad_width=((pad_h, pad_h), (pad_w, pad_w), (0, 0)), mode="edge")
+```
