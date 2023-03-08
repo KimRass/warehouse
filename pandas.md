@@ -250,11 +250,7 @@ hr["코스트센터 분류"] = hr.apply(
 ```
 ```python
 # Example
-def func(text):
-	return pd.Series([..., ..., ...])
-
-
-df[["...", "...", "..."]] = df["..."].apply(func)
+df[["...", "...", "..."]] = df["..."].apply(func, result_type="expand")
 ```
 
 # Progress Bar
