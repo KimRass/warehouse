@@ -1,5 +1,0 @@
-- Reference: https://github.com/PaddlePaddle/PaddleOCR/blob/release/2.6/ppstructure/kie/how_to_do_kie_en.md
-- The KIE in the document image generally contains 2 subtasks, which is as shown follows.
-  - SER: semantic entity recognition, which classifies each detected textline, such as dividing it into name and ID card. As shown in the red boxes in the following figure.
-  - RE: relationship extraction, which matches the question and answer based on SER results. As shown in the figure below, the yellow arrows match the question and answer.
-- *In the none end-to-end KIE method, KIE needs at least 2 steps. Firstly, the OCR model is used to extract the text and its position. Secondly, the KIE model is used to extract the key information according to the image, text position and text content.*
