@@ -1,5 +1,28 @@
 # Paper Summary
 - [Rethinking Atrous Convolution for Semantic Image Segmentation](https://arxiv.org/pdf/1706.05587v3.pdf)
+- ***With atrous convolution, one is able to control the resolution at which feature responses are computed within DCNNs without requiring learning extra parameters.***
+- Employing large value of atrous rate enlarges the model's field-of-view, enabling object encoding at multiple scales.
+## Related Works
+- It has been shown that global features or contextual interactions are beneficial in correctly classifying pixels for semantic segmentation. In this work, we discuss four types of Fully Convolutional Networks (FCNs) that exploit context information for semantic segmentation.
+- Image pyramid:
+    - The same model, typically with shared weights, is applied to multi-scale inputs. ***Feature responses from the small scale inputs encode the long-range context, while the large scale inputs preserve the small object details.*** Typical examples include [...] who transform the input image through a Laplacian pyramid, feed each scale input to a DCNN and merge the feature maps from all the scales. [...] apply multi-scale inputs sequentially from coarse-to-fine, while [...] directly resize the input for several scales and fuse the features from all the scales.
+- Encoder-decoder:
+    - ***This model consists of two parts: (a) the encoder where the spatial dimension of feature maps is gradually reduced and thus longer range information is more easily captured in the deeper encoder output, and (b) the decoder where object details and spatial dimension are gradually recovered.*** For example, [...] employ deconvolution to learn the upsampling of low resolution feature responses. ***U-Net adds skip connections from the encoder features to the corresponding decoder activations,*** and [...] employs a Laplacian pyramid reconstruction network.
+- Context module:
+    - This model contains extra modules laid out in cascade to encode long-range context. One effective method is to incorporate DenseCRF [45] (with efficient high-dimensional filtering algorithms) to DCNNs.
+- Spatial pyramid pooling:
+    - This model employs spatial pyramid pooling to capture context at several ranges. Spatial pyramid pooling has also been applied in object detection.
+- Atrous convolution:
+    - Models based on atrous convolution have been actively explored for semantic segmentation.
+## Methodology
+- Our proposed module consists of atrous convolution with various rates and batch normalization layers which we found important to be trained as well.
+- ***We discuss an important practical issue when applying a $3 \times 3$ atrous convolution with an extremely large rate, which fails to capture long range information due to image boundary effects, effectively simply degenerating to $1 \times 1$ convolution, and propose to incorporate image-level features into the ASPP module.***
+- We duplicate several copies of the original last block in ResNet [32] and arrange them in cascade, and also revisit the ASPP module [11] which contains several atrous convolutions in parallel. Note that ***our cascaded modules are applied directly on the feature maps instead of belief maps.*** For the proposed modules, we experimentally find it important to train with batch normalization [38]. To further capture global context, we propose to augment ASPP with image-level features.
+## References
+- [11] [Semantic Image Segmentation with Deep Convolutional Nets and Fully Connected CRFs](https://arxiv.org/pdf/1412.7062v4.pdf)
+- [32] [Deep Residual Learning for Image Recognition](https://arxiv.org/pdf/1512.03385.pdf)
+- [39] [Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift](https://arxiv.org/pdf/1502.03167.pdf)
+- [45] [Efficient Inference in Fully Connected CRFs with Gaussian Edge Potentials](https://arxiv.org/pdf/1210.5644.pdf)
 
 - Reference: https://towardsdatascience.com/review-deeplabv3-atrous-convolution-semantic-segmentation-6d818bfd1d74
 - DeepLabv3 outperforms DeepLabv1 and DeepLabv2, even with the post-processing step Conditional Random Field (CRF) removed, which is originally used in DeepLabv1 and DeepLabv2.
