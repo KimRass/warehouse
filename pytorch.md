@@ -206,6 +206,7 @@ z, for_h_state, for_c_state, back_h_state, back_c_state = Bidirectional(LSTM(ret
 ```python
 # `mode`: (`"nearest"`, `"linear"`, `"bilinear"`, `"bicubic"`, `"trilinear"`, `"area"`, `"nearest-exact"`, Default: `"nearest"`)Algorithm used for upsampling
 # `align_corners`
+	# Reference: https://deep-learning-study.tistory.com/908
 F.interpolate(input, size, mode="nearest")
 ```
 
