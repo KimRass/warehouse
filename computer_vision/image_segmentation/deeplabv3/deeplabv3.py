@@ -31,3 +31,10 @@ class DeepLabv3(nn.Module):
     
     def forward(self, x):
         x = torch.randn((4, 32, 720, 480))
+
+224
+112
+56
+28
+14
+7
