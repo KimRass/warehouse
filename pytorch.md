@@ -149,7 +149,10 @@ MaxPool2d()
 AvgPool1d()
 AvgPool2d()
 ```
-## `GlobalAveragePooling1D()`, `GlobalAveragePooling2D()`
+## Global Average Pooling
+```python
+nn.AdaptiveAvgPool2d((1, 1))
+```
 ## `ZeroPadding2D(padding)`
 - `padding`:
 	- Int: the same symmetric padding is applied to height and width.
@@ -180,10 +183,12 @@ nn.Linear(in_features, out_features)
 ```
 ## Convolution Layer
 ```python
-nn.Conv1d()
+# Reference: https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html
 # `padding="valid"` is the same as no padding. `padding="same"` pads the input so the output has the shape as the input. However, this mode doesn’t support any `stride` values other than 1.
 # `dilation`: Spacing between kernel elements.
 nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1)
+```
+```python
 nn.ConvTranspose1d()
 nn.ConvTranspose2d()
 ```
@@ -195,6 +200,13 @@ LSTM(input_size, hidden_size, num_layers, batch_first, dropout, bidirectional)
 ## `Bidirectional([input_shape])`
 ```python
 z, for_h_state, for_c_state, back_h_state, back_c_state = Bidirectional(LSTM(return_state=True))(z)
+```
+
+# Interpolate
+```python
+# `mode`: (`"nearest"`, `"linear"`, `"bilinear"`, `"bicubic"`, `"trilinear"`, `"area"`, `"nearest-exact"`, Default: `"nearest"`)Algorithm used for upsampling
+# `align_corners`
+F.interpolate(input, size, mode="nearest")
 ```
 
 # Optimizers
