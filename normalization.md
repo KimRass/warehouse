@@ -8,6 +8,3 @@
 - ***Unlike batch normalization, layer normalization does not impose any constraint on the size of the mini-batch and it can be used in the pure online regime with batch size 1***.
 - Reference: https://github.com/CyberZHG/torch-layer-normalization/blob/89f405b60f53f85da6f03fe685c190ef394ce50c/torch_layer_normalization/layer_normalization.py#L8
 - [Layer Normalization](https://arxiv.org/pdf/1607.06450.pdf)
-```python
-
-```
