@@ -10,7 +10,8 @@ for epoch in range(1, n_epochs + 1):
 	running_loss = 0
 	for batch, (x, y) in enumerate(dl_tr, start=1):
 		...
-        # Set each parameter's gradient zero.
+        # Sets each parameter's gradient zero.
+		# Clears x.grad for every parameter x in the optimizer
         # Calling `loss.backward()` mutiple times accumulates the gradient (by addition) for each parameter. This is why you should call `optimizer.zero_grad()` after each `optimizer.step()` call.
 		optimizer.zero_grad()
 		...
@@ -18,9 +19,11 @@ for epoch in range(1, n_epochs + 1):
 		logits = model(inputs)
 		loss = criterion(inputs, logits)
 
-        # Backpropogate.
+        # Backpropogates.
+		# Computes $\frac{\partial loss}{\partial x}$ for every parameter $x$ which has requires_grad=True. These are accumulated into `x.grad` for every parameter `x`.
 		loss.backward()
-        # Perform a parameter update based on the current gradient (stored in `.grad` attribute of a parameter)
+        # Performs a parameter update based on the current gradient (stored in `.grad` attribute of a parameter)
+		# Updates the value of `x` using the gradient `x.grad`.
 		optimizer.step()
 
 		running_loss += loss.item()
