@@ -20,7 +20,7 @@ for epoch in range(1, n_epochs + 1):
 		loss = criterion(inputs, logits)
 
         # Backpropogates.
-		# Computes $\frac{\partial loss}{\partial x}$ for every parameter $x$ which has requires_grad=True. These are accumulated into `x.grad` for every parameter `x`.
+		# Computes $\frac{\partial loss}{\partial x}$ for every parameter $x$ which has `requires_grad=True`. These are accumulated into `x.grad` for every parameter `x`.
 		loss.backward()
         # Performs a parameter update based on the current gradient (stored in `.grad` attribute of a parameter)
 		# Updates the value of `x` using the gradient `x.grad`.
