@@ -1,7 +1,3 @@
-# Mixup
-
-# RandAugment
-
 # Data Augmentation
 - Reference: https://www.v7labs.com/blog/contrastive-learning-guide
 - Methods
@@ -10,6 +6,7 @@
   - Image Flipping: The image is flipped (mirrored) about its center, either vertically or horizontally. This is an extension of the concept of image rotation-based augmentation.
   - Image Noising: Random noise is added to the images pixel-wise. This technique allows the model to learn how to separate the signal from the noise in the image and makes it more robust to changes in the image during test time. For example, randomly changing some pixels in the image to white or black is known as salt-and-pepper noise (an example is shown below).
   - Random Affine: Affine is a geometric transformation that preserves lines and parallelism, but not necessarily the distances and angles.
+
 - Reference: https://www.tensorflow.org/tutorials/images/data_augmentation, https://www.tensorflow.org/api_docs/python/tf/keras/layers
 ## Using `Sequential()`
 - ***With this option, your data augmentation will happen on device, synchronously with the rest of the model execution, meaning that it will benefit from GPU acceleration.***
@@ -88,7 +85,3 @@ gen.apply_transform()
 		# `"input"`
 		# `None`: Returns no label.
 	```
-# DropBlock
-- Reference: https://hongl.tistory.com/223
-- CNN 에서의 dropout 이 각 픽셀에 대해 독립적으로 수행되어 제거하고자 하는 정보가 이웃점으로부터 전달되는 현상을 방지하고자 Figure 1(c)와 같이 일정 범위를 제거해주는 기법을 말합니다.
-- ![dropblock](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FGcFOX%2Fbtq6UcBBG4n%2FncgMbcC9FKpkP6qRBfUIG0%2Fimg.png)
