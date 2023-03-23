@@ -725,3 +725,8 @@ rows = [
 ]
 bboxes = pd.DataFrame(rows, columns=("xmin", "ymin", "xmax", "ymax"))
 ```
+```python
+xroot.tag
+xroot.attrig
+xroot.text
+```
