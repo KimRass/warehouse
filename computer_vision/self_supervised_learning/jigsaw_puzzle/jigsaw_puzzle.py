@@ -8,6 +8,7 @@ from torchvision.models import alexnet, AlexNet_Weights
 from torchviz import make_dot
 import cv2
 from PIL import Image
+import random
 
 
 def load_image(img_path):
@@ -44,30 +45,36 @@ def show_image(img):
     copied_img.show()
 
 
-def get_permutated_patches(img, perm, resize_size=256, crop_size=225, patch_size=64):
-    # resize_size=256
-    # crop_size=225
-    # patch_size=64
-    transform = T.Compose([T.ToTensor(), T.Resize(resize_size), T.RandomCrop(crop_size)])
-    image = transform(img).unsqueeze(0)
-    # image = image.repeat(4, 1, 1, 1)
-    # image.shape
+def _reorder_cells(cells):
+    return torch.cat([cells[i:: 4] for i in range(4)], axis=0)
 
-    cells = list()
-    for col_cell in torch.split(image, crop_size // 3, dim=3):
-        cells.extend(torch.split(col_cell, crop_size // 3, dim=2))
+
+def _reorder_cells2(cells):
+    return torch.cat([cells[i:: 12] for i in range(0, 12, 4)], axis=0)
+
+
+# 1 2 3 4 -> 1234 1234 1234
+# 1234 1234 1234 -> 111 222 333 444
+# 111 222 333 444 -> 111222333444 111222333444 111222333444
+# 111222333444 111222333444 111222333444 -> 111111111 222222222 333333333 444444444
+def get_permutated_patches(images, perm_set, crop_size=225, patch_size=64):
+    b, _, _, _ = images.shape
+
+    col_cells = torch.cat(torch.split(images, crop_size // 3, dim=2), axis=0)
+    cells = torch.cat(torch.split(col_cells, crop_size // 3, dim=3), axis=0)
+    cells = _reorder_cells(cells)
+    # cells = torch.cat(cells)
         
-    patches = [T.RandomCrop(patch_size)(cell) for cell in cells]
-    permuted_patches = torch.cat([patches[idx - 1] for idx in perm])
-    # patches = torch.cat(permuted_patches)
-    return permuted_patches
+    # patches = [T.RandomCrop(patch_size)(cell) for cell in cells]
+    patches = T.RandomCrop(patch_size)(cells)
+    patches.shape
 
-img = load_image("/Users/jongbeomkim/Downloads/horses.jpeg")
-perm_set = [(9, 4, 6, 8, 3, 2, 5, 1, 7)]
-perm = perm_set[0]
-perm_patches = get_permutated_patches(img=img, perm=perm)
-perm_patches.shape
-
+    perms = random.choices(perm_set, k=b)
+    batched_perm = torch.cat(
+        [(torch.tensor(perm) - 1) + idx * 9 for idx, perm in enumerate(perms)]
+    )
+    perm_patches = patches[batched_perm]
+    return perm_patches
 
 
 class ContextFreeNetwork(nn.Module):
@@ -85,15 +92,12 @@ class ContextFreeNetwork(nn.Module):
         self.flatten1 = nn.Flatten(start_dim=1, end_dim=3)
         # 차원이 안 맞는데?? 논문에 따르면 (256 * 4 * 4, 512)여야 함.
         self.fc6 = nn.Linear(256 * 2 * 2, 512)
-        # [i.shape for i in list(nn.Linear(256 * 4 * 4, 512).parameters())]
 
         self.flatten2 = nn.Flatten(start_dim=0, end_dim=1)
         self.fc7 = nn.Linear(4608, 4096)
         self.fc8 = nn.Linear(4096, n_permutations)
 
     def forward(self, patches):
-        # x = perm_patches.repeat(4, 1, 1, 1)
-
         x = self.conv1(patches)
         x = self.relu(x)
         x = self.maxpool(x)
@@ -114,7 +118,6 @@ class ContextFreeNetwork(nn.Module):
 
         x = self.flatten1(x)
         x = self.fc6(x)
-        # x.shape
 
         x = torch.cat(
             [self.flatten2(i).unsqueeze(0) for i in torch.split(x, 9, dim=0)]
@@ -122,17 +125,32 @@ class ContextFreeNetwork(nn.Module):
 
         x = self.fc7(x)
         x = self.fc8(x)
-        # print(x.shape)
 
-        x = F.softmax(x)
+        x = F.softmax(x, dim=1)
         return x
 
-fcn = ContextFreeNetwork()
-output = fcn(perm_patches.repeat(4, 1, 1, 1))
-output.shape
 
-output.sum(1)        
+if __name__ == "__main__":
+    # model = alexnet(weights=AlexNet_Weights.IMAGENET1K_V1)
+    # model.features
+
+    fcn = ContextFreeNetwork()
+
+    img = load_image("/Users/jongbeomkim/Downloads/horses.jpeg")
+    resize_size=256
+    crop_size=225
+    transform = T.Compose([T.ToTensor(), T.Resize(resize_size), T.RandomCrop(crop_size)])
+    image = transform(img).unsqueeze(0)
+    images = image.repeat(4, 1, 1, 1)
+
+    perm_set = [(9, 4, 6, 8, 3, 2, 5, 1, 7)]
+    # perm_set = [(1, 2, 3, 4, 5, 6, 7, 8, 9)]
+    perm_patches = get_permutated_patches(images=images, perm_set=perm_set)
+    perm_patches.shape
+    for i in range(36):
+        show_image(convert_tensor_to_array(perm_patches[i]))
+
+    output = fcn(perm_patches)
+    output.shape
 
 
-model = alexnet(weights=AlexNet_Weights.IMAGENET1K_V1)
-model.features
