@@ -53,6 +53,17 @@
         - 2. Average Hamming distance
             - ***One can see that the average Hamming distance between permutations controls the difficulty of the Jigsaw puzzle reassembly task, and it also correlates with the object detection performance. We find that as the average Hamming distance increases, the CFN yields lower Jigsaw puzzle solving errors and lower object detection errors with fine-tuning.***
     - We compare the performance on object detection of CFNs trained with 3 choices for the Hamming distance: minimal, average and maximal. From those tests we can see that large Hamming distances are desirable. We generate this permutation set iteratively via a greedy algorithm. We begin with an empty permutation set and at each iteration select the one that has the desired Hamming distance to the current permutation set.
+
+- Table 1
+    - <img src="https://user-images.githubusercontent.com/105417680/227773423-3cf16914-f035-4e06-87ee-5b9265a870c2.png" width="800">
+- Table 2
+    - <img src="https://user-images.githubusercontent.com/105417680/227773444-79251b71-09d7-40a2-ad97-1cbbadb0b131.png" width="800">
+- Table 3
+    - <img src="https://user-images.githubusercontent.com/105417680/227773468-16734191-6b8e-458d-b2f1-fbf84a9d174e.png" width="800">
+- Table 4
+    - <img src="https://user-images.githubusercontent.com/105417680/227773507-d626033b-9188-44e6-ac21-8584201735cc.png" width="800">
+- Table 5
+    - <img src="https://user-images.githubusercontent.com/105417680/227773531-d9b67d0a-ef54-402b-932b-8ba79f592c8a.png" width="800">
 ## References
 - [10] [Unsupervised Visual Representation Learning by Context Prediction](https://arxiv.org/pdf/1505.05192.pdf)
 - [25] [ImageNet Classification with Deep Convolutional Neural Networks](https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf)

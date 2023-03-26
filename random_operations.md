@@ -29,7 +29,6 @@ np.random.randint(low, [high], size)
 ```python
 # Without replacement
 random.sample(sequence, k)
-
 # With replacement
 random.choices(sequence, k, [weights])
 
