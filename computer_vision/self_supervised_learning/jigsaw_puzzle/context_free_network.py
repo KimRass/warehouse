@@ -31,8 +31,8 @@ class ContextFreeNetwork(nn.Module):
         self.fc7 = nn.Linear(4608, 4096)
         self.fc8 = nn.Linear(4096, n_permutations)
 
-    def forward(self, patches):
-        x = self.conv1(patches)
+    def forward(self, tiles):
+        x = self.conv1(tiles)
         x = self.relu(x)
         x = self.maxpool(x)
 
@@ -62,29 +62,3 @@ class ContextFreeNetwork(nn.Module):
 
         x = F.softmax(x, dim=1)
         return x
-
-
-if __name__ == "__main__":
-    # model = alexnet(weights=AlexNet_Weights.IMAGENET1K_V1)
-    # model.features
-
-    fcn = ContextFreeNetwork()
-
-    img = load_image("/Users/jongbeomkim/Downloads/horses.jpeg")
-    resize_size=256
-    crop_size=225
-    transform = T.Compose([T.ToTensor(), T.Resize(resize_size), T.RandomCrop(crop_size)])
-    image = transform(img).unsqueeze(0)
-    images = image.repeat(4, 1, 1, 1)
-
-    perm_set = [(9, 4, 6, 8, 3, 2, 5, 1, 7)]
-    # perm_set = [(1, 2, 3, 4, 5, 6, 7, 8, 9)]
-    perm_patches = get_permutated_patches(images=images, perm_set=perm_set)
-    perm_patches.shape
-    for i in range(36):
-        show_image(convert_tensor_to_array(perm_patches[i]))
-
-    output = fcn(perm_patches)
-    output.shape
-
-
