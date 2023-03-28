@@ -1,4 +1,4 @@
-# Paper Summary
+# Paper Understanding
 - [Unsupervised Representation Learning by Predicting Image Rotations](https://arxiv.org/pdf/1803.07728.pdf)
 ## Related Works
 - In order to learn features, [1] and [2] train ConvNets to colorize gray scale images, [3] and [4] predict the relative position of image patches, and [5] predict the egomotion (i.e., self-motion) of a moving vehicle between two consecutive frames.
