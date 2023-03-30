@@ -360,6 +360,7 @@ transform = T.Compose(
 		# If size is a sequence like `(h, w)`, output size will be matched to this.
 		# If size is an int, smaller edge of the image will be matched to this number.
 		# i.e, if height > width, then image will be rescaled to (size * height / width, size).
+		T.ToTensor(),
 		T.Resize(256),
 		# If a single int is provided this is used to pad all borders.
 		# If sequence of length 2 is provided this is the padding on left/right and top/bottom respectively.
@@ -368,7 +369,6 @@ transform = T.Compose(
 		# If size is an int instead of sequence like (h, w), a square crop (size, size) is made.
 		T.CenterCrop(224),
 		# T.RandomHorizontalFlip(),
-		T.ToTensor(),
 		T.Normalize(
 			mean=(0.485, 0.456, 0.406),
 			std=(0.229, 0.224, 0.225)
