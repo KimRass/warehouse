@@ -115,5 +115,7 @@ as_ = lab_img[..., 1]
 bs = lab_img[..., 2]
 a_indices = np.floor((as_ + 95) / 10)
 b_indices = np.floor((bs + 95) / 10)
-
+a_indices.
+label_map.shape
+np.take(label_map, indices=a_indices).shape
 label_map[a_indices, b_indices]
