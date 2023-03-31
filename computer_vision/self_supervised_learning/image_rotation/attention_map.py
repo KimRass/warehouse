@@ -2,7 +2,6 @@ import numpy as np
 import torch.nn as nn
 import torchvision.transforms as T
 from torchvision.models import alexnet, AlexNet_Weights
-import matplotlib.pyplot as plt
 import cv2
 from typing import Literal
 from PIL import Image
