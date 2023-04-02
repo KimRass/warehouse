@@ -1,14 +1,17 @@
+# References
+    # https://github.com/Time0o/colorful-colorization/blob/master/colorization/modules/soft_encode_ab.py
+
 import numpy as np
 from skimage.color import rgb2lab, lab2rgb
 from pathlib import Path
-import matplotlib.pyplot as plt
-from matplotlib.cm import ScalarMappable
 import math
 import torch
 import torch.nn.functional as F
-import scipy
+import torchvision.transforms as T
+import cv2
+from PIL import Image
 
-idx2label = {
+ab_idx2bin_idx = {
     (0, 16): 0, (0, 17): 1, (0, 18): 2, (0, 19): 3, (0, 20): 4,
     (1, 13): 5, (1, 14): 6, (1, 15): 7, (1, 16): 8, (1, 17): 9, (1, 18): 10, (1, 19): 11, (1, 20): 12,
     (2, 11): 13, (2, 12): 14, (2, 13): 15, (2, 14): 16, (2, 15): 17, (2, 16): 18, (2, 17): 19, (2, 18): 20, (2, 19): 21, (2, 20): 22,
@@ -30,92 +33,176 @@ idx2label = {
     (18, 0): 284, (18, 1): 285, (18, 2): 286, (18, 3): 287, (18, 4): 288, (18, 5): 289, (18, 6): 290, (18, 7): 291, (18, 8): 292, (18, 9): 293, (18, 10): 294, (18, 11): 295, (18, 12): 296, (18, 13): 297, (18, 14): 298, (18, 15): 299, (18, 16): 300, (18, 17): 301, (18, 18): 302,
     (19, 2): 303, (19, 3): 304, (19, 4): 305, (19, 5): 306, (19, 6): 307, (19, 7): 308, (19, 8): 309, (19, 9): 310, (19, 10): 311, (19, 11): 312
 }
-label2idx = {v: k for k, v in idx2label.items()}
+gamut_idx2bin_idx = {k[0] * n_cols + k[1]: v for k, v in ab_idx2bin_idx.items()}
+bin_idx2ab_idx = {v: k for k, v in ab_idx2bin_idx.items()}
 n_rows = 20
 n_cols = 22
-label_map = np.array([[idx2label.get((i, j), -1) for j in range(n_cols)] for i in range(n_rows)])
+bin_idx_map = np.array([[ab_idx2bin_idx.get((i, j), -1) for j in range(n_cols)] for i in range(n_rows)])
 
-def convert_lab_to_label(lab, label_map):
+
+def gamut_index_to_bin_index(gamut_idx):
+    return gamut_idx2bin_idx.get(gamut_idx, -1)
+
+
+def a_to_a_index(a):
+    # a_idx = int((a + 95) / 10)
+    a_idx = ((a + 95) / 10).astype("int16")
+    return a_idx
+
+
+def b_to_b_index(b):
+    # b_idx = int((b + 115) / 10)
+    b_idx = ((b + 115) / 10).astype("int16")
+    return b_idx
+
+
+def a_index_to_a(a_idx):
+    a = -90 + 10* a_idx
+    # if a_idx != -1 else -1
+    return a
+
+def b_index_to_b(b_idx):
+    b = -110 + 10* b_idx
+    # if b_idx != -1 else -1
+    return b
+
+
+def lab_to_bin_idx(lab, bin_idx_map=bin_idx_map):
     _, a, b = lab
-    i = int((a + 95) / 10)
-    j = int((b + 115) / 10)
-    label = label_map[i, j]
-    return label
-convert_lab_to_label(lab=(50, -80, 15), label_map=label_map)
+    a_idx = int((a + 95) / 10)
+    b_idx = int((b + 115) / 10)
+    bin_idx = bin_idx_map[a_idx, b_idx]
+    return bin_idx
 
 
-def convert_label_to_ab(label, label2idx):
-    idx_a, idx_b = label2idx[label]
-    a = - 90 + 10 * idx_a
-    b = - 110 + 10 * idx_b
+def bin_idx_to_ab(bin_idx, bin_idx2ab_idx=bin_idx2ab_idx):
+    a_idx, b_idx = bin_idx2ab_idx[bin_idx]
+    a = - 90 + 10 * a_idx
+    b = - 110 + 10 * b_idx
     return (a, b)
-convert_label_to_ab(label=5, label2idx=label2idx)
 
 
-def gaussian_function(x, y, a, b, sigma=5):
-    return (1 / (2 * math.pi * sigma ** 2)) * np.exp(-((x - a) ** 2 + (y - b) ** 2) / (2 * sigma ** 2))
+def get_2d_gaussian_function_output(x, y, mu_x, mu_y, sigma=5):
+    fn_vals = (1 / (2 * math.pi * sigma ** 2)) * np.exp(-((x - mu_x) ** 2 + (y - mu_y) ** 2) / (2 * sigma ** 2))
+    # probs = fn_vals / fn_vals.sum()
+    # return probs
+    return fn_vals
 
 
-data_dir = "/Users/jongbeomkim/Downloads/imagenet-mini/train"
-data_dir = Path(data_dir)
-stacked_a = np.empty((0,), dtype="float64")
-stacked_b = np.empty((0,), dtype="float64")
-for img_path in data_dir.glob("**/*.JPEG"):
-    img = load_image(img_path)
-    img_lab = rgb2lab(img)
-    a = img_lab[..., 1].flatten()
-    b = img_lab[..., 2].flatten()
+def load_image(img_path):
+    img_path = str(img_path)
+    img = cv2.imread(img_path, flags=cv2.IMREAD_COLOR)
+    img = cv2.cvtColor(src=img, code=cv2.COLOR_BGR2RGB)
+    return img
 
-    stacked_a = np.concatenate([stacked_a, a], axis=0)
-    stacked_b = np.concatenate([stacked_b, b], axis=0)
-smaller = min(stacked_a.shape[0], stacked_b.shape[0])
-stacked_a = stacked_a[: smaller]
-stacked_b = stacked_b[: smaller]
-stacked_a.shape
 
-heatmap, xedges, yedges = np.histogram2d(stacked_a, stacked_b, label_map=50)
-extent = [xedges[0], xedges[-1], yedges[0], yedges[-1]]
-plt.clf()
-plt.imshow(heatmap.T, extent=extent, origin='lower')
-plt.colorbar(ScalarMappable(norm=None, cmap='viridis'))
-plt.xscale('log')
-plt.yscale('log')
-plt.show()
+def _convert_to_pil(img):
+    if not isinstance(img, Image.Image):
+        img = Image.fromarray(img)
+    return img
 
-# heatmap *= (255 / heatmap.max())
-# # heatmap *= 255
-# heatmap = heatmap.astype("uint8")
-# show_image(heatmap)
 
-show_image(img)
+def show_image(img):
+    copied_img = img.copy()
+    copied_img = _convert_to_pil(copied_img)
+    copied_img.show()
+
+
+def lab_to_soft_encoded_vector(lab):
+    # bin_idx = lab_to_bin_idx(lab=lab, bin_idx_map=bin_idx_map)
+    # bin_idx
+    _, a, b = lab
+    a, b = -94, 101
+    a_idx = a_to_a_index(a)
+    b_idx = b_to_b_index(b)
+    ab_indices = (a_idx, b_idx)
+
+    t_neighbor = (max(0, a_idx - 1), b_idx)
+    b_neighbor = (min(n_rows - 1, a_idx + 1), b_idx)
+    l_neighbor = (a_idx, max(0, b_idx - 1))
+    r_neighbor = (a_idx, min(n_cols - 1, b_idx + 1))
+    neighbors = (ab_indices, t_neighbor, b_neighbor, l_neighbor, r_neighbor)
+    # neighbors
+    # ab_indices
+    neighbors_ab = np.array([(a_index_to_a(a_idx), b_index_to_b(b_idx)) for a_idx, b_idx in neighbors])
+    # neighbors_ab
+
+    fn_vals = get_2d_gaussian_function_output(x=neighbors_ab[:, 0], y=neighbors_ab[:, 1], a=a, b=b)
+    bin_indices = np.array(
+        [ab_idx2bin_idx.get((a_idx, b_idx), -1) for a_idx, b_idx in  (ab_indices, t_neighbor, b_neighbor, l_neighbor, r_neighbor)]
+    )
+    bin_indices
+    fn_vals
+    fn_vals *= (bin_indices != -1)
+    probs = fn_vals / fn_vals.sum()
+    probs
+
+    vec = np.zeros((313,))
+    for bin_idx, prob in zip(bin_indices, probs):
+        if bin_idx == -1:
+            continue
+        vec[bin_idx] += prob
+    return vec
+
+
+def _get_width_and_height(img):
+    if img.ndim == 2:
+        height, width = img.shape
+    else:
+        height, width, _ = img.shape
+    return width, height
+
+
+def lab_image_to_soft_encoded_labels(lab_img):
+    a_indices = a_to_a_index(lab_img[..., 1])
+    b_indices = b_to_b_index(lab_img[..., 2])
+
+    a_indices_neighbors = np.stack(
+        [a_indices, np.maximum(0, a_indices - 1), np.minimum(n_rows - 1, a_indices + 1), a_indices, a_indices]
+    )
+    b_indices_neighbors = np.stack(
+        [b_indices, b_indices, b_indices, np.maximum(0, b_indices - 1), np.minimum(n_cols - 1, b_indices + 1)]
+    )
+
+    fn_vals = get_2d_gaussian_function_output(x=a_indices_neighbors, y=b_indices_neighbors, mu_x=a_indices, mu_y=b_indices)
+    gamut_indices = a_indices_neighbors * n_cols + b_indices_neighbors
+    bin_indices = np.vectorize(gamut_index_to_bin_index)(gamut_indices)
+    fn_vals *= (bin_indices != -1)
+    probs = fn_vals / fn_vals.sum(axis=0)
+
+    w, h = _get_width_and_height(lab_img)
+    labels = np.zeros((313, 10, 10))
+    bin_indices[0, : 10, : 10].shape
+    labels.shape
+    labels[bin_indices[0, : 10, : 10]].shape
+    labels == bin_indices
+    
+    
+    
+    np.put(labels, bin_indices[0, ...].reshape((h * w,)), probs[0, ...].reshape((h * w,)))
+    labels.sum()
+    
+    # np.put(labels, bin_indices, probs)
+    np.put(labels, bin_indices.reshape((5 * w * h,)), probs.reshape((5 * w * h,)))
+    # labels.sum(axis=0).sum
+    labels.sum()
+    # bin_indices.shape
+    # probs.shape
+    np.where()
+    return labels
+
+img = load_image("D:/imagenet-mini/train/n02088238/n02088238_224.JPEG")
 lab_img = rgb2lab(img)
-lab_img.shape
+# transform = T.Compose(
+#     [
+#         T.Resize((224, 224))
+#     ]
+# )
+# image = torch.Tensor(img)
+# image = transform(image)
 
-label = convert_lab_to_label(lab=list(lab_img[10, 10]), label_map=label_map)
-lab = list(lab_img[10, 10])
-_, a, b = lab
-i = int((a + 95) / 10)
-j = int((b + 115) / 10)
-i, j
-nearest_neighbors = [label_map[i, j], label_map[i - 1, j], label_map[i + 1, j], label_map[i, j - 1], label_map[i, j + 1]]
-nearest_neighbors
-nearest_bins = np.array([convert_label_to_ab(label=label, label2idx=label2idx) for label in nearest_neighbors])
-nearest_bins
-nearest_as = nearest_bins[:, 0]
-nearest_bs = nearest_bins[:, 1]
-probs = gaussian_function(x=nearest_as, y=nearest_bs, a=a, b=b)
-probs = scipy.special.softmax(torch.Tensor(probs))
+lab = lab_img[100, 115]
+lab_to_soft_encoded_vector(lab).sum()
 
-temp = np.zeros((313,))
-temp[nearest_neighbors] = probs
-temp
-
-lab_img.shape
-as_ = lab_img[..., 1]
-bs = lab_img[..., 2]
-a_indices = np.floor((as_ + 95) / 10)
-b_indices = np.floor((bs + 95) / 10)
-a_indices.
-label_map.shape
-np.take(label_map, indices=a_indices).shape
-label_map[a_indices, b_indices]
+np_vec = np.vectorize(lab_to_soft_encoded_vector)
+np_vec(lab_img)
