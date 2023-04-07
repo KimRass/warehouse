@@ -20,6 +20,11 @@ draw = ImageDraw.Draw(img)
 ```python
 draw.line([fill], [width])
 ```
+## Draw Circle
+```python
+# Example
+draw.ellipse((x-r, y-r, x+r, y+r), fill=(255, 0, 0))
+```
 ## Draw Rectangle
 ```python
 # `outline`: Color to use for the outline.

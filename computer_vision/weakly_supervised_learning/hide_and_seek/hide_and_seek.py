@@ -12,45 +12,24 @@ import random
 from pathlib import Path
 
 
-def apply_hide_and_seek(image, patch_size=56, hide_prob=0.5, mean=(0.485, 0.456, 0.406)):
+def apply_hide_and_seek(image, patch_size=56, hide_prob=0.5, mean=(0, 0, 0)):
     b, _, h, w = image.shape
-    repl_val = torch.Tensor(mean).unsqueeze(0).unsqueeze(2).unsqueeze(3).repeat(b, 1, h, w)
+    # _, h, w = image.shape
+    assert h % patch_size == 0 and w % patch_size == 0,\
+        "`patch_size` argument should be a multiple of both the width and height of the input image"
+
+    mean_tensor = torch.Tensor(mean)[None, :, None, None].repeat(b, 1, patch_size, patch_size)
+    # mean_tensor = torch.Tensor(mean)[:, None, None].repeat(1, patch_size, patch_size)
 
     copied_image = image.clone()
-    for i in range(h // patch_size + 1):
-        for j in range(w // patch_size + 1):
-            if random.random() >= hide_prob:
-                copied_image[
-                    ..., i * patch_size: (i + 1) * patch_size, j * patch_size: (j + 1) * patch_size
-                ] = repl_val[
-                    ..., i * patch_size: (i + 1) * patch_size, j * patch_size: (j + 1) * patch_size
-                ]
-    return copied_image
-
-
-class HideAndSeek(nn.Module):
-    def __init__(self, patch_size=56, hide_prob=0.5, mean=(0.485, 0.456, 0.406)):
-        super().__init__()
-
-        self.patch_size = patch_size
-        self.hide_prob = hide_prob
-        self.mean = mean
-
-    def forward(self, x):
-        b, _, h, w = x.shape
-        repl_val = torch.Tensor(self.mean).unsqueeze(0).unsqueeze(2).unsqueeze(3).repeat(b, 1, h, w)
-
-        copied = x.clone()
-        for i in range(h // self.patch_size + 1):
-            for j in range(w // self.patch_size + 1):
-                if random.random() < self.hide_prob:
+    for i in range(h // patch_size):
+        for j in range(w // patch_size):
+            if random.random() < hide_prob:
                     continue
-                copied[
-                    ..., i * self.patch_size: (i + 1) * self.patch_size, j * self.patch_size: (j + 1) * self.patch_size
-                ] = repl_val[
-                    ..., i * self.patch_size: (i + 1) * self.patch_size, j * self.patch_size: (j + 1) * self.patch_size
-                ]
-        return copied
+            copied_image[
+                ..., i * patch_size: (i + 1) * patch_size, j * patch_size: (j + 1) * patch_size
+            ] = mean_tensor
+    return copied_image
 
 
 def batched_image_to_grid(image, normalize=False, mean=(0.485, 0.456, 0.406), variance=(0.229, 0.224, 0.225)):
@@ -100,7 +79,7 @@ if __name__ == "__main__":
                 mean=(0.485, 0.456, 0.406),
                 std=(0.229, 0.224, 0.225)
             ),
-            # HideAndSeek()
+            # T.Lambda(apply_hide_and_seek)
         ]
     )
     ds = ImageFolder("/Users/jongbeomkim/Downloads/imagenet-mini/val", transform=transform)
@@ -108,3 +87,4 @@ if __name__ == "__main__":
     for batch, (image, label) in enumerate(dl, start=1):
         image = apply_hide_and_seek(image, patch_size=56)
         grid = batched_image_to_grid(image, normalize=True)
+        show_image(grid)
