@@ -14,12 +14,10 @@ from pathlib import Path
 
 def apply_hide_and_seek(image, patch_size=56, hide_prob=0.5, mean=(0, 0, 0)):
     b, _, h, w = image.shape
-    # _, h, w = image.shape
     assert h % patch_size == 0 and w % patch_size == 0,\
         "`patch_size` argument should be a multiple of both the width and height of the input image"
 
     mean_tensor = torch.Tensor(mean)[None, :, None, None].repeat(b, 1, patch_size, patch_size)
-    # mean_tensor = torch.Tensor(mean)[:, None, None].repeat(1, patch_size, patch_size)
 
     copied_image = image.clone()
     for i in range(h // patch_size):
@@ -79,7 +77,6 @@ if __name__ == "__main__":
                 mean=(0.485, 0.456, 0.406),
                 std=(0.229, 0.224, 0.225)
             ),
-            # T.Lambda(apply_hide_and_seek)
         ]
     )
     ds = ImageFolder("/Users/jongbeomkim/Downloads/imagenet-mini/val", transform=transform)
@@ -87,4 +84,6 @@ if __name__ == "__main__":
     for batch, (image, label) in enumerate(dl, start=1):
         image = apply_hide_and_seek(image, patch_size=56)
         grid = batched_image_to_grid(image, normalize=True)
-        show_image(grid)
+        
+        # show_image(grid)
+        save_image(grid, f"""/Users/jongbeomkim/Desktop/workspace/machine_learning/computer_vision/weakly_supervised_learning/hide_and_seek/samples/{batch}.jpg""")
