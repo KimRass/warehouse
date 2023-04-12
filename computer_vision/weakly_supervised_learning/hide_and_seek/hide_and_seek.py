@@ -30,11 +30,12 @@ def apply_hide_and_seek(image, patch_size=56, hide_prob=0.5, mean=(0, 0, 0)):
     return copied_image
 
 
-def batched_image_to_grid(image, normalize=False, mean=(0.485, 0.456, 0.406), variance=(0.229, 0.224, 0.225)):
+def batched_image_to_grid(image, n_cols, normalize=False, mean=(0.485, 0.456, 0.406), variance=(0.229, 0.224, 0.225)):
     b, _, h, w = image.shape
+    assert b % n_cols == 0,\
+        "The batch size should be a multiple of `n_cols` argument"
     pad = max(2, int(max(h, w) * 0.04))
-    n_rows = int(b ** 0.5)
-    grid = torchvision.utils.make_grid(tensor=image, nrow=n_rows, normalize=False, padding=pad)
+    grid = torchvision.utils.make_grid(tensor=image, nrow=n_cols, normalize=False, padding=pad)
     grid = grid.clone().permute((1, 2, 0)).detach().cpu().numpy()
 
     if normalize:
@@ -43,9 +44,10 @@ def batched_image_to_grid(image, normalize=False, mean=(0.485, 0.456, 0.406), va
     grid *= 255.0
     grid = np.clip(a=grid, a_min=0, a_max=255).astype("uint8")
 
-    for k in range(n_rows + 1):
-        grid[(pad + h) * k: (pad + h) * k + pad, :, :] = 255
+    for k in range(n_cols + 1):
         grid[:, (pad + h) * k: (pad + h) * k + pad, :] = 255
+    for k in range(b // n_cols + 1):
+        grid[(pad + h) * k: (pad + h) * k + pad, :, :] = 255
     return grid
 
 
