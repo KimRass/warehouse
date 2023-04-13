@@ -393,8 +393,19 @@ batch_size = 64
 		# Setting `num_workers` > 0 enables asynchronous data loading and overlap between the training and data loading. num_workers should be tuned depending on the workload, CPU, GPU, and location of training data.
 	# `pin_memory`:
 		# `DataLoader` accepts `pin_memory` argument, which defaults to `False`. When using a GPU it’s better to set `pin_memory=True`, this instructs DataLoader to use pinned memory and enables faster and asynchronous memory copy from the host to the GPU.
-dl_tr = DataLoader(dataset=ds_tr, batch_size=batch_size, shuffle=True, num_workers=4)
-dl_te = DataLoader(dataset=ds_te, batch_size=batch_size, shuffle=False, num_workers=4)
+dl_tr = DataLoader(dataset=ds_tr, batch_size=batch_size, shuffle=True, num_workers=4, collate_fn)
+dl_te = DataLoader(dataset=ds_te, batch_size=batch_size, shuffle=False, num_workers=4, collate_fn)
+```
+## Collation
+```python
+# Example
+def pad_to_bboxes(batch):
+    max_n_bboxes = max([bboxes.shape[0] for _, bboxes in batch])
+    image_list, bboxes_list, = list(), list()
+    for image, bboxes in batch:
+        image_list.append(image)
+        bboxes_list.append(F.pad(bboxes, pad=(0, 0, 0, max_n_bboxes - bboxes.shape[0])))
+    return torch.stack(image_list), torch.stack(bboxes_list)
 ```
 
 # Pre-trained Models

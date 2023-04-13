@@ -319,10 +319,10 @@ with open(..., mode="w") as f:
 with open(..., mode="w") as f:
 	json.dump(obj, f, [ensure_ascii=True], [indent])
 ```
-## Load json File
+## JSON File to Dictionary
 ```python
 with open(..., mode="r") as f:
-	file = json.load(f)
+	dic = json.load(f)
 ```
 
 # Progress Bar
