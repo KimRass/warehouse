@@ -2,6 +2,11 @@
 from PIL import Image, ImageDraw, ImageFont
 ```
 
+# Libraqm
+```sh
+pip install --upgrade Pillow  --global-option="build_ext" --global-option="--enable-raqm"
+```
+
 # Read Image
 ```python
 img = Image.open(fp)
