@@ -17,15 +17,15 @@
 - Figure 2
     - <img src="https://user-images.githubusercontent.com/105417680/232974285-1816083a-3976-4c58-bb59-394c802f6c71.png" width="500">
     - '(a)': On every feature map, similar to dropout, we first sample a mask $M$. We only sample mask from shaded green region in which each sampled entry can expanded to a mask fully contained inside the feature map.
-    - '(b)': Every zero entry on $M$ is expanded to $block{\_}size \times block{\_}size$ zero block.
-- DropBlock has two main parameters which are $block{\_}size$ and $\gamma$. $block{\_}size$ is the size of the block to be dropped, and $\gamma$, controls how many activation units to drop.
+    - '(b)': Every zero entry on $M$ is expanded to $block\textunderscore size \times block\textunderscore size$ zero block.
+- DropBlock has two main parameters which are $block\textunderscore size$ and $\gamma$. $block\textunderscore size$ is the size of the block to be dropped, and $\gamma$, controls how many activation units to drop.
 - ***Similar to dropout we do not apply DropBlock during inference.***
-- Setting the value of $block{\_}size$.
-    - ***We set a constant*** $block{\_}size$ ***for all feature maps, regardless the resolution of feature map.*** DropBlock resembles dropout [1] when $block{\_}size$ = 1 and resembles SpatialDropout [20] when $block{\_}size$ covers the full feature map.
+- Setting the value of $block\textunderscore size$.
+    - ***We set a constant*** $block\textunderscore size$ ***for all feature maps, regardless the resolution of feature map.*** DropBlock resembles dropout [1] when $block\textunderscore size$ = 1 and resembles SpatialDropout [20] when $block\textunderscore size$ covers the full feature map.
 - Setting the value of $\gamma$.
     - In our implementation, $\gamma$ can be computed as
-    $$\gamma = \frac{keep{\_}prob \cdot feat{\_}width \cdot feat{\_}height}{block{\_}size^{2} \cdot (feat{\_}width - block{\_}size + 1) \cdot (feat{\_}height - block{\_}size + 1)}$$
-    - (Comment: $\gamma$를 위 식을 통해 정하게 되면 이것을 Parameter로 하여 베르누이 분포로부터 Mask를 샘플링했을 때 그 Mask의 평균이 $\gamma$에 매우 가까운 값을 가지게 됩니다.)
+    $$\gamma = \frac{(1 - keep\textunderscore prob) \cdot feat\textunderscore width \cdot feat\textunderscore height}{block\textunderscore size^{2} \cdot (feat\textunderscore width - block\textunderscore size + 1) \cdot (feat\textunderscore height - block\textunderscore size + 1)}$$
+    - (Comment: $\gamma$를 위 식을 통해 정하게 되면 이것을 Parameter로 하여 베르누이 분포로부터 Mask를 샘플링했을 때 그 Mask의 평균이 $keep\textunderscore prob$에 매우 가까운 값을 가지게 됩니다.)
 ## Training
 - Data augmentation
     - We used horizontal flip, scale, and aspect ratio augmentation for training images as in [12] and [26].
@@ -33,11 +33,11 @@
 ## Experiments
 - Scheduled DropBlock
     - ***Having a fixed zero-out ratio for DropBlock during training is not as robust as having an increasing schedule for the ratio during training. In other words, it’s better to set the DropBlock ratio to be small initially during training, and linearly increase it over time during training.***
-    - Scheduled DropBlock. We found that DropBlock with a fixed $keep{\_}prob$ during training does not work well. Applying small value of $keep{\_}prob$ hurts learning at the beginning. Instead, gradually decreasing $keep{\_}prob$ over time from 1 to the target value is more robust and adds improvement for the most values of $keep{\_}prob$.
+    - Scheduled DropBlock. We found that DropBlock with a fixed $keep\textunderscore prob$ during training does not work well. Applying small value of $keep\textunderscore prob$ hurts learning at the beginning. Instead, gradually decreasing $keep\textunderscore prob$ over time from 1 to the target value is more robust and adds improvement for the most values of $keep\textunderscore prob$.
 - DropBlock in ResNet-50
     - Table 1
         - <img src="https://user-images.githubusercontent.com/105417680/233234178-95b4e940-6863-4f32-ad1b-142fb790f921.png" width="600">
-        - For dropout [1], DropPath [17], and SpatialDropout [20], we trained models with different $keep{\_}prob$ values and reported the best result. DropBlock is applied with $block{\_}size = 7$. We report average over 3 runs.
+        - For dropout [1], DropPath [17], and SpatialDropout [20], we trained models with different $keep\textunderscore prob$ values and reported the best result. DropBlock is applied with $block\textunderscore size = 7$. We report average over 3 runs.
         - ***DropBlock has better performance compared to strong data augmentation [27] and label smoothing [28]. The performance improves when combining DropBlock and label smoothing and train for 290 epochs, showing the regularization techniques can be complimentary when we train for longer.***
 - DropBlock vs. dropout [1]
     - Figure 3
@@ -45,16 +45,16 @@
 - Comparison with Cutout
     - ***Although Cutout improves accuracy on the CIFAR-10 dataset as suggested by [23], it does not improve the accuracy on the ImageNet dataset in our experiments.***
 - DropBlock in AmoebaNet [10]
-    - We apply DropBlock after all batch normalization layers and also in the skip connections of the last 50% of the cells. The resolution of the feature maps in these cells are $21 \times 21$ or $11 \times 11$ for input image with the size of $331 \times 331$. Based on the experiments in the last section, we used $keep{\_}prob = 0.9$ and set $block{\_}size = 11$ which is the width of the last feature map.
+    - We apply DropBlock after all batch normalization layers and also in the skip connections of the last 50% of the cells. The resolution of the feature maps in these cells are $21 \times 21$ or $11 \times 11$ for input image with the size of $331 \times 331$. Based on the experiments in the last section, we used $keep\textunderscore prob = 0.9$ and set $block\textunderscore size = 11$ which is the width of the last feature map.
 - DropBlock drops more semantic information
     - Figure 5
         - <img src="https://user-images.githubusercontent.com/105417680/233234487-40b89cfc-4ded-4724-b817-87359e1eb7e1.png" width="700">
-        - (a): When we apply DropBlock with $block{\_}size = 1$ at inference with different $keep{\_}prob$
-        - (b): When we apply DropBlock with $block{\_}size = 7$ at inference with different $keep{\_}prob$.
+        - (a): When we apply DropBlock with $block\textunderscore size = 1$ at inference with different $keep\textunderscore prob$
+        - (b): When we apply DropBlock with $block\textunderscore size = 7$ at inference with different $keep\textunderscore prob$.
         - The models are trained and evaluated with DropBlock at groups 3 and 4.
-        - 'trained with block_size=1' and 'trained with block_size=7' in (a) and (b): ResNet-50 model trained with $block{\_}size = 7$ and $keep{\_}prob = 0.9$ has higher accuracy compared to the ResNet-50 model trained with $block{\_}size = 1$ and $keep{\_}prob = 0.9$.
-        - (a) and (b): ***The accuracy drops more quickly with decreasing*** $keep{\_}prob$***, for*** $block{\_}size = 1$ ***in comparison with*** $block{\_}size = 7$ ***which suggests DropBlock is more effective to remove semantic information than dropout.*** (Comment: (a)와 (b)를 서로 같은 색깔의 선에 대해서 비교해 봤을 때, (a)보다 (b)에서 'accuracy (validation)'이 더 낮습니다.)
-        - 'trained with block_size=7' in (a) and 'trained_with_block_size=1' in (b): We show that model trained with large block size, which removes more semantic information, results in stronger regularization. We demonstrate the fact by taking model trained with $block{\_}size = 7$ and applied $block{\_}size = 1$ during inference and vice versa. The performance of model trained with $block{\_}size = 1$ reduced more quickly with decreasing $keep{\_}prob$ when applying $block{\_}size = 7$ during inference. The results suggest that block_size = 7 is more robust and has the benefit of block_size = 1 but not vice versa.
+        - 'trained with block_size=1' and 'trained with block_size=7' in (a) and (b): ResNet-50 model trained with $block\textunderscore size = 7$ and $keep\textunderscore prob = 0.9$ has higher accuracy compared to the ResNet-50 model trained with $block\textunderscore size = 1$ and $keep\textunderscore prob = 0.9$.
+        - (a) and (b): ***The accuracy drops more quickly with decreasing*** $keep\textunderscore prob$***, for*** $block\textunderscore size = 1$ ***in comparison with*** $block\textunderscore size = 7$ ***which suggests DropBlock is more effective to remove semantic information than dropout.*** (Comment: (a)와 (b)를 서로 같은 색깔의 선에 대해서 비교해 봤을 때, (a)보다 (b)에서 'accuracy (validation)'이 더 낮습니다.)
+        - 'trained with block_size=7' in (a) and 'trained_with_block_size=1' in (b): We show that model trained with large block size, which removes more semantic information, results in stronger regularization. We demonstrate the fact by taking model trained with $block\textunderscore size = 7$ and applied $block\textunderscore size = 1$ during inference and vice versa. The performance of model trained with $block\textunderscore size = 1$ reduced more quickly with decreasing $keep\textunderscore prob$ when applying $block\textunderscore size = 7$ during inference. The results suggest that block_size = 7 is more robust and has the benefit of block_size = 1 but not vice versa.
 - Figure 6
     - <img src="https://user-images.githubusercontent.com/105417680/233234589-8bf0304c-ecf9-475d-a41a-31b6df8a2239.png" width="800">
 ## References
