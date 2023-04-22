@@ -47,6 +47,7 @@
         - '(b)': ***The scheduled*** $keep\textunderscore prob$ ***makes DropBlock more robust to the change of*** $keep\textunderscore prob$ ***and adds improvement for the most values of*** $keep\textunderscore prob$***.***
     - Figure 4
         - <img src="https://user-images.githubusercontent.com/105417680/233579158-15b45329-a4af-41d8-a741-09af9cb99082.png" width="850">
+        - With the best keep_prob found in Figure 3, we swept over block_size from 1 to size covering full feature map. Figure 4 shows applying larger block_size is generally better than applying block_size of 1. The best DropBlock configuration is to apply block_size = 7 to both groups 3 and 4. In all configurations, DropBlock and dropout share the similar trend and DropBlock has a large gain compared to the best dropout result. This shows evidence that the DropBlock is a more effective regularizer compared to dropout.
 - Comparison with Cutout
     - ***Although Cutout improves accuracy on the CIFAR-10 dataset as suggested by [23], it does not improve the accuracy on the ImageNet dataset in our experiments.***
 - DropBlock in AmoebaNet [10]
