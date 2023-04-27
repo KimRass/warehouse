@@ -39,6 +39,48 @@ $$\ell_{con}(\textbf{x}, \textbf{y}) = \bigg\lvert \phi(D \circ \textbf{x}) − 
 - where in our experiments the constant scalar $M = 10$.
 - Figure 3
     - <img src="https://user-images.githubusercontent.com/67457712/234450015-2a5eefe6-fcbd-42e0-ae89-821e8dd84fc6.png" width="450">
+## Architecture
+- ***In principle, the choice of the architecture is arbitrary.*** For ease of comparison with state-of-the-art methods when transferring to classification and detection tasks, we adopt the AlexNet architecture [20] as commonly done in other self-supervised learning methods.
+- We use the first 5 convolutional layers from AlexNet followed by three fully connected layers ($(3 \times 3 \times 256)\times 4096$, $4096 \times 4096$, and $4096 \times 1000$), and ReLU units. ***Note that*** $1000$ ***is the number of elements that we want to count. We use ReLU in the end since we want the counting vector to be all positive. Our input is*** $114 \times 114$ ***pixels to handle smaller tiles.*** Because all the features are the same, training with the loss function in equation 4 is equivalent to training a 6-way siamese network.
+## Experiments
+
+We
+call the activation of the last layer of our network, on which
+the loss (4) is defined, the counting vector. We evaluate
+whether each unit in the counting vector is counting some
+visual primitive or not. Our model is based on AlexNet [20]
+in all experiments. In our tables we use boldface for the top
+performer and underline the second top performer. 
+
+We begin with a learning rate of 10−4
+and drop it by a fac-
+tor of 0.9 every 10K iterations. An important step is to nor-
+malize the input by subtracting the mean intensity value and
+dividing the zero-mean images by their standard deviation. 
+
+Transfer Learning Evaluation
+We evaluate our learned representation on the detec-
+tion, classification, and segmentation tasks on the PASCAL
+dataset as well as the classification task on the ImageNet
+dataset. 
+
+Fine-tuning on PASCAL
+In this set of experiments, we fine-tune our network on
+the PASCAL VOC 2007 and VOC 2012 datasets, which
+are standard benchmarks for representation learning. 
+
+Notice that while classification and detection are evaluated on VOC
+2007, segmentation is evaluated on VOC 2012. 
+
+Table 1: Evaluation of transfer learning on PASCAL.
+Classification and detection are evaluated on PASCAL VOC
+2007 in the frameworks introduced in [19] and [11] respec-
+tively. Both tasks are evaluated using mean average pre-
+cision (mAP) as a performance measure. Segmentation is
+evaluated on PASCAL VOC 2012 in the framework of [26],
+which reports mean intersection over union (mIoU). (*) de-
+notes the use of the data initialization method [19].
+## References
 - [9] [Unsupervised Visual Representation Learning by Context Prediction](https://arxiv.org/pdf/1505.05192.pdf)
 - [21] [Learning Representations for Automatic Colorization](https://arxiv.org/pdf/1603.06668.pdf)
 - [22] [Colorization as a Proxy Task for Visual Understanding](https://arxiv.org/pdf/1703.04044.pdf)
