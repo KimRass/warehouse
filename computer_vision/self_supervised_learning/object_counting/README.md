@@ -37,13 +37,14 @@ $$\phi(D \circ \textbf{x}) = \sum^{4}_{j=1}\phi(T_{j} \circ \textbf{x})$$
 - Equation 4
 $$\ell_{con}(\textbf{x}, \textbf{y}) = \bigg\lvert \phi(D \circ \textbf{x}) − \sum^{4}_{j = 1}\phi(T_{j} \circ \textbf{x})\bigg\rvert^{2} + \max\bigg\{0, M − \bigg\lvert \phi(D \circ \textbf{y}) − \sum^{4}_{j = 1} \phi(T_{j} \circ \textbf{x}) \bigg\rvert^{2}\bigg\}$$
 - where in our experiments the constant scalar $M = 10$.
-- Figure 3
-    - <img src="https://user-images.githubusercontent.com/67457712/234450015-2a5eefe6-fcbd-42e0-ae89-821e8dd84fc6.png" width="450">
+- Least effort bias
+    - Figure 3
+        - <img src="https://user-images.githubusercontent.com/67457712/234450015-2a5eefe6-fcbd-42e0-ae89-821e8dd84fc6.png" width="550">
+        - A bias of the system is that ***it can easily satisfy the constraint (3) by learning to count as few visual primitives as possible. Thus, many entries of the feature mapping may collapse to zero.*** This effect is observed in the final trained network. In figure 3, we show the average of features computed over the ImageNet validation set. ***There are only 30 and 44 non zero entries out of 1000 after training on ImageNet and on COCO respectively.*** Despite the sparsity of the features, our transfer learning experiments show that the features in the hidden layers (conv1-conv5) perform very well on several benchmarks. ***In equation 4, the contrastive term limits the effects of the least effort bias. Indeed, features that count very few visual primitives cannot differentiate much the content across different images. Therefore, the contrastive term will introduce a tradeoff that will push features towards counting as many primitives as is needed to differentiate images from each other.***
 ## Architecture
 - ***In principle, the choice of the architecture is arbitrary.*** For ease of comparison with state-of-the-art methods when transferring to classification and detection tasks, we adopt the AlexNet architecture [20] as commonly done in other self-supervised learning methods.
 - We use the first 5 convolutional layers from AlexNet followed by three fully connected layers ($(3 \times 3 \times 256)\times 4096$, $4096 \times 4096$, and $4096 \times 1000$), and ReLU units. ***Note that*** $1000$ ***is the number of elements that we want to count. We use ReLU in the end since we want the counting vector to be all positive. Our input is*** $114 \times 114$ ***pixels to handle smaller tiles.*** Because all the features are the same, training with the loss function in equation 4 is equivalent to training a 6-way siamese network.
-## Experiments
-
+## Ablation Studies
 We
 call the activation of the last layer of our network, on which
 the loss (4) is defined, the counting vector. We evaluate
@@ -80,6 +81,58 @@ cision (mAP) as a performance measure. Segmentation is
 evaluated on PASCAL VOC 2012 in the framework of [26],
 which reports mean intersection over union (mIoU). (*) de-
 notes the use of the data initialization method [19].
+- Table 4: Performance on the detection task on PASCAL VOC 2007 under different training scenarios
+    - <img src="https://user-images.githubusercontent.com/67457712/235175524-43cd7d35-55cf-444a-ac36-1e60643194e7.png" width="450">
+    - Counting vector length
+        - The first row and the last row: Shows the impact of the counting vector length. As discussed earlier on, the network tends to generate sparse counting features. We train the network on ImageNet with only 20 elements in the counting vector. ***This leads to a small drop in the performance, thus showing little sensitivity with respect to feature length.***
+    - Dataset size
+        - The first row and the second row: We also train the network with a smaller set of training images. The results show that ***our method is sensitive to the size of the training set.*** This shows that the counting task is non-trivial and ***requires a large training dataset.***
+    - An important part of the design of the learning procedure is the identification of trivial solutions, i.e., ***solutions that would not result in a useful representation and that the neural network could converge to.*** By identifying such trivial learning scenarios, we can provide suitable countermeasures. We now discuss possible shortcuts that the network could use to solve the counting task and also the techniques that we use to avoid them.
+    - Color histograms
+        - A first potential problem is that the neural network learns trivial features such as low-level texture statistics histograms. For example, a special case is color histograms. This representation is undesirable because it would be semantically agnostic (or very weak) and therefore we would not expect it to transfer well to classification and detection. In general, these histograms would not satisfy equation 2. However, ***if the neural network could tell tiles apart from downsampled images, then it could apply a customized scaling factor to the histograms in the two cases and satisfy equation 2. In other words, ***the network might learn the following degenerate feature
+        - Equation 5
+            $$
+            \begin{equation}
+                \phi(z) =
+                    \begin{cases}
+                    \frac{1}{4}hist(\textbf{z}) & \text{if \textbf{z} is a tile}\\
+                    hist(\textbf{z}) & \text{if \textbf{z} is downsampled}
+                    \end{cases}       
+                \end{equation}
+            $$
+        - Notice that this feature would satisfy the first term in equation 4. The second (contrastive) term would also be easily satisfied since different images have typically different low-level texture histograms. We discuss below scenarios when this might happen and present our solutions towards reducing the likelihood of trivial learning.
+        - The network recognizes the downsampling style.
+            - During training, we randomly crop a 224 × 224 region from a 256 × 256 image. Next, we downsample the whole im- age by a factor of 2. The downsampling style, e.g., bilinear, bicubic, and Lanczos, may leave artifacts in images that the network may learn to recognize. To make the identifica- tion of the downsampling method difficult, at each stochas- tic gradient descent iteration, we randomly pick either the bicubic, bilinear, lanczos, or the area method as defined in OpenCV [16]. As shown in Table 4, the randomization of different downsampling methods significantly improves the detection performance by at least 2.2%. In Table 5, we perform another experiment that clearly shows that network learns the downsampling style. We train our network by using only one downsampling method. Then, we test the network on the pretext task by using only one (possibly different) method. If the network has learned to detect the downsampling method, then it will perform poorly at test time when using a different one. As an error metric, we use the first term in the loss function normalized by the average of the norm of the feature vector. More pre- cisely, the error when the network is trained with the i-th downsampling style and tested on the j-th one is eij = P x P4 p=1 φ i The network recognizes chromatic aberration. The pres- ence of chromatic aberration and its undesirable effects on learning have been pointed out by Doersch et al. [9]. Chro- matic aberration is a relative shift between the color chan- nels that increases in the outward radial direction. Hence, our network can use this property to tell tiles apart from the dowsampled images. In fact, tiles will have a strongly diagonal chromatic aberration, while the downsampled im- age will have a radial aberration. We already reduce its ef- fect by choosing the central region in the very first crop- ping preprocessing. To further reduce its effect, we train the network with both color and grayscale images (obtained by replicating the average color across all 3 channels). In training, we randomly choose color images 33% of the time and grayscale images 67% of the time. This choice is con- sistent across all the terms in the loss function (i.e., all tiles and downsampled images are either colored or grayscale). While this choice does not completely solve the issue, it does improve the performance of the model. We find that completely eliminating the color from images leads to a loss in performance in transfer learning (see Table 4).
+- Table 5
+    - <img src="https://user-images.githubusercontent.com/67457712/235180136-f273d7d9-a7a1-41db-91af-e70be14637a1.png" width="450">
+
+
+We use visualization and nearest neighbor search to see
+what visual primitives our trained network counts. Ideally,
+these visual primitives should capture high-level concepts like objects or object parts rather than low-level concepts
+like edges and corners. In fact, detecting simple corners
+will not go a long way in semantic scene understanding. To
+avoid dataset bias, we train our model on ImageNet (with
+no labeles) and show the results on COCO dataset. 
+
+Quantitative Analysis
+We illustrate quantitatively the relation between the mag-
+nitude of the counting vector and the number of objects.
+Rather than counting exactly the number of specific ob-
+jects, we introduce a simple method to rank images based
+on how many objects they contain. The method is based on
+cropping an image with larger and larger regions which are
+then rescaled to the same size through downsampling (see
+Fig. 5). We build two sets of 100 images each. We assign images yielding the highest and lowest feature magnitude
+into two different sets. We randomly crop 10 regions with
+an area between 50%−95% of each image and compute the
+corresponding counting vector. The mean and the standard
+deviation of the counting vector magnitude of the cropped
+images for each set is shown in Fig 6. We observe that
+our feature does not count low-level texture, and is instead
+more sensitive to composite images. A better understanding
+of this observation needs futher investigation.
+
 ## References
 - [9] [Unsupervised Visual Representation Learning by Context Prediction](https://arxiv.org/pdf/1505.05192.pdf)
 - [21] [Learning Representations for Automatic Colorization](https://arxiv.org/pdf/1603.06668.pdf)
