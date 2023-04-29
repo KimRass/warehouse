@@ -7,126 +7,212 @@ import torch.nn.functional as F
 import torchvision
 import torchvision.transforms as T
 from torchvision.models import alexnet
+from torch.utils.data import Dataset, DataLoader
+from torchvision.datasets import ImageFolder
 from itertools import combinations
+import cv2
+from PIL import Image
+from pathlib import Path
+import numpy as np
+import random
 
-# alexnet().features(torch.randn(8, 3, 224, 224)).shape
-alexnet().features(torch.randn(8, 3, 128, 128)).shape
-alexnet().features
+
+BATCH_SIZE = 8
+IMG_SIZE = 256
+CROP_SIZE = 224
+TILE_SIZE = CROP_SIZE // 2
 
 
-class Network(nn.Module):
-    def __init__(self, n_elems=1000):
+def load_image(img_path):
+    img_path = str(img_path)
+    img = cv2.imread(img_path, flags=cv2.IMREAD_COLOR)
+    img = cv2.cvtColor(src=img, code=cv2.COLOR_BGR2RGB)
+    return img
+
+
+def _to_pil(img):
+    if not isinstance(img, Image.Image):
+        img = Image.fromarray(img)
+    return img
+
+
+def show_image(img):
+    copied_img = img.copy()
+    copied_img = _to_pil(copied_img)
+    copied_img.show()
+
+
+def batched_image_to_grid(image, n_cols, normalize=False, mean=(0.485, 0.456, 0.406), variance=(0.229, 0.224, 0.225)):
+    b, _, h, w = image.shape
+    assert b % n_cols == 0,\
+        "The batch size should be a multiple of `n_cols` argument"
+    pad = max(2, int(max(h, w) * 0.04))
+    grid = torchvision.utils.make_grid(tensor=image, nrow=n_cols, normalize=False, padding=pad)
+    grid = grid.clone().permute((1, 2, 0)).detach().cpu().numpy()
+
+    if normalize:
+        grid *= variance
+        grid += mean
+    grid *= 255.0
+    grid = np.clip(a=grid, a_min=0, a_max=255).astype("uint8")
+
+    for k in range(n_cols + 1):
+        grid[:, (pad + h) * k: (pad + h) * k + pad, :] = 255
+    for k in range(b // n_cols + 1):
+        grid[(pad + h) * k: (pad + h) * k + pad, :, :] = 255
+    return grid
+
+class AlexNetFeatureExtractor(nn.Module):
+    def __init__(self):
         super().__init__()
 
-        conv1 = nn.Conv2d(3, 96, kernel_size=11, stride=4)
-        conv2 = nn.Conv2d(96, 256, kernel_size=5, padding=2)
-        conv3 = nn.Conv2d(256, 384, kernel_size=3, padding=1)
-        conv4 = nn.Conv2d(384, 384, kernel_size=3, padding=1)
-        conv5 = nn.Conv2d(384, 256, kernel_size=3, padding=1)
-        relu = nn.ReLU()
-        maxpool = nn.MaxPool2d(kernel_size=3, stride=2)
+        self.conv1 = nn.Conv2d(3, 96, kernel_size=11, stride=4)
+        self.conv2 = nn.Conv2d(96, 256, kernel_size=5, padding=2)
+        self.conv3 = nn.Conv2d(256, 384, kernel_size=3, padding=1)
+        self.conv4 = nn.Conv2d(384, 384, kernel_size=3, padding=1)
+        self.conv5 = nn.Conv2d(384, 256, kernel_size=3, padding=1)
+        self.relu = nn.ReLU()
+        self.maxpool = nn.MaxPool2d(kernel_size=3, stride=2)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.relu(x)
+        x = self.maxpool(x)
+        x = self.conv2(x)
+        x = self.relu(x)
+        x = self.maxpool(x)
+        x = self.conv3(x)
+        x = self.relu(x)
+        x = self.conv4(x)
+        x = self.relu(x)
+        x = self.conv5(x)
+        x = self.relu(x)
+        x = self.maxpool(x)
+        return x
+
+
+class CountingFeatureExtractor(nn.Module):
+    def __init__(self, feat_extractor, n_elems=1000):
+        super().__init__()
+
+        self.feat_extractor = feat_extractor
 
         self.flatten = nn.Flatten(start_dim=1, end_dim=3)
-        self.fc6 = nn.Linear(256 * 2 * 2, 4096)
-        # self.dropout = nn.Dropout(0.5)
+        # self.fc6 = nn.Linear(256 * 6 * 6, 4096)
+        self.relu = nn.ReLU()
+        self.dropout = nn.Dropout(0.5)
         self.fc7 = nn.Linear(4096, 4096)
         self.fc8 = nn.Linear(4096, n_elems)
 
     def forward(self, x):
-        b, _, _, _ = x.shape
-        
-        x = torch.randn(8, 3, 112, 112)
-        x = conv1(x)
-        x = relu(x)
-        x = maxpool(x)
-        x = conv2(x)
-        x = relu(x)
-        x = maxpool(x)
-        x = conv3(x)
-        x = relu(x)
-        x = conv4(x)
-        x = relu(x)
-        x = conv5(x)
-        x = relu(x)
-        x = maxpool(x)
-        x.shape
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        x = self.feat_extractor(x)
 
-        x = self.alexnet_conv(x)
-        print(x.shape)
         x = self.flatten(x)
-        # x = self.fc6(x)
-        x = nn.Linear(x.numel() // b, 4096)(x)
+        x = self.dropout(x)
+
+        x = nn.Linear(x.shape[1], 4096)(x) # fc6
         x = self.relu(x)
-        # x = self.dropout(x)
+        x = self.dropout(x)
+
         x = self.fc7(x)
         x = self.relu(x)
-        # x = self.dropout(x)
+        x = self.dropout(x)
+
         x = self.fc8(x)
         x = self.relu(x)
-        # x = self.dropout(x)
+        x = self.dropout(x)
         return x
 
 
 class ContrastiveLoss(nn.Module):
-    def __init__(self, img_size=228, M=10):
+    def __init__(self, counting_feat_extractor, crop_size=CROP_SIZE, M=10):
         super().__init__()
 
-        self.img_size = img_size
+        self.counting_feat_extractor = counting_feat_extractor
+        self.crop_size = crop_size
         self.M = M
-        self.cell_size = self.img_size // 2
-        # self.model = model
+        self.tile_size = self.crop_size // 2
+        self.resize = T.Resize((self.tile_size, self.tile_size), antialias=True)
 
-    def forward(self, x):
-        # model = Network()
-        # data = torch.randn((batch_size, 3, img_size, img_size))
-        # out = model(data)
+    def forward(self, image):
+        b, _, _, _ = image.shape
 
-        ids = torch.as_tensor(list(combinations(range(batch_size), 2)))
-        x, y = x[ids[:, 0]], x[ids[:, 1]]
+        ids = torch.as_tensor(list(combinations(range(b), 2)))
+        x_ids, y_ids = ids[:, 0], ids[:, 1]
 
-        cell1 = x[:, :, : cell_size, : cell_size]
-        cell2 = x[:, :, cell_size:, : cell_size]
-        cell3 = x[:, :, : cell_size, cell_size:]
-        cell4 = x[:, :, cell_size:, cell_size:]
-        resized_x = T.Resize((cell_size, cell_size))(x)
-        resized_y = T.Resize((cell_size, cell_size))(y)
+        tile1 = image[:, :, : self.tile_size, : self.tile_size]
+        tile2 = image[:, :, self.tile_size:, : self.tile_size]
+        tile3 = image[:, :, : self.tile_size, self.tile_size:]
+        tile4 = image[:, :, self.tile_size:, self.tile_size:]
+        resized = self.resize(image)
 
-        cell1_feat = model(cell1)
-        cell2_feat = model(cell2)
-        cell3_feat = model(cell3)
-        cell4_feat = model(cell4)
-        resized_x_feat = model(resized_x)
-        resized_y_feat = model(resized_y)
+        tile1_feat = self.counting_feat_extractor(tile1)
+        tile2_feat = self.counting_feat_extractor(tile2)
+        tile3_feat = self.counting_feat_extractor(tile3)
+        tile4_feat = self.counting_feat_extractor(tile4)
+        resized_feat = self.counting_feat_extractor(resized)
 
-        summed_feat = (cell1_feat + cell2_feat + cell3_feat + cell4_feat)
-        loss1 = F.mse_loss(resized_x_feat, summed_feat)
-        loss2 = max(0, self.M - F.mse_loss(resized_y_feat, summed_feat))
+        summed_feat = (tile1_feat + tile2_feat + tile3_feat + tile4_feat)
+        loss1 = F.mse_loss(resized_feat[x_ids], summed_feat[x_ids], reduction="sum")
+        loss2 = max(0, self.M - F.mse_loss(resized_feat[y_ids], summed_feat[y_ids], reduction="sum"))
         loss = loss1 + loss2
         return loss
 
-img_size=256
-cell_size=img_size // 2
-batch_size=8
-model = Network()
-data = torch.randn((batch_size, 3, cell_size, cell_size))
-model(data).shape
 
-criterion = ContrastiveLoss(model=model)
-# x = torch.randn((1, 3, img_size, img_size))
-# y = torch.randn((1, 3, img_size, img_size))
-# contrastive_loss(x, y)
+class CustomDataset(Dataset):
+    def __init__(self, root, transform=None, gray_prob=0.67):
+        super().__init__()
+        self.root = root
+        self.transform = transform
+        self.gray_prob = gray_prob
+        self.img_paths = list(map(str, Path(self.root).glob("*.jpg")))
 
-combs = list(combinations(range(batch_size), 2))
-x = data[[i[0] for i in combs]]
-y = data[[i[1] for i in combs]]
-# x[:, :, : cell_size, : cell_size].shape
-criterion(x, y)
+    def __len__(self):
+        return len(self.img_paths)
+
+    def __getitem__(self, idx):
+        img_path = self.img_paths[idx]
+        image = _to_pil(load_image(img_path))
+
+        if self.transform is not None:
+            image = self.transform(image)
+        return image
+
+
+if __name__ == "__main__":
+    transform = T.Compose(
+        [
+            T.ToTensor(),
+            T.CenterCrop(IMG_SIZE),
+            T.RandomCrop(CROP_SIZE),
+            T.RandomGrayscale(0.67)
+            # T.Normalize(
+            #     mean=[0.485, 0.456, 0.406],
+            #     std=[0.229, 0.224, 0.225]
+            # )
+        ]
+    )
+    ds = CustomDataset(root="/Users/jongbeomkim/Downloads/VOCdevkit 2/VOC2012/JPEGImages", transform=transform)
+    dl = DataLoader(dataset=ds, batch_size=BATCH_SIZE, shuffle=True, drop_last=True)
+    for batch, image in enumerate(dl, start=1):
+        if batch >= 10:
+            break
+        grid = batched_image_to_grid(image=image, n_cols=4)
+        show_image(grid)
+
+        sample_feat_extractor = AlexNetFeatureExtractor()
+        counting_feat_extractor = CountingFeatureExtractor(feat_extractor=sample_feat_extractor)
+        criterion = ContrastiveLoss(counting_feat_extractor=counting_feat_extractor)
+        
+        image.shape
+        gray_image = image.mean(dim=1)[:, None, ...].repeat(1, 3, 1, 1)
+        gray_image[0, 0, 0, 0], gray_image[0, 1, 0, 0], gray_image[0, 2, 0, 0]
+        
+        criterion(image), criterion(gray_image)
+        criterion(gray_image)
+        counting_feat_extractor(gray_image)
+        
+        conv1 = nn.Conv2d(3, 96, kernel_size=11, stride=4)
+        conv1(gray_image)
+        sample_feat_extractor(gray_image)
+        
