@@ -1,5 +1,5 @@
 # Paper Understanding
-- [Unsupervised Representation Learning by Predicting Image Rotations](https://arxiv.org/pdf/1803.07728.pdf)
+- [Unsupervised Representation Learning by Predicting Image Rotations, 2018](https://arxiv.org/pdf/1803.07728.pdf)
 ## Related Works
 - In order to learn features, [1] and [2] train ConvNets to colorize gray scale images, [3] and [4] predict the relative position of image patches, and [5] predict the egomotion (i.e., self-motion) of a moving vehicle between two consecutive frames.
 - The core intuition of our self-supervised feature learning approach is that if someone is not aware of the concepts of the objects depicted in the images, he cannot recognize the rotation that was applied to them.
@@ -47,8 +47,8 @@ $$loss(X_{i}, \theta) = −\frac{1}{K}\sum^{K}_{k = 1}\log\bigg(p^{k}\big(g(X_{i
 ## References
 - [1] [Colorful Image Colorization](https://arxiv.org/pdf/1603.08511.pdf)
 - [2] [Learning Representations for Automatic Colorization](https://arxiv.org/pdf/1603.06668.pdf)
-- [3] [Unsupervised Visual Representation Learning by Context Prediction](https://arxiv.org/pdf/1505.05192.pdf)
-- [4] [Unsupervised Learning of Visual Representations by Solving Jigsaw Puzzles](https://arxiv.org/pdf/1603.09246.pdf)
+- [3] [Unsupervised Visual Representation Learning by Context Prediction, 2015](https://arxiv.org/pdf/1505.05192.pdf)
+- [4] [Unsupervised Learning of Visual Representations by Solving Jigsaw Puzzles, 2016](https://arxiv.org/pdf/1603.09246.pdf)
 - [5] [Learning to See by Moving](https://arxiv.org/pdf/1505.01596.pdf)
 - [6] [Discriminative Unsupervised Feature Learning with Exemplar Convolutional Neural Networks](https://arxiv.org/pdf/1406.6909.pdf)
 - [7] [Learning Deep Parsimonious Representations]

@@ -137,6 +137,55 @@ our feature does not count low-level texture, and is instead
 more sensitive to composite images. A better understanding
 of this observation needs futher investigation.
 
+- Qualitative Analysis
+    - Figure 4
+        - <img src="https://user-images.githubusercontent.com/67457712/235311148-99782898-190e-4eac-86e6-871e942d8674.png" width="700">
+        - Activating/Ignored images. In Fig 4, we show blocks of
+        16 images ranked based on the magnitude of the count-
+        ing vector. We observe that images with the lowest feature
+        norms are textures without any high-level visual primitives.
+        In contrast, images with the highest feature response mostly
+        contain multiple object instances or a large object. For this
+        experiment we use the validation or the test set of the dataset
+        that the network has been trained on, so the network has not
+        seen these images during training.
+- Nearest neighbor search
+    - Figre 7
+        - <img src="https://user-images.githubusercontent.com/67457712/235311068-bc42fb3b-fbf9-4126-bccd-c2858a9775f9.png" width="900">
+        - To qualitatively evaluate our
+        learned representation, for some validation images, we vi-
+        sualize their nearest neighbors in the training set in Fig. 7.
+        Given a query image, the retrieval is obtained as a rank-
+        ing of the Euclidean distance between the counting vector
+        of the query image and the counting vector of images in
+        the dataset. Smaller values indicate higher affinity. Fig. 7
+        shows that the retrieved results share a similar scene outline
+        and are semantically related to the query images. Note that
+        we perform retrieval in the counting space, which is the last
+        layer of our network. This is different from the analogous
+        experiment in [19] which performs the retrieval in the in-
+        termediate layers. This result can be seen as an evidence
+        that our initial hypothesis, that the counting vectors capture
+        high level visual primitives, was true.
+        - Figure 7: Nearest neighbor retrievals. Left: COCO retrievals. Right: ImageNet retrievals. In both datasets, the leftmost
+    column (with a red border) shows the queries and the other columns show the top matching images sorted with increasing
+    Euclidean distance in our counting feature space from left to right. On the bottom 3 rows, we show the failure retrieval cases.
+    Note that the matches share a similar content and scene outline. 
+- Neuron activations
+    - Figure 8
+        - <img src="https://user-images.githubusercontent.com/67457712/235311077-cbbf27d6-a762-4232-af86-e7e9d57f9689.png" width="900">
+        - To visualize what each single count-
+        ing neuron (i.e., feature element) has learned, we rank images not seen during training based on the magnitude of
+        their neuron responses. We do this experiment on the vali-
+        dation set of ImageNet and the test set of COCO. In Fig. 8,
+        we show the top 8 most activating images for 4 neurons out
+        of 30 active ones on ImageNet and out of 44 active ones on
+        COCO. We observe that these neurons seem to cluster im-
+        ages that share the same scene layout and general content.
+        - Figure 8: Blocks of the 8 most activating images for 4 neurons of our network trained on ImageNet (top row) and COCO
+    (bottom row). The counting neurons are sensitive to semantically similar images. Interestingly, dominant concepts in each
+    dataset, e.g., dogs in ImageNet and persons playing baseball in COCO, emerge in our counting vector.
+
 ## References
 - [9] [Unsupervised Visual Representation Learning by Context Prediction](https://arxiv.org/pdf/1505.05192.pdf)
 - [21] [Learning Representations for Automatic Colorization](https://arxiv.org/pdf/1603.06668.pdf)
