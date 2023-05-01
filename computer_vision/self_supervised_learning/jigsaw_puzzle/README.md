@@ -95,7 +95,7 @@
 ## References
 - [10] [Unsupervised Visual Representation Learning by Context Prediction](https://arxiv.org/pdf/1505.05192.pdf)
 - [16] [Fast R-CNN](https://arxiv.org/pdf/1504.08083.pdf)
-- [25] [ImageNet Classification with Deep Convolutional Neural Networks](https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf)
+- [25] [ImageNet Classification with Deep Convolutional Neural Networks, 2012](https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf)
 - [27] [Fully Convolutional Networks for Semantic Segmentation](https://arxiv.org/pdf/1411.4038.pdf)
 
 - We use stochastic gradient descent without batch normalization [21] on one Titan X GPU. The training uses 1.3M color images of 256×256 pixels and mini- batches with a batch size of 256 images. The images are resized by preserving the aspect ratio until either the height or the width matches 256 pixels. Then the other dimension is cropped to 256 pixels. The training converges after 350K iterations with a basic learning rate of 0.01 and takes 59.5 hours in total (∼ 2.5 days). If we take 122% = 3072cores@1000Mhz 2880cores@875Mhz = 6,144GFLOPS 5,040GFLOPS as the best possible performance ratio between the Titan X and the Tesla K40 (used for [10]) we can predict that the CFN would have taken ∼ 72.5 hours (∼ 3 days) on a Tesla K40. We compute that on average each image is used 350K × 256/1.3M ' 69 times. That is, we solve on average 69 Jigsaw puzzles per image.
