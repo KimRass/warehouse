@@ -8,19 +8,19 @@ import torchvision
 import torchvision.transforms as T
 from torchvision.models import alexnet
 from torch.utils.data import Dataset, DataLoader
-from torchvision.datasets import ImageFolder
-from itertools import combinations
+from torchvision.datasets import ImageNet
+from itertools import product
 import cv2
 from PIL import Image
 from pathlib import Path
 import numpy as np
-import random
 
 
-BATCH_SIZE = 8
+BATCH_SIZE = 16
 IMG_SIZE = 256
 CROP_SIZE = 224
 TILE_SIZE = CROP_SIZE // 2
+GRAY_PROB = 0.67
 
 
 def load_image(img_path):
@@ -125,21 +125,19 @@ class CountingFeatureExtractor(nn.Module):
 
 
 class ContrastiveLoss(nn.Module):
-    def __init__(self, counting_feat_extractor, crop_size=CROP_SIZE, M=10):
+    def __init__(self, counting_feat_extractor, batch_size, crop_size=CROP_SIZE, M=10):
         super().__init__()
 
         self.counting_feat_extractor = counting_feat_extractor
         self.crop_size = crop_size
         self.M = M
+
         self.tile_size = self.crop_size // 2
         self.resize = T.Resize((self.tile_size, self.tile_size), antialias=True)
+        ids = torch.as_tensor([(i, j) for i, j in product(range(batch_size), range(batch_size)) if i != j])
+        self.x_ids, self.y_ids = ids[:, 0], ids[:, 1]
 
     def forward(self, image):
-        b, _, _, _ = image.shape
-
-        ids = torch.as_tensor(list(combinations(range(b), 2)))
-        x_ids, y_ids = ids[:, 0], ids[:, 1]
-
         tile1 = image[:, :, : self.tile_size, : self.tile_size]
         tile2 = image[:, :, self.tile_size:, : self.tile_size]
         tile3 = image[:, :, : self.tile_size, self.tile_size:]
@@ -153,18 +151,17 @@ class ContrastiveLoss(nn.Module):
         resized_feat = self.counting_feat_extractor(resized)
 
         summed_feat = (tile1_feat + tile2_feat + tile3_feat + tile4_feat)
-        loss1 = F.mse_loss(resized_feat[x_ids], summed_feat[x_ids], reduction="sum")
-        loss2 = max(0, self.M - F.mse_loss(resized_feat[y_ids], summed_feat[y_ids], reduction="sum"))
+        loss1 = F.mse_loss(resized_feat[self.x_ids], summed_feat[self.x_ids], reduction="sum")
+        loss2 = max(0, self.M - F.mse_loss(resized_feat[self.y_ids], summed_feat[self.y_ids], reduction="sum"))
         loss = loss1 + loss2
         return loss
 
 
 class CustomDataset(Dataset):
-    def __init__(self, root, transform=None, gray_prob=0.67):
+    def __init__(self, root, transform=None):
         super().__init__()
         self.root = root
         self.transform = transform
-        self.gray_prob = gray_prob
         self.img_paths = list(map(str, Path(self.root).glob("*.jpg")))
 
     def __len__(self):
@@ -180,39 +177,30 @@ class CustomDataset(Dataset):
 
 
 if __name__ == "__main__":
-    transform = T.Compose(
+    transform1 = T.Compose(
         [
             T.ToTensor(),
             T.CenterCrop(IMG_SIZE),
             T.RandomCrop(CROP_SIZE),
-            T.RandomGrayscale(0.67)
             # T.Normalize(
             #     mean=[0.485, 0.456, 0.406],
             #     std=[0.229, 0.224, 0.225]
             # )
         ]
     )
-    ds = CustomDataset(root="/Users/jongbeomkim/Downloads/VOCdevkit 2/VOC2012/JPEGImages", transform=transform)
+    transform2 = T.RandomGrayscale(GRAY_PROB)
+    ds = CustomDataset(root="/Users/jongbeomkim/Documents/datasets/VOCdevkit/VOC2012/JPEGImages", transform=transform1)
     dl = DataLoader(dataset=ds, batch_size=BATCH_SIZE, shuffle=True, drop_last=True)
     for batch, image in enumerate(dl, start=1):
-        if batch >= 10:
-            break
-        grid = batched_image_to_grid(image=image, n_cols=4)
-        show_image(grid)
+        image = transform2(image)
+
+        # grid = batched_image_to_grid(image=image, n_cols=int(BATCH_SIZE ** 0.5))
+        # show_image(grid)
 
         sample_feat_extractor = AlexNetFeatureExtractor()
         counting_feat_extractor = CountingFeatureExtractor(feat_extractor=sample_feat_extractor)
-        criterion = ContrastiveLoss(counting_feat_extractor=counting_feat_extractor)
-        
-        image.shape
-        gray_image = image.mean(dim=1)[:, None, ...].repeat(1, 3, 1, 1)
-        gray_image[0, 0, 0, 0], gray_image[0, 1, 0, 0], gray_image[0, 2, 0, 0]
-        
-        criterion(image), criterion(gray_image)
-        criterion(gray_image)
-        counting_feat_extractor(gray_image)
-        
-        conv1 = nn.Conv2d(3, 96, kernel_size=11, stride=4)
-        conv1(gray_image)
-        sample_feat_extractor(gray_image)
-        
+        criterion = ContrastiveLoss(counting_feat_extractor=counting_feat_extractor, batch_size=BATCH_SIZE)
+
+        print(criterion(image))
+        criterion.x_ids
+        criterion.y_ids
