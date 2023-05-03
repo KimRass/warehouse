@@ -108,7 +108,8 @@ We now evaluate the encoder features for their seman-
 tic quality and transferability to other image understanding
 tasks. We experiment with images from two datasets: Paris
 StreetView [8] and ImageNet [37] without using any of the
-accompanying labels. 
+accompanying labels.
+
 ## References
 - [7] [Unsupervised Visual Representation Learning by Context Prediction, 2015](https://arxiv.org/pdf/1505.05192.pdf)
 - [10]

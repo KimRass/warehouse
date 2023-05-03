@@ -62,6 +62,7 @@ def batched_image_to_grid(image, n_cols, normalize=False, mean=(0.485, 0.456, 0.
         grid[(pad + h) * k: (pad + h) * k + pad, :, :] = 255
     return grid
 
+
 class AlexNetFeatureExtractor(nn.Module):
     def __init__(self):
         super().__init__()

@@ -250,6 +250,7 @@ Path("...").unlink()
 # Delete directory
 os.rmdir("...")
 Path("...").unlink()
+shutil.rmtree()
 ```
 ## Iterate
 ```python
