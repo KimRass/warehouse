@@ -48,7 +48,7 @@ class CustomDataset(Dataset):
         super().__init__()
         self.root = root
         self.transform = transform
-        self.img_paths = list(map(str, Path(self.root).glob("*.jpg")))
+        self.img_paths = list(map(str, Path(self.root).glob("**/*.jpg")))
 
     def __len__(self):
         return len(self.img_paths)
@@ -62,27 +62,33 @@ class CustomDataset(Dataset):
         return image
 
 
-s = 1
-transform = T.Compose(
+def get_data_augmentation_function(img_size=IMG_SIZE, s=1):
+    kernel_size = round(img_size / 10) // 2 * 2 + 1
+    transform = T.Compose(
         [
             T.ToTensor(),
-            T.RandomResizedCrop(size=IMG_SIZE, scale=(0.08, 1), ratio=(3 / 4, 4 / 3)),
+            T.RandomResizedCrop(size=img_size, scale=(0.08, 1), ratio=(3 / 4, 4 / 3), antialias=True),
+            T.RandomHorizontalFlip(p=0.5),
             T.RandomApply(
                 [T.ColorJitter(brightness=0.8 * s, contrast=0.8 * s, saturation=0.8 * s, hue=0.2 * s)],
                 p=0.8
             ),
-            T.RandomGrayscale(p=0.2)
-            # T.Normalize(
-            #     mean=[0.485, 0.456, 0.406],
-            #     std=[0.229, 0.224, 0.225]
-            # )
+            T.RandomGrayscale(p=0.2),
+            T.RandomApply(
+                [T.GaussianBlur(kernel_size=(kernel_size, kernel_size), sigma=(0.1, 2))],
+                p=0.5
+            ),
         ]
     )
+    return transform
 
-ds = CustomDataset(root="/Users/jongbeomkim/Documents/datasets/VOCdevkit/VOC2012/JPEGImages", transform=transform)
-dl = DataLoader(dataset=ds, batch_size=BATCH_SIZE, shuffle=True, drop_last=True)
-for batch, image in enumerate(dl, start=1):
-    if batch >= 5:
-        break
-    grid = batched_image_to_grid(image=image, n_cols=int(BATCH_SIZE ** 0.5))
-    show_image(grid)
+
+if __name__ == "__main__":
+    transform = get_data_augmentation_function()
+    ds = CustomDataset(root="/Users/jongbeomkim/Documents/datasets/VOCdevkit/VOC2012/JPEGImages", transform=transform)
+    dl = DataLoader(dataset=ds, batch_size=BATCH_SIZE, shuffle=True, drop_last=True)
+    for batch, image in enumerate(dl, start=1):
+        if batch >= 5:
+            break
+        grid = batched_image_to_grid(image=image, n_cols=int(BATCH_SIZE ** 0.5))
+        show_image(grid)

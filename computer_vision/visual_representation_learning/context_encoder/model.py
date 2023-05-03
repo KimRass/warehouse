@@ -4,28 +4,17 @@
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-import torchvision
 import torchvision.transforms as T
-from torchvision.models import alexnet
-from torch.utils.data import Dataset, DataLoader
-from torchvision.datasets import ImageNet
-from itertools import product
-import cv2
-from PIL import Image
-from pathlib import Path
-import numpy as np
 import math
 
 
 BATCH_SIZE = 16
 IMG_SIZE = 227
-FEAT_DIM = 9216
 
 
 class AlexNetFeatureExtractor(nn.Module):
     def __init__(self):
-        super().__nn.init__()
+        super().__init__()
 
         self.conv1 = nn.Conv2d(3, 96, kernel_size=11, stride=4)
         self.conv2 = nn.Conv2d(96, 256, kernel_size=5, padding=2)
@@ -82,12 +71,50 @@ class ChannelwiseFullyConnetecdLayer(nn.Module):
         return f"""features={self.features}, feature_size={self.feature_size}"""
 
 
+class Decoder(nn.Module):
+    def __init__(self, img_size):
+        super().__init__()
+
+        self.upconv1 = nn.ConvTranspose2d(256, 128, kernel_size=5, stride=2, padding=2)
+        self.upconv2 = nn.ConvTranspose2d(128, 64, kernel_size=5, stride=2, padding=2)
+        self.upconv3 = nn.ConvTranspose2d(64, 64, kernel_size=5, stride=2, padding=2)
+        self.upconv4 = nn.ConvTranspose2d(64, 32, kernel_size=5, stride=2, padding=2)
+        self.upconv5 = nn.ConvTranspose2d(32, 3, kernel_size=5, stride=2, padding=2)
+        
+        self.resize = T.Resize(size=img_size)
+
+    def forward(self, x):
+        x = self.upconv1(x)
+        x = self.upconv2(x)
+        x = self.upconv3(x)
+        x = self.upconv4(x)
+        x = self.upconv5(x)
+        
+        x = self.resize(x)
+        return x
+
+
+class ContextEncoder(nn.Module):
+    def __init__(self, encoder, img_size=IMG_SIZE):
+        super().__init__()
+
+        self.encoder = encoder
+        self.decoder = Decoder(img_size=img_size)
+
+    def forward(self, x):
+        x = self.encoder(input)
+
+        _, m, n, n = x.shape
+        x = ChannelwiseFullyConnetecdLayer(features=m, feature_size=n)(x)
+
+        x = self.decoder(x)
+        return x
+    
+
 if __name__ == "__main__":
     feat_extractor = AlexNetFeatureExtractor()
-
+    
+    context_enc = ContextEncoder(encoder=AlexNetFeatureExtractor())
     input = torch.randn((BATCH_SIZE, 3, IMG_SIZE, IMG_SIZE))
-    x = feat_extractor(input)
-
-    b, m, n, n = x.shape
-    cfc = ChannelwiseFullyConnetecdLayer(features=m, feature_size=n)
-    cfc(x).shape
+    out = context_enc(input)
+    out.shape

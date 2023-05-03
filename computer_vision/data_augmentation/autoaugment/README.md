@@ -1,5 +1,5 @@
 # Paper Reading
-- [AutoAugment: Learning Augmentation Policies from Data](https://arxiv.org/pdf/1805.09501.pdf)
+- [AutoAugment: Learning Augmentation Policies from Data, 2019](https://arxiv.org/pdf/1805.09501.pdf)
 ## Introduction
 - Intuitively, data augmentation is used to teach a model about invariances in the data domain.
 - In this paper, we aim to automate the process of finding an effective data augmentation policy for a target dataset. In our implementation, each policy expresses several choices and orders of possible augmentation operations, where each operation is an image processing function (e.g., translation, rotation, or color normalization), the probabilities of applying the function, and the magnitudes with which they are applied. We use a search algorithm to find the best choices and orders of these operations such that training a neural network yields the best validation accuracy.

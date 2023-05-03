@@ -76,5 +76,5 @@
 - [43] [Weakly-supervised Discovery of Visual Pattern Configurations](https://arxiv.org/pdf/1406.6507.pdf)
 - [49] [Regularization of Neural Networks using DropConnect](http://proceedings.mlr.press/v28/wan13.pdf)
 - [56] [Object Region Mining with Adversarial Erasing: A Simple Classification to Semantic Segmentation Approach](https://arxiv.org/pdf/1703.08448.pdf)
-- [59] [Visualizing and Understanding Convolutional Networks](https://arxiv.org/pdf/1311.2901.pdf)
+- [59] [Visualizing and Understanding Convolutional Networks, 2014](https://arxiv.org/pdf/1311.2901.pdf)
 - [61] [Learning Deep Features for Discriminative Localization]

@@ -30,7 +30,7 @@
     - Channel-wise fully-connected layer
         - This layer is essentially a fully-connected layer with groups, intended to propagate information within activations of each feature map. If the input layer has $m$ feature maps of size $n \times n$, this layer will output $m$ feature maps of dimension $n \times n$. However, ***unlike a fully-connected layer, it has no parameters connecting different feature maps and only propagates information within feature maps. Thus, the number of parameters in this channel-wise fully-connected layer is*** $mn^{4}$***, compared to*** $m^{2}n^{4}$ ***parameters in a fully-connected layer (ignoring the bias term).*** This is followed by a stride 1 convolution to propagate information across channels.
     - Decoder
-        - The "encoder features" are connected to the "decoder features" using a channel-wise fully- connected layer. ***The channel-wise fully-connected layer is followed by a series of five up-convolutional layers [10, 28, 40] with learned filters, each with a rectified linear unit (ReLU) activation function.*** A up-convolutional is simply a convolution that results in a higher resolution image. It can be understood as upsampling followed by convolution (as described in [10]), or convolution with fractional stride (as described in [28]).
+        - The "encoder features" are connected to the "decoder features" using a channel-wise fully- connected layer. ***The channel-wise fully-connected layer is followed by a series of five up-convolutional layers [28] [40] with learned filters, each with a rectified linear unit (ReLU) activation function.*** A up-convolutional is simply a convolution that results in a higher resolution image. It can be understood as upsampling followed by convolution (as described in [10]), or convolution with fractional stride (as described in [28]).
 ## Training
 ### Loss
 - ***There are often multiple equally plausible ways to fill a missing image region which are consistent with the context. We model this behavior by having a decoupled joint loss function to handle both continuity within the context and multiple modes in the output. The reconstruction (L2) loss is responsible for capturing the overall structure of the missing region and coherence with regards to its context, but tends to average together the multiple modes in predictions. The adversarial loss, on the other hand, tries to make prediction look real, and has the effect of picking a particular mode from the distribution.***
@@ -112,8 +112,7 @@ accompanying labels.
 
 ## References
 - [7] [Unsupervised Visual Representation Learning by Context Prediction, 2015](https://arxiv.org/pdf/1505.05192.pdf)
-- [10]
 - [26] [ImageNet Classification with Deep Convolutional Neural Networks, 2012](https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf)
-- [28]
-- [30] [Distributed representations of words and phrases and their compositionality]
-- [40]
+- [28] [Fully Convolutional Networks for Semantic Segmentation, 2015](https://arxiv.org/pdf/1411.4038.pdf)
+- [30] [Distributed Representations of Words and Phrases and their Compositionality](https://arxiv.org/pdf/1310.4546.pdf)
+- [40] [Visualizing and Understanding Convolutional Networks, 2014](https://arxiv.org/pdf/1311.2901.pdf)
