@@ -19,7 +19,7 @@ from process_images import (
 )
 
 IMG_SIZE = 224
-BATCH_SIZE = 16
+BATCH_SIZE = 2
 
 
 def batched_image_to_grid(image, n_cols, normalize=False, mean=(0.485, 0.456, 0.406), variance=(0.229, 0.224, 0.225)):
@@ -58,11 +58,12 @@ class CustomDataset(Dataset):
         image = _to_pil(load_image(img_path))
 
         if self.transform is not None:
-            image = self.transform(image)
-        return image
+            view1 = self.transform(image)
+            view2 = self.transform(image)
+        return view1, view2
 
 
-def get_data_augmentation_function(img_size=IMG_SIZE, s=1):
+def get_image_transformer(img_size=IMG_SIZE, s=1):
     kernel_size = round(img_size / 10) // 2 * 2 + 1
     transform = T.Compose(
         [
@@ -78,17 +79,23 @@ def get_data_augmentation_function(img_size=IMG_SIZE, s=1):
                 [T.GaussianBlur(kernel_size=(kernel_size, kernel_size), sigma=(0.1, 2))],
                 p=0.5
             ),
+            T.Normalize(
+                mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225]
+            ),
         ]
     )
     return transform
 
 
 if __name__ == "__main__":
-    transform = get_data_augmentation_function()
+    transform = get_image_transformer()
     ds = CustomDataset(root="/Users/jongbeomkim/Documents/datasets/VOCdevkit/VOC2012/JPEGImages", transform=transform)
     dl = DataLoader(dataset=ds, batch_size=BATCH_SIZE, shuffle=True, drop_last=True)
-    for batch, image in enumerate(dl, start=1):
-        if batch >= 5:
+    for batch, (view1, view2) in enumerate(dl, start=1):
+        if batch >= 2:
             break
-        grid = batched_image_to_grid(image=image, n_cols=int(BATCH_SIZE ** 0.5))
+        grid = batched_image_to_grid(image=view1, n_cols=int(BATCH_SIZE ** 0.5), normalize=True)
+        show_image(grid)
+        grid = batched_image_to_grid(image=view2, n_cols=int(BATCH_SIZE ** 0.5), normalize=True)
         show_image(grid)
