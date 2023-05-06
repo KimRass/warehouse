@@ -30,14 +30,15 @@
     - We train at batch size 4096 for 100 epochs.
     - We use linear warmup for the first 10 epochs, and decay the learning rate with the cosine decay schedule without restarts [9].
 ### Loss Function
+- Let $\text{sim(\textbf{u}, \textbf{v})}$ denote the cosine similarity between two vectors $\textbf{u}$ and $\textbf{v}$. Then the loss function for a positive pair of examples $(i, j)$ is defined as
 $$\ell_{i, k} = -\log{\frac{\exp(sim(\textbf{z}_{i}, \textbf{z}_{j}) / \tau)}{\sum^{2N}_{k=1}\mathbb{1}_{[k \neq i]}\exp(\text{sim}(\textbf{z}_{i}, \textbf{z}_{k}) / \tau)}}$$
 - where $\mathbb{1}_{[k \neq i]} \in \{0, 1\}$ is an indicator function evaluating to 1 iff $k \neq i$ and $\tau$ denotes a temperature parameter.
+- For convenience, we term it ***NT-Xent (the normalized temperature-scaled cross entropy loss)***.
 $$\mathcal{L} = \frac{1}{2N}\sum^{N}_{k = 1}[\ell(2k - 1, 2k) + \ell(2k, 2k - 1)]$$
 <!-- - As the loss, we use NT-Xent, optimized using LARS with linear learning rate scaling (i.e. LearningRate = 0.3 × BatchSize/256) and weight decay of 10−6 . -->
 - Sampling
     - We randomly sample a minibatch of $N$ examples and define the contrastive prediction task on pairs of augmented examples derived from the minibatch, resulting in $2N$ data points.
     - We do not sample negative examples explicitly. Instead, ***given a positive pair we treat the other*** $2(N − 1)$ ***augmented examples within a minibatch as negative examples.***
-    - Let $\text{sim(\textbf{u}, \textbf{v})}$ denote the cosine similarity between two vectors $\textbf{u}$ and $\textbf{v}$. Then the loss function for a positive pair of examples (i, j) is defined as `i,j = − log exp(sim(zi , zj )/τ ) P2N k=1 1[k6=i] exp(sim(zi , zk)/τ ) , (1) where 1[k6=i] ∈ {0, 1} is an indicator function evaluating to 1 iff k 6= i and τ denotes a temperature parameter. The fi- nal loss is computed across all positive pairs, both (i, j) and (j, i), in a mini-batch. This loss has been used in previous work (Sohn, 2016; Wu et al., 2018; Oord et al., 2018); for convenience, we term it NT-Xent (the normalized temperature-scaled cross entropy loss). Algorithm 1 summarizes the proposed method.
 ## Evaluation
 - Dataset and metrics
     - Most of our study for unsupervised pretraining is done using the ImageNet ILSVRC-2012 dataset To evaluate the learned representations, ***we follow the widely used linear evaluation protocol, where a linear classifier is trained on top of the frozen base network, and test accuracy is used as a proxy for representation quality.***

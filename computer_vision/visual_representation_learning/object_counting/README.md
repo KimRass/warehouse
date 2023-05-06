@@ -191,7 +191,7 @@ of this observation needs futher investigation.
 - [21] [Learning Representations for Automatic Colorization](https://arxiv.org/pdf/1603.06668.pdf)
 - [22] [Colorization as a Proxy Task for Visual Understanding](https://arxiv.org/pdf/1703.04044.pdf)
 - [29] [Unsupervised Learning of Visual Representations by Solving Jigsaw Puzzles](https://arxiv.org/pdf/1603.09246.pdf)
-- [33] [Context Encoders: Feature Learning by Inpainting](https://arxiv.org/pdf/1604.07379.pdf)
+- [33] [Context Encoders: Feature Learning by Inpainting, 2016](https://arxiv.org/pdf/1604.07379.pdf)
 - [35] [Unsupervised Representation Learning with Deep Convolutional Generative Adversarial Networks](https://arxiv.org/pdf/1511.06434.pdf)
 - [43] [Colorful Image Colorization](https://arxiv.org/pdf/1603.08511.pdf)
 - [44] [Split-Brain Autoencoders: Unsupervised Learning by Cross-Channel Prediction](https://arxiv.org/pdf/1611.09842.pdf)

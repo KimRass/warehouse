@@ -1,6 +1,6 @@
 from PIL import Image
 import cv2
-import numpy as np
+from pathlib import Path
 
 
 def load_image(img_path):
@@ -20,3 +20,10 @@ def show_image(img):
     copied_img = img.copy()
     copied_img = _to_pil(copied_img)
     copied_img.show()
+
+
+def save_image(img, path):
+    path = Path(path)
+    path.parent.mkdir(parents=True, exist_ok=True)
+
+    _to_pil(img).save(str(path))

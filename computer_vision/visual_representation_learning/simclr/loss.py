@@ -27,8 +27,11 @@ TEMPERATURE = 3
 
 
 class ResNet50FeatureMapExtractor():
-    def __init__(self):
-        self.model = resnet50(weights=ResNet50_Weights.IMAGENET1K_V2)
+    def __init__(self, pretrained=False):
+        if not pretrained:
+            self.model = resnet50()
+        else:
+            self.model = resnet50(weights=ResNet50_Weights.IMAGENET1K_V2)
 
         for name, module in self.model.named_modules():
             if name == "avgpool":
@@ -65,37 +68,12 @@ class ProjectionHead(nn.Module):
 
 
 class NTXentLoss(nn.Module):
-    def __init__(self, counting_feat_extractor, batch_size, crop_size=CROP_SIZE, M=10):
+    def __init__(self):
         super().__init__()
 
-        self.counting_feat_extractor = counting_feat_extractor
-        self.crop_size = crop_size
-        self.M = M
-
-        self.tile_size = self.crop_size // 2
-        self.resize = T.Resize((self.tile_size, self.tile_size), antialias=True)
-        ids = torch.as_tensor([(i, j) for i, j in product(range(batch_size), range(batch_size)) if i != j])
-        self.x_ids, self.y_ids = ids[:, 0], ids[:, 1]
-
-
-if __name__ == "__main__":
-    transform = get_image_transformer()
-    ds = CustomDataset(root="/Users/jongbeomkim/Documents/datasets/VOCdevkit/VOC2012/JPEGImages", transform=transform)
-    dl = DataLoader(dataset=ds, batch_size=BATCH_SIZE, shuffle=True, drop_last=True)
-    for batch, (view1, view2) in enumerate(dl, start=1):
-        if batch >= 2:
-            break
-        view = torch.cat([view1, view2], dim=0)
-        # grid = batched_image_to_grid(image=view, n_cols=2, normalize=True)
-        # show_image(grid)
-        
-        feat_extractor = ResNet50FeatureMapExtractor()
-        prj_head = ProjectionHead()
-        feat_map = feat_extractor.get_feature_map(view)
-        feat_map = prj_head(feat_map)
-        feat_map.shape
-
-        cos_sim_mat = F.cosine_similarity(feat_map.unsqueeze(1), feat_map.unsqueeze(0), dim=2)
+    def forward(self, x):
+        # Order: image1_view1, image2_view1, ..., image2_view2, image2_view2, ...
+        cos_sim_mat = F.cosine_similarity(x.unsqueeze(1), x.unsqueeze(0), dim=2)
         mat = torch.exp(cos_sim_mat / TEMPERATURE)
         mat.fill_diagonal_(0)
         
@@ -103,40 +81,29 @@ if __name__ == "__main__":
         denom = mat.sum(dim=0)
         
         loss = - torch.log(numer / denom).sum() / (2 * BATCH_SIZE)
+        return loss
 
+
+if __name__ == "__main__":
+    criterion = NTXentLoss()
+
+    transform = get_image_transformer()
+    ds = CustomDataset(root="/Users/jongbeomkim/Documents/datasets/VOCdevkit/VOC2012/JPEGImages", transform=transform)
+    dl = DataLoader(dataset=ds, batch_size=BATCH_SIZE, shuffle=True, drop_last=True)
+    for batch, (view1, view2) in enumerate(dl, start=1):
+        if batch >= 11:
+            break
+        view = torch.cat([view1, view2], dim=0)
+        # grid = batched_image_to_grid(image=view, n_cols=BATCH_SIZE, normalize=True)
+        # save_image(
+        #     img=grid,
+        #     path=f"""/Users/jongbeomkim/Desktop/workspace/machine_learning/computer_vision/visual_representation_learning/simclr/voc2012_samples/{batch}.jpg"""
+        # )
         
-
-
-
-        norm_feat_map = F.normalize(feat_map, p=2, dim=1)
-
-        feat_map.unsqueeze(0).shape
-        feat_map.unsqueeze(1).shape
-
-
-
-
-
-        # pos_ids = sum([[2 * i + 1, 2 * i] for i in range(BATCH_SIZE)], [])
-        # numer = torch.exp(F.cosine_similarity(feat_map, feat_map[pos_ids], dim=1) / TEMPERATURE)
-        # numer
-
-        # ids = torch.as_tensor([(i, j) for i, j in product(range(2 * BATCH_SIZE), range(2 * BATCH_SIZE)) if i != j])
-        # ids
-
-        # denom = torch.exp(F.cosine_similarity(feat_map[ids[:, 0]], feat_map[ids[:, 1]], dim=1) / TEMPERATURE)
-        # denom
-        # neg_ids = [list(range(i * (2 * BATCH_SIZE - 1), (i + 1) * (2 * BATCH_SIZE - 1))) for i in range(2 * BATCH_SIZE)]
-        # neg_ids
-
-        # numer
-
-        # [numerdenom[i].sum() for i in neg_ids]
-        # [denom[i] for i in neg_ids]
-
-
-        # ids[:, 0]
-        # [list(range(i * BATCH_SIZE, (i + 1) * BATCH_SIZE)) for i in range(2 * BATCH_SIZE)]
-        # len([i for i in range(2 * BATCH_SIZE)])
-
-1, 3, 5, 7, 2, 4, 6, 8
+        feat_extractor = ResNet50FeatureMapExtractor()
+        prj_head = ProjectionHead()
+        feat_map = feat_extractor.get_feature_map(view)
+        feat_map = prj_head(feat_map)
+        
+        loss = criterion(feat_map)
+        loss

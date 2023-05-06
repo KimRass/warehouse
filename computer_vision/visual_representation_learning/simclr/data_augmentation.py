@@ -1,14 +1,7 @@
-import torch
-import torch.nn as nn
-import torch.nn.functional as F
 import torchvision
 import torchvision.transforms as T
 from torchvision.models import alexnet
 from torch.utils.data import Dataset, DataLoader
-from torchvision.datasets import ImageNet
-from itertools import product
-import cv2
-from PIL import Image
 from pathlib import Path
 import numpy as np
 
@@ -60,7 +53,10 @@ class CustomDataset(Dataset):
         if self.transform is not None:
             view1 = self.transform(image)
             view2 = self.transform(image)
+        # print(view1.shape)
+        # view = torch.stack([view1, view2])
         return view1, view2
+        # return view
 
 
 def get_image_transformer(img_size=IMG_SIZE, s=1):

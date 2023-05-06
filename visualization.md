@@ -213,7 +213,7 @@ ax.set_xlabel()
 ```
 
 # Tick
-## `ax.tick_params(axis, [which], [labelsize], [labelcolor], [labelrotation], [grid_linewidth])`
+## `ax.tick_params(axis, [which], [labelsize], [labelcolor], [labelrotation], [grid_linewidth], [labelsize])`
 - `axis`: (`"x"`, `"y"`)
 ## Set Tick
 ```python
@@ -277,6 +277,7 @@ plt.legend()
 # Color Bar
 ```python
 img = ...
+fig.colorbar(heatmap, ax=...)
 plt.colorbar(img, format="%+2.0f dB")
 ```
 ### Set Color Bar Label
@@ -321,7 +322,7 @@ fig, axes = plt.subplots(nrows, ncols, ...)
 ## `plt.setp()`
 ## `plt.show()`
 ## `plt.gcf().tight_layout()`, `fig.tight_layout()`
-## `plt.imshow([cmap])`print(len(df_news_eng)
+## `plt.imshow([cmap])`
 ## `plt.set()`
 ```python
 # `title`
