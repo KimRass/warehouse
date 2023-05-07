@@ -1,5 +1,5 @@
 # Paper Summary
-- [Unsupervised Learning of Visual Representations by Solving Jigsaw Puzzles](https://arxiv.org/pdf/1603.09246.pdf)
+- [Unsupervised Learning of Visual Representations by Solving Jigsaw Puzzles, 2017](https://arxiv.org/pdf/1603.09246.pdf)
 ## Introduction
 - We introduce a novel self-supervised task, the Jigsaw puzzle reassembly problem, which builds features that yield high performance when transferred to detection and classification tasks. ***We argue that solving Jigsaw puzzles can be used to teach a system that an object is made of parts and what these parts are.*** The association of each separate puzzle tile to a precise object part might be ambiguous. However, when all the tiles are observed, the ambiguities might be eliminated more easily because the tile placement is mutually exclusive. Training a Jigsaw puzzle solver takes about 2.5 days compared to 4 weeks of [10].
 - This work falls in the area of representation/feature learning, which is an unsupervised learning problem. Representation learning is concerned with building intermediate representations of data useful to solve machine learning tasks.

@@ -1,5 +1,5 @@
 # Paper Reading
-- [DropBlock: A regularization method for convolutional networks](https://arxiv.org/pdf/1810.12890.pdf)
+- [DropBlock: A Regularization Method for Convolutional Networks, 2018](https://arxiv.org/pdf/1810.12890.pdf)
 ## Related Works
 - [1]
     - ***We argue that the main drawback of dropout is that it drops out features randomly. While this can be effective for fully connected layers, it is less effective for convolutional layers, where features are correlated spatially. When the features are correlated, even with dropout, information about the input can still be sent to the next layer, which causes the networks to overfit.*** This intuition suggests that a more structured form of dropout is needed to better regularize convolutional networks.

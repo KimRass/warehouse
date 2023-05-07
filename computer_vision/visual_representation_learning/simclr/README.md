@@ -1,5 +1,5 @@
 # Paper Reading
-- [A Simple Framework for Contrastive Learning of Visual Representations](https://arxiv.org/pdf/2002.05709.pdf)
+- [A Simple Framework for Contrastive Learning of Visual Representations, 2020](https://arxiv.org/pdf/2002.05709.pdf)
 ## Introduction
 - ***Composition of multiple data augmentation operations is crucial in defining the contrastive prediction tasks that yield effective representations.***
 - ***Unsupervised contrastive learning benefits from larger batch sizes and longer training compared to its supervised counterpart.*** Like supervised learning, contrastive learning benefits from deeper and wider networks.
@@ -80,56 +80,9 @@ $$\mathcal{L} = \frac{1}{2N}\sum^{N}_{k = 1}[\ell(2k - 1, 2k) + \ell(2k, 2k - 1)
         - <img src="https://user-images.githubusercontent.com/67457712/236479187-ac9d7daf-faff-4d8c-8310-e68b60b7f8c0.png" width="350">
         - The representation $h$ (before projection) is 2048-dimensional here
         - We study the importance of including a projection head, i.e. g(h). Figure 8 shows linear evaluation results using three different architecture for the head: (1) identity
-
-
-
-
-
-
-
-
-
-
-mapping; (2) linear projection, as used by several previous
-approaches (Wu et al., 2018); and (3) the default nonlinear
-projection with one additional hidden layer (and ReLU acti-
-vation), similar to Bachman et al. (2019). We observe that a
-nonlinear projection is better than a linear projection (+3%),
-and much better than no projection (>10%). When a pro-
-jection head is used, similar results are observed regardless
-of output dimension. Furthermore, even when nonlinear
-projection is used, the layer before the projection head, h,
-is still much better (>10%) than the layer after, z = g(h),
-which shows that the hidden layer before the projection
-head is a better representation than the layer after
-
-
-Handcrafted pretext tasks. The recent renaissance of self-
-supervised learning began with artificially designed pre-
-text tasks, such as relative patch prediction (Doersch et al.,
-2015), solving jigsaw puzzles (Noroozi & Favaro, 2016),
-colorization (Zhang et al., 2016) and rotation prediction (Gi-
-daris et al., 2018). Although good results can be obtained with bigger networks and longer training (Kolesnikov et al.,
-2019), these pretext tasks rely on somewhat ad-hoc heuris-
-tics, which limits the generality of learned representations. 
-
-Contrastive visual representation learning. Dating back
-to Hadsell et al. (2006), these approaches learn represen-
-tations by contrasting positive pairs against negative pairs.
-Along these lines, Dosovitskiy et al. (2014) proposes to treat
-each instance as a class represented by a feature vector (in a
-parametric form). Wu et al. (2018) proposes to use a mem-
-ory bank to store the instance class representation vector,
-an approach adopted and extended in several recent papers
-(Zhuang et al., 2019; Tian et al., 2019; He et al., 2019a;
-Misra & van der Maaten, 2019). Other work explores the
-use of in-batch samples for negative sampling instead of a
-memory bank (Ye et al., 2019; Ji et al., 2019).
-Recent literature has attempted to relate the success of their
-methods to maximization of mutual information between
-latent representations (Oord et al., 2018; Hénaff et al., 2019;
-Hjelm et al., 2018; Bachman et al., 2019).
-
+<!-- - mapping; (2) linear projection, as used by several previous approaches (Wu et al., 2018); and (3) the default nonlinear projection with one additional hidden layer (and ReLU acti- vation), similar to Bachman et al. (2019). We observe that a nonlinear projection is better than a linear projection (+3%), and much better than no projection (>10%). When a pro- jection head is used, similar results are observed regardless of output dimension. Furthermore, even when nonlinear projection is used, the layer before the projection head, h, is still much better (>10%) than the layer after, z = g(h), which shows that the hidden layer before the projection head is a better representation than the layer after
+- Handcrafted pretext tasks. The recent renaissance of self- supervised learning began with artificially designed pre- text tasks, such as relative patch prediction (Doersch et al., 2015), solving jigsaw puzzles (Noroozi & Favaro, 2016), colorization (Zhang et al., 2016) and rotation prediction (Gi- daris et al., 2018). Although good results can be obtained with bigger networks and longer training (Kolesnikov et al., 2019), these pretext tasks rely on somewhat ad-hoc heuris- tics, which limits the generality of learned representations.
+- Contrastive visual representation learning. Dating back to Hadsell et al. (2006), these approaches learn represen- tations by contrasting positive pairs against negative pairs. Along these lines, Dosovitskiy et al. (2014) proposes to treat each instance as a class represented by a feature vector (in a parametric form). Wu et al. (2018) proposes to use a mem- ory bank to store the instance class representation vector, an approach adopted and extended in several recent papers (Zhuang et al., 2019; Tian et al., 2019; He et al., 2019a; Misra & van der Maaten, 2019). Other work explores the use of in-batch samples for negative sampling instead of a memory bank (Ye et al., 2019; Ji et al., 2019). Recent literature has attempted to relate the success of their methods to maximization of mutual information between latent representations (Oord et al., 2018; Hénaff et al., 2019; Hjelm et al., 2018; Bachman et al., 2019). -->
 ## References
 - [1] [Unsupervised Visual Representation Learning by Context Prediction, 2015](https://arxiv.org/pdf/1505.05192.pdf)
 - [2] [Unsupervised Learning of Visual Representations by Solving Jigsaw Puzzles, 2016](https://arxiv.org/pdf/1603.09246.pdf)

@@ -4,26 +4,24 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torchvision
 import torchvision.transforms as T
 from torchvision.models import resnet50, ResNet50_Weights
-from torch.utils.data import Dataset, DataLoader
-from torchvision.datasets import ImageNet
-from itertools import product
-import cv2
-from PIL import Image
-from pathlib import Path
-import numpy as np
+from torch.utils.data import DataLoader
 import ssl
+
+from .data_augmentation import (
+    get_image_transformer,
+    CustomDataset
+)
 
 ssl._create_default_https_context = ssl._create_unverified_context
 
-BATCH_SIZE = 4
+BATCH_SIZE = 4096
 IMG_SIZE = 256
 CROP_SIZE = 224
 TILE_SIZE = CROP_SIZE // 2
 GRAY_PROB = 0.67
-TEMPERATURE = 3
+TEMPERATURE = 0.1 # "Table 5" in the paper
 
 
 class ResNet50FeatureMapExtractor():

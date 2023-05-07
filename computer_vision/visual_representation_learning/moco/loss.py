@@ -1,0 +1,1 @@
+class InfoNCE(nn.Module)
