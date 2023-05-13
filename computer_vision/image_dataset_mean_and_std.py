@@ -5,7 +5,7 @@ from PIL import Image
 from tqdm.auto import tqdm
 
 
-def get_mean_and_std_of_rgb_values(data_dir, ext="jpg"):
+def get_mean_and_std_of_image_dataset(data_dir, ext="jpg"):
     data_dir = Path(data_dir)
 
     sum_rgb = 0
@@ -25,5 +25,5 @@ def get_mean_and_std_of_rgb_values(data_dir, ext="jpg"):
 
 
 if __name__ == "__main__":
-    mean, std = get_mean_and_std_of_rgb_values("/Users/jongbeomkim/Documents/datasets/VOCdevkit/VOC2012/JPEGImages")
+    mean, std = get_mean_and_std_of_image_dataset("/Users/jongbeomkim/Documents/datasets/VOCdevkit/VOC2012/JPEGImages")
     print(mean, std)
