@@ -176,9 +176,10 @@ pd.plotting.scatter_matrix(data, figsize=(18, 18), diagonal="kde")
 fig = pd.plotting.lag_plot(ax=axes[0], series=resid_tr["resid"].iloc[1:], lag=1)
 ```
 
-# Convert DataFrame Row to Dictionary
+# DataFrame to Dictionary
 ```python
-row.to_dict(orient="records")[0]
+# `orient`: ("dict", "list", "series", "split", "records", "index")
+df.to_dict(orient="records")
 ```
 
 # Describe DataFrame
