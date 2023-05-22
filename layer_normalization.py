@@ -1,10 +1,13 @@
 # Refrences:
     # https://nn.labml.ai/normalization/layer_norm/index.html
+    # chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://arxiv.org/pdf/1607.06450.pdf
 
 import torch
 import torch.nn as nn
 
 
+# Unlike batch normalization, layer normalization does not impose any constraint
+# on the size of the mini-batchand it can be used in the pure online regime with batch size 1.
 class LayerNormalization(nn.Module):
     # `normalized_shape``: The shape of the elements (except the batch).
     # `eps``: Epsilon for numerical stability.
