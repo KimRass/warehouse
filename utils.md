@@ -450,7 +450,7 @@ class ExcelStyler:
         cell.font = Font(bold=True)
 
 
-    def __ini__(self, logger=None) -> None:
+    def __init__(self, logger=None) -> None:
         self.logger = logger
 ```
 ## Convert from ws to DataFrame
