@@ -5,15 +5,17 @@
 import torch
 import torch.nn as nn
 
-
 # Unlike batch normalization, layer normalization does not impose any constraint
-# on the size of the mini-batchand it can be used in the pure online regime with batch size 1.
+# on the size of the mini-batch and it can be used in the pure online regime with batch size 1.
 class LayerNormalization(nn.Module):
-    # `normalized_shape``: The shape of the elements (except the batch).
-    # `eps``: Epsilon for numerical stability.
-    # `elementwise_affine`: Whether to scale and shift the normalized value
+    """
+    `normalized_shape``: The shape of the elements (except the batch).
+    `eps``: Epsilon for numerical stability.
+    `elementwise_affine`: Whether to scale and shift the normalized value
+    """
     def __init__(self, normalized_shape, eps=1e-10, elementwise_affine=True):
         super().__init__()
+
         if isinstance(normalized_shape, int):
             self.normalized_shape = torch.Size((normalized_shape,))
         else:
@@ -36,6 +38,6 @@ class LayerNormalization(nn.Module):
 
 
 if __name__ == "__main__":
-    ln = LayerNormalization((12, 18))
+    norm = LayerNormalization((12, 18))
     x = torch.randn((4, 12, 18))
-    ln(x).shape
+    norm(x).shape
