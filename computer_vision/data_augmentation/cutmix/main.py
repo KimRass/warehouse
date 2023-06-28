@@ -42,7 +42,7 @@ def denormalize_array(img, mean=(0.485, 0.456, 0.406), variance=(0.229, 0.224, 0
     return copied_img
 
 
-def _convert_to_pil(img):
+def _to_pil(img):
     if not isinstance(img, Image.Image):
         img = Image.fromarray(img)
     return img
@@ -50,7 +50,7 @@ def _convert_to_pil(img):
 
 def show_image(img):
     copied_img = img.copy()
-    copied_img = _convert_to_pil(copied_img)
+    copied_img = _to_pil(copied_img)
     copied_img.show()
 
 
@@ -67,7 +67,7 @@ def save_image(img, path) -> None:
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
 
-    _convert_to_pil(img.copy()).save(path)
+    _to_pil(img.copy()).save(path)
 
 
 if __name__ == "__main__":
