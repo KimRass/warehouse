@@ -35,7 +35,7 @@ random.choices(sequence, k, [weights])
 # Generates a random sample from a given 1-D array.
 # `replace`: (bool)
 # `p`: The probabilities associated with each entry in a. If not given, the sample assumes a uniform distribution over all entries in a
-np.random.choice(size, [replace], [p])
+np.random.choice(a, size, [replace], [p])
 ```
 
 # Sample Standard Normal Distribution
