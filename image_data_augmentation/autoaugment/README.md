@@ -1,0 +1,20 @@
+# Paper Reading
+- [AutoAugment: Learning Augmentation Policies from Data, 2019](https://arxiv.org/pdf/1805.09501.pdf)
+## Introduction
+- Intuitively, data augmentation is used to teach a model about invariances in the data domain.
+- In this paper, we aim to automate the process of finding an effective data augmentation policy for a target dataset. In our implementation, each policy expresses several choices and orders of possible augmentation operations, where each operation is an image processing function (e.g., translation, rotation, or color normalization), the probabilities of applying the function, and the magnitudes with which they are applied. We use a search algorithm to find the best choices and orders of these operations such that training a neural network yields the best validation accuracy.
+- Our extensive experiments show that AutoAugment achieves excellent improvements in two use cases: 1) AutoAugment can be applied directly on the dataset of interest to find the best augmentation policy (AutoAugment-direct) and 2) learned policies can be transferred to new datasets (AutoAugment-transfer).
+- Common data augmentation methods for image recognition have been designed manually and the best augmentation strategies are dataset-specific. As these methods are designed manually, they require expert knowledge and time. Our approach of learning data augmentation policies from data in principle can be used for any dataset, not just one.
+- Previous attempts at learned data augmentations include Smart Augmentation, which proposed a network that automatically generates augmented data by merging two or more samples from the same class [33]. Tran et al. used a Bayesian approach to generate data based on the distribution learned from the training set [61]. DeVries and Taylor used simple transformations in the learned feature space to augment data [11].
+## Related Works
+- Generative adversarial networks have also been used for the purpose of generating additional data (e.g., [45, 41, 70, 2, 56]). The key difference between our method and generative models is that our method generates symbolic transformation operations, whereas generative models, such as GANs, generate the augmented data directly.
+## Methodology
+- Figure 1: Overview of our framework of using a search method (e.g., Reinforcement Learning)
+    - <img src="https://user-images.githubusercontent.com/67457712/233758028-9aa00d5f-bf90-412f-8a7e-fd69af013f74.png" width="400">
+    - A controller RNN predicts an augmentation policy from the search space. A child network with a fixed architecture is trained to convergence achieving accuracy R. The reward R will be used with the policy gradient method to update the controller so that it can generate better policies over time.
+    - We formulate the problem of finding the best augmentation policy as a discrete search problem. Our method consists of two components: A search algorithm and a search space. At a high level, the search al- gorithm (implemented as a controller RNN) samples a data augmentation policy $S$, which has information about what image processing operation to use, the probability of using the operation in each batch, and the magnitude of the operation. Key to our method is the fact that the policy $S$ will be used to train a neural network with a fixed architecture, whose validation accuracy $R$ will be sent back to update the controller. Since $R$ is not differentiable, the controller will be updated by policy gradient methods.
+- Search space details
+    - In our search space, a policy con- sists of 5 sub-policies with each sub-policy consisting of two image operations to be applied in sequence. Addition- ally, each operation is also associated with two hyperpa- rameters: 1) the probability of applying the operation, and 2) the magnitude of the operation.
+- Figure 2
+    - <img src="https://user-images.githubusercontent.com/67457712/233758105-43910a7c-fc56-46ff-a480-58fad9f673b9.png" width="600">
+    - Figure 2 shows an example of a policy with 5-subpolicies in our search space. The first sub-policy specifies a sequential application of ShearX followed by Invert. The
