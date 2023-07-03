@@ -1,0 +1,4 @@
+Eros,100
+Gaia,85
+Hemera,65
+Hypnos,75

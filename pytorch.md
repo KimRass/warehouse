@@ -347,8 +347,6 @@ class ModelName(nn.Module):
 model = ModelName()
 ```
 
-# Custom Learning Rate
-
 # Import
 ```python
 import torch
@@ -414,25 +412,6 @@ def pad_to_bboxes(batch):
         image_list.append(image)
         bboxes_list.append(F.pad(bboxes, pad=(0, 0, 0, max_n_bboxes - bboxes.shape[0])))
     return torch.stack(image_list), torch.stack(bboxes_list)
-```
-
-# Pre-trained Models
-## Keypoint R-CNN
-- Reference: https://pytorch.org/vision/stable/models/keypoint_rcnn.html
-```python
-from torchvision import models
-
-model = models.detection.keypointrcnn_resnet50_fpn(
-	pretrained=True
-).eval()
-
-trf = T.Compose(
-	[
-		T.ToTensor()
-	]
-)
-input_img = trf(img)
-out = model([input_img])[0]
 ```
 
 # Data Parallelism
