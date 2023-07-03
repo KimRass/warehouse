@@ -251,7 +251,7 @@ hr["코스트센터 분류"] = hr.apply(
 ```
 ```python
 # Example
-df[["...", "...", "..."]] = df["..."].apply(func, result_type="expand")
+copied[["r", "g", "b"]] = copied.apply(lambda x: _to_tuple(x["text_color"]), axis=1, result_type="expand")
 ```
 
 # Progress Bar
