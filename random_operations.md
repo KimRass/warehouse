@@ -55,3 +55,8 @@ random.shuffle()
 ```python
 tf.random.normal()
 ```
+
+# Uniform Distribution
+```python
+random.uniform()
+```
