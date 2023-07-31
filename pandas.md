@@ -37,7 +37,7 @@ data.corr().style.background_gradient(cmap="Blues").set_precision(1).set_propert
 # Example
 pd.read_excel("...", dtype={"Index no.": str})
 
-# `names`: List of column names to use.
+# `usecols`: List of columns to read.
 # `parse_dates`: (List of column names)
 # `infer_datetime_format`: (bool) If `True` and `parse_dates` is enabled, pandas will attempt to infer the format of the datetime strings in the columns, and if it can be inferred, switch to a faster method of parsing them.
 pd.read_csv([thousands=","], [float_precision], [skiprows], [error_bad_lines], [index_col], [sep], [names], [parse_dates], [infer_datetime_format], [dayfirst])
