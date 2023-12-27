@@ -37,4 +37,5 @@ if __name__ == "__main__":
     adain = AdaIN()
     x = torch.randn(16, 3, 224, 256)
     y = torch.randn(16, 3, 64, 128)
-    print(adain(x, y).shape)
+    out = adain(x, y)
+    print(out.shape)
