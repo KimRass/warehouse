@@ -1,0 +1,9 @@
+# Mathematics
+- The model employs the energy function
+$$E(x) = \sum_i \theta _i(x_i) + \sum _{ij} \theta _{ij}(x_i, x_j)$$
+- where $x$ is the label assignment for pixels. We use as unary potential $\theta _i(x_i) = −\log P(x_{i})$, where $P(x_i)$ is the label assignment probability at pixel $i$ as computed by a DCNN [2]
+- The pairwise potential has a form that allows for efficient inference while using a fully-connected graph, i.e. when connecting all pairs of image pixels, i, j. In particular, as in [22], we use the following expression: [2]
+$$\theta_{ij}(x_i, x_j) = \mu(x_i, x_j) \bigg[\omega_{1}\exp\Big(- \frac{\lVert p_{i} - p_{j} \rVert^2}{2\sigma_{\alpha}^2} - \frac{\lVert I_{i} - I_{j} \rVert^2}{2\sigma_{\beta}^2} \Big) + \omega_{2} \exp\Big(- \frac{\lVert p_{i} - p_{j} \rVert^2}{2\sigma_{\gamma}^2} \Big) \bigg]$$
+- where $\mu _{ij} (x_i, x_j) = 1$ if $x_i \ne x_j$, and $0$ otherwise, which means that only nodes with distinct labels are penalized. The remaining expression uses two Gaussian kernels in different feature spaces; the first, 'bilateral' kernel depends on both pixel positions (denoted as $p$) and RGB color (denoted as $I$), and the second kernel only depends on pixel positions. The hyper parameters $\sigma _\alpha$, $\sigma _\beta$ and $\sigma _\gamma$ control the scale of Gaussian kernels. The first kernel forces pixels with similar position and color to have similar labels, while the second kernel only considers spatial proximity when enforcing smoothness. [2]
+# References
+- [2] [DeepLab: Semantic Image Segmentation with Deep Convolutional Nets, Atrous Convolution, and Fully Connected CRFs](https://arxiv.org/pdf/1606.00915.pdf)
