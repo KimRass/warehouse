@@ -43,7 +43,6 @@ $$\pi(a|s) =
 \end{align}
 \right.$$
 ```
-```
 $$\begin{align}
 \mathbb{E}_{x \sim P}[f(x)]
 &= \sum_{x \in X}p(x)f(x)\\
@@ -51,9 +50,6 @@ $$\begin{align}
 &= \mathbb{E}_{x \sim Q}\left[\frac{p(x)}{q(x)}f(x)\right]
 \end{align}$$
 $$\prod_{k=t}^{T-1}\frac{\pi(A_{k}|S_{k})}{\mu(A_{k}|S_{k})}$$
-```
-
-
 
 # Number of Prameters: 2
 ## \sum_{}^{}
