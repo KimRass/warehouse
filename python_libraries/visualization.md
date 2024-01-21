@@ -72,7 +72,7 @@ wedges, text = ax.pie(
 	explode=explode
 )
 ```
-### `sb.lineplot(x, y, [linewidth], [color], [label])`
+### `sns.lineplot(x, y, [linewidth], [color], [label])`
 ## Scatter Plot
 ```python
 # Reference: https://matplotlib.org/stable/api/_as_gen/matplotlib.pyplot.scatter.html
@@ -85,7 +85,7 @@ wedges, text = ax.pie(
 plt.scatter([s], [c], [cmap], [alpha], [edgecolors], [linewidth])
 <df>.plot.scatter(y, x, c, grid, figsize, cmap, [ax])
 ```
-### `sb.scatterplot(ax, data, x, y, hue, hue_norm, palette, s, alpha)`
+### `sns.scatterplot(ax, data, x, y, hue, hue_norm, palette, s, alpha)`
 ## Bar Chart
 ```python
 plt.bar(x, height)
@@ -98,7 +98,7 @@ Series.plot.barh()
 
 plt.barh(y, width, height, [alpha], [color], [label], [edgecolor], [linewidth])
 
-sb.barplot(ax, x, y, color, edgecolor, orient)
+sns.barplot(ax, x, y, color, edgecolor, orient)
 ```
 ## Histogram
 ### `ax.hist()`, `DataFrame.plot.hist([ax])`, `Series.plot.hist([ax])`
@@ -139,31 +139,34 @@ plt.fill_between()
 	```python
 	# `center`: The value at which to center the colormap when plotting divergant data. Using this parameter will change the default `cmap` if none is specified.
 	# `mask`: If passed, data will not be shown in cells where `mask` is True. Cells with missing values are automatically masked.
-	sb.heatmap([ax], data, [annot=True], [annot_kws={"size"}], [fmt=".2f"], [linewidths], [linecolor], [center], [cmap], [cbar=True], [mask])
+	sns.heatmap([ax], data, [annot=True], [annot_kws={"size"}], [fmt=".2f"], [linewidths], [linecolor], [center], [cmap], [cbar=True], [mask])
 	```
 - Matplotlib implementation
 	```python
 	plt.pcolormesh([cmap])
 	plt.colorbar()
 	```
-## `sb.countplot(ax, [data], [x], [y], [hue], [orient])`
+## `sns.countplot(ax, [data], [x], [y], [hue], [orient])`
 - Reference: https://seaborn.pydata.org/generated/seaborn.countplot.html
 - Show the counts of observations in each categorical bin using bars.
 - [`data`]: (DataFrame)
 - [`orient`]: (`"v"`, `"h"`)
+```python
+sns.countplot(ax=axes, data=train_df, x="Pclass", hue="Survived")
+```
 ## ETC
-### `sb.lmplot(data, x, y, fit_reg, line_kws, size, aspect, ci, sharey)`
+### `sns.lmplot(data, x, y, fit_reg, line_kws, size, aspect, ci, sharey)`
 - `data`: (DataFrame)
 - `fit_reg`: (bool) If `True`, estimate and plot a regression model relating the x and y variables.
 - `ci`: (int in [0, 100] or None, optional) Size of the confidence interval for the regression estimate. This will be drawn using translucent bands around the regression line. The confidence interval is estimated using a bootstrap for large datasets, it may be advisable to avoid that computation by setting this parameter to None.
 - `aspect`: Aspect ratio of each facet, so that aspect\*height gives the width of each facet in inches.
-### `sb.distplot(a, norm_hist)`
+<!-- ### `sns.distplot(a, norm_hist)`
 - `a`: (Series, 1d-Array, or List)
-- `norm_hist`: (bool, optional) If `True`, the histogram height shows a density rather than a count. This is implied if a KDE or fitted density is plotted.
-### `sb.replot(x, y, col, hue, style, kind, data)`
-### `sb.kedplot(ax, data)`
-### `sb.stripplot(x, y, data, jitter, edgecolor, size)`
-### `sb.pairtplot()`
+- `norm_hist`: (bool, optional) If `True`, the histogram height shows a density rather than a count. This is implied if a KDE or fitted density is plotted. -->
+### `sns.replot(x, y, col, hue, style, kind, data)`
+### `sns.kedplot(ax, data)`
+### `sns.stripplot(x, y, data, jitter, edgecolor, size)`
+### `sns.pairtplot()`
 
 # Grid
 #### `ax.grid()`
@@ -331,7 +334,7 @@ fig, axes = plt.subplots(nrows, ncols, ...)
 # `xticks`, `yticks`
 ax.set(title="Example", xlabel="xAxis", ylabel="yAxis", xlim=[0, 1], ylim=[-0.5, 2.5], xticks=data.index, yticks=[1, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3])
 ```
-## `sb.set()`
+## `sns.set()`
 - `palette`: (`"muted"`)
 - `color_codes`: If `True` and `palette` is a seaborn palette, remap the shorthand color codes (e.g. `"b"`, `"g"`, `"r"`, etc.) to the colors from this palette.
 - `font_scale`: (float)

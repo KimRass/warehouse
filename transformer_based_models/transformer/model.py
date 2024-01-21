@@ -2,6 +2,7 @@
     # https://github.com/jadore801120/attention-is-all-you-need-pytorch/tree/master/transformer
     # https://github.com/huggingface/pytorch-image-models/blob/624266148d8fa5ddb22a6f5e523a53aaf0e8a9eb/timm/models/vision_transformer.py#L216
     # https://wikidocs.net/31379
+    # https://paul-hyun.github.io/transformer-02/
 
 import sys
 import torch
@@ -26,7 +27,8 @@ class PositionalEncoding(nn.Module):
 
         pos = torch.arange(max_len).unsqueeze(1) # "$pos$"
         i = torch.arange(dim // 2).unsqueeze(0) # "$i$"
-        angle = pos / (10_000 ** (2 * i / dim)) # "$\sin(\text{pos} / 10000^{2 * i  / d_{\text{model}}})$"
+        # "$\sin(\text{pos} / 10000^{2 * i  / d_{\text{model}}})$"
+        angle = pos / (10_000 ** (2 * i / dim))
 
         self.pe_mat = torch.zeros(size=(max_len, dim))
         self.pe_mat[:, 0:: 2] = torch.sin(angle) # "$text{PE}_(\text{pos}, 2i)$"
@@ -48,16 +50,20 @@ class Input(nn.Module):
         self.dim = dim
         self.pad_id = pad_id
 
-        self.embed = nn.Embedding(num_embeddings=vocab_size, embedding_dim=dim, padding_idx=pad_id)
+        self.embed = nn.Embedding(
+            num_embeddings=vocab_size, embedding_dim=dim, padding_idx=pad_id,
+        )
         self.pos_enc = PositionalEncoding(dim=dim)
         self.embed_drop = nn.Dropout(drop_prob)
 
     def forward(self, x):
         x = self.embed(x)
-        x *= (self.dim ** 0.5) # "In the embedding layers we multiply those weights by $\sqrt{d_{text{model}}}$."
+        # "In the embedding layers we multiply those weights by $\sqrt{d_{text{model}}}$."
+        x *= (self.dim ** 0.5)
         x = self.pos_enc(x)
-        x = self.embed_drop(x) # "We apply dropout to the sums of the embeddings and the positional encodings
-            # in both the encoder and decoder stacks."
+        # "We apply dropout to the sums of the embeddings and the positional encodings in both
+        # the encoder and decoder stacks."
+        x = self.embed_drop(x)
         return x
 
 
@@ -77,12 +83,13 @@ class MultiHeadAttention(nn.Module):
         self.attn_drop = nn.Dropout(drop_prob) # Not in the paper
         self.out_proj = nn.Linear(dim, dim, bias=False) # "$W^{O}$"
 
-    def _get_attention_score(self, q, k):
-        attn_score = torch.einsum("bnid,bnjd->bnij", q, k) # "MatMul" in "Figure 2" of the paper
+    @staticmethod
+    def _get_attention_score(q, k):
+        # "MatMul" in "Figure 2" of the paper
+        attn_score = torch.einsum("bnid,bnjd->bnij", q, k)
         return attn_score
 
     def forward(self, q, k, v, mask=None):
-        # print(q.shape, k.shape, v.shape)
         b, l, _ = q.shape
 
         q, k, v = self.q_proj(q), self.k_proj(k), self.v_proj(v)
@@ -116,17 +123,21 @@ class ResidualConnection(nn.Module):
         self.norm = nn.LayerNorm(dim)
 
     def forward(self, x, sublayer):
-        out = sublayer(x) # "Multi-Head Attention", "Masked Multi-Head Attention" or "Feed Forward"
-            # in "Figure 1" of the paper
-        out = self.resid_drop(out) # "We apply dropout to the output of each sub-layer,
-            # before it is added to the sub-layer input and normalized."
+        # "Multi-Head Attention", "Masked Multi-Head Attention" or "Feed Forward"
+        out = sublayer(x)
+        # in "Figure 1" of the paper
+        # "We apply dropout to the output of each sub-layer, before it is added
+        # to the sub-layer input and normalized."
+        out = self.resid_drop(out)
         x += out # "Add"
         x = self.norm(x) # "& Norm"
         return x
 
 
 class PositionwiseFeedForward(nn.Module):
-    def __init__(self, dim, mlp_dim, activ: Literal["relu", "gelu"]="relu", drop_prob=DROP_PROB):
+    def __init__(
+        self, dim, mlp_dim, activ: Literal["relu", "gelu"]="relu", drop_prob=DROP_PROB,
+    ):
         super().__init__()
 
         assert activ in ["relu", "gelu"],\
@@ -292,18 +303,6 @@ class Decoder(nn.Module):
         return x
 
 
-def _get_pad_mask(seq, pad_id=0):
-    mask = (seq == pad_id).unsqueeze(1).unsqueeze(3)
-    return mask
-
-
-# "Prevent positions from attending to subsequent positions."
-def _get_subsequent_info_mask(src_seq_len, trg_seq_len):
-    mask = torch.tril(torch.ones(size=(trg_seq_len, src_seq_len)), diagonal=0).bool()
-    mask = mask.unsqueeze(0).unsqueeze(1)
-    return mask
-
-
 class Transformer(nn.Module):
     def __init__(
         self,
@@ -358,41 +357,63 @@ class Transformer(nn.Module):
             resid_drop_prob=resid_drop_prob,
         )
 
-        # "We share the same weight matrix between the two embedding layers and the pre-softmax linear transformation"
+        # "We share the same weight matrix between the two embedding layers
+        # and the pre-softmax linear transformation"
         self.dec.input.embed.weight = self.enc.input.embed.weight
         self.dec.linear.weight = self.dec.input.embed.weight
 
-    def forward(self, src_seq, trg_seq):
-        src_pad_mask = _get_pad_mask(seq=src_seq, pad_id=self.src_pad_id)
-        trg_pad_mask = _get_pad_mask(seq=trg_seq, pad_id=self.trg_pad_id)
-        trg_subseq_mask = _get_subsequent_info_mask(src_seq_len=self.src_seq_len, trg_seq_len=self.trg_seq_len)
+    @staticmethod
+    def _get_pad_mask(seq, pad_id=0):
+        mask = (seq == pad_id).unsqueeze(1).unsqueeze(2)
+        return mask
 
-        enc_out = self.enc(src_seq, self_attn_mask=src_pad_mask)
+    # "Prevent positions from attending to subsequent positions."
+    @staticmethod
+    def _get_causal_mask(src_seq_len, trg_seq_len):
+        ones = torch.ones(size=(trg_seq_len, src_seq_len))
+        mask = torch.triu(ones, diagonal=1).bool()
+        mask = mask.unsqueeze(0).unsqueeze(1)
+        return mask
+
+    def forward(self, src_seq, trg_seq):
+        src_mask = self._get_pad_mask(seq=src_seq, pad_id=self.src_pad_id)
+        trg_pad_mask = self._get_pad_mask(seq=trg_seq, pad_id=self.trg_pad_id)
+        causal_mask = self._get_causal_mask(src_seq_len=self.src_seq_len, trg_seq_len=self.trg_seq_len)
+        trg_mask = trg_pad_mask | causal_mask
+
+        enc_out = self.enc(src_seq, self_attn_mask=src_mask)
         dec_out = self.dec(
             trg_seq,
             enc_out=enc_out,
             self_attn_mask=trg_pad_mask,
-            enc_dec_attn_mask=(trg_pad_mask | trg_subseq_mask) # `&` or `|`??
+            enc_dec_attn_mask=trg_mask,
         )
         return dec_out
 
 
 if __name__ == "__main__":
-    BATCH_SIZE = 16
-    SEQ_LEN = 30
+    BATCH_SIZE = 1
+    SRC_SEQ_LEN = 4
+    TRG_SEQ_LEN = 4
     VOCAB_SIZE = 1000
-    src_pad_id = 0
-    trg_pad_id = 0
+    SRC_PAD_ID = 0
+    TRG_PAD_ID = 0
+
     transformer = Transformer(
         src_vocab_size=VOCAB_SIZE,
         trg_vocab_size=VOCAB_SIZE,
-        src_seq_len=SEQ_LEN,
-        trg_seq_len=SEQ_LEN,
-        src_pad_id=src_pad_id,
-        trg_pad_id=trg_pad_id
+        src_seq_len=SRC_SEQ_LEN,
+        trg_seq_len=TRG_SEQ_LEN,
+        src_pad_id=SRC_PAD_ID,
+        trg_pad_id=TRG_PAD_ID,
+        n_heads=1,
+        n_layers=1,
     )
 
-    src_seq = torch.randint(low=0, high=VOCAB_SIZE, size=(BATCH_SIZE, SEQ_LEN))
-    trg_seq = torch.randint(low=0, high=VOCAB_SIZE, size=(BATCH_SIZE, SEQ_LEN))
-    logit = transformer(src_seq=src_seq, trg_seq=trg_seq)
-    print(logit.shape)
+    src_seq = torch.randint(low=0, high=VOCAB_SIZE, size=(BATCH_SIZE, SRC_SEQ_LEN))
+    src_seq[:, -1:] = 0
+    trg_seq = torch.randint(low=0, high=VOCAB_SIZE, size=(BATCH_SIZE, TRG_SEQ_LEN))
+    trg_seq[:, -2:] = 0
+
+    out = transformer(src_seq=src_seq, trg_seq=trg_seq)
+    # print(out.shape)
