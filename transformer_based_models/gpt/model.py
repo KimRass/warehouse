@@ -60,8 +60,8 @@ class TransformerLayer(nn.Module):
         self.ff_resid_conn = ResidualConnection(dim=dim, drop_prob=resid_drop_prob)
 
     def forward(self, x, self_attn_mask):
-        x = self.attn_resid_conn(x=x, sublayer=lambda x: self.self_attn(q=x, k=x, v=x, mask=self_attn_mask))
-        x = self.ff_resid_conn(x=x, sublayer=self.feed_forward)
+        x = self.attn_resid_conn(x=x, sub_layer=lambda x: self.self_attn(q=x, k=x, v=x, mask=self_attn_mask))
+        x = self.ff_resid_conn(x=x, sub_layer=self.feed_forward)
         return x
 
 
