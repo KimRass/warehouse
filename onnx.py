@@ -26,3 +26,6 @@ torch.onnx.export(
     dynamic_axes={'input' : {0 : 'batch_size'},    # 가변적인 길이를 가진 차원
                 'output' : {0 : 'batch_size'}}
 )
+
+
+import tensorrt as trt
