@@ -129,3 +129,26 @@ pip install cython
 brew install gcc
 xcode-select --install
 ```
+
+# GPU
+- References:
+    - https://velog.io/@ksy5098/CUDA-cuDNN-%EC%84%A4%EC%B9%98-%EB%B2%84%EC%A0%84-%ED%99%95%EC%9D%B8
+## 1) CUDA version
+```sh
+nvcc -V
+```
+```python3
+torch.version.cuda
+```
+# cuDNN version
+```sh
+cat /usr/include/cudnn_version.h | grep CUDNN_MAJOR -A 2
+```
+```python3
+torch.backends.cudnn.version()
+```
+
+# TensorRT
+```sh
+pip install torch-tensorrt -f https://github.com/NVIDIA/Torch-TensorRT/releases
+```

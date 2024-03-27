@@ -1,10 +1,3 @@
-```sh
-# Cuda version
-nvcc -V
-# cuDNN version
-cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2
-```
-
 # 1. Install Docker
 - References:
     - https://geunuk.tistory.com/405
