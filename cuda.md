@@ -1,3 +1,7 @@
+```sh
+python -m torch.utils.collect_env
+```
+
 # NVIDIA-Driver
 ```sh
 nvidia-smi
