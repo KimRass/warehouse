@@ -68,79 +68,7 @@ for epoch in range(1, epochs + 1):
         print(f"Time taken for 1 epoch: {time.time() - start:5.0f} secs\n")
 ```
 
-# PyTorch
-```python
-for epoch in range(1, n_epochs + 1):
-	running_loss = 0
-	for batch, (x, y) in enumerate(dl_tr, 1):
-		...
-		optimizer.zero_grad()
-		...
-		outputs = model(inputs)
-		loss = criterion(inputs, outputs)
-		loss.backward()
-		optimizer.step()
-
-		running_loss += loss.item()
-		...
-		if batch % ... == 0:
-			...
-			running_loss = 0
-```
-
-# GPU on PyTorch
-- Install
-  - Reference: https://pytorch.org/get-started/locally/
-  ```sh
-  # Example
-  pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
-  ```
-```python
-# `torch.cuda.is_available()`: Returns a bool indicating if CUDA is currently available.
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-...
-
-model = ModelName()
-# In-place (Tensor에 대해서는 작동하지 않습니다.)
-model = model.to(device)
-# Or
-model = model.to("cuda")
-# Or (Not recommended)
-model = model.cuda()
-```
-```python
-# Returns the index of a currently selected device.
-torch.cuda.current_device()
-# Returns the number of GPUs available.
-torch.cuda.device_count()
-# Gets the name of the device.
-torch.cuda.get_device_name(<index>)
-```
-```python
-import platform
-import torch
-
-def check_envirionment(use_cuda: bool):
-    device = torch.device(
-		"cuda" if use_cuda and torch.cuda.is_available() else "cpu"
-	)
-
-    logger.info(f"Operating System : {platform.system()} {platform.release()}")
-    logger.info(f"Processor : {platform.processor()}")
-
-    if str(device) == "cuda":
-        for idx in range(torch.cuda.device_count()):
-            logger.info(f"device : {torch.cuda.get_device_name(idx)}")
-        logger.info(f"CUDA is available : {torch.cuda.is_available()}")
-        logger.info(f"CUDA version : {torch.version.cuda}")
-    else:
-        logger.info(f"CUDA is available : {torch.cuda.is_available()}")
-    logger.info(f"PyTorch version : {torch.__version__}")
-    return device
-```
-
 # Tensors
-## TensorFlow
 - References: https://www.tensorflow.org/api_docs/python/tf/Tensor, https://stackoverflow.com/questions/57660214/what-is-the-utility-of-tensor-as-opposed-to-eagertensor-in-tensorflow-2-0, https://www.tensorflow.org/api_docs/python/tf/shape
 - `EagerTensor`
 	```python
@@ -161,15 +89,6 @@ def check_envirionment(use_cuda: bool):
 	# During graph execution, not all dimensions may be known until execution time. Hence when defining custom layers and models for graph mode, prefer the dynamic `tf.shape(x)` over the static `x.shape`.
 	tf.shape(<Tensor>)
 	```
-## PyTorch
-```python
-# Returns a copy of this object in CPU memory. If this object is already in CPU memory and on the correct device, then no copy is performed and the original object is returned.
-.cpu()
-# Returns self tensor as a NumPy ndarray. This tensor and the returned ndarray share the same underlying storage. Changes to self tensor will be reflected in the ndarray and vice versa.
-# CPU 메모리에 올려져 있는 tensor만 .numpy() method를 사용할 수 있습니다.
-.numpy()
-# Order: `.detach().cpu().numpy()`
-```
 
 # Operators
 ## `tf.identity()`
@@ -549,7 +468,6 @@ layer.size()
 ```
 
 # Inference
-## TensorFlow
 - Reference: https://www.tensorflow.org/api_docs/python/tf/keras/Model?hl=en, https://stackoverflow.com/questions/60837962/confusion-about-keras-model-call-vs-call-vs-predict-methods
 - `model(x)`
 	- Calls the model on new inputs and returns the outputs as `tf.Tensor`s.
@@ -561,20 +479,6 @@ layer.size()
 - `model.predict_on_batch()`
 	- Returns predictions for a single batch of samples.
 	- The difference between `model.predict()` and `model.predict_on_batch()` is that the latter runs over a single batch, and the former runs over a dataset that is splitted into batches and the results merged to produce the final `numpy.ndarray` of predictions.
-## PyTorch
-```python
-# Evaluation (Inference) mode로 전환합니다.
-# `Dropout()`, `BatchNorm()`은 Training mode에서만 작동하며 Evaluation mode에서는 작동하지 않습니다.
-# 메모리와는 관련이 없습니다.
-# `model.train()`: Train mode로 전환합니다.
-model.eval()
-
-# Disabling gradient calculation is useful for inference, when you are sure that you will not call `Tensor.backward()`.
-# 메모리를 줄여주고 연산 속도를 증가시킵니다.
-# `Dropout()`, `BatchNorm()`을 비활성화시키지는 않습니다.
-with torch.no_grad():
-	...
-```
 
 # TensorFlow `Dataset`
 - Reference: https://www.tensorflow.org/api_docs/python/tf/data/Dataset
@@ -635,16 +539,7 @@ with torch.no_grad():
 	- `unique()`
 	- `zip()`
 
-# PyTorch `DataLoader`
-```python
-dl_tr = DataLoader(dataset, batch_size, [shuffle=False], [num_workers=0], [prefetch_factor=2])
-...
-
-next(iter(dl_tr))
-```
-
 # Save or Load Model
-## TensorFlow
 - Reference: https://www.tensorflow.org/tutorials/keras/save_and_load
 ```python
 save_dir = Path("...")
@@ -662,39 +557,16 @@ else:
 	model.save(model_path)
 	np.save(hist_path, hist.history)
 ```
-## PyTorch
-- Reference: https://pytorch.org/tutorials/beginner/saving_loading_models.html
-```python
-save_dir = Path("...")
-model_path = save_dir / "model_name.pth"
-# hist_path = save_dir / "model_name_hist.npy"
-if os.path.exists(model_path):
-	weights = torch.load(model_path)
-	# `map_location`: (`"cpu"`, `"cuda"`, `device`)
-    model.load_state_dict(weights, map_location=device)
-else:
-	...
-	# Loads a model’s parameter dictionary using a deserialized `state_dict()`.
-	# In PyTorch, the learnable parameters (i.e. weights and biases) of an `torch.nn.Module` model are contained in the model’s parameters (accessed with `model.parameters()`). A `state_dict()` is simply a Python dictionary object that maps each layer to its parameter tensor. Note that only layers with learnable parameters (convolutional layers, linear layers, etc.) and registered buffers (batchnorm’s running_mean) have entries in the model’s `state_dict()`. Optimizer objects (`torch.optim``) also have a `state_dict()`, which contains information about the optimizer’s state, as well as the hyperparameters used.
-	weights = model.state_dict()
-	torch.save(weights, model_path)
-```
 
 # Save or Load Weights
-## TensorFlow
 ```python
 model.compile(...)
 ...
 model.load_weights(model_path)
 ```
 - As long as two models share the same architecture you can share weights between them. So, when restoring a model from weights-only, create a model with the same architecture as the original model and then set its weights.
-## PyTorch
-```python
-torch.load(model_path)
-```
 
 # Custrom Model
-## TensorFlow
 - Reference: https://www.tensorflow.org/api_docs/python/tf/keras/Model
 ```python
 class ModelName(Model):
@@ -709,20 +581,6 @@ class ModelName(Model):
 	def __call__(self, ..., [training]):
 		...
 		return ...
-...
-model = ModelName()
-```
-## PyTorch
-```python
-class ModelName(nn.Module):
-	def __init__(self, ...):
-		super().__init__()
-		# Or `super(ModelName, self).__init__()`
-		self.var1 = ...
-		self.var2 = ...
-		...
-	def forward(self, x):
-		...
 ...
 model = ModelName()
 ```
@@ -818,26 +676,6 @@ from tensorflow.keras import metrics
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint
 from tensorflow.keras.activations import linear, sigmoid, relu
 from tensorflow.keras.initializers import RandomNormal, glorot_uniform, he_uniform, Constant
-```
-## PyTorch
-```python
-import torch
-from torch.nn import Module, Linear, Dropout, Conv1d, Conv2d, ConvTranspose1d, ConvTranspose2d, MaxPool1d, MaxPool2d, AvgPool1d, AvgPool2d, CrossEntropyLoss()
-import torch.nn.functional as F
-from torch.optim import SGD, RMSprop, Adagrad, Adam
-from torch.utils.data import Dataset, DataLoader
-
-import torchvision
-import torchvision.dataset
-import torchvision.transforms as transforms
-```
-
-# `torchvision`
-```python
-import torch
-import torchvision
-from torchvision import models
-import torchvision.transformers as T
 ```
 
 # Pre-trained Models

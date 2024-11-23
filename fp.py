@@ -1,8 +1,8 @@
 import math
 
 
-class FP16(object):
-    def __init__(self, exp_bits=5, frac_bits=10):
+class FPBase(object):
+    def __init__(self, exp_bits, frac_bits):
         self.exp_bits = exp_bits
         self.frac_bits = frac_bits
         self.exp_bias = 2 ** (exp_bits - 1) - 1
@@ -45,28 +45,22 @@ class FP16(object):
         )
 
 
-class FP32(FP16):
-    def __init__(self, exp_bits=8, frac_bits=23):
+class FP16(FPBase):
+    """
+    `fp16 = FPBase()`
+    `fp16("0000000000000000")`: 0
+    `fp16("0111111000000000")`: NaN
+    `fp16("0111110000000000")`: Infinity
+    The minimum positive subnormal values: `fp16("0000000000000001")` (5.960464477539063e-08)
+    The minimum positive normal values; `fp16("0000010000000001")` (6.109476089477539e-05)
+    The maximum representable value: `fp16("0111101111111111")` (65504.0)
+    """
+    def __init__(self, exp_bits=5, frac_bits=10):
         super().__init__(exp_bits=exp_bits, frac_bits=frac_bits)
 
 
-class FP64(FP16):
-    def __init__(self, exp_bits=11, frac_bits=52):
-        super().__init__(exp_bits=exp_bits, frac_bits=frac_bits)
-
-
-
-if __name__ == "__main__":
-    fp16 = FP16()
-    fp16("0000000000000000") # 0
-    # The minimum positive subnormal values; 5.960464477539063e-08
-    fp16("0000000000000001")
-    # The minimum positive normal values; 6.109476089477539e-05
-    fp16("0000010000000001")
-    fp16("0111101111111111") # The maximum representable value; 65504.0
-    fp16("0111111000000000") # NaN
-    fp16("0111110000000000") # Infinity
-
+class FP32(FPBase):
+    """
     fp32 = FP32()
     fp32("00000000000000000000000000000000") # 0
     # The minimum positive subnormal values; 1.401298464324817e-45
@@ -77,7 +71,13 @@ if __name__ == "__main__":
     fp32("01111111011111111111111111111111")
     fp32("01111111100000010000000000000000") # NaN
     fp32("01111111100000000000000000000000") # Infinity
+    """
+    def __init__(self, exp_bits=8, frac_bits=23):
+        super().__init__(exp_bits=exp_bits, frac_bits=frac_bits)
 
+
+class FP64(FPBase):
+    """
     fp64 = FP64()
     # The minimum positive subnormal values; 5e-324
     fp64("0000000000000000000000000000000000000000000000000000000000000001")
@@ -85,3 +85,10 @@ if __name__ == "__main__":
     fp64("0000000000100000000000000000000000000000000000000000000000000001")
     # The maximum representable value; 1.7976931348623157e+308
     fp64("0111111111101111111111111111111111111111111111111111111111111111")
+    """
+    def __init__(self, exp_bits=11, frac_bits=52):
+        super().__init__(exp_bits=exp_bits, frac_bits=frac_bits)
+
+
+if __name__ == "__main__":
+    pass
