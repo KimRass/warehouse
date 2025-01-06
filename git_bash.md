@@ -2,10 +2,25 @@
 
 ## Create New Local Branch
 ```bash
-git branch <BRANCH>
+git branch <LOCAL_BRANCH>
+```
+
+## Change Local Branch Name
+```bash
+git branch -m <LOCAL_BRANCH1> <LOCAL_BRANCH2>
+```
+
+## Connect Local Branch to Remote Branch
+```bash
+git branch --set-upstream-to=origin/<REMOTE_BRANCH> <LOCAL_BRANCH>
 ```
 
 # Remote
+
+## Set Remote
+```bash
+git remote set-url origin https://github.com/OWNER/REPOSITORY
+```
 
 ## Change Remote
 ```bash
