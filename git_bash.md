@@ -76,6 +76,15 @@ git remote add origin https://github.com/OWNER/REPOSITORY
     git push origin --force [--all]
     ```
 
+# Commit
+
+## Cancel Commit
+```bash
+git reset --soft HEAD~1  # e.g.,
+# `--soft` means that Git will reset the commit, but keep the changes in the staging area (index).
+# `HEAD~1` refers to the commit before the most recent one (HEAD refers to the most recent commit).
+```
+
 # Errors
 
 ## "send-pack: unexpected disconnect while reading sideband packet\nfatal: the remote end hung up unexpectedly"
