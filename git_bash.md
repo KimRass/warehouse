@@ -15,6 +15,12 @@ git branch -m <LOCAL_BRANCH1> <LOCAL_BRANCH2>
 git branch --set-upstream-to=origin/<REMOTE_BRANCH> <LOCAL_BRANCH>
 ```
 
+## Delete Remote Branch
+```bash
+git branch -d <LOCAL_BRANCH>
+git push origin --delete <LOCAL_BRANCH>
+```
+
 # Remote
 
 ## Set Remote
