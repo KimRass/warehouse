@@ -84,6 +84,11 @@ git remote add origin https://github.com/OWNER/REPOSITORY
 
 # Commit
 
+## Commit
+```bash
+git commit [--amend] -m "<COMMIT_MSG>"
+```
+
 ## Cancel Commit
 ```bash
 git reset --soft HEAD~1  # e.g.,
